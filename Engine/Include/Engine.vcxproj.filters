@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="99. Header">
+      <UniqueIdentifier>{ed9bfe60-4837-4682-9adc-e32183603cd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Manager">
+      <UniqueIdentifier>{67e45806-9bdb-4df2-bedb-4ae61de2bf86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Manager\00. GraphicDev">
+      <UniqueIdentifier>{d56ed4e6-593b-4909-a6bf-c5df7281d4a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Manager\01. TimerManager">
+      <UniqueIdentifier>{3b0d5103-511e-40c9-87e0-64cf4e0eebf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Manager\01. TimerManager\Timer">
+      <UniqueIdentifier>{d307d31c-cbfa-4988-9a25-a12bfe935cfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Manager\02. FrameManager">
+      <UniqueIdentifier>{376dde46-4f54-4e45-96f2-02a0b9202163}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Manager\02. FrameManager\Frame">
+      <UniqueIdentifier>{173e05ad-4ed2-489b-81b3-73044d8f4446}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Header\CGraphicDev.h">
+      <Filter>00. Manager\00. GraphicDev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CTimer.h">
+      <Filter>00. Manager\01. TimerManager\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CTimerManager.h">
+      <Filter>00. Manager\01. TimerManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CFrame.h">
+      <Filter>00. Manager\02. FrameManager\Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CFrameManager.h">
+      <Filter>00. Manager\02. FrameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Engine_Define.h">
+      <Filter>99. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Engine_Enum.h">
+      <Filter>99. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Engine_Function.h">
+      <Filter>99. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Engine_Macro.h">
+      <Filter>99. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Engine_Struct.h">
+      <Filter>99. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Engine_Typedef.h">
+      <Filter>99. Header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Code\CGraphicDev.cpp">
+      <Filter>00. Manager\00. GraphicDev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CTimer.cpp">
+      <Filter>00. Manager\01. TimerManager\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CTimerManager.cpp">
+      <Filter>00. Manager\01. TimerManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CFrame.cpp">
+      <Filter>00. Manager\02. FrameManager\Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CFrameManager.cpp">
+      <Filter>00. Manager\02. FrameManager</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
