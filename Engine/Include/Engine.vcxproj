@@ -19,9 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Header\CComponent.h" />
     <ClInclude Include="..\Header\CFrame.h" />
     <ClInclude Include="..\Header\CFrameManager.h" />
+    <ClInclude Include="..\Header\CGameObject.h" />
     <ClInclude Include="..\Header\CGraphicDev.h" />
+    <ClInclude Include="..\Header\CLayer.h" />
+    <ClInclude Include="..\Header\CScene.h" />
     <ClInclude Include="..\Header\CTimer.h" />
     <ClInclude Include="..\Header\CTimerManager.h" />
     <ClInclude Include="..\Header\Engine_Define.h" />
@@ -32,9 +36,13 @@
     <ClInclude Include="..\Header\Engine_Typedef.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\CComponent.cpp" />
     <ClCompile Include="..\Code\CFrame.cpp" />
     <ClCompile Include="..\Code\CFrameManager.cpp" />
+    <ClCompile Include="..\Code\CGameObject.cpp" />
     <ClCompile Include="..\Code\CGraphicDev.cpp" />
+    <ClCompile Include="..\Code\CLayer.cpp" />
+    <ClCompile Include="..\Code\CScene.cpp" />
     <ClCompile Include="..\Code\CTimer.cpp" />
     <ClCompile Include="..\Code\CTimerManager.cpp" />
   </ItemGroup>
