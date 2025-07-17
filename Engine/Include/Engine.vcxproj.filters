@@ -84,6 +84,9 @@
     <ClInclude Include="..\Header\CComponent.h">
       <Filter>00. Manager\03.Management\03. Component</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CManagement.h">
+      <Filter>00. Manager\03.Management</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\CGraphicDev.cpp">
@@ -112,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CComponent.cpp">
       <Filter>00. Manager\03.Management\03. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CManagement.cpp">
+      <Filter>00. Manager\03.Management</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -7,6 +7,7 @@ BEGIN(Engine)
 class ENGINE_DLL CScene :
     public CBase
 {
+protected:
     explicit CScene(LPDIRECT3DDEVICE9 pGraphicDev);
     virtual ~CScene();
 
