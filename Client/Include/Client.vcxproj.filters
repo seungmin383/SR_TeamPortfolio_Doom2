@@ -22,6 +22,12 @@
     <Filter Include="01. Scene\00. Logo">
       <UniqueIdentifier>{f2f38414-2940-45ca-b670-5b645e371911}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject">
+      <UniqueIdentifier>{f5f0357d-5046-431c-8d46-9155b9e3f473}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. BackGround">
+      <UniqueIdentifier>{ecbd53fc-4879-4f5f-abf0-bbde2d9e7770}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -45,6 +51,9 @@
     <ClInclude Include="..\Header\CLogo.h">
       <Filter>01. Scene\00. Logo</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CBackGround.h">
+      <Filter>02. GameObject\00. BackGround</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -58,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CLogo.cpp">
       <Filter>01. Scene\00. Logo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CBackGround.cpp">
+      <Filter>02. GameObject\00. BackGround</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

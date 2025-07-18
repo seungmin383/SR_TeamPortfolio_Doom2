@@ -3,6 +3,7 @@
 #include "CLogo.h"
 #include "CTimerManager.h"
 #include "CFrameManager.h"
+#include "CPrototypeManager.h"
 
 CMainApp::CMainApp()
 	: m_pGraphicDev(nullptr),
@@ -111,8 +112,10 @@ void CMainApp::Free()
 	Engine::Safe_Release(m_pDeviceClass);
 	Engine::Safe_Release(m_pGraphicDev);
 	
+	CPrototypeManager::GetInstance()->DestroyInstance();
 	CTimerManager::DestroyInstance();
 	CFrameManager::DestroyInstance();
+	CManagement::DestroyInstance();
 
 	m_pDeviceClass->DestroyInstance();
 }

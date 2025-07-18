@@ -27,6 +27,7 @@
     <ClInclude Include="..\Header\CLayer.h" />
     <ClInclude Include="..\Header\CManagement.h" />
     <ClInclude Include="..\Header\CPrototypeManager.h" />
+    <ClInclude Include="..\Header\CRectCol.h" />
     <ClInclude Include="..\Header\CScene.h" />
     <ClInclude Include="..\Header\CTimer.h" />
     <ClInclude Include="..\Header\CTimerManager.h" />
@@ -49,6 +50,7 @@
     <ClCompile Include="..\Code\CLayer.cpp" />
     <ClCompile Include="..\Code\CManagement.cpp" />
     <ClCompile Include="..\Code\CPrototypeManager.cpp" />
+    <ClCompile Include="..\Code\CRectCol.cpp" />
     <ClCompile Include="..\Code\CScene.cpp" />
     <ClCompile Include="..\Code\CTimer.cpp" />
     <ClCompile Include="..\Code\CTimerManager.cpp" />

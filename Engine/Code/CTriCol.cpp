@@ -28,7 +28,28 @@ HRESULT CTriCol::Ready_Buffer()
 	if (FAILED(CVIBuffer::Ready_Buffer()))
 		return E_FAIL;
 
-	return E_NOTIMPL;
+	VTXCOL* pVertex = NULL;
+
+	//3인자 : 버텍스 버퍼에 저장된 정점들 중 첫 번째 정점의 주소를 얻어옴
+	m_pVB->Lock(0, 0, (void**)&pVertex, 0);
+
+	pVertex[0].vPosition = { 0.f, 1.f, 0.f };
+	pVertex[0].dwColor = D3DXCOLOR(1.f, 0.f, 0.f, 1.f);
+
+	pVertex[1].vPosition = { 1.f, -1.f, 0.f };
+	pVertex[1].dwColor = D3DXCOLOR(1.f, 0.f, 0.f, 1.f);
+	
+	pVertex[2].vPosition = { -1.f, -1.f, 0.f };
+	pVertex[2].dwColor = D3DXCOLOR(1.f, 0.f, 0.f, 1.f);
+	
+	m_pVB->Unlock();
+
+	//WORD* indices = NULL;
+	//m_pIB->Lock(0, 0, (void**)&indices, 0);
+	//indices[0] = 0; indices[1] = 1; indices[2] = 2;
+	//m_pIB->Unlock();
+
+	return S_OK;
 }
 
 void CTriCol::Render_Buffer()

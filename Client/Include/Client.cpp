@@ -89,8 +89,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                 CTimerManager::GetInstance()->Set_TimeDelta(L"Timer_60");
                 _float fTimer_60 = CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60");
 
-                pMainApp->Update_MainApp(0.f);
-                pMainApp->LateUpdate_MainApp(0.f);
+                pMainApp->Update_MainApp(fTimer_60);
+                pMainApp->LateUpdate_MainApp(fTimer_60);
                 pMainApp->Render_MainApp();
             }
         }

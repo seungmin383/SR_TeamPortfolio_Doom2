@@ -51,6 +51,16 @@ HRESULT CVIBuffer::Ready_Buffer()
 			NULL)))
 		return E_FAIL;
 
+	//if (FAILED(m_pGraphicDev->
+	//	CreateIndexBuffer(
+	//		m_dwVtxCnt * m_dwTriCnt * sizeof(WORD),
+	//		0,
+	//		D3DFMT_INDEX16,
+	//		D3DPOOL_MANAGED,
+	//		&m_pIB,
+	//		NULL)))
+	//	return E_FAIL;
+
 	return S_OK;
 }
 
@@ -60,6 +70,7 @@ void CVIBuffer::Render_Buffer()
 
 	m_pGraphicDev->SetFVF(m_dwFVF);
 
+	//m_pGraphicDev->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_dwVtxCnt, 0, m_dwTriCnt);
 	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLELIST, 0, m_dwTriCnt);
 }
 

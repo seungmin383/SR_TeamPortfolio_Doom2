@@ -3,6 +3,7 @@
 #include "CComponent.h"
 
 #include "CTriCol.h"
+#include "CRectCol.h"
 
 #include "CTransform.h"
 
