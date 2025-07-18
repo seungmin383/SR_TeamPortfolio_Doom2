@@ -5,7 +5,8 @@ CVIBuffer::CVIBuffer()
 	m_dwVtxCnt(0),
 	m_dwTriCnt(0),
 	m_dwFVF(0),
-	m_pVB(nullptr)
+	m_pVB(nullptr),
+	m_pIB(nullptr)
 
 {
 }
@@ -16,7 +17,8 @@ CVIBuffer::CVIBuffer(LPDIRECT3DDEVICE9 pGraphicDev)
 	m_dwVtxCnt(0),
 	m_dwTriCnt(0),
 	m_dwFVF(0),
-	m_pVB(nullptr)
+	m_pVB(nullptr),
+	m_pIB(nullptr)
 {
 }
 
@@ -26,7 +28,8 @@ CVIBuffer::CVIBuffer(const CVIBuffer& rhs)
 	m_dwVtxCnt(rhs.m_dwVtxCnt),
 	m_dwTriCnt(rhs.m_dwTriCnt),
 	m_dwFVF(rhs.m_dwFVF),
-	m_pVB(rhs.m_pVB)
+	m_pVB(rhs.m_pVB),
+	m_pIB(rhs.m_pIB)
 {
 }
 
@@ -51,15 +54,15 @@ HRESULT CVIBuffer::Ready_Buffer()
 			NULL)))
 		return E_FAIL;
 
-	//if (FAILED(m_pGraphicDev->
-	//	CreateIndexBuffer(
-	//		m_dwVtxCnt * m_dwTriCnt * sizeof(WORD),
-	//		0,
-	//		D3DFMT_INDEX16,
-	//		D3DPOOL_MANAGED,
-	//		&m_pIB,
-	//		NULL)))
-	//	return E_FAIL;
+	if (FAILED(m_pGraphicDev->
+		CreateIndexBuffer(
+			m_dwVtxCnt * m_dwTriCnt * sizeof(WORD),
+			0,
+			D3DFMT_INDEX16,
+			D3DPOOL_MANAGED,
+			&m_pIB,
+			NULL)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -68,10 +71,12 @@ void CVIBuffer::Render_Buffer()
 {
 	m_pGraphicDev->SetStreamSource(0, m_pVB, 0, m_dwVtxSize);
 
+	m_pGraphicDev->SetIndices(m_pIB);
+
 	m_pGraphicDev->SetFVF(m_dwFVF);
 
-	//m_pGraphicDev->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_dwVtxCnt, 0, m_dwTriCnt);
-	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLELIST, 0, m_dwTriCnt);
+	m_pGraphicDev->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_dwVtxCnt, 0, m_dwTriCnt);
+	//m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLELIST, 0, m_dwTriCnt);
 }
 
 void CVIBuffer::Free()

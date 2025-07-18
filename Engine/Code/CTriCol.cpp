@@ -44,10 +44,10 @@ HRESULT CTriCol::Ready_Buffer()
 	
 	m_pVB->Unlock();
 
-	//WORD* indices = NULL;
-	//m_pIB->Lock(0, 0, (void**)&indices, 0);
-	//indices[0] = 0; indices[1] = 1; indices[2] = 2;
-	//m_pIB->Unlock();
+	WORD* indices = NULL;
+	m_pIB->Lock(0, 0, (void**)&indices, 0);
+	indices[0] = 0; indices[1] = 1; indices[2] = 2;
+	m_pIB->Unlock();
 
 	return S_OK;
 }

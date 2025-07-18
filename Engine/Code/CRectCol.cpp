@@ -39,7 +39,7 @@ HRESULT CRectCol::Ready_Buffer()
 	pVertex[2].vPosition = { 1.f, -1.f, 0.f };
 	pVertex[2].dwColor = D3DXCOLOR(1.f, 0.f, 0.f, 1.f);
 	
-	pVertex[3].vPosition = { -1.f, 1.f, 0.f };
+	pVertex[3].vPosition = { -1.f, -1.f, 0.f };
 	pVertex[3].dwColor = D3DXCOLOR(1.f, 0.f, 0.f, 1.f);
 	m_pVB->Unlock();
 

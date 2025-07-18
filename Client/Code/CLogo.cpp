@@ -69,11 +69,11 @@ HRESULT CLogo::Ready_Prototype()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_Transform", Engine::CTransform::Create(m_pGraphicDev))))
 		return E_FAIL;
 
-	//if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_RectCol", Engine::CRectCol::Create(m_pGraphicDev))))
-	//	return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_RectCol", Engine::CRectCol::Create(m_pGraphicDev))))
+		return E_FAIL;
 
-	//if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_RectTransform", Engine::CTransform::Create(m_pGraphicDev))))
-	//	return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_RectTransform", Engine::CTransform::Create(m_pGraphicDev))))
+		return E_FAIL;
 
 	return S_OK;
 }
