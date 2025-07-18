@@ -44,7 +44,7 @@ void CBackGround::Render_GameObject()
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
-	//m_pBufferCom->Render_Buffer();
+	m_pBufferCom->Render_Buffer();
 	m_pMonsterBufferCom->Render_Buffer();
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
