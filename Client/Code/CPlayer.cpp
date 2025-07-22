@@ -41,9 +41,11 @@ void CPlayer::LateUpdate_GameObject(const _float& fTimeDelta)
 void CPlayer::Render_GameObject()
 {
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
+
+	m_pTextureCom->Set_Texture();
 
 	m_pBufferCom->Render_Buffer();
 
@@ -54,8 +56,8 @@ HRESULT CPlayer::Add_Component()
 {
 	CComponent* pComponent = NULL;
 
-	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectCol*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectCol"));
+	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectTex*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectTex"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -68,6 +70,14 @@ HRESULT CPlayer::Add_Component()
 		return E_FAIL;
 
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
+
+	//Texture
+	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_PlayerTexture"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
 
 	return S_OK;
 }

@@ -4,9 +4,11 @@
 
 #include "CTriCol.h"
 #include "CRectCol.h"
-#include "CTileGround.h"
+#include "CRectTex.h"
+#include "CTerrainTex.h"
 
 #include "CTransform.h"
+#include "CTexture.h"
 
 BEGIN(Engine)
 

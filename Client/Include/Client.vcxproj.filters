@@ -34,7 +34,7 @@
     <Filter Include="02. GameObject\02. Monster">
       <UniqueIdentifier>{958b3f3f-a119-41fa-b878-e45534fab3e7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\03. Ground">
+    <Filter Include="02. GameObject\03. Terrain">
       <UniqueIdentifier>{e769ba2e-a816-44b2-86f3-39531aba4672}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -69,8 +69,8 @@
     <ClInclude Include="..\Header\CMonster.h">
       <Filter>02. GameObject\02. Monster</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\CGround.h">
-      <Filter>02. GameObject\03. Ground</Filter>
+    <ClInclude Include="..\Header\CTerrain.h">
+      <Filter>02. GameObject\03. Terrain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -95,8 +95,8 @@
     <ClCompile Include="..\Code\CMonster.cpp">
       <Filter>02. GameObject\02. Monster</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\CGround.cpp">
-      <Filter>02. GameObject\03. Ground</Filter>
+    <ClCompile Include="..\Code\CTerrain.cpp">
+      <Filter>02. GameObject\03. Terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

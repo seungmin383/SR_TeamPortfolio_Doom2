@@ -5,7 +5,7 @@
 #include "CBackGround.h"
 #include "CPlayer.h"
 #include "CMonster.h"
-#include "CGround.h"
+#include "CTerrain.h"
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -66,11 +66,11 @@ HRESULT CLogo::Ready_Environment_Layer(const _tchar* pLayerTag)
 	if (FAILED(pLayer->Add_GameObject(L"Monster", pGameObject)))
 		return E_FAIL;
 
-	pGameObject = CGround::Create(m_pGraphicDev);
+	pGameObject = CTerrain::Create(m_pGraphicDev);
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(L"Ground", pGameObject)))
+	if (FAILED(pLayer->Add_GameObject(L"Terrain", pGameObject)))
 		return E_FAIL;
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
@@ -86,10 +86,20 @@ HRESULT CLogo::Ready_Prototype()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_RectCol", Engine::CRectCol::Create(m_pGraphicDev))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_TileGround", Engine::CTileGround::Create(m_pGraphicDev))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_RectTex", Engine::CRectTex::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_TerrainTex", Engine::CTerrainTex::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_Transform", Engine::CTransform::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_TerrainTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Terrain/Tile0.jpg", TEX_NORMAL))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_PlayerTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Player/Ma.jpg", TEX_NORMAL))))
 		return E_FAIL;
 
 	return S_OK;

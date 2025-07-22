@@ -28,8 +28,10 @@
     <ClInclude Include="..\Header\CManagement.h" />
     <ClInclude Include="..\Header\CPrototypeManager.h" />
     <ClInclude Include="..\Header\CRectCol.h" />
+    <ClInclude Include="..\Header\CRectTex.h" />
     <ClInclude Include="..\Header\CScene.h" />
-    <ClInclude Include="..\Header\CTileGround.h" />
+    <ClInclude Include="..\Header\CTexture.h" />
+    <ClInclude Include="..\Header\CTerrainTex.h" />
     <ClInclude Include="..\Header\CTimer.h" />
     <ClInclude Include="..\Header\CTimerManager.h" />
     <ClInclude Include="..\Header\CTransform.h" />
@@ -52,8 +54,10 @@
     <ClCompile Include="..\Code\CManagement.cpp" />
     <ClCompile Include="..\Code\CPrototypeManager.cpp" />
     <ClCompile Include="..\Code\CRectCol.cpp" />
+    <ClCompile Include="..\Code\CRectTex.cpp" />
     <ClCompile Include="..\Code\CScene.cpp" />
-    <ClCompile Include="..\Code\CTileGround.cpp" />
+    <ClCompile Include="..\Code\CTexture.cpp" />
+    <ClCompile Include="..\Code\CTerrainTex.cpp" />
     <ClCompile Include="..\Code\CTimer.cpp" />
     <ClCompile Include="..\Code\CTimerManager.cpp" />
     <ClCompile Include="..\Code\CTransform.cpp" />

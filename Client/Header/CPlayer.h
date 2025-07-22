@@ -21,8 +21,9 @@ private:
     void        Key_Input(const _float& fTimeDelta);
 
 private:
-    Engine::CRectCol* m_pBufferCom;
+    Engine::CRectTex* m_pBufferCom;
     Engine::CTransform* m_pTransformCom;
+    Engine::CTexture* m_pTextureCom;
 
 public:
     static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphicDev);

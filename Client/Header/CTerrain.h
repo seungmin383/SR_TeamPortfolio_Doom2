@@ -2,13 +2,13 @@
 #include "CGameObject.h"
 #include "CPrototypeManager.h"
 
-class CGround :
+class CTerrain :
     public CGameObject
 {
 private:
-    explicit CGround(LPDIRECT3DDEVICE9 pGraphicDev);
-    explicit CGround(const CGameObject& rhs);
-    virtual ~CGround();
+    explicit CTerrain(LPDIRECT3DDEVICE9 pGraphicDev);
+    explicit CTerrain(const CGameObject& rhs);
+    virtual ~CTerrain();
 
 public:
     virtual     HRESULT         Ready_GameObject();
@@ -20,11 +20,12 @@ private:
     HRESULT     Add_Component();
 
 private:
-    Engine::CTileGround* m_pBufferCom;
+    Engine::CTerrainTex* m_pBufferCom;
     Engine::CTransform* m_pTransformCom;
+    Engine::CTexture* m_pTextureCom;
 
 public:
-    static CGround* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+    static CTerrain* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
     virtual void        Free();
