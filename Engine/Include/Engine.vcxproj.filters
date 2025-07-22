@@ -52,6 +52,9 @@
     <Filter Include="00. Manager\03 .Management\03. Component\00. VIBuffer\01. RectCol">
       <UniqueIdentifier>{d46fc79f-f0de-422b-b078-e04cc4674bb6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. Manager\03 .Management\03. Component\00. VIBuffer\02. TileGround">
+      <UniqueIdentifier>{58b6bd6a-4f93-406c-9141-f332a6662d22}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\CGraphicDev.h">
@@ -117,6 +120,9 @@
     <ClInclude Include="..\Header\CRectCol.h">
       <Filter>00. Manager\03 .Management\03. Component\00. VIBuffer\01. RectCol</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CTileGround.h">
+      <Filter>00. Manager\03 .Management\03. Component\00. VIBuffer\02. TileGround</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\CGraphicDev.cpp">
@@ -163,6 +169,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CRectCol.cpp">
       <Filter>00. Manager\03 .Management\03. Component\00. VIBuffer\01. RectCol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CTileGround.cpp">
+      <Filter>00. Manager\03 .Management\03. Component\00. VIBuffer\02. TileGround</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

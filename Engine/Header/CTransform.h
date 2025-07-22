@@ -13,6 +13,14 @@ private:
     virtual ~CTransform();
 
 public:
+    void        Add_Info(INFO eType, const _vec3 _info)
+    {
+        m_vInfo[eType] += _info;
+    }
+    void        Set_Info(INFO eType, const _vec3 _info)
+    {
+        m_vInfo[eType] = _info;
+    }
     void        Get_Info(INFO eType, _vec3* pInfo)
     {
         memcpy(pInfo, &m_matWorld.m[eType][0], sizeof(_vec3));
@@ -34,9 +42,40 @@ public:
         *pWorld = m_matWorld;
     }
 
+    void        Get_Pos(_vec3* pPos) const
+    {
+        *pPos = m_vInfo[INFO_POS];
+    }
     void        Set_Pos(_float _fX, _float& _fY, _float _fZ)
     {
         m_vInfo[INFO_POS] = { _fX, _fY, _fZ };
+    }
+
+    void    Set_Angle(const _vec3 _angle)
+    {
+        m_vAngle = _angle;
+    }
+    void    Get_Angle(ROTATION eType, const _vec3* pAngle)
+    {
+        *(((float*)&pAngle) + eType) = *(((float*)&m_vAngle) + eType);
+    }
+    void    Get_Angle(_vec3* pAngle) const
+    {
+        *pAngle = m_vAngle;
+    }
+
+    void    Set_Dir(const _vec3 _dir)
+    {
+        m_vDir = _dir;
+    }
+
+    void    Set_AxisAngle(const _float& fTimeDelta);
+    void    Set_TargetPos(_vec3 _vTargetPos)
+    {
+        m_vTargetPos.x = _vTargetPos.x;
+        m_vTargetPos.y = _vTargetPos.y;
+        m_vTargetPos.z = _vTargetPos.z;
+        m_bOnTarget = true;
     }
 
 public:
@@ -55,6 +94,11 @@ private:
     _vec3       m_vInfo[INFO_END];
     _vec3       m_vScale;
     _vec3       m_vAngle;
+
+    _vec3       m_vDir;
+    _vec3       m_vTargetPos;
+    bool        m_bOnTarget;
+    _matrix     m_matRotAxis;
 
     _matrix     m_matWorld;
 };

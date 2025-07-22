@@ -28,6 +28,15 @@
     <Filter Include="02. GameObject\00. BackGround">
       <UniqueIdentifier>{ecbd53fc-4879-4f5f-abf0-bbde2d9e7770}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Player">
+      <UniqueIdentifier>{90d9cc1b-36bb-4a2a-b77b-181b43c3c3a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Monster">
+      <UniqueIdentifier>{958b3f3f-a119-41fa-b878-e45534fab3e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Ground">
+      <UniqueIdentifier>{e769ba2e-a816-44b2-86f3-39531aba4672}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -54,6 +63,15 @@
     <ClInclude Include="..\Header\CBackGround.h">
       <Filter>02. GameObject\00. BackGround</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CPlayer.h">
+      <Filter>02. GameObject\01. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CMonster.h">
+      <Filter>02. GameObject\02. Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CGround.h">
+      <Filter>02. GameObject\03. Ground</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -70,6 +88,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\CBackGround.cpp">
       <Filter>02. GameObject\00. BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CPlayer.cpp">
+      <Filter>02. GameObject\01. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CMonster.cpp">
+      <Filter>02. GameObject\02. Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CGround.cpp">
+      <Filter>02. GameObject\03. Ground</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

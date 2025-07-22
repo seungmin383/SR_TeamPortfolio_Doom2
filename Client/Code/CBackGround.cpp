@@ -45,7 +45,6 @@ void CBackGround::Render_GameObject()
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
 	m_pBufferCom->Render_Buffer();
-	m_pMonsterBufferCom->Render_Buffer();
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
@@ -68,22 +67,6 @@ HRESULT CBackGround::Add_Component()
 		return E_FAIL;
 
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
-	
-	//////
-	pComponent = m_pMonsterBufferCom = dynamic_cast<Engine::CRectCol*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectCol"));
-	if (nullptr == pComponent)
-		return E_FAIL;
-
-	m_mapComponent[ID_STATIC].insert({ L"Monster_Com_Buffer", pComponent });
-
-	pComponent = m_pMonsterTransformCom = dynamic_cast<Engine::CTransform*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectTransform"));
-	if (nullptr == pComponent)
-		return E_FAIL;
-
-	m_mapComponent[ID_DYNAMIC].insert({ L"Monster_Com_Transform", pComponent });
-	//////
 
 	return S_OK;
 }

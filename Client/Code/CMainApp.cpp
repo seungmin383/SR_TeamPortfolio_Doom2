@@ -65,8 +65,8 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 
 	//юс╫ц
 	_matrix		matView, matProj;
-	_vec3		vEye{ 0.f, 10.f, -10.f };
-	_vec3		vAt{ 0.f, 0.f, 1.f };
+	_vec3		vEye{ 0.f, 10.f, -100.f };
+	_vec3		vAt{ 0.f, 0.f, 0.f };
 	_vec3		vUp{ 0.f, 1.f, 0.f };
 
 	D3DXMatrixLookAtLH(&matView, &vEye, &vAt, &vUp);

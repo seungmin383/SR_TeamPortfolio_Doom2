@@ -1,7 +1,11 @@
 #include "pch.h"
 #include "CLogo.h"
 #include "CPrototypeManager.h"
+
 #include "CBackGround.h"
+#include "CPlayer.h"
+#include "CMonster.h"
+#include "CGround.h"
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -48,12 +52,25 @@ HRESULT CLogo::Ready_Environment_Layer(const _tchar* pLayerTag)
 	
 	Engine::CGameObject* pGameObject = nullptr;
 
-	//BackGround
-	pGameObject = CBackGround::Create(m_pGraphicDev);
+	pGameObject = CPlayer::Create(m_pGraphicDev);
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(L"BackGround", pGameObject)))
+	if (FAILED(pLayer->Add_GameObject(L"Player", pGameObject)))
+		return E_FAIL;
+
+	pGameObject = CMonster::Create(m_pGraphicDev);
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(L"Monster", pGameObject)))
+		return E_FAIL;
+
+	pGameObject = CGround::Create(m_pGraphicDev);
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(L"Ground", pGameObject)))
 		return E_FAIL;
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
@@ -66,13 +83,13 @@ HRESULT CLogo::Ready_Prototype()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_TriCol", Engine::CTriCol::Create(m_pGraphicDev))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_Transform", Engine::CTransform::Create(m_pGraphicDev))))
-		return E_FAIL;
-
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_RectCol", Engine::CRectCol::Create(m_pGraphicDev))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_RectTransform", Engine::CTransform::Create(m_pGraphicDev))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_TileGround", Engine::CTileGround::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_Transform", Engine::CTransform::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	return S_OK;

@@ -4,6 +4,7 @@
 
 #include "CTriCol.h"
 #include "CRectCol.h"
+#include "CTileGround.h"
 
 #include "CTransform.h"
 
