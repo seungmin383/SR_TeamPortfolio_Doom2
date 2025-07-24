@@ -24,11 +24,16 @@ private:
     Engine::CRectTex* m_pBufferCom;
     Engine::CTransform* m_pTransformCom;
     Engine::CTexture* m_pTextureCom;
+    Engine::CCamera* m_pCameraCom;
 
 public:
     static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 private:
     virtual void        Free();
+
+private:
+    _float              m_fLookX;
+    _float              m_fLookY;
 };
 

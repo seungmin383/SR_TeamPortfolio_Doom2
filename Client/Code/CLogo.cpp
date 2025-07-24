@@ -92,7 +92,11 @@ HRESULT CLogo::Ready_Prototype()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_TerrainTex", Engine::CTerrainTex::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_Transform", Engine::CTransform::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_PlayerCamera", Engine::CCamera::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 

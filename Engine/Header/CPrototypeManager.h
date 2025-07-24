@@ -9,6 +9,7 @@
 
 #include "CTransform.h"
 #include "CTexture.h"
+#include "CCamera.h"
 
 BEGIN(Engine)
 
