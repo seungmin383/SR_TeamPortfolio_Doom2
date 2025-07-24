@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CTerrain.h"
 #include "CPrototypeManager.h"
+#include "CRenderer.h"
 
 CTerrain::CTerrain(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -27,6 +28,8 @@ HRESULT CTerrain::Ready_GameObject()
 _int CTerrain::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
+
+	CRenderer::GetInstance()->Add_RenderGroup(RENDER_PRIORITY, this);
 
 	return 0;
 }

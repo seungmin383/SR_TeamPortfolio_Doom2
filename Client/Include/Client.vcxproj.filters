@@ -40,6 +40,9 @@
     <Filter Include="02. GameObject\04. Camera">
       <UniqueIdentifier>{aaeef605-a17a-4998-9240-fc9d1936af58}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Scene\01. Stage">
+      <UniqueIdentifier>{4e04e1cd-84f5-405e-8cfa-41ec85972bf2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -78,6 +81,9 @@
     <ClInclude Include="..\Header\CCamera.h">
       <Filter>02. GameObject\04. Camera</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CStage.h">
+      <Filter>01. Scene\01. Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -106,6 +112,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CCamera.cpp">
       <Filter>02. GameObject\04. Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CStage.cpp">
+      <Filter>01. Scene\01. Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

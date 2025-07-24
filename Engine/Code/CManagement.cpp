@@ -1,4 +1,5 @@
 #include "CManagement.h"
+#include "CRenderer.h"
 
 IMPLEMENT_SINGLETON(CManagement)
 
@@ -29,6 +30,8 @@ HRESULT CManagement::Set_Scene(CScene* pScene)
 
 	Safe_Release(m_pScene);
 
+	CRenderer::GetInstance()->Clear_RenderGroup();
+
 	m_pScene = pScene;
 
 	return S_OK;
@@ -49,6 +52,8 @@ void CManagement::LateUpdate_Scene(const _float& fTimeDelta)
 
 void CManagement::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 {
+	CRenderer::GetInstance()->Render_GameObejct(pGraphicDev);
+
 	m_pScene->Render_Scene();
 }
 

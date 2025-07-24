@@ -18,14 +18,10 @@ public:
 
 private:
     HRESULT     Add_Component();
-    void        Key_Input(const _float& fTimeDelta);
 
 private:
-    Engine::CTriCol*        m_pBufferCom;
-    Engine::CTransform*     m_pTransformCom;
-
-    Engine::CRectCol* m_pMonsterBufferCom;
-    Engine::CTransform* m_pMonsterTransformCom;
+    Engine::CRectTex*        m_pBufferCom;
+    Engine::CTexture*       m_pTextureCom;
 
 public:
     static CBackGround* Create(LPDIRECT3DDEVICE9 pGraphicDev);

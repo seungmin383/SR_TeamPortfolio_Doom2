@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CPlayer.h"
 #include "CPrototypeManager.h"
+#include "CRenderer.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev),
@@ -29,6 +30,8 @@ HRESULT CPlayer::Ready_GameObject()
 _int CPlayer::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
+
+	CRenderer::GetInstance()->Add_RenderGroup(RENDER_PRIORITY, this);
 
 	return 0;
 }

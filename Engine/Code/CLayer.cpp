@@ -54,12 +54,6 @@ void CLayer::LateUpdate_Layer(const _float& fTimeDelta)
 		pObj.second->LateUpdate_GameObject(fTimeDelta);
 }
 
-void CLayer::Render_Layer()
-{
-	for (auto& pObj : m_mapObject)
-		pObj.second->Render_GameObject();
-}
-
 CLayer* CLayer::Create()
 {
 	CLayer* pLayer = new CLayer;

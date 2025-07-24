@@ -7,6 +7,10 @@
 #include "CMonster.h"
 #include "CTerrain.h"
 
+#include "CStage.h"
+
+#include "CManagement.h"
+
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -31,6 +35,16 @@ _int CLogo::Update_Scene(const _float& fTimeDelta)
 {
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
 
+	if (GetAsyncKeyState(VK_RETURN))
+	{
+		Engine::CScene* pScene = CStage::Create(m_pGraphicDev);
+		if (nullptr == pScene)
+			return -1;
+
+		if (FAILED(CManagement::GetInstance()->Set_Scene(pScene)))
+			return -1;
+	}
+
 	return iExit;
 }
 
@@ -41,7 +55,7 @@ void CLogo::LateUpdate_Scene(const _float& fTimeDelta)
 
 void CLogo::Render_Scene()
 {
-	Engine::CScene::Render_Scene();
+	// Debug¿ë ·»´õ
 }
 
 HRESULT CLogo::Ready_Environment_Layer(const _tchar* pLayerTag)
@@ -52,25 +66,11 @@ HRESULT CLogo::Ready_Environment_Layer(const _tchar* pLayerTag)
 	
 	Engine::CGameObject* pGameObject = nullptr;
 
-	pGameObject = CPlayer::Create(m_pGraphicDev);
+	pGameObject = CBackGround::Create(m_pGraphicDev);
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(L"Player", pGameObject)))
-		return E_FAIL;
-
-	pGameObject = CMonster::Create(m_pGraphicDev);
-	if (nullptr == pGameObject)
-		return E_FAIL;
-
-	if (FAILED(pLayer->Add_GameObject(L"Monster", pGameObject)))
-		return E_FAIL;
-
-	pGameObject = CTerrain::Create(m_pGraphicDev);
-	if (nullptr == pGameObject)
-		return E_FAIL;
-
-	if (FAILED(pLayer->Add_GameObject(L"Terrain", pGameObject)))
+	if (FAILED(pLayer->Add_GameObject(L"BackGround", pGameObject)))
 		return E_FAIL;
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
@@ -80,30 +80,10 @@ HRESULT CLogo::Ready_Environment_Layer(const _tchar* pLayerTag)
 
 HRESULT CLogo::Ready_Prototype()
 {
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_TriCol", Engine::CTriCol::Create(m_pGraphicDev))))
-		return E_FAIL;
-
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_RectCol", Engine::CRectCol::Create(m_pGraphicDev))))
-		return E_FAIL;
-
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_RectTex", Engine::CRectTex::Create(m_pGraphicDev))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_TerrainTex", Engine::CTerrainTex::Create(m_pGraphicDev))))
-		return E_FAIL;
-
-	
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_Transform", Engine::CTransform::Create(m_pGraphicDev))))
-		return E_FAIL;
-
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_PlayerCamera", Engine::CCamera::Create(m_pGraphicDev))))
-		return E_FAIL;
-
-
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_TerrainTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Terrain/Tile0.jpg", TEX_NORMAL))))
-		return E_FAIL;
-
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_PlayerTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Player/Ma.jpg", TEX_NORMAL))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_LogoTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Logo/IU.jpg", TEX_NORMAL))))
 		return E_FAIL;
 
 	return S_OK;
