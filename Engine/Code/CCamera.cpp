@@ -3,7 +3,7 @@
 CCamera::CCamera()
 	: m_vEye(0.f, 10.f, -10.f),
 	m_vAt(-5.f, 0.f, 0.f),
-	m_vUp(0.f, 5.f, 0.f)
+	m_vUp(0.f, 1.f, 0.f)
 {
 	ZeroMemory(&m_vInfo, sizeof(m_vInfo));
 	D3DXMatrixIdentity(&m_matView);
@@ -13,7 +13,7 @@ CCamera::CCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CComponent(pGraphicDev),
 	m_vEye(0.f, 10.f, -10.f),
 	m_vAt(-5.f, 0.f, 0.f),
-	m_vUp(0.f, 5.f, 0.f)
+	m_vUp(0.f, 1.f, 0.f)
 {
 	ZeroMemory(&m_vInfo, sizeof(m_vInfo));
 	D3DXMatrixIdentity(&m_matView);

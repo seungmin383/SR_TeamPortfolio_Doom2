@@ -28,17 +28,17 @@ HRESULT CStage::Ready_Scene()
 	if (FAILED(Ready_UI_Layer(L"UI_Layer")))
 		return E_FAIL;
 
-	_matrix		matView, matProj;
+	//_matrix		matView, matProj;
 
-	_vec3	vEye{ 0.f, 10.f, -10.f };
-	_vec3	vAt{ 0.f, 0.f, 1.f };
-	_vec3	vUp{ 0.f , 1.f, 0.f };
+	//_vec3	vEye{ 0.f, 10.f, -10.f };
+	//_vec3	vAt{ 0.f, 0.f, 1.f };
+	//_vec3	vUp{ 0.f , 1.f, 0.f };
 
-	D3DXMatrixLookAtLH(&matView, &vEye, &vAt, &vUp);
-	m_pGraphicDev->SetTransform(D3DTS_VIEW, &matView);
+	//D3DXMatrixLookAtLH(&matView, &vEye, &vAt, &vUp);
+	//m_pGraphicDev->SetTransform(D3DTS_VIEW, &matView);
 
-	D3DXMatrixPerspectiveFovLH(&matProj, D3DXToRadian(60.f), float(WINCX) / WINCY, 0.1f, 1000.f);
-	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
+	//D3DXMatrixPerspectiveFovLH(&matProj, D3DXToRadian(60.f), float(WINCX) / WINCY, 0.1f, 1000.f);
+	//m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
 
 	return S_OK;
 }

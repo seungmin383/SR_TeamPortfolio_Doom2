@@ -43,6 +43,8 @@ _int CLogo::Update_Scene(const _float& fTimeDelta)
 
 		if (FAILED(CManagement::GetInstance()->Set_Scene(pScene)))
 			return -1;
+
+		//CManagement::GetInstance()->Update_Scene(fTimeDelta);
 	}
 
 	return iExit;

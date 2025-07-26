@@ -6,7 +6,8 @@ CVIBuffer::CVIBuffer()
 	m_dwTriCnt(0),
 	m_dwFVF(0),
 	m_pVB(nullptr),
-	m_pIB(nullptr)
+	m_pIB(nullptr),
+	m_dwIdxSize(0)
 
 {
 }
@@ -18,7 +19,8 @@ CVIBuffer::CVIBuffer(LPDIRECT3DDEVICE9 pGraphicDev)
 	m_dwTriCnt(0),
 	m_dwFVF(0),
 	m_pVB(nullptr),
-	m_pIB(nullptr)
+	m_pIB(nullptr),
+	m_dwIdxSize(0)
 {
 }
 
@@ -29,8 +31,12 @@ CVIBuffer::CVIBuffer(const CVIBuffer& rhs)
 	m_dwTriCnt(rhs.m_dwTriCnt),
 	m_dwFVF(rhs.m_dwFVF),
 	m_pVB(rhs.m_pVB),
-	m_pIB(rhs.m_pIB)
+	m_pIB(rhs.m_pIB),
+	m_dwIdxSize(rhs.m_dwIdxSize),
+	m_IdxFmt(rhs.m_IdxFmt)
 {
+	m_pVB->AddRef();
+	m_pIB->AddRef();
 }
 
 CVIBuffer::~CVIBuffer()
@@ -56,9 +62,9 @@ HRESULT CVIBuffer::Ready_Buffer()
 
 	if (FAILED(m_pGraphicDev->
 		CreateIndexBuffer(
-			m_dwVtxCnt * m_dwTriCnt * sizeof(WORD),
+			m_dwIdxSize * m_dwTriCnt,
 			0,
-			D3DFMT_INDEX16,
+			m_IdxFmt,
 			D3DPOOL_MANAGED,
 			&m_pIB,
 			NULL)))

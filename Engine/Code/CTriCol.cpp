@@ -25,6 +25,9 @@ HRESULT CTriCol::Ready_Buffer()
 	m_dwTriCnt = 1;
 	m_dwFVF = FVF_COL;
 
+	m_dwIdxSize = sizeof(INDEX32);
+	m_IdxFmt = D3DFMT_INDEX32;
+
 	if (FAILED(CVIBuffer::Ready_Buffer()))
 		return E_FAIL;
 
@@ -44,9 +47,11 @@ HRESULT CTriCol::Ready_Buffer()
 	
 	m_pVB->Unlock();
 
-	WORD* indices = NULL;
-	m_pIB->Lock(0, 0, (void**)&indices, 0);
-	indices[0] = 0; indices[1] = 1; indices[2] = 2;
+	INDEX32* pIndex = NULL;
+	m_pIB->Lock(0, 0, (void**)&pIndex, 0);
+	pIndex[0]._0 = 0;
+	pIndex[0]._1 = 1;
+	pIndex[0]._2 = 2;
 	m_pIB->Unlock();
 
 	return S_OK;

@@ -25,8 +25,8 @@ HRESULT CRectTex::Ready_Buffer()
 	m_dwTriCnt = 2;
 	m_dwFVF = FVF_TEX;
 
-	m_dwIdxSize = sizeof(INDEX16);
-	m_IdxFmt = D3DFMT_INDEX16;
+	m_dwIdxSize = sizeof(INDEX32);
+	m_IdxFmt = D3DFMT_INDEX32;
 
 	if (FAILED(CVIBuffer::Ready_Buffer()))
 		return E_FAIL;
@@ -47,7 +47,7 @@ HRESULT CRectTex::Ready_Buffer()
 	pVertex[3].vTexUV = { 0.f, 1.f };
 	m_pVB->Unlock();
 
-	INDEX16* pIndex = NULL;
+	INDEX32* pIndex = NULL;
 
 	m_pIB->Lock(0, 0, (void**)&pIndex, 0);
 	pIndex[0]._0 = 0;

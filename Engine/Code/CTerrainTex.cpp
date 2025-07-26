@@ -27,7 +27,7 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX,
 	m_dwTriCnt = (dwCntX - 1) * (dwCntZ - 1) * 2;
 	m_dwFVF = FVF_TEX;
 
-	m_dwIdxSize = sizeof(INDEX16);
+	m_dwIdxSize = sizeof(INDEX32);
 	m_IdxFmt = D3DFMT_INDEX32;
 
 	if (FAILED(CVIBuffer::Ready_Buffer()))
