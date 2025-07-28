@@ -44,20 +44,17 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_TerrainTex", Engine::CTerrainTex::Create(m_pGraphicDev))))
 		return E_FAIL;
 
-	lstrcpy(m_szLoading, L"Etc Component Loading.....................");
-
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_Transform", Engine::CTransform::Create(m_pGraphicDev))))
-		return E_FAIL;
-
-	//if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_PlayerCamera", Engine::CCamera::Create(m_pGraphicDev))))
-	//	return E_FAIL;
-
 	lstrcpy(m_szLoading, L"Texture Component Loading.....................");
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_PlayerTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Player%d.png", TEX_NORMAL))))
 		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_TerrainTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Terrain/Terrain0.png", TEX_NORMAL))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoading, L"Etc Component Loading.....................");
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_Transform", Engine::CTransform::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	m_bFinish = true;

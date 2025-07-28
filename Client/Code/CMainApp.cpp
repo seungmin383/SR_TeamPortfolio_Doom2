@@ -6,6 +6,7 @@
 #include "CPrototypeManager.h"
 #include "CRenderer.h"
 #include "CFontManager.h"
+#include "CDInputManager.h"
 
 CMainApp::CMainApp()
 	: m_pGraphicDev(nullptr),
@@ -30,6 +31,8 @@ HRESULT CMainApp::Ready_MainApp()
 
 int CMainApp::Update_MainApp(const float& fTimeDelta)
 {
+	CDInputManager::GetInstance()->Update_InputDev();
+
 	m_pManagementClass->Update_Scene(fTimeDelta);
 
 	return 0;
@@ -37,6 +40,13 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 
 void CMainApp::LateUpdate_MainApp(const float& fTimeDelta)
 {
+	// _ulong	dwFlag(0);
+	// 
+	// if (dwFlag = CDInputMgr::GetInstance()->Get_DIMouseMove(DIMS_Z))
+	// {
+	// 	int a = 0;
+	// }
+
 	m_pManagementClass->LateUpdate_Scene(fTimeDelta);
 }
 
@@ -69,6 +79,9 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 		return E_FAIL;
 
 	if (FAILED(CFontManager::GetInstance()->Ready_Font(m_pGraphicDev, L"Font_Jinji", L"±Ã¼­", 20, 10, FW_THIN)))
+		return E_FAIL;
+
+	if (FAILED(CDInputManager::GetInstance()->Ready_InputDev(g_hInst, g_hWnd)))
 		return E_FAIL;
 
 	return S_OK;
@@ -112,6 +125,7 @@ void CMainApp::Free()
 	CPrototypeManager::GetInstance()->DestroyInstance();
 	CTimerManager::GetInstance()->DestroyInstance();
 	CFrameManager::GetInstance()->DestroyInstance();
+	CDInputManager::GetInstance()->DestroyInstance();
 
 	m_pManagementClass->DestroyInstance();
 	m_pDeviceClass->DestroyInstance();

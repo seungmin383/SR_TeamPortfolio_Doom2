@@ -43,6 +43,9 @@
     <Filter Include="01. Scene\02. Loading">
       <UniqueIdentifier>{7fa19a23-f56b-4824-a674-007a9ca73472}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\04. DynamicCamera">
+      <UniqueIdentifier>{88c98e0f-d473-4fd4-ab15-eef9186a8849}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -84,6 +87,9 @@
     <ClInclude Include="..\Header\CLoading.h">
       <Filter>01. Scene\02. Loading</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CDynamicCamera.h">
+      <Filter>02. GameObject\04. DynamicCamera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -115,6 +121,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CLoading.cpp">
       <Filter>01. Scene\02. Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CDynamicCamera.cpp">
+      <Filter>02. GameObject\04. DynamicCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

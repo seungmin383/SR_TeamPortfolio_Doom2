@@ -1,47 +1,27 @@
 #pragma once
-#include "CComponent.h"
+#include "CGameObject.h"
 
 BEGIN(Engine)
 
 class ENGINE_DLL CCamera :
-    public CComponent
+    public CGameObject
 {
-private:
-    explicit CCamera();
+protected:
     explicit CCamera(LPDIRECT3DDEVICE9 pGraphicDev);
-    explicit CCamera(const CCamera& rhs);
     virtual ~CCamera();
 
 public:
-    HRESULT         Ready_Camera();
-    virtual _int    Update_Component(const _float& fTimeDelta);
-    virtual void    LateUpdate_Component();
+    virtual         HRESULT     Ready_GameObject();
+    virtual         _int        Update_GameObject(const _float& fTimeDelta);
+    virtual         void        LateUpdate_GameObject(const _float& fTimeDelta);
 
-    void            Set_Distance(const _float _fDistance);
-    void            Chase_Target(const _vec3* pTargetPos);
-    void            Look_AroundX(const _float _fVal);
-    void            Look_AroundY(const _float _fVal);
-    void            Rotaion(ROTATION eType, const _float _angle);
+protected:
+    _matrix     m_matView, m_matProj;
+    _vec3       m_vEye, m_vAt, m_vUp;
+    _float      m_fFov, m_fAspect, m_fNear, m_fFar;
 
-public:
-    virtual CComponent* Clone();
-    static CCamera* Create(LPDIRECT3DDEVICE9 pGraphicDev);
-
-private:
-    virtual void        Free();
-
-private:
-    _matrix             m_matView;
-    _matrix             m_matProj;
-
-    _vec3               m_vEye;
-    _vec3               m_vAt;
-    _vec3               m_vUp;
-
-    _vec3               m_vInfo[INFO_END];
-    //_vec3               m_vAngle;
-
-    //_float              m_fDistance;
+protected:
+    virtual     void        Free();
 };
 
 END

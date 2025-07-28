@@ -4,6 +4,7 @@
 #include "CTerrain.h"
 #include "CPlayer.h"
 #include "CMonster.h"
+#include "CDynamicCamera.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -23,6 +24,9 @@ HRESULT CStage::Ready_Scene()
 		return E_FAIL;
 
 	if (FAILED(Ready_UI_Layer(L"UI_Layer")))
+		return E_FAIL;
+	
+	if (FAILED(Ready_Camera_Layer(L"Camera_Layer")))
 		return E_FAIL;
 
 	//_matrix		matView, matProj;
@@ -108,6 +112,31 @@ HRESULT CStage::Ready_GameLogic_Layer(const _tchar* pLayerTag)
 
 HRESULT CStage::Ready_UI_Layer(const _tchar* pLayerTag)
 {
+	return S_OK;
+}
+
+HRESULT CStage::Ready_Camera_Layer(const _tchar* pLayerTag)
+{
+	Engine::CLayer* pLayer = CLayer::Create();
+	if (nullptr == pLayer)
+		return E_FAIL;
+
+	Engine::CGameObject* pGameObject = nullptr;
+
+	_vec3	vEye{ 0.f, 10.f, -10.f };
+	_vec3	vAt{ 0.f, 0.f, 1.f };
+	_vec3	vUp{ 0.f , 1.f, 0.f };
+
+	pGameObject = CDynamicCamera::Create(m_pGraphicDev, &vEye, &vAt, &vUp);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(L"DynamicCamera", pGameObject)))
+		return E_FAIL;
+
+	m_mapLayer.insert({ pLayerTag, pLayer });
+
 	return S_OK;
 }
 

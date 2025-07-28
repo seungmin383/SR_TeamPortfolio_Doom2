@@ -17,6 +17,7 @@ private:
     HRESULT         Ready_Environment_Layer(const _tchar* pLayerTag);
     HRESULT         Ready_GameLogic_Layer(const _tchar* pLayerTag);
     HRESULT         Ready_UI_Layer(const _tchar* pLayerTag);
+    HRESULT         Ready_Camera_Layer(const _tchar* pLayerTag);
 
 public:
     static CStage* Create(LPDIRECT3DDEVICE9 pGraphicDev);
