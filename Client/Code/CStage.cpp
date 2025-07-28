@@ -16,9 +16,6 @@ CStage::~CStage()
 
 HRESULT CStage::Ready_Scene()
 {
-	if (FAILED(Ready_Prototype()))
-		return E_FAIL;
-
 	if (FAILED(Ready_Environment_Layer(L"Environment_Layer")))
 		return E_FAIL;
 
@@ -111,32 +108,6 @@ HRESULT CStage::Ready_GameLogic_Layer(const _tchar* pLayerTag)
 
 HRESULT CStage::Ready_UI_Layer(const _tchar* pLayerTag)
 {
-	return S_OK;
-}
-
-HRESULT CStage::Ready_Prototype()
-{
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_TriCol", Engine::CTriCol::Create(m_pGraphicDev))))
-		return E_FAIL;
-
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_RectCol", Engine::CRectCol::Create(m_pGraphicDev))))
-		return E_FAIL;
-
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_TerrainTex", Engine::CTerrainTex::Create(m_pGraphicDev))))
-		return E_FAIL;
-
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_Transform", Engine::CTransform::Create(m_pGraphicDev))))
-		return E_FAIL;
-
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_PlayerCamera", Engine::CCamera::Create(m_pGraphicDev))))
-		return E_FAIL;
-
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_PlayerTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Player%d.png", TEX_NORMAL))))
-		return E_FAIL;
-
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_TerrainTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Terrain/Terrain0.png", TEX_NORMAL))))
-		return E_FAIL;
-
 	return S_OK;
 }
 

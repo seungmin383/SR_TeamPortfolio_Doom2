@@ -67,6 +67,12 @@
     <Filter Include="00. Manager\05. Renderer">
       <UniqueIdentifier>{65df6d97-b3c8-4d8d-9173-e2cad5c80ec5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. Manager\06. FontManager">
+      <UniqueIdentifier>{eddf7ff6-2ac2-440a-b851-4e9dad8c3f5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Manager\06. FontManager\Font">
+      <UniqueIdentifier>{361f3c7c-4dd1-4683-9444-cbe4871ee3d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\CGraphicDev.h">
@@ -147,6 +153,12 @@
     <ClInclude Include="..\Header\CRenderer.h">
       <Filter>00. Manager\05. Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CFontManager.h">
+      <Filter>00. Manager\06. FontManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CFont.h">
+      <Filter>00. Manager\06. FontManager\Font</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\CGraphicDev.cpp">
@@ -208,6 +220,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\CRenderer.cpp">
       <Filter>00. Manager\05. Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CFontManager.cpp">
+      <Filter>00. Manager\06. FontManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CFont.cpp">
+      <Filter>00. Manager\06. FontManager\Font</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

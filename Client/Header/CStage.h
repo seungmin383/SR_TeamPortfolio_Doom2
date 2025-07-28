@@ -18,9 +18,6 @@ private:
     HRESULT         Ready_GameLogic_Layer(const _tchar* pLayerTag);
     HRESULT         Ready_UI_Layer(const _tchar* pLayerTag);
 
-private:
-    HRESULT         Ready_Prototype();
-
 public:
     static CStage* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

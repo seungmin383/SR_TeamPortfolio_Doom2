@@ -1,18 +1,16 @@
 #include "pch.h"
 #include "CLogo.h"
 #include "CPrototypeManager.h"
-
 #include "CBackGround.h"
 #include "CPlayer.h"
 #include "CMonster.h"
 #include "CTerrain.h"
-
 #include "CStage.h"
-
 #include "CManagement.h"
+#include "CFontManager.h"
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CScene(pGraphicDev)
+	: Engine::CScene(pGraphicDev), m_pLoading(nullptr)
 {
 }
 
@@ -28,6 +26,11 @@ HRESULT CLogo::Ready_Scene()
 	if (FAILED(Ready_Environment_Layer(L"Environment_Layer")))
 		return E_FAIL;
 
+	m_pLoading = CLoading::Create(m_pGraphicDev, CLoading::LOADING_STAGE);
+
+	if (nullptr == m_pLoading)
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -35,16 +38,17 @@ _int CLogo::Update_Scene(const _float& fTimeDelta)
 {
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
 
-	if (GetAsyncKeyState(VK_RETURN))
+	if (true == m_pLoading->Get_Finish())
 	{
-		Engine::CScene* pScene = CStage::Create(m_pGraphicDev);
-		if (nullptr == pScene)
-			return -1;
+		if (GetAsyncKeyState(VK_RETURN))
+		{
+			Engine::CScene* pScene = CStage::Create(m_pGraphicDev);
+			if (nullptr == pScene)
+				return -1;
 
-		if (FAILED(CManagement::GetInstance()->Set_Scene(pScene)))
-			return -1;
-
-		//CManagement::GetInstance()->Update_Scene(fTimeDelta);
+			if (FAILED(CManagement::GetInstance()->Set_Scene(pScene)))
+				return -1;
+		}
 	}
 
 	return iExit;
@@ -58,6 +62,10 @@ void CLogo::LateUpdate_Scene(const _float& fTimeDelta)
 void CLogo::Render_Scene()
 {
 	// Debug¿ë ·»´õ
+
+	_vec2 vPos{ 100.f, 100.f };
+
+	CFontManager::GetInstance()->Render_Font(L"Font_Default", m_pLoading->Get_String(), &vPos, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 }
 
 HRESULT CLogo::Ready_Environment_Layer(const _tchar* pLayerTag)
@@ -107,5 +115,7 @@ CLogo* CLogo::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CLogo::Free()
 {
+	Safe_Release(m_pLoading);
+
 	Engine::CScene::Free();
 }

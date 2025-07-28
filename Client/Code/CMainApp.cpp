@@ -5,6 +5,7 @@
 #include "CFrameManager.h"
 #include "CPrototypeManager.h"
 #include "CRenderer.h"
+#include "CFontManager.h"
 
 CMainApp::CMainApp()
 	: m_pGraphicDev(nullptr),
@@ -64,6 +65,12 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	(*ppGraphicDev) = CGraphicDev::GetInstance()->Get_GraphicDev();
 	(*ppGraphicDev)->AddRef();
 
+	if (FAILED(CFontManager::GetInstance()->Ready_Font(m_pGraphicDev, L"Font_Default", L"¹ÙÅÁ", 20, 15, FW_HEAVY)))
+		return E_FAIL;
+
+	if (FAILED(CFontManager::GetInstance()->Ready_Font(m_pGraphicDev, L"Font_Jinji", L"±Ã¼­", 20, 10, FW_THIN)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -100,6 +107,7 @@ void CMainApp::Free()
 	Engine::Safe_Release(m_pDeviceClass);
 	Engine::Safe_Release(m_pGraphicDev);
 	
+	CFontManager::GetInstance()->DestroyInstance();
 	CRenderer::GetInstance()->DestroyInstance();
 	CPrototypeManager::GetInstance()->DestroyInstance();
 	CTimerManager::GetInstance()->DestroyInstance();

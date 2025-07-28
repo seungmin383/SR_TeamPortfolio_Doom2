@@ -14,6 +14,7 @@ extern HWND g_hWnd;
 
 #include <d3d9.h>
 #include <d3dx9.h>
+#include <process.h>
 
 #ifdef _DEBUG
 
