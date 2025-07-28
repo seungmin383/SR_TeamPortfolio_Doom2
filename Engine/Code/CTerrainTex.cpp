@@ -1,3 +1,4 @@
+#include <fstream>
 #include "CTerrainTex.h"
 
 CTerrainTex::CTerrainTex()
@@ -99,6 +100,39 @@ CTerrainTex* CTerrainTex::Create(LPDIRECT3DDEVICE9 pGraphicDev,
 	}
 
 	return pTerrainTex;
+}
+
+_bool CTerrainTex::ReadRawFile(string _strFileName)
+{
+	vector<_byte> in(m_iNumVertices);
+
+	ifstream inFile(_strFileName.c_str(), ios_base::binary);
+
+	if (inFile.peek() == char_traits<char>::eof())
+		return false;
+
+	inFile.read(
+		(char*)&in[0],
+		in.size());
+
+	inFile.close();
+
+	m_vecHeightmap.resize(m_iNumVertices);
+
+	for (_int i = 0; i < in.size(); i++)
+		m_vecHeightmap[i] = in[i];
+
+	return true;
+}
+
+int CTerrainTex::Get_HeightMapEntry(int _row, int _col)
+{
+	return m_vecHeightmap[_row * m_iNumVertices + _col];
+}
+
+void CTerrainTex::Set_HeightMapEntry(int _row, int _col, int _value)
+{
+	m_vecHeightmap[_row * m_iNumVertsPerRow + _col] = _value;
 }
 
 void CTerrainTex::Free()

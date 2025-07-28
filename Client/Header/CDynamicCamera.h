@@ -41,6 +41,19 @@ public:
         const _float& fNear = 0.1f,
         const _float& fFar = 1000.f);
 
+    // Scale = 1/tanf(fFov * 0.5f)
+    // 1/(tanf(fFov * 0.5f)) = fNear
+    // d:-Zv = Yn : Yv
+    // 
+    // //투영평면이 정사각형으로 표현되는 경우
+    // Xn = d * Xv / -Zv
+    // Yn = d * Yv / -Zv 
+    //
+    // //최종 투영 변환 공식
+    // Xn = d * Xv / -Zv * fAspect
+    // Yn = d * Yv / -Zv * fAspect 
+
+
 private:
     virtual void        Free();
 };
