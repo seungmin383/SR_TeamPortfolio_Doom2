@@ -18,6 +18,10 @@ public:
 private:
     void            LookAtLH();
     void            PerspectiveFovLH();
+    void            MakeTransformMatrix(const _vec3* pRight,
+                                        const _vec3* pUp,
+                                        const _vec3* pLook,
+                                        const _vec3* pPos);
 
 protected:
     _matrix     m_matView, m_matProj;

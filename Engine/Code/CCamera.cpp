@@ -11,12 +11,12 @@ CCamera::~CCamera()
 
 HRESULT CCamera::Ready_GameObject()
 {
-	//D3DXMatrixLookAtLH(&m_matView, &m_vEye, &m_vAt, &m_vUp);
-	LookAtLH();
+	//LookAtLH();
+	D3DXMatrixLookAtLH(&m_matView, &m_vEye, &m_vAt, &m_vUp);
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_matView);
 
-	//D3DXMatrixPerspectiveFovLH(&m_matProj, m_fFov, m_fAspect, m_fNear, m_fFar);
-	PerspectiveFovLH();
+	//PerspectiveFovLH();
+	D3DXMatrixPerspectiveFovLH(&m_matProj, m_fFov, m_fAspect, m_fNear, m_fFar);
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_matProj);
 
 	return S_OK;
@@ -24,8 +24,8 @@ HRESULT CCamera::Ready_GameObject()
 
 _int CCamera::Update_GameObject(const _float& fTimeDelta)
 {
-	//D3DXMatrixLookAtLH(&m_matView, &m_vEye, &m_vAt, &m_vUp);
-	LookAtLH();
+	//LookAtLH();
+	D3DXMatrixLookAtLH(&m_matView, &m_vEye, &m_vAt, &m_vUp);
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_matView);
 
 	return 0;
@@ -55,25 +55,32 @@ void CCamera::LookAtLH()
 	_float y = -D3DXVec3Dot(&vInfo[INFO_UP], &vInfo[INFO_POS]);
 	_float z = -D3DXVec3Dot(&vInfo[INFO_LOOK], &vInfo[INFO_POS]);
 
-	(m_matView)(0, 0) = vInfo[INFO_RIGHT].x;
-	(m_matView)(0, 1) = vInfo[INFO_UP].x;
-	(m_matView)(0, 2) = vInfo[INFO_LOOK].x;
-	(m_matView)(0, 3) = 0.f;
+	MakeTransformMatrix(&vInfo[INFO_RIGHT],
+		&vInfo[INFO_UP],
+		&vInfo[INFO_LOOK],
+		&vInfo[INFO_POS]);
 
-	(m_matView)(1, 0) = vInfo[INFO_RIGHT].y;
-	(m_matView)(1, 1) = vInfo[INFO_UP].y;
-	(m_matView)(1, 2) = vInfo[INFO_LOOK].y;
-	(m_matView)(1, 3) = 0.f;
+	D3DXMatrixInverse(&m_matView, NULL, &m_matView);
 
-	(m_matView)(2, 0) = vInfo[INFO_RIGHT].z;
-	(m_matView)(2, 1) = vInfo[INFO_UP].z;
-	(m_matView)(2, 2) = vInfo[INFO_LOOK].z;
-	(m_matView)(2, 3) = 0.f;
+	//(m_matView)(0, 0) = vInfo[INFO_RIGHT].x;
+	//(m_matView)(0, 1) = vInfo[INFO_UP].x;
+	//(m_matView)(0, 2) = vInfo[INFO_LOOK].x;
+	//(m_matView)(0, 3) = 0.f;
 
-	(m_matView)(3, 0) = x;
-	(m_matView)(3, 1) = y;
-	(m_matView)(3, 2) = z;
-	(m_matView)(3, 3) = 1.f;
+	//(m_matView)(1, 0) = vInfo[INFO_RIGHT].y;
+	//(m_matView)(1, 1) = vInfo[INFO_UP].y;
+	//(m_matView)(1, 2) = vInfo[INFO_LOOK].y;
+	//(m_matView)(1, 3) = 0.f;
+
+	//(m_matView)(2, 0) = vInfo[INFO_RIGHT].z;
+	//(m_matView)(2, 1) = vInfo[INFO_UP].z;
+	//(m_matView)(2, 2) = vInfo[INFO_LOOK].z;
+	//(m_matView)(2, 3) = 0.f;
+
+	//(m_matView)(3, 0) = x;
+	//(m_matView)(3, 1) = y;
+	//(m_matView)(3, 2) = z;
+	//(m_matView)(3, 3) = 1.f;
 }
 
 void CCamera::PerspectiveFovLH()
@@ -94,6 +101,17 @@ void CCamera::PerspectiveFovLH()
 
 	m_matProj._34 = 1.f;
 	m_matProj._44 = 0.f;
+}
+
+void CCamera::MakeTransformMatrix(const _vec3* pRight,
+								const _vec3* pUp,
+								const _vec3* pLook,
+								const _vec3* pPos)
+{
+	memcpy(&m_matView.m[0][0], pRight, sizeof(_vec3));
+	memcpy(&m_matView.m[1][0], pUp, sizeof(_vec3));
+	memcpy(&m_matView.m[2][0], pLook, sizeof(_vec3));
+	memcpy(&m_matView.m[3][0], pPos, sizeof(_vec3));
 }
 
 void CCamera::Free()
