@@ -34,6 +34,28 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX,
 	if (FAILED(CVIBuffer::Ready_Buffer()))
 		return E_FAIL;
 
+	m_hFile = CreateFile(L"../Bin/Resource/Texture/Terrain/Height1.bmp",
+							GENERIC_READ,
+							0,
+							NULL,
+							OPEN_EXISTING,
+							FILE_ATTRIBUTE_NORMAL,
+							0);
+
+	if (INVALID_HANDLE_VALUE == m_hFile)
+		return E_FAIL;
+	
+	_ulong dwByte(0);
+
+	ReadFile(m_hFile, &m_fh, sizeof(PBITMAPFILEHEADER), &dwByte, NULL);
+	ReadFile(m_hFile, &m_ih, sizeof(PBITMAPINFOHEADER), &dwByte, NULL);
+
+	_ulong* pPixel = new _ulong[m_ih.biWidth * m_ih.biHeight];
+
+	ReadFile(m_hFile, pPixel, sizeof(_ulong) * m_ih.biWidth * m_ih.biHeight, &dwByte, NULL);
+
+	CloseHandle(m_hFile);
+
 	VTXTEX* pVertex = NULL;
 	m_pVB->Lock(0, 0, (void**)&pVertex, 0);
 	_ulong dwIndex(0);
@@ -43,11 +65,17 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX,
 		{
 			dwIndex = j + (i * dwCntX);
 
-			pVertex[dwIndex].vPosition = { (_float)j * dwVtxItv, 0.f, (_float)i * dwVtxItv };
+			pVertex[dwIndex].vPosition = { (_float)j * dwVtxItv,
+											_float(pPixel[dwIndex] & 0x000000ff) / 20.f,
+											(_float)i * dwVtxItv };
 
-			pVertex[dwIndex].vTexUV = { (_float)j / (dwCntX - 1), (_float)i / (dwCntZ - 1) };
+			pVertex[dwIndex].vTexUV = { (_float)j / (dwCntX - 1) * 20.f,
+										(_float)i / (dwCntZ - 1) * 20.f };
 		}
 	}
+
+	Safe_Delete_Array(pPixel);
+
 	m_pVB->Unlock();
 
 	INDEX32* pIndex = NULL;
@@ -100,39 +128,6 @@ CTerrainTex* CTerrainTex::Create(LPDIRECT3DDEVICE9 pGraphicDev,
 	}
 
 	return pTerrainTex;
-}
-
-_bool CTerrainTex::ReadRawFile(string _strFileName)
-{
-	vector<_byte> in(m_iNumVertices);
-
-	ifstream inFile(_strFileName.c_str(), ios_base::binary);
-
-	if (inFile.peek() == char_traits<char>::eof())
-		return false;
-
-	inFile.read(
-		(char*)&in[0],
-		in.size());
-
-	inFile.close();
-
-	m_vecHeightmap.resize(m_iNumVertices);
-
-	for (_int i = 0; i < in.size(); i++)
-		m_vecHeightmap[i] = in[i];
-
-	return true;
-}
-
-int CTerrainTex::Get_HeightMapEntry(int _row, int _col)
-{
-	return m_vecHeightmap[_row * m_iNumVertices + _col];
-}
-
-void CTerrainTex::Set_HeightMapEntry(int _row, int _col, int _value)
-{
-	m_vecHeightmap[_row * m_iNumVertsPerRow + _col] = _value;
 }
 
 void CTerrainTex::Free()
