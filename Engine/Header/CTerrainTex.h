@@ -24,9 +24,17 @@ public:
         const _ulong& dwVtxItv = VTXITV);
 
 private:
+    _float          Get_HeightmapEntry(const _int row, const _int col);
+
+public:
+    _float          Get_Height(const _float& _fX, const _float& _fZ);
+
+private:
     HANDLE                  m_hFile;
     BITMAPFILEHEADER        m_fh;
     BITMAPINFOHEADER        m_ih;
+
+    vector<_float>          m_arrHeightmap;
 
 public:
     virtual void    Free();

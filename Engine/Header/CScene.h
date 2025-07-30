@@ -17,6 +17,8 @@ public:
         const _tchar* pObjTag,
         const _tchar* pComponentTag);
 
+    CGameObject* Get_Object(const _tchar* pLayerTag, const _tchar* pObjTag);
+
 public:
     virtual         HRESULT     Ready_Scene();
     virtual         _int        Update_Scene(const _float& fTimeDelta);

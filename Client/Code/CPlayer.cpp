@@ -2,6 +2,7 @@
 #include "CPlayer.h"
 #include "CPrototypeManager.h"
 #include "CRenderer.h"
+#include "CManagement.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -37,6 +38,8 @@ _int CPlayer::Update_GameObject(const _float& fTimeDelta)
 void CPlayer::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	Key_Input(fTimeDelta);
+	
+	SetOn_Terrain();
 
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 }
@@ -109,7 +112,7 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	{
 		_vec3 vRight;
 		m_pTransformCom->Get_Info(INFO_RIGHT, &vRight);
-		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), -3.f, fTimeDelta);
+		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), 3.f, fTimeDelta);
 	}
 
 	if (GetAsyncKeyState('W'))
@@ -133,6 +136,17 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 	{
 		m_pTransformCom->Rotation(ROT_X, D3DXToRadian(180.f * fTimeDelta));
 	}
+}
+
+void CPlayer::SetOn_Terrain()
+{
+	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
+
+	CTerrainTex* terrainTex = static_cast<CTerrainTex*>(CManagement::GetInstance()->Get_Component(ID_STATIC, L"Environment_Layer", L"Terrain", L"Com_Buffer"));
+	_float height = terrainTex->Get_Height((_float)pos.x, (_float)pos.z);
+
+	m_pTransformCom->Set_Pos(pos.x, height, pos.z);
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)

@@ -19,6 +19,7 @@ public:
 private:
     HRESULT     Add_Component();
     void        Key_Input(const _float& fTimeDelta);
+    void        SetOn_Terrain();
 
 private:
     Engine::CRectTex* m_pBufferCom;

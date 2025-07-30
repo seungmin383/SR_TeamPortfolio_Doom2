@@ -19,6 +19,8 @@ public:
         const _tchar* pObjTag,
         const _tchar* pComponentTag);
 
+    CGameObject* Get_Object(const _tchar* pLayerTag, const _tchar* pObjTag);
+
 public:
     HRESULT     Set_Scene(CScene* pScene);
     _int        Update_Scene(const _float& fTimeDelta);
