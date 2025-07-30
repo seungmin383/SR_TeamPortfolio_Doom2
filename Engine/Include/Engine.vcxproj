@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\Header\CCamera.h" />
     <ClInclude Include="..\Header\CComponent.h" />
+    <ClInclude Include="..\Header\CCubeTex.h" />
     <ClInclude Include="..\Header\CDInputManager.h" />
     <ClInclude Include="..\Header\CFont.h" />
     <ClInclude Include="..\Header\CFontManager.h" />
@@ -52,6 +53,7 @@
   <ItemGroup>
     <ClCompile Include="..\Code\CCamera.cpp" />
     <ClCompile Include="..\Code\CComponent.cpp" />
+    <ClCompile Include="..\Code\CCubeTex.cpp" />
     <ClCompile Include="..\Code\CDInputManager.cpp" />
     <ClCompile Include="..\Code\CFont.cpp" />
     <ClCompile Include="..\Code\CFontManager.cpp" />

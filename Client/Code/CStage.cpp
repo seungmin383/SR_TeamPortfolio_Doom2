@@ -2,6 +2,7 @@
 #include "CStage.h"
 
 #include "CTerrain.h"
+#include "CSkyBox.h"
 #include "CPlayer.h"
 #include "CMonster.h"
 #include "CDynamicCamera.h"
@@ -74,6 +75,16 @@ HRESULT CStage::Ready_Environment_Layer(const _tchar* pLayerTag)
 		return E_FAIL;
 
 	if (FAILED(pLayer->Add_GameObject(L"Terrain", pGameObject)))
+		return E_FAIL;
+
+	m_mapLayer.insert({ pLayerTag, pLayer });
+
+	pGameObject = CSkyBox::Create(m_pGraphicDev);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+	
+	if (FAILED(pLayer->Add_GameObject(L"SkyBox", pGameObject)))
 		return E_FAIL;
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
