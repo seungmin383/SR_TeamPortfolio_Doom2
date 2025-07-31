@@ -91,6 +91,9 @@
     <Filter Include="00. Manager\09. CollisionManager">
       <UniqueIdentifier>{ba54484c-a7a4-4974-90b7-b97e71c71b0b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. Manager\03 .Management\03. Component\05. CameraCom">
+      <UniqueIdentifier>{2455740f-0659-4b93-adac-4f170f0a982c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\CGraphicDev.h">
@@ -198,6 +201,9 @@
     <ClInclude Include="..\Header\CCollisionManager.h">
       <Filter>00. Manager\09. CollisionManager</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CCameraCom.h">
+      <Filter>00. Manager\03 .Management\03. Component\05. CameraCom</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\CGraphicDev.cpp">
@@ -283,6 +289,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CCollisionManager.cpp">
       <Filter>00. Manager\09. CollisionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CCameraCom.cpp">
+      <Filter>00. Manager\03 .Management\03. Component\05. CameraCom</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

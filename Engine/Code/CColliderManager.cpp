@@ -6,6 +6,7 @@
 IMPLEMENT_SINGLETON(CColliderManager)
 
 CColliderManager::CColliderManager()
+	: m_arrCheck{}
 {
 }
 

@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\Header\CCalculator.h" />
     <ClInclude Include="..\Header\CCamera.h" />
+    <ClInclude Include="..\Header\CCameraCom.h" />
     <ClInclude Include="..\Header\CCollider.h" />
     <ClInclude Include="..\Header\CColliderManager.h" />
     <ClInclude Include="..\Header\CCollisionManager.h" />
@@ -58,6 +59,7 @@
   <ItemGroup>
     <ClCompile Include="..\Code\CCalculator.cpp" />
     <ClCompile Include="..\Code\CCamera.cpp" />
+    <ClCompile Include="..\Code\CCameraCom.cpp" />
     <ClCompile Include="..\Code\CCollider.cpp" />
     <ClCompile Include="..\Code\CColliderManager.cpp" />
     <ClCompile Include="..\Code\CCollisionManager.cpp" />
