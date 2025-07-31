@@ -23,18 +23,15 @@ public:
         const _ulong& dwCntZ = VTXCNTZ,
         const _ulong& dwVtxItv = VTXITV);
 
-private:
-    _float          Get_HeightmapEntry(const _int row, const _int col);
-
 public:
-    _float          Get_Height(const _float& _fX, const _float& _fZ);
+    const _vec3*        Get_VtxPos() { return m_pPos; }
 
 private:
     HANDLE                  m_hFile;
     BITMAPFILEHEADER        m_fh;
     BITMAPINFOHEADER        m_ih;
 
-    vector<_float>          m_arrHeightmap;
+    _vec3*                  m_pPos;
 
 public:
     virtual void    Free();

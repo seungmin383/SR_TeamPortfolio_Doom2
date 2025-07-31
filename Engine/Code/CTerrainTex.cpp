@@ -6,12 +6,18 @@ CTerrainTex::CTerrainTex()
 }
 
 CTerrainTex::CTerrainTex(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CVIBuffer(pGraphicDev)
+	: CVIBuffer(pGraphicDev),
+	m_hFile(nullptr),
+	m_pPos(nullptr)
 {
 }
 
 CTerrainTex::CTerrainTex(const CTerrainTex& rhs)
-	: CVIBuffer(rhs)
+	: CVIBuffer(rhs),
+	m_hFile(rhs.m_hFile),
+	m_fh(rhs.m_fh),
+	m_ih(rhs.m_ih),
+	m_pPos(rhs.m_pPos)
 {
 }
 
@@ -27,6 +33,8 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX,
 	m_dwVtxCnt = dwCntX * dwCntZ;
 	m_dwTriCnt = (dwCntX - 1) * (dwCntZ - 1) * 2;
 	m_dwFVF = FVF_TEX;
+
+	m_pPos = new _vec3[m_dwVtxCnt];
 
 	m_dwIdxSize = sizeof(INDEX32);
 	m_IdxFmt = D3DFMT_INDEX32;
@@ -72,7 +80,7 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX,
 			pVertex[dwIndex].vTexUV = { (_float)j / (dwCntX - 1) * 20.f,
 										(_float)i / (dwCntZ - 1) * 20.f };
 
-			m_arrHeightmap.push_back(_float(pPixel[dwIndex] & 0x000000ff) / 20.f);
+			m_pPos[dwIndex] = pVertex[dwIndex].vPosition;
 		}
 	}
 
@@ -129,78 +137,6 @@ CTerrainTex* CTerrainTex::Create(LPDIRECT3DDEVICE9 pGraphicDev,
 	}
 
 	return pTerrainTex;
-}
-
-_float CTerrainTex::Get_HeightmapEntry(const _int row, const _int col)
-{
-	VTXTEX* pVertex = NULL;
-	_float height;
-
-	if (FAILED(m_pVB->Lock(0, 0, (void**)&pVertex, 0)))
-		return E_FAIL;
-
-	height = pVertex[row * VTXCNTX + col].vPosition.y;
-
-	m_pVB->Unlock();
-
-	//return m_arrHeightmap[row * VTXCNTX + col];
-
-	return height;
-}
-
-_float CTerrainTex::Get_Height(const _float& _fX, const _float& _fZ)
-{
-	//지형의 시작점을 원점으로 이동하는 변환
-	//xz-평면 상에서 이동
-	_float height(0);
-
-	if ((_fX < 0 || _fZ < 0) || (_fX > VTXCNTX || _fZ > VTXCNTZ))
-		return height;
-
-	_float x = _fX;
-	_float z = _fZ;
-
-	//셀 간격을 1로 만드는 변환
-	//변환의 배율을 낮춘다
-	x /= (_float)VTXITV;
-	z /= (_float)VTXITV;
-
-	_float col = ::floorf(x);
-	_float row = ::floorf(z);
-
-	//  A   B
-	//  *---*
-	//  | / |
-	//  *---*  
-	//  C   D
-
-	_float A = Get_HeightmapEntry(row, col);
-	_float B = Get_HeightmapEntry(row, col + 1);
-	_float C = Get_HeightmapEntry(row + 1, col);
-	_float D = Get_HeightmapEntry(row, col + 1);
-
-	//row와 col은 현재 위치의 왼쪽 상단 버텍스 위치를 나타낸다
-	//x와 z를 원점으로 이동시킨다
-	//dz < 1.f-dx면 위쪽 삼각형 아니라면 아래쪽 삼각형
-	_float dx = x - col;
-	_float dz = z - row;
-
-	auto Lerp = [&](_float a, _float b, _float t) { return a - (a * t) + (b * t); };
-
-	if (dz < 1.f - dx)
-	{
-		_float uy = B - A; // A->B
-		_float vy = C - A; // A->C
-		height = D + Lerp(0.f, uy, dx) + Lerp(0.f, vy, dz);
-	}
-	else
-	{
-		_float uy = C - D; // D->C
-		_float vy = B - D; // D->B
-		height = D + Lerp(0.f, uy, 1.f - dx) + Lerp(0.f, vy, 1.f - dz);
-	}
-
-	return height;
 }
 
 void CTerrainTex::Free()

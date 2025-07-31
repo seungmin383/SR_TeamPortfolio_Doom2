@@ -26,7 +26,7 @@ public:
         memcpy(pInfo, &m_matWorld.m[eType][0], sizeof(_vec3));
     }
 
-    void        Move_Pos(const _vec3* pDir, const _float& fSpeed, const _float& fTimeDelta)
+    void        Move_Pos(const _vec3* pDir, const _float fSpeed, const _float& fTimeDelta)
     {
         m_vInfo[INFO_POS] += *pDir * fSpeed * fTimeDelta;
     }
@@ -46,7 +46,7 @@ public:
     {
         *pPos = m_vInfo[INFO_POS];
     }
-    void        Set_Pos(_float _fX, _float& _fY, _float _fZ)
+    void        Set_Pos(_float _fX, _float _fY, _float _fZ)
     {
         m_vInfo[INFO_POS] = { _fX, _fY, _fZ };
     }

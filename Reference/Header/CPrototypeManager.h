@@ -11,6 +11,7 @@
 #include "CTransform.h"
 #include "CTexture.h"
 #include "CCamera.h"
+#include "CCalculator.h"
 
 BEGIN(Engine)
 

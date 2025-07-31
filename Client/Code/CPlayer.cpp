@@ -30,6 +30,8 @@ _int CPlayer::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
 
+	Set_OnTerrain();
+
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_PRIORITY, this);
 
 	return 0;
@@ -39,8 +41,6 @@ void CPlayer::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	Key_Input(fTimeDelta);
 	
-	SetOn_Terrain();
-
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 }
 
@@ -85,68 +85,52 @@ HRESULT CPlayer::Add_Component()
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
 
+	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Calculator"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_Calculator", pComponent });
+
 	return S_OK;
 }
 
 void CPlayer::Key_Input(const _float& fTimeDelta)
 {
+	_vec3 vLook;
+	m_pTransformCom->Get_Info(INFO_LOOK, &vLook);
+
 	if (GetAsyncKeyState(VK_UP))
 	{
-		_vec3 vUp;
-		m_pTransformCom->Get_Info(INFO_LOOK, &vUp);
-		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vUp, &vUp), 3.f, fTimeDelta);
+		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), 3.f, fTimeDelta);
 	}
 	if (GetAsyncKeyState(VK_DOWN))
 	{
-		_vec3 vDown;
-		m_pTransformCom->Get_Info(INFO_LOOK, &vDown);
-		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vDown, &vDown), -3.f, fTimeDelta);
+		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), -3.f, fTimeDelta);
 	}
+
 	if (GetAsyncKeyState(VK_LEFT))
 	{
-		_vec3 vLeft;
-		m_pTransformCom->Get_Info(INFO_RIGHT, &vLeft);
-		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vLeft, &vLeft), -3.f, fTimeDelta);
+		m_pTransformCom->Rotation(ROT_Y, D3DXToRadian(-180.f * fTimeDelta));
 	}
 	if (GetAsyncKeyState(VK_RIGHT))
 	{
-		_vec3 vRight;
-		m_pTransformCom->Get_Info(INFO_RIGHT, &vRight);
-		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vRight, &vRight), 3.f, fTimeDelta);
-	}
-
-	if (GetAsyncKeyState('W'))
-	{
-		m_pTransformCom->Rotation(ROT_X, -1.f * fTimeDelta);
-	}
-	if (GetAsyncKeyState('S'))
-	{
-		m_pTransformCom->Rotation(ROT_X, 1.f * fTimeDelta);
-	}
-	if (GetAsyncKeyState('A'))
-	{
-		m_pTransformCom->Rotation(ROT_Y, 1.f * fTimeDelta);
-	}
-	if (GetAsyncKeyState('D'))
-	{
-		m_pTransformCom->Rotation(ROT_Z, 1.f * fTimeDelta);
-	}
-
-	if (GetAsyncKeyState('Q'))
-	{
-		m_pTransformCom->Rotation(ROT_X, D3DXToRadian(180.f * fTimeDelta));
+		m_pTransformCom->Rotation(ROT_Y, D3DXToRadian(180.f * fTimeDelta));
 	}
 }
 
-void CPlayer::SetOn_Terrain()
+void CPlayer::Set_OnTerrain()
 {
 	_vec3 pos;
 	m_pTransformCom->Get_Pos(&pos);
 
-	CTerrainTex* terrainTex = static_cast<CTerrainTex*>(CManagement::GetInstance()->Get_Component(ID_STATIC, L"Environment_Layer", L"Terrain", L"Com_Buffer"));
-	_float height = terrainTex->Get_Height((_float)pos.x, (_float)pos.z);
+	Engine::CTerrainTex* pTerrainBufferCom = 
+		static_cast<CTerrainTex*>
+		(CManagement::GetInstance()->Get_Component(ID_STATIC, L"Environment_Layer", L"Terrain", L"Com_Buffer"));
 
-	m_pTransformCom->Set_Pos(pos.x, height, pos.z);
+	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
+
+	m_pTransformCom->Set_Pos(pos.x, height + 2.f, pos.z);
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)

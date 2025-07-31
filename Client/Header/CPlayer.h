@@ -19,12 +19,13 @@ public:
 private:
     HRESULT     Add_Component();
     void        Key_Input(const _float& fTimeDelta);
-    void        SetOn_Terrain();
+    void        Set_OnTerrain();
 
 private:
-    Engine::CRectTex* m_pBufferCom;
-    Engine::CTransform* m_pTransformCom;
-    Engine::CTexture* m_pTextureCom;
+    Engine::CRectTex*       m_pBufferCom;
+    Engine::CTransform*     m_pTransformCom;
+    Engine::CTexture*       m_pTextureCom;
+    Engine::CCalculator*    m_pCalculatorCom;
 
 public:
     static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphicDev);
