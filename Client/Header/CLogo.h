@@ -16,9 +16,9 @@ public:
     virtual         void        Render_Scene();
 
 private:
-    HRESULT         Ready_Environment_Layer(const _tchar* pLayerTag);
-    HRESULT         Ready_GameLogic_Layer(const _tchar* pLayerTag) { return 0; }
-    HRESULT         Ready_UI_Layer(const _tchar* pLayerTag) { return 0; }
+    HRESULT         Ready_Environment_Layer(LAYERID _eLayerId);
+    HRESULT         Ready_GameLogic_Layer(LAYERID _eLayerId) { return 0; }
+    HRESULT         Ready_UI_Layer(LAYERID _eLayerId) { return 0; }
 
 private:
     HRESULT         Ready_Prototype();

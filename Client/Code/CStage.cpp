@@ -18,29 +18,17 @@ CStage::~CStage()
 
 HRESULT CStage::Ready_Scene()
 {
-	if (FAILED(Ready_Environment_Layer(L"Environment_Layer")))
+	if (FAILED(Ready_Environment_Layer(LAYERID::LAYER_ENVIRONMENT)))
 		return E_FAIL;
 
-	if (FAILED(Ready_GameLogic_Layer(L"GameLogic_Layer")))
+	if (FAILED(Ready_GameLogic_Layer(LAYERID::LAYER_GAMELOGIC)))
 		return E_FAIL;
 
-	if (FAILED(Ready_UI_Layer(L"UI_Layer")))
+	if (FAILED(Ready_UI_Layer(LAYERID::LAYER_UI)))
 		return E_FAIL;
 	
-	if (FAILED(Ready_Camera_Layer(L"Camera_Layer")))
+	if (FAILED(Ready_Camera_Layer(LAYERID::LAYER_CAMERA)))
 		return E_FAIL;
-
-	//_matrix		matView, matProj;
-
-	//_vec3	vEye{ 0.f, 10.f, -10.f };
-	//_vec3	vAt{ 0.f, 0.f, 1.f };
-	//_vec3	vUp{ 0.f , 1.f, 0.f };
-
-	//D3DXMatrixLookAtLH(&matView, &vEye, &vAt, &vUp);
-	//m_pGraphicDev->SetTransform(D3DTS_VIEW, &matView);
-
-	//D3DXMatrixPerspectiveFovLH(&matProj, D3DXToRadian(60.f), float(WINCX) / WINCY, 0.1f, 1000.f);
-	//m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
 
 	return S_OK;
 }
@@ -61,7 +49,7 @@ void CStage::Render_Scene()
 {
 }
 
-HRESULT CStage::Ready_Environment_Layer(const _tchar* pLayerTag)
+HRESULT CStage::Ready_Environment_Layer(LAYERID _eLayerId)
 {
 	Engine::CLayer* pLayer = CLayer::Create();
 	if (nullptr == pLayer)
@@ -74,25 +62,23 @@ HRESULT CStage::Ready_Environment_Layer(const _tchar* pLayerTag)
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(L"Terrain", pGameObject)))
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_TERRAIN, pGameObject)))
 		return E_FAIL;
-
-	m_mapLayer.insert({ pLayerTag, pLayer });
 
 	pGameObject = CSkyBox::Create(m_pGraphicDev);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
 	
-	if (FAILED(pLayer->Add_GameObject(L"SkyBox", pGameObject)))
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_SKYBOX, pGameObject)))
 		return E_FAIL;
 
-	m_mapLayer.insert({ pLayerTag, pLayer });
+	m_mapLayer.insert({ _eLayerId, pLayer });
 
 	return S_OK;
 }
 
-HRESULT CStage::Ready_GameLogic_Layer(const _tchar* pLayerTag)
+HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 {
 	Engine::CLayer* pLayer = CLayer::Create();
 	if (nullptr == pLayer)
@@ -105,7 +91,7 @@ HRESULT CStage::Ready_GameLogic_Layer(const _tchar* pLayerTag)
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(L"Player", pGameObject)))
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_PLAYER, pGameObject)))
 		return E_FAIL;
 
 	pGameObject = CMonster::Create(m_pGraphicDev);
@@ -113,20 +99,20 @@ HRESULT CStage::Ready_GameLogic_Layer(const _tchar* pLayerTag)
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(L"Monster", pGameObject)))
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMTY, pGameObject)))
 		return E_FAIL;
 
-	m_mapLayer.insert({ pLayerTag, pLayer });
+	m_mapLayer.insert({ _eLayerId, pLayer });
 
 	return S_OK;
 }
 
-HRESULT CStage::Ready_UI_Layer(const _tchar* pLayerTag)
+HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 {
 	return S_OK;
 }
 
-HRESULT CStage::Ready_Camera_Layer(const _tchar* pLayerTag)
+HRESULT CStage::Ready_Camera_Layer(LAYERID _eLayerId)
 {
 	Engine::CLayer* pLayer = CLayer::Create();
 	if (nullptr == pLayer)
@@ -143,10 +129,10 @@ HRESULT CStage::Ready_Camera_Layer(const _tchar* pLayerTag)
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(L"DynamicCamera", pGameObject)))
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_DYNAMICCAMERA, pGameObject)))
 		return E_FAIL;
 
-	m_mapLayer.insert({ pLayerTag, pLayer });
+	m_mapLayer.insert({ _eLayerId, pLayer });
 
 	return S_OK;
 }

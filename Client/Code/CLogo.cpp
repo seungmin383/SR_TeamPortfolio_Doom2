@@ -23,7 +23,7 @@ HRESULT CLogo::Ready_Scene()
 	if (FAILED(Ready_Prototype()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Environment_Layer(L"Environment_Layer")))
+	if (FAILED(Ready_Environment_Layer(LAYERID::LAYER_ENVIRONMENT)))
 		return E_FAIL;
 
 	m_pLoading = CLoading::Create(m_pGraphicDev, CLoading::LOADING_STAGE);
@@ -68,7 +68,7 @@ void CLogo::Render_Scene()
 	CFontManager::GetInstance()->Render_Font(L"Font_Default", m_pLoading->Get_String(), &vPos, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 }
 
-HRESULT CLogo::Ready_Environment_Layer(const _tchar* pLayerTag)
+HRESULT CLogo::Ready_Environment_Layer(LAYERID _eLayerId)
 {
 	Engine::CLayer* pLayer = CLayer::Create();
 	if (nullptr == pLayer)
@@ -80,10 +80,10 @@ HRESULT CLogo::Ready_Environment_Layer(const _tchar* pLayerTag)
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(L"BackGround", pGameObject)))
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_BACKGROUND, pGameObject)))
 		return E_FAIL;
 
-	m_mapLayer.insert({ pLayerTag, pLayer });
+	m_mapLayer.insert({ _eLayerId, pLayer });
 
 	return S_OK;
 }

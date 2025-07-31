@@ -66,6 +66,27 @@ namespace Engine
 		const _tchar*		m_pTargetTag = nullptr;
 	};
 
+	// Functor
+	//class CID_Finder
+	//{
+	//public:
+	//	explicit CID_Finder(const _int eId) : m_iId(eId) {}
+	//	~CID_Finder(void) {}
+
+	//public:
+	//	template<typename T>
+	//	_bool		operator()(const T& pair)
+	//	{
+	//		if (m_iId == pair.first)
+	//			return true;
+
+	//		return false;
+	//	}
+
+	//private:
+	//	_int m_iId = 0;
+	//};
+
 	class CDeleteObj
 	{
 	public:

@@ -10,24 +10,30 @@ CScene::~CScene()
 {
 }
 
-CComponent* CScene::Get_Component(COMPONENTID eID, const _tchar* pLayerTag, const _tchar* pObjTag, const _tchar* pComponentTag)
+CComponent* CScene::Get_Component(COMPONENTID eID, LAYERID eLayerId, OBJID eObjId, const _tchar* pComponentTag)
 {
-	auto iter = find_if(m_mapLayer.begin(), m_mapLayer.end(), CTag_Finder(pLayerTag));
+	auto iter = find_if(m_mapLayer.begin(),
+						m_mapLayer.end(),
+						[eLayerId](const pair<const LAYERID, const CLayer*> pair) { return pair.first == eLayerId; });
 
 	if (iter == m_mapLayer.end())
 		return nullptr;
 
-	return iter->second->Get_Component(eID, pObjTag, pComponentTag);
+	return iter->second->Get_Component(eID, eObjId, pComponentTag);
 }
 
-CGameObject* CScene::Get_Object(const _tchar* pLayerTag, const _tchar* pObjTag)
+const vector<CGameObject*>& CScene::Get_ObjectGroup(LAYERID eLayerId, OBJID eObjId)
 {
-	auto iter = find_if(m_mapLayer.begin(), m_mapLayer.end(), CTag_Finder(pLayerTag));
+	vector<CGameObject*> result;
+
+	auto iter = find_if(m_mapLayer.begin(),
+						m_mapLayer.end(),
+						[eLayerId](const pair<const LAYERID, const CLayer*> pair) { return pair.first == eLayerId; });
 
 	if (iter == m_mapLayer.end())
-		return nullptr;
+		return result;
 
-	return iter->second->Get_Object(pObjTag);
+	return iter->second->Get_ObjectGroup(eObjId);
 }
 
 HRESULT CScene::Ready_Scene()

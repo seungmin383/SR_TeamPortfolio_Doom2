@@ -1,13 +1,15 @@
 #include "CGameObject.h"
 
 CGameObject::CGameObject(LPDIRECT3DDEVICE9 pGraphicDev)
-	: m_pGraphicDev(pGraphicDev)
+	: m_pGraphicDev(pGraphicDev),
+	m_pColliderCom(nullptr)
 {
 	m_pGraphicDev->AddRef();
 }
 
 CGameObject::CGameObject(const CGameObject& rhs)
-	: m_pGraphicDev(rhs.m_pGraphicDev)
+	: m_pGraphicDev(rhs.m_pGraphicDev),
+	m_pColliderCom(rhs.m_pColliderCom)
 {
 	m_pGraphicDev->AddRef();
 }

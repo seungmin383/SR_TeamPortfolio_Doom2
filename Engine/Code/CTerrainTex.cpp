@@ -141,5 +141,10 @@ CTerrainTex* CTerrainTex::Create(LPDIRECT3DDEVICE9 pGraphicDev,
 
 void CTerrainTex::Free()
 {
+	if (false == m_bClone)
+	{
+		Safe_Delete_Array(m_pPos);
+	}
+
 	CVIBuffer::Free();
 }

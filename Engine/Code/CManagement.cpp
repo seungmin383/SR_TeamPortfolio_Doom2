@@ -13,24 +13,26 @@ CManagement::~CManagement()
 	Free();
 }
 
-CComponent* CManagement::Get_Component(COMPONENTID eID, const _tchar* pLayerTag, const _tchar* pObjTag, const _tchar* pComponentTag)
+CComponent* CManagement::Get_Component(COMPONENTID eID, LAYERID _eLayerId, OBJID _eObjId, const _tchar* pComponentTag)
 {
 	if (nullptr == m_pScene)
 	{
 		return nullptr;
 	}
 
-	return m_pScene->Get_Component(eID, pLayerTag, pObjTag, pComponentTag);
+	return m_pScene->Get_Component(eID, _eLayerId, _eObjId, pComponentTag);
 }
 
-CGameObject* CManagement::Get_Object(const _tchar* pLayerTag, const _tchar* pObjTag)
+const vector<CGameObject*>& CManagement::Get_ObjectGroup(LAYERID _eLayerId, OBJID _eObjId)
 {
+	vector<CGameObject*> result;
+
 	if (nullptr == m_pScene)
 	{
-		return nullptr;
+		return result;
 	}
 
-	return m_pScene->Get_Object(pLayerTag, pObjTag);
+	return m_pScene->Get_ObjectGroup(_eLayerId, _eObjId);
 }
 
 HRESULT CManagement::Set_Scene(CScene* pScene)

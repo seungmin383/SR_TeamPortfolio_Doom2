@@ -8,32 +8,36 @@ CLayer::~CLayer()
 {
 }
 
-CComponent* CLayer::Get_Component(COMPONENTID eID, const _tchar* pObjTag, const _tchar* pComponentTag)
+CComponent* CLayer::Get_Component(COMPONENTID eID, OBJID eObjId, const _tchar* pComponentTag)
 {
-	auto	iter = find_if(m_mapObject.begin(), m_mapObject.end(), CTag_Finder(pObjTag));
-
-	if (iter == m_mapObject.end())
+	if (m_vecObject[(UINT)eObjId].empty())
 		return nullptr;
 
-	return iter->second->Get_Component(eID, pComponentTag);
+	auto iter = m_vecObject[(UINT)eObjId].begin();
+
+	return (*iter)->Get_Component(eID, pComponentTag);
 }
 
-CGameObject* CLayer::Get_Object(const _tchar* pObjTag)
-{
-	auto	iter = find_if(m_mapObject.begin(), m_mapObject.end(), CTag_Finder(pObjTag));
+//CGameObject* CLayer::Get_Object(OBJID eObjId)
+//{
+//	vector<CGameObject*>::iterator iter;
+//
+//	auto idFinder = [&](vector<CGameObject*> vecToItem) { iter = find_if(vecToItem.begin(), vecToItem.end(), CID_Finder((_int)eObjId)); };
+//
+//	for_each(m_vecObject->begin(), m_vecObject->end(), idFinder);
+//
+//	if (iter == m_vecObject[(UINT)OBJID::OBJ_END].end());
+//	return nullptr;
+//
+//	return *iter;
+//}
 
-	if (iter == m_mapObject.end())
-		return nullptr;
-
-	return iter->second;
-}
-
-HRESULT CLayer::Add_GameObject(const _tchar* pObjTag, CGameObject* pGameObject)
+HRESULT CLayer::Add_GameObject(OBJID eObjId, CGameObject* pGameObject)
 {
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	m_mapObject.insert({ pObjTag, pGameObject });
+	m_vecObject[(UINT)eObjId].push_back(pGameObject);
 
 	return S_OK;
 }
@@ -47,12 +51,17 @@ _int CLayer::Update_Layer(const _float& fTimeDelta)
 {
 	_int iResult(0);
 
-	for (auto& pObj : m_mapObject)
+	for (size_t i = 0; i < (size_t)OBJID::OBJ_END; i++)
 	{
-		iResult = pObj.second->Update_GameObject(fTimeDelta);
+		for (auto iter = m_vecObject[i].begin(); iter != m_vecObject[i].end(); )
+		{
+			iResult = (*iter)->Update_GameObject(fTimeDelta);
 
-		if (iResult & 0x80000000)
-			return iResult;
+			if (iResult & 0x80000000)
+				return iResult;
+
+			++iter;
+		}
 	}
 
 	return iResult;
@@ -60,8 +69,14 @@ _int CLayer::Update_Layer(const _float& fTimeDelta)
 
 void CLayer::LateUpdate_Layer(const _float& fTimeDelta)
 {
-	for (auto& pObj : m_mapObject)
-		pObj.second->LateUpdate_GameObject(fTimeDelta);
+	for (size_t i = 0; i < (size_t)OBJID::OBJ_END; i++)
+	{
+		for (auto iter = m_vecObject[i].begin(); iter != m_vecObject[i].end(); )
+		{
+			(*iter)->LateUpdate_GameObject(fTimeDelta);
+			++iter;
+		}
+	}
 }
 
 CLayer* CLayer::Create()
@@ -78,8 +93,34 @@ CLayer* CLayer::Create()
 	return pLayer;
 }
 
+void CLayer::DeleteObjectGroup(OBJID _eTarget)
+{
+	auto& objList = m_vecObject[(UINT)_eTarget];
+
+	_ulong dwRefCnt = 0;
+
+	for (CGameObject* pObj : objList)
+	{
+		if (pObj != nullptr)
+		{
+			dwRefCnt = pObj->Release();
+
+			if (0 == dwRefCnt)
+				pObj = NULL;
+		}
+	}
+	objList.clear();
+}
+
+void CLayer::DeleteAll()
+{
+	for (UINT i = 0; i < (UINT)OBJID::OBJ_END; ++i)
+	{
+		DeleteObjectGroup((OBJID)i);
+	}
+}
+
 void CLayer::Free()
 {
-	for_each(m_mapObject.begin(), m_mapObject.end(), CDeleteMap());
-	m_mapObject.clear();
+	DeleteAll();
 }

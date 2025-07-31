@@ -14,10 +14,10 @@ public:
     virtual         void        Render_Scene();
 
 private:
-    HRESULT         Ready_Environment_Layer(const _tchar* pLayerTag);
-    HRESULT         Ready_GameLogic_Layer(const _tchar* pLayerTag);
-    HRESULT         Ready_UI_Layer(const _tchar* pLayerTag);
-    HRESULT         Ready_Camera_Layer(const _tchar* pLayerTag);
+    HRESULT         Ready_Environment_Layer(LAYERID _eLayerId);
+    HRESULT         Ready_GameLogic_Layer(LAYERID _eLayerId);
+    HRESULT         Ready_UI_Layer(LAYERID _eLayerId);
+    HRESULT         Ready_Camera_Layer(LAYERID _eLayerId);
 
 public:
     static CStage* Create(LPDIRECT3DDEVICE9 pGraphicDev);

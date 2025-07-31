@@ -13,11 +13,11 @@ protected:
 
 public:
     CComponent* Get_Component(COMPONENTID eID,
-        const _tchar* pLayerTag,
-        const _tchar* pObjTag,
+        LAYERID eLayerId,
+        OBJID eObjId,
         const _tchar* pComponentTag);
 
-    CGameObject* Get_Object(const _tchar* pLayerTag, const _tchar* pObjTag);
+    const vector<CGameObject*>& Get_ObjectGroup(LAYERID eLayerId, OBJID eObjId);
 
 public:
     virtual         HRESULT     Ready_Scene();
@@ -26,7 +26,7 @@ public:
     virtual         void        Render_Scene() = 0;
 
 protected:
-    map<const _tchar*, CLayer*>         m_mapLayer;
+    map<LAYERID, CLayer*>               m_mapLayer;
     LPDIRECT3DDEVICE9                   m_pGraphicDev;
 
 protected:

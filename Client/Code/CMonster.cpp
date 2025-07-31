@@ -81,7 +81,7 @@ HRESULT CMonster::Add_Component()
 void CMonster::Chase_Player(const _float& fTimeDelta)
 {
 	auto pManagementClass = CManagement::GetInstance();
-	auto playerTransCom = pManagementClass->Get_Component(ID_DYNAMIC, L"GameLogic_Layer", L"Player", L"Com_Transform");
+	auto playerTransCom = pManagementClass->Get_Component(ID_DYNAMIC, LAYERID::LAYER_GAMELOGIC, OBJID::OBJ_PLAYER, L"Com_Transform");
 
 	/*_vec3 infoRight;
 	dynamic_cast<CTransform*>(playerTransCom)->Get_Info(INFO_RIGHT, &infoRight);

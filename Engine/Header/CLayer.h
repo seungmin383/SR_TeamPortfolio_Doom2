@@ -12,10 +12,10 @@ private:
     virtual ~CLayer();
 
 public:
-    CComponent* Get_Component(COMPONENTID eID, const _tchar* pObjTag, const _tchar* pComponentTag);
-    CGameObject* Get_Object(const _tchar* pObjTag);
+    CComponent* Get_Component(COMPONENTID eID, OBJID eObjId, const _tchar* pComponentTag);
+    const vector<CGameObject*>& Get_ObjectGroup(OBJID eObjId) { return m_vecObject[(UINT)eObjId]; };
 
-    HRESULT     Add_GameObject(const _tchar* pObjTag, CGameObject* pGameObject);
+    HRESULT     Add_GameObject(OBJID eObjId, CGameObject* pGameObject);
 
 public:
     HRESULT     Ready_Layer();
@@ -23,12 +23,14 @@ public:
     void        LateUpdate_Layer(const _float& fTimeDelta);
 
 private:
-    map<const _tchar*, CGameObject*>            m_mapObject;
-
+    vector<CGameObject*>                m_vecObject[(_uint)OBJID::OBJ_END];
 public:
     static CLayer* Create();
 
 private:
+    void            DeleteObjectGroup(OBJID _eTarget);
+    void            DeleteAll();
+
     virtual void    Free();
 };
 
