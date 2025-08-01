@@ -49,13 +49,13 @@ _uint CLoading::Loading_ForStage()
 
 	lstrcpy(m_szLoading, L"Texture Component Loading.....................");
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_PlayerTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Player%d.png", TEX_NORMAL))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_PlayerTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/Player%d.png", TEX_NORMAL))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_TerrainTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Terrain/Grass_%d.tga", TEX_NORMAL, 2))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_TerrainTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/Terrain/Grass_%d.tga", TEX_NORMAL, 2))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_SkyBoxTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/SkyBox/burger%d.dds", TEX_CUBE, 4))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_SkyBoxTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/SkyBox/burger%d.dds", TEX_CUBE, 4))))
 		return E_FAIL;
 
 	lstrcpy(m_szLoading, L"Etc Component Loading.....................");

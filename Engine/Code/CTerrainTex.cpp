@@ -42,7 +42,7 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX,
 	if (FAILED(CVIBuffer::Ready_Buffer()))
 		return E_FAIL;
 
-	m_hFile = CreateFile(L"../Bin/Resource/Texture/Terrain/Height1.bmp",
+	m_hFile = CreateFile(L"../Resource/Texture/Terrain/Height1.bmp",
 							GENERIC_READ,
 							0,
 							NULL,
@@ -132,7 +132,7 @@ CTerrainTex* CTerrainTex::Create(LPDIRECT3DDEVICE9 pGraphicDev,
 	if (FAILED(pTerrainTex->Ready_Buffer(dwCntX, dwCntZ, dwVtxItv)))
 	{
 		Safe_Release(pTerrainTex);
-		MSG_BOX("TileGround Create Failed");
+		MSG_BOX("TerrainTex Create Failed");
 		return nullptr;
 	}
 
