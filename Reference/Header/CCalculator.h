@@ -22,8 +22,8 @@ public:
                                             const _ulong& dwVtxItv = VTXITV);
 
     _vec3           Picking_OnTerrain(HWND hWnd,
-                                    const CTerrainTex* pTerrainBufferCom,
-                                    const CTransform* pTerrainTransformCom);
+                                    CTerrainTex* pTerrainBufferCom,
+                                    CTransform* pTerrainTransformCom);
 
 private:
     LPDIRECT3DDEVICE9       m_pGraphicDev;

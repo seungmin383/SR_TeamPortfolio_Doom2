@@ -52,7 +52,7 @@ _float CCalculator::Compute_HeightOnTerrain(const _vec3* pPos,
 	return (-plane.a * pPos->x - plane.c * pPos->z - plane.d) / plane.b;
 }
 
-_vec3 CCalculator::Picking_OnTerrain(HWND hWnd, const CTerrainTex* pTerrainBufferCom, const CTransform* pTerrainTransformCom)
+_vec3 CCalculator::Picking_OnTerrain(HWND hWnd, CTerrainTex* pTerrainBufferCom, CTransform* pTerrainTransformCom)
 {
 	POINT ptMouse{};
 
@@ -95,6 +95,35 @@ _vec3 CCalculator::Picking_OnTerrain(HWND hWnd, const CTerrainTex* pTerrainBuffe
 
 	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matWorld);
 	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matWorld);
+
+	_float fU(0.f), fV(0.f), fDist(0.f);
+	_ulong dwVtxIdx[3]{};
+
+	const _vec3* pTerrainVtxPos = pTerrainBufferCom->Get_VtxPos();
+
+	for (_ulong i = 0; i < VTXCNTZ; i++)
+	{
+		for (_ulong j = 0; j < VTXCNTX; j++)
+		{
+			_ulong dwIndex = i * VTXCNTX + j;
+			
+			//오른쪽 위
+			dwVtxIdx[0] = dwIndex + VTXCNTX;
+			dwVtxIdx[1] = dwIndex + VTXCNTX + 1;
+			dwVtxIdx[0] = dwIndex + 1;
+
+			//V1 + U(V2 - V1) + V(V3 - V1)
+			if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
+				&pTerrainVtxPos[dwVtxIdx[0]],
+				&pTerrainVtxPos[dwVtxIdx[2]],
+				&vRayPos, &vRayDir, &fU, &fV, &fDist))
+			{
+				return _vec3(pTerrainVtxPos[dwVtxIdx[1]].x + fU * (pTerrainVtxPos[dwVtxIdx[0]].x - pTerrainVtxPos[dwVtxIdx[1]].x),
+							0.f,
+							pTerrainVtxPos[dwVtxIdx[1]].z + fV * (pTerrainVtxPos[dwVtxIdx[2]].z - pTerrainVtxPos[dwVtxIdx[0]].z));
+			}
+		}
+	}
 
 	return _vec3();
 }
