@@ -16,6 +16,10 @@ public:
     virtual     void            LateUpdate_GameObject(const _float& fTimeDelta);
     virtual     void            Render_GameObject();
 
+    virtual     void			OnCollision(CCollider* _pOther) override;
+    virtual     void			OnCollisionEnter(CCollider* _pOther) override;
+    virtual     void			OnCollisionExit(CCollider* _pOther) override;
+
 private:
     HRESULT     Add_Component();
     void        Key_Input(const _float& fTimeDelta);
@@ -23,7 +27,6 @@ private:
 
 private:
     Engine::CRectTex*       m_pBufferCom;
-    Engine::CTransform*     m_pTransformCom;
     Engine::CTexture*       m_pTextureCom;
     Engine::CCalculator*    m_pCalculatorCom;
 

@@ -8,6 +8,7 @@
 #include "CFontManager.h"
 #include "CDInputManager.h"
 #include "CLightManager.h"
+#include "CColliderManager.h"
 
 CMainApp::CMainApp()
 	: m_pGraphicDev(nullptr),
@@ -128,6 +129,7 @@ void CMainApp::Free()
 	Engine::Safe_Release(m_pDeviceClass);
 	Engine::Safe_Release(m_pGraphicDev);
 	
+	CColliderManager::GetInstance()->DestroyInstance();
 	CLightManager::GetInstance()->DestroyInstance();
 	CFontManager::GetInstance()->DestroyInstance();
 	CRenderer::GetInstance()->DestroyInstance();

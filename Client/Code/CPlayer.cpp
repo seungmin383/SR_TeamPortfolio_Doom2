@@ -23,6 +23,12 @@ HRESULT CPlayer::Ready_GameObject()
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
+	//TODO: 2025-08-03 Layer 단계에서 게임오브젝트 생성 시 스케일 등등 셋팅할 수 있게 수정
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.f, 0.f),
+		COLLAYERID::COL_PLAYER, COLLAYERID::COL_ENEMY | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT);
+
 	return S_OK;
 }
 
@@ -42,12 +48,13 @@ void CPlayer::LateUpdate_GameObject(const _float& fTimeDelta)
 	Key_Input(fTimeDelta);
 	
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
+
+	m_pColliderCom->Late_Update();
 }
 
 void CPlayer::Render_GameObject()
 {
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
@@ -56,6 +63,21 @@ void CPlayer::Render_GameObject()
 	m_pBufferCom->Render_Buffer();
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+}
+
+void CPlayer::OnCollision(CCollider* _pOther)
+{
+	_int a = 1;
+}
+
+void CPlayer::OnCollisionEnter(CCollider* _pOther)
+{
+	_int a = 1;
+}
+
+void CPlayer::OnCollisionExit(CCollider* _pOther)
+{
+	_int a = 1;
 }
 
 HRESULT CPlayer::Add_Component()
@@ -91,6 +113,13 @@ HRESULT CPlayer::Add_Component()
 		return E_FAIL;
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Calculator", pComponent });
+
+	pComponent = m_pColliderCom = dynamic_cast<Engine::CCollider*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Collider"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
 
 	return S_OK;
 }

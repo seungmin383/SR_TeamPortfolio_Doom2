@@ -69,6 +69,9 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_Material", Engine::CMaterial::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_Collider", Engine::CCollider::Cretae(m_pGraphicDev))))
+		return E_FAIL;
+
 	m_bFinish = true;
 
 	lstrcpy(m_szLoading, L"Loading Complete");

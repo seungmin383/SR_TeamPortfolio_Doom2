@@ -13,6 +13,7 @@
 #include "CCamera.h"
 #include "CCalculator.h"
 #include "CMaterial.h"
+#include "CCollider.h"
 
 BEGIN(Engine)
 

@@ -2,6 +2,7 @@
 #include "CCollider.h"
 #include "CScene.h"
 #include "CManagement.h"
+#include "CCollisionManager.h"
 
 IMPLEMENT_SINGLETON(CColliderManager)
 
@@ -148,24 +149,10 @@ void CColliderManager::CollisionUpdateGroup(OBJID _eLeft, OBJID _eRight)
 
 bool CColliderManager::IsCollision(CCollider* _pLeftCol, CCollider* _pRightCol)
 {
-	if (!_pLeftCol->Get_Active() || _pRightCol->Get_Active())
+	if (!_pLeftCol->Get_Active() || !_pRightCol->Get_Active())
 		return false;
 
-	//TODO: 2025-07-31
-	//충돌처리
-	//AABB
-	//구충돌
-	//OBB
-	// 
-	//CollisionManager 추가
-	//어떤 방식의 충돌처리할지 관리 필요
-	
-	//if (true)
-	//{
-	//	return true;
-	//}
-
-	return false;
+	return CCollisionManager::Check_OBB(_pLeftCol, _pRightCol);
 }
 
 void CColliderManager::Free()
