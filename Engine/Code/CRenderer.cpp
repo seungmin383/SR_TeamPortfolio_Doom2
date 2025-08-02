@@ -24,6 +24,7 @@ void CRenderer::Render_GameObejct(LPDIRECT3DDEVICE9& pGraphicDev)
 {
 	Render_Priority(pGraphicDev);
 	Render_NonAlpha(pGraphicDev);
+	Render_Reflect(pGraphicDev);
 	Render_Alpha(pGraphicDev);
 	Render_UI(pGraphicDev);
 
@@ -49,6 +50,16 @@ void CRenderer::Render_NonAlpha(LPDIRECT3DDEVICE9& pGraphicDev)
 {
 	for (auto& pObj : m_RenderGroup[RENDER_NONALPHA])
 		pObj->Render_GameObject();
+}
+
+void CRenderer::Render_Reflect(LPDIRECT3DDEVICE9& pGraphicDev)
+{
+	pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
+
+	for (auto& pObj : m_RenderGroup[RENDER_REFLECT])
+		pObj->Render_GameObject();
+
+	pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 }
 
 void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)

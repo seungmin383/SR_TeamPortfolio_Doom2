@@ -69,6 +69,11 @@ public:
         m_vDir = _dir;
     }
 
+    void    Set_Scale(_vec3 _vScale)
+    {
+        m_vScale = _vScale;
+    }
+    const _vec3* Get_Scale() const { return &m_vScale; }
     void    Set_AxisAngle(const _float& fTimeDelta);
     void    Set_TargetPos(_vec3 _vTargetPos)
     {

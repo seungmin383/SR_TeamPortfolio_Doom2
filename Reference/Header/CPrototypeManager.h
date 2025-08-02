@@ -12,6 +12,7 @@
 #include "CTexture.h"
 #include "CCamera.h"
 #include "CCalculator.h"
+#include "CMaterial.h"
 
 BEGIN(Engine)
 

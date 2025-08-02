@@ -22,6 +22,9 @@ HRESULT CTerrain::Ready_GameObject()
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Material()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -29,7 +32,7 @@ _int CTerrain::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
 
-	CRenderer::GetInstance()->Add_RenderGroup(RENDER_PRIORITY, this);
+	CRenderer::GetInstance()->Add_RenderGroup(RENDER_REFLECT, this);
 
 	return 0;
 }
@@ -42,11 +45,12 @@ void CTerrain::LateUpdate_GameObject(const _float& fTimeDelta)
 void CTerrain::Render_GameObject()
 {
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
 	m_pTextureCom->Set_Texture(0);
+
+	m_pMaterialCom->Set_Material();
 
 	m_pBufferCom->Render_Buffer();
 
@@ -78,6 +82,30 @@ HRESULT CTerrain::Add_Component()
 		return E_FAIL;
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
+
+	pComponent = m_pMaterialCom = dynamic_cast<Engine::CMaterial*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Material"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_Material", pComponent });
+
+	return S_OK;
+}
+
+HRESULT CTerrain::Ready_Material()
+{
+	D3DMATERIAL9		tMtrl;
+	ZeroMemory(&tMtrl, sizeof(D3DMATERIAL9));
+
+	tMtrl.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	tMtrl.Specular = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	tMtrl.Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 1.f);
+
+	tMtrl.Emissive = D3DXCOLOR(0.f, 0.f, 0.f, 1.f);
+	tMtrl.Power = 0.f;
+
+	m_pMaterialCom->Ready_Material(&tMtrl);
 
 	return S_OK;
 }

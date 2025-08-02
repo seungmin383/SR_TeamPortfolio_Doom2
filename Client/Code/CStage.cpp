@@ -6,6 +6,7 @@
 #include "CPlayer.h"
 #include "CMonster.h"
 #include "CDynamicCamera.h"
+#include "CLightManager.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -28,6 +29,9 @@ HRESULT CStage::Ready_Scene()
 		return E_FAIL;
 	
 	if (FAILED(Ready_Camera_Layer(LAYERID::LAYER_CAMERA)))
+		return E_FAIL;
+
+	if (FAILED(Ready_Light()))
 		return E_FAIL;
 
 	return S_OK;
@@ -133,6 +137,25 @@ HRESULT CStage::Ready_Camera_Layer(LAYERID _eLayerId)
 		return E_FAIL;
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
+
+	return S_OK;
+}
+
+HRESULT CStage::Ready_Light()
+{
+	D3DLIGHT9 tLightInfo;
+	ZeroMemory(&tLightInfo, sizeof(D3DLIGHT9));
+
+	tLightInfo.Type = D3DLIGHT_DIRECTIONAL;
+
+	tLightInfo.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	tLightInfo.Specular = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	tLightInfo.Ambient = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+
+	tLightInfo.Direction = { 1.f, -1.f, 1.f };
+
+	if (FAILED(CLightManager::GetInstance()->Ready_Light(m_pGraphicDev, &tLightInfo, 0)))
+		return E_FAIL;
 
 	return S_OK;
 }

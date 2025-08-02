@@ -13,7 +13,10 @@ private:
     virtual ~CTerrainTex();
 
 public:
-    virtual HRESULT Ready_Buffer(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv);
+    virtual HRESULT Ready_Buffer(const _ulong& dwCntX,
+        const _ulong& dwCntZ,
+        const _ulong& dwVtxItv,
+        const _tchar* pPath);
     virtual void    Render_Buffer();
 
 public:
@@ -21,7 +24,8 @@ public:
     static CTerrainTex* Create(LPDIRECT3DDEVICE9 pGraphicDev,
         const _ulong& dwCntX = VTXCNTX,
         const _ulong& dwCntZ = VTXCNTZ,
-        const _ulong& dwVtxItv = VTXITV);
+        const _ulong& dwVtxItv = VTXITV,
+        const _tchar* pPath = L"");
 
 public:
     const _vec3*        Get_VtxPos() { return m_pPos; }

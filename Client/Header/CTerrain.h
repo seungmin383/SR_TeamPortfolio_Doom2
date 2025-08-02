@@ -19,10 +19,13 @@ public:
 private:
     HRESULT     Add_Component();
 
+    HRESULT     Ready_Material();
+
 private:
     Engine::CTerrainTex* m_pBufferCom;
     Engine::CTransform* m_pTransformCom;
     Engine::CTexture* m_pTextureCom;
+    Engine::CMaterial* m_pMaterialCom;
 
 public:
     static CTerrain* Create(LPDIRECT3DDEVICE9 pGraphicDev);

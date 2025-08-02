@@ -18,6 +18,7 @@ private:
     HRESULT         Ready_GameLogic_Layer(LAYERID _eLayerId);
     HRESULT         Ready_UI_Layer(LAYERID _eLayerId);
     HRESULT         Ready_Camera_Layer(LAYERID _eLayerId);
+    HRESULT         Ready_Light();
 
 public:
     static CStage* Create(LPDIRECT3DDEVICE9 pGraphicDev);

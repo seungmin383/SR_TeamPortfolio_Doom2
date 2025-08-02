@@ -22,6 +22,9 @@ _float CCalculator::Compute_HeightOnTerrain(const _vec3* pPos,
 	const _ulong& dwCntZ,
 	const _ulong& dwVtxItv)
 {
+	if (pPos->z < 0)
+		return 0.f;
+
 	_ulong dwIndex = _ulong(pPos->z / dwVtxItv) * dwCntX + _ulong(pPos->x / dwVtxItv);
 
 	_float fWidth = (pPos->x - pTerrainVtxPos[dwIndex + dwCntX].x / dwVtxItv);
@@ -122,10 +125,25 @@ _vec3 CCalculator::Picking_OnTerrain(HWND hWnd, CTerrainTex* pTerrainBufferCom, 
 							0.f,
 							pTerrainVtxPos[dwVtxIdx[1]].z + fV * (pTerrainVtxPos[dwVtxIdx[2]].z - pTerrainVtxPos[dwVtxIdx[0]].z));
 			}
+
+			//¿ÞÂÊ ¾Æ·¡
+			dwVtxIdx[0] = dwIndex + VTXCNTZ;
+			dwVtxIdx[1] = dwIndex + 1;
+			dwVtxIdx[2] = dwIndex;
+
+			if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[2]],
+				&pTerrainVtxPos[dwVtxIdx[1]],
+				&pTerrainVtxPos[dwVtxIdx[0]],
+				&vRayPos, &vRayDir, &fU, &fV, &fDist))
+			{
+				return _vec3(pTerrainVtxPos[dwVtxIdx[2]].x + fU * (pTerrainVtxPos[dwVtxIdx[1]].x - pTerrainVtxPos[dwVtxIdx[2]].x),
+							0.f,
+							pTerrainVtxPos[dwVtxIdx[2]].z + fV * (pTerrainVtxPos[dwVtxIdx[0]].z - pTerrainVtxPos[dwVtxIdx[2]].z));
+			}
 		}
 	}
 
-	return _vec3();
+	return _vec3(0.f, 0.f, 0.f);
 }
 
 CCalculator* CCalculator::Create(LPDIRECT3DDEVICE9 pGraphicDev)

@@ -34,30 +34,30 @@ HRESULT CCubeTex::Ready_Buffer()
 	VTXCUBE* pVertex = NULL;
 
 	m_pVB->Lock(0, 0, (void**)&pVertex, 0);
-	pVertex[0].vPosition = { -100.f, 100.f, -100.f };
-	pVertex[0].vTexUV = { -100.f, 100.f, -100.f };
+	pVertex[0].vPosition = { -1.f, 1.f, -1.f };
+	pVertex[0].vTexUV = { -1.f, 1.f, -1.f };
 
-	pVertex[1].vPosition = { 100.f, 100.f, -100.f };
-	pVertex[1].vTexUV = { 100.f, 100.f, -100.f };
+	pVertex[1].vPosition = { 1.f, 1.f, -1.f };
+	pVertex[1].vTexUV = { 1.f, 1.f, -1.f };
 
-	pVertex[2].vPosition = { 100.f, -100.f, -100.f };
-	pVertex[2].vTexUV = { 100.f, -100.f, -100.f };
+	pVertex[2].vPosition = { 1.f, -1.f, -1.f };
+	pVertex[2].vTexUV = { 1.f, -1.f, -1.f };
 
-	pVertex[3].vPosition = { -100.f, -100.f, -100.f };
-	pVertex[3].vTexUV = { -100.f, -100.f, -100.f };
+	pVertex[3].vPosition = { -1.f, -1.f, -1.f };
+	pVertex[3].vTexUV = { -1.f, -1.f, -1.f };
 
 	//
-	pVertex[4].vPosition = { -100.f, 100.f, 100.f };
-	pVertex[4].vTexUV = { -100.f, 100.f, 100.f };
+	pVertex[4].vPosition = { -1.f, 1.f, 1.f };
+	pVertex[4].vTexUV = { -1.f, 1.f, 1.f };
 
-	pVertex[5].vPosition = { 100.f, 100.f, 100.f };
-	pVertex[5].vTexUV = { 100.f, 100.f, 100.f };
+	pVertex[5].vPosition = { 1.f, 1.f, 1.f };
+	pVertex[5].vTexUV = { 1.f, 1.f, 1.f };
 
-	pVertex[6].vPosition = { 100.f, -100.f, 100.f };
-	pVertex[6].vTexUV = { 100.f, -10.f, 100.f };
+	pVertex[6].vPosition = { 1.f, -1.f, 1.f };
+	pVertex[6].vTexUV = { 1.f, -1.f, 1.f };
 
-	pVertex[7].vPosition = { -100.f, -100.f, 100.f };
-	pVertex[7].vTexUV = { -100.f, -100.f, 100.f };
+	pVertex[7].vPosition = { -1.f, -1.f, 1.f };
+	pVertex[7].vTexUV = { -1.f, -1.f, 1.f };
 	m_pVB->Unlock();
 
 	INDEX32* pIndex = NULL;
