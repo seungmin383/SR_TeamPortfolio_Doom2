@@ -16,9 +16,6 @@ void CCollisionManager::Collision_Rect_Resolve(CCollider* _Dst, CCollider* _Src,
 	if (_Dst == _Src)
 		return;
 
-	//TODO: 2025-08-03 xz 평면, xy평면 충돌 보정
-	//collider manager에서만 obb사용
-
 	float fWidth(0.f), fHeight(0.f), fDepth(0.f);
 	if (Check_Mask(_Dst, _Src)
 		&& Check_AABB(_Dst, _Src, &fWidth, &fHeight, &fDepth))
