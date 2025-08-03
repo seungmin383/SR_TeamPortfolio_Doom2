@@ -4,8 +4,8 @@
 
 #include "CManagement.h"
 #include "CRenderer.h"
-
-#include "CLogo.h"
+#include "CCollisionManager.h"
+#include "CTimerManager.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -66,10 +66,12 @@ void CMonster::Render_GameObject()
 
 void CMonster::OnCollision(CCollider* _pOther)
 {
+	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
 }
 
 void CMonster::OnCollisionEnter(CCollider* _pOther)
 {
+	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
 }
 
 void CMonster::OnCollisionExit(CCollider* _pOther)

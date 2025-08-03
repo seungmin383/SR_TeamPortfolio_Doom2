@@ -67,17 +67,14 @@ void CPlayer::Render_GameObject()
 
 void CPlayer::OnCollision(CCollider* _pOther)
 {
-	_int a = 1;
 }
 
 void CPlayer::OnCollisionEnter(CCollider* _pOther)
 {
-	_int a = 1;
 }
 
 void CPlayer::OnCollisionExit(CCollider* _pOther)
 {
-	_int a = 1;
 }
 
 HRESULT CPlayer::Add_Component()

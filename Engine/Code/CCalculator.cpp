@@ -22,7 +22,7 @@ _float CCalculator::Compute_HeightOnTerrain(const _vec3* pPos,
 	const _ulong& dwCntZ,
 	const _ulong& dwVtxItv)
 {
-	if (pPos->z < 0)
+	if (pPos->z < 0 || pPos->x < 0)
 		return 0.f;
 
 	_ulong dwIndex = _ulong(pPos->z / dwVtxItv) * dwCntX + _ulong(pPos->x / dwVtxItv);
