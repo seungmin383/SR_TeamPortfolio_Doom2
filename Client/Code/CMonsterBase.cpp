@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "CMonsterBase.h"
 
 CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)

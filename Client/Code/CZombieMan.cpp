@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "CZombieMan.h"
 
 CZombieMan::CZombieMan(LPDIRECT3DDEVICE9 pGraphicDev)
