@@ -7,6 +7,8 @@
 #include "CMonster.h"
 #include "CDynamicCamera.h"
 #include "CLightManager.h"
+#include "CColliderManager.h"
+#include <CPlayerWeapon.h>
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -34,6 +36,8 @@ HRESULT CStage::Ready_Scene()
 	if (FAILED(Ready_Light()))
 		return E_FAIL;
 
+	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_ENEMTY);
+
 	return S_OK;
 }
 
@@ -47,6 +51,8 @@ _int CStage::Update_Scene(const _float& fTimeDelta)
 void CStage::LateUpdate_Scene(const _float& fTimeDelta)
 {
 	Engine::CScene::LateUpdate_Scene(fTimeDelta);
+
+	CColliderManager::GetInstance()->Update();
 }
 
 void CStage::Render_Scene()
@@ -113,6 +119,22 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 {
+	Engine::CLayer* pLayer = CLayer::Create();
+	if (nullptr == pLayer)
+		return E_FAIL;
+
+	Engine::CGameObject* pGameObject = nullptr;
+
+	pGameObject = CPlayerWeapon::Create(m_pGraphicDev);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
+		return E_FAIL;
+
+	m_mapLayer.insert({ _eLayerId, pLayer });
+
 	return S_OK;
 }
 

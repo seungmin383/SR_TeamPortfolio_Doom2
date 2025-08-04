@@ -4,8 +4,8 @@
 
 #include "CManagement.h"
 #include "CRenderer.h"
-
-#include "CLogo.h"
+#include "CCollisionManager.h"
+#include "CTimerManager.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -26,6 +26,11 @@ HRESULT CMonster::Ready_GameObject()
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.f, 0.f),
+		COLLAYERID::COL_ENEMY, COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT);
+
 	return S_OK;
 }
 
@@ -43,6 +48,8 @@ void CMonster::LateUpdate_GameObject(const _float& fTimeDelta)
 	Chase_Player(fTimeDelta);
 
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
+
+	m_pColliderCom->Late_Update();
 }
 
 void CMonster::Render_GameObject()
@@ -55,6 +62,20 @@ void CMonster::Render_GameObject()
 	m_pBufferCom->Render_Buffer();
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+}
+
+void CMonster::OnCollision(CCollider* _pOther)
+{
+	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
+}
+
+void CMonster::OnCollisionEnter(CCollider* _pOther)
+{
+	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
+}
+
+void CMonster::OnCollisionExit(CCollider* _pOther)
+{
 }
 
 HRESULT CMonster::Add_Component()
@@ -74,6 +95,13 @@ HRESULT CMonster::Add_Component()
 		return E_FAIL;
 
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
+
+	pComponent = m_pColliderCom = dynamic_cast<Engine::CCollider*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Collider"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
 
 	return S_OK;
 }

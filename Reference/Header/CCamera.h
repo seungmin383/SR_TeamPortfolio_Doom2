@@ -16,8 +16,6 @@ public:
     virtual         void        LateUpdate_GameObject(const _float& fTimeDelta);
 
 private:
-    void            LookAtLH();
-    void            PerspectiveFovLH();
     void            MakeTransformMatrix(const _vec3* pRight,
                                         const _vec3* pUp,
                                         const _vec3* pLook,

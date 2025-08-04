@@ -7,6 +7,7 @@ CTransform::CTransform()
 {
 	ZeroMemory(m_vInfo, sizeof(m_vInfo));
 	D3DXMatrixIdentity(&m_matWorld);
+	D3DXMatrixIdentity(&m_matRotAxis);
 }
 
 CTransform::CTransform(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -15,10 +16,11 @@ CTransform::CTransform(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	ZeroMemory(m_vInfo, sizeof(m_vInfo));
 	D3DXMatrixIdentity(&m_matWorld);
+	D3DXMatrixIdentity(&m_matRotAxis);
 }
 
 CTransform::CTransform(const CTransform& rhs)
-	: CComponent(rhs), m_vScale(rhs.m_vScale), m_vAngle(rhs.m_vAngle),
+	: CComponent(rhs), m_matWorld(rhs.m_matWorld), m_matRotAxis(rhs.m_matRotAxis), m_vScale(rhs.m_vScale), m_vAngle(rhs.m_vAngle),
 	m_bOnTarget(false)
 {
 	for (_uint i = 0; i < INFO_END; i++)

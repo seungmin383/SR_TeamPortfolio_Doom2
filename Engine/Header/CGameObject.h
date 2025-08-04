@@ -1,6 +1,7 @@
 #pragma once
 #include "CBase.h"
 #include "CComponent.h"
+#include "CTransform.h"
 
 BEGIN(Engine)
 
@@ -32,18 +33,20 @@ public:
     const bool                          Get_Dead() const { return m_bDead; }
     void                                Set_Dead(_bool _bVal) { m_bDead = _bVal; }
 
+    CTransform*                         Get_Transform() { return m_pTransformCom; }
+
 protected:
     map<const _tchar*, CComponent*>         m_mapComponent[ID_END];
     LPDIRECT3DDEVICE9                       m_pGraphicDev;
 
     CCollider*                              m_pColliderCom; // 콜라이더(충돌체)
+    CTransform*                             m_pTransformCom;
+
+    _float                                  m_fSpeed;
+    bool                                    m_bDead;
 
 private:
     CComponent* Find_Component(COMPONENTID eID, const _tchar* pComponentTag);
-
-private:
-    _float                                  m_fSpeed;
-    bool                                    m_bDead;
 
 protected:
     virtual void        Free();

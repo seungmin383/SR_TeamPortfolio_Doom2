@@ -16,6 +16,10 @@ public:
     virtual     void            LateUpdate_GameObject(const _float& fTimeDelta);
     virtual     void            Render_GameObject();
 
+    virtual     void			OnCollision(CCollider* _pOther) override;
+    virtual     void			OnCollisionEnter(CCollider* _pOther) override;
+    virtual     void			OnCollisionExit(CCollider* _pOther) override;
+
 private:
     HRESULT     Add_Component();
 
@@ -24,7 +28,6 @@ private:
 
 private:
     Engine::CTriCol* m_pBufferCom;
-    Engine::CTransform* m_pTransformCom;
 
 public:
     static CMonster* Create(LPDIRECT3DDEVICE9 pGraphicDev);
