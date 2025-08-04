@@ -8,7 +8,8 @@
 #include "CDynamicCamera.h"
 #include "CLightManager.h"
 #include "CColliderManager.h"
-#include <CPlayerWeapon.h>
+#include "CPlayerWeapon.h"
+#include "CManagement.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -146,7 +147,15 @@ HRESULT CStage::Ready_Camera_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	_vec3	vEye{ 0.f, 10.f, -10.f };
+	CManagement* pManagement = CManagement::GetInstance();
+	_vec3 vPlayerPos;
+	//pManagement->Get_ObjectGroup(LAYERID::LAYER_GAMELOGIC, OBJID::OBJ_PLAYER).back()->Get_Transform()->Get_Pos(&vPlayerPos);
+
+	auto iter = m_mapLayer.find(LAYERID::LAYER_GAMELOGIC);
+	(*iter).second->Get_ObjectGroup(OBJID::OBJ_PLAYER).back()->Get_Transform()->Get_Pos(&vPlayerPos);
+
+	//_vec3	vEye{ 0.f, 10.f, -10.f };
+	_vec3 vEye = vPlayerPos;
 	_vec3	vAt{ 0.f, 0.f, 1.f };
 	_vec3	vUp{ 0.f , 1.f, 0.f };
 
