@@ -55,6 +55,9 @@
     <Filter Include="02. GameObject\02. Monster\CMonsterBase\00.CZombieMan">
       <UniqueIdentifier>{32d671ea-843c-4cd8-8652-06121a345778}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\09. UI">
+      <UniqueIdentifier>{719ef41e-8805-4f46-aa20-2e302d6f4087}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -111,6 +114,9 @@
     <ClInclude Include="..\Header\CZombieMan.h">
       <Filter>02. GameObject\02. Monster\CMonsterBase\00.CZombieMan</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CGameUI.h">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -157,6 +163,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CZombieMan.cpp">
       <Filter>02. GameObject\02. Monster\CMonsterBase\00.CZombieMan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CGameUI.cpp">
+      <Filter>02. GameObject\09. UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
