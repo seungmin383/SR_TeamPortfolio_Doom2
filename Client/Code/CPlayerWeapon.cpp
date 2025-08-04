@@ -81,8 +81,8 @@ HRESULT CPlayerWeapon::Add_Component()
 {
 	CComponent* pComponent = NULL;
 
-	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectTex*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectTex"));
+	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectSpriteTex*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectSpriteTex"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 

@@ -7,6 +7,7 @@
 #include "CRectTex.h"
 #include "CTerrainTex.h"
 #include "CCubeTex.h"
+#include "CRectSpriteTex.h"
 
 #include "CTransform.h"
 #include "CTexture.h"

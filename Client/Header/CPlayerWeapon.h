@@ -24,7 +24,7 @@ private:
     HRESULT     Add_Component();
 
 private:
-    Engine::CRectTex* m_pBufferCom;
+    Engine::CRectSpriteTex* m_pBufferCom;
     Engine::CTexture* m_pTextureCom;
     Engine::CTransform* m_pTransformCom;
     Engine::CAnimator* m_pAnimatorCom;
