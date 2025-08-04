@@ -79,7 +79,7 @@ CVIBuffer::CVIBuffer(const CVIBuffer& rhs, _bool isSpriteTex)
 	m_pVB->Unlock();
 	rhs.m_pVB->Unlock();
 
-
+	m_pVB->AddRef();
 	m_pIB->AddRef();
 }
 
