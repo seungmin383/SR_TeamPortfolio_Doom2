@@ -37,7 +37,7 @@ HRESULT CGameUI::Ready_GameObject()
 
 	// UI의 위치를 화면 맨 아래로 설정
 	// UI의 중심점은 화면 하단 + UI 높이의 절반 위치에 둔다.
-	vPos = { 0.f, -WINCY * 0.5f + vScale.y, 0.0f };
+	vPos = { 0.f, -WINCY * 0.5f + vScale.y, 0.f };
 
 	// 계산된 위치와 스케일을 Transform 컴포넌트에 적용
 	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
