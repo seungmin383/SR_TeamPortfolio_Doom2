@@ -4,7 +4,7 @@
 #include "CTerrain.h"
 #include "CSkyBox.h"
 #include "CPlayer.h"
-#include "CMonster.h"
+#include "CZombieMan.h"
 #include "CDynamicCamera.h"
 #include "CLightManager.h"
 #include "CColliderManager.h"
@@ -104,7 +104,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_PLAYER, pGameObject)))
 		return E_FAIL;
 
-	pGameObject = CMonster::Create(m_pGraphicDev);
+	pGameObject = CZombieMan::Create(m_pGraphicDev);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;

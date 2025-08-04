@@ -2,16 +2,20 @@
 #include "CMonsterBase.h"
 
 CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CGameObject(pGraphicDev)
+	:CCharacter(pGraphicDev)
 {
 }
 
-CMonsterBase::CMonsterBase(const CGameObject& rhs)
-	:CGameObject(rhs)
+CMonsterBase::CMonsterBase(const CCharacter& rhs)
+	:CCharacter(rhs)
 {
 }
 
 CMonsterBase::~CMonsterBase()
 {
-	Engine::CGameObject::Free();
+}
+
+void CMonsterBase::Free()
+{
+	Engine::CCharacter::Free();
 }
