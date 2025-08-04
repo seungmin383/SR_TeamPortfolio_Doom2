@@ -41,7 +41,10 @@ public:
     {
         *pWorld = m_matWorld;
     }
-
+    void    Set_World(_matrix* pWorld)
+    {
+        m_matWorld = *pWorld;
+    }
     void        Get_Pos(_vec3* pPos) const
     {
         *pPos = m_vInfo[INFO_POS];
