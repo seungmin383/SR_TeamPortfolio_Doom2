@@ -20,9 +20,13 @@ public:
     virtual     void			OnCollisionEnter(CCollider* _pOther) override;
     virtual     void			OnCollisionExit(CCollider* _pOther) override;
 
-
+#pragma region PURE
     void Movement() override;
     void Attack() override;
+    void Manage_MoveState() override;
+    void Manage_AnimState() override;
+#pragma endregion
+
 
     void Bill_Board();
 
@@ -41,6 +45,8 @@ public:
 
 private:
     virtual void        Free();
+
+
 
 };
 

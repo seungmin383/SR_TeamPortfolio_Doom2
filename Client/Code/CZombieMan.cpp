@@ -179,6 +179,16 @@ void CZombieMan::Free()
 	Engine::CGameObject::Free();
 }
 
+void CZombieMan::Manage_MoveState()
+{
+
+}
+
+void CZombieMan::Manage_AnimState()
+{
+
+}
+
 void CZombieMan::Movement()
 {
 }
