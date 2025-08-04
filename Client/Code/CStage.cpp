@@ -10,6 +10,7 @@
 #include "CColliderManager.h"
 #include "CPlayerWeapon.h"
 #include "CManagement.h"
+#include "CGameUI.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -127,6 +128,14 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 	Engine::CGameObject* pGameObject = nullptr;
 
 	pGameObject = CPlayerWeapon::Create(m_pGraphicDev);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
+		return E_FAIL;
+
+	pGameObject = CGameUI::Create(m_pGraphicDev);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
