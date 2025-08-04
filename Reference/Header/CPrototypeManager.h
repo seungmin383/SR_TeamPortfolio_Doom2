@@ -14,6 +14,8 @@
 #include "CCalculator.h"
 #include "CMaterial.h"
 #include "CCollider.h"
+#include "CAnimation.h"
+#include "CAnimator.h"
 
 BEGIN(Engine)
 

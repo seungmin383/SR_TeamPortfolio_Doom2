@@ -87,6 +87,29 @@ enum COLLAYERID
 	COL_END
 };
 
+enum class DIRECTION
+{
+	NORTH,			//{0.f, 0.f 1.f}
+	NORTHEAST,		//{1.f, 0.f 1.f}
+	EAST,			//{1.f, 0.f 0.f}
+	SOUTHEAST,		//{1.f, 0.f -1.f}
+	SOUTH,			//{0.f, 0.f -1.f}
+	SOUTHWEST,		//{-1.f, 0.f -1.f}
+	WEST,			//{-1.f, 0.f 0.f}
+	NORTHWEST,		//{-1.f, 0.f 1.f}
+	END_DIRECTION
+};
+
+enum class STATE
+{
+	IDLE,
+	WALK,
+	ATTACK,
+	HIT,
+	DIE,
+	END_STATE
+};
+
 /// <summary>
 /// 사운드 채널
 /// </summary>

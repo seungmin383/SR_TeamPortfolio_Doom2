@@ -13,7 +13,15 @@ CComponent* CLayer::Get_Component(COMPONENTID eID, OBJID eObjId, const _tchar* p
 	if (m_vecObject[(UINT)eObjId].empty())
 		return nullptr;
 
+	//해당 오브젝트 그룹의 첫 번째 요소를 가져옴
 	auto iter = m_vecObject[(UINT)eObjId].begin();
+
+	//TODO: 2025-08-03 다수의 오브젝트를 관리하는 상황에서 특정 오브젝트 찾는 로직 필요함
+	// 현재는 플레이어 오브젝트를 찾는 용도로만 사용하는걸 가정하고있음
+	
+	//find_if(m_vecObject[(UINT)eObjId].begin(),
+	//	m_vecObject[(UINT)eObjId].end(),
+	//	[&](vector<CGameObject*>::iterator iter) { return (*iter)->NameCmp(L""); });
 
 	return (*iter)->Get_Component(eID, pComponentTag);
 }

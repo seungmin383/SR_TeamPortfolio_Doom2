@@ -106,6 +106,12 @@
     <Filter Include="00. Manager\03 .Management\02-1.CCharacter">
       <UniqueIdentifier>{3077cff4-7504-4057-974b-98ad2e7078ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. Manager\03 .Management\03. Component\07. Animator">
+      <UniqueIdentifier>{5d0b1d34-8e8f-4d95-8215-764830e4dd6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Manager\03 .Management\03. Component\07. Animator\Animation">
+      <UniqueIdentifier>{14fdeeb6-87f3-44bc-999b-f618024a804b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\CGraphicDev.h">
@@ -228,6 +234,12 @@
     <ClInclude Include="..\Header\CCharacter.h">
       <Filter>00. Manager\03 .Management\02-1.CCharacter</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CAnimator.h">
+      <Filter>00. Manager\03 .Management\03. Component\07. Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CAnimation.h">
+      <Filter>00. Manager\03 .Management\03. Component\07. Animator\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\CGraphicDev.cpp">
@@ -328,6 +340,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\CCharacter.cpp">
       <Filter>00. Manager\03 .Management\02-1.CCharacter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CAnimator.cpp">
+      <Filter>00. Manager\03 .Management\03. Component\07. Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CAnimation.cpp">
+      <Filter>00. Manager\03 .Management\03. Component\07. Animator\Animation</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

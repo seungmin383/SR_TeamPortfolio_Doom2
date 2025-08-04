@@ -38,7 +38,7 @@ _int CPlayer::Update_GameObject(const _float& fTimeDelta)
 
 	Set_OnTerrain();
 
-	CRenderer::GetInstance()->Add_RenderGroup(RENDER_PRIORITY, this);
+	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	return 0;
 }

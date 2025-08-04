@@ -1,0 +1,115 @@
+#include "CAnimation.h"
+#include "CVIBuffer.h"
+
+CAnimation::CAnimation()
+	: m_pBufferCom(nullptr),
+	m_iStartFrame(0),
+	m_iEndFrame(0),
+	m_iCurFrame(0),
+	m_iCurRow(0),
+	m_iPreRow(-1),
+	m_fDelay(0.f),
+	m_bIsLoop(true),
+	m_bIsEnd(false)
+{
+	ZeroMemory(&m_vUVPerColRow, sizeof(_vec2));
+}
+
+CAnimation::~CAnimation()
+{
+}
+
+CAnimation* CAnimation::Create(CTexture* _pTextureCom, CVIBuffer* _pBufferCom, _uint _iTextureColumn, _uint _iTextureRow, _uint _iStartFrame, _uint _iEndFrame, _float _fDelay, _bool _bIsLoop)
+{
+	CAnimation* pAnimation = new CAnimation();
+
+	if (FAILED(pAnimation->Ready_Animation(_pTextureCom,
+		_pBufferCom,
+		_iTextureColumn,
+		_iTextureRow,
+		_iStartFrame,
+		_iEndFrame,
+		_fDelay,
+		_bIsLoop)))
+	{
+		Safe_Release(pAnimation);
+		MSG_BOX("Animation Create Failed");
+		return nullptr;
+	}
+
+	return pAnimation;
+}
+
+HRESULT CAnimation::Ready_Animation(CTexture* _pTextureCom, CVIBuffer* _pBufferCom, _uint _iTextureColumn, _uint _iTextureRow, _uint _iStartFrame, _uint _iEndFrame, _float _fDelay, _bool _bIsLoop)
+{
+	m_pTextureCom = _pTextureCom;
+	m_pBufferCom = _pBufferCom;
+	m_TextureColumn = _iTextureColumn;
+	m_TextureRow = _iTextureRow;
+	m_iStartFrame = _iStartFrame;
+	m_iEndFrame = _iEndFrame;
+	m_fDelay = _fDelay;
+	m_bIsLoop = _bIsLoop;
+
+	m_vUVPerColRow.x = 1.f / _iTextureColumn;
+	m_vUVPerColRow.y = 1.f / _iTextureRow;
+
+	return S_OK;
+}
+
+void CAnimation::Play_Animation(_uint _irow, const _float& fTimeDelta)
+{
+	if (_irow != m_iCurRow)
+	{
+		SetFrameDefault();
+		m_iPreRow = m_iCurRow;
+		m_iCurRow = _irow;
+	}
+
+	Calc_Frame(fTimeDelta);
+}
+
+void CAnimation::Set_Texture()
+{
+	m_pTextureCom->Set_Texture();
+}
+
+void CAnimation::Set_UVCoord()
+{
+	m_pBufferCom->Set_UVCoord(m_iCurFrame, m_vUVPerColRow.x, m_iCurRow, m_vUVPerColRow.y);
+}
+
+void CAnimation::Calc_Frame(const _float& fTimeDelta)
+{
+	if (m_bIsEnd)
+		return;
+
+	m_fFrameTime += fTimeDelta;
+	if (m_fFrameTime > m_fDelay)
+	{
+		m_iCurFrame++;
+		m_fFrameTime = 0.f;
+
+		if (m_iCurFrame > m_iEndFrame)
+		{
+			if (m_bIsLoop)
+				m_iCurFrame = 0;
+			else
+				m_bIsEnd = true;
+		}
+
+		Set_UVCoord();
+	}
+}
+
+void CAnimation::SetFrameDefault()
+{
+	m_iCurFrame = 0;
+	m_fFrameTime = 0.f;
+	m_bIsEnd = false;	
+	m_iCurRow = -1;
+}
+
+void CAnimation::Free()
+{
+}

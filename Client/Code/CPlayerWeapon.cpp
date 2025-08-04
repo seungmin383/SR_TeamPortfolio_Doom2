@@ -29,6 +29,9 @@ HRESULT CPlayerWeapon::Ready_GameObject()
 	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 	m_pTransformCom->Set_Scale(vScale);
 
+	//애니메이션 세팅
+	Ready_Animation();
+
 	return S_OK;
 }
 
@@ -44,6 +47,9 @@ _int CPlayerWeapon::Update_GameObject(const _float& fTimeDelta)
 void CPlayerWeapon::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
+
+	//애니메이션 실행
+	m_pAnimatorCom->Play_Animation(0, 0, fTimeDelta);
 }
 
 void CPlayerWeapon::Render_GameObject()
@@ -64,6 +70,11 @@ void CPlayerWeapon::Render_GameObject()
 	// 렌더 상태 복원
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+}
+
+void CPlayerWeapon::Ready_Animation()
+{
+	m_pAnimatorCom->Add_Animation(0, m_pTextureCom, m_pBufferCom, 3, 1, 0, 2, 0.1f, true);
 }
 
 HRESULT CPlayerWeapon::Add_Component()
@@ -92,6 +103,15 @@ HRESULT CPlayerWeapon::Add_Component()
 		return E_FAIL;
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
+
+	//Animator 애니메이션 세팅
+	pComponent = m_pAnimatorCom = dynamic_cast<Engine::CAnimator*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Animator"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_Animator", pComponent });
+
 	return S_OK;
 }
 

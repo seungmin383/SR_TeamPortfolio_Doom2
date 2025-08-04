@@ -35,16 +35,16 @@ HRESULT CRectTex::Ready_Buffer()
 
 	m_pVB->Lock(0, 0, (void**)&pVertex, 0);
 	pVertex[0].vPosition = { -1.f, 1.f, 0.f };
-	pVertex[0].vTexUV = { 0.f, 0.f };
+	pVertex[0].vTexUV = { 0.02f, 0.02f };
 
 	pVertex[1].vPosition = { 1.f, 1.f, 0.f };
-	pVertex[1].vTexUV = { 1.f, 0.f };
+	pVertex[1].vTexUV = { 0.98f, 0.02f };
 
 	pVertex[2].vPosition = { 1.f, -1.f, 0.f };
-	pVertex[2].vTexUV = { 1.f, 1.f };
+	pVertex[2].vTexUV = { 0.98f, 0.98f };
 
 	pVertex[3].vPosition = { -1.f, -1.f, 0.f };
-	pVertex[3].vTexUV = { 0.f, 1.f };
+	pVertex[3].vTexUV = { 0.02f, 0.98f };
 	m_pVB->Unlock();
 
 	INDEX32* pIndex = NULL;
@@ -65,6 +65,27 @@ HRESULT CRectTex::Ready_Buffer()
 void CRectTex::Render_Buffer()
 {
 	CVIBuffer::Render_Buffer();
+}
+
+void CRectTex::Set_UVCoord(const _uint& _iCurFrame, const _float& _fU, const _uint& _iCurState, const _float& _fV)
+{
+	VTXTEX* pVertex = NULL;
+
+	_float startU = _iCurFrame * _fU;
+	_float endU = startU + _fU;
+
+	_float startV = _iCurState * _fV;
+	_float endV = startV + _fV;
+
+	m_pVB->Lock(0, 0, (void**)&pVertex, 0);
+	pVertex[0].vTexUV = { startU, startV };
+
+	pVertex[1].vTexUV = { endU, startV };
+
+	pVertex[2].vTexUV = { endU, endV };
+
+	pVertex[3].vTexUV = { startU, endV };
+	m_pVB->Unlock();
 }
 
 CComponent* CRectTex::Clone()
