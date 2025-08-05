@@ -5,12 +5,12 @@
 #include "CManagement.h"
 
 CGameUI_Face::CGameUI_Face(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev)
+    : CGameObject(pGraphicDev)
 {
 }
 
 CGameUI_Face::CGameUI_Face(const CGameObject& rhs)
-	:CGameObject(rhs)
+    : CGameObject(rhs)
 {
 }
 
@@ -23,7 +23,7 @@ HRESULT CGameUI_Face::Ready_GameObject()
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
-	m_lFrame = 1.f;
+	m_lFrame = 0.f;
 
 	// 원본 텍스쳐의 크기와 비율을 정의
 	const _float fTexWidth = 32.f;
@@ -39,7 +39,7 @@ HRESULT CGameUI_Face::Ready_GameObject()
 
 	// UI의 위치를 화면 맨 아래로 설정
 	// UI의 중심점은 화면 하단 + UI 높이의 절반 위치에 둔다.
-	vPos = { 0.f, -WINCY * 0.5f + vScale.y + 10.f, 0.f };
+	vPos = { 0.f, -WINCY * 0.5f + vScale.y + 15.f, 0.f };
 
 	// 계산된 위치와 스케일을 Transform 컴포넌트에 적용
 	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
@@ -51,10 +51,12 @@ HRESULT CGameUI_Face::Ready_GameObject()
 _int CGameUI_Face::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
+
 	m_lFrame += 2.f * fTimeDelta;
 
 	if (m_lFrame >= 2.f)
 		m_lFrame = 0.f;
+
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_PLAYERUI, this);
 
 
@@ -171,16 +173,16 @@ m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });*/
 
 CGameUI_Face* CGameUI_Face::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CGameUI_Face* pUIFace = new CGameUI_Face(pGraphicDev);
+	CGameUI_Face* pFace = new CGameUI_Face(pGraphicDev);
 
-	if (FAILED(pUIFace->Ready_GameObject()))
+	if (FAILED(pFace->Ready_GameObject()))
 	{
-		Safe_Release(pUIFace);
+		Safe_Release(pFace);
 		MSG_BOX("Player UI Face Create Failed");
 		return nullptr;
 	}
 
-	return pUIFace;
+	return pFace;
 }
 
 void CGameUI_Face::Free()

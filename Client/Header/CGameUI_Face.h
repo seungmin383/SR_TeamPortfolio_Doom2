@@ -2,7 +2,7 @@
 #include "CGameObject.h"
 #include "CPrototypeManager.h"
 
-class CGameUI_Face :    public CGameObject
+class CGameUI_Face : public CGameObject
 {
 private:
 	explicit CGameUI_Face(LPDIRECT3DDEVICE9 pGraphicDev);
@@ -36,4 +36,3 @@ public:
 private:
 	virtual void Free();
 };
-

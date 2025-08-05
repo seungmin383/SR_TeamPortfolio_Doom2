@@ -32,7 +32,7 @@ HRESULT CStage::Ready_Scene()
 
 	if (FAILED(Ready_UI_Layer(LAYERID::LAYER_UI)))
 		return E_FAIL;
-	
+
 	if (FAILED(Ready_Camera_Layer(LAYERID::LAYER_CAMERA)))
 		return E_FAIL;
 
@@ -82,7 +82,7 @@ HRESULT CStage::Ready_Environment_Layer(LAYERID _eLayerId)
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
-	
+
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_SKYBOX, pGameObject)))
 		return E_FAIL;
 
@@ -144,18 +144,16 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
 		return E_FAIL;
 
-	for (int i = 0; i < 2; i++) 
-	{
-		pGameObject = CGameUI_Face::Create(m_pGraphicDev);
+	pGameObject = CGameUI_Face::Create(m_pGraphicDev);
 
-		if (nullptr == pGameObject)
-			return E_FAIL;
+	if (nullptr == pGameObject)
+		return E_FAIL;
 
-		if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
-			return E_FAIL;
-	}
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
+		return E_FAIL;
 
-	
+
+
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
