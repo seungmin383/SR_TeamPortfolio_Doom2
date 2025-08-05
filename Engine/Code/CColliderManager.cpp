@@ -152,7 +152,7 @@ bool CColliderManager::IsCollision(CCollider* _pLeftCol, CCollider* _pRightCol)
 	if (!_pLeftCol->Get_Active() || !_pRightCol->Get_Active())
 		return false;
 
-	return CCollisionManager::Check_OBB(_pLeftCol, _pRightCol);
+	return CCollisionManager::Check_AABB(_pLeftCol, _pRightCol);
 }
 
 void CColliderManager::Free()

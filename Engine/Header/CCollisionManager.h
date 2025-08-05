@@ -25,6 +25,7 @@ public:
     static void Collision_OBB_Resolve(CCollider* _Dst, CCollider* _Src);
     
     static bool Check_AABB(CCollider* _Dst, CCollider* _Src, _float* _pX, _float* _pY, _float* _pZ);
+    static bool Check_AABB(CCollider* _Dst, CCollider* _Src);
     static bool Check_OBB(CCollider* _Dst, CCollider* _Src);
 
     static bool Check_Mask(CCollider* _Dst, CCollider* _Src);

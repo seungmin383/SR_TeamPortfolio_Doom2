@@ -26,7 +26,7 @@ HRESULT CZombieMan::Ready_GameObject()
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
 
-	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(1.f, 1.f, 1.f),
+	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.f, 0.f),
 		COLLAYERID::COL_ENEMY, 
 		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT);
 
@@ -62,6 +62,9 @@ void CZombieMan::Render_GameObject()
 	m_pTextureCom->Set_Texture(0);
 
 	m_pBufferCom->Render_Buffer();
+
+	//�浹ü
+	m_pColliderCom->Render(g_colRend);
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
