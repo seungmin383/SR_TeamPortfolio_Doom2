@@ -31,7 +31,7 @@ HRESULT CGameUI::Ready_GameObject()
 	_vec3 vPos, vScale;
 
 	// UI의 너비를 화면의 너비로 설정
-	vScale.x = 650.f;
+	vScale.x = 750.f;
 	vScale.y = vScale.x / fTexAspectRatio;		// 화면 너비를 10으로 나눈 값
 	vScale.z = 1.f;
 
@@ -50,7 +50,7 @@ _int CGameUI::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
 
-	CRenderer::GetInstance()->Add_RenderGroup(RENDER_UI, this);
+	CRenderer::GetInstance()->Add_RenderGroup(RENDER_PLAYERUI, this);
 
 	return 0;
 }
@@ -123,7 +123,7 @@ HRESULT CGameUI::Add_Component()
 	CComponent* pComponent = NULL;
 
 	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectTex*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectTex"));
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectTex_UI"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -145,14 +145,14 @@ HRESULT CGameUI::Add_Component()
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
 
-	/*pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
+	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
 		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Calculator"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Calculator", pComponent });
 
-	pComponent = m_pColliderCom = dynamic_cast<Engine::CCollider*>
+		/*pComponent = m_pColliderCom = dynamic_cast<Engine::CCollider*>
 		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Collider"));
 	if (nullptr == pComponent)
 		return E_FAIL;
