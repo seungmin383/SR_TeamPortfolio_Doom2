@@ -2,7 +2,6 @@
 #include "CLogo.h"
 #include "CPrototypeManager.h"
 #include "CBackGround.h"
-#include "CPlayer.h"
 #include "CMonster.h"
 #include "CTerrain.h"
 #include "CStage.h"
@@ -93,11 +92,15 @@ HRESULT CLogo::Ready_Prototype()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_RectTex", Engine::CRectTex::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_RectTex_UI", Engine::CRectTex::Create(m_pGraphicDev))))
+		return E_FAIL;
+
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_LogoTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/Logo/IU.jpg", TEX_NORMAL))))
 		return E_FAIL;
 
 	return S_OK;
 }
+
 
 CLogo* CLogo::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {

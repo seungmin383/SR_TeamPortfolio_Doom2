@@ -3,10 +3,14 @@
 #include "CDInputManager.h"
 #include "CManagement.h"
 
+// 변수 초기화
+_long CDynamicCamera::s_lMouseMoveX = 0L;
+
 CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCamera(pGraphicDev),
-	m_bFix(false),
-	m_bCheck(false)
+	m_bFix(false), m_bCheck(false),
+	m_iHp(0), m_iArmor(0),
+	m_fSpeed(0.f)
 {
 }
 
@@ -22,6 +26,7 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 											const _float& fNear,
 											const _float& fFar)
 {
+	// Camera Default Settings
 	m_vEye = *pEye;
 	m_vAt = *pAt;
 	m_vUp = *pUp;
@@ -31,13 +36,26 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	m_fNear = fNear;
 	m_fFar = fFar;
 
+	// Player Default Settings
+	m_iHp = 100;
+	m_iArmor = 50;
+
+	m_fSpeed = 10.f;
+
+	m_bDead = false;
+
 	if (FAILED(Engine::CCamera::Ready_GameObject()))
 		return E_FAIL;
 
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
-	m_fSpeed = 10.f;
+	// Collider Default Settings
+	_vec3 vScale{ 20.f, 20.f, 20.f };
+	_vec3 vOffset{ 0.f, 0.f, 0.f };
+
+	m_pColliderCom->Ready_CCollider(this, m_vEye, vScale, vOffset, COL_PLAYER,
+		COL_ENEMY | COL_OBJECT | COL_TERRAIN | COL_WALL);
 
 	return S_OK;
 }
@@ -56,6 +74,8 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 	Engine::CCamera::LateUpdate_GameObject(fTimeDelta);
 
 	Key_Input(fTimeDelta);
+
+	m_pColliderCom->Late_Update();
 
 	if (false == m_bFix)
 	{
@@ -113,7 +133,6 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 	_matrix	matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, 0, &m_matView);
-
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_W) & 0x80)
 	{
@@ -198,7 +217,7 @@ void CDynamicCamera::Mouse_Move()
 	_matrix	matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, 0, &m_matView);
 
-	_long	dwMouseMove(0);
+	_long  dwMouseMove = 0L;
 
 	if (dwMouseMove = CDInputManager::GetInstance()->Get_DIMouseMove(DIMS_Y))
 	{
@@ -214,14 +233,16 @@ void CDynamicCamera::Mouse_Move()
 		m_vAt = m_vEye + vLook;
 	}
 
-	if (dwMouseMove = CDInputManager::GetInstance()->Get_DIMouseMove(DIMS_X))
+	// 마우스 x축 이동 값을 저장.(매 프레임마다 최신 마우스 이동 값을 어디서든 확인 가능)
+	s_lMouseMoveX = CDInputManager::GetInstance()->Get_DIMouseMove(DIMS_X);
+	if (s_lMouseMoveX)
 	{
 		_vec3	vUp{ 0.f, 1.f, 0.f };
 
 		_vec3	vLook = m_vAt - m_vEye;
 		_matrix matRot;
 
-		D3DXMatrixRotationAxis(&matRot, &vUp, D3DXToRadian(dwMouseMove / 10.f));
+		D3DXMatrixRotationAxis(&matRot, &vUp, D3DXToRadian(s_lMouseMoveX / 10.f));
 		D3DXVec3TransformNormal(&vLook, &vLook, &matRot);
 
 		m_vAt = m_vEye + vLook;

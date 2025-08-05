@@ -84,9 +84,6 @@
     <ClInclude Include="..\Header\CBackGround.h">
       <Filter>02. GameObject\00. BackGround</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\CPlayer.h">
-      <Filter>02. GameObject\01. Player</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\CMonster.h">
       <Filter>02. GameObject\02. Monster</Filter>
     </ClInclude>
@@ -117,6 +114,12 @@
     <ClInclude Include="..\Header\CGameUI.h">
       <Filter>02. GameObject\09. UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CGameUI_Face.h">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CGameUI_Info.h">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -133,9 +136,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\CBackGround.cpp">
       <Filter>02. GameObject\00. BackGround</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\CPlayer.cpp">
-      <Filter>02. GameObject\01. Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CMonster.cpp">
       <Filter>02. GameObject\02. Monster</Filter>
@@ -165,6 +165,12 @@
       <Filter>02. GameObject\02. Monster\CMonsterBase\00.CZombieMan</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CGameUI.cpp">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CGameUI_Face.cpp">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CGameUI_Info.cpp">
       <Filter>02. GameObject\09. UI</Filter>
     </ClCompile>
   </ItemGroup>

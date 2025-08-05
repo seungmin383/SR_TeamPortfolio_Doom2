@@ -3,15 +3,14 @@
 #include "CPrototypeManager.h"
 #include "CRenderer.h"
 #include "CManagement.h"
-#include "CDInputManager.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CCharacter(pGraphicDev)
+	: CGameObject(pGraphicDev), m_Armor(0), m_Hp(0), m_Clip(0)
 {
 }
 
-CPlayer::CPlayer(const CCharacter& rhs)
-	: CCharacter(rhs)
+CPlayer::CPlayer(const CGameObject& rhs)
+	: CGameObject(rhs)
 {
 }
 
@@ -25,16 +24,14 @@ HRESULT CPlayer::Ready_GameObject()
 		return E_FAIL;
 
 	//TODO: 2025-08-03 Layer 단계에서 게임오브젝트 생성 시 스케일 등등 셋팅할 수 있게 수정
-
-	m_pTransformCom->Set_Pos(3.f, 3.f, 3.f);
-
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
 	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.f, 0.f),
 		COLLAYERID::COL_PLAYER, COLLAYERID::COL_ENEMY | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT);
 
-	m_iHp = 100;
-	m_iAtkDmg = 10;
+	m_Hp = 100;
+	m_Armor = 100;
+	m_Clip = 50;
 
 	return S_OK;
 }
@@ -69,9 +66,6 @@ void CPlayer::Render_GameObject()
 
 	m_pBufferCom->Render_Buffer();
 
-	//Rend Collider
-	m_pColliderCom->Render(g_colRend);
-
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
@@ -84,14 +78,6 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 }
 
 void CPlayer::OnCollisionExit(CCollider* _pOther)
-{
-}
-
-void CPlayer::Movement()
-{
-}
-
-void CPlayer::Attack()
 {
 }
 
@@ -153,26 +139,15 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), -3.f, fTimeDelta);
 	}
 
-	//if (GetAsyncKeyState(VK_LEFT))
-	//{
-	//	m_pTransformCom->Rotation(ROT_Y, D3DXToRadian(-180.f * fTimeDelta));
-	//}
-	//if (GetAsyncKeyState(VK_RIGHT))
-	//{
-	//	m_pTransformCom->Rotation(ROT_Y, D3DXToRadian(180.f * fTimeDelta));
-	//}
-}
-
-void CPlayer::Mouse_Move()
-{
-	_long	dwMouseMove(0);
-
-	if (dwMouseMove = CDInputManager::GetInstance()->Get_DIMouseMove(DIMS_X))
+	if (GetAsyncKeyState(VK_LEFT))
 	{
-		m_pTransformCom->Rotation(ROT_Y, D3DXToRadian(dwMouseMove / 20.f));
+		m_pTransformCom->Rotation(ROT_Y, D3DXToRadian(-180.f * fTimeDelta));
+	}
+	if (GetAsyncKeyState(VK_RIGHT))
+	{
+		m_pTransformCom->Rotation(ROT_Y, D3DXToRadian(180.f * fTimeDelta));
 	}
 }
-
 
 void CPlayer::Set_OnTerrain()
 {
