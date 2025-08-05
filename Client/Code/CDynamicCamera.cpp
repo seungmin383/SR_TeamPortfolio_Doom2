@@ -5,8 +5,9 @@
 
 CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCamera(pGraphicDev),
-	m_bFix(false),
-	m_bCheck(false)
+	m_bFix(false), m_bCheck(false),
+	m_iHp(0), m_iArmor(0),
+	m_fSpeed(0.f)
 {
 }
 
@@ -22,6 +23,7 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 											const _float& fNear,
 											const _float& fFar)
 {
+	// Camera Default Settings
 	m_vEye = *pEye;
 	m_vAt = *pAt;
 	m_vUp = *pUp;
@@ -31,10 +33,26 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	m_fNear = fNear;
 	m_fFar = fFar;
 
+	// Player Default Settings
+	m_iHp = 100;
+	m_iArmor = 50;
+
+	m_fSpeed = 10.f;
+
+	m_bDead = false;
+
 	if (FAILED(Engine::CCamera::Ready_GameObject()))
 		return E_FAIL;
 
-	m_fSpeed = 10.f;
+	if (FAILED(Add_Component()))
+		return E_FAIL;
+
+	// Collider Default Settings
+	_vec3 vScale{ 20.f, 20.f, 20.f };
+	_vec3 vOffset{ 0.f, 0.f, 0.f };
+
+	m_pColliderCom->Ready_CCollider(this, m_vEye, vScale, vOffset, COL_PLAYER,
+		COL_ENEMY | COL_OBJECT | COL_TERRAIN | COL_WALL);
 
 	return S_OK;
 }
@@ -53,6 +71,8 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 	Engine::CCamera::LateUpdate_GameObject(fTimeDelta);
 
 	Key_Input(fTimeDelta);
+
+	m_pColliderCom->Late_Update();
 
 	if (false == m_bFix)
 	{

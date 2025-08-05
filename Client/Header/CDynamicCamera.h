@@ -38,6 +38,9 @@ private:
     Engine::CCalculator*    m_pCalculatorCom;
 
 private:
+    _int        m_iHp;
+    _int        m_iArmor;
+    
     _float      m_fSpeed;
     _bool       m_bFix;
     _bool       m_bCheck;
