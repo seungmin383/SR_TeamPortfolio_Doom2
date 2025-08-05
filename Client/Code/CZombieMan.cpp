@@ -20,6 +20,9 @@ CZombieMan::~CZombieMan()
 
 HRESULT CZombieMan::Ready_GameObject()
 {
+	m_fSightAngle = 45.f;
+	m_fSightDistance = 500.f;
+
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
@@ -35,6 +38,8 @@ HRESULT CZombieMan::Ready_GameObject()
 
 _int CZombieMan::Update_GameObject(const _float& fTimeDelta)
 {
+	Thinker();
+
 	CGameObject::Update_GameObject(fTimeDelta);
 
 	Set_OnTerrain();
@@ -47,7 +52,7 @@ _int CZombieMan::Update_GameObject(const _float& fTimeDelta)
 void CZombieMan::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	Key_Input(fTimeDelta);
-
+	Check_Target();
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 
 	m_pColliderCom->Late_Update();
@@ -135,15 +140,6 @@ void CZombieMan::Key_Input(const _float& fTimeDelta)
 	{
 		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), -3.f, fTimeDelta);
 	}
-
-	if (GetAsyncKeyState(VK_LEFT))
-	{
-		m_pTransformCom->Rotation(ROT_Y, D3DXToRadian(-180.f * fTimeDelta));
-	}
-	if (GetAsyncKeyState(VK_RIGHT))
-	{
-		m_pTransformCom->Rotation(ROT_Y, D3DXToRadian(180.f * fTimeDelta));
-	}
 }
 
 void CZombieMan::Set_OnTerrain()
@@ -179,9 +175,52 @@ void CZombieMan::Free()
 	Engine::CGameObject::Free();
 }
 
+void CZombieMan::Check_Target()
+{
+	//몬스터 Look 방향
+	_vec3 vLook;
+	m_pTransformCom->Get_Info(INFO_LOOK, &vLook);
+
+	//Normalize
+	D3DXVec3Normalize(&vLook, &vLook);
+
+	//Look 방향에 시야 길이만큼 곱해주기
+	vLook *= m_fSightDistance;
+
+	//좌우 경계 벡터
+	_vec3 vLeftBorderLine = vLook;
+	_vec3 vRightBorderLine = vLook;
+
+	//왼쪽 경게 벡터
+	_matrix yRotMat;
+	D3DXMatrixRotationY(&yRotMat, -(m_fSightAngle / 2.f));
+	D3DXVec3TransformNormal(&vLeftBorderLine, &vLeftBorderLine, &yRotMat);
+
+	//초기화 해주고
+	D3DXMatrixIdentity(&yRotMat);
+
+	//오른쪽 경계 벡터
+	D3DXMatrixRotationY(&yRotMat, (m_fSightAngle / 2.f));
+	D3DXVec3TransformNormal(&vRightBorderLine, &vRightBorderLine, &yRotMat);
+
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+
+	_vec3 vLeftPos = vPos + vLeftBorderLine;
+	_vec3 vRightPos = vPos + vRightBorderLine;
+
+	Debug_Line(vPos, vLeftPos, vRightPos);
+}
+
+
+void CZombieMan::Thinker()
+{
+	Movement();
+}
+
 void CZombieMan::Manage_MoveState()
 {
-
+		
 }
 
 void CZombieMan::Manage_AnimState()
@@ -191,6 +230,52 @@ void CZombieMan::Manage_AnimState()
 
 void CZombieMan::Movement()
 {
+	switch (m_eCurAnimState)
+	{
+	case Engine::MONSTER_ANIM_MOVE_F:
+		break;
+	case Engine::MONSTER_ANIM_MOVE_FR:
+		break;
+	case Engine::MONSTER_ANIM_MOVE_R:
+		break;
+	case Engine::MONSTER_ANIM_MOVE_BR:
+		break;
+	case Engine::MONSTER_ANIM_MOVE_B:
+		break;
+	case Engine::MONSTER_ANIM_MOVE_BL:
+		break;
+	case Engine::MONSTER_ANIM_MOVE_L:
+		break;
+	case Engine::MONSTER_ANIM_MOVE_FL:
+		break;
+	case Engine::MONSTER_ANIM_ATK_F:
+		break;
+	case Engine::MONSTER_ANIM_ATK_FR:
+		break;
+	case Engine::MONSTER_ANIM_ATK_R:
+		break;
+	case Engine::MONSTER_ANIM_ATK_BR:
+		break;
+	case Engine::MONSTER_ANIM_ATK_B:
+		break;
+	case Engine::MONSTER_ANIM_ATK_BL:
+		break;
+	case Engine::MONSTER_ANIM_ATK_L:
+		break;
+	case Engine::MONSTER_ANIM_ATK_FL:
+		break;
+	case Engine::MONSTER_ANIM_GIBBINGDEATH:
+		break;
+	case Engine::MONSTER_ANIM_NORMALDEATH:
+		break;
+	case Engine::MONSTER_ANIM_END:
+		break;
+	default:
+		break;
+	}
+
+
+	m_pTextureCom->Set_Texture(m_eCurAnimState);
 }
 
 void CZombieMan::Attack()
@@ -201,12 +286,19 @@ void CZombieMan::Bill_Board()
 {
 	_matrix	matWorld, matView, matBill;
 
+	//그 오브젝트에 월드 행렬 구해오기
 	m_pTransformCom->Get_World(&matWorld);
+
+	//뷰행렬을 가져오기
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+
 	D3DXMatrixIdentity(&matBill);
 
 	// 뷰 스페이스 -> 카메라 월드 행렬의 역행렬
-
+	//뷰행렬에 y 회전만 가져오기
+	//뷰행렬의 역행렬은 카메라의 월드 행렬
+	//지금 y축 회전은 월드 행렬이고
+	//나머지는 뷰스페이스 행렬
 	matBill._11 = matView._11;
 	matBill._13 = matView._13;
 	matBill._31 = matView._31;
