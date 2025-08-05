@@ -25,6 +25,9 @@ public:
 private:
 	HRESULT Add_Component();
 
+public:
+	void Set_Player(CPlayer* pPlayer) { m_pPlayer = pPlayer; }
+
 private:
 	CPlayer* m_pPlayer;
 

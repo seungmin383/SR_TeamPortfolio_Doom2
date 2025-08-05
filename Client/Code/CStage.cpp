@@ -129,6 +129,7 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
+	// Weapon
 	pGameObject = CPlayerWeapon::Create(m_pGraphicDev);
 
 	if (nullptr == pGameObject)
@@ -137,6 +138,7 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_WEAPON, pGameObject)))				// 일단 OBJ_WEAPON이라는 enum 값이 있어서 OBJ_UI->OBJ_WEAPON으로 교체(08/05)
 		return E_FAIL;
 
+	// UI
 	pGameObject = CGameUI::Create(m_pGraphicDev);
 
 	if (nullptr == pGameObject)
@@ -145,7 +147,7 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
 		return E_FAIL;
 
-
+	// Face
 	pGameObject = CGameUI_Face::Create(m_pGraphicDev);
 
 	if (nullptr == pGameObject)
@@ -154,10 +156,18 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
 		return E_FAIL;
 
+	// Info
 	pGameObject = CGameUI_Info::Create(m_pGraphicDev);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
+
+	// 게임 로직 레이어에서 플레이어 객체를 찾아옵니다.                                              
+	auto iter = m_mapLayer.find(LAYERID::LAYER_GAMELOGIC);
+	Engine::CGameObject* pPlayerObject = (*iter).second->Get_ObjectGroup(OBJID::OBJ_PLAYER).back();
+
+	// CGameUI_Info 객체에 플레이어 정보를 설정합니다.                                               
+	static_cast<CGameUI_Info*>(pGameObject)->Set_Player(static_cast<CPlayer*>(pPlayerObject));
 
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
 		return E_FAIL;

@@ -27,13 +27,13 @@ private:
     void        Set_OnTerrain();
 
 public:
-    _tchar* Get_Hp() { return (_tchar*)m_Hp; }
+    _int Get_Hp() { return m_Hp; }
     int Set_Hp(int a) { return m_Hp = a; }
 
-    _tchar* Get_Armor() { return (_tchar*)m_Armor; }
+    _int Get_Armor() { return m_Armor; }
     int Set_Armor(int a) { return m_Armor = a; }
 
-    _tchar* Get_Clip() { return (_tchar*)m_Clip; }
+    _int Get_Clip() { return m_Clip; }
     int Set_Clip(int a) { return m_Clip = a; }
 
 private:

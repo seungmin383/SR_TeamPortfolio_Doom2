@@ -27,7 +27,7 @@ HRESULT CGameUI_Info::Ready_GameObject()
 
 _int CGameUI_Info::Update_GameObject(const _float& fTimeDelta)
 {
-	CRenderer::GetInstance()->Add_RenderGroup(RENDER_UI, this);
+	CRenderer::GetInstance()->Add_RenderGroup(RENDER_PLAYERUI, this);
 
     return _int();
 }
@@ -38,12 +38,24 @@ void CGameUI_Info::LateUpdate_GameObject(const _float& fTimeDelta)
 
 void CGameUI_Info::Render_GameObject()
 {
+	if (m_pPlayer == nullptr)
+		return;
+
 	_tchar szHp[128] = L"";
+	_tchar szArmor[128] = L"";
+	_tchar szClip[128] = L"";
 
 	swprintf_s(szHp, L"%d", m_pPlayer->Get_Hp());
+	swprintf_s(szArmor, L"%d", m_pPlayer->Get_Armor());
+	swprintf_s(szClip, L"%d", m_pPlayer->Get_Clip());
 
-    _vec2 vPos{ 100.f, 100.f };
-    CFontManager::GetInstance()->Render_Font(L"Font_Default", szHp, &vPos, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+    _vec2 vPos1{ 400.f, 800.f };
+	_vec2 vPos2{ 1000.f, 800.f };
+	_vec2 vPos3{ 1470.f, 776.f };
+
+    CFontManager::GetInstance()->Render_Font(L"Font_Default", szHp, &vPos1, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	CFontManager::GetInstance()->Render_Font(L"Font_Default", szArmor, &vPos2, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	CFontManager::GetInstance()->Render_Font(L"Font_Default", szClip, &vPos3, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 }
 
 void CGameUI_Info::OnCollision(CCollider* _pOther)
