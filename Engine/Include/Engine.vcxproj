@@ -44,6 +44,7 @@
     <ClInclude Include="..\Header\CMaterial.h" />
     <ClInclude Include="..\Header\CPrototypeManager.h" />
     <ClInclude Include="..\Header\CRectCol.h" />
+    <ClInclude Include="..\Header\CRectSpriteTex.h" />
     <ClInclude Include="..\Header\CRectTex.h" />
     <ClInclude Include="..\Header\CRenderer.h" />
     <ClInclude Include="..\Header\CScene.h" />
@@ -88,6 +89,7 @@
     <ClCompile Include="..\Code\CMaterial.cpp" />
     <ClCompile Include="..\Code\CPrototypeManager.cpp" />
     <ClCompile Include="..\Code\CRectCol.cpp" />
+    <ClCompile Include="..\Code\CRectSpriteTex.cpp" />
     <ClCompile Include="..\Code\CRectTex.cpp" />
     <ClCompile Include="..\Code\CRenderer.cpp" />
     <ClCompile Include="..\Code\CScene.cpp" />

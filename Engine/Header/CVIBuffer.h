@@ -10,6 +10,7 @@ protected:
     explicit CVIBuffer();
     explicit CVIBuffer(LPDIRECT3DDEVICE9 pGraphicDev);
     explicit CVIBuffer(const CVIBuffer& rhs);
+    explicit CVIBuffer(const CVIBuffer& rhs, _bool isSpriteTex);
     virtual ~CVIBuffer();
 
 public:

@@ -1,5 +1,6 @@
 #pragma once
 #include "CCamera.h"
+#include "CPrototypeManager.h"
 
 class CDynamicCamera :
     public CCamera
@@ -21,12 +22,25 @@ public:
     virtual         void        LateUpdate_GameObject(const _float& fTimeDelta);
     virtual         void        Render_GameObject();
 
+public:
+    _vec3       Get_Pos()   { return m_vEye; }
+    _vec3       Get_At()    { return m_vAt; }
+    _vec3       Get_Up()    { return m_vUp; }
+
 private:
+    HRESULT     Add_Component();
     void        Key_Input(const _float& fTimeDelta);
     void        Mouse_Move();
     void        Mouse_Fix();
+    void        Set_OnTerrain();
 
 private:
+    Engine::CCalculator*    m_pCalculatorCom;
+
+private:
+    _int        m_iHp;
+    _int        m_iArmor;
+    
     _float      m_fSpeed;
     _bool       m_bFix;
     _bool       m_bCheck;

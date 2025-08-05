@@ -1,12 +1,12 @@
 #pragma once
-#include "CGameObject.h"
+#include "CCharacter.h"
 #include "CPrototypeManager.h"
 
-class CPlayerWeapon :  public CGameObject
+class CPlayerWeapon :  public CCharacter
 {
 private:
     explicit CPlayerWeapon(LPDIRECT3DDEVICE9 pGraphicDev);
-    explicit CPlayerWeapon(const CGameObject& rhs);
+    explicit CPlayerWeapon(const CCharacter& rhs);
     virtual ~CPlayerWeapon();
 
 public:
@@ -23,8 +23,11 @@ public:
 private:
     HRESULT     Add_Component();
 
+    void Movement() override;
+    void Attack() override;
+
 private:
-    Engine::CRectTex* m_pBufferCom;
+    Engine::CRectSpriteTex* m_pBufferCom;
     Engine::CTexture* m_pTextureCom;
     Engine::CTransform* m_pTransformCom;
     Engine::CAnimator* m_pAnimatorCom;
