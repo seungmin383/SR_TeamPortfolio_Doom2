@@ -2,7 +2,6 @@
 #include "CLogo.h"
 #include "CPrototypeManager.h"
 #include "CBackGround.h"
-#include "CPlayer.h"
 #include "CMonster.h"
 #include "CTerrain.h"
 #include "CStage.h"
