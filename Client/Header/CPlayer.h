@@ -26,6 +26,21 @@ private:
     void        Key_Input(const _float& fTimeDelta);
     void        Set_OnTerrain();
 
+public:
+    _int Get_Hp() { return m_Hp; }
+    int Set_Hp(int a) { return m_Hp = a; }
+
+    _int Get_Armor() { return m_Armor; }
+    int Set_Armor(int a) { return m_Armor = a; }
+
+    _int Get_Clip() { return m_Clip; }
+    int Set_Clip(int a) { return m_Clip = a; }
+
+private:
+    _int       m_Hp;
+    _int       m_Armor;
+    _int       m_Clip;
+
 private:
     Engine::CRectTex*       m_pBufferCom;
     Engine::CTexture*       m_pTextureCom;

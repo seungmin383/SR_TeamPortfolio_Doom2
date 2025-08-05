@@ -117,6 +117,12 @@
     <ClInclude Include="..\Header\CGameUI.h">
       <Filter>02. GameObject\09. UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CGameUI_Face.h">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CGameUI_Info.h">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -165,6 +171,12 @@
       <Filter>02. GameObject\02. Monster\CMonsterBase\00.CZombieMan</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CGameUI.cpp">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CGameUI_Face.cpp">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CGameUI_Info.cpp">
       <Filter>02. GameObject\09. UI</Filter>
     </ClCompile>
   </ItemGroup>
