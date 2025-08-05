@@ -3,12 +3,12 @@
 #include "CRenderer.h"
 
 CPlayerWeapon::CPlayerWeapon(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev)
+	: CCharacter(pGraphicDev)
 {
 }
 
-CPlayerWeapon::CPlayerWeapon(const CGameObject& rhs)
-	: CGameObject(rhs)
+CPlayerWeapon::CPlayerWeapon(const CCharacter& rhs)
+	: CCharacter(rhs)
 {
 }
 
@@ -23,8 +23,8 @@ HRESULT CPlayerWeapon::Ready_GameObject()
 
 	_vec3 vPos, vScale, vSize;
 	
-	vScale = { 100.f, 100.f, 1.f };
-	vPos = { 0.f, -WINCY * 0.5f + vScale.y + 125.f , 1.f };
+	vScale = { 200.f, 200.f, 1.f };
+	vPos = { 0.f, -WINCY * 0.5f + vScale.y + 15.f , 1.f };
 	
 	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 	m_pTransformCom->Set_Scale(vScale);
@@ -113,6 +113,14 @@ HRESULT CPlayerWeapon::Add_Component()
 	m_mapComponent[ID_STATIC].insert({ L"Com_Animator", pComponent });
 
 	return S_OK;
+}
+
+void CPlayerWeapon::Movement()
+{
+}
+
+void CPlayerWeapon::Attack()
+{
 }
 
 CPlayerWeapon* CPlayerWeapon::Create(LPDIRECT3DDEVICE9 pGraphicDev)

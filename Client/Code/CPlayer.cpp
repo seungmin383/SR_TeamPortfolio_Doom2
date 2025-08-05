@@ -3,14 +3,15 @@
 #include "CPrototypeManager.h"
 #include "CRenderer.h"
 #include "CManagement.h"
+#include "CDInputManager.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev)
+	: CCharacter(pGraphicDev)
 {
 }
 
-CPlayer::CPlayer(const CGameObject& rhs)
-	: CGameObject(rhs)
+CPlayer::CPlayer(const CCharacter& rhs)
+	: CCharacter(rhs)
 {
 }
 
@@ -31,6 +32,9 @@ HRESULT CPlayer::Ready_GameObject()
 	m_pTransformCom->Get_Pos(&vPos);
 	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.f, 0.f),
 		COLLAYERID::COL_PLAYER, COLLAYERID::COL_ENEMY | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT);
+
+	m_iHp = 100;
+	m_iAtkDmg = 10;
 
 	return S_OK;
 }
@@ -80,6 +84,14 @@ void CPlayer::OnCollisionEnter(CCollider* _pOther)
 }
 
 void CPlayer::OnCollisionExit(CCollider* _pOther)
+{
+}
+
+void CPlayer::Movement()
+{
+}
+
+void CPlayer::Attack()
 {
 }
 
@@ -141,15 +153,26 @@ void CPlayer::Key_Input(const _float& fTimeDelta)
 		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), -3.f, fTimeDelta);
 	}
 
-	if (GetAsyncKeyState(VK_LEFT))
+	//if (GetAsyncKeyState(VK_LEFT))
+	//{
+	//	m_pTransformCom->Rotation(ROT_Y, D3DXToRadian(-180.f * fTimeDelta));
+	//}
+	//if (GetAsyncKeyState(VK_RIGHT))
+	//{
+	//	m_pTransformCom->Rotation(ROT_Y, D3DXToRadian(180.f * fTimeDelta));
+	//}
+}
+
+void CPlayer::Mouse_Move()
+{
+	_long	dwMouseMove(0);
+
+	if (dwMouseMove = CDInputManager::GetInstance()->Get_DIMouseMove(DIMS_X))
 	{
-		m_pTransformCom->Rotation(ROT_Y, D3DXToRadian(-180.f * fTimeDelta));
-	}
-	if (GetAsyncKeyState(VK_RIGHT))
-	{
-		m_pTransformCom->Rotation(ROT_Y, D3DXToRadian(180.f * fTimeDelta));
+		m_pTransformCom->Rotation(ROT_Y, D3DXToRadian(dwMouseMove / 20.f));
 	}
 }
+
 
 void CPlayer::Set_OnTerrain()
 {

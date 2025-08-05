@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CDynamicCamera.h"
 #include "CDInputManager.h"
+#include "CManagement.h"
 
 CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCamera(pGraphicDev),
@@ -33,7 +34,7 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	if (FAILED(Engine::CCamera::Ready_GameObject()))
 		return E_FAIL;
 
-	m_fSpeed = 5.f;
+	m_fSpeed = 10.f;
 
 	return S_OK;
 }
@@ -41,6 +42,8 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 {
 	_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
+	
+	Set_OnTerrain();
 
 	return iExit;
 }
@@ -62,6 +65,38 @@ void CDynamicCamera::Render_GameObject()
 {
 }
 
+HRESULT CDynamicCamera::Add_Component()
+{
+	CComponent* pComponent = NULL;
+
+	//Transform
+	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Transform"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
+
+	// Calculator
+	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Calculator"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_Calculator", pComponent });
+
+	// Collider
+	pComponent = m_pColliderCom = dynamic_cast<Engine::CCollider*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Collider"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
+
+	return S_OK;
+
+}
+
 void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 {
 	_matrix	matCamWorld;
@@ -75,8 +110,11 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		_vec3	vLength = *D3DXVec3Normalize(&vLook, &vLook) * fTimeDelta * m_fSpeed;
 
-		m_vEye += vLength;
-		m_vAt += vLength;
+		m_vEye.x += vLength.x;
+		m_vEye.z += vLength.z;
+
+		m_vAt.x += vLength.x;
+		m_vAt.z += vLength.z;
 	}
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_S) & 0x80)
@@ -86,8 +124,11 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		_vec3	vLength = *D3DXVec3Normalize(&vLook, &vLook) * fTimeDelta * m_fSpeed;
 
-		m_vEye -= vLength;
-		m_vAt -= vLength;
+		m_vEye.x -= vLength.x;
+		m_vEye.z -= vLength.z;
+
+		m_vAt.x -= vLength.x;
+		m_vAt.z -= vLength.z;
 	}
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_D) & 0x80)
@@ -97,8 +138,11 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		_vec3	vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
 
-		m_vEye += vLength;
-		m_vAt += vLength;
+		m_vEye.x += vLength.x;
+		m_vEye.z += vLength.z;
+
+		m_vAt.x += vLength.x;
+		m_vAt.z += vLength.z;
 	}
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_A) & 0x80)
@@ -108,8 +152,11 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		_vec3	vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
 
-		m_vEye -= vLength;
-		m_vAt -= vLength;
+		m_vEye.x -= vLength.x;
+		m_vEye.z -= vLength.z;
+
+		m_vAt.x -= vLength.x;
+		m_vAt.z -= vLength.z;
 	}
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_TAB) & 0x80)
@@ -175,6 +222,18 @@ void CDynamicCamera::Mouse_Fix()
 
 	ClientToScreen(g_hWnd, &ptMouse);
 	SetCursorPos(ptMouse.x, ptMouse.y);
+}
+
+void CDynamicCamera::Set_OnTerrain()
+{
+	// 지형의 버텍스 정보를 가져온다
+	Engine::CTerrainTex* pTerrainBufferCom =
+		static_cast<CTerrainTex*>
+		(CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
+
+	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&m_vEye, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
+	
+	m_vEye.y = height + 2.f;
 }
 
 CDynamicCamera* CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)
