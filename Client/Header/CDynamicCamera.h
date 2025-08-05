@@ -23,14 +23,17 @@ public:
     virtual         void        Render_GameObject();
 
 public:
-<<<<<<< HEAD
     _vec3       Get_Pos()   { return m_vEye; }
     _vec3       Get_At()    { return m_vAt; }
     _vec3       Get_Up()    { return m_vUp; }
-=======
     // 마우스 x축 이동량을 저장
     static _long s_lMouseMoveX;
->>>>>>> Hongin
+
+    _int Get_Hp() { return m_iHp; }
+    void Set_Hp(_int i) { m_iHp = i; }
+
+    _int Get_Armor() { return m_iArmor; }
+    void Set_Armor(_int i) { m_iArmor = i; }
 
 private:
     HRESULT     Add_Component();

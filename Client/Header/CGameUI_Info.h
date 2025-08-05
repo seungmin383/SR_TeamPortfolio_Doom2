@@ -2,7 +2,7 @@
 #include "CGameObject.h"
 #include "CPrototypeManager.h"
 #include "CFontManager.h"
-#include "CPlayer.h"
+#include "CDynamicCamera.h"
 #include "CPlayerWeapon.h"
 
 class CGameUI_Info :    public CGameObject
@@ -26,10 +26,10 @@ private:
 	HRESULT Add_Component();
 
 public:
-	void Set_Player(CPlayer* pPlayer) { m_pPlayer = pPlayer; }
+	void Set_Camera(CDynamicCamera* pCamera) { m_pCamera = pCamera; }
 
 private:
-	CPlayer* m_pPlayer;
+	CDynamicCamera* m_pCamera;
 
 private:
 	Engine::CRectTex* m_pBufferCom;
