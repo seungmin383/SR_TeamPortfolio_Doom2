@@ -12,6 +12,7 @@
 
 extern HWND g_hWnd;
 extern HINSTANCE g_hInst;
+extern bool g_colRend;
 
 #include <d3d9.h>
 #include <d3dx9.h>

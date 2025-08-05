@@ -29,7 +29,7 @@ public:
 	/// 오브젝트 위치와 동기화한다
 	/// </summary>
 	void				Late_Update();
-	void				Render();
+	void				Render(_bool _colRend);
 
 	virtual CComponent*		Clone();
 	static CCollider*		Cretae(LPDIRECT3DDEVICE9 pGarphicDev);
@@ -44,7 +44,7 @@ public:
 	bool				Get_Active() const { return m_bActive; }
 
 	void				Set_Owner(CGameObject* _pObj) { m_pOwner = _pObj; }
-	CGameObject*	Get_Owner() const { return m_pOwner; }
+	CGameObject*		Get_Owner() const { return m_pOwner; }
 
 	const _vec3			Get_Scale() const { return m_vScale; }
 

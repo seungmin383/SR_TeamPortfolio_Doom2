@@ -24,6 +24,9 @@ HRESULT CPlayer::Ready_GameObject()
 		return E_FAIL;
 
 	//TODO: 2025-08-03 Layer 단계에서 게임오브젝트 생성 시 스케일 등등 셋팅할 수 있게 수정
+
+	m_pTransformCom->Set_Pos(3.f, 3.f, 3.f);
+
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
 	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.f, 0.f),
@@ -61,6 +64,9 @@ void CPlayer::Render_GameObject()
 	m_pTextureCom->Set_Texture();
 
 	m_pBufferCom->Render_Buffer();
+
+	//Rend Collider
+	m_pColliderCom->Render(g_colRend);
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }

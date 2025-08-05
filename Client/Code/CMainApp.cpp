@@ -37,6 +37,9 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 
 	m_pManagementClass->Update_Scene(fTimeDelta);
 
+	if (GetAsyncKeyState('C'))
+		g_colRend = !g_colRend;
+
 	return 0;
 }
 

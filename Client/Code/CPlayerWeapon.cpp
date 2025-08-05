@@ -24,7 +24,7 @@ HRESULT CPlayerWeapon::Ready_GameObject()
 	_vec3 vPos, vScale, vSize;
 	
 	vScale = { 100.f, 100.f, 1.f };
-	vPos = { 0.f, -WINCY * 0.5f + vScale.y + 15.f , 1.f };
+	vPos = { 0.f, -WINCY * 0.5f + vScale.y + 125.f , 1.f };
 	
 	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 	m_pTransformCom->Set_Scale(vScale);

@@ -29,6 +29,7 @@
     <ClInclude Include="..\Header\CColliderManager.h" />
     <ClInclude Include="..\Header\CCollisionManager.h" />
     <ClInclude Include="..\Header\CComponent.h" />
+    <ClInclude Include="..\Header\CCubeCol.h" />
     <ClInclude Include="..\Header\CCubeTex.h" />
     <ClInclude Include="..\Header\CDInputManager.h" />
     <ClInclude Include="..\Header\CFont.h" />
@@ -74,6 +75,7 @@
     <ClCompile Include="..\Code\CColliderManager.cpp" />
     <ClCompile Include="..\Code\CCollisionManager.cpp" />
     <ClCompile Include="..\Code\CComponent.cpp" />
+    <ClCompile Include="..\Code\CCubeCol.cpp" />
     <ClCompile Include="..\Code\CCubeTex.cpp" />
     <ClCompile Include="..\Code\CDInputManager.cpp" />
     <ClCompile Include="..\Code\CFont.cpp" />

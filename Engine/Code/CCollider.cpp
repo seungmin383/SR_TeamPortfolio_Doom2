@@ -51,14 +51,71 @@ void CCollider::Late_Update()
 {
 	m_pOwner->Get_Transform()->Get_Pos(&m_vPos);
 	m_vFinalPos = m_vPos + m_vOffsetPos;
-	
+
 	Update_Box();
 
 	assert(0 <= m_iCol);
 }
 
-void CCollider::Render()
+void CCollider::Render(_bool _colRend)
 {
+	if (!_colRend)
+		return;
+
+	_matrix matView, matProj;
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
+	matView = matView * matProj;
+	
+	LPD3DXLINE pLine;
+	D3DXCreateLine(m_pGraphicDev, &pLine);
+
+	_vec3 vpoints[8] =
+	{ m_ColliderBox[0], m_ColliderBox[1],
+		m_ColliderBox[2], m_ColliderBox[3],
+		m_ColliderBox[4], m_ColliderBox[5],
+		m_ColliderBox[6], m_ColliderBox[7] };
+
+	D3DCOLOR color = m_iCol ? D3DCOLOR_RGBA(255, 0, 0, 255) : D3DCOLOR_RGBA(0, 255, 0, 255);
+
+	_vec3 vline[2];
+	pLine->Begin();
+	vline[0] = vpoints[0]; vline[1] = vpoints[1];
+	pLine->DrawTransform(vline, 2, &matView, color);
+
+	vline[0] = vpoints[0]; vline[1] = vpoints[3];
+	pLine->DrawTransform(vline, 2, &matView, color);
+
+	vline[0] = vpoints[0]; vline[1] = vpoints[4];
+	pLine->DrawTransform(vline, 2, &matView, color);
+
+	vline[0] = vpoints[5]; vline[1] = vpoints[4];
+	pLine->DrawTransform(vline, 2, &matView, color);
+
+	vline[0] = vpoints[5]; vline[1] = vpoints[1];
+	pLine->DrawTransform(vline, 2, &matView, color);
+
+	vline[0] = vpoints[5]; vline[1] = vpoints[6];
+	pLine->DrawTransform(vline, 2, &matView, color);
+
+	vline[0] = vpoints[7]; vline[1] = vpoints[3];
+	pLine->DrawTransform(vline, 2, &matView, color);
+
+	vline[0] = vpoints[7]; vline[1] = vpoints[4];
+	pLine->DrawTransform(vline, 2, &matView, color);
+
+	vline[0] = vpoints[7]; vline[1] = vpoints[6];
+	pLine->DrawTransform(vline, 2, &matView, color);
+
+	vline[0] = vpoints[2]; vline[1] = vpoints[3];
+	pLine->DrawTransform(vline, 2, &matView, color);
+
+	vline[0] = vpoints[2]; vline[1] = vpoints[1];
+	pLine->DrawTransform(vline, 2, &matView, color);
+
+	vline[0] = vpoints[2]; vline[1] = vpoints[6];
+	pLine->DrawTransform(vline, 2, &matView, color);
+	pLine->End();
 }
 
 CComponent* CCollider::Clone()
