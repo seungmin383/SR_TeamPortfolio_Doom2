@@ -16,7 +16,7 @@ enum class LAYERID
 enum class OBJID
 {
 	OBJ_PLAYER,
-	OBJ_ENEMTY,
+	OBJ_ENEMY,
 
 	OBJ_OBJECT,
 	OBJ_TERRAIN,

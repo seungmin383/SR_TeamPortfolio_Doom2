@@ -123,7 +123,7 @@ CComponent* CCollider::Clone()
 	return new CCollider(*this);
 }
 
-CCollider* CCollider::Cretae(LPDIRECT3DDEVICE9 pGarphicDev)
+CCollider* CCollider::Create(LPDIRECT3DDEVICE9 pGarphicDev)
 {
 	CCollider* pCollider = new CCollider(pGarphicDev);
 

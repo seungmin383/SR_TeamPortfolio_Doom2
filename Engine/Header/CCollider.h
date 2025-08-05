@@ -32,7 +32,7 @@ public:
 	void				Render(_bool _colRend);
 
 	virtual CComponent*		Clone();
-	static CCollider*		Cretae(LPDIRECT3DDEVICE9 pGarphicDev);
+	static CCollider*		Create(LPDIRECT3DDEVICE9 pGarphicDev);
 
 public:
 	void				OnCollision(CCollider* _pOther);

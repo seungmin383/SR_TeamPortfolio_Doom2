@@ -79,7 +79,7 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_Material", Engine::CMaterial::Create(m_pGraphicDev))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_Collider", Engine::CCollider::Cretae(m_pGraphicDev))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_Collider", Engine::CCollider::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_Animator", Engine::CAnimator::Create(m_pGraphicDev))))

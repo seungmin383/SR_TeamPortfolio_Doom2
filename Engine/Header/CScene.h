@@ -19,6 +19,8 @@ public:
 
     const vector<CGameObject*>& Get_ObjectGroup(LAYERID eLayerId, OBJID eObjId);
 
+    const map<LAYERID, CLayer*>& Get_Layer() { return m_mapLayer; };
+
 public:
     virtual         HRESULT     Ready_Scene();
     virtual         _int        Update_Scene(const _float& fTimeDelta);

@@ -34,6 +34,9 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	if (FAILED(Engine::CCamera::Ready_GameObject()))
 		return E_FAIL;
 
+	if (FAILED(Add_Component()))
+		return E_FAIL;
+
 	m_fSpeed = 10.f;
 
 	return S_OK;
@@ -99,6 +102,15 @@ HRESULT CDynamicCamera::Add_Component()
 
 void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 {
+	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB))
+	{
+		auto a = m_pCalculatorCom->Picking_GameObject(g_hWnd);
+		if (a)
+		{
+			auto b = 1;
+		}
+	}
+
 	_matrix	matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, 0, &m_matView);
 
