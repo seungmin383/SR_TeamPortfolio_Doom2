@@ -23,7 +23,7 @@ private:
 	HRESULT Add_Component();
 
 private:
-	_ulong m_lFrame;
+	_float m_lFrame;
 
 private:
 	Engine::CRectTex* m_pBufferCom;

@@ -171,6 +171,7 @@
     <ClInclude Include="..\Header\CDynamicCamera.h" />
     <ClInclude Include="..\Header\CGameUI.h" />
     <ClInclude Include="..\Header\CGameUI_Face.h" />
+    <ClInclude Include="..\Header\CGameUI_Info.h" />
     <ClInclude Include="..\Header\CLoading.h" />
     <ClInclude Include="..\Header\CMonsterBase.h" />
     <ClInclude Include="..\Header\CPlayerWeapon.h" />
@@ -193,6 +194,7 @@
     <ClCompile Include="..\Code\CDynamicCamera.cpp" />
     <ClCompile Include="..\Code\CGameUI.cpp" />
     <ClCompile Include="..\Code\CGameUI_Face.cpp" />
+    <ClCompile Include="..\Code\CGameUI_Info.cpp" />
     <ClCompile Include="..\Code\CLoading.cpp" />
     <ClCompile Include="..\Code\CMonsterBase.cpp" />
     <ClCompile Include="..\Code\CPlayerWeapon.cpp" />

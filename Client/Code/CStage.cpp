@@ -12,6 +12,7 @@
 #include "CManagement.h"
 #include "CGameUI.h"
 #include "CGameUI_Face.h"
+#include "CGameUI_Info.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -144,6 +145,7 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
 		return E_FAIL;
 
+
 	pGameObject = CGameUI_Face::Create(m_pGraphicDev);
 
 	if (nullptr == pGameObject)
@@ -152,7 +154,13 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
 		return E_FAIL;
 
+	pGameObject = CGameUI_Info::Create(m_pGraphicDev);
 
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
+		return E_FAIL;
 
 
 	m_mapLayer.insert({ _eLayerId, pLayer });

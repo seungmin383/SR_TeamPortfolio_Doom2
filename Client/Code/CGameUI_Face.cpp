@@ -5,7 +5,7 @@
 #include "CManagement.h"
 
 CGameUI_Face::CGameUI_Face(LPDIRECT3DDEVICE9 pGraphicDev)
-    : CGameObject(pGraphicDev)
+    : CGameObject(pGraphicDev), m_lFrame(0.f)
 {
 }
 
@@ -52,9 +52,9 @@ _int CGameUI_Face::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
 
-	m_lFrame += 2.f * fTimeDelta;
-
-	if (m_lFrame >= 2.f)
+	m_lFrame++;
+	//Sleep(100.f);
+	if (m_lFrame >= 3.f)
 		m_lFrame = 0.f;
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_PLAYERUI, this);
@@ -96,7 +96,7 @@ void CGameUI_Face::Render_GameObject()
 
 	// 4. UI를 렌더링합니다.                                                                                                  
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
-	m_pTextureCom->Set_Texture(m_lFrame);
+	m_pTextureCom->Set_Texture((int)m_lFrame);
 
 	// 알파 블렌딩을 활성화하여 투명한 부분이 처리되도록 합니다.                                                              
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
