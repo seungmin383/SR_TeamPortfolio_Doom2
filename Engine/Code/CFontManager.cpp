@@ -13,16 +13,21 @@ CFontManager::~CFontManager()
 
 HRESULT CFontManager::Ready_Font(LPDIRECT3DDEVICE9 pGraphicDev, const _tchar* pFontTag, const _tchar* pFontType, const _uint& iWidth, const _uint& iHeight, const _uint& iWeight)
 {
+	//폰트를 찾고
 	CFont* pMyFont = Find_Font(pFontTag);
 
+	//만약에 폰트가 있다면 E_FAIL 반환
 	if (nullptr != pMyFont)
 		return E_FAIL;
 
+	//폰트가 없다면 폰트 생성
 	pMyFont = CFont::Create(pGraphicDev, pFontType, iWidth, iHeight, iWeight);
 
+	//생성 실패시 예외처리
 	if (nullptr == pMyFont)
 		return E_FAIL;
 
+	//맵에 저장
 	m_mapFont.insert({ pFontTag, pMyFont });
 
 	return S_OK;
