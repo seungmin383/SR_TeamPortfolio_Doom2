@@ -11,6 +11,9 @@ CCollider::CCollider(LPDIRECT3DDEVICE9 pGraphicDev)
 	m_iCol(0),
 	m_eColLayerId(COL_END),
 	m_iColMask(0),
+	m_bHit(false),
+	m_fHitDelay(0.5f),
+	m_fHitTime(0.f),
 	m_pOwner(nullptr),
 	m_bActive(true)
 {
@@ -22,6 +25,9 @@ CCollider::CCollider(const CCollider& rhs)
 	m_iCol(rhs.m_iCol),
 	m_eColLayerId(rhs.m_eColLayerId),
 	m_iColMask(rhs.m_iColMask),
+	m_bHit(rhs.m_bHit),
+	m_fHitDelay(rhs.m_fHitDelay),
+	m_fHitTime(rhs.m_fHitTime),
 	m_pOwner(rhs.m_pOwner),
 	m_bActive(rhs.m_bActive)
 
@@ -54,6 +60,16 @@ void CCollider::Late_Update()
 
 	Update_Box();
 
+	if (m_bHit)
+	{
+		m_fHitTime += 0.05f;
+		if (m_fHitTime > m_fHitDelay)
+		{
+			m_bHit = false;
+			m_fHitTime = 0.f;
+		}
+	}
+
 	assert(0 <= m_iCol);
 }
 
@@ -76,7 +92,7 @@ void CCollider::Render(_bool _colRend)
 		m_ColliderBox[4], m_ColliderBox[5],
 		m_ColliderBox[6], m_ColliderBox[7] };
 
-	D3DCOLOR color = m_iCol ? D3DCOLOR_RGBA(255, 0, 0, 255) : D3DCOLOR_RGBA(0, 255, 0, 255);
+	D3DCOLOR color = (m_iCol || m_bHit) ? D3DCOLOR_RGBA(255, 0, 0, 255) : D3DCOLOR_RGBA(0, 255, 0, 255);
 
 	_vec3 vline[2];
 	pLine->Begin();
@@ -145,6 +161,15 @@ void CCollider::OnCollisionExit(CCollider* _pOther)
 {
 	m_pOwner->OnCollisionExit(_pOther);
 	--m_iCol;
+}
+
+void CCollider::HitRay(CCollider* _pOther)
+{
+	if (m_bHit)
+		return;
+
+	m_pOwner->OnCollisionEnter(_pOther);
+	m_bHit = true;
 }
 
 void CCollider::Update_Box()

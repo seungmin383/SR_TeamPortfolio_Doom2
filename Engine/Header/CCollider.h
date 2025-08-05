@@ -39,6 +39,8 @@ public:
 	void				OnCollisionEnter(CCollider* _pOther);
 	void				OnCollisionExit(CCollider* _pOther);
 
+	void				HitRay(CCollider* _pOther);
+
 public:
 	void				Set_Active(bool _bVal) { m_bActive = _bVal; }
 	bool				Get_Active() const { return m_bActive; }
@@ -101,6 +103,10 @@ private:
 
 	COLLAYERID			m_eColLayerId;
 	_int				m_iColMask;
+
+	_bool				m_bHit;
+	_float				m_fHitDelay;
+	_float				m_fHitTime;
 
 private:
 	CGameObject*		m_pOwner;

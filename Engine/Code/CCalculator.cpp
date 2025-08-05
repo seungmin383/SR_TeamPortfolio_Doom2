@@ -194,8 +194,8 @@ _bool CCalculator::Picking_GameObject(HWND hWnd)
 
 	auto layers = CManagement::GetInstance()->Get_Scene()->Get_Layer();
 
-	for_each(layers.begin(), layers.end(), [&](const pair<const LAYERID, CLayer*> pair) {
-
+	for (auto& pair : layers)
+	{
 		auto objectArrayList = pair.second->Get_AllObject();
 
 		for (size_t i = 0; i < (_uint)OBJID::OBJ_END; i++)
@@ -206,8 +206,8 @@ _bool CCalculator::Picking_GameObject(HWND hWnd)
 				&& i != (_uint)OBJID::OBJ_BUTTON)
 				continue;
 
-			for_each(objectArrayList[i].begin(), objectArrayList[i].end(), [&](CGameObject* object) {
-
+			for (auto object : objectArrayList[i])
+			{
 				objectColliderBox = object->GetCollider()->Get_WorldCollisionBox();
 
 				//object->Get_Transform()->Get_World(&matWorld);
@@ -228,6 +228,7 @@ _bool CCalculator::Picking_GameObject(HWND hWnd)
 					&objectColliderBox[dwVtxIdx[2]],
 					&vRayPos, &vRayDir, &fU, &fV, &fDist))
 				{
+					object->GetCollider()->HitRay((*CManagement::GetInstance()->Get_Scene()->Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYERCAMERA).begin())->GetCollider());
 					return true;
 				}
 
@@ -241,10 +242,11 @@ _bool CCalculator::Picking_GameObject(HWND hWnd)
 					&objectColliderBox[dwVtxIdx[0]],
 					&vRayPos, &vRayDir, &fU, &fV, &fDist))
 				{
+					object->GetCollider()->HitRay((*CManagement::GetInstance()->Get_Scene()->Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYERCAMERA).begin())->GetCollider());
 					return true;
 				}
 
-				//XZ 평면
+				//YZ 평면
 				//오른쪽 위
 				dwVtxIdx[0] = 0;
 				dwVtxIdx[1] = 4;
@@ -256,6 +258,7 @@ _bool CCalculator::Picking_GameObject(HWND hWnd)
 					&objectColliderBox[dwVtxIdx[2]],
 					&vRayPos, &vRayDir, &fU, &fV, &fDist))
 				{
+					object->GetCollider()->HitRay((*CManagement::GetInstance()->Get_Scene()->Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYERCAMERA).begin())->GetCollider());
 					return true;
 				}
 
@@ -269,13 +272,42 @@ _bool CCalculator::Picking_GameObject(HWND hWnd)
 					&objectColliderBox[dwVtxIdx[0]],
 					&vRayPos, &vRayDir, &fU, &fV, &fDist))
 				{
+					object->GetCollider()->HitRay((*CManagement::GetInstance()->Get_Scene()->Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYERCAMERA).begin())->GetCollider());
 					return true;
 				}
 
-				});
-		}
+				//XZ 평면
+				//오른쪽 위
+				dwVtxIdx[0] = 0;
+				dwVtxIdx[1] = 1;
+				dwVtxIdx[2] = 4;
 
-		});
+				//V1 + U(V2 - V1) + V(V3 - V1)
+				if (D3DXIntersectTri(&objectColliderBox[dwVtxIdx[1]],
+					&objectColliderBox[dwVtxIdx[0]],
+					&objectColliderBox[dwVtxIdx[2]],
+					&vRayPos, &vRayDir, &fU, &fV, &fDist))
+				{
+					object->GetCollider()->HitRay((*CManagement::GetInstance()->Get_Scene()->Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYERCAMERA).begin())->GetCollider());
+					return true;
+				}
+
+				//왼쪽 아래
+				dwVtxIdx[0] = 1;
+				dwVtxIdx[1] = 5;
+				dwVtxIdx[2] = 4;
+
+				if (D3DXIntersectTri(&objectColliderBox[dwVtxIdx[2]],
+					&objectColliderBox[dwVtxIdx[1]],
+					&objectColliderBox[dwVtxIdx[0]],
+					&vRayPos, &vRayDir, &fU, &fV, &fDist))
+				{
+					object->GetCollider()->HitRay((*CManagement::GetInstance()->Get_Scene()->Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYERCAMERA).begin())->GetCollider());
+					return true;
+				}
+			}
+		}
+	}
 
 	return false;
 }
