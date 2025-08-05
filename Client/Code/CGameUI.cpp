@@ -37,6 +37,7 @@ HRESULT CGameUI::Ready_GameObject()
 
 	// UI의 위치를 화면 맨 아래로 설정
 	// UI의 중심점은 화면 하단 + UI 높이의 절반 위치에 둔다.
+	// (08.05 추가) 마지막 0.0->0.9로 바꾼 이유는 글자가 UI창에 가려져서 글자가 맨 앞으로 가게 하려고.
 	vPos = { 0.f, -WINCY * 0.5f + vScale.y, 0.9f };
 
 	// 계산된 위치와 스케일을 Transform 컴포넌트에 적용
