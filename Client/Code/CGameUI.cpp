@@ -31,17 +31,34 @@ HRESULT CGameUI::Ready_GameObject()
 	_vec3 vPos, vScale;
 
 	// UI의 너비를 화면의 너비로 설정
-	vScale.x = 650.f;
+	vScale.x = 750.f;
 	vScale.y = vScale.x / fTexAspectRatio;		// 화면 너비를 10으로 나눈 값
 	vScale.z = 1.f;
 
 	// UI의 위치를 화면 맨 아래로 설정
 	// UI의 중심점은 화면 하단 + UI 높이의 절반 위치에 둔다.
-	vPos = { 0.f, -WINCY * 0.5f + vScale.y, 0.0f };
+	// (08.05 추가) 마지막 0.0->0.9로 바꾼 이유는 글자가 UI창에 가려져서 글자가 맨 앞으로 가게 하려고.
+	vPos = { 0.f, -WINCY * 0.5f + vScale.y, 0.9f };
 
 	// 계산된 위치와 스케일을 Transform 컴포넌트에 적용
 	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 	m_pTransformCom->Set_Scale(vScale);
+
+	//// 월드 행렬의 크기, 위치 등을 설정합니다.                                   
+	//_matrix matWorld;
+	//D3DXMatrixIdentity(&matWorld);
+
+	//// 예시: UI 크기 설정                                                        
+	//matWorld._11 = 200.f; // 너비                                                
+	//matWorld._22 = 100.f; // 높이                                                
+	//matWorld._33 = 1.f;
+
+	//// 예시: UI 위치 설정                                                        
+	//matWorld._41 = 400.f; // X 위치                                              
+	//matWorld._42 = 300.f; // Y 위치                                              
+	//matWorld._43 = 0.9f;  // Z 위치 <- 이 값을 0.9f 와 같이 큰 값으로 설정합니다.
+
+	//m_pTransformCom->Set_World(&matWorld);
 
     return S_OK;
 }
@@ -50,7 +67,7 @@ _int CGameUI::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
 
-	CRenderer::GetInstance()->Add_RenderGroup(RENDER_UI, this);
+	CRenderer::GetInstance()->Add_RenderGroup(RENDER_PLAYERUI, this);
 
 	return 0;
 }
@@ -123,7 +140,7 @@ HRESULT CGameUI::Add_Component()
 	CComponent* pComponent = NULL;
 
 	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectTex*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectTex"));
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectTex_UI"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -145,14 +162,14 @@ HRESULT CGameUI::Add_Component()
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
 
-	/*pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
+	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
 		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Calculator"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Calculator", pComponent });
 
-	pComponent = m_pColliderCom = dynamic_cast<Engine::CCollider*>
+		/*pComponent = m_pColliderCom = dynamic_cast<Engine::CCollider*>
 		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Collider"));
 	if (nullptr == pComponent)
 		return E_FAIL;

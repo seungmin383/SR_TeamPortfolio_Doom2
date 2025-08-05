@@ -1,0 +1,202 @@
+#include "pch.h"
+#include "CGameUI_Face.h"
+#include "CDynamicCamera.h"
+#include "CPrototypeManager.h"
+#include "CRenderer.h"
+#include "CManagement.h"
+
+CGameUI_Face::CGameUI_Face(LPDIRECT3DDEVICE9 pGraphicDev)
+    : CGameObject(pGraphicDev), m_lFrame(0.f)
+{
+}
+
+CGameUI_Face::CGameUI_Face(const CGameObject& rhs)
+    : CGameObject(rhs)
+{
+}
+
+CGameUI_Face::~CGameUI_Face()
+{
+}
+
+HRESULT CGameUI_Face::Ready_GameObject()
+{
+	if (FAILED(Add_Component()))
+		return E_FAIL;
+
+	m_lFrame = 0.f;
+
+	// 원본 텍스쳐의 크기와 비율을 정의
+	const _float fTexWidth = 32.f;
+	const _float fTexHeight = 31.f;
+	const _float fTexAspectRatio = fTexWidth / fTexHeight;
+
+	_vec3 vPos, vScale;
+
+	// UI의 너비를 화면의 너비로 설정
+	vScale.x = 68.f;
+	vScale.y = vScale.x / fTexAspectRatio;		// 화면 너비를 10으로 나눈 값
+	vScale.z = 1.f;
+
+	// UI의 위치를 화면 맨 아래로 설정
+	// UI의 중심점은 화면 하단 + UI 높이의 절반 위치에 둔다.
+	vPos = { 0.f, -WINCY * 0.5f + vScale.y + 15.f, 0.f };
+
+	// 계산된 위치와 스케일을 Transform 컴포넌트에 적용
+	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
+	m_pTransformCom->Set_Scale(vScale);
+
+	return S_OK;
+}
+
+_int CGameUI_Face::Update_GameObject(const _float& fTimeDelta)
+{
+	CGameObject::Update_GameObject(fTimeDelta);
+
+	//m_lFrame++;
+	////Sleep(100.f);
+	//if (m_lFrame >= 3.f)
+	//	m_lFrame = 0.f;
+
+	// 마우스 이동방향에 따라 얼굴 애니메이션 체크
+	_long lMouseMoveX = CDynamicCamera::s_lMouseMoveX;
+
+	if (lMouseMoveX < 0)
+		m_lFrame = 0.f;			// 좌
+	else if (lMouseMoveX > 0)
+		m_lFrame = 2.f;			// 우
+	else
+		m_lFrame = 1.f;			// 정면
+
+	CRenderer::GetInstance()->Add_RenderGroup(RENDER_PLAYERUI, this);
+
+
+
+	return 0;
+}
+
+void CGameUI_Face::LateUpdate_GameObject(const _float& fTimeDelta)
+{
+	CGameObject::LateUpdate_GameObject(fTimeDelta);
+}
+
+void CGameUI_Face::Render_GameObject()
+{
+	// 1. 렌더링에 방해가 되는 컬링 옵션을 끕니다.                                                                            
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+	// 2. 기존의 3D 카메라용 View, Projection 행렬을 백업합니다.                                                              
+	_matrix matView, matProj;
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
+
+	// 3. UI 렌더링을 위해 View/Projection 행렬을 새로 설정합니다.                                                            
+	_matrix matWorld, matIdentity, matOrtho;
+
+	// UI의 위치와 크기를 담은 월드 행렬을 가져옵니다.                                                                        
+	matWorld = *m_pTransformCom->Get_World();
+
+	// View 행렬을 단위 행렬로 만들어 카메라의 위치, 회전 효과를 제거합니다.                                                  
+	D3DXMatrixIdentity(&matIdentity);
+	m_pGraphicDev->SetTransform(D3DTS_VIEW, &matIdentity);
+
+	// 화면 중앙을 (0,0)으로 하는 직교 투영 행렬을 생성하여 원근감을 없애고 2D처럼 만듭니다.                                  
+	// WINCX, WINCY는 실제 윈도우의 너비와 높이여야 합니다.                                                                   
+	D3DXMatrixOrthoOffCenterLH(&matOrtho, -WINCX * 0.5f, WINCX * 0.5f, -WINCY * 0.5f, WINCY * 0.5f, 0.f, 1.f);
+	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matOrtho);
+
+	// 4. UI를 렌더링합니다.                                                                                                  
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+	m_pTextureCom->Set_Texture((int)m_lFrame);
+
+	// 알파 블렌딩을 활성화하여 투명한 부분이 처리되도록 합니다.                                                              
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	m_pBufferCom->Render_Buffer();
+
+	// 5. 렌더링이 끝난 후, 백업해두었던 원래의 View, Projection 행렬로 복원합니다.                                           
+	// 이렇게 해야 다른 3D 오브젝트들이 정상적으로 렌더링됩니다.                                                              
+	m_pGraphicDev->SetTransform(D3DTS_VIEW, &matView);
+	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
+
+	// 6. 렌더링 상태를 원래대로 복원합니다.                                                                                  
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+}
+
+void CGameUI_Face::OnCollision(CCollider* _pOther)
+{
+}
+
+void CGameUI_Face::OnCollisionEnter(CCollider* _pOther)
+{
+}
+
+void CGameUI_Face::OnCollisionExit(CCollider* _pOther)
+{
+}
+
+HRESULT CGameUI_Face::Add_Component()
+{
+	CComponent* pComponent = NULL;
+
+	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectTex*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectTex_UI"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_Buffer", pComponent });
+
+	//Transform
+	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Transform"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
+
+	//Texture
+	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_FaceUI"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
+
+	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Calculator"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_Calculator", pComponent });
+
+	/*pComponent = m_pColliderCom = dynamic_cast<Engine::CCollider*>
+	(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Collider"));
+if (nullptr == pComponent)
+	return E_FAIL;
+
+m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });*/
+
+	return S_OK;
+}
+
+CGameUI_Face* CGameUI_Face::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+{
+	CGameUI_Face* pFace = new CGameUI_Face(pGraphicDev);
+
+	if (FAILED(pFace->Ready_GameObject()))
+	{
+		Safe_Release(pFace);
+		MSG_BOX("Player UI Face Create Failed");
+		return nullptr;
+	}
+
+	return pFace;
+}
+
+void CGameUI_Face::Free()
+{
+	Engine::CGameObject::Free();
+}

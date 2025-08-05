@@ -10,6 +10,8 @@
 #include "CPlayerWeapon.h"
 #include "CManagement.h"
 #include "CGameUI.h"
+#include "CGameUI_Face.h"
+#include "CGameUI_Info.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -30,7 +32,7 @@ HRESULT CStage::Ready_Scene()
 
 	if (FAILED(Ready_UI_Layer(LAYERID::LAYER_UI)))
 		return E_FAIL;
-	
+
 	if (FAILED(Ready_Camera_Layer(LAYERID::LAYER_CAMERA)))
 		return E_FAIL;
 
@@ -80,7 +82,7 @@ HRESULT CStage::Ready_Environment_Layer(LAYERID _eLayerId)
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
-	
+
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_SKYBOX, pGameObject)))
 		return E_FAIL;
 
@@ -118,14 +120,16 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
+	// Weapon
 	pGameObject = CPlayerWeapon::Create(m_pGraphicDev);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_WEAPON, pGameObject)))				// 일단 OBJ_WEAPON이라는 enum 값이 있어서 OBJ_UI->OBJ_WEAPON으로 교체(08/05)
 		return E_FAIL;
 
+	// UI
 	pGameObject = CGameUI::Create(m_pGraphicDev);
 
 	if (nullptr == pGameObject)
@@ -133,6 +137,32 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
 		return E_FAIL;
+
+	// Face
+	pGameObject = CGameUI_Face::Create(m_pGraphicDev);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
+		return E_FAIL;
+
+	// Info
+	pGameObject = CGameUI_Info::Create(m_pGraphicDev);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	// 게임 로직 레이어에서 플레이어 객체를 찾아옵니다.                                              
+	auto iter = m_mapLayer.find(LAYERID::LAYER_GAMELOGIC);
+	Engine::CGameObject* pPlayerObject = (*iter).second->Get_ObjectGroup(OBJID::OBJ_PLAYER).back();
+
+	// CGameUI_Info 객체에 플레이어 정보를 설정합니다.                                               
+	static_cast<CGameUI_Info*>(pGameObject)->Set_Player(static_cast<CPlayer*>(pPlayerObject));
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
+		return E_FAIL;
+
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
