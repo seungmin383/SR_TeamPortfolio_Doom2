@@ -98,6 +98,29 @@ bool CCollisionManager::Check_AABB(CCollider* _Dst, CCollider* _Src, _float* _pX
 	return false;
 }
 
+bool CCollisionManager::Check_AABB(CCollider* _Dst, CCollider* _Src)
+{
+	_vec3 vDstPos = _Dst->Get_FinalPos();
+	_vec3 vDstScale = _Dst->Get_Scale();
+
+	_vec3 vSrcPos = _Src->Get_FinalPos();
+	_vec3 vSrcScale = _Src->Get_Scale();
+
+	//AABB
+	float fRadiusX = (vDstScale.x + vSrcScale.x) * 0.5f;
+	float fRadiusY = (vDstScale.y + vSrcScale.y) * 0.5f;
+	float fRadiusZ = (vDstScale.z + vSrcScale.z) * 0.5f;
+
+	float fWidth = abs(vDstPos.x - vSrcPos.x);
+	float fHeight = abs(vDstPos.y - vSrcPos.y);
+	float fDepth = abs(vDstPos.z - vSrcPos.z);
+
+	if (fRadiusX > fWidth && fRadiusY > fHeight && fRadiusZ > fDepth)
+		return true;
+
+	return false;
+}
+
 bool CCollisionManager::Check_OBB(CCollider* _Dst, CCollider* _Src)
 {
 	const _vec3* dstCollider = _Dst->Get_WorldCollisionBox();
