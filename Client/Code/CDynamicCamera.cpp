@@ -33,7 +33,7 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	if (FAILED(Engine::CCamera::Ready_GameObject()))
 		return E_FAIL;
 
-	m_fSpeed = 5.f;
+	m_fSpeed = 10.f;
 
 	return S_OK;
 }
@@ -75,8 +75,11 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		_vec3	vLength = *D3DXVec3Normalize(&vLook, &vLook) * fTimeDelta * m_fSpeed;
 
-		m_vEye += vLength;
-		m_vAt += vLength;
+		m_vEye.x += vLength.x;
+		m_vEye.z += vLength.z;
+
+		m_vAt.x += vLength.x;
+		m_vAt.z += vLength.z;
 	}
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_S) & 0x80)
@@ -86,8 +89,11 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		_vec3	vLength = *D3DXVec3Normalize(&vLook, &vLook) * fTimeDelta * m_fSpeed;
 
-		m_vEye -= vLength;
-		m_vAt -= vLength;
+		m_vEye.x -= vLength.x;
+		m_vEye.z -= vLength.z;
+
+		m_vAt.x -= vLength.x;
+		m_vAt.z -= vLength.z;
 	}
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_D) & 0x80)
@@ -97,8 +103,11 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		_vec3	vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
 
-		m_vEye += vLength;
-		m_vAt += vLength;
+		m_vEye.x += vLength.x;
+		m_vEye.z += vLength.z;
+
+		m_vAt.x += vLength.x;
+		m_vAt.z += vLength.z;
 	}
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_A) & 0x80)
@@ -108,8 +117,11 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		_vec3	vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
 
-		m_vEye -= vLength;
-		m_vAt -= vLength;
+		m_vEye.x -= vLength.x;
+		m_vEye.z -= vLength.z;
+
+		m_vAt.x -= vLength.x;
+		m_vAt.z -= vLength.z;
 	}
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_TAB) & 0x80)

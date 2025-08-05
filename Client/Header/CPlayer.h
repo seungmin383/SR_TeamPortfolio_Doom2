@@ -1,14 +1,14 @@
 #pragma once
-#include "CGameObject.h"
+#include "CCharacter.h"
 
 #include "CPrototypeManager.h"
 
 class CPlayer :
-    public CGameObject
+    public CCharacter
 {
 private:
     explicit CPlayer(LPDIRECT3DDEVICE9 pGraphicDev);
-    explicit CPlayer(const CGameObject& rhs);
+    explicit CPlayer(const CCharacter& rhs);
     virtual ~CPlayer();
 
 public:
@@ -22,8 +22,12 @@ public:
     virtual     void			OnCollisionExit(CCollider* _pOther) override;
 
 private:
+    void        Movement() override;
+    void        Attack() override;
+
     HRESULT     Add_Component();
     void        Key_Input(const _float& fTimeDelta);
+    void        Mouse_Move();
     void        Set_OnTerrain();
 
 private:

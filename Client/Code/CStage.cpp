@@ -157,15 +157,13 @@ HRESULT CStage::Ready_Camera_Layer(LAYERID _eLayerId)
 	Engine::CGameObject* pGameObject = nullptr;
 
 	CManagement* pManagement = CManagement::GetInstance();
-	_vec3 vPlayerPos;
-	//pManagement->Get_ObjectGroup(LAYERID::LAYER_GAMELOGIC, OBJID::OBJ_PLAYER).back()->Get_Transform()->Get_Pos(&vPlayerPos);
 
+	_vec3 vPlayerPos;
 	auto iter = m_mapLayer.find(LAYERID::LAYER_GAMELOGIC);
 	(*iter).second->Get_ObjectGroup(OBJID::OBJ_PLAYER).back()->Get_Transform()->Get_Pos(&vPlayerPos);
 
-	//_vec3	vEye{ 0.f, 10.f, -10.f };
-	_vec3 vEye = vPlayerPos;
-	_vec3	vAt{ 0.f, 0.f, 1.f };
+	_vec3	vEye{ vPlayerPos.x, vPlayerPos.y + 2.f, vPlayerPos.z };
+	_vec3	vAt{ 0.f, 2.f, 1.f };
 	_vec3	vUp{ 0.f , 1.f, 0.f };
 
 	pGameObject = CDynamicCamera::Create(m_pGraphicDev, &vEye, &vAt, &vUp);
