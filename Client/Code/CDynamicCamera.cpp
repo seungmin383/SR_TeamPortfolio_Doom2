@@ -2,6 +2,9 @@
 #include "CDynamicCamera.h"
 #include "CDInputManager.h"
 
+// 변수 초기화
+_long CDynamicCamera::s_lMouseMoveX = 0L;
+
 CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCamera(pGraphicDev),
 	m_bFix(false),
@@ -66,7 +69,6 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 {
 	_matrix	matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, 0, &m_matView);
-
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_W) & 0x80)
 	{
@@ -139,7 +141,7 @@ void CDynamicCamera::Mouse_Move()
 	_matrix	matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, 0, &m_matView);
 
-	_long	dwMouseMove(0);
+	_long  dwMouseMove = 0L;
 
 	if (dwMouseMove = CDInputManager::GetInstance()->Get_DIMouseMove(DIMS_Y))
 	{
@@ -155,14 +157,16 @@ void CDynamicCamera::Mouse_Move()
 		m_vAt = m_vEye + vLook;
 	}
 
-	if (dwMouseMove = CDInputManager::GetInstance()->Get_DIMouseMove(DIMS_X))
+	// 마우스 x축 이동 값을 저장.(매 프레임마다 최신 마우스 이동 값을 어디서든 확인 가능)
+	s_lMouseMoveX = CDInputManager::GetInstance()->Get_DIMouseMove(DIMS_X);
+	if (s_lMouseMoveX)
 	{
 		_vec3	vUp{ 0.f, 1.f, 0.f };
 
 		_vec3	vLook = m_vAt - m_vEye;
 		_matrix matRot;
 
-		D3DXMatrixRotationAxis(&matRot, &vUp, D3DXToRadian(dwMouseMove / 10.f));
+		D3DXMatrixRotationAxis(&matRot, &vUp, D3DXToRadian(s_lMouseMoveX / 10.f));
 		D3DXVec3TransformNormal(&vLook, &vLook, &matRot);
 
 		m_vAt = m_vEye + vLook;

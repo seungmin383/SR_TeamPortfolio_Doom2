@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CGameUI_Face.h"
+#include "CDynamicCamera.h"
 #include "CPrototypeManager.h"
 #include "CRenderer.h"
 #include "CManagement.h"
@@ -52,10 +53,20 @@ _int CGameUI_Face::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
 
-	m_lFrame++;
-	//Sleep(100.f);
-	if (m_lFrame >= 3.f)
-		m_lFrame = 0.f;
+	//m_lFrame++;
+	////Sleep(100.f);
+	//if (m_lFrame >= 3.f)
+	//	m_lFrame = 0.f;
+
+	// 마우스 이동방향에 따라 얼굴 애니메이션 체크
+	_long lMouseMoveX = CDynamicCamera::s_lMouseMoveX;
+
+	if (lMouseMoveX < 0)
+		m_lFrame = 0.f;			// 좌
+	else if (lMouseMoveX > 0)
+		m_lFrame = 2.f;			// 우
+	else
+		m_lFrame = 1.f;			// 정면
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_PLAYERUI, this);
 

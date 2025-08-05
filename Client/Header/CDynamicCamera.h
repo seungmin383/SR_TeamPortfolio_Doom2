@@ -21,6 +21,10 @@ public:
     virtual         void        LateUpdate_GameObject(const _float& fTimeDelta);
     virtual         void        Render_GameObject();
 
+public:
+    // 마우스 x축 이동량을 저장
+    static _long s_lMouseMoveX;
+
 private:
     void        Key_Input(const _float& fTimeDelta);
     void        Mouse_Move();
