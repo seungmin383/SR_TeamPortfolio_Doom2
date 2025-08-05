@@ -84,9 +84,6 @@
     <ClInclude Include="..\Header\CBackGround.h">
       <Filter>02. GameObject\00. BackGround</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\CPlayer.h">
-      <Filter>02. GameObject\01. Player</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\CMonster.h">
       <Filter>02. GameObject\02. Monster</Filter>
     </ClInclude>
@@ -133,9 +130,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\CBackGround.cpp">
       <Filter>02. GameObject\00. BackGround</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\CPlayer.cpp">
-      <Filter>02. GameObject\01. Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CMonster.cpp">
       <Filter>02. GameObject\02. Monster</Filter>
