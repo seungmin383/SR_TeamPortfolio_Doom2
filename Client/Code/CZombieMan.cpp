@@ -46,14 +46,54 @@ HRESULT CZombieMan::Ready_GameObject()
 
 #pragma region ANIM_SETTING
 
-	m_Anim->Add_Animation(
-		MONSTER_ANIM_MOVE_F,
+	//이동
+	m_AnimMove->Add_Animation(
+		ANIM_MOVE,
 		m_pTextureCom,
 		m_pBufferCom,
-		5,
+		5,				//가로
+		1,				//세로
+		0,				//start frame
+		4,				//end frame
+		0.2f,
+		true
+	); 
+
+	//공격
+	m_AnimMove->Add_Animation(
+		ANIM_ATK,
+		m_pTextureCom,
+		m_pBufferCom,
+		4,
+		1,
+		0,	
+		3,	
+		0.2f,
+		true
+	); 
+
+	//일반 죽음
+	m_AnimMove->Add_Animation(
+		ANIM_NDEAD,
+		m_pTextureCom,
+		m_pBufferCom,
+		6,
 		1,
 		0,
 		4,
+		0.2f,
+		true
+	);
+
+	//폭사
+	m_AnimMove->Add_Animation(
+		ANIM_GDEAD,
+		m_pTextureCom,
+		m_pBufferCom,
+		9,
+		1,
+		0,
+		8,
 		0.2f,
 		true
 	);
@@ -83,7 +123,26 @@ void CZombieMan::LateUpdate_GameObject(const _float& fTimeDelta)
 
 	m_pColliderCom->Late_Update();
 
-	m_Anim->Play_Animation(0, 0, fTimeDelta);
+	//죽었는지 가장 먼저 체크 -> 공격하는지 체크 -> 아니면 이동
+	if (m_isGibbingDead)
+	{
+		m_AnimMove->Play_Animation(ANIM_GDEAD, 0, fTimeDelta);
+		m_isGibbingDead = false;
+	}
+	else if (m_isNormalDead)
+	{
+		m_AnimMove->Play_Animation(ANIM_NDEAD, 0, fTimeDelta);
+		m_isNormalDead = false;
+	}
+	else if (m_isAtk)
+	{
+		m_AnimMove->Play_Animation(ANIM_ATK, 0, fTimeDelta);
+		m_isAtk = false;
+	}
+	else
+	{
+		m_AnimMove->Play_Animation(ANIM_MOVE, 0, fTimeDelta);
+	}
 }
 
 void CZombieMan::Render_GameObject()
@@ -158,7 +217,7 @@ HRESULT CZombieMan::Add_Component()
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
 
 
-	pComponent = m_Anim = dynamic_cast<Engine::CAnimator*>
+	pComponent = m_AnimMove = dynamic_cast<Engine::CAnimator*>
 		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Animator"));
 	if (nullptr == pComponent)
 		return E_FAIL;
@@ -181,6 +240,22 @@ void CZombieMan::Key_Input(const _float& fTimeDelta)
 	if (GetAsyncKeyState(VK_DOWN))
 	{
 		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), -3.f, fTimeDelta);
+	}
+
+	if (GetAsyncKeyState(VK_LBUTTON))
+	{
+		m_eCurAnimState += 8;
+		m_isAtk = true;
+	}
+	if (GetAsyncKeyState('1'))
+	{
+		m_eCurAnimState = 16;
+		m_isGibbingDead = true;
+	}
+	else if (GetAsyncKeyState('2'))
+	{
+		m_eCurAnimState = 17;
+		m_isGibbingDead = true;
 	}
 }
 

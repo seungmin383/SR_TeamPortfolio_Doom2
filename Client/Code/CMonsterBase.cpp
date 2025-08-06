@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "CMonsterBase.h"
+
 #include <iostream>
+
+
 CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CCharacter(pGraphicDev), m_fSightAngle(0.f), m_fSightDistance(0.f)
 {

@@ -1,6 +1,11 @@
 #pragma once
 #include "CCharacter.h"
 
+#define ANIM_MOVE 0
+#define ANIM_ATK 1
+#define ANIM_NDEAD 2
+#define ANIM_GDEAD 3
+
 class CMonsterBase :public CCharacter
 {
     //몬스터 자료형을 통일시키고 싶지만 GameObject로 통일하고 싶진 않아서 만든 클래스 
@@ -23,13 +28,19 @@ public:
     virtual _int Calc_AnimState(_vec3 vLook, _vec3 vPos);
 
 protected:
-    MONSTER_ANIM_STATE m_eCurAnimState;
+    int m_eCurAnimState;
     MONSTER_ANIM_STATE m_ePreAnimState;
 
     _float m_fSightAngle;
     _float m_fSightDistance;
 
     _float m_fDelay; 
+
+    _bool m_isMove;
+    _bool m_isAtk;
+    _bool m_isNormalDead;
+    _bool m_isGibbingDead;
+
 protected:
     virtual void Free();
 
