@@ -61,8 +61,12 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_PlayerWeaponTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Player/CHAINGUN.png", TEX_NORMAL))))
 		return E_FAIL;
 
+#pragma region MONSTER_ANIM
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_ZombieMan_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Monster/ZombieMan/MonsterState%d.png", TEX_NORMAL, 1))))
 		return E_FAIL;
+#pragma endregion
+
+
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_PlayerUI", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/PLAYERUI.png", TEX_NORMAL))))
 		return E_FAIL;

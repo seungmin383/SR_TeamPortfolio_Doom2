@@ -40,6 +40,7 @@ private:
     Engine::CRectTex* m_pBufferCom;
     Engine::CTexture* m_pTextureCom;
     Engine::CCalculator* m_pCalculatorCom;
+    Engine::CAnimator* m_Anim;
 
 public:
     static CZombieMan* Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -20,8 +20,8 @@ CZombieMan::~CZombieMan()
 
 HRESULT CZombieMan::Ready_GameObject()
 {
-	m_fSightAngle = 45.f;
-	m_fSightDistance = 500.f;
+	m_fSightAngle = 80.f;
+	m_fSightDistance = 50.f;
 
 	if (FAILED(Add_Component()))
 		return E_FAIL;
@@ -33,6 +33,22 @@ HRESULT CZombieMan::Ready_GameObject()
 		COLLAYERID::COL_ENEMY, 
 		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT);
 
+#pragma region ANIM_SETTING
+
+	m_Anim->Add_Animation(
+		MONSTER_ANIM_MOVE_F,
+		m_pTextureCom,
+		m_pBufferCom,
+		5,
+		1,
+		0,
+		4,
+		0.2f,
+		true
+	);
+#pragma endregion
+
+	
 	return S_OK;
 }
 
@@ -44,7 +60,7 @@ _int CZombieMan::Update_GameObject(const _float& fTimeDelta)
 
 	Set_OnTerrain();
 	Bill_Board();
-	CRenderer::GetInstance()->Add_RenderGroup(RENDER_PRIORITY, this);
+	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	return 0;
 }
@@ -52,14 +68,16 @@ _int CZombieMan::Update_GameObject(const _float& fTimeDelta)
 void CZombieMan::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	Key_Input(fTimeDelta);
-	Check_Target();
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 
 	m_pColliderCom->Late_Update();
+	//m_Anim->Play_Animation(0, 0, fTimeDelta);
 }
 
 void CZombieMan::Render_GameObject()
 {
+	Check_Target();
+
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
@@ -127,6 +145,15 @@ HRESULT CZombieMan::Add_Component()
 
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
 
+
+	pComponent = m_Anim = dynamic_cast<Engine::CAnimator*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Animator"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Animator", pComponent });
+
+	
 	return S_OK;
 }
 
@@ -166,7 +193,7 @@ CZombieMan* CZombieMan::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	if (FAILED(tmp->Ready_GameObject()))
 	{
 		Safe_Release(tmp);
-		MSG_BOX("Player Create Failed");
+		MSG_BOX("ZombieMan Create Failed");
 		return nullptr;
 	}
 
@@ -228,7 +255,49 @@ void CZombieMan::Manage_MoveState()
 
 void CZombieMan::Manage_AnimState()
 {
-
+	switch (m_eCurAnimState)
+	{
+	case Engine::MONSTER_ANIM_MOVE_F:
+		break;
+	case Engine::MONSTER_ANIM_MOVE_FR:
+		break;
+	case Engine::MONSTER_ANIM_MOVE_R:
+		break;
+	case Engine::MONSTER_ANIM_MOVE_BR:
+		break;
+	case Engine::MONSTER_ANIM_MOVE_B:
+		break;
+	case Engine::MONSTER_ANIM_MOVE_BL:
+		break;
+	case Engine::MONSTER_ANIM_MOVE_L:
+		break;
+	case Engine::MONSTER_ANIM_MOVE_FL:
+		break;
+	case Engine::MONSTER_ANIM_ATK_F:
+		break;
+	case Engine::MONSTER_ANIM_ATK_FR:
+		break;
+	case Engine::MONSTER_ANIM_ATK_R:
+		break;
+	case Engine::MONSTER_ANIM_ATK_BR:
+		break;
+	case Engine::MONSTER_ANIM_ATK_B:
+		break;
+	case Engine::MONSTER_ANIM_ATK_BL:
+		break;
+	case Engine::MONSTER_ANIM_ATK_L:
+		break;
+	case Engine::MONSTER_ANIM_ATK_FL:
+		break;
+	case Engine::MONSTER_ANIM_GIBBINGDEATH:
+		break;
+	case Engine::MONSTER_ANIM_NORMALDEATH:
+		break;
+	case Engine::MONSTER_ANIM_END:
+		break;
+	default:
+		break;
+	}
 }
 
 void CZombieMan::Movement()
