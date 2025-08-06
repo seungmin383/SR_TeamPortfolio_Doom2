@@ -51,7 +51,7 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 		return E_FAIL;
 
 	// Collider Default Settings
-	_vec3 vScale{ 20.f, 20.f, 20.f };
+	_vec3 vScale{ 100.f, 100.f, 100.f };
 	_vec3 vOffset{ 0.f, 0.f, 0.f };
 
 	m_pColliderCom->Ready_CCollider(this, m_vEye, vScale, vOffset, COL_PLAYER,
