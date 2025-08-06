@@ -28,6 +28,8 @@ public:
 
     _bool           Picking_GameObject(HWND hWnd);
 
+
+    
 public:
     static CCalculator*     Create(LPDIRECT3DDEVICE9 pGraphicDev);
     virtual CComponent*      Clone();

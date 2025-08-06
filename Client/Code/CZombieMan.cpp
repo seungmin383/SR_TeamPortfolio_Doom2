@@ -20,6 +20,12 @@ CZombieMan::~CZombieMan()
 
 HRESULT CZombieMan::Ready_GameObject()
 {
+	AllocConsole();
+
+	FILE* fp;
+	freopen_s(&fp, "CONOUT$", "w", stdout);
+	freopen_s(&fp, "CONOUT$", "w", stderr);
+
 	m_fSightAngle = 80.f;
 	m_fSightDistance = 50.f;
 
@@ -71,7 +77,8 @@ void CZombieMan::LateUpdate_GameObject(const _float& fTimeDelta)
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 
 	m_pColliderCom->Late_Update();
-	//m_Anim->Play_Animation(0, 0, fTimeDelta);
+
+	m_Anim->Play_Animation(1, 0, fTimeDelta);
 }
 
 void CZombieMan::Render_GameObject()
@@ -82,7 +89,7 @@ void CZombieMan::Render_GameObject()
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
-	m_pTextureCom->Set_Texture(0);
+	m_pTextureCom->Set_Texture(m_eCurAnimState);
 
 	m_pBufferCom->Render_Buffer();
 
@@ -108,8 +115,8 @@ HRESULT CZombieMan::Add_Component()
 {
 	CComponent* pComponent = NULL;
 
-	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectTex*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectTex"));
+	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectSpriteTex*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectSpriteTex"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -240,12 +247,22 @@ void CZombieMan::Check_Target()
 	_vec3 vRightPos = vPos + vRightBorderLine;
 
 	Debug_Line(vPos, vLeftPos, vRightPos);
+
+
 }
 
 
 void CZombieMan::Thinker()
 {
-	Movement();
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	_vec3 vLook{ 1,1,1 };
+
+	//지금 플레이어가 보는 방향에 따른 몬스터 상태를 가져옴
+	m_eCurAnimState = (MONSTER_ANIM_STATE)Calc_AnimState(vLook, vPos);
+
+	std::cout << "State : " << (int)m_eCurAnimState << std::endl;
+
 }
 
 void CZombieMan::Manage_MoveState()
@@ -253,7 +270,7 @@ void CZombieMan::Manage_MoveState()
 		
 }
 
-void CZombieMan::Manage_AnimState()
+void CZombieMan::Change_Animation()
 {
 	switch (m_eCurAnimState)
 	{

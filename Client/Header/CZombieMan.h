@@ -24,7 +24,7 @@ public:
     void Movement() override;
     void Attack() override;
     void Manage_MoveState() override;
-    void Manage_AnimState() override;
+    void Change_Animation() override;
     void Thinker() override;
     void Check_Target() override;
 #pragma endregion
@@ -37,7 +37,7 @@ private:
     void        Set_OnTerrain();
 
 private:
-    Engine::CRectTex* m_pBufferCom;
+    Engine::CRectSpriteTex* m_pBufferCom;
     Engine::CTexture* m_pTextureCom;
     Engine::CCalculator* m_pCalculatorCom;
     Engine::CAnimator* m_Anim;
