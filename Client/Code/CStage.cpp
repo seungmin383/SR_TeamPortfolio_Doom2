@@ -10,6 +10,8 @@
 #include "CPlayerWeapon.h"
 #include "CManagement.h"
 #include "CGameUI.h"
+#include "CGameUI_Face.h"
+#include "CGameUI_Info.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -25,19 +27,20 @@ HRESULT CStage::Ready_Scene()
 	if (FAILED(Ready_Environment_Layer(LAYERID::LAYER_ENVIRONMENT)))
 		return E_FAIL;
 
+	if (FAILED(Ready_Camera_Layer(LAYERID::LAYER_CAMERA)))
+		return E_FAIL;
+
 	if (FAILED(Ready_GameLogic_Layer(LAYERID::LAYER_GAMELOGIC)))
 		return E_FAIL;
 
 	if (FAILED(Ready_UI_Layer(LAYERID::LAYER_UI)))
 		return E_FAIL;
 	
-	if (FAILED(Ready_Camera_Layer(LAYERID::LAYER_CAMERA)))
-		return E_FAIL;
 
 	if (FAILED(Ready_Light()))
 		return E_FAIL;
 
-	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_ENEMTY);
+	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_ENEMY);
 
 	return S_OK;
 }
@@ -80,7 +83,7 @@ HRESULT CStage::Ready_Environment_Layer(LAYERID _eLayerId)
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
-	
+
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_SKYBOX, pGameObject)))
 		return E_FAIL;
 
@@ -102,7 +105,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMTY, pGameObject)))
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
 		return E_FAIL;
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
@@ -118,14 +121,16 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
+	// Weapon
 	pGameObject = CPlayerWeapon::Create(m_pGraphicDev);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_WEAPON, pGameObject)))				// 일단 OBJ_WEAPON이라는 enum 값이 있어서 OBJ_UI->OBJ_WEAPON으로 교체(08/05)
 		return E_FAIL;
 
+	// UI
 	pGameObject = CGameUI::Create(m_pGraphicDev);
 
 	if (nullptr == pGameObject)
@@ -133,6 +138,38 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
 		return E_FAIL;
+
+	// Face
+	pGameObject = CGameUI_Face::Create(m_pGraphicDev);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
+		return E_FAIL;
+
+	// Info
+	// (1) UI Info 객체 생성
+	pGameObject = CGameUI_Info::Create(m_pGraphicDev);
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	// (2) Camera 객체 포인터를 얻어서
+	const auto& cameraObjects = Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYERCAMERA);
+	if (cameraObjects.empty())
+		return E_FAIL;
+
+	auto* pCameraObject = dynamic_cast<CDynamicCamera*>(cameraObjects.back());
+	if (pCameraObject == nullptr)
+		return E_FAIL;
+
+	// (3) UI Info에 Camera 포인터를 연결
+	static_cast<CGameUI_Info*>(pGameObject)->Set_Camera(pCameraObject);
+
+	// (4) UI Info를 UI 레이어에 등록
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
+		return E_FAIL;
+
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
 

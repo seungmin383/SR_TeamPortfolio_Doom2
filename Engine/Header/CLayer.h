@@ -14,6 +14,7 @@ private:
 public:
     CComponent* Get_Component(COMPONENTID eID, OBJID eObjId, const _tchar* pComponentTag);
     const vector<CGameObject*>& Get_ObjectGroup(OBJID eObjId) { return m_vecObject[(UINT)eObjId]; };
+    const vector<CGameObject*>* Get_AllObject() { return m_vecObject; }
 
     HRESULT     Add_GameObject(OBJID eObjId, CGameObject* pGameObject);
 

@@ -5,6 +5,7 @@ BEGIN(Engine)
 
 class CTerrainTex;
 class CTransform;
+class CGameObject;
 
 class ENGINE_DLL CCalculator :
     public CComponent
@@ -25,8 +26,7 @@ public:
                                     CTerrainTex* pTerrainBufferCom,
                                     CTransform* pTerrainTransformCom);
 
-private:
-    LPDIRECT3DDEVICE9       m_pGraphicDev;
+    _bool           Picking_GameObject(HWND hWnd);
 
 public:
     static CCalculator*     Create(LPDIRECT3DDEVICE9 pGraphicDev);

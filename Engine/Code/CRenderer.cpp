@@ -101,6 +101,18 @@ void CRenderer::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 		pGraphicDev->SetRenderState(D3DRS_ZENABLE, TRUE);
 	}
 
+	// 혹시 몰라서 Render_PLAYERUI 라는 enum 값을 추가함(08/05)
+	for (auto& pObj : m_RenderGroup[RENDER_PLAYERUI])
+	{
+		// z-buffer 비활성화
+		pGraphicDev->SetRenderState(D3DRS_ZENABLE, FALSE);
+
+		pObj->Render_GameObject();
+
+		// z-buffer 다시 활성화
+		pGraphicDev->SetRenderState(D3DRS_ZENABLE, TRUE);
+	}
+
 	// Render 끝나고 복사해둔 뷰, 투영 행렬 복원해주기
 	pGraphicDev->SetTransform(D3DTS_VIEW, &matPrevView);
 	pGraphicDev->SetTransform(D3DTS_PROJECTION, &matPrevProj);

@@ -16,7 +16,7 @@ enum class LAYERID
 enum class OBJID
 {
 	OBJ_PLAYER,
-	OBJ_ENEMTY,
+	OBJ_ENEMY,
 
 	OBJ_OBJECT,
 	OBJ_TERRAIN,
@@ -24,7 +24,7 @@ enum class OBJID
 	
 	OBJ_ATTACK,
 	OBJ_BULLET,
-	OBJ_LAY,
+	OBJ_RAY,
 	
 	OBJ_ITEM,
 	OBJ_BUTTON,
@@ -66,7 +66,7 @@ enum COLLAYERID
 
 	COL_ATTACK = 1 << 5,
 	COL_BULLET = 1 << 6,
-	COL_LAY = 1 << 7,
+	COL_RAY = 1 << 7,
 
 	COL_ITEM = 1 << 8,
 	COL_BUTTON = 1 << 9,
