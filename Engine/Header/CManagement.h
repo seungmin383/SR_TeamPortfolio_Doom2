@@ -28,7 +28,7 @@ public:
     HRESULT         Change_Scene(SCENEID _eSceneId);
 
     HRESULT         Set_Player(CGameObject* pObj);
-    const CGameObject* Get_Player() { return m_pPlayer; }
+    CGameObject* Get_Player() { return m_pPlayer; }
 
 public:
     _int        Update_Scene(const _float& fTimeDelta);

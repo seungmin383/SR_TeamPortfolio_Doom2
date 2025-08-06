@@ -106,9 +106,9 @@ void CLayer::DeleteAll()
 {
 	for (UINT i = 0; i < (UINT)OBJID::OBJ_END; ++i)
 	{
-		if (i == (_uint)OBJID::OBJ_PLAYER
-			|| i == (_uint)OBJID::OBJ_PLAYERCAMERA)
-			continue;
+		//if (i == (_uint)OBJID::OBJ_PLAYER
+		//	|| i == (_uint)OBJID::OBJ_PLAYERCAMERA)
+		//	continue;
 
 		DeleteObjectGroup((OBJID)i);
 	}
