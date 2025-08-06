@@ -110,6 +110,16 @@ enum class STATE
 	END_STATE
 };
 
+enum class SCENEID
+{
+	LOGO,
+	LOADING,
+	STAGE1,
+	STAGE2,
+	STAGE3,
+	SCENE_END
+};
+
 /// <summary>
 /// 사운드 채널
 /// </summary>

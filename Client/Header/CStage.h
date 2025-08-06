@@ -21,7 +21,8 @@ private:
     HRESULT         Ready_Light();
 
 public:
-    static CStage* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+    static CStage* Standby(LPDIRECT3DDEVICE9 pGraphicDev);
+    virtual CStage* Create() override;
 
 protected:
     virtual void        Free();

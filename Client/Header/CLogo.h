@@ -27,7 +27,8 @@ private:
     CLoading* m_pLoading;
 
 public:
-    static CLogo* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+    static CLogo* Standby(LPDIRECT3DDEVICE9 pGraphicDev);
+    virtual CLogo* Create() override;
 
 protected:
     virtual void            Free();

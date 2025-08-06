@@ -198,6 +198,9 @@ HRESULT CStage::Ready_Camera_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_PLAYERCAMERA, pGameObject)))
 		return E_FAIL;
 
+	//CManagement¿¡ Player ¼¼ÆÃ
+	CManagement::GetInstance()->Set_Player(pGameObject);
+
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
 	return S_OK;
@@ -222,9 +225,14 @@ HRESULT CStage::Ready_Light()
 	return S_OK;
 }
 
-CStage* CStage::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CStage* CStage::Standby(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CStage* pStage = new CStage(pGraphicDev);
+	return new CStage(pGraphicDev);
+}
+
+CStage* CStage::Create()
+{
+	CStage* pStage = new CStage(m_pGraphicDev);
 
 	if (FAILED(pStage->Ready_Scene()))
 	{
