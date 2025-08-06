@@ -27,6 +27,8 @@ public:
     void Change_Animation() override;
     void Thinker() override;
     void Check_Target() override;
+    void Attack_Player(const _float& fTimeDelta)override;
+
 #pragma endregion
 
     void Bill_Board();

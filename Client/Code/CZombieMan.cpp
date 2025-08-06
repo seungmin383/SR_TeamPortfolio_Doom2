@@ -29,6 +29,11 @@ HRESULT CZombieMan::Ready_GameObject()
 	m_fSightAngle = 80.f;
 	m_fSightDistance = 50.f;
 
+	m_fAtkSpeed = 4.f;
+	m_iHp = 20;
+	m_iAtkDmg = 3;
+	m_fDelay = 0.f;
+
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
@@ -78,7 +83,7 @@ void CZombieMan::LateUpdate_GameObject(const _float& fTimeDelta)
 
 	m_pColliderCom->Late_Update();
 
-	m_Anim->Play_Animation(1, 0, fTimeDelta);
+	m_Anim->Play_Animation(0, 0, fTimeDelta);
 }
 
 void CZombieMan::Render_GameObject()
@@ -251,6 +256,27 @@ void CZombieMan::Check_Target()
 
 }
 
+void CZombieMan::Attack_Player(const _float& fTimeDelta)
+{
+	m_fDelay += fTimeDelta;
+
+	if (m_fDelay > m_fAtkSpeed)
+	{
+
+	}
+	//만약 몬스터가 플레이어를 발견했다면 -> 공격 가능
+
+	//공격 가능일 때 -> 만약 딜레이가 공격 속도를 넘어갔다면 -> 공격
+
+
+
+}
+
+void CZombieMan::Movement()
+{
+	//rand
+}
+
 
 void CZombieMan::Thinker()
 {
@@ -260,7 +286,7 @@ void CZombieMan::Thinker()
 
 	//지금 플레이어가 보는 방향에 따른 몬스터 상태를 가져옴
 	m_eCurAnimState = (MONSTER_ANIM_STATE)Calc_AnimState(vLook, vPos);
-
+	
 	std::cout << "State : " << (int)m_eCurAnimState << std::endl;
 
 }
@@ -317,55 +343,6 @@ void CZombieMan::Change_Animation()
 	}
 }
 
-void CZombieMan::Movement()
-{
-	switch (m_eCurAnimState)
-	{
-	case Engine::MONSTER_ANIM_MOVE_F:
-		break;
-	case Engine::MONSTER_ANIM_MOVE_FR:
-		break;
-	case Engine::MONSTER_ANIM_MOVE_R:
-		break;
-	case Engine::MONSTER_ANIM_MOVE_BR:
-		break;
-	case Engine::MONSTER_ANIM_MOVE_B:
-		break;
-	case Engine::MONSTER_ANIM_MOVE_BL:
-		break;
-	case Engine::MONSTER_ANIM_MOVE_L:
-		break;
-	case Engine::MONSTER_ANIM_MOVE_FL:
-		break;
-	case Engine::MONSTER_ANIM_ATK_F:
-		break;
-	case Engine::MONSTER_ANIM_ATK_FR:
-		break;
-	case Engine::MONSTER_ANIM_ATK_R:
-		break;
-	case Engine::MONSTER_ANIM_ATK_BR:
-		break;
-	case Engine::MONSTER_ANIM_ATK_B:
-		break;
-	case Engine::MONSTER_ANIM_ATK_BL:
-		break;
-	case Engine::MONSTER_ANIM_ATK_L:
-		break;
-	case Engine::MONSTER_ANIM_ATK_FL:
-		break;
-	case Engine::MONSTER_ANIM_GIBBINGDEATH:
-		break;
-	case Engine::MONSTER_ANIM_NORMALDEATH:
-		break;
-	case Engine::MONSTER_ANIM_END:
-		break;
-	default:
-		break;
-	}
-
-
-	m_pTextureCom->Set_Texture(m_eCurAnimState);
-}
 
 void CZombieMan::Attack()
 {

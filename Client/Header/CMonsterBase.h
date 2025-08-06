@@ -14,6 +14,7 @@ public:
     virtual void Manage_MoveState()PURE;        // 몬스터의 이동 방향을 결정할 함수
     virtual void Change_Animation()PURE;         // 플레이어와의 각도와 몬스터의 이동 방향을 계산해서 실제 선택될 애니메이션 상태를 확인하는 함수
     virtual void Check_Target()PURE;                  //플레이어 찾는 함수
+    virtual void Attack_Player(const _float& fTimeDelta)PURE;
 
     virtual void Debug_Line(_vec3 _Pos, _vec3 _Point1, _vec3 _Point2);
 
@@ -28,6 +29,7 @@ protected:
     _float m_fSightAngle;
     _float m_fSightDistance;
 
+    _float m_fDelay; 
 protected:
     virtual void Free();
 
