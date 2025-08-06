@@ -4,6 +4,7 @@
 #include "CFontManager.h"
 #include "CDynamicCamera.h"
 #include "CPlayerWeapon.h"
+#include <vector>
 
 class CGameUI_Info :    public CGameObject
 {

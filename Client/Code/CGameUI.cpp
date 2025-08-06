@@ -44,22 +44,6 @@ HRESULT CGameUI::Ready_GameObject()
 	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 	m_pTransformCom->Set_Scale(vScale);
 
-	//// 월드 행렬의 크기, 위치 등을 설정합니다.                                   
-	//_matrix matWorld;
-	//D3DXMatrixIdentity(&matWorld);
-
-	//// 예시: UI 크기 설정                                                        
-	//matWorld._11 = 200.f; // 너비                                                
-	//matWorld._22 = 100.f; // 높이                                                
-	//matWorld._33 = 1.f;
-
-	//// 예시: UI 위치 설정                                                        
-	//matWorld._41 = 400.f; // X 위치                                              
-	//matWorld._42 = 300.f; // Y 위치                                              
-	//matWorld._43 = 0.9f;  // Z 위치 <- 이 값을 0.9f 와 같이 큰 값으로 설정합니다.
-
-	//m_pTransformCom->Set_World(&matWorld);
-
     return S_OK;
 }
 
