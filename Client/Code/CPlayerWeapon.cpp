@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "CPlayerWeapon.h"
+#include "CDInputManager.h"
 #include "CRenderer.h"
 
 CPlayerWeapon::CPlayerWeapon(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CCharacter(pGraphicDev)
+	: CCharacter(pGraphicDev),
+	m_eWeaponId(PISTOL)
 {
 }
 
@@ -48,8 +50,10 @@ void CPlayerWeapon::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 
+	Key_Input();
+
 	//애니메이션 실행
-	m_pAnimatorCom->Play_Animation(0, 0, fTimeDelta);
+	m_pAnimatorCom->Play_Animation(m_eWeaponId, 0, fTimeDelta);
 }
 
 void CPlayerWeapon::Render_GameObject()
@@ -74,7 +78,8 @@ void CPlayerWeapon::Render_GameObject()
 
 void CPlayerWeapon::Ready_Animation()
 {
-	m_pAnimatorCom->Add_Animation(0, m_pTextureCom, m_pBufferCom, 3, 1, 0, 2, 0.1f, true);
+	m_pAnimatorCom->Add_Animation(PISTOL, m_pTextureCom, m_pBufferCom, 5, 1, 0, 0, 0.1f, true);
+	m_pAnimatorCom->Add_Animation(SHOTGUN, m_pTextureCom, m_pBufferCom, 5, 1, 1, 4, 0.1f, true);
 }
 
 HRESULT CPlayerWeapon::Add_Component()
@@ -113,6 +118,19 @@ HRESULT CPlayerWeapon::Add_Component()
 	m_mapComponent[ID_STATIC].insert({ L"Com_Animator", pComponent });
 
 	return S_OK;
+}
+
+void CPlayerWeapon::Key_Input()
+{
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_1))
+	{
+		m_eWeaponId = PISTOL;
+	}
+
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_2))
+	{
+		m_eWeaponId = SHOTGUN;
+	}
 }
 
 void CPlayerWeapon::Movement()
