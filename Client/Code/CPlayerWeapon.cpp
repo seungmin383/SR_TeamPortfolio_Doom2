@@ -53,8 +53,13 @@ void CPlayerWeapon::LateUpdate_GameObject(const _float& fTimeDelta)
 	Key_Input();
 	Mouse_Input();
 
+
 	//애니메이션 실행
 	m_pAnimatorCom->Play_Animation(m_eWeaponId + m_eWeaponState, 0, fTimeDelta);
+
+	// 만약 현재 애니메이션이 다 끝난 상태라면 총의 상태를 기본 상태로 돌려놓는다.
+	if (m_pAnimatorCom->Get_isFinAct())
+		m_eWeaponState = IDLE;
 }
 
 void CPlayerWeapon::Render_GameObject(const _float& fTimeDelta)
@@ -134,19 +139,32 @@ void CPlayerWeapon::Key_Input()
 {
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_1) & 0x80)
 	{
+		// 총을 바꾸려 할 때 사격 상태라면 리턴
+		if (m_eWeaponState == SHOT)
+			return;
+
 		m_eWeaponId = PISTOL;
 		m_eWeaponState = IDLE;
 	}
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_2) & 0x80)
 	{
+		// 총을 바꾸려 할 때 사격 상태라면 리턴
+		if (m_eWeaponState == SHOT)
+			return;
+
 		m_eWeaponId = SHOTGUN;
 		m_eWeaponState = IDLE;
 	}
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_3) & 0x80)
 	{
+		// 총을 바꾸려 할 때 사격 상태라면 리턴
+		if (m_eWeaponState == SHOT)
+			return;
+
 		m_eWeaponId = CHAINGUN;
 		m_eWeaponState = IDLE;
 	}
+
 }
 
 void CPlayerWeapon::Mouse_Input()
