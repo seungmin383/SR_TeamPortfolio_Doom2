@@ -32,6 +32,13 @@ HRESULT CLayer::Add_GameObject(OBJID eObjId, CGameObject* pGameObject)
 	return S_OK;
 }
 
+HRESULT CLayer::Add_GameObjectPool(OBJID eObjId, CGameObject* pGameObject, _int iCount)
+{
+
+
+	return S_OK;
+}
+
 HRESULT CLayer::Ready_Layer()
 {
 	return S_OK;
