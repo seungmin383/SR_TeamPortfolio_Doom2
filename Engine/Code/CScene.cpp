@@ -13,8 +13,8 @@ CScene::~CScene()
 CComponent* CScene::Get_Component(COMPONENTID eID, LAYERID eLayerId, OBJID eObjId, const _tchar* pComponentTag)
 {
 	auto iter = find_if(m_mapLayer.begin(),
-						m_mapLayer.end(),
-						[eLayerId](const pair<const LAYERID, const CLayer*> pair) { return pair.first == eLayerId; });
+		m_mapLayer.end(),
+		[eLayerId](const pair<const LAYERID, const CLayer*> pair) { return pair.first == eLayerId; });
 
 	if (iter == m_mapLayer.end())
 		return nullptr;
@@ -27,13 +27,46 @@ const vector<CGameObject*>& CScene::Get_ObjectGroup(LAYERID eLayerId, OBJID eObj
 	vector<CGameObject*> result;
 
 	auto iter = find_if(m_mapLayer.begin(),
-						m_mapLayer.end(),
-						[eLayerId](const pair<const LAYERID, const CLayer*> pair) { return pair.first == eLayerId; });
+		m_mapLayer.end(),
+		[eLayerId](const pair<const LAYERID, const CLayer*> pair) { return pair.first == eLayerId; });
 
 	if (iter == m_mapLayer.end())
 		return result;
 
 	return iter->second->Get_ObjectGroup(eObjId);
+}
+
+const vector<CGameObject*> CScene::Get_TotalGameObject()
+{
+	vector<CGameObject*> result;
+	for (auto layer : m_mapLayer)
+	{
+		auto objArrList = layer.second->Get_AllObject();
+		for (size_t i = 0; i < (_uint)OBJID::OBJ_END; i++)
+		{
+			for (auto obj : objArrList[i])
+			{
+				result.push_back(obj);
+			}
+		}
+	}
+
+	return result;
+}
+
+const vector<CGameObject*> CScene::Get_TotalGameObject(OBJID eObjId)
+{
+	vector<CGameObject*> result;
+	for (auto layer : m_mapLayer)
+	{
+		auto objArrList = layer.second->Get_AllObject();
+		for (auto obj : objArrList[(_uint)eObjId])
+		{
+			result.push_back(obj);
+		}
+	}
+
+	return result;
 }
 
 HRESULT CScene::Ready_Scene()

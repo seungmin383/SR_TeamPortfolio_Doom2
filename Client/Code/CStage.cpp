@@ -41,6 +41,7 @@ HRESULT CStage::Ready_Scene()
 		return E_FAIL;
 
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_ENEMY);
+	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYERCAMERA, OBJID::OBJ_ENEMY);
 
 	return S_OK;
 }
