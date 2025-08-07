@@ -32,11 +32,13 @@ public:
                                                     _bool _bIsLoop);
 
     void                            Play_Animation(_uint _irow, const _float& fTimeDelta);
-    void                            Set_Texture();
+    void                            Set_Texture(_uint _setTexNum = 0);
     void                            SetFrameDefault();
+    _bool                           Get_isFinAct() { return m_bFinAct; }
+    
+    void                            Set_UVCoord();
 
 private:
-    void                            Set_UVCoord();
     void                            Calc_Frame(const _float& fTimeDelta);
 
 public:
@@ -57,6 +59,8 @@ public:
     _float                          m_fFrameTime;
     _bool                           m_bIsLoop;
     _bool                           m_bIsEnd;
+
+    _bool                           m_bFinAct;
 
     _vec2                           m_vUVPerColRow;
 

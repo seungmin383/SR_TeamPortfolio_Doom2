@@ -14,9 +14,9 @@ public:
     virtual             HRESULT         Ready_GameObject();
     virtual             _int            Update_GameObject(const _float& fTimeDelta);
     virtual             void            LateUpdate_GameObject(const _float& fTimeDelta);
-    virtual             void            Render_GameObject();
+    virtual             void            Render_GameObject(const _float& fTimeDelta);
 
-    virtual void Movement()PURE;
+    virtual void Movement(const _float& fTimeDelta)PURE;
     virtual void Attack()PURE;
 
 public:

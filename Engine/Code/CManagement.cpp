@@ -6,6 +6,8 @@ IMPLEMENT_SINGLETON(CManagement)
 CManagement::CManagement()
 	: m_pScene(nullptr)
 {
+	for (size_t i = 0; i < (_uint)SCENEID::SCENE_END; i++)
+		m_pArrScene[i] = nullptr;
 }
 
 CManagement::~CManagement()
@@ -49,6 +51,38 @@ HRESULT CManagement::Set_Scene(CScene* pScene)
 	return S_OK;
 }
 
+HRESULT CManagement::Add_Scene(SCENEID _eSceneId, CScene* _pScene)
+{
+	if (nullptr == _pScene)
+		return E_FAIL;
+
+	m_pArrScene[(_uint)_eSceneId] = _pScene;
+
+	return S_OK;
+}
+
+HRESULT CManagement::Change_Scene(SCENEID _eSceneId)
+{
+	//m_pArrScene[(_uint)_eSceneId] = m_pArrScene[(_uint)_eSceneId]->Create();
+
+	if (nullptr == m_pArrScene[(_uint)_eSceneId])
+		return E_FAIL;
+
+	Set_Scene(m_pArrScene[(_uint)_eSceneId]->Create());
+
+	return S_OK;
+}
+
+HRESULT CManagement::Set_Player(CGameObject* pObj)
+{
+	if (nullptr == pObj)
+		return E_FAIL;
+
+	m_pPlayer = pObj;
+
+	return S_OK;
+}
+
 _int CManagement::Update_Scene(const _float& fTimeDelta)
 {
 	if (nullptr == m_pScene)
@@ -62,14 +96,20 @@ void CManagement::LateUpdate_Scene(const _float& fTimeDelta)
 	m_pScene->LateUpdate_Scene(fTimeDelta);
 }
 
-void CManagement::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
+void CManagement::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev, const _float& fTimeDelta)
 {
-	CRenderer::GetInstance()->Render_GameObejct(pGraphicDev);
+	CRenderer::GetInstance()->Render_GameObejct(pGraphicDev, fTimeDelta);
 
-	m_pScene->Render_Scene();
+	m_pScene->Render_Scene(fTimeDelta);
 }
 
 void CManagement::Free()
 {
+	for (size_t i = 0; i < (_uint)SCENEID::SCENE_END; i++)
+	{
+		if (nullptr != m_pArrScene[i])
+			Safe_Release(m_pArrScene[i]);
+	}
+
 	Safe_Release(m_pScene);
 }

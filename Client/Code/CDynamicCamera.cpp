@@ -51,7 +51,7 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 		return E_FAIL;
 
 	// Collider Default Settings
-	_vec3 vScale{ 20.f, 20.f, 20.f };
+	_vec3 vScale{ 100.f, 100.f, 100.f };
 	_vec3 vOffset{ 0.f, 0.f, 0.f };
 
 	m_pColliderCom->Ready_CCollider(this, m_vEye, vScale, vOffset, COL_PLAYER,
@@ -84,7 +84,7 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 	}
 }
 
-void CDynamicCamera::Render_GameObject()
+void CDynamicCamera::Render_GameObject(const _float& fTimeDelta)
 {
 }
 
@@ -122,6 +122,15 @@ HRESULT CDynamicCamera::Add_Component()
 
 void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 {
+	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB))
+	{
+		auto a = m_pCalculatorCom->Picking_GameObject(g_hWnd);
+		if (a)
+		{
+			auto b = 1;
+		}
+	}
+
 	_matrix	matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, 0, &m_matView);
 

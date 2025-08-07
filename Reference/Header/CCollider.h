@@ -32,12 +32,14 @@ public:
 	void				Render(_bool _colRend);
 
 	virtual CComponent*		Clone();
-	static CCollider*		Cretae(LPDIRECT3DDEVICE9 pGarphicDev);
+	static CCollider*		Create(LPDIRECT3DDEVICE9 pGarphicDev);
 
 public:
 	void				OnCollision(CCollider* _pOther);
 	void				OnCollisionEnter(CCollider* _pOther);
 	void				OnCollisionExit(CCollider* _pOther);
+
+	void				HitRay(CCollider* _pOther);
 
 public:
 	void				Set_Active(bool _bVal) { m_bActive = _bVal; }
@@ -101,6 +103,10 @@ private:
 
 	COLLAYERID			m_eColLayerId;
 	_int				m_iColMask;
+
+	_bool				m_bHit;
+	_float				m_fHitDelay;
+	_float				m_fHitTime;
 
 private:
 	CGameObject*		m_pOwner;

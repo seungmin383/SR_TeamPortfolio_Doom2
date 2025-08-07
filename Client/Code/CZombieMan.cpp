@@ -20,8 +20,12 @@ CZombieMan::~CZombieMan()
 
 HRESULT CZombieMan::Ready_GameObject()
 {
-	m_fSightAngle = 45.f;
-	m_fSightDistance = 500.f;
+	AllocConsole();
+
+	FILE* fp;
+	freopen_s(&fp, "CONOUT$", "w", stdout);
+	freopen_s(&fp, "CONOUT$", "w", stderr);
+
 
 	if (FAILED(Add_Component()))
 		return E_FAIL;
@@ -30,21 +34,94 @@ HRESULT CZombieMan::Ready_GameObject()
 	m_pTransformCom->Get_Pos(&vPos);
 
 	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.f, 0.f),
-		COLLAYERID::COL_ENEMY, 
+		COLLAYERID::COL_ENEMY,
 		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT);
+
+#pragma region ANIM_SETTING
+
+	//이동
+	m_pAnimCom->Add_Animation(
+		ANIM_MOVE,
+		m_pTextureCom,
+		m_pBufferCom,
+		5,				//가로
+		1,				//세로
+		0,				//start frame
+		4,				//end frame
+		0.2f,
+		true
+	);
+
+	//공격
+	m_pAnimCom->Add_Animation(
+		ANIM_ATK,
+		m_pTextureCom,
+		m_pBufferCom,
+		4,
+		1,
+		0,
+		3,
+		0.2f,
+		true
+	);
+
+	//일반 죽음
+	m_pAnimCom->Add_Animation(
+		ANIM_NDEAD,
+		m_pTextureCom,
+		m_pBufferCom,
+		6,
+		1,
+		0,
+		5,
+		0.2f,
+		true
+	);
+
+	//폭사
+	m_pAnimCom->Add_Animation(
+		ANIM_GDEAD,
+		m_pTextureCom,
+		m_pBufferCom,
+		9,
+		1,
+		0,
+		8,
+		0.2f,
+		true
+	);
+
+#pragma endregion
+
+#pragma region VARIABLE_SETTING
+	m_fSightAngle = 80.f;
+	m_fSightDistance = 50.f;
+
+	m_fAtkSpeed = 4.f;
+	m_iHp = 20;
+	m_iAtkDmg = 3;
+	m_fAtkDelay = 0.f;
+
+	m_fMoveDelay = 0.f;
+	m_fAtkDelay = 0.f;
+
+	//초기 룩으로 세팅해주고
+	m_pTransformCom->Get_Info(INFO_LOOK, &m_vMoveLook);
+#pragma endregion
+
 
 	return S_OK;
 }
 
 _int CZombieMan::Update_GameObject(const _float& fTimeDelta)
 {
-	Thinker();
+	Thinker(fTimeDelta);
 
 	CGameObject::Update_GameObject(fTimeDelta);
 
 	Set_OnTerrain();
 	Bill_Board();
-	CRenderer::GetInstance()->Add_RenderGroup(RENDER_PRIORITY, this);
+	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	return 0;
 }
@@ -52,20 +129,38 @@ _int CZombieMan::Update_GameObject(const _float& fTimeDelta)
 void CZombieMan::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	Key_Input(fTimeDelta);
-	Check_Target();
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 
 	m_pColliderCom->Late_Update();
 }
 
-void CZombieMan::Render_GameObject()
+void CZombieMan::Render_GameObject(const _float& fTimeDelta)
 {
+	Check_Target();
+
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
-	m_pTextureCom->Set_Texture(0);
-
+	//	m_pTextureCom->Set_Texture(m_eCurAnimState);
+	//죽었는지 가장 먼저 체크 -> 공격하는지 체크 -> 아니면 이동
+	if (m_isGibbingDead)
+	{
+		m_pAnimCom->Play_Animation(ANIM_GDEAD, 0, fTimeDelta, m_eCurAnimState);
+	}
+	else if (m_isNormalDead)
+	{
+		m_pAnimCom->Play_Animation(ANIM_NDEAD, 0, fTimeDelta, m_eCurAnimState);
+	}
+	else if (m_isAtk)
+	{
+		m_pAnimCom->Play_Animation(ANIM_ATK, 0, fTimeDelta, m_eCurAnimState);
+		m_isAtk = false;
+	}
+	else
+	{
+		m_pAnimCom->Play_Animation(ANIM_MOVE, 0, fTimeDelta, m_eCurAnimState);
+	}
 	m_pBufferCom->Render_Buffer();
 
 	//충돌체
@@ -90,8 +185,8 @@ HRESULT CZombieMan::Add_Component()
 {
 	CComponent* pComponent = NULL;
 
-	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectTex*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectTex"));
+	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectSpriteTex*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectSpriteTex"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -104,6 +199,14 @@ HRESULT CZombieMan::Add_Component()
 		return E_FAIL;
 
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
+
+	//MoveTransform
+	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Transform"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_DYNAMIC].insert({ L"Com_MoveTransform", pComponent });
 
 	//Texture
 	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>
@@ -127,21 +230,35 @@ HRESULT CZombieMan::Add_Component()
 
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
 
+
+	pComponent = m_pAnimCom = dynamic_cast<Engine::CAnimator*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Animator"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Animator", pComponent });
+
+
 	return S_OK;
 }
 
 void CZombieMan::Key_Input(const _float& fTimeDelta)
 {
-	_vec3 vLook;
-	m_pTransformCom->Get_Info(INFO_LOOK, &vLook);
 
-	if (GetAsyncKeyState(VK_UP))
+	if (GetAsyncKeyState(VK_LBUTTON) && m_pAnimCom->Get_isFinAct())
 	{
-		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), 3.f, fTimeDelta);
+		m_eCurAnimState = 8;
+		m_isAtk = true;
 	}
-	if (GetAsyncKeyState(VK_DOWN))
+	if (GetAsyncKeyState('1') && m_pAnimCom->Get_isFinAct())
 	{
-		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), -3.f, fTimeDelta);
+		m_eCurAnimState = 16;
+		m_isGibbingDead = true;
+	}
+	else if (GetAsyncKeyState('2') && m_pAnimCom->Get_isFinAct())
+	{
+		m_eCurAnimState = 17;
+		m_isNormalDead = true;
 	}
 }
 
@@ -166,7 +283,7 @@ CZombieMan* CZombieMan::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	if (FAILED(tmp->Ready_GameObject()))
 	{
 		Safe_Release(tmp);
-		MSG_BOX("Player Create Failed");
+		MSG_BOX("ZombieMan Create Failed");
 		return nullptr;
 	}
 
@@ -213,25 +330,64 @@ void CZombieMan::Check_Target()
 	_vec3 vRightPos = vPos + vRightBorderLine;
 
 	Debug_Line(vPos, vLeftPos, vRightPos);
+
+
+}
+
+void CZombieMan::Attack_Player(const _float& fTimeDelta)
+{
+	m_fAtkDelay += fTimeDelta;
+
+	if (m_fAtkDelay > m_fAtkSpeed)
+	{
+
+	}
+	//만약 몬스터가 플레이어를 발견했다면 -> 공격 가능
+
+	//공격 가능일 때 -> 만약 딜레이가 공격 속도를 넘어갔다면 -> 공격
+
+
+
+}
+
+void CZombieMan::Movement(const _float& fTimeDelta)
+{
+	m_pTransformCom->Move_Pos(D3DXVec3Normalize(&m_vMoveLook, &m_vMoveLook), 3.f, fTimeDelta);
 }
 
 
-void CZombieMan::Thinker()
+void CZombieMan::Thinker(const _float& fTimeDelta)
 {
-	Movement();
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+
+	m_fMoveDelay += fTimeDelta;
+	if (m_fMoveDelay > 4.f)
+	{
+		Set_Direction(&m_vMoveLook);
+		m_fMoveDelay = 0.f;
+	}
+	Movement(fTimeDelta);
+	//지금 플레이어가 보는 방향에 따른 몬스터 상태를 가져옴
+
+
+	if (m_pAnimCom->Get_isFinAct())
+	{
+		m_eCurAnimState = (MONSTER_ANIM_STATE)Calc_AnimState(m_vMoveLook, vPos);
+		m_isGibbingDead = false;
+		m_isNormalDead = false;
+	}
+
+	std::cout << "vLook" << m_vMoveLook.x << ' ' << m_vMoveLook.y << ' ' << m_vMoveLook.z << ' ' << std::endl;
+
 }
 
 void CZombieMan::Manage_MoveState()
 {
-		
-}
-
-void CZombieMan::Manage_AnimState()
-{
 
 }
 
-void CZombieMan::Movement()
+void CZombieMan::Change_Animation()
 {
 	switch (m_eCurAnimState)
 	{
@@ -276,10 +432,8 @@ void CZombieMan::Movement()
 	default:
 		break;
 	}
-
-
-	m_pTextureCom->Set_Texture(m_eCurAnimState);
 }
+
 
 void CZombieMan::Attack()
 {

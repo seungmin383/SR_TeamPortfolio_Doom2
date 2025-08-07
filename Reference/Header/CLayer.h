@@ -14,6 +14,7 @@ private:
 public:
     CComponent* Get_Component(COMPONENTID eID, OBJID eObjId, const _tchar* pComponentTag);
     const vector<CGameObject*>& Get_ObjectGroup(OBJID eObjId) { return m_vecObject[(UINT)eObjId]; };
+    const vector<CGameObject*>* Get_AllObject() { return m_vecObject; }
 
     HRESULT     Add_GameObject(OBJID eObjId, CGameObject* pGameObject);
 
@@ -24,6 +25,7 @@ public:
 
 private:
     vector<CGameObject*>                m_vecObject[(_uint)OBJID::OBJ_END];
+    vector<CGameObject*>                m_vecObjectPool[(_uint)OBJID::OBJ_END];
 public:
     static CLayer* Create();
 

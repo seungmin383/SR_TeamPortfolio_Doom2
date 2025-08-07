@@ -17,7 +17,7 @@ extern bool g_colRend;
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <process.h>
-
+#include <iostream	>
 #ifdef _DEBUG
 
 #define _CRTDBG_MAP_ALLOC

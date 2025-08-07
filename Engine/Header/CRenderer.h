@@ -16,15 +16,15 @@ private:
 
 public:
     void        Add_RenderGroup(RENDERID eType, CGameObject* pGameObject);
-    void        Render_GameObejct(LPDIRECT3DDEVICE9& pGraphicDev);
+    void        Render_GameObejct(LPDIRECT3DDEVICE9& pGraphicDev, const _float& fTimeDelta);
     void        Clear_RenderGroup();
 
 private:
-    void        Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev);
-    void        Render_NonAlpha(LPDIRECT3DDEVICE9& pGraphicDev);
-    void        Render_Reflect(LPDIRECT3DDEVICE9& pGraphicDev);
-    void        Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev);
-    void        Render_UI(LPDIRECT3DDEVICE9& pGraphicDev);
+    void        Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev, const _float& fTimeDelta);
+    void        Render_NonAlpha(LPDIRECT3DDEVICE9& pGraphicDev, const _float& fTimeDelta);
+    void        Render_Reflect(LPDIRECT3DDEVICE9& pGraphicDev, const _float& fTimeDelta);
+    void        Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev, const _float& fTimeDelta);
+    void        Render_UI(LPDIRECT3DDEVICE9& pGraphicDev, const _float& fTimeDelta);
 
 private:
     list<CGameObject*>      m_RenderGroup[RENDER_END];
