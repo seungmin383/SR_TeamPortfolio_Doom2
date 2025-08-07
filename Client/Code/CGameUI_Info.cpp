@@ -131,8 +131,6 @@ void CGameUI_Info::Render_GameObject()
 	m_pTextureCom->Set_Texture(m_ones);
 	m_pBufferCom->Render_Buffer();
 
-	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
-
 	// 5. 렌더링이 끝난 후, 백업해두었던 원래의 View, Projection 행렬로 복원합니다.                                           
 	// 이렇게 해야 다른 3D 오브젝트들이 정상적으로 렌더링됩니다.                                                              
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &matView);
