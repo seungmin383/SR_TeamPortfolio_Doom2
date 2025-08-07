@@ -94,12 +94,6 @@ void CGameUI_Info::Render_GameObject()
 	//// 4. UI를 렌더링합니다.                                                                                                  
 	//m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
 
-	//m_pTextureCom->Set_Texture(m_hundreds);
-
-	//m_pTextureCom->Set_Texture(m_tens);
-
-	//m_pTextureCom->Set_Texture(m_ones);
-
 	//// 알파 블렌딩을 활성화하여 투명한 부분이 처리되도록 합니다.                                                              
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
@@ -113,25 +107,9 @@ void CGameUI_Info::Render_GameObject()
 	vScale.z = 1.f;
 
 	vPos = { -300.f, -WINCY * 0.5f + vScale.y + 15.f, 0.f };
-	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
-	matWorld = *m_pTransformCom->Get_World();
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
-	m_pTextureCom->Set_Texture(m_hundreds);
-	m_pBufferCom->Render_Buffer();
 
-	m_pTransformCom->Set_Pos(vPos.x + vScale.x, vPos.y, vPos.z);
-	matWorld = *m_pTransformCom->Get_World();
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
-	m_pTextureCom->Set_Texture(m_tens);
-	m_pBufferCom->Render_Buffer();
-
-	m_pTransformCom->Set_Pos(vPos.x + vScale.x * 2, vPos.y, vPos.z);
-	matWorld = *m_pTransformCom->Get_World();
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
-	m_pTextureCom->Set_Texture(m_ones);
-	m_pBufferCom->Render_Buffer();
-
-	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
+	Render_Number(m_pCamera->Get_Hp(), -300.f, -WINCY * 0.5f + vScale.y + 15.f, 30.f, 30.f / (15.f / 16.f));
+	Render_Number(m_pCamera->Get_Armor(), 300.f, -WINCY * 0.5f + vScale.y + 15.f, 30.f, 30.f / (15.f / 16.f));
 
 	// 5. 렌더링이 끝난 후, 백업해두었던 원래의 View, Projection 행렬로 복원합니다.                                           
 	// 이렇게 해야 다른 3D 오브젝트들이 정상적으로 렌더링됩니다.                                                              
@@ -161,9 +139,38 @@ void CGameUI_Info::Render_GameObject()
 	//CFontManager::GetInstance()->Render_Font(L"Font_Default", szClip, &vPos3, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 }
 
-void CGameUI_Info::Render_Number(const int& iNumber, const _vec2* pPos, const _vec2* pScale)
+void CGameUI_Info::Render_Number(int number, float baseX, float baseY, float scaleX, float scaleY)
 {
-	
+	// 숫자를 100, 10, 1의 자리로 분리
+	int digits[3] = {
+		number / 100,
+		(number % 100) / 10,
+		number % 10
+	};
+
+	for (int i = 0; i < 3; ++i)
+	{
+		float digitWidth = 64.f;  // 텍스처 한 칸 폭
+		float spacing = 2.f;      // 자리 간의 여백(픽셀)
+		float x = baseX + i * (digitWidth + spacing);	// 각 자리 위치를 계산 (자릿수 만큼 오른쪽으로 이동)
+		float y = baseY;
+
+		// 위치/스케일 갱신 (매번!)
+		m_pTransformCom->Set_Pos(x, y, 0.f);
+		m_pTransformCom->Set_Scale({ scaleX, scaleY, 1.f });
+
+		// Set_Pos, Set_Scale 등으로 지정한 값을 실제 월드 행렬로 계산하여 적용한다.
+		// 이 호출이 없으면 위치/크기 변경이 렌더에 반영되지 않음!
+		m_pTransformCom->Update_Component(0.f);
+
+		// 월드 행렬 갱신
+		_matrix matWorld = *m_pTransformCom->Get_World();
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+
+		// 텍스처 지정 (0~9)
+		m_pTextureCom->Set_Texture(digits[i]);
+		m_pBufferCom->Render_Buffer();
+	}
 }
 
 void CGameUI_Info::OnCollision(CCollider* _pOther)
