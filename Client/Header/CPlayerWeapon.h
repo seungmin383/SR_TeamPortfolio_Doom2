@@ -4,6 +4,10 @@
 
 class CPlayerWeapon :  public CCharacter
 {
+public:
+    enum WEAPON_ID {PISTOL_IDLE, PISTOL_SHOT, SHOTGUN, CHAINGUN, ROCKET, BFG, WEAPON_END};
+    enum WEAPON_STATE {IDLE, ATTACK, SWAP};
+
 private:
     explicit CPlayerWeapon(LPDIRECT3DDEVICE9 pGraphicDev);
     explicit CPlayerWeapon(const CCharacter& rhs);
@@ -22,6 +26,8 @@ public:
 
 private:
     HRESULT     Add_Component();
+    void        Key_Input();
+    void        Mouse_Input();
 
     void Movement() override;
     void Attack() override;
@@ -31,6 +37,9 @@ private:
     Engine::CTexture* m_pTextureCom;
     Engine::CTransform* m_pTransformCom;
     Engine::CAnimator* m_pAnimatorCom;
+
+    WEAPON_ID       m_eWeaponId;
+    WEAPON_STATE    m_eWeaponState;
 
 public:
     static CPlayerWeapon* Create(LPDIRECT3DDEVICE9 pGraphicDev);
