@@ -53,7 +53,7 @@ public:
     /// <param name="_iState">상태</param>
     /// <param name="_iRow">실행할 스프라이트 가로 번호</param>
     /// <param name="fTimeDelta"></param>
-    void                    Play_Animation(_uint _iState, _uint _iRow, const _float& fTimeDelta);
+    void                    Play_Animation(_uint _iState, _uint _iRow, const _float& fTimeDelta, _uint _setTexNum = 0);
 
 public:
     virtual CComponent*     Clone();

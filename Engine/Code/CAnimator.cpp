@@ -48,7 +48,7 @@ HRESULT CAnimator::Add_Animation(_uint _iCurState,
 	return S_OK;
 }
 
-void CAnimator::Play_Animation(_uint _iState, _uint _iRow, const _float& fTimeDelta)
+void CAnimator::Play_Animation(_uint _iState, _uint _iRow, const _float& fTimeDelta, _uint _setTexNum)
 {
 	if (m_iCurState != _iState)
 	{
@@ -62,6 +62,7 @@ void CAnimator::Play_Animation(_uint _iState, _uint _iRow, const _float& fTimeDe
 		else
 		{
 			m_pCurAnimation = iter->second;
+			m_pCurAnimation->Set_Texture(_setTexNum);
 			m_pCurAnimation->SetFrameDefault();
 		}
 	}
