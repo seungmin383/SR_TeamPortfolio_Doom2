@@ -86,6 +86,7 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 
 void CDynamicCamera::Render_GameObject(const _float& fTimeDelta)
 {
+	m_pColliderCom->Render(g_colRend);
 }
 
 HRESULT CDynamicCamera::Add_Component()

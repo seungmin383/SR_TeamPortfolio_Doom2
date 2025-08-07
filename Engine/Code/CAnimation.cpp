@@ -113,6 +113,9 @@ void CAnimation::Calc_Frame(const _float& fTimeDelta)
 		m_iCurFrame++;
 		m_fFrameTime = 0.f;
 
+		if (m_bFinAct)
+			m_bFinAct = false;
+
 		if (m_iCurFrame > (_int)m_iEndFrame)
 		{
 			m_bFinAct = true;
@@ -137,6 +140,9 @@ void CAnimation::Calc_Frame_Reverse(const _float& fTimeDelta)
 	{
 		m_iCurFrame--;
 		m_fFrameTime = 0.f;
+
+		if (m_bFinAct)
+			m_bFinAct = false;
 
 		if (m_iCurFrame < (_int)m_iStartFrame)
 		{
