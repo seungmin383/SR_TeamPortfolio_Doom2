@@ -4,7 +4,7 @@
 #include "CRenderer.h"
 
 CGameUI_Info::CGameUI_Info(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev), m_pCamera(nullptr)
+	: CGameObject(pGraphicDev), m_pCamera(nullptr), m_iNum(0)
 {
 }
 
@@ -22,24 +22,127 @@ HRESULT CGameUI_Info::Ready_GameObject()
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
+	m_iNum = 0;
+
+
+	// 원본 텍스쳐의 크기와 비율을 정의
+	const _float fTexWidth = 15.f;
+	const _float fTexHeight = 16.f;
+	const _float fTexAspectRatio = fTexWidth / fTexHeight;
+
+	_vec3 vPos, vScale;
+
+	// UI의 너비를 화면의 너비로 설정
+	vScale.x = 30.f;
+	vScale.y = vScale.x / fTexAspectRatio;		// 화면 너비를 10으로 나눈 값
+	vScale.z = 1.f;
+
+	// UI의 위치를 화면 맨 아래로 설정
+	// UI의 중심점은 화면 하단 + UI 높이의 절반 위치에 둔다.
+	vPos = { -300.f, -WINCY * 0.5f + vScale.y + 15.f, 0.f };
+
+	// 계산된 위치와 스케일을 Transform 컴포넌트에 적용
+	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
+	m_pTransformCom->Set_Scale(vScale);
+
 	return S_OK;
 }
 
 _int CGameUI_Info::Update_GameObject(const _float& fTimeDelta)
 {
+	CGameObject::Update_GameObject(fTimeDelta);
+
+	m_hundreds = m_pCamera->Get_Hp() / 100;
+	m_tens = m_pCamera->Get_Hp() % 100 / 10;
+	m_ones = m_pCamera->Get_Hp() % 10;
+
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_PLAYERUI, this);
 
 	return _int();
 }
 
 void CGameUI_Info::LateUpdate_GameObject(const _float& fTimeDelta)
-{
+{	
+	CGameObject::LateUpdate_GameObject(fTimeDelta);
 }
 
 void CGameUI_Info::Render_GameObject()
 {
-	if (m_pCamera == nullptr)
-		return;
+	// 1. 렌더링에 방해가 되는 컬링 옵션을 끕니다.                                                                            
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+	// 2. 기존의 3D 카메라용 View, Projection 행렬을 백업합니다.                                                              
+	_matrix matView, matProj;
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
+
+	// 3. UI 렌더링을 위해 View/Projection 행렬을 새로 설정합니다.                                                            
+	_matrix matWorld, matIdentity, matOrtho;
+
+	// UI의 위치와 크기를 담은 월드 행렬을 가져옵니다.                                                                        
+	matWorld = *m_pTransformCom->Get_World();
+
+	// View 행렬을 단위 행렬로 만들어 카메라의 위치, 회전 효과를 제거합니다.                                                  
+	D3DXMatrixIdentity(&matIdentity);
+	m_pGraphicDev->SetTransform(D3DTS_VIEW, &matIdentity);
+
+	// 화면 중앙을 (0,0)으로 하는 직교 투영 행렬을 생성하여 원근감을 없애고 2D처럼 만듭니다.                                  
+	// WINCX, WINCY는 실제 윈도우의 너비와 높이여야 합니다.                                                                   
+	D3DXMatrixOrthoOffCenterLH(&matOrtho, -WINCX * 0.5f, WINCX * 0.5f, -WINCY * 0.5f, WINCY * 0.5f, 0.f, 1.f);
+	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matOrtho);
+
+	//// 4. UI를 렌더링합니다.                                                                                                  
+	//m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+
+	//m_pTextureCom->Set_Texture(m_hundreds);
+
+	//m_pTextureCom->Set_Texture(m_tens);
+
+	//m_pTextureCom->Set_Texture(m_ones);
+
+	//// 알파 블렌딩을 활성화하여 투명한 부분이 처리되도록 합니다.                                                              
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	//m_pBufferCom->Render_Buffer();
+	_vec3 vPos, vScale;
+
+	vScale.x = 30.f;
+	vScale.y = vScale.x / (15.f/16.f);		// 화면 너비를 10으로 나눈 값
+	vScale.z = 1.f;
+
+	vPos = { -300.f, -WINCY * 0.5f + vScale.y + 15.f, 0.f };
+	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
+	matWorld = *m_pTransformCom->Get_World();
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+	m_pTextureCom->Set_Texture(m_hundreds);
+	m_pBufferCom->Render_Buffer();
+
+	m_pTransformCom->Set_Pos(vPos.x + vScale.x, vPos.y, vPos.z);
+	matWorld = *m_pTransformCom->Get_World();
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+	m_pTextureCom->Set_Texture(m_tens);
+	m_pBufferCom->Render_Buffer();
+
+	m_pTransformCom->Set_Pos(vPos.x + vScale.x * 2, vPos.y, vPos.z);
+	matWorld = *m_pTransformCom->Get_World();
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+	m_pTextureCom->Set_Texture(m_ones);
+	m_pBufferCom->Render_Buffer();
+
+	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
+
+	// 5. 렌더링이 끝난 후, 백업해두었던 원래의 View, Projection 행렬로 복원합니다.                                           
+	// 이렇게 해야 다른 3D 오브젝트들이 정상적으로 렌더링됩니다.                                                              
+	m_pGraphicDev->SetTransform(D3DTS_VIEW, &matView);
+	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
+
+	// 6. 렌더링 상태를 원래대로 복원합니다.                                                                                  
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
+	
 
 	_tchar szHp[128] = L"";
 	_tchar szArmor[128] = L"";
@@ -56,6 +159,11 @@ void CGameUI_Info::Render_GameObject()
 	CFontManager::GetInstance()->Render_Font(L"Font_Default", szHp, &vPos1, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 	CFontManager::GetInstance()->Render_Font(L"Font_Default", szArmor, &vPos2, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 	//CFontManager::GetInstance()->Render_Font(L"Font_Default", szClip, &vPos3, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+}
+
+void CGameUI_Info::Render_Number(const int& iNumber, const _vec2* pPos, const _vec2* pScale)
+{
+	
 }
 
 void CGameUI_Info::OnCollision(CCollider* _pOther)
@@ -91,12 +199,13 @@ HRESULT CGameUI_Info::Add_Component()
 
 	//Texture
 	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_PlayerUI"));
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Number"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
 
+	// Calculator
 	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
 		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Calculator"));
 	if (nullptr == pComponent)
@@ -130,5 +239,11 @@ CGameUI_Info* CGameUI_Info::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CGameUI_Info::Free()
 {
+	for_each(m_vecDigitTextures.begin(), m_vecDigitTextures.end(), [](Engine::CTexture* pTexture)
+		{
+			Safe_Release(pTexture);
+		});
+	m_vecDigitTextures.clear();
+
 	Engine::CGameObject::Free();
 }

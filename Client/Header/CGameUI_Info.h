@@ -37,6 +37,16 @@ private:
 	Engine::CTexture* m_pTextureCom;
 	Engine::CCalculator* m_pCalculatorCom;
 
+private:
+	vector<Engine::CTexture*> m_vecDigitTextures;
+
+	_int m_iNum;
+	_int m_hundreds;
+	_int m_tens;
+	_int m_ones;
+
+	void Render_Number(const int& iNumber, const _vec2* pPos, const _vec2* pScale);
+
 public:
 	static CGameUI_Info* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

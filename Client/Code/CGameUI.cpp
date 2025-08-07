@@ -124,7 +124,7 @@ HRESULT CGameUI::Add_Component()
 	CComponent* pComponent = NULL;
 
 	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectTex*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectTex_UI"));
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectTex"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 

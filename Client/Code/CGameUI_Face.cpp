@@ -53,11 +53,6 @@ _int CGameUI_Face::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
 
-	//m_lFrame++;
-	////Sleep(100.f);
-	//if (m_lFrame >= 3.f)
-	//	m_lFrame = 0.f;
-
 	// 마우스 이동방향에 따라 얼굴 애니메이션 체크
 	_long lMouseMoveX = CDynamicCamera::s_lMouseMoveX;
 
@@ -143,7 +138,7 @@ HRESULT CGameUI_Face::Add_Component()
 	CComponent* pComponent = NULL;
 
 	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectTex*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectTex_UI"));
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectTex"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
