@@ -22,14 +22,21 @@ public:
     virtual void Attack_Player(const _float& fTimeDelta)PURE;
 
     virtual void Debug_Line(_vec3 _Pos, _vec3 _Point1, _vec3 _Point2);
+    virtual _vec3 Set_Direction(_vec3* _Look);
 
     //몬스터 룩(다른 룩을 넣어줘야됨)이랑 몬스터 위치
     virtual _float Calc_AngleToPlayer(_vec3 vLook, _vec3 vPos);
     virtual _int Calc_AnimState(_vec3 vLook, _vec3 vPos);
 
 protected:
+    // 빌보드 적용하니까 이동을 어떻게 해야될지 모르겠어서 새로 만듬
+    Engine::CTransform* m_pMoveTransCom;
+
     int m_eCurAnimState;
-    MONSTER_ANIM_STATE m_ePreAnimState;
+    int m_ePreAnimState;
+
+    _vec3 m_vMoveLook;
+    _vec3 m_vtmpLook;
 
     _float m_fSightAngle;
     _float m_fSightDistance;

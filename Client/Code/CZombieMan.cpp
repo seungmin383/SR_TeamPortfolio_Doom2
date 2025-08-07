@@ -26,14 +26,7 @@ HRESULT CZombieMan::Ready_GameObject()
 	freopen_s(&fp, "CONOUT$", "w", stdout);
 	freopen_s(&fp, "CONOUT$", "w", stderr);
 
-	m_fSightAngle = 80.f;
-	m_fSightDistance = 50.f;
-
-	m_fAtkSpeed = 4.f;
-	m_iHp = 20;
-	m_iAtkDmg = 3;
-	m_fDelay = 0.f;
-
+	
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
@@ -47,7 +40,7 @@ HRESULT CZombieMan::Ready_GameObject()
 #pragma region ANIM_SETTING
 
 	//이동
-	m_AnimMove->Add_Animation(
+	m_pAnimCom->Add_Animation(
 		ANIM_MOVE,
 		m_pTextureCom,
 		m_pBufferCom,
@@ -60,7 +53,7 @@ HRESULT CZombieMan::Ready_GameObject()
 	); 
 
 	//공격
-	m_AnimMove->Add_Animation(
+	m_pAnimCom->Add_Animation(
 		ANIM_ATK,
 		m_pTextureCom,
 		m_pBufferCom,
@@ -73,20 +66,20 @@ HRESULT CZombieMan::Ready_GameObject()
 	); 
 
 	//일반 죽음
-	m_AnimMove->Add_Animation(
+	m_pAnimCom->Add_Animation(
 		ANIM_NDEAD,
 		m_pTextureCom,
 		m_pBufferCom,
 		6,
 		1,
 		0,
-		4,
+		5,
 		0.2f,
 		true
 	);
 
 	//폭사
-	m_AnimMove->Add_Animation(
+	m_pAnimCom->Add_Animation(
 		ANIM_GDEAD,
 		m_pTextureCom,
 		m_pBufferCom,
@@ -97,9 +90,23 @@ HRESULT CZombieMan::Ready_GameObject()
 		0.2f,
 		true
 	);
+	
 #pragma endregion
 
-	
+#pragma region VARIABLE_SETTING
+	m_fSightAngle = 80.f;
+	m_fSightDistance = 50.f;
+
+	m_fAtkSpeed = 4.f;
+	m_iHp = 20;
+	m_iAtkDmg = 3;
+	m_fDelay = 0.f;
+
+	//초기 룩으로 세팅해주고
+	m_pTransformCom->Get_Info(INFO_LOOK, &m_vMoveLook);
+#pragma endregion
+
+
 	return S_OK;
 }
 
@@ -126,22 +133,22 @@ void CZombieMan::LateUpdate_GameObject(const _float& fTimeDelta)
 	//죽었는지 가장 먼저 체크 -> 공격하는지 체크 -> 아니면 이동
 	if (m_isGibbingDead)
 	{
-		m_AnimMove->Play_Animation(ANIM_GDEAD, 0, fTimeDelta);
+		m_pAnimCom->Play_Animation(ANIM_GDEAD, 0, fTimeDelta);
 		m_isGibbingDead = false;
 	}
 	else if (m_isNormalDead)
 	{
-		m_AnimMove->Play_Animation(ANIM_NDEAD, 0, fTimeDelta);
+		m_pAnimCom->Play_Animation(ANIM_NDEAD, 0, fTimeDelta);
 		m_isNormalDead = false;
 	}
 	else if (m_isAtk)
 	{
-		m_AnimMove->Play_Animation(ANIM_ATK, 0, fTimeDelta);
+		m_pAnimCom->Play_Animation(ANIM_ATK, 0, fTimeDelta);
 		m_isAtk = false;
 	}
 	else
 	{
-		m_AnimMove->Play_Animation(ANIM_MOVE, 0, fTimeDelta);
+		m_pAnimCom->Play_Animation(ANIM_MOVE, 0, fTimeDelta);
 	}
 }
 
@@ -194,6 +201,14 @@ HRESULT CZombieMan::Add_Component()
 
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
 
+	//MoveTransform
+	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Transform"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_DYNAMIC].insert({ L"Com_MoveTransform", pComponent });
+
 	//Texture
 	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>
 		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_ZombieMan_Texture"));
@@ -217,7 +232,7 @@ HRESULT CZombieMan::Add_Component()
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
 
 
-	pComponent = m_AnimMove = dynamic_cast<Engine::CAnimator*>
+	pComponent = m_pAnimCom = dynamic_cast<Engine::CAnimator*>
 		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Animator"));
 	if (nullptr == pComponent)
 		return E_FAIL;
@@ -230,16 +245,14 @@ HRESULT CZombieMan::Add_Component()
 
 void CZombieMan::Key_Input(const _float& fTimeDelta)
 {
-	_vec3 vLook;
-	m_pTransformCom->Get_Info(INFO_LOOK, &vLook);
 
 	if (GetAsyncKeyState(VK_UP))
 	{
-		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), 3.f, fTimeDelta);
+		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&m_vMoveLook, &m_vMoveLook), 3.f, fTimeDelta);
 	}
 	if (GetAsyncKeyState(VK_DOWN))
 	{
-		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&vLook, &vLook), -3.f, fTimeDelta);
+		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&m_vMoveLook, &m_vMoveLook), -3.f, fTimeDelta);
 	}
 
 	if (GetAsyncKeyState(VK_LBUTTON))
@@ -349,7 +362,7 @@ void CZombieMan::Attack_Player(const _float& fTimeDelta)
 
 void CZombieMan::Movement()
 {
-	//rand
+	
 }
 
 
@@ -361,8 +374,8 @@ void CZombieMan::Thinker()
 
 	//지금 플레이어가 보는 방향에 따른 몬스터 상태를 가져옴
 	m_eCurAnimState = (MONSTER_ANIM_STATE)Calc_AnimState(vLook, vPos);
-	
-	std::cout << "State : " << (int)m_eCurAnimState << std::endl;
+
+	std::cout << "vLook" << vLook.x << ' ' << vLook.y << ' ' << vLook.z << ' ' << std::endl;
 
 }
 

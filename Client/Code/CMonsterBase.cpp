@@ -21,9 +21,9 @@ CMonsterBase::~CMonsterBase()
 void CMonsterBase::Debug_Line(_vec3 _Pos, _vec3 _Point1, _vec3 _Point2)
 {
 	VTXCOL pVertex[3] = {
-	{ _Pos, D3DCOLOR_ARGB(128, 255, 255, 255) },
-	{ _Point2, D3DCOLOR_ARGB(128, 255, 255, 255)},
-	{ _Point1, D3DCOLOR_ARGB(128, 255, 255, 255)}
+	{ _Pos, D3DCOLOR_ARGB(255, 255, 255, 255) },
+	{ _Point2, D3DCOLOR_ARGB(255, 255, 255, 255)},
+	{ _Point1, D3DCOLOR_ARGB(255, 255, 255, 255)}
 	};
 
 	/*VTXCOL pVertex[3] = {
@@ -39,6 +39,70 @@ void CMonsterBase::Debug_Line(_vec3 _Pos, _vec3 _Point1, _vec3 _Point2)
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 1, pVertex, sizeof(VTXCOL));
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+}
+
+_vec3 CMonsterBase::Set_Direction(_vec3* _Look)
+{
+	if(_Look == nullptr)
+		m_vtmpLook = *_Look;
+
+	//랜덤으로 0~7의 숫자를 뽑기
+	_int RandMove = rand() % 8;
+	_matrix RotMat;
+	D3DXMatrixIdentity(&RotMat);
+
+	//각 숫자에 맞는 방향으로 이동하기
+	switch (RandMove)
+	{
+	//앞으로
+	case 0:
+		break;
+
+	//왼쪽 앞으로
+	case 1:
+		D3DXMatrixRotationY(&RotMat, D3DXToRadian(45.f));
+		break;
+
+	//왼쪽으로
+	case 2: 
+		D3DXMatrixRotationY(&RotMat, D3DXToRadian(90.f));
+		break;
+
+	//왼쪽 뒤로
+	case 3:
+		D3DXMatrixRotationY(&RotMat, D3DXToRadian(135.f));
+		break;
+
+	//뒤로
+	case 4:
+		D3DXMatrixRotationY(&RotMat, D3DXToRadian(180.f));
+		break;
+
+	//오른쪽 뒤로
+	case 5: 
+		D3DXMatrixRotationY(&RotMat, D3DXToRadian(-135.f));
+		break;
+
+	//오른쪽으로
+	case 6:
+		D3DXMatrixRotationY(&RotMat, D3DXToRadian(-90.f));
+		break;
+
+	//오른쪽 앞으로
+	case 7:
+		D3DXMatrixRotationY(&RotMat, D3DXToRadian(-45.f));
+		break;
+
+	default:
+		break;
+	}
+
+	D3DXVec3Normalize(&m_vtmpLook, &m_vtmpLook);
+	D3DXVec3TransformCoord(&m_vtmpLook, &m_vtmpLook, &RotMat);
+	if(_Look != nullptr)
+		*_Look = m_vtmpLook;
+
+	return m_vtmpLook;
 }
 
 _float CMonsterBase::Calc_AngleToPlayer(_vec3 vLook, _vec3 vPos)
