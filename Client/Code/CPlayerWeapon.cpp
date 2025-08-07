@@ -5,7 +5,7 @@
 
 CPlayerWeapon::CPlayerWeapon(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CCharacter(pGraphicDev),
-	m_eWeaponId(PISTOL_IDLE), m_eWeaponState(IDLE)
+	m_eWeaponId(PISTOL), m_eWeaponState(IDLE)
 {
 }
 
@@ -31,7 +31,7 @@ HRESULT CPlayerWeapon::Ready_GameObject()
 	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 	m_pTransformCom->Set_Scale(vScale);
 
-	//¾Ö´Ï¸ŞÀÌ¼Ç ¼¼ÆÃ
+	//ì• ë‹ˆë©”ì´ì…˜ ì„¸íŒ…
 	Ready_Animation();
 
 	return S_OK;
@@ -53,7 +53,7 @@ void CPlayerWeapon::LateUpdate_GameObject(const _float& fTimeDelta)
 	Key_Input();
 	Mouse_Input();
 
-	//¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà
+	//ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰
 	m_pAnimatorCom->Play_Animation(m_eWeaponId + m_eWeaponState, 0, fTimeDelta);
 }
 
@@ -65,24 +65,31 @@ void CPlayerWeapon::Render_GameObject()
 
 	m_pTextureCom->Set_Texture(m_eWeaponId);
 	
-	// ¾ËÆÄºí·»µù ¼³Á¤
+	// ì•ŒíŒŒë¸”ë Œë”© ì„¤ì •
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	m_pBufferCom->Render_Buffer();
 
-	// ·»´õ »óÅÂ º¹¿ø
+	// ë Œë” ìƒíƒœ ë³µì›
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }
 
 void CPlayerWeapon::Ready_Animation()
 {
-	m_pAnimatorCom->Add_Animation(PISTOL_IDLE, m_pTextureCom, m_pBufferCom, 5, 1, 0, 0, 0.1f, false);
-	m_pAnimatorCom->Add_Animation(PISTOL_SHOT, m_pTextureCom, m_pBufferCom, 5, 1, 1, 3, 0.1f, false);
-	m_pAnimatorCom->Add_Animation(SHOTGUN, m_pTextureCom, m_pBufferCom, 5, 1, 0, 0, 0.1f, false);
-	m_pAnimatorCom->Add_Animation(CHAINGUN, m_pTextureCom, m_pBufferCom, 3, 1, 0, 0, 0.25f, false);
+	// Pistol Animation
+	m_pAnimatorCom->Add_Animation(PISTOL, m_pTextureCom, m_pBufferCom, 5, 1, 0, 0, 0.1f, false);
+	m_pAnimatorCom->Add_Animation(PISTOL + SHOT, m_pTextureCom, m_pBufferCom, 5, 1, 1, 4, 0.1f, true);
+	
+	// Shotgun Animation
+	m_pAnimatorCom->Add_Animation(SHOTGUN, m_pTextureCom, m_pBufferCom, 5, 1, 0, 0, 0.2f, false);
+	m_pAnimatorCom->Add_Animation(SHOTGUN + SHOT, m_pTextureCom, m_pBufferCom, 5, 1, 1, 4, 0.2f, true);
+
+	// Chaingun Animation
+	m_pAnimatorCom->Add_Animation(CHAINGUN, m_pTextureCom, m_pBufferCom, 3, 1, 0, 0, 0.1f, false);
+	m_pAnimatorCom->Add_Animation(CHAINGUN + SHOT, m_pTextureCom, m_pBufferCom, 3, 1, 1, 2, 0.1f, true);
 }
 
 HRESULT CPlayerWeapon::Add_Component()
@@ -112,7 +119,7 @@ HRESULT CPlayerWeapon::Add_Component()
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
 
-	//Animator ¾Ö´Ï¸ŞÀÌ¼Ç ¼¼ÆÃ
+	//Animator ì• ë‹ˆë©”ì´ì…˜ ì„¸íŒ…
 	pComponent = m_pAnimatorCom = dynamic_cast<Engine::CAnimator*>
 		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Animator"));
 	if (nullptr == pComponent)
@@ -125,17 +132,17 @@ HRESULT CPlayerWeapon::Add_Component()
 
 void CPlayerWeapon::Key_Input()
 {
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_1))
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_1) & 0x80)
 	{
-		m_eWeaponId = PISTOL_IDLE;
+		m_eWeaponId = PISTOL;
 		m_eWeaponState = IDLE;
 	}
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_2))
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_2) & 0x80)
 	{
 		m_eWeaponId = SHOTGUN;
 		m_eWeaponState = IDLE;
 	}
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_3))
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_3) & 0x80)
 	{
 		m_eWeaponId = CHAINGUN;
 		m_eWeaponState = IDLE;
@@ -144,9 +151,13 @@ void CPlayerWeapon::Key_Input()
 
 void CPlayerWeapon::Mouse_Input()
 {
-	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB))
+	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB) & 0x80)
 	{
-		m_eWeaponState = ATTACK;
+		m_eWeaponState = SHOT;
+	}
+	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_RB) & 0x80)
+	{
+		m_eWeaponState = IDLE;
 	}
 }
 

@@ -5,8 +5,23 @@
 class CPlayerWeapon :  public CCharacter
 {
 public:
-    enum WEAPON_ID {PISTOL_IDLE, PISTOL_SHOT, SHOTGUN, CHAINGUN, ROCKET, BFG, WEAPON_END};
-    enum WEAPON_STATE {IDLE, ATTACK, SWAP};
+    enum WEAPON_ID 
+    {
+        PISTOL,
+        SHOTGUN,
+        CHAINGUN,
+        ROCKET,
+        BFG,
+        ID_END
+    };
+
+    enum WEAPON_STATE
+    {
+        IDLE = 0,
+        SHOT = 5,
+        SWAP = 6,
+        STATE_END
+    };
 
 private:
     explicit CPlayerWeapon(LPDIRECT3DDEVICE9 pGraphicDev);
