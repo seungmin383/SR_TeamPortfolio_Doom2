@@ -100,7 +100,10 @@ HRESULT CZombieMan::Ready_GameObject()
 	m_fAtkSpeed = 4.f;
 	m_iHp = 20;
 	m_iAtkDmg = 3;
-	m_fDelay = 0.f;
+	m_fAtkDelay = 0.f;
+
+	m_fMoveDelay = 0.f;
+	m_fAtkDelay = 0.f;
 
 	//초기 룩으로 세팅해주고
 	m_pTransformCom->Get_Info(INFO_LOOK, &m_vMoveLook);
@@ -112,7 +115,7 @@ HRESULT CZombieMan::Ready_GameObject()
 
 _int CZombieMan::Update_GameObject(const _float& fTimeDelta)
 {
-	Thinker();
+	Thinker(fTimeDelta);
 
 	CGameObject::Update_GameObject(fTimeDelta);
 
@@ -130,26 +133,26 @@ void CZombieMan::LateUpdate_GameObject(const _float& fTimeDelta)
 
 	m_pColliderCom->Late_Update();
 
-	//죽었는지 가장 먼저 체크 -> 공격하는지 체크 -> 아니면 이동
-	if (m_isGibbingDead)
-	{
-		m_pAnimCom->Play_Animation(ANIM_GDEAD, 0, fTimeDelta);
-		m_isGibbingDead = false;
-	}
-	else if (m_isNormalDead)
-	{
-		m_pAnimCom->Play_Animation(ANIM_NDEAD, 0, fTimeDelta);
-		m_isNormalDead = false;
-	}
-	else if (m_isAtk)
-	{
-		m_pAnimCom->Play_Animation(ANIM_ATK, 0, fTimeDelta);
-		m_isAtk = false;
-	}
-	else
-	{
-		m_pAnimCom->Play_Animation(ANIM_MOVE, 0, fTimeDelta);
-	}
+	////죽었는지 가장 먼저 체크 -> 공격하는지 체크 -> 아니면 이동
+	//if (m_isGibbingDead)
+	//{
+	//	m_pAnimCom->Play_Animation(ANIM_GDEAD, 0, fTimeDelta, m_eCurAnimState);
+	//	m_isGibbingDead = false;
+	//}
+	//else if (m_isNormalDead)
+	//{
+	//	m_pAnimCom->Play_Animation(ANIM_NDEAD, 0, fTimeDelta, m_eCurAnimState);
+	//	m_isNormalDead = false;
+	//}
+	//else if (m_isAtk)
+	//{
+	//	m_pAnimCom->Play_Animation(ANIM_ATK, 0, fTimeDelta, m_eCurAnimState);
+	//	m_isAtk = false;
+	//}
+	//else
+	//{
+	//	m_pAnimCom->Play_Animation(ANIM_MOVE, 0, fTimeDelta, m_eCurAnimState);
+	//}
 }
 
 void CZombieMan::Render_GameObject(const _float& fTimeDelta)
@@ -160,8 +163,27 @@ void CZombieMan::Render_GameObject(const _float& fTimeDelta)
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
-	m_pTextureCom->Set_Texture(m_eCurAnimState);
-
+//	m_pTextureCom->Set_Texture(m_eCurAnimState);
+	//죽었는지 가장 먼저 체크 -> 공격하는지 체크 -> 아니면 이동
+	if (m_isGibbingDead)
+	{
+		m_pAnimCom->Play_Animation(ANIM_GDEAD, 0, fTimeDelta, m_eCurAnimState);
+		m_isGibbingDead = false;
+	}
+	else if (m_isNormalDead)
+	{
+		m_pAnimCom->Play_Animation(ANIM_NDEAD, 0, fTimeDelta, m_eCurAnimState);
+		m_isNormalDead = false;
+	}
+	else if (m_isAtk)
+	{
+		m_pAnimCom->Play_Animation(ANIM_ATK, 0, fTimeDelta, m_eCurAnimState);
+		m_isAtk = false;
+	}
+	else
+	{
+		m_pAnimCom->Play_Animation(ANIM_MOVE, 0, fTimeDelta, m_eCurAnimState);
+	}
 	m_pBufferCom->Render_Buffer();
 
 	//충돌체
@@ -245,15 +267,6 @@ HRESULT CZombieMan::Add_Component()
 
 void CZombieMan::Key_Input(const _float& fTimeDelta)
 {
-
-	if (GetAsyncKeyState(VK_UP))
-	{
-		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&m_vMoveLook, &m_vMoveLook), 3.f, fTimeDelta);
-	}
-	if (GetAsyncKeyState(VK_DOWN))
-	{
-		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&m_vMoveLook, &m_vMoveLook), -3.f, fTimeDelta);
-	}
 
 	if (GetAsyncKeyState(VK_LBUTTON))
 	{
@@ -346,9 +359,9 @@ void CZombieMan::Check_Target()
 
 void CZombieMan::Attack_Player(const _float& fTimeDelta)
 {
-	m_fDelay += fTimeDelta;
+	m_fAtkDelay += fTimeDelta;
 
-	if (m_fDelay > m_fAtkSpeed)
+	if (m_fAtkDelay > m_fAtkSpeed)
 	{
 
 	}
@@ -360,22 +373,28 @@ void CZombieMan::Attack_Player(const _float& fTimeDelta)
 
 }
 
-void CZombieMan::Movement()
+void CZombieMan::Movement(const _float& fTimeDelta)
 {
-	
+	m_pTransformCom->Move_Pos(D3DXVec3Normalize(&m_vMoveLook, &m_vMoveLook), 3.f, fTimeDelta);
 }
 
 
-void CZombieMan::Thinker()
+void CZombieMan::Thinker(const _float& fTimeDelta)
 {
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
-	_vec3 vLook{ 1,1,1 };
 
+	m_fMoveDelay += fTimeDelta;
+	if (m_fMoveDelay > 4.f)
+	{
+		Set_Direction(&m_vMoveLook);
+		m_fMoveDelay = 0.f;
+	}
+	Movement(fTimeDelta);
 	//지금 플레이어가 보는 방향에 따른 몬스터 상태를 가져옴
-	m_eCurAnimState = (MONSTER_ANIM_STATE)Calc_AnimState(vLook, vPos);
+	m_eCurAnimState = (MONSTER_ANIM_STATE)Calc_AnimState(m_vMoveLook, vPos);
 
-	std::cout << "vLook" << vLook.x << ' ' << vLook.y << ' ' << vLook.z << ' ' << std::endl;
+	std::cout << "vLook" << m_vMoveLook.x << ' ' << m_vMoveLook.y << ' ' << m_vMoveLook.z << ' ' << std::endl;
 
 }
 

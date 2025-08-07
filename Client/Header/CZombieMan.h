@@ -21,11 +21,11 @@ public:
     virtual     void			OnCollisionExit(CCollider* _pOther) override;
 
 #pragma region PURE
-    void Movement() override;
+    void Movement(const _float& fTimeDelta) override;
     void Attack() override;
     void Manage_MoveState() override;
     void Change_Animation() override;
-    void Thinker() override;
+    void Thinker(const _float& fTimeDelta) override;
     void Check_Target() override;
     void Attack_Player(const _float& fTimeDelta)override;
 

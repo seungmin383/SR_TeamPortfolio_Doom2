@@ -150,7 +150,7 @@ void CPlayerWeapon::Mouse_Input()
 	}
 }
 
-void CPlayerWeapon::Movement()
+void CPlayerWeapon::Movement(const _float& fTimeDelta)
 {
 }
 
