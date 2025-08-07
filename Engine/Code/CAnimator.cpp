@@ -4,6 +4,7 @@
 CAnimator::CAnimator(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CComponent(pGraphicDev),
 	m_iCurState(-1),
+	m_iPreState(-1),
 	m_pCurAnimation(nullptr)
 {
 }
@@ -11,6 +12,7 @@ CAnimator::CAnimator(LPDIRECT3DDEVICE9 pGraphicDev)
 CAnimator::CAnimator(const CAnimator& rhs)
 	: CComponent(rhs),
 	m_iCurState(rhs.m_iCurState),
+	m_iPreState(rhs.m_iPreState),
 	m_pCurAnimation(rhs.m_pCurAnimation)
 {
 }
@@ -32,7 +34,8 @@ HRESULT CAnimator::Add_Animation(_uint _iCurState,
 								_uint _iStartFrame,
 								_uint _iEndFrame,
 								_float _fDelay,
-								_bool _bIsLoop)
+								_bool _bIsLoop,
+								_bool _bIsReverse)
 {
 	CAnimation* pAnimation = CAnimation::Create(_pTextureCom,
 									_pBufferCom,
@@ -41,7 +44,8 @@ HRESULT CAnimator::Add_Animation(_uint _iCurState,
 									_iStartFrame,
 									_iEndFrame,
 									_fDelay,
-									_bIsLoop);
+									_bIsLoop,
+									_bIsReverse);
 
 	m_mapAnimation.insert({ _iCurState, pAnimation });
 

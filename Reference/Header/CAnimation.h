@@ -20,7 +20,8 @@ public:
                                            _uint _iStartFrame,
                                            _uint _iEndFrame,
                                            _float _fDelay,
-                                           _bool _bIsLoop);
+                                           _bool _bIsLoop = true,
+                                           _bool _isReverse = false);
 
     HRESULT                         Ready_Animation(CTexture* _pTextureCom, 
                                                     CVIBuffer* _pBufferCom,
@@ -29,7 +30,8 @@ public:
                                                     _uint _iStartFrame,
                                                     _uint _iEndFrame,
                                                     _float _fDelay,
-                                                    _bool _bIsLoop);
+                                                    _bool _bIsLoop = true,
+                                                    _bool _isReverse = false);
 
     void                            Play_Animation(_uint _irow, const _float& fTimeDelta);
     void                            Set_Texture(_uint _setTexNum = 0);
@@ -40,6 +42,7 @@ public:
 
 private:
     void                            Calc_Frame(const _float& fTimeDelta);
+    void                            Calc_Frame_Reverse(const _float& fTimeDelta);
 
 public:
     CVIBuffer*                      m_pBufferCom;
@@ -50,7 +53,7 @@ public:
 
     _uint                           m_iStartFrame;
     _uint                           m_iEndFrame;
-    _uint                           m_iCurFrame;
+    _int                            m_iCurFrame;
 
     _uint                           m_iCurRow;
     _uint                           m_iPreRow;
@@ -59,6 +62,7 @@ public:
     _float                          m_fFrameTime;
     _bool                           m_bIsLoop;
     _bool                           m_bIsEnd;
+    _bool                           m_bIsReverse;
 
     _bool                           m_bFinAct;
 

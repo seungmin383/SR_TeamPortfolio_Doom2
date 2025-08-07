@@ -49,7 +49,8 @@ HRESULT CZombieMan::Ready_GameObject()
 		0,				//start frame
 		4,				//end frame
 		0.2f,
-		true
+		true,
+		false
 	);
 
 	//°ø°Ý
@@ -62,7 +63,8 @@ HRESULT CZombieMan::Ready_GameObject()
 		0,
 		3,
 		0.2f,
-		true
+		true,
+		false
 	);
 
 	//ÀÏ¹Ý Á×À½
@@ -75,7 +77,8 @@ HRESULT CZombieMan::Ready_GameObject()
 		0,
 		5,
 		0.2f,
-		true
+		true,
+		false
 	);
 
 	//Æø»ç
@@ -88,7 +91,8 @@ HRESULT CZombieMan::Ready_GameObject()
 		0,
 		8,
 		0.2f,
-		true
+		true,
+		false
 	);
 
 #pragma endregion

@@ -46,7 +46,8 @@ public:
                                         _uint _iStartFrame,
                                         _uint _iEndFrame,
                                         _float _fDelay,
-                                        _bool _bIsLoop);
+                                        _bool _bIsLoop = true,
+                                        _bool _bIsReverse = false);
 
     /// <summary>
     /// 상태에 맞는 애니메이션을 실행
