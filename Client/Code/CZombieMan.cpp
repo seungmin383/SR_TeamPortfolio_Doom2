@@ -26,7 +26,7 @@ HRESULT CZombieMan::Ready_GameObject()
 	freopen_s(&fp, "CONOUT$", "w", stdout);
 	freopen_s(&fp, "CONOUT$", "w", stderr);
 
-	
+
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
@@ -34,7 +34,7 @@ HRESULT CZombieMan::Ready_GameObject()
 	m_pTransformCom->Get_Pos(&vPos);
 
 	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.f, 0.f),
-		COLLAYERID::COL_ENEMY, 
+		COLLAYERID::COL_ENEMY,
 		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT);
 
 #pragma region ANIM_SETTING
@@ -50,7 +50,7 @@ HRESULT CZombieMan::Ready_GameObject()
 		4,				//end frame
 		0.2f,
 		true
-	); 
+	);
 
 	//공격
 	m_pAnimCom->Add_Animation(
@@ -59,11 +59,11 @@ HRESULT CZombieMan::Ready_GameObject()
 		m_pBufferCom,
 		4,
 		1,
-		0,	
-		3,	
+		0,
+		3,
 		0.2f,
 		true
-	); 
+	);
 
 	//일반 죽음
 	m_pAnimCom->Add_Animation(
@@ -90,7 +90,7 @@ HRESULT CZombieMan::Ready_GameObject()
 		0.2f,
 		true
 	);
-	
+
 #pragma endregion
 
 #pragma region VARIABLE_SETTING
@@ -132,27 +132,6 @@ void CZombieMan::LateUpdate_GameObject(const _float& fTimeDelta)
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 
 	m_pColliderCom->Late_Update();
-
-	////죽었는지 가장 먼저 체크 -> 공격하는지 체크 -> 아니면 이동
-	//if (m_isGibbingDead)
-	//{
-	//	m_pAnimCom->Play_Animation(ANIM_GDEAD, 0, fTimeDelta, m_eCurAnimState);
-	//	m_isGibbingDead = false;
-	//}
-	//else if (m_isNormalDead)
-	//{
-	//	m_pAnimCom->Play_Animation(ANIM_NDEAD, 0, fTimeDelta, m_eCurAnimState);
-	//	m_isNormalDead = false;
-	//}
-	//else if (m_isAtk)
-	//{
-	//	m_pAnimCom->Play_Animation(ANIM_ATK, 0, fTimeDelta, m_eCurAnimState);
-	//	m_isAtk = false;
-	//}
-	//else
-	//{
-	//	m_pAnimCom->Play_Animation(ANIM_MOVE, 0, fTimeDelta, m_eCurAnimState);
-	//}
 }
 
 void CZombieMan::Render_GameObject(const _float& fTimeDelta)
@@ -163,17 +142,15 @@ void CZombieMan::Render_GameObject(const _float& fTimeDelta)
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
-//	m_pTextureCom->Set_Texture(m_eCurAnimState);
+	//	m_pTextureCom->Set_Texture(m_eCurAnimState);
 	//죽었는지 가장 먼저 체크 -> 공격하는지 체크 -> 아니면 이동
 	if (m_isGibbingDead)
 	{
 		m_pAnimCom->Play_Animation(ANIM_GDEAD, 0, fTimeDelta, m_eCurAnimState);
-		m_isGibbingDead = false;
 	}
 	else if (m_isNormalDead)
 	{
 		m_pAnimCom->Play_Animation(ANIM_NDEAD, 0, fTimeDelta, m_eCurAnimState);
-		m_isNormalDead = false;
 	}
 	else if (m_isAtk)
 	{
@@ -261,27 +238,27 @@ HRESULT CZombieMan::Add_Component()
 
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Animator", pComponent });
 
-	
+
 	return S_OK;
 }
 
 void CZombieMan::Key_Input(const _float& fTimeDelta)
 {
 
-	if (GetAsyncKeyState(VK_LBUTTON))
+	if (GetAsyncKeyState(VK_LBUTTON) && m_pAnimCom->Get_isFinAct())
 	{
-		m_eCurAnimState += 8;
+		m_eCurAnimState = 8;
 		m_isAtk = true;
 	}
-	if (GetAsyncKeyState('1'))
+	if (GetAsyncKeyState('1') && m_pAnimCom->Get_isFinAct())
 	{
 		m_eCurAnimState = 16;
 		m_isGibbingDead = true;
 	}
-	else if (GetAsyncKeyState('2'))
+	else if (GetAsyncKeyState('2') && m_pAnimCom->Get_isFinAct())
 	{
 		m_eCurAnimState = 17;
-		m_isGibbingDead = true;
+		m_isNormalDead = true;
 	}
 }
 
@@ -392,7 +369,14 @@ void CZombieMan::Thinker(const _float& fTimeDelta)
 	}
 	Movement(fTimeDelta);
 	//지금 플레이어가 보는 방향에 따른 몬스터 상태를 가져옴
-	m_eCurAnimState = (MONSTER_ANIM_STATE)Calc_AnimState(m_vMoveLook, vPos);
+
+
+	if (m_pAnimCom->Get_isFinAct())
+	{
+		m_eCurAnimState = (MONSTER_ANIM_STATE)Calc_AnimState(m_vMoveLook, vPos);
+		m_isGibbingDead = false;
+		m_isNormalDead = false;
+	}
 
 	std::cout << "vLook" << m_vMoveLook.x << ' ' << m_vMoveLook.y << ' ' << m_vMoveLook.z << ' ' << std::endl;
 
@@ -400,7 +384,7 @@ void CZombieMan::Thinker(const _float& fTimeDelta)
 
 void CZombieMan::Manage_MoveState()
 {
-		
+
 }
 
 void CZombieMan::Change_Animation()

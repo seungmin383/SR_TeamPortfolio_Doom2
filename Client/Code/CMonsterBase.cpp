@@ -5,12 +5,20 @@
 
 
 CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CCharacter(pGraphicDev), m_fSightAngle(0.f), m_fSightDistance(0.f)
+	:CCharacter(pGraphicDev), m_fSightAngle(0.f), m_fSightDistance(0.f),
+	m_isGibbingDead(false),
+	m_isNormalDead(false),
+	m_isAtk(false),
+	m_eCurAnimState(0)
 {
 }
 
 CMonsterBase::CMonsterBase(const CMonsterBase& rhs)
-	:CCharacter(rhs), m_fSightAngle(m_fSightAngle), m_fSightDistance(m_fSightDistance)
+	:CCharacter(rhs), m_fSightAngle(m_fSightAngle), m_fSightDistance(m_fSightDistance),
+	m_isGibbingDead(rhs.m_isGibbingDead),
+	m_isNormalDead(rhs.m_isNormalDead),
+	m_isAtk(rhs.m_isAtk),
+	m_eCurAnimState(rhs.m_eCurAnimState)
 {
 }
 

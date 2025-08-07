@@ -6,11 +6,12 @@ CAnimation::CAnimation()
 	m_iStartFrame(0),
 	m_iEndFrame(0),
 	m_iCurFrame(0),
-	m_iCurRow(0),
+	m_iCurRow(-1),
 	m_iPreRow(-1),
 	m_fDelay(0.f),
 	m_bIsLoop(true),
-	m_bIsEnd(false)
+	m_bIsEnd(false),
+	m_bFinAct(false)
 {
 	ZeroMemory(&m_vUVPerColRow, sizeof(_vec2));
 }
@@ -92,7 +93,7 @@ void CAnimation::Calc_Frame(const _float& fTimeDelta)
 
 		if (m_iCurFrame > m_iEndFrame)
 		{
-
+			m_bFinAct = true;
 
 			if (m_bIsLoop)
 				m_iCurFrame = 0;
@@ -109,7 +110,8 @@ void CAnimation::SetFrameDefault()
 	m_iCurFrame = 0;
 	m_fFrameTime = 0.f;
 	m_bIsEnd = false;	
-	m_iCurRow = -1;
+	m_iCurRow = 0;
+	m_bFinAct = false;
 }
 
 void CAnimation::Free()
