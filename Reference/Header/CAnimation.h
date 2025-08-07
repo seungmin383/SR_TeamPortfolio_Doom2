@@ -32,7 +32,7 @@ public:
                                                     _bool _bIsLoop);
 
     void                            Play_Animation(_uint _irow, const _float& fTimeDelta);
-    void                            Set_Texture();
+    void                            Set_Texture(_uint _setTexNum = 0);
     void                            SetFrameDefault();
 
 private:

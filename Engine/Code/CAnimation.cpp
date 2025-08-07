@@ -69,9 +69,9 @@ void CAnimation::Play_Animation(_uint _irow, const _float& fTimeDelta)
 	Calc_Frame(fTimeDelta);
 }
 
-void CAnimation::Set_Texture()
+void CAnimation::Set_Texture(_uint _setTexNum)
 {
-	m_pTextureCom->Set_Texture();
+	m_pTextureCom->Set_Texture(_setTexNum);
 }
 
 void CAnimation::Set_UVCoord()

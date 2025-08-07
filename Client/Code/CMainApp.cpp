@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CMainApp.h"
 #include "CLogo.h"
+#include "CStage.h"
 #include "CTimerManager.h"
 #include "CFrameManager.h"
 #include "CPrototypeManager.h"
@@ -101,11 +102,10 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 
 HRESULT CMainApp::Ready_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	Engine::CScene* pScene = CLogo::Create(pGraphicDev);
-	if (nullptr == pScene)
-		return E_FAIL;
-
-	if (FAILED(m_pManagementClass->Set_Scene(pScene)))
+	m_pManagementClass->Add_Scene(SCENEID::LOGO, new CLogo(pGraphicDev));
+	m_pManagementClass->Add_Scene(SCENEID::STAGE1, new CStage(pGraphicDev));
+	
+	if (FAILED(m_pManagementClass->Change_Scene(SCENEID::LOGO)))
 	{
 		MSG_BOX("Scene Setting Failed");
 		return E_FAIL;

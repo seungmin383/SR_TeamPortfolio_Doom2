@@ -27,6 +27,8 @@ public:
     virtual         void        LateUpdate_Scene(const _float& fTimeDelta);
     virtual         void        Render_Scene() = 0;
 
+    virtual         CScene*     Create() PURE;
+
 protected:
     map<LAYERID, CLayer*>               m_mapLayer;
     LPDIRECT3DDEVICE9                   m_pGraphicDev;

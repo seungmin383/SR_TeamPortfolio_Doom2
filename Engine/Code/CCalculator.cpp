@@ -228,7 +228,7 @@ _bool CCalculator::Picking_GameObject(HWND hWnd)
 					&objectColliderBox[dwVtxIdx[2]],
 					&vRayPos, &vRayDir, &fU, &fV, &fDist))
 				{
-					object->GetCollider()->HitRay((*CManagement::GetInstance()->Get_Scene()->Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYERCAMERA).begin())->GetCollider());
+					object->GetCollider()->HitRay(CManagement::GetInstance()->Get_Player()->GetCollider());
 					return true;
 				}
 
@@ -242,7 +242,7 @@ _bool CCalculator::Picking_GameObject(HWND hWnd)
 					&objectColliderBox[dwVtxIdx[0]],
 					&vRayPos, &vRayDir, &fU, &fV, &fDist))
 				{
-					object->GetCollider()->HitRay((*CManagement::GetInstance()->Get_Scene()->Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYERCAMERA).begin())->GetCollider());
+					object->GetCollider()->HitRay(CManagement::GetInstance()->Get_Player()->GetCollider());
 					return true;
 				}
 
@@ -258,7 +258,7 @@ _bool CCalculator::Picking_GameObject(HWND hWnd)
 					&objectColliderBox[dwVtxIdx[2]],
 					&vRayPos, &vRayDir, &fU, &fV, &fDist))
 				{
-					object->GetCollider()->HitRay((*CManagement::GetInstance()->Get_Scene()->Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYERCAMERA).begin())->GetCollider());
+					object->GetCollider()->HitRay(CManagement::GetInstance()->Get_Player()->GetCollider());
 					return true;
 				}
 
@@ -272,7 +272,7 @@ _bool CCalculator::Picking_GameObject(HWND hWnd)
 					&objectColliderBox[dwVtxIdx[0]],
 					&vRayPos, &vRayDir, &fU, &fV, &fDist))
 				{
-					object->GetCollider()->HitRay((*CManagement::GetInstance()->Get_Scene()->Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYERCAMERA).begin())->GetCollider());
+					object->GetCollider()->HitRay(CManagement::GetInstance()->Get_Player()->GetCollider());
 					return true;
 				}
 
@@ -288,7 +288,7 @@ _bool CCalculator::Picking_GameObject(HWND hWnd)
 					&objectColliderBox[dwVtxIdx[2]],
 					&vRayPos, &vRayDir, &fU, &fV, &fDist))
 				{
-					object->GetCollider()->HitRay((*CManagement::GetInstance()->Get_Scene()->Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYERCAMERA).begin())->GetCollider());
+					object->GetCollider()->HitRay(CManagement::GetInstance()->Get_Player()->GetCollider());
 					return true;
 				}
 
@@ -302,7 +302,7 @@ _bool CCalculator::Picking_GameObject(HWND hWnd)
 					&objectColliderBox[dwVtxIdx[0]],
 					&vRayPos, &vRayDir, &fU, &fV, &fDist))
 				{
-					object->GetCollider()->HitRay((*CManagement::GetInstance()->Get_Scene()->Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYERCAMERA).begin())->GetCollider());
+					object->GetCollider()->HitRay(CManagement::GetInstance()->Get_Player()->GetCollider());
 					return true;
 				}
 			}

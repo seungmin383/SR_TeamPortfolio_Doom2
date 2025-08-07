@@ -25,6 +25,7 @@ public:
 
 private:
     vector<CGameObject*>                m_vecObject[(_uint)OBJID::OBJ_END];
+    vector<CGameObject*>                m_vecObjectPool[(_uint)OBJID::OBJ_END];
 public:
     static CLayer* Create();
 
