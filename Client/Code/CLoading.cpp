@@ -71,8 +71,13 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_PlayerUI", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/PLAYERUI.png", TEX_NORMAL))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_FaceUI", Engine::CTexture::Create(m_pGraphicDev, L"../ReSource/Texture/DoomTex/STFST0%d.png", TEX_NORMAL, 3))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_FaceUI", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STFST0%d.png", TEX_NORMAL, 3))))
 		return E_FAIL;
+
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_Number", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STTNUM%d.png", TEX_NORMAL, 10))))
+		return E_FAIL;
+
 
 
 	lstrcpy(m_szLoading, L"Etc Component Loading.....................");

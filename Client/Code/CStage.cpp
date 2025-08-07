@@ -158,7 +158,7 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 	const auto& cameraObjects = Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYERCAMERA);
 	if (cameraObjects.empty())
 		return E_FAIL;
-
+	
 	auto* pCameraObject = dynamic_cast<CDynamicCamera*>(cameraObjects.back());
 	if (pCameraObject == nullptr)
 		return E_FAIL;

@@ -37,8 +37,8 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	m_fFar = fFar;
 
 	// Player Default Settings
-	m_iHp = 100;
-	m_iArmor = 50;
+	m_iHp = 123;
+	m_iArmor = 45;
 
 	m_fSpeed = 10.f;
 

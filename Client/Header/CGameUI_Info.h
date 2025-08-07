@@ -4,6 +4,7 @@
 #include "CFontManager.h"
 #include "CDynamicCamera.h"
 #include "CPlayerWeapon.h"
+#include <vector>
 
 class CGameUI_Info :    public CGameObject
 {
@@ -35,6 +36,16 @@ private:
 	Engine::CRectTex* m_pBufferCom;
 	Engine::CTexture* m_pTextureCom;
 	Engine::CCalculator* m_pCalculatorCom;
+
+private:
+	vector<Engine::CTexture*> m_vecDigitTextures;
+
+	_int m_iNum;
+	_int m_hundreds;
+	_int m_tens;
+	_int m_ones;
+
+	void Render_Number(int number, float baseX, float baseY, float scaleX, float scaleY);
 
 public:
 	static CGameUI_Info* Create(LPDIRECT3DDEVICE9 pGraphicDev);
