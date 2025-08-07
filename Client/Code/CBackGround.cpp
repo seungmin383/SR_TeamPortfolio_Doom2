@@ -39,7 +39,7 @@ void CBackGround::LateUpdate_GameObject(const _float& fTimeDelta)
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 }
 
-void CBackGround::Render_GameObject()
+void CBackGround::Render_GameObject(const _float& fTimeDelta)
 {
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 

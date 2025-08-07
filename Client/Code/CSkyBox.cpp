@@ -46,7 +46,7 @@ void CSkyBox::LateUpdate_GameObject(const _float& fTimeDelta)
 	m_pTransformCom->Set_Pos(matView._41, matView._42 + 3.f, matView._43);
 }
 
-void CSkyBox::Render_GameObject()
+void CSkyBox::Render_GameObject(const _float& fTimeDelta)
 {
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);

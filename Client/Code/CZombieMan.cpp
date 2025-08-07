@@ -133,6 +133,37 @@ void CZombieMan::LateUpdate_GameObject(const _float& fTimeDelta)
 
 	m_pColliderCom->Late_Update();
 
+	////죽었는지 가장 먼저 체크 -> 공격하는지 체크 -> 아니면 이동
+	//if (m_isGibbingDead)
+	//{
+	//	m_pAnimCom->Play_Animation(ANIM_GDEAD, 0, fTimeDelta, m_eCurAnimState);
+	//	m_isGibbingDead = false;
+	//}
+	//else if (m_isNormalDead)
+	//{
+	//	m_pAnimCom->Play_Animation(ANIM_NDEAD, 0, fTimeDelta, m_eCurAnimState);
+	//	m_isNormalDead = false;
+	//}
+	//else if (m_isAtk)
+	//{
+	//	m_pAnimCom->Play_Animation(ANIM_ATK, 0, fTimeDelta, m_eCurAnimState);
+	//	m_isAtk = false;
+	//}
+	//else
+	//{
+	//	m_pAnimCom->Play_Animation(ANIM_MOVE, 0, fTimeDelta, m_eCurAnimState);
+	//}
+}
+
+void CZombieMan::Render_GameObject(const _float& fTimeDelta)
+{
+	Check_Target();
+
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
+
+//	m_pTextureCom->Set_Texture(m_eCurAnimState);
 	//죽었는지 가장 먼저 체크 -> 공격하는지 체크 -> 아니면 이동
 	if (m_isGibbingDead)
 	{
@@ -153,18 +184,6 @@ void CZombieMan::LateUpdate_GameObject(const _float& fTimeDelta)
 	{
 		m_pAnimCom->Play_Animation(ANIM_MOVE, 0, fTimeDelta, m_eCurAnimState);
 	}
-}
-
-void CZombieMan::Render_GameObject()
-{
-	Check_Target();
-
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
-
-	m_pTextureCom->Set_Texture(m_eCurAnimState);
-	
 	m_pBufferCom->Render_Buffer();
 
 	//충돌체

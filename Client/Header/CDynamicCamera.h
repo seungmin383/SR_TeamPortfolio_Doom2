@@ -20,7 +20,7 @@ public:
 
     virtual         _int        Update_GameObject(const _float& fTimeDelta);
     virtual         void        LateUpdate_GameObject(const _float& fTimeDelta);
-    virtual         void        Render_GameObject();
+    virtual         void        Render_GameObject(const _float& fTimeDelta);
 
 public:
     _vec3       Get_Pos()   { return m_vEye; }

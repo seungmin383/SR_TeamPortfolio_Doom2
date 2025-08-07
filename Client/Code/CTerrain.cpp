@@ -42,7 +42,7 @@ void CTerrain::LateUpdate_GameObject(const _float& fTimeDelta)
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 }
 
-void CTerrain::Render_GameObject()
+void CTerrain::Render_GameObject(const _float& fTimeDelta)
 {
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 

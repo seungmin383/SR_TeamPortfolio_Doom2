@@ -53,7 +53,7 @@ void CLogo::LateUpdate_Scene(const _float& fTimeDelta)
 	Engine::CScene::LateUpdate_Scene(fTimeDelta);
 }
 
-void CLogo::Render_Scene()
+void CLogo::Render_Scene(const _float& fTimeDelta)
 {
 	// Debug¿ë ·»´õ
 

@@ -20,13 +20,13 @@ void CRenderer::Add_RenderGroup(RENDERID eType, CGameObject* pGameObject)
 	pGameObject->Add_Ref();
 }
 
-void CRenderer::Render_GameObejct(LPDIRECT3DDEVICE9& pGraphicDev)
+void CRenderer::Render_GameObejct(LPDIRECT3DDEVICE9& pGraphicDev, const _float& fTimeDelta)
 {
-	Render_Priority(pGraphicDev);
-	Render_NonAlpha(pGraphicDev);
-	Render_Reflect(pGraphicDev);
-	Render_Alpha(pGraphicDev);
-	Render_UI(pGraphicDev);
+	Render_Priority(pGraphicDev, fTimeDelta);
+	Render_NonAlpha(pGraphicDev, fTimeDelta);
+	Render_Reflect(pGraphicDev, fTimeDelta);
+	Render_Alpha(pGraphicDev, fTimeDelta);
+	Render_UI(pGraphicDev, fTimeDelta);
 
 	Clear_RenderGroup();
 }
@@ -40,29 +40,29 @@ void CRenderer::Clear_RenderGroup()
 	}
 }
 
-void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev)
+void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pGraphicDev, const _float& fTimeDelta)
 {
 	for (auto& pObj : m_RenderGroup[RENDER_PRIORITY])
-		pObj->Render_GameObject();
+		pObj->Render_GameObject(fTimeDelta);
 }
 
-void CRenderer::Render_NonAlpha(LPDIRECT3DDEVICE9& pGraphicDev)
+void CRenderer::Render_NonAlpha(LPDIRECT3DDEVICE9& pGraphicDev, const _float& fTimeDelta)
 {
 	for (auto& pObj : m_RenderGroup[RENDER_NONALPHA])
-		pObj->Render_GameObject();
+		pObj->Render_GameObject(fTimeDelta);
 }
 
-void CRenderer::Render_Reflect(LPDIRECT3DDEVICE9& pGraphicDev)
+void CRenderer::Render_Reflect(LPDIRECT3DDEVICE9& pGraphicDev, const _float& fTimeDelta)
 {
 	pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	for (auto& pObj : m_RenderGroup[RENDER_REFLECT])
-		pObj->Render_GameObject();
+		pObj->Render_GameObject(fTimeDelta);
 
 	pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 }
 
-void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)
+void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev, const _float& fTimeDelta)
 {
 	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 
@@ -70,12 +70,12 @@ void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev)
 	pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	for (auto& pObj : m_RenderGroup[RENDER_ALPHA])
-		pObj->Render_GameObject();
+		pObj->Render_GameObject(fTimeDelta);
 
 	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 }
 
-void CRenderer::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
+void CRenderer::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev, const _float& fTimeDelta)
 {
 	// 기존의 뷰, 투영 행렬을 저장
 	_matrix matPrevView, matPrevProj;
@@ -95,7 +95,7 @@ void CRenderer::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 		// z-buffer 비활성화
 		pGraphicDev->SetRenderState(D3DRS_ZENABLE, FALSE);
 
-		pObj->Render_GameObject();
+		pObj->Render_GameObject(fTimeDelta);
 
 		// z-buffer 다시 활성화
 		pGraphicDev->SetRenderState(D3DRS_ZENABLE, TRUE);
@@ -107,7 +107,7 @@ void CRenderer::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev)
 		// z-buffer 비활성화
 		pGraphicDev->SetRenderState(D3DRS_ZENABLE, FALSE);
 
-		pObj->Render_GameObject();
+		pObj->Render_GameObject(fTimeDelta);
 
 		// z-buffer 다시 활성화
 		pGraphicDev->SetRenderState(D3DRS_ZENABLE, TRUE);

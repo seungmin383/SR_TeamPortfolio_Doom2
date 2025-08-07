@@ -27,7 +27,7 @@ public:
     virtual             HRESULT         Ready_GameObject();
     virtual             _int            Update_GameObject(const _float& fTimeDelta);
     virtual             void            LateUpdate_GameObject(const _float& fTimeDelta);
-    virtual             void            Render_GameObject();
+    virtual             void            Render_GameObject(const _float& fTimeDelta);
 
 public:
     const bool                          Get_Dead() const { return m_bDead; }

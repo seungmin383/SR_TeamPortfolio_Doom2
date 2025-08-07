@@ -57,7 +57,7 @@ void CPlayerWeapon::LateUpdate_GameObject(const _float& fTimeDelta)
 	m_pAnimatorCom->Play_Animation(m_eWeaponId + m_eWeaponState, 0, fTimeDelta);
 }
 
-void CPlayerWeapon::Render_GameObject()
+void CPlayerWeapon::Render_GameObject(const _float& fTimeDelta)
 {
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	
