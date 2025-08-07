@@ -3,6 +3,8 @@
 #include "CPrototypeManager.h"
 #include "CRenderer.h"
 #include "CManagement.h"
+#include "CCollisionManager.h"
+#include "CTimerManager.h"
 
 CZombieMan::CZombieMan(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonsterBase(pGraphicDev)
@@ -119,7 +121,7 @@ HRESULT CZombieMan::Ready_GameObject()
 
 _int CZombieMan::Update_GameObject(const _float& fTimeDelta)
 {
-	Thinker(fTimeDelta);
+	//Thinker(fTimeDelta);
 
 	CGameObject::Update_GameObject(fTimeDelta);
 
@@ -175,6 +177,7 @@ void CZombieMan::Render_GameObject(const _float& fTimeDelta)
 
 void CZombieMan::OnCollision(CCollider* _pOther)
 {
+	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
 }
 
 void CZombieMan::OnCollisionEnter(CCollider* _pOther)
