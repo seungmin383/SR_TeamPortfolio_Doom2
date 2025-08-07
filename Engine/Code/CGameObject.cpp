@@ -53,7 +53,7 @@ void CGameObject::LateUpdate_GameObject(const _float& fTimeDelta)
 		pComponent.second->LateUpdate_Component();
 }
 
-void CGameObject::Render_GameObject()
+void CGameObject::Render_GameObject(const _float& fTimeDelta)
 {
 }
 

@@ -58,7 +58,7 @@ void CZombieMan::LateUpdate_GameObject(const _float& fTimeDelta)
 	m_pColliderCom->Late_Update();
 }
 
-void CZombieMan::Render_GameObject()
+void CZombieMan::Render_GameObject(const _float& fTimeDelta)
 {
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 

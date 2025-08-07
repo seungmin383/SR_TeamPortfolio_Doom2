@@ -59,7 +59,7 @@ void CStage::LateUpdate_Scene(const _float& fTimeDelta)
 	CColliderManager::GetInstance()->Update();
 }
 
-void CStage::Render_Scene()
+void CStage::Render_Scene(const _float& fTimeDelta)
 {
 }
 

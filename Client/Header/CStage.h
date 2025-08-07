@@ -11,7 +11,7 @@ public:
     virtual         HRESULT     Ready_Scene();
     virtual         _int        Update_Scene(const _float& fTimeDelta);
     virtual         void        LateUpdate_Scene(const _float& fTimeDelta);
-    virtual         void        Render_Scene();
+    virtual         void        Render_Scene(const _float& fTimeDelta);
 
 private:
     HRESULT         Ready_Environment_Layer(LAYERID _eLayerId);

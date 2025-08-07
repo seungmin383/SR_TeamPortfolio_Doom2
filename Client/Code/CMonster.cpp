@@ -52,7 +52,7 @@ void CMonster::LateUpdate_GameObject(const _float& fTimeDelta)
 	m_pColliderCom->Late_Update();
 }
 
-void CMonster::Render_GameObject()
+void CMonster::Render_GameObject(const _float& fTimeDelta)
 {
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);

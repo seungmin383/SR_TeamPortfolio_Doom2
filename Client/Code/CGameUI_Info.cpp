@@ -36,7 +36,7 @@ void CGameUI_Info::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 }
 
-void CGameUI_Info::Render_GameObject()
+void CGameUI_Info::Render_GameObject(const _float& fTimeDelta)
 {
 	if (m_pCamera == nullptr)
 		return;

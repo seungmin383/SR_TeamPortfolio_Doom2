@@ -56,13 +56,13 @@ void CMainApp::LateUpdate_MainApp(const float& fTimeDelta)
 	m_pManagementClass->LateUpdate_Scene(fTimeDelta);
 }
 
-void CMainApp::Render_MainApp()
+void CMainApp::Render_MainApp(const float& fTimeDelta)
 {
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	m_pDeviceClass->Render_Begin(D3DXCOLOR(0.f, 0.f, 1.f, 1.f));
 
-	m_pManagementClass->Render_Scene(m_pGraphicDev);
+	m_pManagementClass->Render_Scene(m_pGraphicDev, fTimeDelta);
 
 	m_pDeviceClass->Render_End();
 }

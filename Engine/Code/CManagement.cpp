@@ -96,11 +96,11 @@ void CManagement::LateUpdate_Scene(const _float& fTimeDelta)
 	m_pScene->LateUpdate_Scene(fTimeDelta);
 }
 
-void CManagement::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
+void CManagement::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev, const _float& fTimeDelta)
 {
-	CRenderer::GetInstance()->Render_GameObejct(pGraphicDev);
+	CRenderer::GetInstance()->Render_GameObejct(pGraphicDev, fTimeDelta);
 
-	m_pScene->Render_Scene();
+	m_pScene->Render_Scene(fTimeDelta);
 }
 
 void CManagement::Free()

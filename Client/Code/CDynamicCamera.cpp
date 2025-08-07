@@ -84,7 +84,7 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 	}
 }
 
-void CDynamicCamera::Render_GameObject()
+void CDynamicCamera::Render_GameObject(const _float& fTimeDelta)
 {
 }
 
