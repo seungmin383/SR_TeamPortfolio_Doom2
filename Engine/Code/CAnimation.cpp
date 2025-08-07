@@ -92,6 +92,8 @@ void CAnimation::Calc_Frame(const _float& fTimeDelta)
 
 		if (m_iCurFrame > m_iEndFrame)
 		{
+
+
 			if (m_bIsLoop)
 				m_iCurFrame = 0;
 			else
