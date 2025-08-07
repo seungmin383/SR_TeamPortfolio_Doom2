@@ -58,6 +58,9 @@
     <Filter Include="02. GameObject\09. UI">
       <UniqueIdentifier>{719ef41e-8805-4f46-aa20-2e302d6f4087}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\06. Object">
+      <UniqueIdentifier>{7cfb09dd-b66b-47db-b560-aa729e4eb46d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -120,6 +123,9 @@
     <ClInclude Include="..\Header\CGameUI_Info.h">
       <Filter>02. GameObject\09. UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CHealth_Small.h">
+      <Filter>02. GameObject\06. Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -172,6 +178,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CGameUI_Info.cpp">
       <Filter>02. GameObject\09. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CHealth_Small.cpp">
+      <Filter>02. GameObject\06. Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
