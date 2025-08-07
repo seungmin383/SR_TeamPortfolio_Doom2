@@ -108,8 +108,8 @@ void CGameUI_Info::Render_GameObject()
 
 	vPos = { -300.f, -WINCY * 0.5f + vScale.y + 15.f, 0.f };
 
-	Render_Number(m_pCamera->Get_Hp(), -300.f, -WINCY * 0.5f + vScale.y + 15.f, 30.f, 30.f / (15.f / 16.f));
-	Render_Number(m_pCamera->Get_Armor(), 300.f, -WINCY * 0.5f + vScale.y + 15.f, 30.f, 30.f / (15.f / 16.f));
+	Render_Number(m_pCamera->Get_Hp(), -450.f, -WINCY * 0.5f + vScale.y + 60.f, 30.f, 30.f / (15.f / 16.f));
+	Render_Number(m_pCamera->Get_Armor(), 150.f, -WINCY * 0.5f + vScale.y + 60.f, 30.f, 30.f / (15.f / 16.f));
 
 	// 5. 렌더링이 끝난 후, 백업해두었던 원래의 View, Projection 행렬로 복원합니다.                                           
 	// 이렇게 해야 다른 3D 오브젝트들이 정상적으로 렌더링됩니다.                                                              
@@ -122,21 +122,21 @@ void CGameUI_Info::Render_GameObject()
 
 	
 
-	_tchar szHp[128] = L"";
-	_tchar szArmor[128] = L"";
-	//_tchar szClip[128] = L"";
+	//_tchar szHp[128] = L"";
+	//_tchar szArmor[128] = L"";
+	////_tchar szClip[128] = L"";
 
-	swprintf_s(szHp, L"%d", m_pCamera->Get_Hp());
-	swprintf_s(szArmor, L"%d", m_pCamera->Get_Armor());
-	//swprintf_s(szClip, L"%d", m_pCamera->Get_Clip());
+	//swprintf_s(szHp, L"%d", m_pCamera->Get_Hp());
+	//swprintf_s(szArmor, L"%d", m_pCamera->Get_Armor());
+	////swprintf_s(szClip, L"%d", m_pCamera->Get_Clip());
 
-	_vec2 vPos1{ 380.f, 800.f };
-	_vec2 vPos2{ 1000.f, 800.f };
-	//_vec2 vPos3{ 1470.f, 776.f };
+	//_vec2 vPos1{ 380.f, 800.f };
+	//_vec2 vPos2{ 1000.f, 800.f };
+	////_vec2 vPos3{ 1470.f, 776.f };
 
-	CFontManager::GetInstance()->Render_Font(L"Font_Default", szHp, &vPos1, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
-	CFontManager::GetInstance()->Render_Font(L"Font_Default", szArmor, &vPos2, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
-	//CFontManager::GetInstance()->Render_Font(L"Font_Default", szClip, &vPos3, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	//CFontManager::GetInstance()->Render_Font(L"Font_Default", szHp, &vPos1, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	//CFontManager::GetInstance()->Render_Font(L"Font_Default", szArmor, &vPos2, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	////CFontManager::GetInstance()->Render_Font(L"Font_Default", szClip, &vPos3, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 }
 
 void CGameUI_Info::Render_Number(int number, float baseX, float baseY, float scaleX, float scaleY)
