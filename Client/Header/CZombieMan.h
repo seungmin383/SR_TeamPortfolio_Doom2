@@ -39,10 +39,10 @@ private:
     void        Set_OnTerrain();
 
 private:
-    Engine::CRectSpriteTex* m_pBufferCom;
-    Engine::CTexture* m_pTextureCom;
-    Engine::CCalculator* m_pCalculatorCom;
-    Engine::CAnimator* m_pAnimCom;
+    Engine::CRectSpriteTex*  m_pBufferCom;
+    Engine::CTexture*            m_pTextureCom;
+    Engine::CCalculator*        m_pCalculatorCom;
+    Engine::CAnimator*         m_pAnimCom;
 
 public:
     static CZombieMan* Create(LPDIRECT3DDEVICE9 pGraphicDev);
