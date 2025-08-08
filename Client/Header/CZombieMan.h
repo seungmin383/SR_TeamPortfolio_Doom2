@@ -26,7 +26,6 @@ public:
     void Manage_MoveState() override;
     void Change_Animation() override;
     void Thinker(const _float& fTimeDelta) override;
-    void Check_Target() override;
     void Attack_Player(const _float& fTimeDelta)override;
 
 #pragma endregion
@@ -36,7 +35,6 @@ public:
 private:
     HRESULT     Add_Component();
     void        Key_Input(const _float& fTimeDelta);
-    void        Set_OnTerrain();
 
 private:
     Engine::CRectSpriteTex*  m_pBufferCom;
