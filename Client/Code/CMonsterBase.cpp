@@ -325,6 +325,53 @@ void CMonsterBase::Set_OnTerrain()
 
 HRESULT CMonsterBase::Add_Component()
 {
+	CComponent* pComponent = NULL;
+
+	//Buffer
+	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectSpriteTex*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectSpriteTex"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_Buffer", pComponent });
+
+	//Transform
+	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Transform"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
+
+	//MoveTransform
+	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Transform"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_DYNAMIC].insert({ L"Com_MoveTransform", pComponent });
+
+	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Calculator"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_Calculator", pComponent });
+
+	pComponent = m_pColliderCom = dynamic_cast<Engine::CCollider*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Collider"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
+
+
+	pComponent = m_pAnimCom = dynamic_cast<Engine::CAnimator*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Animator"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Animator", pComponent });
 
 	return S_OK;
 }

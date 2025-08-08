@@ -101,15 +101,15 @@ HRESULT CZombieMan::Ready_GameObject()
 
 #pragma region VARIABLE_SETTING
 	m_fSightAngle =D3DXToRadian( 80.f);
-	m_fSightDistance = 50.f;
+	m_fSightDistance		= 50.f;
 
-	m_fAtkSpeed = 4.f;
-	m_iHp = 20;
-	m_iAtkDmg = 3;
-	m_fAtkDelay = 0.f;
+	m_fAtkSpeed			= 4.f;
+	m_iHp						= 20;
+	m_iAtkDmg				= 3;
+	m_fAtkDelay			= 0.f;
 
-	m_fMoveDelay = 0.f;
-	m_fAtkDelay = 0.f;
+	m_fMoveDelay			= 0.f;
+	m_fAtkDelay			= 0.f;
 
 	//초기 룩으로 세팅해주고
 	m_pTransformCom->Get_Info(INFO_LOOK, &m_vMoveLook);
@@ -171,13 +171,11 @@ void CZombieMan::Render_GameObject(const _float& fTimeDelta)
 	//{	
 	//}
 
-		m_pAnimCom->Play_Animation(ANIM_MOVE, 0, fTimeDelta, m_eCurAnimState);
-
+	m_pAnimCom->Play_Animation(ANIM_MOVE, 0, fTimeDelta, m_eCurAnimState);
 	m_pBufferCom->Render_Buffer();
 
 	//충돌체
 	m_pColliderCom->Render(g_colRend);
-
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
@@ -196,61 +194,16 @@ void CZombieMan::OnCollisionExit(CCollider* _pOther)
 
 HRESULT CZombieMan::Add_Component()
 {
+	CMonsterBase::Add_Component();
+
 	CComponent* pComponent = NULL;
 
-	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectSpriteTex*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectSpriteTex"));
-	if (nullptr == pComponent)
-		return E_FAIL;
-
-	m_mapComponent[ID_STATIC].insert({ L"Com_Buffer", pComponent });
-
-	//Transform
-	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Transform"));
-	if (nullptr == pComponent)
-		return E_FAIL;
-
-	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
-
-	//MoveTransform
-	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Transform"));
-	if (nullptr == pComponent)
-		return E_FAIL;
-
-	m_mapComponent[ID_DYNAMIC].insert({ L"Com_MoveTransform", pComponent });
-
-	//Texture
 	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>
 		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_ZombieMan_Texture"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
-
-	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Calculator"));
-	if (nullptr == pComponent)
-		return E_FAIL;
-
-	m_mapComponent[ID_STATIC].insert({ L"Com_Calculator", pComponent });
-
-	pComponent = m_pColliderCom = dynamic_cast<Engine::CCollider*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Collider"));
-	if (nullptr == pComponent)
-		return E_FAIL;
-
-	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
-
-
-	pComponent = m_pAnimCom = dynamic_cast<Engine::CAnimator*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Animator"));
-	if (nullptr == pComponent)
-		return E_FAIL;
-
-	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Animator", pComponent });
-
 
 	return S_OK;
 }

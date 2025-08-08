@@ -44,8 +44,12 @@ public:
    virtual HRESULT     Add_Component();
 
 protected:
-    Engine::CCalculator* m_pCalculatorCom;
+    Engine::CCalculator*            m_pCalculatorCom;
+    Engine::CRectSpriteTex*      m_pBufferCom;
+    Engine::CTexture*                m_pTextureCom;
+    Engine::CAnimator*             m_pAnimCom;
 
+protected:
     int m_eCurAnimState;
     int m_ePreAnimState;
 
