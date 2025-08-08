@@ -58,11 +58,15 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_SkyBoxTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/SkyBox/burger%d.dds", TEX_CUBE, 4))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_PlayerWeaponTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Player/CHAINGUN.png", TEX_NORMAL))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_PlayerWeaponTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Player/GUN%d.png", TEX_NORMAL, 3))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_ZombieMan_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Monster/ZombieMan/MonsterState%d.png", TEX_NORMAL, 1))))
+#pragma region MONSTER_ANIM
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_ZombieMan_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Monster/ZombieMan/MonsterState%d.png", TEX_NORMAL, 18))))
 		return E_FAIL;
+#pragma endregion
+
+
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_PlayerUI", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/PLAYERUI.png", TEX_NORMAL))))
 		return E_FAIL;
@@ -88,7 +92,7 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_Material", Engine::CMaterial::Create(m_pGraphicDev))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_Collider", Engine::CCollider::Cretae(m_pGraphicDev))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_Collider", Engine::CCollider::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_Prototype(L"Proto_Animator", Engine::CAnimator::Create(m_pGraphicDev))))

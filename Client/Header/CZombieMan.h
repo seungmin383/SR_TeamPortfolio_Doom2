@@ -14,19 +14,21 @@ public:
     virtual     HRESULT         Ready_GameObject();
     virtual     _int            Update_GameObject(const _float& fTimeDelta);
     virtual     void            LateUpdate_GameObject(const _float& fTimeDelta);
-    virtual     void            Render_GameObject();
+    virtual     void            Render_GameObject(const _float& fTimeDelta);
 
     virtual     void			OnCollision(CCollider* _pOther) override;
     virtual     void			OnCollisionEnter(CCollider* _pOther) override;
     virtual     void			OnCollisionExit(CCollider* _pOther) override;
 
 #pragma region PURE
-    void Movement() override;
+    void Movement(const _float& fTimeDelta) override;
     void Attack() override;
     void Manage_MoveState() override;
-    void Manage_AnimState() override;
-    void Thinker() override;
+    void Change_Animation() override;
+    void Thinker(const _float& fTimeDelta) override;
     void Check_Target() override;
+    void Attack_Player(const _float& fTimeDelta)override;
+
 #pragma endregion
 
     void Bill_Board();
@@ -37,9 +39,10 @@ private:
     void        Set_OnTerrain();
 
 private:
-    Engine::CRectTex* m_pBufferCom;
-    Engine::CTexture* m_pTextureCom;
-    Engine::CCalculator* m_pCalculatorCom;
+    Engine::CRectSpriteTex*  m_pBufferCom;
+    Engine::CTexture*            m_pTextureCom;
+    Engine::CCalculator*        m_pCalculatorCom;
+    Engine::CAnimator*         m_pAnimCom;
 
 public:
     static CZombieMan* Create(LPDIRECT3DDEVICE9 pGraphicDev);

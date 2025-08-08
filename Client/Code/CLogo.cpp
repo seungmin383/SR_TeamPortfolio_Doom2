@@ -41,12 +41,7 @@ _int CLogo::Update_Scene(const _float& fTimeDelta)
 	{
 		if (GetAsyncKeyState(VK_RETURN))
 		{
-			Engine::CScene* pScene = CStage::Create(m_pGraphicDev);
-			if (nullptr == pScene)
-				return -1;
-
-			if (FAILED(CManagement::GetInstance()->Set_Scene(pScene)))
-				return -1;
+			CManagement::GetInstance()->Change_Scene(SCENEID::STAGE1);
 		}
 	}
 
@@ -58,7 +53,7 @@ void CLogo::LateUpdate_Scene(const _float& fTimeDelta)
 	Engine::CScene::LateUpdate_Scene(fTimeDelta);
 }
 
-void CLogo::Render_Scene()
+void CLogo::Render_Scene(const _float& fTimeDelta)
 {
 	// Debug¿ë ·»´õ
 
@@ -98,10 +93,14 @@ HRESULT CLogo::Ready_Prototype()
 	return S_OK;
 }
 
-
-CLogo* CLogo::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CLogo* CLogo::Standby(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CLogo* pLogo = new CLogo(pGraphicDev);
+	return new CLogo(pGraphicDev);
+}
+
+CLogo* CLogo::Create()
+{
+	CLogo* pLogo = new CLogo(m_pGraphicDev);
 
 	if (FAILED(pLogo->Ready_Scene()))
 	{

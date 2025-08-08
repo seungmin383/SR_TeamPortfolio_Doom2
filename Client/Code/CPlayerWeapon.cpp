@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "CPlayerWeapon.h"
+#include "CDInputManager.h"
 #include "CRenderer.h"
 
 CPlayerWeapon::CPlayerWeapon(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CCharacter(pGraphicDev)
+	: CCharacter(pGraphicDev),
+	m_eWeaponId(PISTOL), m_eWeaponState(IDLE)
 {
 }
 
@@ -23,18 +25,13 @@ HRESULT CPlayerWeapon::Ready_GameObject()
 
 	_vec3 vPos, vScale, vSize;
 	
-
-	vScale = { 200.f, 200.f, 1.f };
-	vPos = { 0.f, -WINCY * 0.5f + vScale.y + 15.f , 1.f };
-
-	vScale = { 100.f, 100.f, 1.f };
-	vPos = { 0.f, -WINCY * 0.5f + vScale.y + 100.f , 1.f };
-
+	vScale = { 200.f, 300.f, 1.f };
+	vPos = { 0.f, -WINCY * 0.5f + vScale.y , 1.f };
 	
 	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 	m_pTransformCom->Set_Scale(vScale);
 
-	//�ִϸ��̼� ����
+	//애니메이션 세팅
 	Ready_Animation();
 
 	return S_OK;
@@ -53,33 +50,51 @@ void CPlayerWeapon::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 
-	//�ִϸ��̼� ����
-	m_pAnimatorCom->Play_Animation(0, 0, fTimeDelta);
+	Key_Input();
+	Mouse_Input();
+
+
+	//애니메이션 실행
+	m_pAnimatorCom->Play_Animation(m_eWeaponId + m_eWeaponState, 0, fTimeDelta);
+
+	// 만약 현재 애니메이션이 다 끝난 상태라면 총의 상태를 기본 상태로 돌려놓는다.
+	if (m_pAnimatorCom->Get_isFinAct())
+		m_eWeaponState = IDLE;
 }
 
-void CPlayerWeapon::Render_GameObject()
+void CPlayerWeapon::Render_GameObject(const _float& fTimeDelta)
 {
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
-	m_pTextureCom->Set_Texture(0);
+	m_pTextureCom->Set_Texture(m_eWeaponId);
 	
-	// ���ĺ����� ����
+	// 알파블렌딩 설정
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	m_pBufferCom->Render_Buffer();
 
-	// ���� ���� ����
+	// 렌더 상태 복원
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }
 
 void CPlayerWeapon::Ready_Animation()
 {
-	m_pAnimatorCom->Add_Animation(0, m_pTextureCom, m_pBufferCom, 3, 1, 0, 2, 0.1f, true);
+	// Pistol Animation
+	m_pAnimatorCom->Add_Animation(PISTOL, m_pTextureCom, m_pBufferCom, 5, 1, 0, 0, 0.1f, false);
+	m_pAnimatorCom->Add_Animation(PISTOL + SHOT, m_pTextureCom, m_pBufferCom, 5, 1, 1, 4, 0.1f, true);
+	
+	// Shotgun Animation
+	m_pAnimatorCom->Add_Animation(SHOTGUN, m_pTextureCom, m_pBufferCom, 5, 1, 0, 0, 0.2f, false);
+	m_pAnimatorCom->Add_Animation(SHOTGUN + SHOT, m_pTextureCom, m_pBufferCom, 5, 1, 1, 4, 0.2f, true);
+
+	// Chaingun Animation
+	m_pAnimatorCom->Add_Animation(CHAINGUN, m_pTextureCom, m_pBufferCom, 3, 1, 0, 0, 0.1f, false);
+	m_pAnimatorCom->Add_Animation(CHAINGUN + SHOT, m_pTextureCom, m_pBufferCom, 3, 1, 1, 2, 0.1f, true);
 }
 
 HRESULT CPlayerWeapon::Add_Component()
@@ -109,7 +124,7 @@ HRESULT CPlayerWeapon::Add_Component()
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
 
-	//Animator �ִϸ��̼� ����
+	//Animator 애니메이션 세팅
 	pComponent = m_pAnimatorCom = dynamic_cast<Engine::CAnimator*>
 		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Animator"));
 	if (nullptr == pComponent)
@@ -120,7 +135,51 @@ HRESULT CPlayerWeapon::Add_Component()
 	return S_OK;
 }
 
-void CPlayerWeapon::Movement()
+void CPlayerWeapon::Key_Input()
+{
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_1) & 0x80)
+	{
+		// 총을 바꾸려 할 때 사격 상태라면 리턴
+		if (m_eWeaponState == SHOT)
+			return;
+
+		m_eWeaponId = PISTOL;
+		m_eWeaponState = IDLE;
+	}
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_2) & 0x80)
+	{
+		// 총을 바꾸려 할 때 사격 상태라면 리턴
+		if (m_eWeaponState == SHOT)
+			return;
+
+		m_eWeaponId = SHOTGUN;
+		m_eWeaponState = IDLE;
+	}
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_3) & 0x80)
+	{
+		// 총을 바꾸려 할 때 사격 상태라면 리턴
+		if (m_eWeaponState == SHOT)
+			return;
+
+		m_eWeaponId = CHAINGUN;
+		m_eWeaponState = IDLE;
+	}
+
+}
+
+void CPlayerWeapon::Mouse_Input()
+{
+	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB) & 0x80)
+	{
+		m_eWeaponState = SHOT;
+	}
+	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_RB) & 0x80)
+	{
+		m_eWeaponState = IDLE;
+	}
+}
+
+void CPlayerWeapon::Movement(const _float& fTimeDelta)
 {
 }
 

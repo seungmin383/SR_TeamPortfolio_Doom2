@@ -19,26 +19,8 @@ CComponent* CLayer::Get_Component(COMPONENTID eID, OBJID eObjId, const _tchar* p
 	//TODO: 2025-08-03 다수의 오브젝트를 관리하는 상황에서 특정 오브젝트 찾는 로직 필요함
 	// 현재는 플레이어 오브젝트를 찾는 용도로만 사용하는걸 가정하고있음
 	
-	//find_if(m_vecObject[(UINT)eObjId].begin(),
-	//	m_vecObject[(UINT)eObjId].end(),
-	//	[&](vector<CGameObject*>::iterator iter) { return (*iter)->NameCmp(L""); });
-
 	return (*iter)->Get_Component(eID, pComponentTag);
 }
-
-//CGameObject* CLayer::Get_Object(OBJID eObjId)
-//{
-//	vector<CGameObject*>::iterator iter;
-//
-//	auto idFinder = [&](vector<CGameObject*> vecToItem) { iter = find_if(vecToItem.begin(), vecToItem.end(), CID_Finder((_int)eObjId)); };
-//
-//	for_each(m_vecObject->begin(), m_vecObject->end(), idFinder);
-//
-//	if (iter == m_vecObject[(UINT)OBJID::OBJ_END].end());
-//	return nullptr;
-//
-//	return *iter;
-//}
 
 HRESULT CLayer::Add_GameObject(OBJID eObjId, CGameObject* pGameObject)
 {
@@ -124,6 +106,10 @@ void CLayer::DeleteAll()
 {
 	for (UINT i = 0; i < (UINT)OBJID::OBJ_END; ++i)
 	{
+		//if (i == (_uint)OBJID::OBJ_PLAYER
+		//	|| i == (_uint)OBJID::OBJ_PLAYERCAMERA)
+		//	continue;
+
 		DeleteObjectGroup((OBJID)i);
 	}
 }

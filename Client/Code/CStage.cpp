@@ -41,7 +41,8 @@ HRESULT CStage::Ready_Scene()
 	if (FAILED(Ready_Light()))
 		return E_FAIL;
 
-	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_ENEMTY);
+	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_ENEMY);
+	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYERCAMERA, OBJID::OBJ_ENEMY);
 
 	return S_OK;
 }
@@ -60,7 +61,7 @@ void CStage::LateUpdate_Scene(const _float& fTimeDelta)
 	CColliderManager::GetInstance()->Update();
 }
 
-void CStage::Render_Scene()
+void CStage::Render_Scene(const _float& fTimeDelta)
 {
 }
 
@@ -106,7 +107,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMTY, pGameObject)))
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
 		return E_FAIL;
 
 	pGameObject = CHealth_Small::Create(m_pGraphicDev);
@@ -207,6 +208,9 @@ HRESULT CStage::Ready_Camera_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_PLAYERCAMERA, pGameObject)))
 		return E_FAIL;
 
+	//CManagement¿¡ Player ¼¼ÆÃ
+	CManagement::GetInstance()->Set_Player(pGameObject);
+
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
 	return S_OK;
@@ -231,9 +235,14 @@ HRESULT CStage::Ready_Light()
 	return S_OK;
 }
 
-CStage* CStage::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CStage* CStage::Standby(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	CStage* pStage = new CStage(pGraphicDev);
+	return new CStage(pGraphicDev);
+}
+
+CStage* CStage::Create()
+{
+	CStage* pStage = new CStage(m_pGraphicDev);
 
 	if (FAILED(pStage->Ready_Scene()))
 	{

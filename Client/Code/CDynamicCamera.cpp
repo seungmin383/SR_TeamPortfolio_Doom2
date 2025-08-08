@@ -2,6 +2,7 @@
 #include "CDynamicCamera.h"
 #include "CDInputManager.h"
 #include "CManagement.h"
+#include "CRenderer.h"
 
 // 변수 초기화
 _long CDynamicCamera::s_lMouseMoveX = 0L;
@@ -51,7 +52,7 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 		return E_FAIL;
 
 	// Collider Default Settings
-	_vec3 vScale{ 20.f, 20.f, 20.f };
+	_vec3 vScale{ 1.f, 1.f, 1.f };
 	_vec3 vOffset{ 0.f, 0.f, 0.f };
 
 	m_pColliderCom->Ready_CCollider(this, m_vEye, vScale, vOffset, COL_PLAYER,
@@ -82,10 +83,13 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 		Mouse_Move();
 		Mouse_Fix();
 	}
+
+	CRenderer::GetInstance()->Add_RenderGroup(RENDER_NONALPHA, this);
 }
 
-void CDynamicCamera::Render_GameObject()
+void CDynamicCamera::Render_GameObject(const _float& fTimeDelta)
 {
+	m_pColliderCom->Render(g_colRend);
 }
 
 HRESULT CDynamicCamera::Add_Component()
@@ -122,6 +126,15 @@ HRESULT CDynamicCamera::Add_Component()
 
 void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 {
+	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB))
+	{
+		auto a = m_pCalculatorCom->Picking_GameObject(g_hWnd);
+		if (a)
+		{
+			auto b = 1;
+		}
+	}
+
 	_matrix	matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, 0, &m_matView);
 
@@ -180,6 +193,9 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		m_vAt.x -= vLength.x;
 		m_vAt.z -= vLength.z;
 	}
+
+	//m_pTransformCom 업데이트 //collider 동기화 용
+	m_pTransformCom->Set_Pos(m_vEye.x, m_vEye.y, m_vEye.z);
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_TAB) & 0x80)
 	{

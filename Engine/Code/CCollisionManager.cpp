@@ -31,11 +31,11 @@ void CCollisionManager::Collision_Rect_Resolve(CCollider* _Dst, CCollider* _Src,
 			_Src->Get_Owner()->Get_Transform()->Get_Info(INFO_LOOK, &dir);
 			if (dstOwnerPos.z < srcOwnerPos.z)
 			{
-				_Src->Get_Owner()->Get_Transform()->Move_Pos(&dir, fDepth, 0.3f);
+				_Src->Get_Owner()->Get_Transform()->Move_Pos(&dir, fDepth, 0.5f);
 			}
 			else
 			{
-				_Src->Get_Owner()->Get_Transform()->Move_Pos(&dir, -fDepth, 0.3f);
+				_Src->Get_Owner()->Get_Transform()->Move_Pos(&dir, -fDepth, 0.5f);
 			}
 		}
 		else
@@ -43,11 +43,11 @@ void CCollisionManager::Collision_Rect_Resolve(CCollider* _Dst, CCollider* _Src,
 			_Src->Get_Owner()->Get_Transform()->Get_Info(INFO_RIGHT, &dir);
 			if (dstOwnerPos.x < srcOwnerPos.x)
 			{
-				_Src->Get_Owner()->Get_Transform()->Move_Pos(&dir, fWidth, 0.3f);
-			}	
+				_Src->Get_Owner()->Get_Transform()->Move_Pos(&dir, -fWidth, 0.5f);
+			}
 			else
 			{
-				_Src->Get_Owner()->Get_Transform()->Move_Pos(&dir, -fWidth, 0.3f);
+				_Src->Get_Owner()->Get_Transform()->Move_Pos(&dir, fWidth, 0.5f);
 			}
 		}
 
@@ -56,11 +56,11 @@ void CCollisionManager::Collision_Rect_Resolve(CCollider* _Dst, CCollider* _Src,
 			_Src->Get_Owner()->Get_Transform()->Get_Info(INFO_UP, &dir);
 			if (dstOwnerPos.y < srcOwnerPos.y)
 			{
-				_Src->Get_Owner()->Get_Transform()->Move_Pos(&dir, fHeight, 0.3f);
+				_Src->Get_Owner()->Get_Transform()->Move_Pos(&dir, -fHeight, 0.5f);
 			}
 			else
 			{
-				_Src->Get_Owner()->Get_Transform()->Move_Pos(&dir, -fHeight, 0.3f);
+				_Src->Get_Owner()->Get_Transform()->Move_Pos(&dir, fHeight, 0.5f);
 			}
 		}
 	}
@@ -89,9 +89,9 @@ bool CCollisionManager::Check_AABB(CCollider* _Dst, CCollider* _Src, _float* _pX
 
 	if (fRadiusX > fWidth && fRadiusY > fHeight && fRadiusZ > fDepth )
 	{
-		*_pX = fRadiusX - fWidth + 0.1f;
-		*_pY = fRadiusY - fHeight + 0.1f;
-		*_pZ = fRadiusZ - fDepth + 0.1f;
+		*_pX = fRadiusX - fWidth;
+		*_pY = fRadiusY - fHeight;
+		*_pZ = fRadiusZ - fDepth;
 		return true;
 	}
 

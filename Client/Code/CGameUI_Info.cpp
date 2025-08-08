@@ -66,7 +66,7 @@ void CGameUI_Info::LateUpdate_GameObject(const _float& fTimeDelta)
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 }
 
-void CGameUI_Info::Render_GameObject()
+void CGameUI_Info::Render_GameObject(const _float& fTimeDelta)
 {
 	// 1. 렌더링에 방해가 되는 컬링 옵션을 끕니다.                                                                            
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);

@@ -14,7 +14,7 @@ public:
     HRESULT         Ready_MainApp();
     int             Update_MainApp(const float& fTimeDelta);
     void            LateUpdate_MainApp(const float& fTimeDelta);
-    void            Render_MainApp();
+    void            Render_MainApp(const float& fTimeDelta);
 
 private:
     HRESULT         Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev);
