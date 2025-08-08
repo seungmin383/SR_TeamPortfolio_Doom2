@@ -12,6 +12,7 @@
 #include "CGameUI.h"
 #include "CGameUI_Face.h"
 #include "CGameUI_Info.h"
+#include "CHealth_Small.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -106,6 +107,14 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 		return E_FAIL;
 
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMTY, pGameObject)))
+		return E_FAIL;
+
+	pGameObject = CHealth_Small::Create(m_pGraphicDev);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
 		return E_FAIL;
 
 	m_mapLayer.insert({ _eLayerId, pLayer });

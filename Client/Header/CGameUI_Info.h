@@ -45,7 +45,7 @@ private:
 	_int m_tens;
 	_int m_ones;
 
-	void Render_Number(const int& iNumber, const _vec2* pPos, const _vec2* pScale);
+	void Render_Number(int number, float baseX, float baseY, float scaleX, float scaleY);
 
 public:
 	static CGameUI_Info* Create(LPDIRECT3DDEVICE9 pGraphicDev);
