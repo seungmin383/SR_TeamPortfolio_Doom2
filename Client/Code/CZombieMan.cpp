@@ -100,7 +100,7 @@ HRESULT CZombieMan::Ready_GameObject()
 #pragma endregion
 
 #pragma region VARIABLE_SETTING
-	m_fSightAngle = 80.f;
+	m_fSightAngle =D3DXToRadian( 80.f);
 	m_fSightDistance = 50.f;
 
 	m_fAtkSpeed = 4.f;
@@ -113,6 +113,7 @@ HRESULT CZombieMan::Ready_GameObject()
 
 	//초기 룩으로 세팅해주고
 	m_pTransformCom->Get_Info(INFO_LOOK, &m_vMoveLook);
+
 #pragma endregion
 
 
@@ -127,7 +128,7 @@ _int CZombieMan::Update_GameObject(const _float& fTimeDelta)
 
 	Set_OnTerrain();
 	Bill_Board();
-	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
+	CRenderer::GetInstance()->Add_RenderGroup(RENDER_NONALPHA, this);
 
 	return 0;
 }
@@ -149,6 +150,7 @@ void CZombieMan::Render_GameObject(const _float& fTimeDelta)
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
 	//	m_pTextureCom->Set_Texture(m_eCurAnimState);
+
 	//죽었는지 가장 먼저 체크 -> 공격하는지 체크 -> 아니면 이동
 	if (m_isGibbingDead)
 	{
@@ -161,10 +163,10 @@ void CZombieMan::Render_GameObject(const _float& fTimeDelta)
 	else if (m_isAtk)
 	{
 		m_pAnimCom->Play_Animation(ANIM_ATK, 0, fTimeDelta, m_eCurAnimState);
-		m_isAtk = false;
+		//m_isAtk = false;
 	}
 	else
-	{
+	{	
 		m_pAnimCom->Play_Animation(ANIM_MOVE, 0, fTimeDelta, m_eCurAnimState);
 	}
 	m_pBufferCom->Render_Buffer();
@@ -255,7 +257,8 @@ void CZombieMan::Key_Input(const _float& fTimeDelta)
 	if (GetAsyncKeyState(VK_LBUTTON) && m_pAnimCom->Get_isFinAct())
 	{
 		m_eCurAnimState = 8;
-		m_isAtk = true;
+		m_isAtk = false;
+		m_fAtkDelay = 0.f;
 	}
 	if (GetAsyncKeyState('1') && m_pAnimCom->Get_isFinAct())
 	{
@@ -302,43 +305,132 @@ void CZombieMan::Free()
 	Engine::CGameObject::Free();
 }
 
+//몬스터의 시야 안에 플레이어가 있는지 확인
 void CZombieMan::Check_Target()
 {
-	//몬스터 Look 방향
-	_vec3 vLook;
-	m_pTransformCom->Get_Info(INFO_LOOK, &vLook);
+#pragma region TRIANGLE
+	//_vec3 vPos;
+//m_pTransformCom->Get_Pos(&vPos);
+////몬스터 Look 방향
+////_vec3 vLook;
+////m_pTransformCom->Get_Info(INFO_LOOK, &m_vMoveLook);
 
-	//Normalize
-	D3DXVec3Normalize(&vLook, &vLook);
 
-	//Look 방향에 시야 길이만큼 곱해주기
-	vLook *= m_fSightDistance;
+//m_vMoveLook.y = 0.f;
+////Normalize
+//D3DXVec3Normalize(&m_vMoveLook, &m_vMoveLook);
 
-	//좌우 경계 벡터
-	_vec3 vLeftBorderLine = vLook;
-	_vec3 vRightBorderLine = vLook;
+////Look 방향에 시야 길이만큼 곱해주기
+//m_vMoveLook *= m_fSightDistance;
 
-	//왼쪽 경게 벡터
-	_matrix yRotMat;
-	D3DXMatrixRotationY(&yRotMat, -(m_fSightAngle / 2.f));
-	D3DXVec3TransformNormal(&vLeftBorderLine, &vLeftBorderLine, &yRotMat);
+////좌우 경계 벡터
+//_vec3 vLeftBorderLine = m_vMoveLook;
+//_vec3 vRightBorderLine = m_vMoveLook;
 
-	//초기화 해주고
-	D3DXMatrixIdentity(&yRotMat);
+////왼쪽 경게 벡터
+//_matrix yRotMat;
+//D3DXMatrixRotationY(&yRotMat, -(m_fSightAngle / 2.f));
+//D3DXVec3TransformNormal(&vLeftBorderLine, &vLeftBorderLine, &yRotMat);
 
-	//오른쪽 경계 벡터
-	D3DXMatrixRotationY(&yRotMat, (m_fSightAngle / 2.f));
-	D3DXVec3TransformNormal(&vRightBorderLine, &vRightBorderLine, &yRotMat);
+////초기화 해주고
+//D3DXMatrixIdentity(&yRotMat);
 
-	_vec3 vPos;
+////오른쪽 경계 벡터
+//D3DXMatrixRotationY(&yRotMat, (m_fSightAngle / 2.f));
+//D3DXVec3TransformNormal(&vRightBorderLine, &vRightBorderLine, &yRotMat);
+
+//_vec3 vLeftPos = vPos + vLeftBorderLine;
+//_vec3 vRightPos = vPos + vRightBorderLine;
+
+
+//Debug_Line(vPos, vLeftPos, vRightPos);
+
+
+#pragma endregion
+
+#pragma region RECTANGLE
+	_vec3 vPos;																									//내 위치
 	m_pTransformCom->Get_Pos(&vPos);
 
-	_vec3 vLeftPos = vPos + vLeftBorderLine;
-	_vec3 vRightPos = vPos + vRightBorderLine;
+	_vec3 vUp{ 0.f, 1.f, 0.f };																				//업 벡터(룩이랑 외적용)
 
-	Debug_Line(vPos, vLeftPos, vRightPos);
+	_vec3 vLB;																									//왼쪽 아래 경계점
+	_vec3 vRB;																									//오른쪽 아래 경계점
 
+	m_vMoveLook.y = 0;																					//y고정
 
+	_vec3 vLF = m_vMoveLook;																			//왼쪽 위 경계점
+	_vec3 vRF = m_vMoveLook;																		//오른쪽 위 경계점
+
+	_matrix RotMat;																							//벡터 회전용 매트릭스
+	D3DXMatrixIdentity(&RotMat);																	//초기화
+
+	//LF, RF
+	D3DXMatrixRotationY(&RotMat, D3DXToRadian(-45.f));							//왼쪽으로 45도 각도 -> LF
+	D3DXVec3Normalize(&vLF, &vLF);																//정규화
+	D3DXVec3TransformCoord(&vLF, &vLF, &RotMat);									//방향성 정해주기
+
+	D3DXMatrixIdentity(&RotMat);																	//사용한 매트릭스 초기화
+
+	D3DXMatrixRotationY(&RotMat, D3DXToRadian( 45.f));							//왼쪽으로 45도 각도 -> RF
+	D3DXVec3Normalize(&vRF, &vRF);																//정규화
+	D3DXVec3TransformCoord(&vRF, &vRF, &RotMat);									//방향성 정해주기
+
+	vLF *= m_fSightDistance;																				//범위 지정해주기
+	vRF *= m_fSightDistance;																			//
+
+	//LB, RB
+	D3DXVec3Normalize(&m_vMoveLook, &m_vMoveLook);							//정규화
+	D3DXVec3Normalize(&vUp, &vUp);															//정규화
+	
+	D3DXVec3Cross(&vRB, &vUp, &m_vMoveLook);										//Up LooK 외적 -> 오른쪽 벡터
+	D3DXVec3Cross(&vLB, &m_vMoveLook, &vUp);										//Look Up 외적 -> 왼쪽 벡터
+
+	D3DXVec3Normalize(&vRB, &vRB);															//정규화
+	D3DXVec3Normalize(&vLB, &vLB);																//정규화
+
+	vRB *= 20.f;																									//범위 지정해주기
+	vLB *= 20.f;																									//
+
+	Debug_Rectangle(																						//시야 범위 시각화
+		vPos + vLF,
+		vPos + vRF,
+		vPos + vRB,
+		vPos + vLB
+	);
+
+	// 플레이어가 범위에 있는가
+	_vec3 vPlayerPos;																							//플레이어 위치
+	_matrix ViewMat;																							//카메라 월드 행렬 구하기 위한
+
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &ViewMat);						//뷰 스페이스 행렬 가져오기
+
+	D3DXMatrixInverse(&ViewMat, NULL, &ViewMat);									//카메라의 월드 행렬
+
+	vPlayerPos.x = ViewMat._41;																		//카메라 = 플레이어
+	vPlayerPos.y = ViewMat._42;
+	vPlayerPos.z = ViewMat._43;
+
+	_vec3 vToPlayer = vPlayerPos - vPos;
+	vToPlayer.y = 0.f;
+	D3DXVec3Normalize(&vToPlayer, &vToPlayer);
+
+	_vec3 vLook = m_vMoveLook;
+	vLook.y = 0.f;
+	D3DXVec3Normalize(&vLook, &vLook);
+
+	// cos(시야각 / 2) = cos(90도) = 0
+	float fDot = D3DXVec3Dot(&vToPlayer, &vLook);
+
+	if (fDot >= 0.f && D3DXVec3Length((&vToPlayer)) <= m_fSightDistance)
+	{
+		std::cout << "플레이어 발견" << std::endl;
+		m_vMoveLook;
+		m_isAtk = true;
+	}
+	else
+		std::cout << "플레이어 발견 못함" << std::endl;
+#pragma endregion
 }
 
 void CZombieMan::Attack_Player(const _float& fTimeDelta)
@@ -347,19 +439,16 @@ void CZombieMan::Attack_Player(const _float& fTimeDelta)
 
 	if (m_fAtkDelay > m_fAtkSpeed)
 	{
-
+		m_eCurAnimState += 8;
+		m_isAtk = true;
 	}
-	//만약 몬스터가 플레이어를 발견했다면 -> 공격 가능
-
-	//공격 가능일 때 -> 만약 딜레이가 공격 속도를 넘어갔다면 -> 공격
-
-
 
 }
 
 void CZombieMan::Movement(const _float& fTimeDelta)
 {
-	m_pTransformCom->Move_Pos(D3DXVec3Normalize(&m_vMoveLook, &m_vMoveLook), 3.f, fTimeDelta);
+	if(!m_isAtk)
+		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&m_vMoveLook, &m_vMoveLook), 3.f, fTimeDelta);
 }
 
 
@@ -374,7 +463,6 @@ void CZombieMan::Thinker(const _float& fTimeDelta)
 		Set_Direction(&m_vMoveLook);
 		m_fMoveDelay = 0.f;
 	}
-	Movement(fTimeDelta);
 	//지금 플레이어가 보는 방향에 따른 몬스터 상태를 가져옴
 
 
@@ -386,6 +474,9 @@ void CZombieMan::Thinker(const _float& fTimeDelta)
 	}
 
 	std::cout << "vLook" << m_vMoveLook.x << ' ' << m_vMoveLook.y << ' ' << m_vMoveLook.z << ' ' << std::endl;
+	m_eCurAnimState = (MONSTER_ANIM_STATE)Calc_AnimState(m_vMoveLook, vPos);
+	Movement(fTimeDelta);
+	Attack_Player(fTimeDelta);
 
 }
 

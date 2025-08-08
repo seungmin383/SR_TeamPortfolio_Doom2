@@ -26,7 +26,7 @@ CMonsterBase::~CMonsterBase()
 {
 }
 
-void CMonsterBase::Debug_Line(_vec3 _Pos, _vec3 _Point1, _vec3 _Point2)
+void CMonsterBase::Debug_Triangle(_vec3 _Pos, _vec3 _Point1, _vec3 _Point2)
 {
 	VTXCOL pVertex[3] = {
 	{ _Pos, D3DCOLOR_ARGB(255, 255, 255, 255) },
@@ -46,6 +46,32 @@ void CMonsterBase::Debug_Line(_vec3 _Pos, _vec3 _Point1, _vec3 _Point2)
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 1, pVertex, sizeof(VTXCOL));
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+}
+
+void CMonsterBase::Debug_Rectangle(_vec3 _LeftTop, _vec3 _RightTop, _vec3 _RightBottom, _vec3 _LeftBottom)
+{
+	VTXCOL pVertex[6] = {
+	{ _LeftTop, D3DCOLOR_ARGB(255, 255, 255, 255) },
+	{ _RightTop, D3DCOLOR_ARGB(255, 255, 255, 255)},
+	{ _RightBottom, D3DCOLOR_ARGB(255, 255, 255, 255)},
+	{ _LeftTop, D3DCOLOR_ARGB(255, 255, 255, 255)},
+	{ _RightBottom, D3DCOLOR_ARGB(255, 255, 255, 255)},
+	{ _LeftBottom, D3DCOLOR_ARGB(255, 255, 255, 255)},
+	};
+
+	/*VTXCOL pVertex[3] = {
+		{ _vec3{ -1.0f, -1.0f, -10.0f }, D3DCOLOR_XRGB(255, 255, 255) },
+		{ _vec3{  1.0f, -1.0f, -10.0f }, D3DCOLOR_XRGB(255, 255, 255) },
+		{ _vec3{  0.0f,  1.0f, -10.0f }, D3DCOLOR_XRGB(255, 255, 255) }
+	};*/
+
+	m_pGraphicDev->SetFVF(FVF_COL); // 정점 포맷 설정
+	D3DXMATRIX matWorld;
+	D3DXMatrixIdentity(&matWorld);
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	m_pGraphicDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 2, pVertex, sizeof(VTXCOL));
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
@@ -159,8 +185,7 @@ _float CMonsterBase::Calc_AngleToPlayer(_vec3 vLook, _vec3 vPos)
 		fAngle -= 360.f;
 	if (fAngle < -180.f)
 		fAngle += 360.f;
-
-	std::cout << "Angle: " << fAngle << std::endl;
+	
 	return fAngle;
 }
 
