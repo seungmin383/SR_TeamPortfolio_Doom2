@@ -21,7 +21,8 @@ public:
     virtual void Check_Target()PURE;                  //플레이어 찾는 함수
     virtual void Attack_Player(const _float& fTimeDelta)PURE;
 
-    virtual void Debug_Line(_vec3 _Pos, _vec3 _Point1, _vec3 _Point2);
+    virtual void Debug_Triangle(_vec3 _Pos, _vec3 _Point1, _vec3 _Point2);
+    virtual void Debug_Rectangle(_vec3 _LeftTop, _vec3 _RightTop , _vec3 _RightBottom, _vec3 _LeftBottom);
     virtual _vec3 Set_Direction(_vec3* _Look);
 
     //몬스터 룩(다른 룩을 넣어줘야됨)이랑 몬스터 위치

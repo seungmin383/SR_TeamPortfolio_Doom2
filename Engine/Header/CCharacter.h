@@ -16,11 +16,14 @@ public:
     virtual             void            LateUpdate_GameObject(const _float& fTimeDelta);
     virtual             void            Render_GameObject(const _float& fTimeDelta);
 
+#pragma region OVERRIDE
+public:
     virtual void Movement(const _float& fTimeDelta)PURE;
     virtual void Attack()PURE;
+#pragma endregion
 
-public:
 #pragma region GETTER / SETTER
+public:
     _int GetHp() const { return m_iHp; }
     void SetHp(_int iHp) { m_iHp = iHp; }
 

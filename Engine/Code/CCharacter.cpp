@@ -32,9 +32,9 @@ void					CCharacter::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 }
-void					CCharacter::Render_GameObject(const _float& fTimeDelta)
+void					CCharacter::Render_GameObject()
 {
-	CGameObject::Render_GameObject(fTimeDelta);
+	CGameObject::Render_GameObject();
 }
 void CCharacter::Free()
 {
