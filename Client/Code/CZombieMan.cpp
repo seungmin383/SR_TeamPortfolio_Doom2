@@ -151,7 +151,7 @@ void CZombieMan::LateUpdate_GameObject(const _float& fTimeDelta)
 		//m_isAtk = false;
 	}
 	else
-	{
+	{	
 		m_pAnimCom->Play_Animation(ANIM_MOVE, 0, fTimeDelta, m_eCurAnimState);
 	}
 }
@@ -421,6 +421,8 @@ void CZombieMan::Check_Target()
 	if (fDot >= 0.f && D3DXVec3Length((&vToPlayer)) <= m_fSightDistance)
 	{
 		std::cout << "플레이어 발견" << std::endl;
+		m_vMoveLook;
+		m_isAtk = true;
 	}
 	else
 		std::cout << "플레이어 발견 못함" << std::endl;
