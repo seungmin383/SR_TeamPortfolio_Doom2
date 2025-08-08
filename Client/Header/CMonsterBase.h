@@ -17,17 +17,8 @@ protected:
 
 public:
     virtual void Thinker(const _float& fTimeDelta)PURE;                            //몬스터 Ai 관리할듯                
-    virtual void Manage_MoveState()PURE;        // 몬스터의 이동 방향을 결정할 함수
-    virtual void Change_Animation()PURE;         // 플레이어와의 각도와 몬스터의 이동 방향을 계산해서 실제 선택될 애니메이션 상태를 확인하는 함수
-    virtual void Attack_Player(const _float& fTimeDelta)PURE;
-
-    virtual void Debug_Triangle(_vec3 _Pos, _vec3 _Point1, _vec3 _Point2);
-    virtual void Debug_Rectangle(_vec3 _LeftTop, _vec3 _RightTop , _vec3 _RightBottom, _vec3 _LeftBottom);
+   virtual void Attack_Player(const _float& fTimeDelta)PURE;
     virtual _vec3 Set_Move_Direction(_vec3* _Look);
-
-    //몬스터 룩(다른 룩을 넣어줘야됨)이랑 몬스터 위치
-    virtual _float Calc_AngleToPlayer(_vec3 vLook, _vec3 vPos);
-    virtual _int Calc_AnimState(_vec3 vLook, _vec3 vPos);
 
     //Thinker 개편
     virtual void Thinker1(const _float& fTimeDelta);                    //생각하는 함수 -> 몬스터 AI
@@ -39,6 +30,14 @@ public:
   
     //기능 Function (기능 기능?)
    virtual  void        Set_OnTerrain();
+
+   virtual _float Calc_AngleToPlayer(_vec3 vLook, _vec3 vPos);
+   virtual _int Calc_AnimState(_vec3 vLook, _vec3 vPos);
+
+   virtual void Debug_Triangle(_vec3 _Pos, _vec3 _Point1, _vec3 _Point2);
+   virtual void Debug_Rectangle(_vec3 _LeftTop, _vec3 _RightTop, _vec3 _RightBottom, _vec3 _LeftBottom);
+
+   virtual void Bill_Board();
 
    //Setting Function
    virtual HRESULT     Add_Component();

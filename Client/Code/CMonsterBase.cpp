@@ -27,55 +27,6 @@ CMonsterBase::~CMonsterBase()
 {
 }
 
-void CMonsterBase::Debug_Triangle(_vec3 _Pos, _vec3 _Point1, _vec3 _Point2)
-{
-	VTXCOL pVertex[3] = {
-	{ _Pos, D3DCOLOR_ARGB(255, 255, 255, 255) },
-	{ _Point2, D3DCOLOR_ARGB(255, 255, 255, 255)},
-	{ _Point1, D3DCOLOR_ARGB(255, 255, 255, 255)}
-	};
-
-	/*VTXCOL pVertex[3] = {
-		{ _vec3{ -1.0f, -1.0f, -10.0f }, D3DCOLOR_XRGB(255, 255, 255) },
-		{ _vec3{  1.0f, -1.0f, -10.0f }, D3DCOLOR_XRGB(255, 255, 255) },
-		{ _vec3{  0.0f,  1.0f, -10.0f }, D3DCOLOR_XRGB(255, 255, 255) }
-	};*/
-
-	m_pGraphicDev->SetFVF(FVF_COL); // 정점 포맷 설정
-	D3DXMATRIX matWorld;
-	D3DXMatrixIdentity(&matWorld);
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	m_pGraphicDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 1, pVertex, sizeof(VTXCOL));
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-}
-
-void CMonsterBase::Debug_Rectangle(_vec3 _LeftTop, _vec3 _RightTop, _vec3 _RightBottom, _vec3 _LeftBottom)
-{
-	VTXCOL pVertex[6] = {
-	{ _LeftTop, D3DCOLOR_ARGB(255, 255, 255, 255) },
-	{ _RightTop, D3DCOLOR_ARGB(255, 255, 255, 255)},
-	{ _RightBottom, D3DCOLOR_ARGB(255, 255, 255, 255)},
-	{ _LeftTop, D3DCOLOR_ARGB(255, 255, 255, 255)},
-	{ _RightBottom, D3DCOLOR_ARGB(255, 255, 255, 255)},
-	{ _LeftBottom, D3DCOLOR_ARGB(255, 255, 255, 255)},
-	};
-
-	/*VTXCOL pVertex[3] = {
-		{ _vec3{ -1.0f, -1.0f, -10.0f }, D3DCOLOR_XRGB(255, 255, 255) },
-		{ _vec3{  1.0f, -1.0f, -10.0f }, D3DCOLOR_XRGB(255, 255, 255) },
-		{ _vec3{  0.0f,  1.0f, -10.0f }, D3DCOLOR_XRGB(255, 255, 255) }
-	};*/
-
-	m_pGraphicDev->SetFVF(FVF_COL); // 정점 포맷 설정
-	D3DXMATRIX matWorld;
-	D3DXMatrixIdentity(&matWorld);
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	m_pGraphicDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 2, pVertex, sizeof(VTXCOL));
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-}
-
 _vec3 CMonsterBase::Set_Move_Direction(_vec3* _Look)
 {
 	if(_Look == nullptr)
@@ -116,74 +67,6 @@ _vec3 CMonsterBase::Set_Move_Direction(_vec3* _Look)
 		*_Look = m_vtmpLook;
 
 	return m_vtmpLook;
-}
-
-//플레이어와 몬스터의 각도를 구해주는 함수
-_float CMonsterBase::Calc_AngleToPlayer(_vec3 vLook, _vec3 vPos)
-{
-	// 몬스터 위치에서 플레이어 위치를 뺴서 플레이어가 몬스터를 바라보는 벡터를 만들기
-	_vec3 PlayerPos;
-	_matrix CameraMat;
-	D3DXMatrixIdentity(&CameraMat);
-
-	//뷰행렬 가져오고 역행렬로 만들어서 카메라의 월드 행렬을 만듬
-	m_pGraphicDev->GetTransform(D3DTS_VIEW, &CameraMat);
-	D3DXMatrixInverse(&CameraMat, NULL, &CameraMat);
-
-	//카메라의 위치를 가져오고
-	PlayerPos.x = CameraMat._41;
-	PlayerPos.y = CameraMat._42;
-	PlayerPos.z = CameraMat._43;
-
-	//플레이어가 몬스터를 바라보는 방향의 벡터를 구함
-	_vec3 PlayerLook = PlayerPos - vPos;
-
-	//정규화 해주고
-	D3DXVec3Normalize(&PlayerLook, &PlayerLook);
-	D3DXVec3Normalize(&vLook, &vLook);
-	
-	float angleLook = atan2f(vLook.z, vLook.x);
-	float angleToPlayer = atan2f(PlayerLook.z, PlayerLook.x);
-
-	float fAngle = D3DXToDegree(angleToPlayer - angleLook);
-
-	if (fAngle > 180.f)
-		fAngle -= 360.f;
-	if (fAngle < -180.f)
-		fAngle += 360.f;
-	
-	return fAngle;
-}
-//플레이어와 몬스터의 각도를 이용해서 몬스터가 보여지는 애니메이션 상태를 정해줌
-_int CMonsterBase::Calc_AnimState(_vec3 vLook, _vec3 vPos)
-{
-	_float fAngle = Calc_AngleToPlayer(vLook, vPos);
-
-	if (fAngle >= 0.f && fAngle < 30.f)
-		return MONSTER_ANIM_MOVE_F;
-	else if (fAngle >= 30.f && fAngle < 60.f)
-		return MONSTER_ANIM_MOVE_FR;
-	else if (fAngle >= 60.f && fAngle < 90.f)
-		return MONSTER_ANIM_MOVE_R;
-	else if (fAngle >= 90.f && fAngle < 120.f)
-		return MONSTER_ANIM_MOVE_R;
-	else if (fAngle >= 120.f && fAngle < 150.f)
-		return MONSTER_ANIM_MOVE_BR;
-	else if (fAngle >= 150.f && fAngle <= 180.f)
-		return MONSTER_ANIM_MOVE_B;
-
-	else if (fAngle < 0.f && fAngle >= -30.f)
-		return MONSTER_ANIM_MOVE_F;
-	else if (fAngle < -30.f && fAngle >= -60.f)
-		return MONSTER_ANIM_MOVE_FL;
-	else if (fAngle < -60.f && fAngle >= -90.f)
-		return MONSTER_ANIM_MOVE_L;
-	else if (fAngle < -90.f && fAngle >= -120.f)
-		return MONSTER_ANIM_MOVE_L;
-	else if (fAngle < -120.f && fAngle >= -150.f)
-		return MONSTER_ANIM_MOVE_BL;
-	else if (fAngle < -150.f && fAngle >= -180.f)
-		return MONSTER_ANIM_MOVE_B;
 }
 
 void CMonsterBase::Thinker1(const _float& fTimeDelta)
@@ -323,6 +206,154 @@ void CMonsterBase::Set_OnTerrain()
 	m_pTransformCom->Set_Pos(pos.x, height + 2.f, pos.z);
 }
 
+//플레이어와 몬스터의 각도를 구해주는 함수
+_float CMonsterBase::Calc_AngleToPlayer(_vec3 vLook, _vec3 vPos)
+{
+	// 몬스터 위치에서 플레이어 위치를 뺴서 플레이어가 몬스터를 바라보는 벡터를 만들기
+	_vec3 PlayerPos;
+	_matrix CameraMat;
+	D3DXMatrixIdentity(&CameraMat);
+
+	//뷰행렬 가져오고 역행렬로 만들어서 카메라의 월드 행렬을 만듬
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &CameraMat);
+	D3DXMatrixInverse(&CameraMat, NULL, &CameraMat);
+
+	//카메라의 위치를 가져오고
+	PlayerPos.x = CameraMat._41;
+	PlayerPos.y = CameraMat._42;
+	PlayerPos.z = CameraMat._43;
+
+	//플레이어가 몬스터를 바라보는 방향의 벡터를 구함
+	_vec3 PlayerLook = PlayerPos - vPos;
+
+	//정규화 해주고
+	D3DXVec3Normalize(&PlayerLook, &PlayerLook);
+	D3DXVec3Normalize(&vLook, &vLook);
+
+	float angleLook = atan2f(vLook.z, vLook.x);
+	float angleToPlayer = atan2f(PlayerLook.z, PlayerLook.x);
+
+	float fAngle = D3DXToDegree(angleToPlayer - angleLook);
+
+	if (fAngle > 180.f)
+		fAngle -= 360.f;
+	if (fAngle < -180.f)
+		fAngle += 360.f;
+
+	return fAngle;
+}
+
+//플레이어와 몬스터의 각도를 이용해서 몬스터가 보여지는 애니메이션 상태를 정해줌
+_int CMonsterBase::Calc_AnimState(_vec3 vLook, _vec3 vPos)
+{
+	_float fAngle = Calc_AngleToPlayer(vLook, vPos);
+
+	if (fAngle >= 0.f && fAngle < 30.f)
+		return MONSTER_ANIM_MOVE_F;
+	else if (fAngle >= 30.f && fAngle < 60.f)
+		return MONSTER_ANIM_MOVE_FR;
+	else if (fAngle >= 60.f && fAngle < 90.f)
+		return MONSTER_ANIM_MOVE_R;
+	else if (fAngle >= 90.f && fAngle < 120.f)
+		return MONSTER_ANIM_MOVE_R;
+	else if (fAngle >= 120.f && fAngle < 150.f)
+		return MONSTER_ANIM_MOVE_BR;
+	else if (fAngle >= 150.f && fAngle <= 180.f)
+		return MONSTER_ANIM_MOVE_B;
+
+	else if (fAngle < 0.f && fAngle >= -30.f)
+		return MONSTER_ANIM_MOVE_F;
+	else if (fAngle < -30.f && fAngle >= -60.f)
+		return MONSTER_ANIM_MOVE_FL;
+	else if (fAngle < -60.f && fAngle >= -90.f)
+		return MONSTER_ANIM_MOVE_L;
+	else if (fAngle < -90.f && fAngle >= -120.f)
+		return MONSTER_ANIM_MOVE_L;
+	else if (fAngle < -120.f && fAngle >= -150.f)
+		return MONSTER_ANIM_MOVE_BL;
+	else if (fAngle < -150.f && fAngle >= -180.f)
+		return MONSTER_ANIM_MOVE_B;
+}
+
+void CMonsterBase::Debug_Rectangle(_vec3 _LeftTop, _vec3 _RightTop, _vec3 _RightBottom, _vec3 _LeftBottom)
+{
+	VTXCOL pVertex[6] = {
+	{ _LeftTop, D3DCOLOR_ARGB(255, 255, 255, 255) },
+	{ _RightTop, D3DCOLOR_ARGB(255, 255, 255, 255)},
+	{ _RightBottom, D3DCOLOR_ARGB(255, 255, 255, 255)},
+	{ _LeftTop, D3DCOLOR_ARGB(255, 255, 255, 255)},
+	{ _RightBottom, D3DCOLOR_ARGB(255, 255, 255, 255)},
+	{ _LeftBottom, D3DCOLOR_ARGB(255, 255, 255, 255)},
+	};
+
+	/*VTXCOL pVertex[3] = {
+		{ _vec3{ -1.0f, -1.0f, -10.0f }, D3DCOLOR_XRGB(255, 255, 255) },
+		{ _vec3{  1.0f, -1.0f, -10.0f }, D3DCOLOR_XRGB(255, 255, 255) },
+		{ _vec3{  0.0f,  1.0f, -10.0f }, D3DCOLOR_XRGB(255, 255, 255) }
+	};*/
+
+	m_pGraphicDev->SetFVF(FVF_COL); // 정점 포맷 설정
+	D3DXMATRIX matWorld;
+	D3DXMatrixIdentity(&matWorld);
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	m_pGraphicDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 2, pVertex, sizeof(VTXCOL));
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+}
+
+void CMonsterBase::Debug_Triangle(_vec3 _Pos, _vec3 _Point1, _vec3 _Point2)
+{
+	VTXCOL pVertex[3] = {
+	{ _Pos, D3DCOLOR_ARGB(255, 255, 255, 255) },
+	{ _Point2, D3DCOLOR_ARGB(255, 255, 255, 255)},
+	{ _Point1, D3DCOLOR_ARGB(255, 255, 255, 255)}
+	};
+
+	/*VTXCOL pVertex[3] = {
+		{ _vec3{ -1.0f, -1.0f, -10.0f }, D3DCOLOR_XRGB(255, 255, 255) },
+		{ _vec3{  1.0f, -1.0f, -10.0f }, D3DCOLOR_XRGB(255, 255, 255) },
+		{ _vec3{  0.0f,  1.0f, -10.0f }, D3DCOLOR_XRGB(255, 255, 255) }
+	};*/
+
+	m_pGraphicDev->SetFVF(FVF_COL); // 정점 포맷 설정
+	D3DXMATRIX matWorld;
+	D3DXMatrixIdentity(&matWorld);
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	m_pGraphicDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 1, pVertex, sizeof(VTXCOL));
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+}
+
+void CMonsterBase::Bill_Board()
+{
+	_matrix	matWorld, matView, matBill;
+
+	//그 오브젝트에 월드 행렬 구해오기
+	m_pTransformCom->Get_World(&matWorld);
+
+	//뷰행렬을 가져오기
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+
+	D3DXMatrixIdentity(&matBill);
+
+	// 뷰 스페이스 -> 카메라 월드 행렬의 역행렬
+	//뷰행렬에 y 회전만 가져오기
+	//뷰행렬의 역행렬은 카메라의 월드 행렬
+	//지금 y축 회전은 월드 행렬이고
+	//나머지는 뷰스페이스 행렬
+	matBill._11 = matView._11;
+	matBill._13 = matView._13;
+	matBill._31 = matView._31;
+	matBill._33 = matView._33;
+
+	D3DXMatrixInverse(&matBill, 0, &matBill);		// 카메라가 갖고 있는 y회전의 역행렬 -역행렬> 카메라의 월드 상태의 y축 회전 행렬
+
+	matWorld = matBill * matWorld;
+
+	m_pTransformCom->Set_World(&matWorld);
+
+}
+
 HRESULT CMonsterBase::Add_Component()
 {
 	CComponent* pComponent = NULL;
@@ -351,6 +382,7 @@ HRESULT CMonsterBase::Add_Component()
 
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_MoveTransform", pComponent });
 
+	//Calculator
 	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
 		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Calculator"));
 	if (nullptr == pComponent)
@@ -358,6 +390,7 @@ HRESULT CMonsterBase::Add_Component()
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Calculator", pComponent });
 
+	//Collider
 	pComponent = m_pColliderCom = dynamic_cast<Engine::CCollider*>
 		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Collider"));
 	if (nullptr == pComponent)
@@ -365,7 +398,7 @@ HRESULT CMonsterBase::Add_Component()
 
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
 
-
+	//Animation
 	pComponent = m_pAnimCom = dynamic_cast<Engine::CAnimator*>
 		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Animator"));
 	if (nullptr == pComponent)

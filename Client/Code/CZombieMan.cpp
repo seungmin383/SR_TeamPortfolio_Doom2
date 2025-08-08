@@ -34,10 +34,10 @@ HRESULT CZombieMan::Ready_GameObject()
 
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
-
 	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.f, 0.f),
 		COLLAYERID::COL_ENEMY,
 		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT);
+
 
 #pragma region ANIM_SETTING
 
@@ -116,7 +116,6 @@ HRESULT CZombieMan::Ready_GameObject()
 
 #pragma endregion
 
-
 	return S_OK;
 }
 
@@ -148,28 +147,6 @@ void CZombieMan::Render_GameObject(const _float& fTimeDelta)
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
-
-	//	m_pTextureCom->Set_Texture(m_eCurAnimState);
-
-	//죽었는지 가장 먼저 체크 -> 공격하는지 체크 -> 아니면 이동
-
-
-	//if (m_isGibbingDead)
-	//{
-	//	m_pAnimCom->Play_Animation(ANIM_GDEAD, 0, fTimeDelta, m_eCurAnimState);
-	//}
-	//else if (m_isNormalDead)
-	//{
-	//	m_pAnimCom->Play_Animation(ANIM_NDEAD, 0, fTimeDelta, m_eCurAnimState);
-	//}
-	//else if (m_isAtk)
-	//{
-	//	m_pAnimCom->Play_Animation(ANIM_ATK, 0, fTimeDelta, m_eCurAnimState);
-	//	m_isAtk = false;
-	//}
-	//else
-	//{	
-	//}
 
 	m_pAnimCom->Play_Animation(ANIM_MOVE, 0, fTimeDelta, m_eCurAnimState);
 	m_pBufferCom->Render_Buffer();
@@ -258,20 +235,8 @@ void CZombieMan::Attack_Player(const _float& fTimeDelta)
 		m_eCurAnimState += 8;
 		m_fAtkDelay = 0;
 	}
-
 }
 
-void CZombieMan::Movement(const _float& fTimeDelta)
-{
-	if(!m_isAtk)
-		m_pTransformCom->Move_Pos(D3DXVec3Normalize(&m_vMoveLook, &m_vMoveLook), 3.f, fTimeDelta);
-}
-
-
-void CZombieMan::Attack()
-{
-	
-}
 
 void CZombieMan::Thinker(const _float& fTimeDelta)
 {
@@ -296,10 +261,9 @@ void CZombieMan::Thinker(const _float& fTimeDelta)
 
 	std::cout << "vLook" << m_vMoveLook.x << ' ' << m_vMoveLook.y << ' ' << m_vMoveLook.z << ' ' << std::endl;
 	//m_eCurAnimState = (MONSTER_ANIM_STATE)Calc_AnimState(m_vMoveLook, vPos);
-	Movement(fTimeDelta);
 	Attack_Player(fTimeDelta);
 
-
+	m_pTransformCom->Move_Pos(D3DXVec3Normalize(&m_vMoveLook, &m_vMoveLook), 3.f, fTimeDelta);
 //인지 -> 정말 체크만 하고 Bool 값을 변경해주기
 	//시야에 어떤게 들어오는지
 		//시야에 플레이어가 들어오는지
@@ -321,93 +285,4 @@ void CZombieMan::Thinker(const _float& fTimeDelta)
 	//시야에 플레이어가 안들어오고 총에 맞았다.
 
 //행동
-
-	
-
-
-
 }
-
-void CZombieMan::Manage_MoveState()
-{
-
-}
-
-void CZombieMan::Change_Animation()
-{
-	switch (m_eCurAnimState)
-	{
-	case Engine::MONSTER_ANIM_MOVE_F:
-		break;
-	case Engine::MONSTER_ANIM_MOVE_FR:
-		break;
-	case Engine::MONSTER_ANIM_MOVE_R:
-		break;
-	case Engine::MONSTER_ANIM_MOVE_BR:
-		break;
-	case Engine::MONSTER_ANIM_MOVE_B:
-		break;
-	case Engine::MONSTER_ANIM_MOVE_BL:
-		break;
-	case Engine::MONSTER_ANIM_MOVE_L:
-		break;
-	case Engine::MONSTER_ANIM_MOVE_FL:
-		break;
-	case Engine::MONSTER_ANIM_ATK_F:
-		break;
-	case Engine::MONSTER_ANIM_ATK_FR:
-		break;
-	case Engine::MONSTER_ANIM_ATK_R:
-		break;
-	case Engine::MONSTER_ANIM_ATK_BR:
-		break;
-	case Engine::MONSTER_ANIM_ATK_B:
-		break;
-	case Engine::MONSTER_ANIM_ATK_BL:
-		break;
-	case Engine::MONSTER_ANIM_ATK_L:
-		break;
-	case Engine::MONSTER_ANIM_ATK_FL:
-		break;
-	case Engine::MONSTER_ANIM_GIBBINGDEATH:
-		break;
-	case Engine::MONSTER_ANIM_NORMALDEATH:
-		break;
-	case Engine::MONSTER_ANIM_END:
-		break;
-	default:
-		break;
-	}
-}
-
-
-void CZombieMan::Bill_Board()
-{
-	_matrix	matWorld, matView, matBill;
-
-	//그 오브젝트에 월드 행렬 구해오기
-	m_pTransformCom->Get_World(&matWorld);
-
-	//뷰행렬을 가져오기
-	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
-
-	D3DXMatrixIdentity(&matBill);
-
-	// 뷰 스페이스 -> 카메라 월드 행렬의 역행렬
-	//뷰행렬에 y 회전만 가져오기
-	//뷰행렬의 역행렬은 카메라의 월드 행렬
-	//지금 y축 회전은 월드 행렬이고
-	//나머지는 뷰스페이스 행렬
-	matBill._11 = matView._11;
-	matBill._13 = matView._13;
-	matBill._31 = matView._31;
-	matBill._33 = matView._33;
-
-	D3DXMatrixInverse(&matBill, 0, &matBill);		// 카메라가 갖고 있는 y회전의 역행렬 -역행렬> 카메라의 월드 상태의 y축 회전 행렬
-
-	matWorld = matBill * matWorld;
-
-	m_pTransformCom->Set_World(&matWorld);
-
-}
-
