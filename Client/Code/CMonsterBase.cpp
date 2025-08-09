@@ -185,6 +185,7 @@ _bool CMonsterBase::Check_Target()
 
 void CMonsterBase::Decision()
 {
+
 }
 
 void CMonsterBase::Action(const _float& fTimeDelta)
