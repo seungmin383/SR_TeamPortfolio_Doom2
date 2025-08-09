@@ -45,5 +45,12 @@ namespace Engine
 		
 		MONSTER_ANIM_END
 	};
+
+	enum MONSTER_STATUS
+	{
+		MS_NONE = 0,
+		MS_SEE_PLAYER = 1,
+		MS_HIT = 1 << 1
+	};
 }
 #endif // Engine_Enum_h__

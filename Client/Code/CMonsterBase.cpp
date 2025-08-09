@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CMonsterBase.h"
 #include "CManagement.h"
-
+#include "Engine_Enum.h"
 #include <iostream>
 
 
@@ -80,9 +80,8 @@ void CMonsterBase::Thinker1(const _float& fTimeDelta)
 
 void CMonsterBase::Perception()
 {
-	if (m_isDetect_Player = Check_Target())							//시야에 플레이어가 들어오는가?
-	{
-	}
+	m_isDetect_Player = Check_Target();							//시야에 플레이어가 들어오는가?
+
 														
 
 	//내가 총에 맞았는지
@@ -185,12 +184,22 @@ _bool CMonsterBase::Check_Target()
 
 void CMonsterBase::Decision()
 {
+	if (m_isDetect_Player)
+		Monster_Stat_Bit |= MS_SEE_PLAYER;
+	
 
 }
 
 void CMonsterBase::Action(const _float& fTimeDelta)
 {
+	if (!(Monster_Stat_Bit & (MS_SEE_PLAYER | MS_HIT)))
+	{
 
+	}
+
+
+
+	Monster_Stat_Bit = 0;
 }
 
 void CMonsterBase::Set_OnTerrain()
@@ -207,11 +216,9 @@ void CMonsterBase::Set_OnTerrain()
 	m_pTransformCom->Set_Pos(pos.x, height + 2.f, pos.z);
 }
 
-//플레이어와 몬스터의 각도를 구해주는 함수
-_float CMonsterBase::Calc_AngleToPlayer(_vec3 vLook, _vec3 vPos)
+
+_vec3 CMonsterBase::Get_PlayerPos()
 {
-	// 몬스터 위치에서 플레이어 위치를 뺴서 플레이어가 몬스터를 바라보는 벡터를 만들기
-	_vec3 PlayerPos;
 	_matrix CameraMat;
 	D3DXMatrixIdentity(&CameraMat);
 
@@ -220,12 +227,20 @@ _float CMonsterBase::Calc_AngleToPlayer(_vec3 vLook, _vec3 vPos)
 	D3DXMatrixInverse(&CameraMat, NULL, &CameraMat);
 
 	//카메라의 위치를 가져오고
-	PlayerPos.x = CameraMat._41;
-	PlayerPos.y = CameraMat._42;
-	PlayerPos.z = CameraMat._43;
+	m_PlayerPos.x = CameraMat._41;
+	m_PlayerPos.y = CameraMat._42;
+	m_PlayerPos.z = CameraMat._43;
+
+	return m_PlayerPos;
+}
+
+//플레이어와 몬스터의 각도를 구해주는 함수
+_float CMonsterBase::Calc_AngleToPlayer(_vec3 vLook, _vec3 vPos)
+{
+	Get_PlayerPos();
 
 	//플레이어가 몬스터를 바라보는 방향의 벡터를 구함
-	_vec3 PlayerLook = PlayerPos - vPos;
+	_vec3 PlayerLook = m_PlayerPos - vPos;
 
 	//정규화 해주고
 	D3DXVec3Normalize(&PlayerLook, &PlayerLook);

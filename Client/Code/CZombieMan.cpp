@@ -263,7 +263,7 @@ void CZombieMan::Thinker(const _float& fTimeDelta)
 	//m_eCurAnimState = (MONSTER_ANIM_STATE)Calc_AnimState(m_vMoveLook, vPos);
 	Attack_Player(fTimeDelta);
 
-	m_pTransformCom->Move_Pos(D3DXVec3Normalize(&m_vMoveLook, &m_vMoveLook), 3.f, fTimeDelta);
+
 //인지 -> 정말 체크만 하고 Bool 값을 변경해주기
 	//시야에 어떤게 들어오는지
 		//시야에 플레이어가 들어오는지

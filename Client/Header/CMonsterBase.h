@@ -31,6 +31,7 @@ public:
     //기능 Function (기능 기능?)
    virtual  void        Set_OnTerrain();
 
+   virtual _vec3 Get_PlayerPos();
    virtual _float Calc_AngleToPlayer(_vec3 vLook, _vec3 vPos);
    virtual _int Calc_AnimState(_vec3 vLook, _vec3 vPos);
 
@@ -71,6 +72,12 @@ protected:
     _bool m_isDead;                             //죽었는가?
     _bool m_isNormalDead;                  //그냥 죽었는가?
     _bool m_isGibbingDead;                 //폭사했는가?
+
+    //Decision Variable
+    _ulong Monster_Stat_Bit;
+
+    //기능 Function Variable
+    _vec3   m_PlayerPos;
 
 protected:
     virtual void Free();
