@@ -54,19 +54,21 @@ HRESULT CAnimator::Add_Animation(_uint _iCurState,
 
 void CAnimator::Play_Animation(_uint _iState, _uint _iRow, const _float& fTimeDelta, _uint _setTexNum)
 {
-	if (m_iCurState != _iState)
+	if (m_iCurState != _iState)					//애니메이션 상태가 바뀌었다면
 	{
 		m_iPreState = m_iCurState;
 		m_iCurState = _iState;
 
-		auto iter = find_if(m_mapAnimation.begin(), m_mapAnimation.end(), [&_iState](pair<const _uint, CAnimation*> innerIter) {return innerIter.first == _iState; });
+		auto iter = find_if(m_mapAnimation.begin(), 
+			m_mapAnimation.end(), 
+			[&_iState](pair<const _uint, CAnimation*> innerIter) {return innerIter.first == _iState; });
 		
 		if (iter == m_mapAnimation.end())
 			m_pCurAnimation = nullptr;
 		else
 		{
 			m_pCurAnimation = iter->second;
-			m_pCurAnimation->SetFrameDefault();
+			m_pCurAnimation->SetFrameDefault();									//프레임 0으로 만들곤
 			m_pCurAnimation->Set_UVCoord();
 		}
 	}
@@ -74,8 +76,8 @@ void CAnimator::Play_Animation(_uint _iState, _uint _iRow, const _float& fTimeDe
 	if (m_pCurAnimation == nullptr)
 		return;
 
-	m_pCurAnimation->Set_Texture(_setTexNum);
-	m_pCurAnimation->Play_Animation(_iRow, fTimeDelta);
+	m_pCurAnimation->Set_Texture(_setTexNum);								//셋 텍스쳐 해주고
+	m_pCurAnimation->Play_Animation(_iRow, fTimeDelta);				//애니메이션 플레이
 }
 
 CComponent* CAnimator::Clone()

@@ -179,13 +179,6 @@ void CPlayerWeapon::Mouse_Input()
 	}
 }
 
-void CPlayerWeapon::Movement(const _float& fTimeDelta)
-{
-}
-
-void CPlayerWeapon::Attack()
-{
-}
 
 CPlayerWeapon* CPlayerWeapon::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {

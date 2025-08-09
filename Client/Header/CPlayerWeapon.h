@@ -44,8 +44,6 @@ private:
     void        Key_Input();
     void        Mouse_Input();
 
-    void Movement(const _float& fTimeDelta) override;
-    void Attack() override;
 
 private:
     Engine::CRectSpriteTex* m_pBufferCom;

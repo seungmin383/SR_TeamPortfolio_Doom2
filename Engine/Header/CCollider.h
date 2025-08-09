@@ -39,6 +39,7 @@ public:
 	void				OnCollisionEnter(CCollider* _pOther);
 	void				OnCollisionExit(CCollider* _pOther);
 
+
 	void				HitRay(CCollider* _pOther);
 
 public:
