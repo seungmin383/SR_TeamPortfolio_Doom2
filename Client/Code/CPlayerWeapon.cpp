@@ -53,7 +53,6 @@ void CPlayerWeapon::LateUpdate_GameObject(const _float& fTimeDelta)
 	Key_Input();
 	Mouse_Input();
 
-
 	//애니메이션 실행
 	m_pAnimatorCom->Play_Animation(m_eWeaponId + m_eWeaponState, 0, fTimeDelta);
 
