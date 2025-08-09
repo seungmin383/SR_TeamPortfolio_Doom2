@@ -65,7 +65,7 @@ HRESULT CZombieMan::Ready_GameObject()
 		0,
 		3,
 		0.2f,
-		true,
+		false,
 		false
 	);
 
@@ -79,7 +79,7 @@ HRESULT CZombieMan::Ready_GameObject()
 		0,
 		5,
 		0.2f,
-		true,
+		false,
 		false
 	);
 
@@ -93,7 +93,7 @@ HRESULT CZombieMan::Ready_GameObject()
 		0,
 		8,
 		0.2f,
-		true,
+		false,
 		false
 	);
 
@@ -121,7 +121,7 @@ HRESULT CZombieMan::Ready_GameObject()
 
 _int CZombieMan::Update_GameObject(const _float& fTimeDelta)
 {
-	Thinker(fTimeDelta);
+	Thinker1(fTimeDelta);
 
 	CGameObject::Update_GameObject(fTimeDelta);
 
@@ -150,6 +150,7 @@ void CZombieMan::Render_GameObject(const _float& fTimeDelta)
 
 	m_pAnimCom->Play_Animation(ANIM_MOVE, 0, fTimeDelta, m_eCurAnimState);
 	m_pBufferCom->Render_Buffer();
+
 
 	//�浹ü
 	m_pColliderCom->Render(g_colRend);

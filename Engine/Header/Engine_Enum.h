@@ -48,9 +48,23 @@ namespace Engine
 
 	enum MONSTER_STATUS
 	{
-		MS_NONE = 0,
-		MS_SEE_PLAYER = 1,
-		MS_HIT = 1 << 1
+		MS_NONE				= 0,
+		MS_SEE_PLAYER		= 1,
+		MS_BEING_HIT			= 1 << 1,
+		MS_WAS_HIT			= 1 << 2,
+		MS_GIB_DEAD			= 1 << 3,
+		MS_NOR_DEAD		= 1 << 4,
+		MS_ATTACK				= 1 << 5
+
 	};
+	enum MONSTER_AI
+	{
+		AI_DEAD,
+		AI_HIT,
+		AI_ATTACK,
+		AI_CHASE,
+		AI_MOVE
+	};
+
 }
 #endif // Engine_Enum_h__

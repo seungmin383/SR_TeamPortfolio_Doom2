@@ -7,6 +7,7 @@
 #define ANIM_NDEAD 2
 #define ANIM_GDEAD 3
 
+
 class CMonsterBase :public CCharacter
 {
     //몬스터 자료형을 통일시키고 싶지만 GameObject로 통일하고 싶진 않아서 만든 클래스 
@@ -22,14 +23,19 @@ public:
 
     //Thinker 개편
     virtual void Thinker1(const _float& fTimeDelta);                    //생각하는 함수 -> 몬스터 AI
-    virtual void Perception();                                                         //인지하는 함수 -> 몬스터가 어떤 행동을 할지 상태를 지정해주는 함수
+    virtual _int Perception();                                                         //인지하는 함수 -> 몬스터가 어떤 행동을 할지 상태를 지정해주는 함수
         virtual _bool Check_Target();                                               //시야에 플레이어가 있는지 확인하는 함수
+        virtual _bool Check_Dead();                                                    // 죽었는가?
+        virtual _bool Check_Hit();                                                      //맞았는가?
+        virtual _bool Check_Attack();
 
-    virtual void Decision();                                                            //의사 결정하는 함수
-    virtual void Action(const _float& fTimeDelta);                        //행동하는 함수
+
+    virtual void  Action(const _float& fTimeDelta, _int _AI);                        //행동하는 함수
   
     //기능 Function (기능 기능?)
    virtual  void        Set_OnTerrain();
+   virtual void         Movement(const _float fTimeDelta);
+   virtual void         Attack(const _float fTimeDelta);
 
    virtual _vec3 Get_PlayerPos();
    virtual _float Calc_AngleToPlayer(_vec3 vLook, _vec3 vPos);
@@ -69,7 +75,7 @@ protected:
     //Thinker Variable
     _bool m_isDetect_Player;                //시야에 플레이어가 들어왔는가?
     _bool m_isHit;                                 //총알에 맞았는지?
-    _bool m_isDead;                             //죽었는가?
+    _int m_isDead;                             //죽었는가?
     _bool m_isNormalDead;                  //그냥 죽었는가?
     _bool m_isGibbingDead;                 //폭사했는가?
 

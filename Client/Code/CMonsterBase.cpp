@@ -71,29 +71,36 @@ _vec3 CMonsterBase::Set_Move_Direction(_vec3* _Look)
 
 void CMonsterBase::Thinker1(const _float& fTimeDelta)
 {
-	Perception();										//인지
+	_int Thought = Perception();																//인지
 
-	Decision();
-
-	Action(fTimeDelta);
+	Action(fTimeDelta, Thought);														//행동
 }
 
-void CMonsterBase::Perception()
+_int CMonsterBase::Perception()
 {
-	m_isDetect_Player = Check_Target();							//시야에 플레이어가 들어오는가?
+	//죽었는지
+	m_isDead = Check_Dead();
+	if (m_isDead)
+		return AI_DEAD;
 
-														
+	//피격당했는지
+	m_isHit = Check_Hit();
+	if (m_isHit)
+		return AI_HIT;
 
-	//내가 총에 맞았는지
-		//맞았다
-			//맞고 죽었는가?
-				//죽었다
-					//초과된 대미지는 몇인지?
-						//30보다 크다 -> 폭사
-						//30보다 작다 -> 일반사
-				// 안죽었다
-					//총알을 쏜 주체로 Look 고정 
-		//안맞았다
+	//공격할 수 있는지
+	m_isAtk = Check_Attack();
+	if (m_isAtk)
+		return AI_ATTACK;
+	
+	//플레이어를 발견하고 따라가는지
+	m_isDetect_Player = Check_Target();
+	if (m_isDetect_Player)
+		return AI_CHASE;
+
+	//그냥 랜덤 이동할지
+	return AI_MOVE;
+
 }
 
 #pragma region FUNCTION_FOR_PERCEPTION
@@ -164,6 +171,8 @@ _bool CMonsterBase::Check_Target()
 
 		_vec3 vToPlayer = vPlayerPos - vPos;
 		vToPlayer.y = 0.f;
+		_vec3 vDistanceToPlayer = vToPlayer;
+
 		D3DXVec3Normalize(&vToPlayer, &vToPlayer);
 
 		_vec3 vLook = m_vMoveLook;
@@ -173,33 +182,70 @@ _bool CMonsterBase::Check_Target()
 		// cos(시야각 / 2) = cos(90도) = 0
 		float fDot = D3DXVec3Dot(&vToPlayer, &vLook);
 
-		if (fDot >= 0.f && D3DXVec3Length((&vToPlayer)) <= m_fSightDistance)
-			return true;
-		else
-			return false;
+		float distSq = D3DXVec3LengthSq(&vDistanceToPlayer);
+		float sightSq = m_fSightDistance * m_fSightDistance;
+
+		return (fDot >= 0.f) && (distSq <= sightSq);
 }
+
+_bool CMonsterBase::Check_Dead()
+{
+	if (m_iHp <= 0)
+	{
+		if (m_iHp <= -30)
+		{
+			m_isGibbingDead = TRUE;
+			m_isNormalDead = FALSE;
+			return	TRUE;
+		}
+		m_isGibbingDead = FALSE;
+		m_isNormalDead = TRUE;
+		return TRUE;
+	}
+	return FALSE;
+}
+
+_bool CMonsterBase::Check_Hit()
+{
+	return false;
+}
+
+_bool CMonsterBase::Check_Attack()
+{
+	return _bool();
+}
+
 
 #pragma endregion
 
 
-void CMonsterBase::Decision()
+void CMonsterBase::Action(const _float& fTimeDelta, _int _AI)
 {
-	if (m_isDetect_Player)
-		Monster_Stat_Bit |= MS_SEE_PLAYER;
-	
-
-}
-
-void CMonsterBase::Action(const _float& fTimeDelta)
-{
-	if (!(Monster_Stat_Bit & (MS_SEE_PLAYER | MS_HIT)))
+	switch (_AI)
 	{
-
+	case AI_DEAD:
+		cout << "AI_DEAD" << endl;
+		break;
+	case AI_HIT:
+		cout << "AI_HIT" << endl;
+		break;
+	case AI_ATTACK:
+		cout << "AI_ATTACK" << endl;
+		break;
+	case AI_CHASE:
+		cout << "AI_CHASE" << endl;
+		break;
+	case AI_MOVE:
+		m_fMoveDelay += fTimeDelta;
+		if (m_fMoveDelay > 5.f)
+		{
+			Set_Move_Direction(&m_vMoveLook);
+			m_fMoveDelay = 0.f;
+		}
+		Movement(fTimeDelta);
+		cout << "AI_MOVE" << endl;
+		break;
 	}
-
-
-
-	Monster_Stat_Bit = 0;
 }
 
 void CMonsterBase::Set_OnTerrain()
@@ -214,6 +260,16 @@ void CMonsterBase::Set_OnTerrain()
 	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
 
 	m_pTransformCom->Set_Pos(pos.x, height + 2.f, pos.z);
+}
+
+void CMonsterBase::Movement(const _float fTimeDelta)
+{
+	m_pTransformCom->Move_Pos(&m_vMoveLook, m_fSpeed, fTimeDelta);
+	
+}
+
+void CMonsterBase::Attack(const _float fTimeDelta)
+{
 }
 
 
@@ -293,14 +349,21 @@ _int CMonsterBase::Calc_AnimState(_vec3 vLook, _vec3 vPos)
 
 void CMonsterBase::Debug_Rectangle(_vec3 _LeftTop, _vec3 _RightTop, _vec3 _RightBottom, _vec3 _LeftBottom)
 {
+	_LeftTop.y			-= 2.1f;		
+	_RightTop.y			-= 2.1f;		
+	_RightBottom.y	-= 2.1f;				
+	_LeftBottom.y		-= 2.1f;
+
 	VTXCOL pVertex[6] = {
-	{ _LeftTop, D3DCOLOR_ARGB(255, 255, 255, 255) },
-	{ _RightTop, D3DCOLOR_ARGB(255, 255, 255, 255)},
-	{ _RightBottom, D3DCOLOR_ARGB(255, 255, 255, 255)},
-	{ _LeftTop, D3DCOLOR_ARGB(255, 255, 255, 255)},
-	{ _RightBottom, D3DCOLOR_ARGB(255, 255, 255, 255)},
-	{ _LeftBottom, D3DCOLOR_ARGB(255, 255, 255, 255)},
+		{ _LeftTop,				D3DCOLOR_ARGB(0,   255,  64,  64) },
+		{ _RightTop,				D3DCOLOR_ARGB(0,   255,  64,  64) },
+		{ _RightBottom,		D3DCOLOR_ARGB(200, 255,   0,   0) },
+
+		{ _LeftTop,				D3DCOLOR_ARGB(0,   255,  64,  64) },
+		{ _RightBottom,		D3DCOLOR_ARGB(200, 255,   0,   0) },
+		{ _LeftBottom,			D3DCOLOR_ARGB(200, 255,   0,   0) },
 	};
+
 
 	/*VTXCOL pVertex[3] = {
 		{ _vec3{ -1.0f, -1.0f, -10.0f }, D3DCOLOR_XRGB(255, 255, 255) },
@@ -312,8 +375,16 @@ void CMonsterBase::Debug_Rectangle(_vec3 _LeftTop, _vec3 _RightTop, _vec3 _Right
 	D3DXMATRIX matWorld;
 	D3DXMatrixIdentity(&matWorld);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+
+	m_pGraphicDev->SetTexture(0, NULL);																					//
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);								//
+	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);					//
+	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);			//
+
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 2, pVertex, sizeof(VTXCOL));
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);								//
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
