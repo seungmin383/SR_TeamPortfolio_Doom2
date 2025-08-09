@@ -102,7 +102,7 @@ HRESULT CPlayerWeapon::Add_Component()
 	CComponent* pComponent = NULL;
 
 	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectSpriteTex*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectSpriteTex"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_RectSpriteTex"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -110,7 +110,7 @@ HRESULT CPlayerWeapon::Add_Component()
 
 	//Transform
 	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Transform"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Transform"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -118,7 +118,7 @@ HRESULT CPlayerWeapon::Add_Component()
 
 	//Texture
 	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_PlayerWeaponTexture"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_PlayerWeaponTexture"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -126,7 +126,7 @@ HRESULT CPlayerWeapon::Add_Component()
 
 	//Animator 애니메이션 세팅
 	pComponent = m_pAnimatorCom = dynamic_cast<Engine::CAnimator*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Animator"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Animator"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -194,9 +194,23 @@ CPlayerWeapon* CPlayerWeapon::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	if (FAILED(pWeapon->Ready_GameObject()))
 	{
 		Safe_Release(pWeapon);
-		MSG_BOX("Weapon Create Failed");
+		MSG_BOX("Weapon Clone Failed");
 		return pWeapon;
 	}
+
+	return pWeapon;
+}
+
+CPlayerWeapon* CPlayerWeapon::Clone()
+{
+	CPlayerWeapon* pWeapon = new CPlayerWeapon(*this);
+
+	//if (FAILED(pWeapon->Ready_GameObject()))
+	//{
+	//	Safe_Release(pWeapon);
+	//	MSG_BOX("Weapon Clone Failed");
+	//	return pWeapon;
+	//}
 
 	return pWeapon;
 }

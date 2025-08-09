@@ -195,7 +195,7 @@ HRESULT CZombieMan::Add_Component()
 	CComponent* pComponent = NULL;
 
 	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectSpriteTex*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectSpriteTex"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_RectSpriteTex"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -203,7 +203,7 @@ HRESULT CZombieMan::Add_Component()
 
 	//Transform
 	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Transform"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Transform"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -211,7 +211,7 @@ HRESULT CZombieMan::Add_Component()
 
 	//MoveTransform
 	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Transform"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Transform"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -219,21 +219,21 @@ HRESULT CZombieMan::Add_Component()
 
 	//Texture
 	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_ZombieMan_Texture"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_ZombieMan_Texture"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
 
 	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Calculator"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Calculator"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Calculator", pComponent });
 
 	pComponent = m_pColliderCom = dynamic_cast<Engine::CCollider*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Collider"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Collider"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -241,7 +241,7 @@ HRESULT CZombieMan::Add_Component()
 
 
 	pComponent = m_pAnimCom = dynamic_cast<Engine::CAnimator*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Animator"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Animator"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -290,14 +290,21 @@ CZombieMan* CZombieMan::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	CZombieMan* tmp = new CZombieMan(pGraphicDev);
 
-	if (FAILED(tmp->Ready_GameObject()))
+	return tmp;
+}
+
+CZombieMan* CZombieMan::Clone()
+{
+	CZombieMan* pZombieMan = new CZombieMan(*this);
+
+	if (FAILED(pZombieMan->Ready_GameObject()))
 	{
-		Safe_Release(tmp);
+		Safe_Release(pZombieMan);
 		MSG_BOX("ZombieMan Create Failed");
 		return nullptr;
 	}
 
-	return tmp;
+	return pZombieMan;
 }
 
 void CZombieMan::Free()

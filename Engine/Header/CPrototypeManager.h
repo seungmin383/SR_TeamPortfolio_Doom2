@@ -1,5 +1,7 @@
 #pragma once
 #include "CBase.h"
+#include "CGameObject.h"
+
 #include "CComponent.h"
 
 #include "CTriCol.h"
@@ -30,14 +32,25 @@ private:
     virtual ~CPrototypeManager();
 
 public:
-    HRESULT         Ready_Prototype(const _tchar* pComponentTag, CComponent* pComponent);
-    CComponent*     Clone_Prototype(const _tchar* pComponentTag);
+    //Component
+    HRESULT         Ready_ComPrototype(const _tchar* pComponentTag, CComponent* pComponent);
+    CComponent*     Clone_ComPrototype(const _tchar* pComponentTag);
+
+    //Object
+    HRESULT         Ready_ObjPrototype(OBJPROTOTYPE eObjId, CGameObject* pComponent);
+    CGameObject*     Clone_ObjPrototype(OBJPROTOTYPE eObjId);
 
 private:
-    CComponent*     Find_Prototype(const _tchar* pComponentTag);
+    //Component
+    CComponent*     Find_ComPrototype(const _tchar* pComponentTag);
+
+    //Object
+    CGameObject*     Find_ObjPrototype(OBJPROTOTYPE eObjId);
+
 
 private:
-    map<const _tchar*, CComponent*> m_mapPrototype;
+    map<const _tchar*, CComponent*> m_mapComPrototype;
+    map<OBJPROTOTYPE, CGameObject*>        m_mapObjPrototype;
 
 private:
     virtual void        Free();

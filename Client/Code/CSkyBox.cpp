@@ -66,21 +66,21 @@ HRESULT CSkyBox::Add_Component()
 	CComponent* pComponent = NULL;
 
 	pComponent = m_pBufferCom = dynamic_cast<Engine::CCubeTex*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_CubeTex"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_CubeTex"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
 	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Transform"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Transform"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
 
 	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_SkyBoxTexture"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_SkyBoxTexture"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 

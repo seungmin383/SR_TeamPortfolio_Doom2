@@ -1,4 +1,5 @@
 #include "CLayer.h"
+#include "CPrototypeManager.h"
 
 CLayer::CLayer()
 {
@@ -39,6 +40,77 @@ HRESULT CLayer::Add_GameObjectPool(OBJID eObjId, CGameObject* pGameObject, _int 
 	return S_OK;
 }
 
+HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, _int iCnt)
+{
+	CGameObject* pGameObject = nullptr;
+
+	//오브젝트 풀이 비어있으면
+	if (m_vecObjectPool[(_uint)eObjId].empty())
+	{
+		//횟수만큼 추가
+		for (size_t i = 0; i < iCnt; i++)
+		{
+			pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(eObjPrototype);
+
+			if (nullptr == pGameObject)
+				return E_FAIL;
+
+			pGameObject->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+			//스테이지에서 사라진 오브젝트는 별도 처리로 다시 오브젝트 풀로 돌아온다
+			m_vecObject[(UINT)eObjId].push_back(pGameObject);
+		}
+	}
+	else
+	{
+		//중복 코드 추후 함수화
+		if (m_vecObjectPool[(_uint)eObjId].capacity() >= iCnt)
+		{
+			for (size_t i = 0; i < iCnt; i++)
+			{
+				pGameObject = m_vecObjectPool[(_uint)eObjId].back();
+				m_vecObjectPool[(_uint)eObjId].pop_back();
+
+				m_vecObject[(UINT)eObjId].push_back(pGameObject);
+			}
+		}
+		else if (m_vecObjectPool[(_uint)eObjId].capacity() < iCnt)
+		{
+			_int additionalCnt = iCnt - m_vecObjectPool[(_uint)eObjId].capacity();
+
+			for (size_t i = 0; i < iCnt; i++)
+			{
+				pGameObject = m_vecObjectPool[(_uint)eObjId].back();
+				m_vecObjectPool[(_uint)eObjId].pop_back();
+
+				m_vecObject[(UINT)eObjId].push_back(pGameObject);
+			}
+
+			//횟수만큼 추가
+			for (size_t i = 0; i < additionalCnt; i++)
+			{
+				pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(eObjPrototype);
+
+				if (nullptr == pGameObject)
+					return E_FAIL;
+
+				pGameObject->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+				//스테이지에서 사라진 오브젝트는 별도 처리로 다시 오브젝트 풀로 돌아온다
+				m_vecObject[(UINT)eObjId].push_back(pGameObject);
+			}
+		}
+	}
+
+	return S_OK;
+}
+
+HRESULT CLayer::SetOff_GameLogicObject(_int eObjId, CGameObject* pObj)
+{
+	//초기화코드 필요 여부 검토
+	m_vecObjectPool[eObjId].push_back(pObj);
+
+	return S_OK;
+}
+
 HRESULT CLayer::Ready_Layer()
 {
 	return S_OK;
@@ -55,7 +127,12 @@ _int CLayer::Update_Layer(const _float& fTimeDelta)
 			iResult = (*iter)->Update_GameObject(fTimeDelta);
 
 			if (iResult & 0x80000000)
+			{
+				SetOff_GameLogicObject(i, (*iter));
+				iter = m_vecObject[i].erase(iter);
+				//왜 리턴인지 검토
 				return iResult;
+			}
 
 			++iter;
 		}

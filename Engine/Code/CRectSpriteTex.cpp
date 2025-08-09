@@ -86,9 +86,9 @@ void CRectSpriteTex::Set_UVCoord(const _uint& _iCurFrame, const _float& _fU, con
 
 	pVertex[1].vTexUV = { endU * reversePadding, startV };
 
-	pVertex[2].vTexUV = { endU * reversePadding, endV };
+	pVertex[2].vTexUV = { endU * reversePadding, endV - 0.02f };
 
-	pVertex[3].vTexUV = { startU * reversePadding, endV };
+	pVertex[3].vTexUV = { startU * reversePadding, endV - 0.02f };
 	m_pVB->Unlock();
 }
 

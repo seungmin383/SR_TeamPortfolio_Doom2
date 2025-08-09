@@ -69,6 +69,18 @@ const vector<CGameObject*> CScene::Get_TotalGameObject(OBJID eObjId)
 	return result;
 }
 
+HRESULT CScene::Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, _int iCnt)
+{
+	auto iter = m_mapLayer.find(LAYERID::LAYER_GAMELOGIC);
+
+	if (iter == m_mapLayer.end())
+		return E_FAIL;
+
+	(*iter).second->SetOn_GameLogicObject(eObjPrototype, eObjId, vPos, iCnt);
+
+	return S_OK;
+}
+
 HRESULT CScene::Ready_Scene()
 {
 	return S_OK;

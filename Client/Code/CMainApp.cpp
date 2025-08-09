@@ -11,6 +11,10 @@
 #include "CLightManager.h"
 #include "CColliderManager.h"
 
+#include "CDynamicCamera.h"
+#include "CZombieMan.h"
+#include "CPlayerWeapon.h"
+
 CMainApp::CMainApp()
 	: m_pGraphicDev(nullptr),
 	m_pManagementClass(CManagement::GetInstance())
@@ -88,6 +92,10 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 		return E_FAIL;
 
 	if (FAILED(CDInputManager::GetInstance()->Ready_InputDev(g_hInst, g_hWnd)))
+		return E_FAIL;
+
+	//Initiate GameObject Prototype
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ZOMBIEMAN, CZombieMan::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	//텍스처 필터
