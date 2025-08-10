@@ -120,6 +120,8 @@ HRESULT CDynamicCamera::Add_Component()
 
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
 
+	OutputDebugStringA("[Stage] add OBJ_PLAYERCAMERA: DynamicCamera\n");
+
 	return S_OK;
 
 }

@@ -2,14 +2,16 @@
 #include "CHealth_Small.h"
 #include "CRenderer.h"
 #include "CManagement.h"
+#include "CCollisionManager.h"
+#include "CTimerManager.h"
 
 CHealth_Small::CHealth_Small(LPDIRECT3DDEVICE9 pGraphicDev)
-    : CGameObject(pGraphicDev), m_iHeal(0), m_iFrame(0)
+	: CGameObject(pGraphicDev), m_iHeal(0), m_iFrame(0), m_pColliderCom(nullptr)
 {
 }
 
 CHealth_Small::CHealth_Small(const CGameObject& rhs)
-    : CGameObject(rhs)
+	: CGameObject(rhs)
 {
 }
 
@@ -19,70 +21,92 @@ CHealth_Small::~CHealth_Small()
 
 HRESULT CHealth_Small::Ready_GameObject()
 {
-    if (FAILED(Add_Component()))
-        return E_FAIL;
+	if (FAILED(Add_Component()))
+		return E_FAIL;
 
-    m_iHeal = 1;
+	m_iHeal = 1;
 
 	m_iFrame = 0;
 
-	D3DXMATRIX view, inv;
-	m_pGraphicDev->GetTransform(D3DTS_VIEW, &view);
-	D3DXMatrixInverse(&inv, nullptr, &view);
+	m_pTransformCom->Set_Pos(5.f, 1.f, 5.f);
+	m_pTransformCom->Set_Scale(_vec3(0.5f, 0.5f, 0.5f));
 
-	// 카메라 월드 위치/정면벡터
-	_vec3 camPos = { inv._41, inv._42, inv._43 };
-	_vec3 camLook = { inv._31, inv._32, inv._33 }; // LH 기준 Look
+	m_pColliderCom->Ready_CCollider(
+		this,
+		_vec3(0, 0, 0),           // 초기 위치(Transform가 실제로 잡아줌)
+		_vec3(0.8f, 0.8f, 0.8f),  // 아이템 박스 크기 예시
+		_vec3(0, 0.4f, 0),        // 약간 위로
+		COL_ITEM,               // 너희 COLLAYERID에서 아이템 레이어
+		(1 << COL_PLAYER)       // (마스크를 쓴다면) 플레이어와만 맞게
+	);
+	m_pColliderCom->Set_Active(true);
 
-	// 카메라 앞 2.5m + 살짝 위
-	_vec3 spawn = { camPos.x + camLook.x * 2.5f,
-					camPos.y + camLook.y * 2.5f + 1.f,
-					camPos.z + camLook.z * 2.5f };
-
-	m_pTransformCom->Set_Pos(spawn.x, spawn.y, spawn.z);
-	m_pTransformCom->Set_Scale(_vec3(0.4f, 0.4f, 1.f)); // 0.3~0.6 사이에서 취향대로
-
-    return S_OK;
+	return S_OK;
 }
 
 _int CHealth_Small::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
-
-	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
-
 	Set_OnTerrain();
-	// 월드 최신화 보장 (Transform은 가벼움)
+	//// 월드 최신화 보장 (Transform은 가벼움)
 	m_pTransformCom->Update_Component(0.f);
-	//Bill_Board();
+	Bill_Board();
 
 	m_iFrame++;
 	if (m_iFrame >= 4)
 		m_iFrame = 0;
 
-    return 0;
+	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
+
+	if (m_bPicked) 
+		return 0; // 엔진 상수에 맞춰 사용
+
+	return 0;
 }
 
 void CHealth_Small::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
+	if (m_pColliderCom)
+		m_pColliderCom->Late_Update(); // ★ 중요
 }
 
-void CHealth_Small::Render_GameObject()
+void CHealth_Small::Render_GameObject(const _float& fTimeDelta)
 {
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
-	m_pTextureCom->Set_Texture(m_iFrame);
+	OutputDebugStringA("Health_Small::Render\n");
 
+	//// 월드 행렬 설정                                                                                
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
+
+	//// 텍스처 설정                                                                                   
+	if (m_pTextureCom) {
+		m_pTextureCom->Set_Texture(m_iFrame);
+	}
+	else {
+		m_pGraphicDev->SetTexture(0, NULL);
+		m_pGraphicDev->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+		m_pGraphicDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TFACTOR);
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, 0xFFFFFFFF);
+	}
+
+	// 알파 스프라이트 기본 상태
+	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+	m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
+	// 버퍼 그리기
 	m_pBufferCom->Render_Buffer();
 
-	// 되돌림
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	// 복구(필요 시)
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+
 
 	//충돌체
 	//m_pColliderCom->Render(g_colRend);
@@ -94,6 +118,19 @@ void CHealth_Small::OnCollision(CCollider* _pOther)
 
 void CHealth_Small::OnCollisionEnter(CCollider* _pOther)
 {
+	OutputDebugStringA("[HS] OnCollisionEnter\n");
+
+	if (m_bPicked || !_pOther) return;
+
+	auto* who = _pOther->Get_Owner();
+	if (auto* pCam = dynamic_cast<CDynamicCamera*>(who)) {
+		// 1) HP 증가
+		pCam->AddHP(m_iHeal); // CDynamicCamera에 AddHP(int) 추가
+
+		// 2) 더이상 충돌하지 않게 막기
+		m_bPicked = true;
+		if (m_pColliderCom) m_pColliderCom->Set_Active(false);
+	}
 }
 
 void CHealth_Small::OnCollisionExit(CCollider* _pOther)
@@ -104,8 +141,8 @@ HRESULT CHealth_Small::Add_Component()
 {
 	CComponent* pComponent = NULL;
 
-	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectTex*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectTex"));
+	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectSpriteTex*>
+		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectSpriteTex"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -141,6 +178,8 @@ HRESULT CHealth_Small::Add_Component()
 
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
 
+	OutputDebugStringA("[Stage] add OBJ_ITEM: Health_Small\n");
+
 	return S_OK;
 }
 
@@ -167,24 +206,26 @@ void CHealth_Small::Set_OnTerrain()
 
 void CHealth_Small::Bill_Board()
 {
-	_matrix world, view, rotOnly;
-	m_pTransformCom->Get_World(&world);
-	m_pGraphicDev->GetTransform(D3DTS_VIEW, &view);
+	if (!m_pTransformCom)
+		return;
 
-	// 1) 카메라에서 회전 성분만 뽑아 역행렬로 빌보드 회전 만들기
-	D3DXMatrixIdentity(&rotOnly);
-	rotOnly._11 = view._11; rotOnly._13 = view._13;
-	rotOnly._31 = view._31; rotOnly._33 = view._33;
-	D3DXMatrixInverse(&rotOnly, 0, &rotOnly); // 카메라 회전의 역행렬
+	_matrix matWorld, matView, matBill;
+	m_pTransformCom->Get_World(&matWorld);
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
 
-	// 2) 기존 월드의 위치/스케일 보존
-	_vec3 pos = { world._41, world._42, world._43 };
-	world = rotOnly;                  // 회전만 교체
-	world._41 = pos.x;                // 위치 되살리기
-	world._42 = pos.y;
-	world._43 = pos.z;
+	// 빌보드 행렬의 스케일과 위치는 월드 행렬의 것을 그대로 사용                          
+	matBill = matWorld;
 
-	m_pTransformCom->Set_World(&world);
+	// 뷰행렬에서 역행렬을 이용해 카메라의 회전값을 구하고, 빌보드 행렬의 회전값으로 설정  
+	D3DXMatrixInverse(&matBill, NULL, &matView);
+
+	// 빌보드 행렬의 위치값을 월드 행렬의 위치값으로 설정                                  
+	matBill._41 = matWorld._41;
+	matBill._42 = matWorld._42;
+	matBill._43 = matWorld._43;
+
+	// 최종적으로 빌보드 행렬을 월드 행렬로 설정                                           
+	m_pTransformCom->Set_World(&matBill);
 }
 
 CHealth_Small* CHealth_Small::Create(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -203,5 +244,5 @@ CHealth_Small* CHealth_Small::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CHealth_Small::Free()
 {
-    Engine::CGameObject::Free();
+	Engine::CGameObject::Free();
 }

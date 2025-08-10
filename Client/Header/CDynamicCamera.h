@@ -35,6 +35,8 @@ public:
     _int Get_Armor() { return m_iArmor; }
     void Set_Armor(_int i) { m_iArmor = i; }
 
+    void AddHP(_int heal) { m_iHp += heal; }
+
 private:
     HRESULT     Add_Component();
     void        Key_Input(const _float& fTimeDelta);

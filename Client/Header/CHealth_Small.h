@@ -14,7 +14,7 @@ public:
 	virtual HRESULT Ready_GameObject();
 	virtual _int    Update_GameObject(const _float& fTimeDelta);
 	virtual void	LateUpdate_GameObject(const _float& fTimeDelta);
-	virtual void    Render_GameObject();
+	virtual void    Render_GameObject(const _float& fTimeDelta);
 
 	virtual     void			OnCollision(CCollider* _pOther) override;
 	virtual     void			OnCollisionEnter(CCollider* _pOther) override;
@@ -23,6 +23,7 @@ public:
 private:
 	_int    m_iHeal;
 	_int	m_iFrame;
+	bool m_bPicked = false;
 
 private:
 	HRESULT Add_Component();
@@ -30,9 +31,10 @@ private:
 	void		Bill_Board();
 
 private:
-	Engine::CRectTex* m_pBufferCom;
+	Engine::CRectSpriteTex* m_pBufferCom;
 	Engine::CTexture* m_pTextureCom;
 	Engine::CCalculator* m_pCalculatorCom;
+	Engine::CCollider* m_pColliderCom;
 
 public:
 	static CHealth_Small* Create(LPDIRECT3DDEVICE9 pGraphicDev);
