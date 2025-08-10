@@ -17,21 +17,27 @@ protected:
     virtual ~CMonsterBase();
 
 public:
-    virtual void Thinker(const _float& fTimeDelta)PURE;                            //몬스터 Ai 관리할듯                
-   virtual void Attack_Player(const _float& fTimeDelta)PURE;
     virtual _vec3 Set_Move_Direction(_vec3* _Look);
 
+public:
+    virtual     HRESULT         Ready_GameObject();
+    virtual     _int                  Update_GameObject(const _float& fTimeDelta);
+    virtual     void                 LateUpdate_GameObject(const _float& fTimeDelta);
+    virtual     void                 Render_GameObject(const _float& fTimeDelta);
+
     //Thinker 개편
-    virtual void Thinker1(const _float& fTimeDelta);                    //생각하는 함수 -> 몬스터 AI
-    virtual _int Perception();                                                         //인지하는 함수 -> 몬스터가 어떤 행동을 할지 상태를 지정해주는 함수
-        virtual _bool Check_Target();                                               //시야에 플레이어가 있는지 확인하는 함수
-        virtual _bool Check_Dead();                                                    // 죽었는가?
-        virtual _bool Check_Hit();                                                      //맞았는가?
-        virtual _bool Check_Attack();
+    virtual void Thinker(const _float& fTimeDelta);                                 //생각하는 함수 -> 몬스터 AI
+    virtual _int Perception(const _float& fTimeDelta);                               //인지하는 함수 -> 몬스터가 어떤 행동을 할지 상태를 지정해주는 함수
+        virtual _bool Check_Dead();                                                             // 죽었는가?
+        virtual _bool Check_Target();                                                           //시야에 플레이어가 있는지 확인하는 함수
+        virtual _bool Check_Hit();                                                                //맞았는가?
+        virtual _bool Check_Attack(const _float& fTimeDelta);
+
+    virtual void  Action(const _float& fTimeDelta, _int _Thought);          //행동하는 함수
+        virtual void Monster_Look_Player(_vec3* _vLook);
 
 
-    virtual void  Action(const _float& fTimeDelta, _int _AI);                        //행동하는 함수
-  
+
     //기능 Function (기능 기능?)
    virtual  void        Set_OnTerrain();
    virtual void         Movement(const _float fTimeDelta);
@@ -56,8 +62,13 @@ protected:
     Engine::CAnimator*             m_pAnimCom;
 
 protected:
-    int m_eCurAnimState;
-    int m_ePreAnimState;
+    _int m_iCurThought = 0;                 //현재 ai 상태
+    _int m_iPreThought = 0;                 //이전 ai 상태
+
+    _int m_eCurAnimState = 0;             //현재 애니메이션 상태 -> 텍스쳐 변환용
+    _int m_ePreAnimState = 0;               //이전 애니메이션 상태
+
+    _int m_eAnim_Type = 0;
 
     _vec3 m_vMoveLook;
     _vec3 m_vtmpLook;
@@ -65,8 +76,12 @@ protected:
     _float m_fSightAngle;
     _float m_fSightDistance;
 
+
     _float m_fAtkDelay; 
     _float m_fMoveDelay;
+    _float m_fChaseDelay;
+
+    _int m_EnterCnt = 0;
 
     _bool m_isMove;
     _bool m_isAtk;

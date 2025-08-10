@@ -65,7 +65,7 @@ HRESULT CZombieMan::Ready_GameObject()
 		0,
 		3,
 		0.2f,
-		false,
+		true,
 		false
 	);
 
@@ -121,40 +121,20 @@ HRESULT CZombieMan::Ready_GameObject()
 
 _int CZombieMan::Update_GameObject(const _float& fTimeDelta)
 {
-	Thinker1(fTimeDelta);
-
-	CGameObject::Update_GameObject(fTimeDelta);
-
-	Set_OnTerrain();
+	CMonsterBase::Update_GameObject(fTimeDelta);
 	Bill_Board();
-	CRenderer::GetInstance()->Add_RenderGroup(RENDER_NONALPHA, this);
-
+	Set_OnTerrain();
 	return 0;
 }
 
 void CZombieMan::LateUpdate_GameObject(const _float& fTimeDelta)
 {
-	Key_Input(fTimeDelta);
-	CGameObject::LateUpdate_GameObject(fTimeDelta);
-
-	m_pColliderCom->Late_Update();
+	CMonsterBase::LateUpdate_GameObject(fTimeDelta);
 }
 
 void CZombieMan::Render_GameObject(const _float& fTimeDelta)
 {
-	Check_Target();
-
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
-
-	m_pAnimCom->Play_Animation(ANIM_MOVE, 0, fTimeDelta, m_eCurAnimState);
-	m_pBufferCom->Render_Buffer();
-
-
-	//충돌체
-	m_pColliderCom->Render(g_colRend);
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	CMonsterBase::Render_GameObject(fTimeDelta);
 }
 
 void CZombieMan::OnCollision(CCollider* _pOther)
@@ -226,64 +206,3 @@ void CZombieMan::Free()
 	Engine::CGameObject::Free();
 }
 
-
-void CZombieMan::Attack_Player(const _float& fTimeDelta)
-{
-	m_fAtkDelay += fTimeDelta;
-
-	if (m_fAtkDelay > m_fAtkSpeed)
-	{
-		m_eCurAnimState += 8;
-		m_fAtkDelay = 0;
-	}
-}
-
-
-void CZombieMan::Thinker(const _float& fTimeDelta)
-{
-	_vec3 vPos;
-	m_pTransformCom->Get_Pos(&vPos);
-
-	m_fMoveDelay += fTimeDelta;
-	if (m_fMoveDelay > 4.f)
-	{
-		Set_Move_Direction(&m_vMoveLook);
-		m_fMoveDelay = 0.f;
-	}
-	//지금 플레이어가 보는 방향에 따른 몬스터 상태를 가져옴
-
-
-	if (m_pAnimCom->Get_isFinAct())
-	{
-		m_eCurAnimState = (MONSTER_ANIM_STATE)Calc_AnimState(m_vMoveLook, vPos);
-		m_isGibbingDead = false;
-		m_isNormalDead = false;
-	}
-
-	std::cout << "vLook" << m_vMoveLook.x << ' ' << m_vMoveLook.y << ' ' << m_vMoveLook.z << ' ' << std::endl;
-	//m_eCurAnimState = (MONSTER_ANIM_STATE)Calc_AnimState(m_vMoveLook, vPos);
-	Attack_Player(fTimeDelta);
-
-
-//인지 -> 정말 체크만 하고 Bool 값을 변경해주기
-	//시야에 어떤게 들어오는지
-		//시야에 플레이어가 들어오는지
-			
-	//내가 총에 맞았는지
-		//맞았다
-			//맞고 죽었는가?
-				//죽었다
-					//초과된 대미지는 몇인지?
-						//30보다 크다 -> 폭사
-						//30보다 작다 -> 일반사
-				// 안죽었다
-					//총알을 쏜 주체로 Look 고정 
-		//안맞았다
-
-	//시야에 플레이어가 안들어오고 총에 맞지 않았다
-	//시야에 플레이어가 들어오고 총에 맞지 않았다.
-	//시야에 플레이어가 들어오고 총에 맞았다.
-	//시야에 플레이어가 안들어오고 총에 맞았다.
-
-//행동
-}
