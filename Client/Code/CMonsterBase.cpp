@@ -585,7 +585,7 @@ HRESULT CMonsterBase::Add_Component()
 
 	//Buffer
 	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectSpriteTex*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectSpriteTex"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_RectSpriteTex"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -593,7 +593,7 @@ HRESULT CMonsterBase::Add_Component()
 
 	//Transform
 	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Transform"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Transform"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -601,7 +601,7 @@ HRESULT CMonsterBase::Add_Component()
 
 	//MoveTransform
 	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Transform"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Transform"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -609,7 +609,7 @@ HRESULT CMonsterBase::Add_Component()
 
 	//Calculator
 	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Calculator"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Calculator"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -617,7 +617,7 @@ HRESULT CMonsterBase::Add_Component()
 
 	//Collider
 	pComponent = m_pColliderCom = dynamic_cast<Engine::CCollider*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Collider"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Collider"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -625,7 +625,7 @@ HRESULT CMonsterBase::Add_Component()
 
 	//Animation
 	pComponent = m_pAnimCom = dynamic_cast<Engine::CAnimator*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Animator"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Animator"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 

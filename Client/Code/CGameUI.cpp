@@ -124,7 +124,7 @@ HRESULT CGameUI::Add_Component()
 	CComponent* pComponent = NULL;
 
 	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectTex*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectTex"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_RectTex"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -132,7 +132,7 @@ HRESULT CGameUI::Add_Component()
 
 	//Transform
 	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Transform"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Transform"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -140,14 +140,14 @@ HRESULT CGameUI::Add_Component()
 
 	//Texture
 	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_PlayerUI"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_PlayerUI"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
 
 	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Calculator"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Calculator"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 

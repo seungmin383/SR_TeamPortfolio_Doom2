@@ -98,7 +98,7 @@ HRESULT CDynamicCamera::Add_Component()
 
 	//Transform
 	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Transform"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Transform"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -106,7 +106,7 @@ HRESULT CDynamicCamera::Add_Component()
 
 	// Calculator
 	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Calculator"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Calculator"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -114,7 +114,7 @@ HRESULT CDynamicCamera::Add_Component()
 
 	// Collider
 	pComponent = m_pColliderCom = dynamic_cast<Engine::CCollider*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Collider"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Collider"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 

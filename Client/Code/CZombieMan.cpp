@@ -170,7 +170,7 @@ HRESULT CZombieMan::Add_Component()
 	CComponent* pComponent = NULL;
 
 	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_ZombieMan_Texture"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_ZombieMan_Texture"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -183,14 +183,21 @@ CZombieMan* CZombieMan::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	CZombieMan* tmp = new CZombieMan(pGraphicDev);
 
-	if (FAILED(tmp->Ready_GameObject()))
+	return tmp;
+}
+
+CZombieMan* CZombieMan::Clone()
+{
+	CZombieMan* pZombieMan = new CZombieMan(*this);
+
+	if (FAILED(pZombieMan->Ready_GameObject()))
 	{
-		Safe_Release(tmp);
+		Safe_Release(pZombieMan);
 		MSG_BOX("ZombieMan Create Failed");
 		return nullptr;
 	}
 
-	return tmp;
+	return pZombieMan;
 }
 
 void CZombieMan::Free()

@@ -28,7 +28,14 @@ public:
     HRESULT         Change_Scene(SCENEID _eSceneId);
 
     HRESULT         Set_Player(CGameObject* pObj);
-    CGameObject* Get_Player() { return m_pPlayer; }
+    CGameObject*    Get_Player() { return m_pPlayer; }
+
+    /// <summary>
+    /// Game Logic Layer에 추가한다
+    /// </summary>
+    /// <param name="eObjPrototype"></param>
+    /// <returns></returns>
+    HRESULT         Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos = _vec3(0.f, 0.f, 0.f), _int iCnt = 1);
 
 public:
     _int        Update_Scene(const _float& fTimeDelta);

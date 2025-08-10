@@ -7,6 +7,7 @@ class CDynamicCamera :
 {
 private:
     explicit CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev);
+    explicit CDynamicCamera(const CDynamicCamera& rhs);
     virtual ~CDynamicCamera();
 
 public:
@@ -75,6 +76,8 @@ public:
     // Xn = d * Xv / -Zv * fAspect
     // Yn = d * Yv / -Zv * fAspect 
 
+public:
+    virtual CDynamicCamera*     Clone() override { return this; }
 
 private:
     virtual void        Free();

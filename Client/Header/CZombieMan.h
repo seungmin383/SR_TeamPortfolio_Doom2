@@ -28,6 +28,7 @@ private:
 
 public:
     static CZombieMan* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+    virtual CZombieMan* Clone() override;
 
 private:
     virtual void        Free();

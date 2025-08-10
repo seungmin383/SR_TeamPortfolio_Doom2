@@ -25,6 +25,7 @@ private:
 
 public:
     static CBackGround* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+    virtual CBackGround* Clone() override { return this; }
 
 private:
     virtual void        Free();

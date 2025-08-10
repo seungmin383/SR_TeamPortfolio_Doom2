@@ -26,6 +26,7 @@ private:
 
 public:
     static CSkyBox* Create(LPDIRECT3DDEVICE9 pGarphicDev);
+    virtual CSkyBox* Clone() override { return this; }
 
 private:
     virtual void        Free();

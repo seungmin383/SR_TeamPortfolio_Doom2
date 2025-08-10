@@ -18,6 +18,10 @@ public:
     CComponent* Get_Component(COMPONENTID eID, const _tchar* pComponentTag);
 
     CCollider* GetCollider() { return m_pColliderCom == nullptr ? nullptr : m_pColliderCom; }
+    CTransform* Get_Transform() { return m_pTransformCom; }
+
+    const bool                          Get_Dead() const { return m_bDead; }
+    void                                Set_Dead(_bool _bVal) { m_bDead = _bVal; }
 
     virtual void			            OnCollision(CCollider* _pOther) {};
     virtual void			            OnCollisionEnter(CCollider* _pOther) {};
@@ -29,11 +33,7 @@ public:
     virtual             void            LateUpdate_GameObject(const _float& fTimeDelta);
     virtual             void            Render_GameObject(const _float& fTimeDelta);
 
-public:
-    const bool                          Get_Dead() const { return m_bDead; }
-    void                                Set_Dead(_bool _bVal) { m_bDead = _bVal; }
-
-    CTransform*                         Get_Transform() { return m_pTransformCom; }
+    virtual CGameObject* Clone() PURE;
 
 protected:
     map<const _tchar*, CComponent*>         m_mapComponent[ID_END];

@@ -31,6 +31,7 @@ private:
 
 public:
     static CMonster* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+    virtual CMonster* Clone() override { return this; }
 
 private:
     virtual void        Free();

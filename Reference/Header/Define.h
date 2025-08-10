@@ -15,7 +15,7 @@ enum class LAYERID
 /// </summary>
 enum class OBJID
 {
-	OBJ_PLAYER,
+	OBJ_PLAYER = 0,
 	OBJ_ENEMY,
 
 	OBJ_OBJECT,
@@ -43,6 +43,49 @@ enum class OBJID
 	OBJ_SKYBOX,
 
 	OBJ_END
+};
+
+enum class OBJPROTOTYPE
+{
+	//0 플레이어
+	PLAYER = 0,
+
+	//1 ~ 50 오브젝트 관련
+	TERRAIN = 1,
+	WALL,
+	DOOR,
+	SHIFT_CUBE,
+	ITEM_HELTH,
+	ITEM_ARMOR,
+	BUTTON_DOOR,
+
+	//51 ~ 60 공격 관련
+	ATTACK = 51,
+	RAY,
+	EXPLOSION,
+	FOG,
+	SWAMP,
+	BULLET,
+
+	//61 ~ 70 UI/UX 관련
+	UI = 61,
+	DYNAMICCAMERA,
+	PLAYERCAMERA,
+	WEAPON,
+
+	//71 ~ 80 환경 관련
+	BACKGROUND = 71,
+	SKYBOX,
+
+	//81 ~ 적 관련
+	ENEMY_ZOMBIEMAN = 81,
+	ENEMY_SHOTGUNGUY,
+	ENEMY_IMP,
+	ENEMY_DEMON,
+	ENEMY_ARCHVILE,
+	ENEMY_SPIDERMASTERMIND,
+
+	OBJPROTOTYPE_END
 };
 
 /// <summary>
