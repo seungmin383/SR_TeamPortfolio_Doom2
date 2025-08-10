@@ -25,7 +25,7 @@ HRESULT CPlayerWeapon::Ready_GameObject()
 
 	_vec3 vPos, vScale, vSize;
 	
-	vScale = { 200.f, 300.f, 1.f };
+	vScale = { 300.f, 300.f, 1.f };
 	vPos = { 0.f, -WINCY * 0.5f + vScale.y , 1.f };
 	
 	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
@@ -52,7 +52,6 @@ void CPlayerWeapon::LateUpdate_GameObject(const _float& fTimeDelta)
 
 	Key_Input();
 	Mouse_Input();
-
 
 	//애니메이션 실행
 	m_pAnimatorCom->Play_Animation(m_eWeaponId + m_eWeaponState, 0, fTimeDelta);
@@ -85,15 +84,15 @@ void CPlayerWeapon::Render_GameObject(const _float& fTimeDelta)
 void CPlayerWeapon::Ready_Animation()
 {
 	// Pistol Animation
-	m_pAnimatorCom->Add_Animation(PISTOL, m_pTextureCom, m_pBufferCom, 5, 1, 0, 0, 0.1f, false);
-	m_pAnimatorCom->Add_Animation(PISTOL + SHOT, m_pTextureCom, m_pBufferCom, 5, 1, 1, 4, 0.1f, true);
+	m_pAnimatorCom->Add_Animation(PISTOL, m_pTextureCom, m_pBufferCom, 5, 1, 0, 0, 0.1f, true);
+	m_pAnimatorCom->Add_Animation(PISTOL + SHOT, m_pTextureCom, m_pBufferCom, 5, 1, 0, 4, 0.1f, true);
 	
 	// Shotgun Animation
-	m_pAnimatorCom->Add_Animation(SHOTGUN, m_pTextureCom, m_pBufferCom, 5, 1, 0, 0, 0.2f, false);
-	m_pAnimatorCom->Add_Animation(SHOTGUN + SHOT, m_pTextureCom, m_pBufferCom, 5, 1, 1, 4, 0.2f, true);
+	m_pAnimatorCom->Add_Animation(SHOTGUN, m_pTextureCom, m_pBufferCom, 8, 1, 0, 0, 0.2f, true);
+	m_pAnimatorCom->Add_Animation(SHOTGUN + SHOT, m_pTextureCom, m_pBufferCom, 8, 1, 0, 7, 0.1f, true);
 
 	// Chaingun Animation
-	m_pAnimatorCom->Add_Animation(CHAINGUN, m_pTextureCom, m_pBufferCom, 3, 1, 0, 0, 0.1f, false);
+	m_pAnimatorCom->Add_Animation(CHAINGUN, m_pTextureCom, m_pBufferCom, 3, 1, 0, 0, 0.1f, true);
 	m_pAnimatorCom->Add_Animation(CHAINGUN + SHOT, m_pTextureCom, m_pBufferCom, 3, 1, 1, 2, 0.1f, true);
 }
 
