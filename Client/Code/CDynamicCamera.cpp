@@ -273,7 +273,11 @@ void CDynamicCamera::Set_OnTerrain()
 
 	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&m_vEye, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
 	
-	m_vEye.y = height + 2.f;
+	// 카메라의 높이 (m_vEye.y)가 변화할 때 마다 바라보는 목표(m_vAt.y)도 바뀌어야한다.
+	// 카메라의 높이 변화량을 계산해서 변화량을 m_vEye, m_vAt 모두 더해줘야 시점이 유지된다.
+	_float deltaHeight = (height + 2.f) - m_vEye.y;
+	m_vEye.y += deltaHeight;
+	m_vAt.y += deltaHeight;
 }
 
 CDynamicCamera* CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)
