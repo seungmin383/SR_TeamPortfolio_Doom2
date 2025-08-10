@@ -26,6 +26,8 @@ private:
 
 private:
 	HRESULT Add_Component();
+	void        Set_OnTerrain();
+	void		Bill_Board();
 
 private:
 	Engine::CRectTex* m_pBufferCom;

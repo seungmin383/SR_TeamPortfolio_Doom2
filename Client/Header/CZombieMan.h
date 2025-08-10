@@ -21,28 +21,14 @@ public:
     virtual     void			OnCollisionExit(CCollider* _pOther) override;
 
 #pragma region PURE
-    void Movement(const _float& fTimeDelta) override;
-    void Attack() override;
-    void Manage_MoveState() override;
-    void Change_Animation() override;
     void Thinker(const _float& fTimeDelta) override;
-    void Check_Target() override;
     void Attack_Player(const _float& fTimeDelta)override;
 
 #pragma endregion
 
-    void Bill_Board();
-
 private:
-    HRESULT     Add_Component();
+    HRESULT     Add_Component()override;
     void        Key_Input(const _float& fTimeDelta);
-    void        Set_OnTerrain();
-
-private:
-    Engine::CRectSpriteTex*  m_pBufferCom;
-    Engine::CTexture*            m_pTextureCom;
-    Engine::CCalculator*        m_pCalculatorCom;
-    Engine::CAnimator*         m_pAnimCom;
 
 public:
     static CZombieMan* Create(LPDIRECT3DDEVICE9 pGraphicDev);

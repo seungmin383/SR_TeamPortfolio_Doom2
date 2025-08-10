@@ -1,11 +1,11 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "CHealth_Small.h"
 #include "CRenderer.h"
+#include "CManagement.h"
 
 CHealth_Small::CHealth_Small(LPDIRECT3DDEVICE9 pGraphicDev)
     : CGameObject(pGraphicDev), m_iHeal(0), m_iFrame(0)
 {
-    CBase::Add_Ref();
 }
 
 CHealth_Small::CHealth_Small(const CGameObject& rhs)
@@ -26,25 +26,21 @@ HRESULT CHealth_Small::Ready_GameObject()
 
 	m_iFrame = 0;
 
-	// ø¯∫ª ≈ÿΩ∫√ƒ¿« ≈©±‚øÕ ∫Ò¿≤¿ª ¡§¿«
-	const _float fTexWidth = 224.f;
-	const _float fTexHeight = 32.f;
-	const _float fTexAspectRatio = fTexWidth / fTexHeight;
+	D3DXMATRIX view, inv;
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &view);
+	D3DXMatrixInverse(&inv, nullptr, &view);
 
-	_vec3 vPos, vScale;
+	// Ïπ¥Î©îÎùº ÏõîÎìú ÏúÑÏπò/Ï†ïÎ©¥Î≤°ÌÑ∞
+	_vec3 camPos = { inv._41, inv._42, inv._43 };
+	_vec3 camLook = { inv._31, inv._32, inv._33 }; // LH Í∏∞Ï§Ä Look
 
-	// UI¿« ≥ ∫Ò∏¶ »≠∏È¿« ≥ ∫Ò∑Œ º≥¡§
-	vScale.x = 30.f;
-	vScale.y = vScale.x / fTexAspectRatio;		// »≠∏È ≥ ∫Ò∏¶ 10¿∏∑Œ ≥™¥´ ∞™
-	vScale.z = 1.f;
+	// Ïπ¥Î©îÎùº Ïïû 2.5m + ÏÇ¥Ïßù ÏúÑ
+	_vec3 spawn = { camPos.x + camLook.x * 2.5f,
+					camPos.y + camLook.y * 2.5f + 1.f,
+					camPos.z + camLook.z * 2.5f };
 
-	// UI¿« ¿ßƒ°∏¶ »≠∏È ∏« æ∆∑°∑Œ º≥¡§
-	// UI¿« ¡ﬂΩ…¡°¿∫ »≠∏È «œ¥‹ + UI ≥Ù¿Ã¿« ¿˝π› ¿ßƒ°ø° µ–¥Ÿ.
-	vPos = { 150.f, -WINCY * 0.5f + vScale.y + 15.f, 0.f };
-
-	// ∞ËªÍµ» ¿ßƒ°øÕ Ω∫ƒ…¿œ¿ª Transform ƒƒ∆˜≥Õ∆Æø° ¿˚øÎ
-	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
-	m_pTransformCom->Set_Scale(vScale);
+	m_pTransformCom->Set_Pos(spawn.x, spawn.y, spawn.z);
+	m_pTransformCom->Set_Scale(_vec3(0.4f, 0.4f, 1.f)); // 0.3~0.6 ÏÇ¨Ïù¥ÏóêÏÑú Ï∑®Ìñ•ÎåÄÎ°ú
 
     return S_OK;
 }
@@ -54,6 +50,11 @@ _int CHealth_Small::Update_GameObject(const _float& fTimeDelta)
 	CGameObject::Update_GameObject(fTimeDelta);
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
+
+	Set_OnTerrain();
+	// ÏõîÎìú ÏµúÏã†Ìôî Î≥¥Ïû• (TransformÏùÄ Í∞ÄÎ≤ºÏõÄ)
+	m_pTransformCom->Update_Component(0.f);
+	//Bill_Board();
 
 	m_iFrame++;
 	if (m_iFrame >= 4)
@@ -70,17 +71,21 @@ void CHealth_Small::LateUpdate_GameObject(const _float& fTimeDelta)
 void CHealth_Small::Render_GameObject()
 {
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
-
 	m_pTextureCom->Set_Texture(m_iFrame);
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	m_pBufferCom->Render_Buffer();
 
-	//√Êµπ√º
-	m_pColliderCom->Render(g_colRend);
-
+	// ÎêòÎèåÎ¶º
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
+	//Ï∂©ÎèåÏ≤¥
+	//m_pColliderCom->Render(g_colRend);
 }
 
 void CHealth_Small::OnCollision(CCollider* _pOther)
@@ -139,6 +144,49 @@ HRESULT CHealth_Small::Add_Component()
 	return S_OK;
 }
 
+void CHealth_Small::Set_OnTerrain()
+{
+	if (!m_pTransformCom || !m_pCalculatorCom) return;
+
+	auto* pTerrainBuf = static_cast<CTerrainTex*>(
+		CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
+	if (!pTerrainBuf) return;
+
+	_vec3 pos; m_pTransformCom->Get_Pos(&pos);
+
+	// Í∑∏Î¶¨Îìú Í≤ΩÍ≥Ñ(0..(VTXCNT-1)*VTXITV) Î∞ñÏù¥Î©¥ Î≥¥Ï†ï Í±¥ÎÑàÎúÄ (ÌòπÏùÄ clamp)
+	const float maxX = (VTXCNTX - 1) * VTXITV - 1e-3f;
+	const float maxZ = (VTXCNTZ - 1) * VTXITV - 1e-3f;
+	if (pos.x < 0.f || pos.z < 0.f || pos.x > maxX || pos.z > maxZ) return;
+
+	float h = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBuf->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
+
+	// ÏÇ¥Ïßù ÎùÑÏõåÏÑú ÏßÄÎ©¥ Í∞ÑÏÑ≠ Î∞©ÏßÄ
+	m_pTransformCom->Set_Pos(pos.x, h + 0.8f, pos.z);
+}
+
+void CHealth_Small::Bill_Board()
+{
+	_matrix world, view, rotOnly;
+	m_pTransformCom->Get_World(&world);
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &view);
+
+	// 1) Ïπ¥Î©îÎùºÏóêÏÑú ÌöåÏ†Ñ ÏÑ±Î∂ÑÎßå ÎΩëÏïÑ Ïó≠ÌñâÎ†¨Î°ú ÎπåÎ≥¥Îìú ÌöåÏ†Ñ ÎßåÎì§Í∏∞
+	D3DXMatrixIdentity(&rotOnly);
+	rotOnly._11 = view._11; rotOnly._13 = view._13;
+	rotOnly._31 = view._31; rotOnly._33 = view._33;
+	D3DXMatrixInverse(&rotOnly, 0, &rotOnly); // Ïπ¥Î©îÎùº ÌöåÏ†ÑÏùò Ïó≠ÌñâÎ†¨
+
+	// 2) Í∏∞Ï°¥ ÏõîÎìúÏùò ÏúÑÏπò/Ïä§ÏºÄÏùº Î≥¥Ï°¥
+	_vec3 pos = { world._41, world._42, world._43 };
+	world = rotOnly;                  // ÌöåÏ†ÑÎßå ÍµêÏ≤¥
+	world._41 = pos.x;                // ÏúÑÏπò ÎêòÏÇ¥Î¶¨Í∏∞
+	world._42 = pos.y;
+	world._43 = pos.z;
+
+	m_pTransformCom->Set_World(&world);
+}
+
 CHealth_Small* CHealth_Small::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	CHealth_Small* pHealthSmall = new CHealth_Small(pGraphicDev);
@@ -155,7 +203,5 @@ CHealth_Small* CHealth_Small::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CHealth_Small::Free()
 {
-	//Engine::Safe_Delete(*this);
-
     Engine::CGameObject::Free();
 }

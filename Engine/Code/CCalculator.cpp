@@ -256,6 +256,7 @@ _bool CCalculator::Picking_GameObject(HWND hWnd)
 				if (D3DXIntersectTri(&objectColliderBox[dwVtxIdx[1]],
 					&objectColliderBox[dwVtxIdx[0]],
 					&objectColliderBox[dwVtxIdx[2]],
+
 					&vRayPos, &vRayDir, &fU, &fV, &fDist))
 				{
 					object->GetCollider()->HitRay(CManagement::GetInstance()->Get_Player()->GetCollider());
