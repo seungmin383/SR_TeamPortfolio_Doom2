@@ -39,7 +39,7 @@ _int                  CMonsterBase::Update_GameObject(const _float& fTimeDelta)
 {
 	Thinker(fTimeDelta);
 
-	CRenderer::GetInstance()->Add_RenderGroup(RENDER_NONALPHA, this);
+	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 	CGameObject::Update_GameObject(fTimeDelta);
 	return 0;
  }
@@ -51,7 +51,6 @@ void                 CMonsterBase::LateUpdate_GameObject(const _float& fTimeDelt
  }
 void                 CMonsterBase::Render_GameObject(const _float& fTimeDelta)
 {
-	Check_Target();
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
@@ -123,6 +122,29 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 	m_isDetect_Player		= Check_Target();
 	m_isAtk						= Check_Attack(fTimeDelta);
 	
+	if (GetAsyncKeyState('Z'))
+	{
+		m_iHp = -5;
+		m_isHit = FALSE;
+		m_isDetect_Player = FALSE;
+		m_isAtk = FALSE;
+	}
+	if (GetAsyncKeyState('X'))
+	{
+		m_iHp = -50;
+		m_isHit = FALSE;
+		m_isDetect_Player = FALSE;
+		m_isAtk = FALSE;
+	}
+	if (GetAsyncKeyState('C'))
+	{
+		m_iHp = 100;
+		m_isHit = TRUE;
+		m_isDetect_Player = FALSE;
+		m_isAtk = FALSE;
+	}
+
+
 	//죽었는지
 	if (m_isDead)
 		return AI_DEAD;
@@ -132,7 +154,7 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 		return AI_HIT;
 
 	//공격할 수 있는지
-	else if (m_isAtk)
+	else if (m_isAtk && m_isDetect_Player)
 		return AI_ATTACK;
 	
 	//플레이어를 발견하고 따라가는지
@@ -299,9 +321,21 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 	switch (_Thought)
 	{
 	case AI_DEAD:
+		if (m_isGibbingDead)
+		{
+			m_eCurAnimState = 16;	
+			m_eAnim_Type = GIB_DEATH;
+		}
+		else if (m_isNormalDead)
+		{
+			m_eCurAnimState = 17;
+			m_eAnim_Type = NOR_DEATH;
+		}
 		cout << "AI_DEAD" << endl;
 		break;
 	case AI_HIT:
+		m_eCurAnimState = 17;
+		m_eAnim_Type = HIT;
 		cout << "AI_HIT" << endl;
 		break;
 	case AI_ATTACK:

@@ -25,7 +25,6 @@ public:
 
 private:
     HRESULT     Add_Component()override;
-    void        Key_Input(const _float& fTimeDelta);
 
 public:
     static CZombieMan* Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -43,7 +43,7 @@ HRESULT CZombieMan::Ready_GameObject()
 
 	//이동
 	m_pAnimCom->Add_Animation(
-		ANIM_MOVE,
+		MOVE,
 		m_pTextureCom,
 		m_pBufferCom,
 		5,				//가로
@@ -57,7 +57,7 @@ HRESULT CZombieMan::Ready_GameObject()
 
 	//공격
 	m_pAnimCom->Add_Animation(
-		ANIM_ATK,
+		ATK,
 		m_pTextureCom,
 		m_pBufferCom,
 		4,
@@ -71,32 +71,45 @@ HRESULT CZombieMan::Ready_GameObject()
 
 	//일반 죽음
 	m_pAnimCom->Add_Animation(
-		ANIM_NDEAD,
+		NOR_DEATH,
 		m_pTextureCom,
 		m_pBufferCom,
 		6,
 		1,
 		0,
 		5,
-		0.2f,
+		0.15f,
 		false,
 		false
 	);
 
 	//폭사
 	m_pAnimCom->Add_Animation(
-		ANIM_GDEAD,
+		GIB_DEATH,
 		m_pTextureCom,
 		m_pBufferCom,
 		9,
 		1,
 		0,
 		8,
-		0.2f,
+		0.15f,
 		false,
 		false
 	);
 
+	//피격
+	m_pAnimCom->Add_Animation(
+		HIT,
+		m_pTextureCom,
+		m_pBufferCom,
+		6,
+		1,
+		0,
+		1,
+		0.2f,
+		false,
+		false
+	);
 #pragma endregion
 
 #pragma region VARIABLE_SETTING
@@ -164,27 +177,6 @@ HRESULT CZombieMan::Add_Component()
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
 
 	return S_OK;
-}
-
-void CZombieMan::Key_Input(const _float& fTimeDelta)
-{
-
-	if (GetAsyncKeyState(VK_LBUTTON) && m_pAnimCom->Get_isFinAct())
-	{
-		m_eCurAnimState = 8;
-		m_isAtk = false;
-		m_fAtkDelay = 0.f;
-	}
-	if (GetAsyncKeyState('1') && m_pAnimCom->Get_isFinAct())
-	{
-		m_eCurAnimState = 16;
-		m_isGibbingDead = true;
-	}
-	else if (GetAsyncKeyState('2') && m_pAnimCom->Get_isFinAct())
-	{
-		m_eCurAnimState = 17;
-		m_isNormalDead = true;
-	}
 }
 
 CZombieMan* CZombieMan::Create(LPDIRECT3DDEVICE9 pGraphicDev)
