@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CMonsterBase.h"
 #include "CManagement.h"
+#include "CRenderer.h"
 #include "Engine_Enum.h"
 #include <iostream>
 
@@ -10,7 +11,8 @@ CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
 	m_isGibbingDead(false),
 	m_isNormalDead(false),
 	m_isAtk(false),
-	m_eCurAnimState(0)
+	m_eCurAnimState(0),
+	m_fAtkDelay(0.f), m_fMoveDelay(0.f), m_fChaseDelay(0.f)
 {
 }
 
@@ -19,13 +21,48 @@ CMonsterBase::CMonsterBase(const CMonsterBase& rhs)
 	m_isGibbingDead(rhs.m_isGibbingDead),
 	m_isNormalDead(rhs.m_isNormalDead),
 	m_isAtk(rhs.m_isAtk),
-	m_eCurAnimState(rhs.m_eCurAnimState)
+	m_eCurAnimState(rhs.m_eCurAnimState),
+	m_fAtkDelay(0.f), m_fMoveDelay(0.f), m_fChaseDelay(0.f)
 {
 }
 
 CMonsterBase::~CMonsterBase()
 {
 }
+
+
+HRESULT         CMonsterBase::Ready_GameObject()
+{
+	return S_OK;
+ }
+_int                  CMonsterBase::Update_GameObject(const _float& fTimeDelta)
+{
+	Thinker(fTimeDelta);
+
+	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
+	CGameObject::Update_GameObject(fTimeDelta);
+	return 0;
+ }
+void                 CMonsterBase::LateUpdate_GameObject(const _float& fTimeDelta)
+{
+	CGameObject::LateUpdate_GameObject(fTimeDelta);
+	m_pAnimCom->Play_Animation(m_eAnim_Type, 0, fTimeDelta, m_eCurAnimState);
+	m_pColliderCom->Late_Update();
+ }
+void                 CMonsterBase::Render_GameObject(const _float& fTimeDelta)
+{
+
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
+
+	m_pTextureCom->Set_Texture(m_eCurAnimState);
+	m_pBufferCom->Render_Buffer();
+
+	//충돌체
+	m_pColliderCom->Render(g_colRend);
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+ }
 
 _vec3 CMonsterBase::Set_Move_Direction(_vec3* _Look)
 {
@@ -69,38 +106,63 @@ _vec3 CMonsterBase::Set_Move_Direction(_vec3* _Look)
 	return m_vtmpLook;
 }
 
-void CMonsterBase::Thinker1(const _float& fTimeDelta)
+void CMonsterBase::Thinker(const _float& fTimeDelta)
 {
-	_int Thought = Perception();																//인지
+	m_iCurThought = Perception(fTimeDelta);										//인지
 
-	Action(fTimeDelta, Thought);														//행동
+	Action(fTimeDelta, m_iCurThought);												//행동
+
+	m_iPreThought = m_iCurThought;
 }
 
-_int CMonsterBase::Perception()
+_int CMonsterBase::Perception(const _float& fTimeDelta)
 {
+	m_isDead						= Check_Dead();
+	m_isHit							= Check_Hit();
+	m_isDetect_Player		= Check_Target();
+	m_isAtk						= Check_Attack(fTimeDelta);
+	
+	if (GetAsyncKeyState('Z'))
+	{
+		m_iHp = -5;
+		m_isHit = FALSE;
+		m_isDetect_Player = FALSE;
+		m_isAtk = FALSE;
+	}
+	if (GetAsyncKeyState('X'))
+	{
+		m_iHp = -50;
+		m_isHit = FALSE;
+		m_isDetect_Player = FALSE;
+		m_isAtk = FALSE;
+	}
+	if (GetAsyncKeyState('C'))
+	{
+		m_iHp = 100;
+		m_isHit = TRUE;
+		m_isDetect_Player = FALSE;
+		m_isAtk = FALSE;
+	}
+
+
 	//죽었는지
-	m_isDead = Check_Dead();
 	if (m_isDead)
 		return AI_DEAD;
 
 	//피격당했는지
-	m_isHit = Check_Hit();
-	if (m_isHit)
+	else if (m_isHit)
 		return AI_HIT;
 
 	//공격할 수 있는지
-	m_isAtk = Check_Attack();
-	if (m_isAtk)
+	else if (m_isAtk && m_isDetect_Player)
 		return AI_ATTACK;
 	
 	//플레이어를 발견하고 따라가는지
-	m_isDetect_Player = Check_Target();
-	if (m_isDetect_Player)
+	else if (m_isDetect_Player)
 		return AI_CHASE;
 
-	//그냥 랜덤 이동할지
-	return AI_MOVE;
-
+	else//그냥 랜덤 이동할지
+		return AI_MOVE;
 }
 
 #pragma region FUNCTION_FOR_PERCEPTION
@@ -207,36 +269,99 @@ _bool CMonsterBase::Check_Dead()
 
 _bool CMonsterBase::Check_Hit()
 {
-	return false;
+	return FALSE;
 }
 
-_bool CMonsterBase::Check_Attack()
+_bool CMonsterBase::Check_Attack(const _float& fTimeDelta)
 {
-	return _bool();
+	m_fAtkDelay += fTimeDelta;
+
+	cout << "m_fAtkDelay:" << m_fAtkDelay << endl;
+
+	if (m_fAtkDelay > m_fAtkSpeed)
+	{
+		if (m_EnterCnt == 0)									//이 함수에 처음 입장했다면
+		{
+			m_EnterCnt++;										//카운트만 올리고 return 
+			return TRUE;
+		}
+		else
+		{
+			if (m_pAnimCom->Get_isFinAct())			//애니메이션이 끝났다면
+			{
+				m_EnterCnt = 0;
+				m_fAtkDelay = 0.f;
+				cout << "Get_isFinAct:true" << endl;
+				return FALSE;
+			}
+			else
+			{
+				cout << "Get_isFinAct:false" << endl;
+				m_EnterCnt++;
+				return TRUE;
+			}
+
+		}
+	}
+	else
+		return FALSE;
 }
 
 
 #pragma endregion
 
 
-void CMonsterBase::Action(const _float& fTimeDelta, _int _AI)
+void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 {
-	switch (_AI)
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+
+	m_eCurAnimState = Calc_AnimState(m_vMoveLook, vPos);
+
+	switch (_Thought)
 	{
 	case AI_DEAD:
+		if (m_isGibbingDead)
+		{
+			m_eCurAnimState = 16;	
+			m_eAnim_Type = GIB_DEATH;
+		}
+		else if (m_isNormalDead)
+		{
+			m_eCurAnimState = 17;
+			m_eAnim_Type = NOR_DEATH;
+		}
 		cout << "AI_DEAD" << endl;
 		break;
 	case AI_HIT:
+		m_eCurAnimState = 17;
+		m_eAnim_Type = HIT;
 		cout << "AI_HIT" << endl;
 		break;
 	case AI_ATTACK:
+		m_eCurAnimState += 8;
+		m_eAnim_Type = ATK;
 		cout << "AI_ATTACK" << endl;
 		break;
 	case AI_CHASE:
+		m_fChaseDelay += fTimeDelta;
+		if (m_eCurAnimState != m_ePreAnimState)
+			m_eAnim_Type = MOVE;
+
+		if (m_fChaseDelay > 1.f)
+		{
+			Monster_Look_Player(&m_vMoveLook);
+			m_fChaseDelay = 0.f;
+		}
+		Movement(fTimeDelta);
 		cout << "AI_CHASE" << endl;
 		break;
+
 	case AI_MOVE:
 		m_fMoveDelay += fTimeDelta;
+		if(m_eCurAnimState != m_ePreAnimState)
+			m_eAnim_Type = MOVE;
+
 		if (m_fMoveDelay > 5.f)
 		{
 			Set_Move_Direction(&m_vMoveLook);
@@ -246,6 +371,20 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _AI)
 		cout << "AI_MOVE" << endl;
 		break;
 	}
+
+	m_ePreAnimState = m_eCurAnimState;
+}
+
+void CMonsterBase::Monster_Look_Player(_vec3* _vLook)
+{
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	_vec3 vPlayerPos;
+	vPlayerPos = Get_PlayerPos();
+
+	_vec3 tmp = vPlayerPos - vPos;
+	D3DXVec3Normalize(&tmp, &tmp);
+	*_vLook = tmp;
 }
 
 void CMonsterBase::Set_OnTerrain()
@@ -265,7 +404,6 @@ void CMonsterBase::Set_OnTerrain()
 void CMonsterBase::Movement(const _float fTimeDelta)
 {
 	m_pTransformCom->Move_Pos(&m_vMoveLook, m_fSpeed, fTimeDelta);
-	
 }
 
 void CMonsterBase::Attack(const _float fTimeDelta)

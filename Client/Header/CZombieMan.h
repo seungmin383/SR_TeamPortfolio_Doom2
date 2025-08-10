@@ -20,15 +20,11 @@ public:
     virtual     void			OnCollisionEnter(CCollider* _pOther) override;
     virtual     void			OnCollisionExit(CCollider* _pOther) override;
 
-#pragma region PURE
-    void Thinker(const _float& fTimeDelta) override;
-    void Attack_Player(const _float& fTimeDelta)override;
 
 #pragma endregion
 
 private:
     HRESULT     Add_Component()override;
-    void        Key_Input(const _float& fTimeDelta);
 
 public:
     static CZombieMan* Create(LPDIRECT3DDEVICE9 pGraphicDev);

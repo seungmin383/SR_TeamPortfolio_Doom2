@@ -123,7 +123,10 @@ void CAnimation::Calc_Frame(const _float& fTimeDelta)
 			if (m_bIsLoop)
 				m_iCurFrame = (_int)m_iStartFrame;
 			else
+			{
 				m_bIsEnd = true;
+				return;
+			}
 		}
 
 		Set_UVCoord();
