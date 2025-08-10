@@ -212,12 +212,12 @@ _bool CMonsterBase::Check_Target()
 		vRB *= 20.f;																									//범위 지정해주기
 		vLB *= 20.f;																									//
 
-		Debug_Rectangle(																						//시야 범위 시각화
-			vPos + vLF,
-			vPos + vRF,
-			vPos + vRB,
-			vPos + vLB
-		);
+		//Debug_Rectangle(																						//시야 범위 시각화
+		//	vPos + vLF,
+		//	vPos + vRF,
+		//	vPos + vRB,
+		//	vPos + vLB
+		//);
 
 		// 플레이어가 범위에 있는가
 		_vec3 vPlayerPos;																							//플레이어 위치
