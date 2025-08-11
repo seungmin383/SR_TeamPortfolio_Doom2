@@ -38,6 +38,7 @@ public:
 private:
     void            DeleteObjectGroup(OBJID _eTarget);
     void            DeleteAll();
+    void            DeletePool();
 
     virtual void    Free();
 };

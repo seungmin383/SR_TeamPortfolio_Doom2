@@ -198,7 +198,30 @@ void CLayer::DeleteAll()
 	}
 }
 
+void CLayer::DeletePool()
+{
+	for (UINT i = 0; i < (UINT)OBJID::OBJ_END; ++i)
+	{
+		auto& objList = m_vecObjectPool[i];
+
+		_ulong dwRefCnt = 0;
+
+		for (CGameObject* pObj : objList)
+		{
+			if (pObj != nullptr)
+			{
+				dwRefCnt = pObj->Release();
+
+				if (0 == dwRefCnt)
+					pObj = NULL;
+			}
+		}
+		objList.clear();
+	}
+}
+
 void CLayer::Free()
 {
+	DeletePool();
 	DeleteAll();
 }
