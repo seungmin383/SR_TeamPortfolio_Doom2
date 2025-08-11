@@ -153,7 +153,8 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 	if (GetAsyncKeyState('C'))
 	{
 		m_iHp = 100;
-		m_isHit = TRUE;
+		if(!m_isPinky)
+			m_isHit = TRUE;
 		m_isDetect_Player = FALSE;
 		m_isAtk = FALSE;
 	}
@@ -336,12 +337,12 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 	case AI_DEAD:
 		if (m_isGibbingDead)
 		{
-			m_eCurAnimState = 24;	
+			m_eCurAnimState = m_iGibDeadPlus;
 			m_eAnim_Type = GIB_DEATH;
 		}
 		else if (m_isNormalDead)
 		{
-			m_eCurAnimState = 25;
+			m_eCurAnimState = m_iNorDeadPlus;
 			m_eAnim_Type = NOR_DEATH;
 		}
 		cout << "AI_DEAD" << endl;

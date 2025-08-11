@@ -104,6 +104,11 @@ protected:
     //±â´É Function Variable
     _vec3   m_PlayerPos;
 
+    _uint m_iGibDeadPlus;
+    _uint m_iNorDeadPlus;
+
+    _bool m_isPinky = FALSE;
+
 protected:
     virtual void Free();
 

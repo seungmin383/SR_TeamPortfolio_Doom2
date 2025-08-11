@@ -73,6 +73,9 @@
     <Filter Include="02. GameObject\02. Monster\CMonsterBase\02.CImp">
       <UniqueIdentifier>{da3bac9d-19f0-4aa1-948b-8d3a36e9a077}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBase\03.CPinky">
+      <UniqueIdentifier>{7f0866e1-2787-4610-b84f-ee61ce6433a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -141,6 +144,9 @@
     <ClInclude Include="..\Header\CImp.h">
       <Filter>02. GameObject\02. Monster\CMonsterBase\02.CImp</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CPinky.h">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\03.CPinky</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -199,6 +205,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CImp.cpp">
       <Filter>02. GameObject\02. Monster\CMonsterBase\02.CImp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CPinky.cpp">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\03.CPinky</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

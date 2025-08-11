@@ -124,6 +124,9 @@ HRESULT CZombieMan::Ready_GameObject()
 	m_fMoveDelay			= 0.f;
 	m_fAtkDelay			= 0.f;
 
+	m_iGibDeadPlus = 24;
+	m_iNorDeadPlus = 25;
+
 	//초기 룩으로 세팅해주고
 	m_pTransformCom->Get_Info(INFO_LOOK, &m_vMoveLook);
 
