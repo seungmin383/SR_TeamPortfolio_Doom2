@@ -194,16 +194,16 @@ CArchVile* CArchVile::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 CArchVile* CArchVile::Clone()
 {
-	CArchVile* pZombieMan = new CArchVile(*this);
+	CArchVile* PArchVile = new CArchVile(*this);
 
-	if (FAILED(pZombieMan->Ready_GameObject()))
+	if (FAILED(PArchVile->Ready_GameObject()))
 	{
-		Safe_Release(pZombieMan);
+		Safe_Release(PArchVile);
 		MSG_BOX("ArchVile Create Failed");
 		return nullptr;
 	}
 
-	return pZombieMan;
+	return PArchVile;
 }
 
 void CArchVile::Free()

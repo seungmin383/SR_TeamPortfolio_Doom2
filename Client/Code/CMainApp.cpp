@@ -14,6 +14,7 @@
 #include "CDynamicCamera.h"
 #include "CZombieMan.h"
 #include"CArchVile.h"
+#include "CImp.h"
 
 #include "CPlayerWeapon.h"
 
@@ -97,10 +98,14 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 		return E_FAIL;
 
 	//Initiate GameObject Prototype
+	//좀비맨
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ZOMBIEMAN, CZombieMan::Create(m_pGraphicDev))))
 		return E_FAIL;
-
+	//아크바일
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE, CArchVile::Create(m_pGraphicDev))))
+		return E_FAIL;
+	//임프
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP, CImp::Create(m_pGraphicDev))))
 		return E_FAIL;
 	//텍스처 필터
 	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);

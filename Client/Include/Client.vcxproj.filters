@@ -70,6 +70,9 @@
     <Filter Include="02. GameObject\02. Monster\CMonsterBase\01.CArch_Vile">
       <UniqueIdentifier>{390040c1-2439-4489-916b-d636c8e38f7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBase\02.CImp">
+      <UniqueIdentifier>{da3bac9d-19f0-4aa1-948b-8d3a36e9a077}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -135,6 +138,9 @@
     <ClInclude Include="..\Header\CArchVile.h">
       <Filter>02. GameObject\02. Monster\CMonsterBase\01.CArch_Vile</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CImp.h">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\02.CImp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -190,6 +196,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CArchVile.cpp">
       <Filter>02. GameObject\02. Monster\CMonsterBase\01.CArch_Vile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CImp.cpp">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\02.CImp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

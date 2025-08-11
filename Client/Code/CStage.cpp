@@ -101,6 +101,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
+	//아크바일
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE);
 
 	if (nullptr == pGameObject)
@@ -111,6 +112,18 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
+	//임프
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
+		return E_FAIL;
+
+	m_mapLayer.insert({ _eLayerId, pLayer });
+
+	//좀비맨
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ZOMBIEMAN);
 
 	if (nullptr == pGameObject)
