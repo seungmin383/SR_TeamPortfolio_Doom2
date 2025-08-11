@@ -5,9 +5,11 @@
 
 CPlayerWeapon::CPlayerWeapon(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CCharacter(pGraphicDev),
-	m_eWeaponId(PISTOL), m_eWeaponState(IDLE),
+	m_eCurWeaponId(PISTOL), m_eWeaponState(IDLE),
 	m_fSwapTime(0.f)
 {
+	ZeroMemory(&m_vScale, sizeof(_vec3));
+	ZeroMemory(&m_vPos, sizeof(_vec3));
 }
 
 CPlayerWeapon::CPlayerWeapon(const CCharacter& rhs)
@@ -24,13 +26,11 @@ HRESULT CPlayerWeapon::Ready_GameObject()
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
-	_vec3 vPos, vScale, vSize;
+	m_vScale = { 300.f, 300.f, 1.f };
+	m_vPos = { 0.f, -WINCY * 0.5f + m_vScale.y , 1.f };
 	
-	vScale = { 300.f, 300.f, 1.f };
-	vPos = { 0.f, -WINCY * 0.5f + vScale.y , 1.f };
-	
-	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
-	m_pTransformCom->Set_Scale(vScale);
+	m_pTransformCom->Set_Pos(m_vPos.x, m_vPos.y, m_vPos.z);
+	m_pTransformCom->Set_Scale(m_vScale);
 
 	//애니메이션 세팅
 	Ready_Animation();
@@ -59,7 +59,7 @@ void CPlayerWeapon::LateUpdate_GameObject(const _float& fTimeDelta)
 	else
 	{
 		//애니메이션 실행
-		m_pAnimatorCom->Play_Animation(m_eWeaponId + m_eWeaponState, 0, fTimeDelta);
+		m_pAnimatorCom->Play_Animation(m_eCurWeaponId + m_eWeaponState, 0, fTimeDelta);
 
 		// 만약 현재 애니메이션이 다 끝난 상태라면 총의 상태를 기본 상태로 돌려놓는다.
 		if (m_pAnimatorCom->Get_isFinAct())
@@ -73,7 +73,7 @@ void CPlayerWeapon::Render_GameObject(const _float& fTimeDelta)
 	
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
-	m_pTextureCom->Set_Texture(m_eWeaponId);
+	m_pTextureCom->Set_Texture(m_eCurWeaponId);
 	
 	// 알파블렌딩 설정
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
@@ -148,7 +148,7 @@ void CPlayerWeapon::Key_Input()
 		if (m_eWeaponState == SHOT || m_eWeaponState == SWAP)
 			return;
 
-		m_eWeaponId = PISTOL;
+		m_eNextWeaponId = PISTOL;
 		m_eWeaponState = SWAP;
 	}
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_2) & 0x80)
@@ -157,7 +157,7 @@ void CPlayerWeapon::Key_Input()
 		if (m_eWeaponState == SHOT || m_eWeaponState == SWAP)
 			return;
 
-		m_eWeaponId = SHOTGUN;
+		m_eNextWeaponId = SHOTGUN;
 		m_eWeaponState = SWAP;
 	}
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_3) & 0x80)
@@ -166,7 +166,7 @@ void CPlayerWeapon::Key_Input()
 		if (m_eWeaponState == SHOT || m_eWeaponState == SWAP)
 			return;
 
-		m_eWeaponId = CHAINGUN;
+		m_eNextWeaponId = CHAINGUN;
 		m_eWeaponState = SWAP;
 	}
 }
@@ -189,9 +189,13 @@ void CPlayerWeapon::Weapon_Swap(const _float& fTimeDelta)
 	if (m_fSwapTime < 0.5f)
 		m_pTransformCom->Move_Pos(&vDown, 700.f, fTimeDelta);
 	else if (m_fSwapTime >= 0.5f && m_fSwapTime < 1.f)
+	{
+		m_eCurWeaponId = m_eNextWeaponId;
 		m_pTransformCom->Move_Pos(&vUp, 700.f, fTimeDelta);
+	}
 	else
 	{
+		m_pTransformCom->Set_Pos(m_vPos.x, m_vPos.y, m_vPos.z);
 		m_eWeaponState = IDLE;
 		m_fSwapTime = 0.f;
 		return;
