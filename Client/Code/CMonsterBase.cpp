@@ -69,7 +69,7 @@ void                 CMonsterBase::Render_GameObject(const _float& fTimeDelta)
 
 _vec3 CMonsterBase::Set_Move_Direction(_vec3* _Look)
 {
-	if(_Look == nullptr)
+	if(_Look != nullptr)
 		m_vtmpLook = *_Look;
 
 	//랜덤으로 0~7의 숫자를 뽑기
@@ -125,6 +125,16 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 	m_isDetect_Player		= Check_Target();
 	m_isAtk						= Check_Attack(fTimeDelta);
 	
+	if (m_isDetect_Player)
+		cout << "true" << endl;
+	else
+		cout << "false" << endl;
+
+
+
+	if (m_isAtk && m_isDetect_Player)
+		m_isDetected_Player = TRUE;
+
 	if (GetAsyncKeyState('Z'))
 	{
 		m_iHp = -5;
@@ -157,7 +167,7 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 		return AI_HIT;
 
 	//공격할 수 있는지
-	else if (m_isAtk && m_isDetect_Player)
+	else if (m_isAtk && m_isDetected_Player)
 		return AI_ATTACK;
 	
 	//플레이어를 발견하고 따라가는지
@@ -279,7 +289,6 @@ _bool CMonsterBase::Check_Attack(const _float& fTimeDelta)
 {
 	m_fAtkDelay += fTimeDelta;
 
-	cout << "m_fAtkDelay:" << m_fAtkDelay << endl;
 
 	if (m_fAtkDelay > m_fAtkSpeed)
 	{
@@ -294,12 +303,11 @@ _bool CMonsterBase::Check_Attack(const _float& fTimeDelta)
 			{
 				m_EnterCnt = 0;
 				m_fAtkDelay = 0.f;
-				cout << "Get_isFinAct:true" << endl;
+				m_isDetected_Player = FALSE;
 				return FALSE;
 			}
 			else
 			{
-				cout << "Get_isFinAct:false" << endl;
 				m_EnterCnt++;
 				return TRUE;
 			}

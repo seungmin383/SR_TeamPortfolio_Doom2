@@ -64,6 +64,9 @@ _uint CLoading::Loading_ForStage()
 #pragma region MONSTER_ANIM
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_ZombieMan_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Monster/ZombieMan/MonsterState%d.png", TEX_NORMAL, 26))))
 		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_ArchVile_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Monster/Vile/MonsterState%d.png", TEX_NORMAL, 34))))
+		return E_FAIL;
 #pragma endregion
 
 

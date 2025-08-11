@@ -67,6 +67,9 @@
     <Filter Include="03. Manager\00. WeaponManager\00. Weapon">
       <UniqueIdentifier>{db5b84db-6d09-4c29-abe6-545951c1d545}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBase\01.CArch_Vile">
+      <UniqueIdentifier>{390040c1-2439-4489-916b-d636c8e38f7b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -129,6 +132,9 @@
     <ClInclude Include="..\Header\CGameUI_Info.h">
       <Filter>02. GameObject\09. UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CArchVile.h">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\01.CArch_Vile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -181,6 +187,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CGameUI_Info.cpp">
       <Filter>02. GameObject\09. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CArchVile.cpp">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\01.CArch_Vile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
