@@ -102,7 +102,7 @@ HRESULT CZombieMan::Ready_GameObject()
 		HIT,
 		m_pTextureCom,
 		m_pBufferCom,
-		6,
+		1,
 		1,
 		0,
 		1,
@@ -119,8 +119,8 @@ HRESULT CZombieMan::Ready_GameObject()
 	m_fAtkSpeed			= 4.f;
 	m_iHp						= 20;
 	m_iAtkDmg				= 3;
-	m_fAtkDelay			= 0.f;
 
+	m_fAtkDelay			= 0.f;
 	m_fMoveDelay			= 0.f;
 	m_fAtkDelay			= 0.f;
 

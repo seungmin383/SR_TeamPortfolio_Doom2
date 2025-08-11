@@ -35,6 +35,7 @@ HRESULT         CMonsterBase::Ready_GameObject()
 {
 	return S_OK;
  }
+
 _int                  CMonsterBase::Update_GameObject(const _float& fTimeDelta)
 {
 	Thinker(fTimeDelta);
@@ -43,12 +44,14 @@ _int                  CMonsterBase::Update_GameObject(const _float& fTimeDelta)
 	CGameObject::Update_GameObject(fTimeDelta);
 	return 0;
  }
+
 void                 CMonsterBase::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 	m_pAnimCom->Play_Animation(m_eAnim_Type, 0, fTimeDelta, m_eCurAnimState);
 	m_pColliderCom->Late_Update();
  }
+
 void                 CMonsterBase::Render_GameObject(const _float& fTimeDelta)
 {
 
@@ -192,7 +195,7 @@ _bool CMonsterBase::Check_Target()
 
 		D3DXMatrixIdentity(&RotMat);																	//사용한 매트릭스 초기화
 
-		D3DXMatrixRotationY(&RotMat, D3DXToRadian(45.f));							//왼쪽으로 45도 각도 -> RF
+		D3DXMatrixRotationY(&RotMat, D3DXToRadian(45.f));								//왼쪽으로 45도 각도 -> RF
 		D3DXVec3Normalize(&vRF, &vRF);																//정규화
 		D3DXVec3TransformCoord(&vRF, &vRF, &RotMat);									//방향성 정해주기
 
@@ -316,33 +319,40 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
 
-	m_eCurAnimState = Calc_AnimState(m_vMoveLook, vPos);
+	m_eCurAnimState = Calc_AnimState_byPlayer(m_vMoveLook, vPos);
 
 	switch (_Thought)
 	{
+		//죽었을 때 
 	case AI_DEAD:
 		if (m_isGibbingDead)
 		{
-			m_eCurAnimState = 16;	
+			m_eCurAnimState = 24;	
 			m_eAnim_Type = GIB_DEATH;
 		}
 		else if (m_isNormalDead)
 		{
-			m_eCurAnimState = 17;
+			m_eCurAnimState = 25;
 			m_eAnim_Type = NOR_DEATH;
 		}
 		cout << "AI_DEAD" << endl;
 		break;
+
+		//맞았을 때
 	case AI_HIT:
-		m_eCurAnimState = 17;
+		m_eCurAnimState += 16;
 		m_eAnim_Type = HIT;
 		cout << "AI_HIT" << endl;
 		break;
+
+		//공격할 때
 	case AI_ATTACK:
 		m_eCurAnimState += 8;
 		m_eAnim_Type = ATK;
 		cout << "AI_ATTACK" << endl;
 		break;
+
+		//플레이어를 발견했을 때
 	case AI_CHASE:
 		m_fChaseDelay += fTimeDelta;
 		if (m_eCurAnimState != m_ePreAnimState)
@@ -357,6 +367,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 		cout << "AI_CHASE" << endl;
 		break;
 
+		//아이들 상태
 	case AI_MOVE:
 		m_fMoveDelay += fTimeDelta;
 		if(m_eCurAnimState != m_ePreAnimState)
@@ -410,7 +421,6 @@ void CMonsterBase::Attack(const _float fTimeDelta)
 {
 }
 
-
 _vec3 CMonsterBase::Get_PlayerPos()
 {
 	_matrix CameraMat;
@@ -453,10 +463,65 @@ _float CMonsterBase::Calc_AngleToPlayer(_vec3 vLook, _vec3 vPos)
 	return fAngle;
 }
 
+//몬스터를 공격한 애랑 몬스터의 각도를 구해주는 함수
+_float CMonsterBase::Calc_AngleToAttacker(_vec3 vLook, _vec3 vPos, _vec3 vAttackerPos)
+{
+	//공격자가 몬스터를 바라보는 방향의 벡터를 구함
+	_vec3 AttackerLook = vAttackerPos - vPos;
+
+	//정규화 해주고
+	D3DXVec3Normalize(&AttackerLook, &AttackerLook);
+	D3DXVec3Normalize(&vLook, &vLook);
+
+	float angleLook = atan2f(vLook.z, vLook.x);
+	float angleToAttacker = atan2f(AttackerLook.z, AttackerLook.x);
+
+	float fAngle = D3DXToDegree(angleToAttacker - angleLook);
+
+	if (fAngle > 180.f)
+		fAngle -= 360.f;
+	if (fAngle < -180.f)
+		fAngle += 360.f;
+
+	return fAngle;
+}
+
 //플레이어와 몬스터의 각도를 이용해서 몬스터가 보여지는 애니메이션 상태를 정해줌
-_int CMonsterBase::Calc_AnimState(_vec3 vLook, _vec3 vPos)
+_int CMonsterBase::Calc_AnimState_byPlayer(_vec3 vLook, _vec3 vPos)
 {
 	_float fAngle = Calc_AngleToPlayer(vLook, vPos);
+
+	if (fAngle >= 0.f && fAngle < 30.f)
+		return MONSTER_ANIM_MOVE_F;
+	else if (fAngle >= 30.f && fAngle < 60.f)
+		return MONSTER_ANIM_MOVE_FR;
+	else if (fAngle >= 60.f && fAngle < 90.f)
+		return MONSTER_ANIM_MOVE_R;
+	else if (fAngle >= 90.f && fAngle < 120.f)
+		return MONSTER_ANIM_MOVE_R;
+	else if (fAngle >= 120.f && fAngle < 150.f)
+		return MONSTER_ANIM_MOVE_BR;
+	else if (fAngle >= 150.f && fAngle <= 180.f)
+		return MONSTER_ANIM_MOVE_B;
+
+	else if (fAngle < 0.f && fAngle >= -30.f)
+		return MONSTER_ANIM_MOVE_F;
+	else if (fAngle < -30.f && fAngle >= -60.f)
+		return MONSTER_ANIM_MOVE_FL;
+	else if (fAngle < -60.f && fAngle >= -90.f)
+		return MONSTER_ANIM_MOVE_L;
+	else if (fAngle < -90.f && fAngle >= -120.f)
+		return MONSTER_ANIM_MOVE_L;
+	else if (fAngle < -120.f && fAngle >= -150.f)
+		return MONSTER_ANIM_MOVE_BL;
+	else if (fAngle < -150.f && fAngle >= -180.f)
+		return MONSTER_ANIM_MOVE_B;
+}
+
+//몬스터를 공격한 애랑 몬스터의 각도를 이용해서 몬스터가 보여지는 애니메이션 상태를 정해줌
+_int CMonsterBase::Calc_AnimState_byAttacker(_vec3 vLook, _vec3 vPos, _vec3 vAttackerPos)
+{
+	_float fAngle = Calc_AngleToAttacker(vLook, vPos, vAttackerPos);
 
 	if (fAngle >= 0.f && fAngle < 30.f)
 		return MONSTER_ANIM_MOVE_F;

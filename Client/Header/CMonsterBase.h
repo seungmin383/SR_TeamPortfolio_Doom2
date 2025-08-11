@@ -6,7 +6,7 @@
 #define ANIM_ATK 1
 #define ANIM_NDEAD 2
 #define ANIM_GDEAD 3
-
+#define ANIM_HIT 4
 
 class CMonsterBase :public CCharacter
 {
@@ -45,7 +45,10 @@ public:
 
    virtual _vec3 Get_PlayerPos();
    virtual _float Calc_AngleToPlayer(_vec3 vLook, _vec3 vPos);
-   virtual _int Calc_AnimState(_vec3 vLook, _vec3 vPos);
+   virtual _float Calc_AngleToAttacker(_vec3 vLook, _vec3 vPos, _vec3 vAttackerPos);
+
+   virtual _int Calc_AnimState_byPlayer(_vec3 vLook, _vec3 vPos);
+   virtual _int Calc_AnimState_byAttacker(_vec3 vLook, _vec3 vPos, _vec3 vAttackerPos);
 
    virtual void Debug_Triangle(_vec3 _Pos, _vec3 _Point1, _vec3 _Point2);
    virtual void Debug_Rectangle(_vec3 _LeftTop, _vec3 _RightTop, _vec3 _RightBottom, _vec3 _LeftBottom);
