@@ -38,6 +38,7 @@ private:
 
 public:
 	static CHealth_Small* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual CHealth_Small* Clone() override;
 
 private:
 	virtual void Free();

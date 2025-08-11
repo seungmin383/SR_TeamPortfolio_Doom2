@@ -56,7 +56,7 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	_vec3 vOffset{ 0.f, 0.f, 0.f };
 
 	m_pColliderCom->Ready_CCollider(this, m_vEye, vScale, vOffset, COL_PLAYER,
-		COL_ENEMY | COL_OBJECT | COL_TERRAIN | COL_WALL);
+		COL_ENEMY | COL_OBJECT | COL_TERRAIN | COL_WALL | COL_ITEM);
 
 	return S_OK;
 }
@@ -72,6 +72,14 @@ _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 
 void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 {
+	char buf[128];
+	sprintf_s(buf, "[DBG] %s pos=(%.2f,%.2f,%.2f) scale=(%.2f,%.2f,%.2f) active=%d\n",
+		typeid(*this).name(),
+		m_pColliderCom->Get_FinalPos().x, m_pColliderCom->Get_FinalPos().y, m_pColliderCom->Get_FinalPos().z,
+		m_pColliderCom->Get_Scale().x, m_pColliderCom->Get_Scale().y, m_pColliderCom->Get_Scale().z,
+		m_pColliderCom->Get_Active());
+	OutputDebugStringA(buf);
+
 	Engine::CCamera::LateUpdate_GameObject(fTimeDelta);
 
 	Key_Input(fTimeDelta);
@@ -98,7 +106,7 @@ HRESULT CDynamicCamera::Add_Component()
 
 	//Transform
 	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Transform"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Transform"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -106,7 +114,7 @@ HRESULT CDynamicCamera::Add_Component()
 
 	// Calculator
 	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Calculator"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Calculator"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -114,7 +122,7 @@ HRESULT CDynamicCamera::Add_Component()
 
 	// Collider
 	pComponent = m_pColliderCom = dynamic_cast<Engine::CCollider*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Collider"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Collider"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -275,7 +283,11 @@ void CDynamicCamera::Set_OnTerrain()
 
 	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&m_vEye, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
 	
-	m_vEye.y = height + 2.f;
+	// 카메라의 높이 (m_vEye.y)가 변화할 때 마다 바라보는 목표(m_vAt.y)도 바뀌어야한다.
+	// 카메라의 높이 변화량을 계산해서 변화량을 m_vEye, m_vAt 모두 더해줘야 시점이 유지된다.
+	_float deltaHeight = (height + 2.f) - m_vEye.y;
+	m_vEye.y += deltaHeight;
+	m_vAt.y += deltaHeight;
 }
 
 CDynamicCamera* CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)

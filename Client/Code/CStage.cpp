@@ -41,7 +41,7 @@ HRESULT CStage::Ready_Scene()
 	if (FAILED(Ready_Light()))
 		return E_FAIL;
 
-	//CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_ENEMY);
+	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_ENEMY);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYERCAMERA, OBJID::OBJ_ENEMY);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYERCAMERA, OBJID::OBJ_ITEM);
 
@@ -103,7 +103,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	pGameObject = CZombieMan::Create(m_pGraphicDev);
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ZOMBIEMAN);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
@@ -111,7 +111,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
 		return E_FAIL;
 
-	pGameObject = CHealth_Small::Create(m_pGraphicDev);
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;

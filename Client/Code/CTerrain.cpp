@@ -62,14 +62,14 @@ HRESULT CTerrain::Add_Component()
 	CComponent* pComponent = NULL;
 
 	pComponent = m_pBufferCom = dynamic_cast<Engine::CTerrainTex*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_TerrainTex"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_TerrainTex"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Buffer", pComponent });
 
 	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Transform"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Transform"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -77,14 +77,14 @@ HRESULT CTerrain::Add_Component()
 
 	//Texture
 	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_TerrainTexture"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_TerrainTexture"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
 
 	pComponent = m_pMaterialCom = dynamic_cast<Engine::CMaterial*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Material"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Material"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 

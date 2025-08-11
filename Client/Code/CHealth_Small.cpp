@@ -28,7 +28,7 @@ HRESULT CHealth_Small::Ready_GameObject()
 
 	m_iFrame = 0;
 
-	m_pTransformCom->Set_Pos(5.f, 1.f, 5.f);
+	m_pTransformCom->Set_Pos(5.f, 0.f, 5.f);
 	m_pTransformCom->Set_Scale(_vec3(0.5f, 0.5f, 0.5f));
 
 	m_pColliderCom->Ready_CCollider(
@@ -37,7 +37,7 @@ HRESULT CHealth_Small::Ready_GameObject()
 		_vec3(0.8f, 0.8f, 0.8f),  // 아이템 박스 크기 예시
 		_vec3(0, 0.4f, 0),        // 약간 위로
 		COL_ITEM,               // 너희 COLLAYERID에서 아이템 레이어
-		(1 << COL_PLAYER)       // (마스크를 쓴다면) 플레이어와만 맞게
+		COL_PLAYER       // (마스크를 쓴다면) 플레이어와만 맞게
 	);
 	m_pColliderCom->Set_Active(true);
 
@@ -48,8 +48,6 @@ _int CHealth_Small::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
 	Set_OnTerrain();
-	//// 월드 최신화 보장 (Transform은 가벼움)
-	m_pTransformCom->Update_Component(0.f);
 	Bill_Board();
 
 	m_iFrame++;
@@ -66,6 +64,14 @@ _int CHealth_Small::Update_GameObject(const _float& fTimeDelta)
 
 void CHealth_Small::LateUpdate_GameObject(const _float& fTimeDelta)
 {
+	char buf[128];
+	sprintf_s(buf, "[DBG] %s pos=(%.2f,%.2f,%.2f) scale=(%.2f,%.2f,%.2f) active=%d\n",
+		typeid(*this).name(),
+		m_pColliderCom->Get_FinalPos().x, m_pColliderCom->Get_FinalPos().y, m_pColliderCom->Get_FinalPos().z,
+		m_pColliderCom->Get_Scale().x, m_pColliderCom->Get_Scale().y, m_pColliderCom->Get_Scale().z,
+		m_pColliderCom->Get_Active());
+	OutputDebugStringA(buf);
+
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 	if (m_pColliderCom)
 		m_pColliderCom->Late_Update(); // ★ 중요
@@ -73,43 +79,17 @@ void CHealth_Small::LateUpdate_GameObject(const _float& fTimeDelta)
 
 void CHealth_Small::Render_GameObject(const _float& fTimeDelta)
 {
-	OutputDebugStringA("Health_Small::Render\n");
 
-	//// 월드 행렬 설정                                                                                
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
-
-	//// 텍스처 설정                                                                                   
-	if (m_pTextureCom) {
-		m_pTextureCom->Set_Texture(m_iFrame);
-	}
-	else {
-		m_pGraphicDev->SetTexture(0, NULL);
-		m_pGraphicDev->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-		m_pGraphicDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TFACTOR);
-		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, 0xFFFFFFFF);
-	}
-
-	// 알파 스프라이트 기본 상태
-	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
-	m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-	// 버퍼 그리기
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
+
+	m_pTextureCom->Set_Texture(m_iFrame);
 	m_pBufferCom->Render_Buffer();
 
-	// 복구(필요 시)
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-
-
-
 	//충돌체
-	//m_pColliderCom->Render(g_colRend);
+	m_pColliderCom->Render(g_colRend);
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void CHealth_Small::OnCollision(CCollider* _pOther)
@@ -142,7 +122,7 @@ HRESULT CHealth_Small::Add_Component()
 	CComponent* pComponent = NULL;
 
 	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectSpriteTex*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_RectSpriteTex"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_RectSpriteTex"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -150,7 +130,7 @@ HRESULT CHealth_Small::Add_Component()
 
 	//Transform
 	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Transform"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Transform"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -158,21 +138,21 @@ HRESULT CHealth_Small::Add_Component()
 
 	//Texture
 	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Heal_Small"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Heal_Small"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
 
 	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Calculator"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Calculator"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Calculator", pComponent });
 
 	pComponent = m_pColliderCom = dynamic_cast<Engine::CCollider*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Collider"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Collider"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -232,14 +212,21 @@ CHealth_Small* CHealth_Small::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	CHealth_Small* pHealthSmall = new CHealth_Small(pGraphicDev);
 
-	if (FAILED(pHealthSmall->Ready_GameObject()))
+	return pHealthSmall;
+}
+
+CHealth_Small* CHealth_Small::Clone()
+{
+	CHealth_Small* pHSmall = new CHealth_Small(*this);
+
+	if (FAILED(pHSmall->Ready_GameObject()))
 	{
-		Safe_Release(pHealthSmall);
+		Safe_Release(pHSmall);
 		MSG_BOX("Health Small Create Failed");
 		return nullptr;
 	}
 
-	return pHealthSmall;
+	return pHSmall;
 }
 
 void CHealth_Small::Free()

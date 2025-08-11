@@ -11,6 +11,11 @@
 #include "CLightManager.h"
 #include "CColliderManager.h"
 
+#include "CDynamicCamera.h"
+#include "CZombieMan.h"
+#include "CPlayerWeapon.h"
+#include "CHealth_Small.h"
+
 CMainApp::CMainApp()
 	: m_pGraphicDev(nullptr),
 	m_pManagementClass(CManagement::GetInstance())
@@ -90,9 +95,16 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CDInputManager::GetInstance()->Ready_InputDev(g_hInst, g_hWnd)))
 		return E_FAIL;
 
+	//Initiate GameObject Prototype
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ZOMBIEMAN, CZombieMan::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH, CHealth_Small::Create(m_pGraphicDev))))
+		return E_FAIL;
+
 	//텍스처 필터
-	(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 
 	(*ppGraphicDev)->SetRenderState(D3DRS_ZENABLE, TRUE);		//Z 버퍼에 값을 기록, Z 값 기준 자동 정렬 수행 여부를 물음
 	(*ppGraphicDev)->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);	//Z 버퍼에 값을 기록할 지 결정

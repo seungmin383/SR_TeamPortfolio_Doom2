@@ -29,6 +29,7 @@ private:
 
 public:
     static CTerrain* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+    virtual CTerrain* Clone() override { return this; }
 
 private:
     virtual void        Free();

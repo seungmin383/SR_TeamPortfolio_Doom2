@@ -56,6 +56,7 @@ private:
 
 public:
     static CPlayerWeapon* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+    virtual CPlayerWeapon* Clone() override;
 
 private:
     virtual void        Free();

@@ -29,6 +29,7 @@ private:
 
 public:
 	static CGameUI* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual CGameUI* Clone() override { return this; }
 
 private:
 	virtual void Free();
