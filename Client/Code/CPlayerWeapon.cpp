@@ -5,7 +5,8 @@
 
 CPlayerWeapon::CPlayerWeapon(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CCharacter(pGraphicDev),
-	m_eWeaponId(PISTOL), m_eWeaponState(IDLE)
+	m_eWeaponId(PISTOL), m_eWeaponState(IDLE),
+	m_fSwapTime(0.f)
 {
 }
 
@@ -53,12 +54,17 @@ void CPlayerWeapon::LateUpdate_GameObject(const _float& fTimeDelta)
 	Key_Input();
 	Mouse_Input();
 
-	//애니메이션 실행
-	m_pAnimatorCom->Play_Animation(m_eWeaponId + m_eWeaponState, 0, fTimeDelta);
+	if (m_eWeaponState == SWAP)
+		Weapon_Swap(fTimeDelta);
+	else
+	{
+		//애니메이션 실행
+		m_pAnimatorCom->Play_Animation(m_eWeaponId + m_eWeaponState, 0, fTimeDelta);
 
-	// 만약 현재 애니메이션이 다 끝난 상태라면 총의 상태를 기본 상태로 돌려놓는다.
-	if (m_pAnimatorCom->Get_isFinAct())
-		m_eWeaponState = IDLE;
+		// 만약 현재 애니메이션이 다 끝난 상태라면 총의 상태를 기본 상태로 돌려놓는다.
+		if (m_pAnimatorCom->Get_isFinAct())
+			m_eWeaponState = IDLE;
+	}
 }
 
 void CPlayerWeapon::Render_GameObject(const _float& fTimeDelta)
@@ -139,31 +145,30 @@ void CPlayerWeapon::Key_Input()
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_1) & 0x80)
 	{
 		// 총을 바꾸려 할 때 사격 상태라면 리턴
-		if (m_eWeaponState == SHOT)
+		if (m_eWeaponState == SHOT || m_eWeaponState == SWAP)
 			return;
 
 		m_eWeaponId = PISTOL;
-		m_eWeaponState = IDLE;
+		m_eWeaponState = SWAP;
 	}
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_2) & 0x80)
 	{
 		// 총을 바꾸려 할 때 사격 상태라면 리턴
-		if (m_eWeaponState == SHOT)
+		if (m_eWeaponState == SHOT || m_eWeaponState == SWAP)
 			return;
 
 		m_eWeaponId = SHOTGUN;
-		m_eWeaponState = IDLE;
+		m_eWeaponState = SWAP;
 	}
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_3) & 0x80)
 	{
 		// 총을 바꾸려 할 때 사격 상태라면 리턴
-		if (m_eWeaponState == SHOT)
+		if (m_eWeaponState == SHOT || m_eWeaponState == SWAP)
 			return;
 
 		m_eWeaponId = CHAINGUN;
-		m_eWeaponState = IDLE;
+		m_eWeaponState = SWAP;
 	}
-
 }
 
 void CPlayerWeapon::Mouse_Input()
@@ -172,9 +177,24 @@ void CPlayerWeapon::Mouse_Input()
 	{
 		m_eWeaponState = SHOT;
 	}
-	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_RB) & 0x80)
+}
+
+void CPlayerWeapon::Weapon_Swap(const _float& fTimeDelta)
+{
+	_vec3 vUp = { 0.f, 1.f, 0.f };
+	_vec3 vDown = { 0.f, -1.f, 0.f };
+
+	m_fSwapTime += fTimeDelta;
+
+	if (m_fSwapTime < 0.5f)
+		m_pTransformCom->Move_Pos(&vDown, 700.f, fTimeDelta);
+	else if (m_fSwapTime >= 0.5f && m_fSwapTime < 1.f)
+		m_pTransformCom->Move_Pos(&vUp, 700.f, fTimeDelta);
+	else
 	{
 		m_eWeaponState = IDLE;
+		m_fSwapTime = 0.f;
+		return;
 	}
 }
 

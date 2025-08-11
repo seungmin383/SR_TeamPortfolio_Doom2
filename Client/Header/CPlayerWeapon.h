@@ -43,6 +43,7 @@ private:
     HRESULT     Add_Component();
     void        Key_Input();
     void        Mouse_Input();
+    void        Weapon_Swap(const _float& fTimeDelta);
 
 
 private:
@@ -53,6 +54,7 @@ private:
 
     WEAPON_ID       m_eWeaponId;
     WEAPON_STATE    m_eWeaponState;
+    _float          m_fSwapTime;
 
 public:
     static CPlayerWeapon* Create(LPDIRECT3DDEVICE9 pGraphicDev);
