@@ -1,0 +1,36 @@
+#pragma once
+#include "CGameObject.h"
+#include "CPrototypeManager.h"
+
+class CTerrain :
+    public CGameObject
+{
+private:
+    explicit CTerrain(LPDIRECT3DDEVICE9 pGraphicDev);
+    explicit CTerrain(const CGameObject& rhs);
+    virtual ~CTerrain();
+
+public:
+    virtual     HRESULT         Ready_GameObject();
+    virtual     _int            Update_GameObject(const _float& fTimeDelta);
+    virtual     void            LateUpdate_GameObject(const _float& fTimeDelta);
+    virtual     void            Render_GameObject(const _float& fTimeDelta);
+
+private:
+    HRESULT     Add_Component();
+
+    HRESULT     Ready_Material();
+
+private:
+    Engine::CTerrainTex* m_pBufferCom;
+    Engine::CTransform* m_pTransformCom;
+    Engine::CTexture* m_pTextureCom;
+    Engine::CMaterial* m_pMaterialCom;
+
+public:
+    static CTerrain* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+    virtual CTerrain* Clone() override { return this; }
+
+private:
+    virtual void        Free();
+};
