@@ -2,6 +2,7 @@
 #include "CBase.h"
 #include "CGraphicDev.h"
 #include "CManagement.h"
+#include "CImGuiManager.h"
 
 class CMainApp :
     public CBase
@@ -23,6 +24,8 @@ private:
 private:
     Engine::CGraphicDev* m_pDeviceClass;
     Engine::CManagement* m_pManagementClass;
+
+    CImGuiManager*       m_pImGuiClass;
 
     LPDIRECT3DDEVICE9		m_pGraphicDev;
 

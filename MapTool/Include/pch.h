@@ -13,11 +13,13 @@
 extern HWND g_hWnd;
 extern HINSTANCE g_hInst;
 extern bool g_colRend;
+extern UINT g_ResizeWidth, g_ResizeHeight;
 
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <process.h>
-#include <iostream	>
+#include <iostream>
+
 #ifdef _DEBUG
 
 #define _CRTDBG_MAP_ALLOC

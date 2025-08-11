@@ -17,7 +17,8 @@
 
 CMainApp::CMainApp()
 	: m_pGraphicDev(nullptr),
-	m_pManagementClass(CManagement::GetInstance())
+	m_pManagementClass(CManagement::GetInstance()),
+	m_pImGuiClass(CImGuiManager::GetInstance())
 {
 }
 
@@ -68,6 +69,8 @@ void CMainApp::Render_MainApp(const float& fTimeDelta)
 
 	m_pManagementClass->Render_Scene(m_pGraphicDev, fTimeDelta);
 
+	m_pImGuiClass->Render_ImGui();
+
 	m_pDeviceClass->Render_End();
 }
 
@@ -105,6 +108,8 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	(*ppGraphicDev)->SetRenderState(D3DRS_ZENABLE, TRUE);		//Z 버퍼에 값을 기록, Z 값 기준 자동 정렬 수행 여부를 물음
 	(*ppGraphicDev)->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);	//Z 버퍼에 값을 기록할 지 결정
 
+	m_pImGuiClass->Init_ImGui(*ppGraphicDev);
+
 	return S_OK;
 }
 
@@ -137,6 +142,8 @@ CMainApp* CMainApp::Create()
 
 void CMainApp::Free()
 {
+	m_pImGuiClass->DestroyInstance();
+
 	Engine::Safe_Release(m_pDeviceClass);
 	Engine::Safe_Release(m_pGraphicDev);
 	
