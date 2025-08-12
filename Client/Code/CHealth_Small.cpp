@@ -37,7 +37,7 @@ HRESULT CHealth_Small::Ready_GameObject()
 		_vec3(0.8f, 0.8f, 0.8f),  // 아이템 박스 크기 예시
 		_vec3(0, 0.4f, 0),        // 약간 위로
 		COL_ITEM,               // 너희 COLLAYERID에서 아이템 레이어
-		COL_PLAYER       // (마스크를 쓴다면) 플레이어와만 맞게
+		COL_PLAYER | COL_PLAYERCAMERA       // (마스크를 쓴다면) 플레이어와만 맞게
 	);
 	m_pColliderCom->Set_Active(true);
 
@@ -181,7 +181,7 @@ void CHealth_Small::Set_OnTerrain()
 	float h = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBuf->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
 
 	// 살짝 띄워서 지면 간섭 방지
-	m_pTransformCom->Set_Pos(pos.x, h + 0.8f, pos.z);
+	m_pTransformCom->Set_Pos(pos.x, h + 0.7f, pos.z);
 }
 
 void CHealth_Small::Bill_Board()
