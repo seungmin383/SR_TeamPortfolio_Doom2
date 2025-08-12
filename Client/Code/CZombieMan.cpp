@@ -137,7 +137,6 @@ HRESULT CZombieMan::Ready_GameObject()
 
 _int CZombieMan::Update_GameObject(const _float& fTimeDelta)
 {
-	cout << "좀비맨 픎레이어 발견 : " << m_isDetect_Player << endl;
 	CMonsterBase::Update_GameObject(fTimeDelta);
 	Bill_Board();
 	Set_OnTerrain();

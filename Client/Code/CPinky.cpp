@@ -125,7 +125,6 @@ HRESULT CPinky::Ready_GameObject()
 
 _int CPinky::Update_GameObject(const _float& fTimeDelta)
 {
-	cout << "핑키 픎레이어 발견 : " << m_isDetect_Player << endl;
 	CMonsterBase::Update_GameObject(fTimeDelta);
 	Bill_Board();
 	Set_OnTerrain();

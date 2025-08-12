@@ -73,6 +73,9 @@ _uint CLoading::Loading_ForStage()
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Pinky_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Monster/Pinky/MonsterState%d.png", TEX_NORMAL, 17))))
 		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_SpiderMastermind_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Monster/SpiderMastermind/MonsterState%d.png", TEX_NORMAL, 26))))
+		return E_FAIL;
 #pragma endregion
 
 

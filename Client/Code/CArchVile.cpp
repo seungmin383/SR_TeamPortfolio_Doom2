@@ -140,7 +140,6 @@ HRESULT CArchVile::Ready_GameObject()
 
 _int CArchVile::Update_GameObject(const _float& fTimeDelta)
 {
-	cout << "아크바일 픎레이어 발견 : " << m_isDetect_Player << endl;
 
 	CMonsterBase::Update_GameObject(fTimeDelta);
 	Bill_Board();

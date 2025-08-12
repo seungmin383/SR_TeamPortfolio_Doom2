@@ -136,7 +136,6 @@ HRESULT CImp::Ready_GameObject()
 
 _int CImp::Update_GameObject(const _float& fTimeDelta)
 {
-	cout << "임프 픎레이어 발견 : " << m_isDetect_Player << endl;
 	CMonsterBase::Update_GameObject(fTimeDelta);
 	Bill_Board();
 	Set_OnTerrain();

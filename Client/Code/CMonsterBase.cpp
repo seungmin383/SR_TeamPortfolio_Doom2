@@ -125,11 +125,6 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 	m_isHit							= Check_Hit();
 	m_isDetect_Player		= Check_Target();
 	m_isAtk						= Check_Attack(fTimeDelta);
-	
-	if (m_isDetect_Player)
-		cout << "true" << endl;
-	else
-		cout << "false" << endl;
 
 
 

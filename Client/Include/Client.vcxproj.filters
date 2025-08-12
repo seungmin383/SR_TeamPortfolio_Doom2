@@ -76,6 +76,9 @@
     <Filter Include="02. GameObject\02. Monster\CMonsterBase\03.CPinky">
       <UniqueIdentifier>{7f0866e1-2787-4610-b84f-ee61ce6433a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBase\04.CSpider Mastermind">
+      <UniqueIdentifier>{f9539bcf-5942-420a-92b4-7962f98a3c66}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -147,6 +150,9 @@
     <ClInclude Include="..\Header\CPinky.h">
       <Filter>02. GameObject\02. Monster\CMonsterBase\03.CPinky</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CSpiderMastermind.h">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\04.CSpider Mastermind</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -208,6 +214,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CPinky.cpp">
       <Filter>02. GameObject\02. Monster\CMonsterBase\03.CPinky</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CSpiderMastermind.cpp">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\04.CSpider Mastermind</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -16,6 +16,7 @@
 #include"CArchVile.h"
 #include "CImp.h"
 #include "CPinky.h"
+#include"CSpiderMastermind.h"
 
 #include "CPlayerWeapon.h"
 
@@ -110,6 +111,9 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 		return E_FAIL;
 	//핑키
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_PINKY, CPinky::Create(m_pGraphicDev))))
+		return E_FAIL;
+	//스파이더 마스터마인드
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_SPIDERMASTERMIND, CSpiderMastermind::Create(m_pGraphicDev))))
 		return E_FAIL;
 	//텍스처 필터
 	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
