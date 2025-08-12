@@ -21,6 +21,8 @@
 
 ///
 #include "Define.h"
+#include <../Include/nlohmann/json.hpp>
+using json = nlohmann::json;
 ///
 
 #define DIRECTINPUT_VERSION	0x0800

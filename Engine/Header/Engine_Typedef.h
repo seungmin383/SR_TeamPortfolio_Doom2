@@ -33,7 +33,6 @@ namespace Engine
 		float	Get_Dot(const d3dxvector3& vTemp);
 	
 	};*/	
-
 }
 
 #endif // Engine_Typedef_h__
