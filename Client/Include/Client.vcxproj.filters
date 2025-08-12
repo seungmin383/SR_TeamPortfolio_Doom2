@@ -85,6 +85,9 @@
     <Filter Include="02. GameObject\02. Monster\CMonsterBase\05.CShotgunGuy">
       <UniqueIdentifier>{6bce13b9-40d0-4eb3-9c42-7502972c98dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\02. Monster\CBulletBase">
+      <UniqueIdentifier>{ccc5dfd5-d951-407e-90a4-dceb5459330d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -177,6 +180,9 @@
     <ClInclude Include="..\Header\CAmmo_Shell.h">
       <Filter>02. GameObject\06. Object</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CBulletBase.h">
+      <Filter>02. GameObject\02. Monster\CBulletBase</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -259,6 +265,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CAmmo_Shell.cpp">
       <Filter>02. GameObject\06. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CBulletBase.cpp">
+      <Filter>02. GameObject\02. Monster\CBulletBase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
