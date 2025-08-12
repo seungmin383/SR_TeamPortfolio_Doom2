@@ -6,12 +6,12 @@
 #include "CManagement.h"
 
 CGameUI_Face::CGameUI_Face(LPDIRECT3DDEVICE9 pGraphicDev)
-    : CGameObject(pGraphicDev), m_lFrame(0.f)
+	: CGameObject(pGraphicDev), m_lFrame(0.f), m_pCamera(nullptr)
 {
 }
 
 CGameUI_Face::CGameUI_Face(const CGameObject& rhs)
-    : CGameObject(rhs)
+	: CGameObject(rhs)
 {
 }
 
@@ -46,12 +46,16 @@ HRESULT CGameUI_Face::Ready_GameObject()
 	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 	m_pTransformCom->Set_Scale(vScale);
 
+	m_pCamera = dynamic_cast<CDynamicCamera*>(CManagement::GetInstance()->Get_Player());
+	if (!m_pCamera) return E_FAIL;
+
 	return S_OK;
 }
 
 _int CGameUI_Face::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
+
 
 	// 마우스 이동방향에 따라 얼굴 애니메이션 체크
 	_long lMouseMoveX = CDynamicCamera::s_lMouseMoveX;
@@ -102,7 +106,17 @@ void CGameUI_Face::Render_GameObject(const _float& fTimeDelta)
 
 	// 4. UI를 렌더링합니다.                                                                                                  
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
-	m_pTextureCom->Set_Texture((int)m_lFrame);
+
+	if (m_pCamera->Get_Hp() >= 80)
+		m_pTextureCom->Set_Texture((int)m_lFrame);
+	else if (m_pCamera->Get_Hp() >= 60)
+		m_pTextureCom1->Set_Texture((int)m_lFrame);
+	else if (m_pCamera->Get_Hp() >= 40)
+		m_pTextureCom2->Set_Texture((int)m_lFrame);
+	else if (m_pCamera->Get_Hp() >= 20)
+		m_pTextureCom3->Set_Texture((int)m_lFrame);
+	else
+		m_pTextureCom4->Set_Texture((int)m_lFrame);
 
 	// 알파 블렌딩을 활성화하여 투명한 부분이 처리되도록 합니다.                                                              
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
@@ -160,6 +174,35 @@ HRESULT CGameUI_Face::Add_Component()
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
 
+	pComponent = m_pTextureCom1 = dynamic_cast<Engine::CTexture*>
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_FaceUI1"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_Texture1", pComponent });
+
+	pComponent = m_pTextureCom2 = dynamic_cast<Engine::CTexture*>
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_FaceUI2"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_Texture2", pComponent });
+
+	pComponent = m_pTextureCom3 = dynamic_cast<Engine::CTexture*>
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_FaceUI3"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_Texture3", pComponent });
+
+	pComponent = m_pTextureCom4 = dynamic_cast<Engine::CTexture*>
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_FaceUI4"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_Texture4", pComponent });
+
+	// Calculator
 	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
 		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Calculator"));
 	if (nullptr == pComponent)

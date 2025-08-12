@@ -10,7 +10,7 @@ _long CDynamicCamera::s_lMouseMoveX = 0L;
 CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCamera(pGraphicDev),
 	m_bFix(false), m_bCheck(false),
-	m_iHp(0), m_iArmor(0),
+	m_iHp(0), m_iArmor(0), m_iClip(0), m_iMax(200), m_iShell(0),
 	m_fSpeed(0.f)
 {
 }
@@ -38,8 +38,10 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	m_fFar = fFar;
 
 	// Player Default Settings
-	m_iHp = 123;
+	m_iHp = 83;
 	m_iArmor = 45;
+	m_iClip = 67;
+	m_iShell = 12;
 
 	m_fSpeed = 10.f;
 

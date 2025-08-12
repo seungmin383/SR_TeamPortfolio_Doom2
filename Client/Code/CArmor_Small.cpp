@@ -29,7 +29,7 @@ HRESULT CArmor_Small::Ready_GameObject()
 	m_iFrame_Armor = 0;
 
 	m_pTransformCom->Set_Pos(5.f, 0.f, 5.f);
-	m_pTransformCom->Set_Scale(_vec3(0.5f, 0.5f, 0.5f));
+	m_pTransformCom->Set_Scale(_vec3(0.2f, 0.2f, 0.2f));
 
 	m_pColliderCom->Ready_CCollider(
 		this,
@@ -48,7 +48,7 @@ _int CArmor_Small::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
 	Set_OnTerrain();
-	//Bill_Board();
+	Bill_Board();
 
 	m_iFrame_Armor++;
 	if (m_iFrame_Armor >= 4)

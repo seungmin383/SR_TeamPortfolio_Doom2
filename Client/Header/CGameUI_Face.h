@@ -1,6 +1,7 @@
 #pragma once
 #include "CGameObject.h"
 #include "CPrototypeManager.h"
+#include "CDynamicCamera.h"
 
 class CGameUI_Face : public CGameObject
 {
@@ -25,9 +26,15 @@ private:
 private:
 	_float m_lFrame;
 
+	CDynamicCamera* m_pCamera;
+
 private:
 	Engine::CRectTex* m_pBufferCom;
 	Engine::CTexture* m_pTextureCom;
+	Engine::CTexture* m_pTextureCom1;
+	Engine::CTexture* m_pTextureCom2;
+	Engine::CTexture* m_pTextureCom3;
+	Engine::CTexture* m_pTextureCom4;
 	Engine::CCalculator* m_pCalculatorCom;
 
 public:
