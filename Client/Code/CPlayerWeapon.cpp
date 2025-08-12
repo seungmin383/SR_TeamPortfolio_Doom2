@@ -56,11 +56,8 @@ void CPlayerWeapon::LateUpdate_GameObject(const _float& fTimeDelta)
 
 	if (m_eWeaponState == SWAP)
 	{
-<<<<<<< HEAD
 		Weapon_Swap(fTimeDelta);
-=======
-		Weapon_Down(fTimeDelta);
->>>>>>> Hongin
+
 		//애니메이션 실행
 		m_pAnimatorCom->Play_Animation(m_eCurWeaponId + m_eWeaponState, 0, fTimeDelta);
 	}
@@ -75,15 +72,10 @@ void CPlayerWeapon::LateUpdate_GameObject(const _float& fTimeDelta)
 	}
 
 	// 디버깅용 코드
-<<<<<<< HEAD
 	//wchar_t buf[64];
 	//swprintf(buf, 64, L"State : %d\n", m_eWeaponState);
 	//OutputDebugString(buf);
-=======
-	wchar_t buf[64];
-	swprintf(buf, 64, L"State : %d\n", m_eWeaponState);
-	OutputDebugString(buf);
->>>>>>> Hongin
+
 }
 
 void CPlayerWeapon::Render_GameObject(const _float& fTimeDelta)
@@ -196,11 +188,7 @@ void CPlayerWeapon::Mouse_Input()
 	}
 }
 
-<<<<<<< HEAD
 void CPlayerWeapon::Weapon_Swap(const _float& fTimeDelta)
-=======
-void CPlayerWeapon::Weapon_Down(const _float& fTimeDelta)
->>>>>>> Hongin
 {
 	_vec3 vUp = { 0.f, 1.f, 0.f };
 	_vec3 vDown = { 0.f, -1.f, 0.f };

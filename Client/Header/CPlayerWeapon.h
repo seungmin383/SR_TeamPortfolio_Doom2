@@ -43,11 +43,9 @@ private:
     HRESULT     Add_Component();
     void        Key_Input();
     void        Mouse_Input();
-<<<<<<< HEAD
+
     void        Weapon_Swap(const _float& fTimeDelta);
-=======
-    void        Weapon_Down(const _float& fTimeDelta);
->>>>>>> Hongin
+
 
 
 private:
