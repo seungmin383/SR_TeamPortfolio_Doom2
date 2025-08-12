@@ -144,7 +144,7 @@ HRESULT CAmmo_Clip::Add_Component()
 
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
 
-	OutputDebugStringA("[Stage] add OBJ_ITEM: Armor_Small\n");
+	OutputDebugStringA("[Stage] add OBJ_ITEM: Ammo_Clip\n");
 
 	return S_OK;
 }

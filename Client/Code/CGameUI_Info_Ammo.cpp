@@ -108,8 +108,11 @@ void CGameUI_Info_Ammo::Render_GameObject(const _float& fTimeDelta)
 
 	vPos = { -300.f, -WINCY * 0.5f + vScale.y + 15.f, 0.f };
 
-	Render_Number(m_pCamera->Get_Clip(), 550.f, -WINCY * 0.5f + vScale.y + 60.f, 10.f, 8.f / (4.f / 6.f));
-	Render_Number(m_pCamera->Get_MaxNum(), 650.f, -WINCY * 0.5f + vScale.y + 60.f, 10.f, 8.f / (4.f / 6.f));
+	Render_Number(m_pCamera->Get_Clip(), 560.f, -WINCY * 0.5f + vScale.y + 98.f, 10.f, 8.f / (4.f / 6.f));
+	Render_Number(m_pCamera->Get_MaxNum(), 680.f, -WINCY * 0.5f + vScale.y + 98.f, 10.f, 8.f / (4.f / 6.f));
+
+	Render_Number(m_pCamera->Get_Shell(), 560.f, -WINCY * 0.5f + vScale.y + 78.f, 10.f, 8.f / (4.f / 6.f));
+	Render_Number(m_pCamera->Get_MaxNum()/4, 680.f, -WINCY * 0.5f + vScale.y + 78.f, 10.f, 8.f / (4.f / 6.f));
 	// 5. 렌더링이 끝난 후, 백업해두었던 원래의 View, Projection 행렬로 복원합니다.                                           
 	// 이렇게 해야 다른 3D 오브젝트들이 정상적으로 렌더링됩니다.                                                              
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &matView);
@@ -188,8 +191,8 @@ void CGameUI_Info_Ammo::Render_Number(int number, float baseX, float baseY, floa
 
 	for (int i = 0; i < 3; ++i)
 	{
-		float digitWidth = 32.f;  // 텍스처 한 칸 폭
-		float spacing = 2.f;      // 자리 간의 여백(픽셀)
+		float digitWidth = 28.f;  // 텍스처 한 칸 폭
+		float spacing = 0.3f;      // 자리 간의 여백(픽셀)
 		float x = baseX + i * (digitWidth + spacing);	// 각 자리 위치를 계산 (자릿수 만큼 오른쪽으로 이동)
 		float y = baseY;
 

@@ -57,7 +57,8 @@ enum class OBJPROTOTYPE
 	SHIFT_CUBE,
 	ITEM_HELTH,
 	ITEM_ARMOR,
-	ITEM_CLIP,
+	ITEM_CLIP,								// 08/12 총알 체크로 추가
+	ITEM_SHELL,
 	BUTTON_DOOR,
 
 	//51 ~ 60 공격 관련

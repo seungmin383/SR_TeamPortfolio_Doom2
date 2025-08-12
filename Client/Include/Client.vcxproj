@@ -168,6 +168,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\CAmmo_Clip.h" />
+    <ClInclude Include="..\Header\CAmmo_Shell.h" />
     <ClInclude Include="..\Header\CArmor_Small.h" />
     <ClInclude Include="..\Header\CBackGround.h" />
     <ClInclude Include="..\Header\CDynamicCamera.h" />
@@ -194,6 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\CAmmo_Clip.cpp" />
+    <ClCompile Include="..\Code\CAmmo_Shell.cpp" />
     <ClCompile Include="..\Code\CArmor_Small.cpp" />
     <ClCompile Include="..\Code\CBackGround.cpp" />
     <ClCompile Include="..\Code\CDynamicCamera.cpp" />
