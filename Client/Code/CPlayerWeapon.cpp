@@ -6,10 +6,12 @@
 CPlayerWeapon::CPlayerWeapon(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CCharacter(pGraphicDev),
 	m_eCurWeaponId(PISTOL), m_eWeaponState(IDLE), m_eNextWeaponId(ID_END),
-	m_fSwapTime(0.f)
+	m_fSwapTime(0.f), m_fBobSpeed(0.f), m_fBobAngle(0.f),
+	m_bIsMoving(false), m_bBobForward(false)
 {
 	ZeroMemory(&m_vScale, sizeof(_vec3));
 	ZeroMemory(&m_vPos, sizeof(_vec3));
+	ZeroMemory(&m_vBobPos, sizeof(_vec3));
 }
 
 CPlayerWeapon::CPlayerWeapon(const CCharacter& rhs)
@@ -26,11 +28,16 @@ HRESULT CPlayerWeapon::Ready_GameObject()
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
+	m_bBobForward = true;
+	m_fBobSpeed = 5.f;
+	m_fBobAngle = 0.f;
 	m_vScale = { 300.f, 300.f, 1.f };
 	m_vPos = { 0.f, -WINCY * 0.5f + m_vScale.y , 1.f };
 	
 	m_pTransformCom->Set_Pos(m_vPos.x, m_vPos.y, m_vPos.z);
 	m_pTransformCom->Set_Scale(m_vScale);
+
+	m_pTransformCom->Get_Pos(&m_vBobPos);
 
 	//애니메이션 세팅
 	Ready_Animation();
@@ -51,8 +58,9 @@ void CPlayerWeapon::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 
-	Key_Input();
+	Key_Input(fTimeDelta);
 	Mouse_Input();
+	Weapon_Bobbing(m_bIsMoving, fTimeDelta);
 
 	if (m_eWeaponState == SWAP)
 	{
@@ -154,12 +162,24 @@ HRESULT CPlayerWeapon::Add_Component()
 	return S_OK;
 }
 
-void CPlayerWeapon::Key_Input()
+void CPlayerWeapon::Key_Input(const _float& fTimeDelta)
 {
+	// 이동 관련 키 입력
+	m_bIsMoving = false;
+
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_W) & 0x80 ||
+		CDInputManager::GetInstance()->Get_DIKeyState(DIK_A) & 0x80 ||
+		CDInputManager::GetInstance()->Get_DIKeyState(DIK_S) & 0x80 ||
+		CDInputManager::GetInstance()->Get_DIKeyState(DIK_D) & 0x80)
+	{
+		m_bIsMoving = true;
+	}
+
 	// 총을 바꾸려 할 때 사격 상태라면 리턴
 	if (m_eWeaponState == SHOT || m_eWeaponState == SWAP)
 		return;
 
+	// 무기 교체 관련 키 입력
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_1) & 0x80)
 	{
 		m_eNextWeaponId = PISTOL;
@@ -185,6 +205,7 @@ void CPlayerWeapon::Mouse_Input()
 	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB) & 0x80)
 	{
 		m_eWeaponState = SHOT;
+		m_pTransformCom->Set_Pos(m_vPos.x, m_vPos.y, m_vPos.z);
 	}
 }
 
@@ -211,6 +232,51 @@ void CPlayerWeapon::Weapon_Swap(const _float& fTimeDelta)
 	}
 }
 
+void CPlayerWeapon::Weapon_Bobbing(bool bIsMoving, const _float& fTimeDelta)
+{
+	// 무기 교체 중이거나 사격 중이라면 리턴
+	if (m_eWeaponState == SWAP || m_eWeaponState == SHOT)
+		return;
+
+	// 플레이어가 이동 중일 때
+	if (bIsMoving)
+	{
+		// 변수인 각도가 더해져야 할 경우와 뺄 경우를 나눈다.
+		if (m_bBobForward)
+			m_fBobAngle += m_fBobSpeed * fTimeDelta;
+		else
+			m_fBobAngle -= m_fBobSpeed * fTimeDelta;
+
+		// 각도가 특정 각 이상이면 변수의 진행 방향을 바꿔준다.
+		if (m_fBobAngle >= D3DX_PI * 1.5f)
+		{
+			m_fBobAngle = D3DX_PI * 1.5f;
+			m_bBobForward = false;
+		}
+		else if (m_fBobAngle <= D3DX_PI * 0.5f)
+		{
+			m_fBobAngle = D3DX_PI * 0.5f;
+			m_bBobForward = true;
+		}
+
+		// 위에서 구한 각도를 이용하여 수직, 수평 이동량을 구한다.
+		_float fVerticalBob = sinf(m_fBobAngle) * 5.f;
+		_float fHorizontalBob = m_vPos.y - cosf(m_fBobAngle) * 25.f;
+
+		m_vBobPos.x += fVerticalBob;
+		m_vBobPos.y = fHorizontalBob;
+
+		m_pTransformCom->Set_Pos(m_vBobPos.x, m_vBobPos.y, m_vBobPos.z);
+	}
+	else
+	{
+		// 이동을 멈춘다면 선형 보간을 하여 처음 위치로 초기화
+		D3DXVec3Lerp(&m_vBobPos, &m_vBobPos, &m_vPos, 10.f * fTimeDelta);
+		m_pTransformCom->Set_Pos(m_vBobPos.x, m_vBobPos.y, m_vBobPos.z);
+		m_fBobAngle = 0.f;
+	}
+}
+
 
 CPlayerWeapon* CPlayerWeapon::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
@@ -229,13 +295,6 @@ CPlayerWeapon* CPlayerWeapon::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 CPlayerWeapon* CPlayerWeapon::Clone()
 {
 	CPlayerWeapon* pWeapon = new CPlayerWeapon(*this);
-
-	//if (FAILED(pWeapon->Ready_GameObject()))
-	//{
-	//	Safe_Release(pWeapon);
-	//	MSG_BOX("Weapon Clone Failed");
-	//	return pWeapon;
-	//}
 
 	return pWeapon;
 }
