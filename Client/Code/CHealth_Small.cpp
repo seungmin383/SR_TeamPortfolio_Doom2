@@ -28,8 +28,8 @@ HRESULT CHealth_Small::Ready_GameObject()
 
 	m_iFrame = 0;
 
-	m_pTransformCom->Set_Pos(5.f, 0.f, 5.f);
-	m_pTransformCom->Set_Scale(_vec3(0.3f, 0.3f, 0.3f));
+	m_pTransformCom->Set_Pos(5.f, 0.f, 10.f);
+	m_pTransformCom->Set_Scale(_vec3(0.5f, 0.5f, 0.5f));
 
 	m_pColliderCom->Ready_CCollider(
 		this,
@@ -48,7 +48,7 @@ _int CHealth_Small::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
 	Set_OnTerrain();
-	Bill_Board();
+	//Bill_Board();
 
 	m_iFrame++;
 	if (m_iFrame >= 4)
@@ -64,14 +64,6 @@ _int CHealth_Small::Update_GameObject(const _float& fTimeDelta)
 
 void CHealth_Small::LateUpdate_GameObject(const _float& fTimeDelta)
 {
-	char buf[128];
-	sprintf_s(buf, "[DBG] %s pos=(%.2f,%.2f,%.2f) scale=(%.2f,%.2f,%.2f) active=%d\n",
-		typeid(*this).name(),
-		m_pColliderCom->Get_FinalPos().x, m_pColliderCom->Get_FinalPos().y, m_pColliderCom->Get_FinalPos().z,
-		m_pColliderCom->Get_Scale().x, m_pColliderCom->Get_Scale().y, m_pColliderCom->Get_Scale().z,
-		m_pColliderCom->Get_Active());
-	OutputDebugStringA(buf);
-
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 	if (m_pColliderCom)
 		m_pColliderCom->Late_Update(); // ★ 중요

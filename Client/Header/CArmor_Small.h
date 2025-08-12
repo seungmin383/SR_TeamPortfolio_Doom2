@@ -22,7 +22,7 @@ public:
 
 private:
 	_int    m_iArmor;
-	_int	m_iFrame_Armror;
+	_int	m_iFrame_Armor;
 	bool m_bPicked = false;
 
 private:

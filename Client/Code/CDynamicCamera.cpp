@@ -72,14 +72,6 @@ _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 
 void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 {
-	char buf[128];
-	sprintf_s(buf, "[DBG] %s pos=(%.2f,%.2f,%.2f) scale=(%.2f,%.2f,%.2f) active=%d\n",
-		typeid(*this).name(),
-		m_pColliderCom->Get_FinalPos().x, m_pColliderCom->Get_FinalPos().y, m_pColliderCom->Get_FinalPos().z,
-		m_pColliderCom->Get_Scale().x, m_pColliderCom->Get_Scale().y, m_pColliderCom->Get_Scale().z,
-		m_pColliderCom->Get_Active());
-	OutputDebugStringA(buf);
-
 	Engine::CCamera::LateUpdate_GameObject(fTimeDelta);
 
 	Key_Input(fTimeDelta);

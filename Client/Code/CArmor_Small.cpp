@@ -6,7 +6,7 @@
 #include "CTimerManager.h"
 
 CArmor_Small::CArmor_Small(LPDIRECT3DDEVICE9 pGraphicDev)
-    : CGameObject(pGraphicDev), m_iArmor(0), m_iFrame_Armror(0)
+    : CGameObject(pGraphicDev), m_iArmor(0), m_iFrame_Armor(0)
 {
 }
 
@@ -26,9 +26,9 @@ HRESULT CArmor_Small::Ready_GameObject()
 
 	m_iArmor = 1;
 
-	m_iFrame_Armror = 0;
+	m_iFrame_Armor = 0;
 
-	m_pTransformCom->Set_Pos(8.f, 0.f, 8.f);
+	m_pTransformCom->Set_Pos(5.f, 0.f, 5.f);
 	m_pTransformCom->Set_Scale(_vec3(0.5f, 0.5f, 0.5f));
 
 	m_pColliderCom->Ready_CCollider(
@@ -48,11 +48,11 @@ _int CArmor_Small::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
 	Set_OnTerrain();
-	Bill_Board();
+	//Bill_Board();
 
-	m_iFrame_Armror++;
-	if (m_iFrame_Armror >= 4)
-		m_iFrame_Armror = 0;
+	m_iFrame_Armor++;
+	if (m_iFrame_Armor >= 4)
+		m_iFrame_Armor = 0;
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -64,14 +64,6 @@ _int CArmor_Small::Update_GameObject(const _float& fTimeDelta)
 
 void CArmor_Small::LateUpdate_GameObject(const _float& fTimeDelta)
 {
-	char buf[128];
-	sprintf_s(buf, "[DBG] %s pos=(%.2f,%.2f,%.2f) scale=(%.2f,%.2f,%.2f) active=%d\n",
-		typeid(*this).name(),
-		m_pColliderCom->Get_FinalPos().x, m_pColliderCom->Get_FinalPos().y, m_pColliderCom->Get_FinalPos().z,
-		m_pColliderCom->Get_Scale().x, m_pColliderCom->Get_Scale().y, m_pColliderCom->Get_Scale().z,
-		m_pColliderCom->Get_Active());
-	OutputDebugStringA(buf);
-
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 	if (m_pColliderCom)
 		m_pColliderCom->Late_Update(); // ★ 중요
@@ -83,7 +75,7 @@ void CArmor_Small::Render_GameObject(const _float& fTimeDelta)
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
-	m_pTextureCom->Set_Texture(m_iFrame_Armror);
+	m_pTextureCom->Set_Texture(m_iFrame_Armor);
 	m_pBufferCom->Render_Buffer();
 
 	//충돌체
@@ -97,14 +89,14 @@ void CArmor_Small::OnCollision(CCollider* _pOther)
 
 void CArmor_Small::OnCollisionEnter(CCollider* _pOther)
 {
-	OutputDebugStringA("[HS] OnCollisionEnter\n");
+	OutputDebugStringA("[AS] OnCollisionEnter\n");
 
 	if (m_bPicked || !_pOther) return;
 
 	auto* who = _pOther->Get_Owner();
 	if (auto* pCam = dynamic_cast<CDynamicCamera*>(who)) {
 		// 1) HP 증가
-		pCam->AddArmor(m_iArmor);
+		pCam->AddArmor(m_iArmor); // CDynamicCamera에 AddHP(int) 추가
 
 		// 2) 더이상 충돌하지 않게 막기
 		m_bPicked = true;
@@ -117,7 +109,7 @@ void CArmor_Small::OnCollisionExit(CCollider* _pOther)
 
 HRESULT CArmor_Small::Add_Component()
 {
-	CComponent* pComponent = NULL;
+    CComponent* pComponent = NULL;
 
 	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectSpriteTex*>
 		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_RectSpriteTex"));
