@@ -65,7 +65,7 @@ HRESULT CZombieMan::Ready_GameObject()
 		0,
 		3,
 		0.2f,
-		true,
+		false,
 		false
 	);
 
@@ -102,7 +102,7 @@ HRESULT CZombieMan::Ready_GameObject()
 		HIT,
 		m_pTextureCom,
 		m_pBufferCom,
-		6,
+		1,
 		1,
 		0,
 		1,
@@ -119,10 +119,13 @@ HRESULT CZombieMan::Ready_GameObject()
 	m_fAtkSpeed			= 4.f;
 	m_iHp						= 20;
 	m_iAtkDmg				= 3;
-	m_fAtkDelay			= 0.f;
 
+	m_fAtkDelay			= 0.f;
 	m_fMoveDelay			= 0.f;
 	m_fAtkDelay			= 0.f;
+
+	m_iGibDeadPlus = 24;
+	m_iNorDeadPlus = 25;
 
 	//초기 룩으로 세팅해주고
 	m_pTransformCom->Get_Info(INFO_LOOK, &m_vMoveLook);

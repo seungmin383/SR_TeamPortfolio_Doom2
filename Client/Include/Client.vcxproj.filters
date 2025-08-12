@@ -58,6 +58,9 @@
     <Filter Include="02. GameObject\09. UI">
       <UniqueIdentifier>{719ef41e-8805-4f46-aa20-2e302d6f4087}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\06. Object">
+      <UniqueIdentifier>{7cfb09dd-b66b-47db-b560-aa729e4eb46d}</UniqueIdentifier>
+    </Filter>
     <Filter Include="03. Manager">
       <UniqueIdentifier>{2e48eec6-a8b3-467d-8f4c-1f11b4888cf0}</UniqueIdentifier>
     </Filter>
@@ -66,6 +69,21 @@
     </Filter>
     <Filter Include="03. Manager\00. WeaponManager\00. Weapon">
       <UniqueIdentifier>{db5b84db-6d09-4c29-abe6-545951c1d545}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBase\01.CArch_Vile">
+      <UniqueIdentifier>{390040c1-2439-4489-916b-d636c8e38f7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBase\02.CImp">
+      <UniqueIdentifier>{da3bac9d-19f0-4aa1-948b-8d3a36e9a077}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBase\03.CPinky">
+      <UniqueIdentifier>{7f0866e1-2787-4610-b84f-ee61ce6433a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBase\04.CSpider Mastermind">
+      <UniqueIdentifier>{f9539bcf-5942-420a-92b4-7962f98a3c66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBase\05.CShotgunGuy">
+      <UniqueIdentifier>{6bce13b9-40d0-4eb3-9c42-7502972c98dd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -129,6 +147,38 @@
     <ClInclude Include="..\Header\CGameUI_Info.h">
       <Filter>02. GameObject\09. UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CArchVile.h">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\01.CArch_Vile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CImp.h">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\02.CImp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CPinky.h">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\03.CPinky</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CSpiderMastermind.h">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\04.CSpider Mastermind</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CHealth_Small.h">
+      <Filter>02. GameObject\06. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CArmor_Small.h">
+      <Filter>02. GameObject\06. Object</Filter>
+    </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="..\Header\CShotgunGuy.h">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\05.CShotgunGuy</Filter>
+=======
+    <ClInclude Include="..\Header\CAmmo_Clip.h">
+      <Filter>02. GameObject\06. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CGameUI_Info_Ammo.h">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CAmmo_Shell.h">
+      <Filter>02. GameObject\06. Object</Filter>
+>>>>>>> 207e46cffd8adb77dd0631fb002ff62ac33d02e7
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -181,6 +231,38 @@
     </ClCompile>
     <ClCompile Include="..\Code\CGameUI_Info.cpp">
       <Filter>02. GameObject\09. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CArchVile.cpp">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\01.CArch_Vile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CImp.cpp">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\02.CImp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CPinky.cpp">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\03.CPinky</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CSpiderMastermind.cpp">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\04.CSpider Mastermind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CHealth_Small.cpp">
+      <Filter>02. GameObject\06. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CArmor_Small.cpp">
+      <Filter>02. GameObject\06. Object</Filter>
+    </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="..\Code\CShotgunGuy.cpp">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\05.CShotgunGuy</Filter>
+=======
+    <ClCompile Include="..\Code\CAmmo_Clip.cpp">
+      <Filter>02. GameObject\06. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CGameUI_Info_Ammo.cpp">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CAmmo_Shell.cpp">
+      <Filter>02. GameObject\06. Object</Filter>
+>>>>>>> 207e46cffd8adb77dd0631fb002ff62ac33d02e7
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

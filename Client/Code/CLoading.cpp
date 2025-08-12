@@ -62,7 +62,22 @@ _uint CLoading::Loading_ForStage()
 		return E_FAIL;
 
 #pragma region MONSTER_ANIM
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_ZombieMan_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Monster/ZombieMan/MonsterState%d.png", TEX_NORMAL, 18))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_ZombieMan_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Monster/ZombieMan/MonsterState%d.png", TEX_NORMAL, 26))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_ArchVile_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Monster/Vile/MonsterState%d.png", TEX_NORMAL, 34))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Imp_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Monster/Imp/MonsterState%d.png", TEX_NORMAL, 26))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Pinky_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Monster/Pinky/MonsterState%d.png", TEX_NORMAL, 17))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_SpiderMastermind_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Monster/SpiderMastermind/MonsterState%d.png", TEX_NORMAL, 26))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_ShotgunGuy_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Monster/ShotgunGuy/MonsterState%d.png", TEX_NORMAL, 26))))
 		return E_FAIL;
 #pragma endregion
 
@@ -73,11 +88,32 @@ _uint CLoading::Loading_ForStage()
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_FaceUI", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STFST0%d.png", TEX_NORMAL, 3))))
 		return E_FAIL;
-
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_FaceUI1", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STFST1%d.png", TEX_NORMAL, 3))))
+		return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_FaceUI2", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STFST2%d.png", TEX_NORMAL, 3))))
+		return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_FaceUI3", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STFST3%d.png", TEX_NORMAL, 3))))
+		return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_FaceUI4", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STFST4%d.png", TEX_NORMAL, 3))))
+		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Number", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STTNUM%d.png", TEX_NORMAL, 10))))
 		return E_FAIL;
 
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Ammo_Number", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STYSNUM%d.png", TEX_NORMAL, 10))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Heal_Small", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/Heal_Small%d.png", TEX_NORMAL, 4))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Armor_Small", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/Armor_Small%d.png", TEX_NORMAL, 4))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Clip", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/CLIPA0.png", TEX_NORMAL))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Shell", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/SHELA0.png", TEX_NORMAL))))
+		return E_FAIL;
 
 
 	lstrcpy(m_szLoading, L"Etc Component Loading.....................");

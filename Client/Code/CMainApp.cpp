@@ -13,7 +13,17 @@
 
 #include "CDynamicCamera.h"
 #include "CZombieMan.h"
+#include"CArchVile.h"
+#include "CImp.h"
+#include "CPinky.h"
+#include"CSpiderMastermind.h"
+#include "CShotgunGuy.h"
+
 #include "CPlayerWeapon.h"
+#include "CHealth_Small.h"
+#include "CArmor_Small.h"
+#include "CAmmo_Clip.h"
+#include "CAmmo_Shell.h"
 
 CMainApp::CMainApp()
 	: m_pGraphicDev(nullptr),
@@ -95,7 +105,35 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 		return E_FAIL;
 
 	//Initiate GameObject Prototype
+	//좀비맨
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ZOMBIEMAN, CZombieMan::Create(m_pGraphicDev))))
+		return E_FAIL;
+	//아크바일
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE, CArchVile::Create(m_pGraphicDev))))
+		return E_FAIL;
+	//임프
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP, CImp::Create(m_pGraphicDev))))
+		return E_FAIL;
+	//핑키
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON, CPinky::Create(m_pGraphicDev))))
+		return E_FAIL;
+	//스파이더 마스터마인드
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_SPIDERMASTERMIND, CSpiderMastermind::Create(m_pGraphicDev))))
+		return E_FAIL;
+	//샷건 가이
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_SHOTGUNGUY, CShotgunGuy::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH, CHealth_Small::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_ARMOR, CArmor_Small::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_CLIP, CAmmo_Clip::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_SHELL, CAmmo_Shell::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	//텍스처 필터
