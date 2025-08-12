@@ -110,7 +110,7 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP, CImp::Create(m_pGraphicDev))))
 		return E_FAIL;
 	//핑키
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_PINKY, CPinky::Create(m_pGraphicDev))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON, CPinky::Create(m_pGraphicDev))))
 		return E_FAIL;
 	//스파이더 마스터마인드
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_SPIDERMASTERMIND, CSpiderMastermind::Create(m_pGraphicDev))))

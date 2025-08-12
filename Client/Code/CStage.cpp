@@ -124,7 +124,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
 	//гне╟
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_PINKY);
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
