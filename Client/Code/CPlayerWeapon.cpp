@@ -56,7 +56,7 @@ void CPlayerWeapon::LateUpdate_GameObject(const _float& fTimeDelta)
 
 	if (m_eWeaponState == SWAP)
 	{
-		Weapon_Down(fTimeDelta);
+		Weapon_Swap(fTimeDelta);
 		//애니메이션 실행
 		m_pAnimatorCom->Play_Animation(m_eCurWeaponId + m_eWeaponState, 0, fTimeDelta);
 	}
