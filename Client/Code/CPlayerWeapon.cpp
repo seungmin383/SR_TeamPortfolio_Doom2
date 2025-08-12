@@ -71,9 +71,9 @@ void CPlayerWeapon::LateUpdate_GameObject(const _float& fTimeDelta)
 	}
 
 	// 디버깅용 코드
-	wchar_t buf[64];
-	swprintf(buf, 64, L"State : %d\n", m_eWeaponState);
-	OutputDebugString(buf);
+	//wchar_t buf[64];
+	//swprintf(buf, 64, L"State : %d\n", m_eWeaponState);
+	//OutputDebugString(buf);
 }
 
 void CPlayerWeapon::Render_GameObject(const _float& fTimeDelta)
@@ -186,7 +186,7 @@ void CPlayerWeapon::Mouse_Input()
 	}
 }
 
-void CPlayerWeapon::Weapon_Down(const _float& fTimeDelta)
+void CPlayerWeapon::Weapon_Swap(const _float& fTimeDelta)
 {
 	_vec3 vUp = { 0.f, 1.f, 0.f };
 	_vec3 vDown = { 0.f, -1.f, 0.f };
