@@ -135,6 +135,9 @@
     <ClInclude Include="..\Header\CHealth_Small.h">
       <Filter>02. GameObject\06. Object</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CArmor_Small.h">
+      <Filter>02. GameObject\06. Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -189,6 +192,9 @@
       <Filter>02. GameObject\09. UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CHealth_Small.cpp">
+      <Filter>02. GameObject\06. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CArmor_Small.cpp">
       <Filter>02. GameObject\06. Object</Filter>
     </ClCompile>
   </ItemGroup>

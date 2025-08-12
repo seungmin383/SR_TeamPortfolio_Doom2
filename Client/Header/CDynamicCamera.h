@@ -37,6 +37,7 @@ public:
     void Set_Armor(_int i) { m_iArmor = i; }
 
     void AddHP(_int heal) { m_iHp += heal; }
+    void AddArmor(_int heal) { m_iArmor += heal; }
 
 private:
     HRESULT     Add_Component();
