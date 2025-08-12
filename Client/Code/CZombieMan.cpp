@@ -65,7 +65,7 @@ HRESULT CZombieMan::Ready_GameObject()
 		0,
 		3,
 		0.2f,
-		true,
+		false,
 		false
 	);
 

@@ -55,8 +55,8 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	_vec3 vScale{ 1.f, 1.f, 1.f };
 	_vec3 vOffset{ 0.f, 0.f, 0.f };
 
-	m_pColliderCom->Ready_CCollider(this, m_vEye, vScale, vOffset, COL_PLAYER,
-		COL_ENEMY | COL_OBJECT | COL_TERRAIN | COL_WALL);
+	m_pColliderCom->Ready_CCollider(this, m_vEye, vScale, vOffset, COL_PLAYERCAMERA,
+		COL_ENEMY | COL_OBJECT | COL_TERRAIN | COL_WALL | COL_ITEM);
 
 	return S_OK;
 }
@@ -119,6 +119,8 @@ HRESULT CDynamicCamera::Add_Component()
 		return E_FAIL;
 
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
+
+	OutputDebugStringA("[Stage] add OBJ_PLAYERCAMERA: DynamicCamera\n");
 
 	return S_OK;
 

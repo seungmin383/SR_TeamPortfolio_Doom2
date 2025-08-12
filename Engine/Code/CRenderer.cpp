@@ -69,8 +69,10 @@ void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev, const _float& fTime
 	pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	for (auto& pObj : m_RenderGroup[RENDER_ALPHA])
+	for (auto& pObj : m_RenderGroup[RENDER_ALPHA]) {
 		pObj->Render_GameObject(fTimeDelta);
+	}
+		
 
 	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 }

@@ -74,10 +74,14 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_FaceUI", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STFST0%d.png", TEX_NORMAL, 3))))
 		return E_FAIL;
 
-
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Number", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STTNUM%d.png", TEX_NORMAL, 10))))
 		return E_FAIL;
 
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Heal_Small", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/Heal_Small%d.png", TEX_NORMAL, 4))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Armor_Small", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/Armor_Small%d.png", TEX_NORMAL, 4))))
+		return E_FAIL;
 
 
 	lstrcpy(m_szLoading, L"Etc Component Loading.....................");

@@ -14,6 +14,8 @@
 #include "CDynamicCamera.h"
 #include "CZombieMan.h"
 #include "CPlayerWeapon.h"
+#include "CHealth_Small.h"
+#include "CArmor_Small.h"
 
 CMainApp::CMainApp()
 	: m_pGraphicDev(nullptr),
@@ -96,6 +98,12 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 
 	//Initiate GameObject Prototype
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ZOMBIEMAN, CZombieMan::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH, CHealth_Small::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_ARMOR, CArmor_Small::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	//텍스처 필터
