@@ -36,8 +36,46 @@ public:
     _int Get_Armor() { return m_iArmor; }
     void Set_Armor(_int i) { m_iArmor = i; }
 
-    void AddHP(_int heal) { m_iHp += heal; }
-    void AddArmor(_int heal) { m_iArmor += heal; }
+    _int Get_Clip() { return m_iClip; }
+    void Set_Clip(_int clip) { m_iClip = clip; }
+
+    _int Get_Shell() { return m_iShell; }
+    void Set_CliGet_Shellp(_int shell) { m_iShell = shell; }
+
+    _int Get_MaxNum() { return m_iMax; }
+
+    // 08/12 - 최대 체력 넘어가면 안되는 코드 제작(200은 최대 Armor랑 최대 Hp, 최대 Clip수로 일단은 제한)
+    void AddHP(_int heal) 
+    { 
+        if (m_iHp != m_iMax)
+            m_iHp += heal;
+        else
+            return;
+    }
+
+    void AddArmor(_int armor) 
+    { 
+        if (m_iArmor != m_iMax)
+            m_iArmor += armor;
+        else
+            return;
+    }
+
+    void AddClip(_int clip) 
+    {
+        if (m_iClip != m_iMax)
+            m_iClip += clip;
+        else
+            return;
+    }
+
+    void AddShell(_int shell)
+    {
+        if (m_iShell != m_iMax/4)
+            m_iShell += shell;
+        else
+            return;
+    }
 
 private:
     HRESULT     Add_Component();
@@ -52,6 +90,9 @@ private:
 private:
     _int        m_iHp;
     _int        m_iArmor;
+    _int        m_iClip;
+    _int        m_iShell;
+    _int        m_iMax = 200;
     
     _float      m_fSpeed;
     _bool       m_bFix;
