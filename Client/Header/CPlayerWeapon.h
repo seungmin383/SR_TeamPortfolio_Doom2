@@ -19,7 +19,7 @@ public:
     {
         IDLE = 0,
         SHOT = 5,
-        SWAP = 6,
+        SWAP = 10,
         STATE_END
     };
 
@@ -44,6 +44,9 @@ private:
     void        Key_Input();
     void        Mouse_Input();
 
+    void        Weapon_Swap(const _float& fTimeDelta);
+
+
 
 private:
     Engine::CRectSpriteTex* m_pBufferCom;
@@ -51,8 +54,13 @@ private:
     Engine::CTransform* m_pTransformCom;
     Engine::CAnimator* m_pAnimatorCom;
 
-    WEAPON_ID       m_eWeaponId;
+    WEAPON_ID       m_eCurWeaponId;
+    WEAPON_ID       m_eNextWeaponId;
     WEAPON_STATE    m_eWeaponState;
+    _float          m_fSwapTime;
+
+    _vec3           m_vScale;
+    _vec3           m_vPos;
 
 public:
     static CPlayerWeapon* Create(LPDIRECT3DDEVICE9 pGraphicDev);
