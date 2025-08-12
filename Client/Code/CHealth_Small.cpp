@@ -6,7 +6,7 @@
 #include "CTimerManager.h"
 
 CHealth_Small::CHealth_Small(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev), m_iHeal(0), m_iFrame(0), m_pColliderCom(nullptr)
+	: CGameObject(pGraphicDev), m_iHeal(0), m_iFrame(0)
 {
 }
 
@@ -34,7 +34,7 @@ HRESULT CHealth_Small::Ready_GameObject()
 	m_pColliderCom->Ready_CCollider(
 		this,
 		_vec3(0, 0, 0),           // 초기 위치(Transform가 실제로 잡아줌)
-		_vec3(0.8f, 0.8f, 0.8f),  // 아이템 박스 크기 예시
+		_vec3(1.f, 1.f, 1.f),  // 아이템 박스 크기 예시
 		_vec3(0, 0.4f, 0),        // 약간 위로
 		COL_ITEM,               // 너희 COLLAYERID에서 아이템 레이어
 		COL_PLAYER | COL_PLAYERCAMERA       // (마스크를 쓴다면) 플레이어와만 맞게
@@ -48,7 +48,7 @@ _int CHealth_Small::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
 	Set_OnTerrain();
-	Bill_Board();
+	//Bill_Board();
 
 	m_iFrame++;
 	if (m_iFrame >= 4)
@@ -57,7 +57,7 @@ _int CHealth_Small::Update_GameObject(const _float& fTimeDelta)
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	if (m_bPicked) 
-		return 0; // 엔진 상수에 맞춰 사용
+		return -1; // 엔진 상수에 맞춰 사용
 
 	return 0;
 }
@@ -109,7 +109,6 @@ void CHealth_Small::OnCollisionEnter(CCollider* _pOther)
 
 		// 2) 더이상 충돌하지 않게 막기
 		m_bPicked = true;
-		if (m_pColliderCom) m_pColliderCom->Set_Active(false);
 	}
 }
 
