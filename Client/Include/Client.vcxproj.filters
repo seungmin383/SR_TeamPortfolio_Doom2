@@ -82,6 +82,9 @@
     <Filter Include="02. GameObject\02. Monster\CMonsterBase\04.CSpider Mastermind">
       <UniqueIdentifier>{f9539bcf-5942-420a-92b4-7962f98a3c66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBase\05.CShotgunGuy">
+      <UniqueIdentifier>{6bce13b9-40d0-4eb3-9c42-7502972c98dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -162,6 +165,9 @@
     <ClInclude Include="..\Header\CArmor_Small.h">
       <Filter>02. GameObject\06. Object</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CShotgunGuy.h">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\05.CShotgunGuy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -232,6 +238,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CArmor_Small.cpp">
       <Filter>02. GameObject\06. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CShotgunGuy.cpp">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\05.CShotgunGuy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

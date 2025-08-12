@@ -175,6 +175,17 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 		return E_FAIL;
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
+
+	//¼¦°Ç °¡ÀÌ
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SHOTGUNGUY);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
+		return E_FAIL;
+
+	m_mapLayer.insert({ _eLayerId, pLayer });
 	return S_OK;
 }
 

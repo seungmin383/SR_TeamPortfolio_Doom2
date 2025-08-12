@@ -180,6 +180,7 @@
     <ClInclude Include="..\Header\CMonsterBase.h" />
     <ClInclude Include="..\Header\CPinky.h" />
     <ClInclude Include="..\Header\CPlayerWeapon.h" />
+    <ClInclude Include="..\Header\CShotgunGuy.h" />
     <ClInclude Include="..\Header\CSkyBox.h" />
     <ClInclude Include="..\Header\CSpiderMastermind.h" />
     <ClInclude Include="..\Header\CStage.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="..\Code\CMonsterBase.cpp" />
     <ClCompile Include="..\Code\CPinky.cpp" />
     <ClCompile Include="..\Code\CPlayerWeapon.cpp" />
+    <ClCompile Include="..\Code\CShotgunGuy.cpp" />
     <ClCompile Include="..\Code\CSkyBox.cpp" />
     <ClCompile Include="..\Code\CSpiderMastermind.cpp" />
     <ClCompile Include="..\Code\CStage.cpp" />

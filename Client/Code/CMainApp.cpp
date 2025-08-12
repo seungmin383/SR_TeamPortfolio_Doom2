@@ -17,6 +17,7 @@
 #include "CImp.h"
 #include "CPinky.h"
 #include"CSpiderMastermind.h"
+#include "CShotgunGuy.h"
 
 #include "CPlayerWeapon.h"
 #include "CHealth_Small.h"
@@ -116,6 +117,9 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 		return E_FAIL;
 	//스파이더 마스터마인드
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_SPIDERMASTERMIND, CSpiderMastermind::Create(m_pGraphicDev))))
+		return E_FAIL;
+	//샷건 가이
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_SHOTGUNGUY, CShotgunGuy::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH, CHealth_Small::Create(m_pGraphicDev))))
