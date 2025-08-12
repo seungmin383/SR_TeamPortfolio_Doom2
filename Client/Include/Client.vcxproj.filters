@@ -144,7 +144,6 @@
     <ClInclude Include="..\Header\CGameUI_Info.h">
       <Filter>02. GameObject\09. UI</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="..\Header\CArchVile.h">
       <Filter>02. GameObject\02. Monster\CMonsterBase\01.CArch_Vile</Filter>
     </ClInclude>
@@ -156,13 +155,12 @@
     </ClInclude>
     <ClInclude Include="..\Header\CSpiderMastermind.h">
       <Filter>02. GameObject\02. Monster\CMonsterBase\04.CSpider Mastermind</Filter>
-=======
+    </ClInclude>
     <ClInclude Include="..\Header\CHealth_Small.h">
       <Filter>02. GameObject\06. Object</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CArmor_Small.h">
       <Filter>02. GameObject\06. Object</Filter>
->>>>>>> 4adf625f7e59ca0e23d44904818452fd5fcd401f
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -217,7 +215,6 @@
     <ClCompile Include="..\Code\CGameUI_Info.cpp">
       <Filter>02. GameObject\09. UI</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="..\Code\CArchVile.cpp">
       <Filter>02. GameObject\02. Monster\CMonsterBase\01.CArch_Vile</Filter>
     </ClCompile>
@@ -229,13 +226,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\CSpiderMastermind.cpp">
       <Filter>02. GameObject\02. Monster\CMonsterBase\04.CSpider Mastermind</Filter>
-=======
+    </ClCompile>
     <ClCompile Include="..\Code\CHealth_Small.cpp">
       <Filter>02. GameObject\06. Object</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CArmor_Small.cpp">
       <Filter>02. GameObject\06. Object</Filter>
->>>>>>> 4adf625f7e59ca0e23d44904818452fd5fcd401f
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
