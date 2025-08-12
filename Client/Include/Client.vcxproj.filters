@@ -165,10 +165,9 @@
     <ClInclude Include="..\Header\CArmor_Small.h">
       <Filter>02. GameObject\06. Object</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="..\Header\CShotgunGuy.h">
       <Filter>02. GameObject\02. Monster\CMonsterBase\05.CShotgunGuy</Filter>
-=======
+    </ClInclude>
     <ClInclude Include="..\Header\CAmmo_Clip.h">
       <Filter>02. GameObject\06. Object</Filter>
     </ClInclude>
@@ -177,7 +176,6 @@
     </ClInclude>
     <ClInclude Include="..\Header\CAmmo_Shell.h">
       <Filter>02. GameObject\06. Object</Filter>
->>>>>>> 207e46cffd8adb77dd0631fb002ff62ac33d02e7
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -250,10 +248,9 @@
     <ClCompile Include="..\Code\CArmor_Small.cpp">
       <Filter>02. GameObject\06. Object</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="..\Code\CShotgunGuy.cpp">
       <Filter>02. GameObject\02. Monster\CMonsterBase\05.CShotgunGuy</Filter>
-=======
+    </ClCompile>
     <ClCompile Include="..\Code\CAmmo_Clip.cpp">
       <Filter>02. GameObject\06. Object</Filter>
     </ClCompile>
@@ -262,7 +259,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\CAmmo_Shell.cpp">
       <Filter>02. GameObject\06. Object</Filter>
->>>>>>> 207e46cffd8adb77dd0631fb002ff62ac33d02e7
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
