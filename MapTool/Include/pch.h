@@ -20,6 +20,9 @@ extern UINT g_ResizeWidth, g_ResizeHeight;
 #include <process.h>
 #include <iostream>
 
+#include <../../Engine/Include/nlohmann/json.hpp>
+using json = nlohmann::json;
+
 #ifdef _DEBUG
 
 #define _CRTDBG_MAP_ALLOC

@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "CImGuiManager.h"
+#include "CFileManager.h"
+
 IMPLEMENT_SINGLETON(CImGuiManager)
 
 CImGuiManager::CImGuiManager()
@@ -63,6 +65,8 @@ void CImGuiManager::Render_ImGui()
 
 	DemoWindow();
 
+	DirExplorerWindow();
+
 	// 3. Show another simple window.
 	if (show_another_window)
 	{
@@ -80,6 +84,11 @@ void CImGuiManager::ResetDevice()
 {
 	ImGui_ImplDX9_InvalidateDeviceObjects();
 	ImGui_ImplDX9_CreateDeviceObjects();
+}
+
+void CImGuiManager::DirExplorerWindow()
+{
+	vector<fs::path> whatlist = CFileManager::GetInstance()->GetListCurrentDir();
 }
 
 void CImGuiManager::DemoWindow()

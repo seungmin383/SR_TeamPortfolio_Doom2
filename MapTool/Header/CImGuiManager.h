@@ -29,6 +29,8 @@ public:
     void        Render_ImGui();
     void        ResetDevice();
 
+    void        DirExplorerWindow();
+
     void        DemoWindow();
     void        DemoAnotherWindow();
 

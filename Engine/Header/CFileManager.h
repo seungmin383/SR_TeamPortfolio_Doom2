@@ -1,8 +1,8 @@
 #pragma once
 #include "CBase.h"
 #include "Engine_Define.h"
-#include "../Include/ConfigModel.h"
-#include "../Include/TerrainModels.h"
+#include "../../Engine/Include/ConfigModel.h"
+#include "../../Engine/Include/TerrainModels.h"
 #include <filesystem>
 #include <iostream>
 #include <fstream>
@@ -25,7 +25,7 @@ public:
     void            GetConfig();
     void            GetResourceDir();
     void            GetTerrainResourceDir();
-    vector<fs::path>&            GetListCurrentDir();
+    vector<fs::path>            GetListCurrentDir();
 
     //TODO: save object spawn
     //TODO: load object spawn

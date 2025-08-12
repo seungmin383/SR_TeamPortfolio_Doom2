@@ -1,10 +1,13 @@
 #include "CFileManager.h"
 
+IMPLEMENT_SINGLETON(CFileManager)
+
 CFileManager::CFileManager()
 {
 	ZeroMemory(&m_currentPath, sizeof(fs::path));
-	ZeroMemory(&m_currentPath, sizeof(fs::path));
 	ZeroMemory(&m_tConfig, sizeof(ConfigModel));
+
+	GetConfig();
 }
 
 CFileManager::~CFileManager()
@@ -45,6 +48,12 @@ void CFileManager::GetConfig()
 
 	//read.close();
 
+	if (!fs::exists(m_ConfigPath))
+	{
+		MSG_BOX("not found config");
+		return;
+	}
+
 	ifstream read(m_ConfigPath);
 	json j = json::parse(read);
 	
@@ -59,7 +68,7 @@ void CFileManager::GetTerrainResourceDir()
 {
 }
 
-vector<fs::path>& CFileManager::GetListCurrentDir()
+vector<fs::path> CFileManager::GetListCurrentDir()
 {
 	vector<fs::path> result;
 
@@ -89,7 +98,7 @@ void CFileManager::LoadTerrain()
 	}
 
 	ifstream read(p);
-	json j = json::parse(p);
+	json j = json::parse(read);
 
 	TerrainModels tm = j.get<TerrainModels>();
 	//return tm;

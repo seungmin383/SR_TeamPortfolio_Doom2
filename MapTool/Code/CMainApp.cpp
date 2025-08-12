@@ -10,6 +10,7 @@
 #include "CDInputManager.h"
 #include "CLightManager.h"
 #include "CColliderManager.h"
+#include "CFileManager.h"
 
 #include "CDynamicCamera.h"
 #include "CZombieMan.h"
@@ -147,6 +148,7 @@ void CMainApp::Free()
 	Engine::Safe_Release(m_pDeviceClass);
 	Engine::Safe_Release(m_pGraphicDev);
 	
+	CFileManager::GetInstance()->DestroyInstance();
 	CColliderManager::GetInstance()->DestroyInstance();
 	CLightManager::GetInstance()->DestroyInstance();
 	CFontManager::GetInstance()->DestroyInstance();
