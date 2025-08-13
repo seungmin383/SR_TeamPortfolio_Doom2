@@ -9,9 +9,10 @@ _long CDynamicCamera::s_lMouseMoveX = 0L;
 
 CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCamera(pGraphicDev),
-	m_bFix(false), m_bCheck(false),
+	m_bFix(false), m_bCheck(false), m_bTrigger(false),
 	m_iHp(0), m_iArmor(0), m_iClip(0), m_iMax(200), m_iShell(0),
-	m_fSpeed(0.f)
+	m_fSpeed(0.f),
+	m_eState(IDLE)
 {
 }
 
@@ -223,6 +224,16 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		return;
 }
 
+void CDynamicCamera::Mouse_Input()
+{
+	m_bTrigger = false;
+
+	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_RB) & 0x80)
+	{
+		m_bTrigger = true;
+	}
+}
+
 void CDynamicCamera::Mouse_Move()
 {
 	_matrix	matCamWorld;
@@ -282,6 +293,25 @@ void CDynamicCamera::Set_OnTerrain()
 	_float deltaHeight = (height + 2.f) - m_vEye.y;
 	m_vEye.y += deltaHeight;
 	m_vAt.y += deltaHeight;
+}
+
+void CDynamicCamera::Check_State()
+{
+	if (m_iHp >= 80)
+		m_eState = IDLE;
+	else if (m_iHp <= 79 && m_iHp >= 60)
+		m_eState = HURT1;
+	else if (m_iHp <= 59 && m_iHp >= 40)
+		m_eState = HURT2;
+	else if (m_iHp <= 39 && m_iHp >= 20)
+		m_eState = HURT3;
+	else if (m_iHp <= 19 && m_iHp >= 1)
+		m_eState = HURT4;
+	else
+	{
+		m_eState = DEAD;
+		m_bDead = true;
+	}
 }
 
 CDynamicCamera* CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)
