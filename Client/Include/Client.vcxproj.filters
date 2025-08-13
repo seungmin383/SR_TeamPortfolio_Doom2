@@ -88,6 +88,9 @@
     <Filter Include="02. GameObject\02. Monster\CBulletBase">
       <UniqueIdentifier>{ccc5dfd5-d951-407e-90a4-dceb5459330d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\06. Object\Explosion">
+      <UniqueIdentifier>{9e0ba8a6-5c42-4df7-8a9c-59cffe9e246f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -183,6 +186,9 @@
     <ClInclude Include="..\Header\CBulletBase.h">
       <Filter>02. GameObject\02. Monster\CBulletBase</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CBarrelExplosive.h">
+      <Filter>02. GameObject\06. Object\Explosion</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -268,6 +274,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CBulletBase.cpp">
       <Filter>02. GameObject\02. Monster\CBulletBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CBarrelExplosive.cpp">
+      <Filter>02. GameObject\06. Object\Explosion</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

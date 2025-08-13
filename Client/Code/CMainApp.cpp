@@ -25,6 +25,8 @@
 #include "CAmmo_Clip.h"
 #include "CAmmo_Shell.h"
 
+#include "CBarrelExplosive.h"
+
 CMainApp::CMainApp()
 	: m_pGraphicDev(nullptr),
 	m_pManagementClass(CManagement::GetInstance())
@@ -124,16 +126,24 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_SHOTGUNGUY, CShotgunGuy::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	// √º∑¬(º“)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH, CHealth_Small::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	// æ∆∏”(º“)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_ARMOR, CArmor_Small::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	// √—æÀ
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_CLIP, CAmmo_Clip::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	// º¶∞« ≈∫æ‡
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_SHELL, CAmmo_Shell::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// ∆¯πﬂ≈Î
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL, CBarrelExplosive::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	//≈ÿΩ∫√≥ « ≈Õ
