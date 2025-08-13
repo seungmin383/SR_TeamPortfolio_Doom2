@@ -22,10 +22,14 @@ private:
 public:
     fs::path        GetCurrentDir();
     fs::path        GetCanonicalDir();
-    void            GetConfig();
-    void            GetResourceDir();
-    void            GetTerrainResourceDir();
+    void            MoveParentDir();
+    void            MoveDir(fs::path p);
+
+    void                        GetConfig();
+    fs::path                    GetResourceDir();
+    fs::path                    GetTerrainResourceDir();
     vector<fs::path>            GetListCurrentDir();
+    vector<fs::path>            GetListChildDir();
 
     //TODO: save object spawn
     //TODO: load object spawn
@@ -43,6 +47,7 @@ private:
     fs::path                    m_ConfigPath = "../../Client/Asset/Config.json";
     fs::path                    m_currentPath;
     ConfigModel                 m_tConfig;
+    vector<fs::path>            m_vecChildDir;
 
 private:
     virtual void Free();

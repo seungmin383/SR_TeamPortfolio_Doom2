@@ -67,6 +67,15 @@
     <Filter Include="ImGui">
       <UniqueIdentifier>{96525aab-4f1c-4e16-9f97-9dc0d100d96f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Manager\91. TextureManager">
+      <UniqueIdentifier>{0dadba59-b1bd-4652-ad39-782615de06e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. ImGuiWindow">
+      <UniqueIdentifier>{3af656eb-dc0e-4d05-b250-8d0a07648f03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. ImGuiWindow\00. TextureExplorer">
+      <UniqueIdentifier>{f56a35fb-2a07-48ef-a6fe-e9e9a433c76c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -159,6 +168,12 @@
     <ClInclude Include="ImGui\imgui_stdlib.h">
       <Filter>ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CTextureManager.h">
+      <Filter>03. Manager\91. TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CTextureExplorer.h">
+      <Filter>04. ImGuiWindow\00. TextureExplorer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapTool.cpp">
@@ -238,6 +253,12 @@
     </ClCompile>
     <ClCompile Include="ImGui\imgui_stdlib.cpp">
       <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CTextureManager.cpp">
+      <Filter>03. Manager\91. TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CTextureExplorer.cpp">
+      <Filter>04. ImGuiWindow\00. TextureExplorer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 #pragma once
 #include "CBase.h"
 #include "Engine_Define.h"
+#include "CTextureExplorer.h"
 
 #ifdef new
 #pragma push_macro("new")
@@ -43,5 +44,7 @@ private:
 
     bool show_demo_window = true;
     bool show_another_window = false;
+
+    CTextureExplorer*        textureExpr;
 };
 

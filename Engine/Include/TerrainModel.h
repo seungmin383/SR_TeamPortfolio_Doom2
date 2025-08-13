@@ -9,7 +9,7 @@ struct TerrainModel
 	int vertexInterval;
 
 	vector<_vec3> vertices;
-	int textureNumber;
+	string strTextureTag;
 };
 
 inline void to_json(json& j, const TerrainModel& t)
@@ -19,7 +19,7 @@ inline void to_json(json& j, const TerrainModel& t)
 	j["vertexInterval"] = t.vertexInterval;
 
 	j["vertices"] = t.vertices;
-	j["textureNumber"] = t.textureNumber;
+	j["strTextureTag"] = t.strTextureTag;
 }
 
 inline void from_json(const json& j, TerrainModel& t)
@@ -29,5 +29,5 @@ inline void from_json(const json& j, TerrainModel& t)
 	j.at("vertexInterval").get_to(t.vertexInterval);
 
 	j.at("vertices").get_to(t.vertices);
-	j.at("textureNumber").get_to(t.textureNumber);
+	j.at("strTextureTag").get_to(t.strTextureTag);
 }

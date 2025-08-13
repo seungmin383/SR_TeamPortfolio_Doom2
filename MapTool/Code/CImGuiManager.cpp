@@ -5,7 +5,8 @@
 IMPLEMENT_SINGLETON(CImGuiManager)
 
 CImGuiManager::CImGuiManager()
-	: m_pGraphicDev(nullptr)
+	: m_pGraphicDev(nullptr),
+	textureExpr(CTextureExplorer::Create())
 {
 }
 
@@ -75,7 +76,7 @@ void CImGuiManager::Render_ImGui()
 
 	// Rendering
 	ImGui::EndFrame();
-	
+
 	ImGui::Render();
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 }
@@ -88,7 +89,11 @@ void CImGuiManager::ResetDevice()
 
 void CImGuiManager::DirExplorerWindow()
 {
-	vector<fs::path> whatlist = CFileManager::GetInstance()->GetListCurrentDir();
+	ImGui::Begin("DirExplorer");
+
+	textureExpr->DrawExplorerWindow();
+
+	ImGui::End();
 }
 
 void CImGuiManager::DemoWindow()
@@ -135,6 +140,8 @@ void CImGuiManager::DemoAnotherWindow()
 
 void CImGuiManager::Free()
 {
+	textureExpr->Release();
+
 	// Cleanup
 	ImGui_ImplDX9_Shutdown();
 	ImGui_ImplWin32_Shutdown();

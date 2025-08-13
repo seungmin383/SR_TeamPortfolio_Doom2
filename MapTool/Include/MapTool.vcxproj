@@ -162,6 +162,8 @@
     <ClInclude Include="..\Header\CSkyBox.h" />
     <ClInclude Include="..\Header\CStage.h" />
     <ClInclude Include="..\Header\CTerrain.h" />
+    <ClInclude Include="..\Header\CTextureExplorer.h" />
+    <ClInclude Include="..\Header\CTextureManager.h" />
     <ClInclude Include="..\Header\CZombieMan.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="ImGui\imconfig.h" />
@@ -194,6 +196,8 @@
     <ClCompile Include="..\Code\CSkyBox.cpp" />
     <ClCompile Include="..\Code\CStage.cpp" />
     <ClCompile Include="..\Code\CTerrain.cpp" />
+    <ClCompile Include="..\Code\CTextureExplorer.cpp" />
+    <ClCompile Include="..\Code\CTextureManager.cpp" />
     <ClCompile Include="..\Code\CZombieMan.cpp" />
     <ClCompile Include="ImGui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>

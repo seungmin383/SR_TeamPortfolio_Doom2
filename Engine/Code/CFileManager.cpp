@@ -26,6 +26,17 @@ fs::path CFileManager::GetCanonicalDir()
 	return m_currentPath;
 }
 
+void CFileManager::MoveParentDir()
+{
+	auto pp = fs::current_path().parent_path();
+	fs::current_path(pp);
+}
+
+void CFileManager::MoveDir(fs::path p)
+{
+	fs::current_path(p);
+}
+
 void CFileManager::GetConfig()
 {
 	if (!fs::exists(m_ConfigPath))
@@ -60,12 +71,16 @@ void CFileManager::GetConfig()
 	m_tConfig = j.get<ConfigModel>();
 }
 
-void CFileManager::GetResourceDir()
+fs::path CFileManager::GetResourceDir()
 {
+	fs::path p(m_tConfig.ResourcePath);
+	return p;
 }
 
-void CFileManager::GetTerrainResourceDir()
+fs::path CFileManager::GetTerrainResourceDir()
 {
+	fs::path p(m_tConfig.TerrainResourcePath);
+	return p;
 }
 
 vector<fs::path> CFileManager::GetListCurrentDir()
@@ -75,7 +90,25 @@ vector<fs::path> CFileManager::GetListCurrentDir()
 	fs::directory_iterator iter(GetCurrentDir());
 	while (iter != fs::end(iter))
 	{
-		result.push_back((*iter).path());
+		if ((*iter).is_directory() == false)
+			result.push_back((*iter).path());
+
+		iter++;
+	}
+
+	return result;
+}
+
+vector<fs::path> CFileManager::GetListChildDir()
+{
+	vector<fs::path> result;
+
+	fs::directory_iterator iter(GetCurrentDir());
+	while (iter != fs::end(iter))
+	{
+		if ((*iter).is_directory())
+			result.push_back((*iter).path());
+
 		iter++;
 	}
 
