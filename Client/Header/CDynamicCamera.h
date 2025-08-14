@@ -93,7 +93,7 @@ private:
     void        Mouse_Move();
     void        Mouse_Fix();
     void        Set_OnTerrain(); 
-    void        Check_State();          // 체력에 따라 State 설정해주는 함수
+    void        Update_State();          // 플레이어의 State 설정해주는 함수
 
 private:
     Engine::CCalculator*    m_pCalculatorCom;
