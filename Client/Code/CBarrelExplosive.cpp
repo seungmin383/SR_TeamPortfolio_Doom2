@@ -99,8 +99,15 @@ void CBarrelExplosive::OnCollisionEnter(CCollider* _pOther)
 {
     if (!_pOther || m_bExploding) return;
     auto layer = _pOther->Get_ColLayer(); 
-    if (layer & (COL_BULLET | COL_ATTACK)) { TakeDamage(10); return; }
-    if (layer & COL_EXPLOSION) { TakeDamage(9999); return; } // 연쇄폭발
+    //if (layer & (COL_BULLET | COL_ATTACK)) { TakeDamage(10); return; }
+    //if (layer & COL_EXPLOSION) { TakeDamage(9999); return; } // 연쇄폭발
+    // 
+
+    // 카메라 레이(=사격)도 피격으로 인정
+    if (layer & (COL_BULLET | COL_ATTACK | COL_EXPLOSION | COL_PLAYERCAMERA)) {
+        TakeDamage((layer & COL_EXPLOSION) ? 9999 : 10);
+        return;
+    }
 }
 
 void CBarrelExplosive::OnCollisionExit(CCollider* _pOther)
@@ -131,7 +138,7 @@ void CBarrelExplosive::ApplyExplosionDamage()
 
     // 1) 내 위치 얻기
     _vec3 myPos;
-    m_pTransformCom->Get_Pos(&myPos); // ✅ Get_Pos로 수정
+    m_pTransformCom->Get_Pos(&myPos); // Get_Pos로 수정
 
     const float R = 4.0f;     // 폭발 반경(원하는 값)
     const float R2 = R * R;

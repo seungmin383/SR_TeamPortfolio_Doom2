@@ -43,7 +43,7 @@ private:
     Engine::CAnimator* m_pAnimCom;
 
     // 상태
-    _int   m_iHP = 30;                  // 총 몇 발 맞으면 터질지
+    _int   m_iHP = 30;                  // 자체 체력
     _int   m_eAnim_Type = 0;
     _bool  m_bExploding = false;
     _int   m_iFrame_Barrel;             // 정지 프레임(필요하면)
