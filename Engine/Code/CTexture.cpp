@@ -39,9 +39,10 @@ HRESULT CTexture::Ready_Texture(const _tchar* pPath, TEXTUREID eType, const _uin
 		switch (eType)
 		{
 		case Engine::TEX_NORMAL:
+		{
 			if (FAILED(D3DXCreateTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DTEXTURE9*)&pTexture)))
 				return E_FAIL;
-
+		}
 			break;
 		case Engine::TEX_CUBE:
 			if (FAILED(D3DXCreateCubeTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DCUBETEXTURE9*)&pTexture)))

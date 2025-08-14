@@ -111,6 +111,8 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 
 	m_pImGuiClass->Init_ImGui(*ppGraphicDev);
 
+	CFileManager::GetInstance()->SetProjectDir();
+
 	return S_OK;
 }
 

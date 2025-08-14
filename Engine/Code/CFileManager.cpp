@@ -6,8 +6,6 @@ CFileManager::CFileManager()
 {
 	ZeroMemory(&m_currentPath, sizeof(fs::path));
 	ZeroMemory(&m_tConfig, sizeof(ConfigModel));
-
-	GetConfig();
 }
 
 CFileManager::~CFileManager()
@@ -24,6 +22,17 @@ fs::path CFileManager::GetCanonicalDir()
 {
 	fs::canonical(m_currentPath);
 	return m_currentPath;
+}
+
+void CFileManager::SetProjectDir()
+{
+	m_projectPath = fs::current_path();
+	GetConfig();
+}
+
+void CFileManager::MoveProjectDir()
+{
+	fs::current_path(m_projectPath);
 }
 
 void CFileManager::MoveParentDir()
@@ -73,12 +82,16 @@ void CFileManager::GetConfig()
 
 fs::path CFileManager::GetResourceDir()
 {
+	MoveProjectDir();
+
 	fs::path p(m_tConfig.ResourcePath);
 	return p;
 }
 
 fs::path CFileManager::GetTerrainResourceDir()
 {
+	MoveProjectDir();
+
 	fs::path p(m_tConfig.TerrainResourcePath);
 	return p;
 }

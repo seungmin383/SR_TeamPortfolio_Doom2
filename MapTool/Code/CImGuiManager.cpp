@@ -6,7 +6,7 @@ IMPLEMENT_SINGLETON(CImGuiManager)
 
 CImGuiManager::CImGuiManager()
 	: m_pGraphicDev(nullptr),
-	textureExpr(CTextureExplorer::Create())
+	textureExpr(nullptr)
 {
 }
 
@@ -19,6 +19,8 @@ void CImGuiManager::Init_ImGui(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	m_pGraphicDev = pGraphicDev;
 	m_pGraphicDev->AddRef();
+
+	textureExpr = CTextureExplorer::Create(m_pGraphicDev);
 
 	//ImGui Init
 	// Make process DPI aware and obtain main monitor scale
