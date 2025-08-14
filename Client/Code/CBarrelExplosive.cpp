@@ -262,6 +262,36 @@ void CBarrelExplosive::ApplyExplosionDamage()
         }
     }
 
+    // 1.5) 플레이어 피해 + 넉백
+    {
+        //auto* pPlayer = Engine::CManagement::GetInstance()->Get_Player();
+        //if (pPlayer && !pPlayer->Get_Dead())
+        //{
+        //    auto* pPlTr = dynamic_cast<Engine::CTransform*>(
+        //        pPlayer->Get_Component(Engine::ID_DYNAMIC, L"Com_Transform"));
+        //    if (pPlTr)
+        //    {
+        //        _vec3 pPos; pPlTr->Get_Pos(&pPos);
+        //        _vec3 d = pPos - myPos; d.y = 0.f;
+
+        //        float dist2 = D3DXVec3LengthSq(&d);
+        //        if (dist2 <= R2)
+        //        {
+        //            float dist = sqrtf(dist2);
+        //            // 거리 감쇠(중심에서 강, 가장자리 약)
+        //            float t = max(0.f, 1.f - dist / R);     // 0..1
+        //            int   dmg = max(1, int(80.f * t));      // 폭발 데미지(원하는 수치로)
+
+        //            // 플레이어에게 적용 (아래 B에서 구현)
+        //            if (auto* cam = dynamic_cast<CDynamicCamera*>(pPlayer))
+        //            {
+        //                cam->ReceiveDamage(dmg);              // 이건 플레이어 데미지 받는 코드 얻을 때 바꿀 예정
+        //            }
+        //        }
+        //    }
+        //}
+    }
+
     // 2) 다른 배럴에도 피해 → 연쇄 폭발 유발
     {
         const auto& objects = pScene->Get_TotalGameObject(OBJID::OBJ_OBJECT);
