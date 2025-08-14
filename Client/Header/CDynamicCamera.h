@@ -86,6 +86,14 @@ public:
             m_iShell += shell;
     }
 
+    void Take_Damage(_int iDamage) 
+    { 
+        if (m_iHp <= 0)
+            m_iHp = 0;
+        else 
+            m_iHp -= iDamage;
+    }
+
 private:
     HRESULT     Add_Component();
     void        Key_Input(const _float& fTimeDelta);
