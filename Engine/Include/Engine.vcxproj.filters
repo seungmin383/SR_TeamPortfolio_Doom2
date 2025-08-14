@@ -118,8 +118,11 @@
     <Filter Include="00. Manager\03 .Management\03. Component\04. Collider">
       <UniqueIdentifier>{b3dbe479-878c-49f5-986f-91bda5f19cae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Manager\11. Spawner">
-      <UniqueIdentifier>{37d07e17-0363-4bbd-a0e6-9bd333e970a8}</UniqueIdentifier>
+    <Filter Include="00. Manager\11. FileManager">
+      <UniqueIdentifier>{57945392-f0e5-4da1-8dc8-6113c6adc744}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModel">
+      <UniqueIdentifier>{30baaa1a-730b-4807-9f6f-869634fa1b31}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -255,8 +258,23 @@
     <ClInclude Include="..\Header\CCubeCol.h">
       <Filter>00. Manager\03 .Management\03. Component\00. VIBuffer\06. CubeCol</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\CSpawner.h">
-      <Filter>00. Manager\11. Spawner</Filter>
+    <ClInclude Include="..\Header\CFileManager.h">
+      <Filter>00. Manager\11. FileManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigModel.h">
+      <Filter>DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainModel.h">
+      <Filter>DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneSpawnInfo.h">
+      <Filter>DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectSpawnInfo.h">
+      <Filter>DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec3Inline.h">
+      <Filter>DataModel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -371,8 +389,11 @@
     <ClCompile Include="..\Code\CCubeCol.cpp">
       <Filter>00. Manager\03 .Management\03. Component\00. VIBuffer\06. CubeCol</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\CSpawner.cpp">
-      <Filter>00. Manager\11. Spawner</Filter>
+    <ClCompile Include="..\Code\CFileManager.cpp">
+      <Filter>00. Manager\11. FileManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TerrainModels.h">
+      <Filter>DataModel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
