@@ -80,7 +80,12 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_ShotgunGuy_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Monster/ShotgunGuy/MonsterState%d.png", TEX_NORMAL, 26))))
 		return E_FAIL;
 #pragma endregion
+#pragma region MONSTER_BULLET
 
+	//if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_ZombieMan_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Monster/ZombieMan/MonsterState%d.png", TEX_NORMAL, 26))))
+	//	return E_FAIL;
+
+#pragma endregion
 
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_PlayerUI", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/PLAYERUI.png", TEX_NORMAL))))

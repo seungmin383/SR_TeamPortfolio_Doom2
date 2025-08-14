@@ -17,7 +17,7 @@ protected:
     virtual ~CMonsterBase();
 
 public:
-    virtual _vec3 Set_Move_Direction(_vec3* _Look);
+    virtual _vec3 Set_Move_Direction(_vec3* _Look, _float _DelayTime, _float _fTimedelta);
 
 public:
     virtual     HRESULT         Ready_GameObject();
@@ -109,6 +109,7 @@ protected:
 
     _bool m_isPinky = FALSE;
 
+    _float m_fMoveAngle = 0.f;
 protected:
     virtual void Free();
 

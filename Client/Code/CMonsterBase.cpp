@@ -17,7 +17,7 @@ CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
 }
 
 CMonsterBase::CMonsterBase(const CMonsterBase& rhs)
-	:CCharacter(rhs), m_fSightAngle(m_fSightAngle), m_fSightDistance(m_fSightDistance),
+	:CCharacter(rhs), m_fSightAngle(rhs.m_fSightAngle), m_fSightDistance(rhs.m_fSightDistance),
 	m_isGibbingDead(rhs.m_isGibbingDead),
 	m_isNormalDead(rhs.m_isNormalDead),
 	m_isAtk(rhs.m_isAtk),
@@ -64,46 +64,61 @@ void                 CMonsterBase::Render_GameObject(const _float& fTimeDelta)
 
 	//충돌체
 	m_pColliderCom->Render(g_colRend);
+
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
  }
 
-_vec3 CMonsterBase::Set_Move_Direction(_vec3* _Look)
+_vec3 CMonsterBase::Set_Move_Direction(_vec3* _Look, _float _DelayTime, _float _fTimedelta)
 {
 	if(_Look != nullptr)
 		m_vtmpLook = *_Look;
 
-	//랜덤으로 0~7의 숫자를 뽑기
-	_int RandMove = rand() % 8;
+	_int RandMove = rand() % 2;
+
 	_matrix RotMat;
 	D3DXMatrixIdentity(&RotMat);
+	m_fMoveDelay += _fTimedelta;
 
-	//각 숫자에 맞는 방향으로 이동하기
-	switch (RandMove)
+	if(m_fMoveDelay > 1.f)
 	{
-	//앞으로
+		//각 숫자에 맞는 방향으로 이동하기
+		switch (RandMove)
+		{
+		case 0:		m_fMoveAngle += 45.f;
+			break;
+
+		case 1:		m_fMoveAngle += -45.f;
+			break;
+
+		default:
+			break;
+		}
+		m_fMoveDelay = 0.f;
+	}
+
+	//좀더 둠스러운 움직임
+	switch (RandMove%2)
+	{
 	case 0:
+		m_fMoveAngle += 1.f;
 		break;
-	//왼쪽 앞으로
-	case 1:		D3DXMatrixRotationY(&RotMat, D3DXToRadian(45.f));		break;
-	//왼쪽으로
-	case 2:		D3DXMatrixRotationY(&RotMat, D3DXToRadian(90.f));		break;
-	//왼쪽 뒤로
-	case 3:		D3DXMatrixRotationY(&RotMat, D3DXToRadian(135.f));	break;
-	//뒤로
-	case 4:		D3DXMatrixRotationY(&RotMat, D3DXToRadian(180.f));	break;
-	//오른쪽 뒤로
-	case 5:		D3DXMatrixRotationY(&RotMat, D3DXToRadian(-135.f));	break;
-	//오른쪽으로
-	case 6:		D3DXMatrixRotationY(&RotMat, D3DXToRadian(-90.f));	break;
-	//오른쪽 앞으로
-	case 7:		D3DXMatrixRotationY(&RotMat, D3DXToRadian(-45.f));	break;
+
+	case 1:
+		m_fMoveAngle -= 1.f;
+		break;
+
 	default:
+		m_fMoveAngle += 0.f;
 		break;
 	}
 
+	cout << "m_fAngle : " << m_fMoveAngle << endl;
+
+	_vec3 vForward(0.f, 0.f, 1.f);
+	D3DXMatrixRotationY(&RotMat, D3DXToRadian(m_fMoveAngle));
 	D3DXVec3Normalize(&m_vtmpLook, &m_vtmpLook);
-	D3DXVec3TransformCoord(&m_vtmpLook, &m_vtmpLook, &RotMat);
+	D3DXVec3TransformNormal(&m_vtmpLook, &vForward, &RotMat);
 	if(_Look != nullptr)
 		*_Look = m_vtmpLook;
 
@@ -340,21 +355,21 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			m_eCurAnimState = m_iNorDeadPlus;
 			m_eAnim_Type = NOR_DEATH;
 		}
-		cout << "AI_DEAD" << endl;
+		//cout << "AI_DEAD" << endl;
 		break;
 
 		//맞았을 때
 	case AI_HIT:
 		m_eCurAnimState += 16;
 		m_eAnim_Type = HIT;
-		cout << "AI_HIT" << endl;
+		//cout << "AI_HIT" << endl;
 		break;
 
 		//공격할 때
 	case AI_ATTACK:
 		m_eCurAnimState += 8;
 		m_eAnim_Type = ATK;
-		cout << "AI_ATTACK" << endl;
+		//cout << "AI_ATTACK" << endl;
 		break;
 
 		//플레이어를 발견했을 때
@@ -363,7 +378,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 		if (m_eCurAnimState != m_ePreAnimState)
 			m_eAnim_Type = MOVE;
 
-		if (m_fChaseDelay > 1.f)
+		if (m_fChaseDelay > 0.1f)
 		{
 			Monster_Look_Player(&m_vMoveLook);
 			m_fChaseDelay = 0.f;
@@ -374,15 +389,10 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 
 		//아이들 상태
 	case AI_MOVE:
-		m_fMoveDelay += fTimeDelta;
 		if(m_eCurAnimState != m_ePreAnimState)
 			m_eAnim_Type = MOVE;
 
-		if (m_fMoveDelay > 5.f)
-		{
-			Set_Move_Direction(&m_vMoveLook);
-			m_fMoveDelay = 0.f;
-		}
+		Set_Move_Direction(&m_vMoveLook, 1.f, fTimeDelta);
 		Movement(fTimeDelta);
 		cout << "AI_MOVE" << endl;
 		break;
@@ -393,9 +403,9 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 
 void CMonsterBase::Monster_Look_Player(_vec3* _vLook)
 {
-	_vec3 vPos;
-	m_pTransformCom->Get_Pos(&vPos);
-	_vec3 vPlayerPos;
+	_vec3 vPos;														//내위치
+	m_pTransformCom->Get_Pos(&vPos);			
+	_vec3 vPlayerPos;												//플레이어 위치
 	vPlayerPos = Get_PlayerPos();
 
 	_vec3 tmp = vPlayerPos - vPos;
