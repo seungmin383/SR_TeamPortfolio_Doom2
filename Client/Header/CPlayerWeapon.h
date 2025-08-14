@@ -4,7 +4,7 @@
 
 class CPlayerWeapon :  public CCharacter
 {
-public:
+private:
     enum WEAPON_ID 
     {
         PISTOL,
