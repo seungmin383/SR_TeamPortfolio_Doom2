@@ -24,23 +24,48 @@ HRESULT CBarrelExplosive::Ready_GameObject()
     if (FAILED(Add_Component()))
         return E_FAIL;
 
-    m_iHP = 1;
+    // HP/애니 초기화
+    m_iHP = 30;       // 원하는 체력으로 조정
     m_iFrame_Barrel = 0;
+    m_iFrame_Explosion = 0;
+    m_animAcc = 0.f;
+    m_state = State::Idle;
+    m_damageApplied = false;
+
+    // 도화선 초기화
+    m_isPrimed = false;
+    m_fuseAcc = 0.f;
+    m_fuseTime = 0.f;
 
     m_pTransformCom->Set_Pos(25.f, 0.f, 25.f);
     m_pTransformCom->Set_Scale(_vec3(0.2f, 0.2f, 0.2f));
 
-    // Collider
-    m_pColliderCom->Ready_CCollider(
-        this,
-        _vec3(0, 0, 0),           // 초기 위치(Transform가 실제로 잡아줌)
-        _vec3(1.f, 1.f, 1.f),  // 아이템 박스 크기 예시
-        _vec3(0, 0.4f, 0),        // 약간 위로
-        COL_OBJECT,               // 너희 COLLAYERID에서 아이템 레이어
-        COL_BULLET | COL_ATTACK | COL_EXPLOSION     
-    );
-    m_pColliderCom->Set_Active(true);
+    // Collider 세팅
+    if (m_pColliderCom)
+    {
+        m_pColliderCom->Ready_CCollider(
+            this,
+            _vec3(0, 0, 0),         // 초기 위치(Transform가 실제로 잡아줌)
+            _vec3(1.f, 1.f, 1.f),   // 박스 크기
+            _vec3(0, 0.4f, 0),      // 약간 위로
+            COL_OBJECT,             // 내 레이어
+            // 공격으로 인정할 대상 레이어(레이 사격 포함)
+            COL_BULLET | COL_ATTACK | COL_EXPLOSION | COL_PLAYERCAMERA
+        );
+        m_pColliderCom->Set_Active(true);
+    }
+    // ★ 프레임 수 캐시 (엔진 수정 없음, GetTextureHandle로 갯수 세기)
+    m_idleFrameCount = 0;
+    if (m_pTexIdle) {
+        while (m_pTexIdle->GetTextureHandle(m_idleFrameCount))
+            ++m_idleFrameCount;
+    }
 
+    m_explFrameCount = 0;
+    if (m_pTexExplode) {
+        while (m_pTexExplode->GetTextureHandle(m_explFrameCount))
+            ++m_explFrameCount;
+    }
 
     return S_OK;
 }
@@ -51,14 +76,58 @@ _int CBarrelExplosive::Update_GameObject(const float& fTimeDelta)
     Set_OnTerrain();
     Bill_Board();
 
-    m_iFrame_Barrel++;
-    if (m_iFrame_Barrel >= 2)
-        m_iFrame_Barrel = 0;
+    // 1, 속도 통합(수평만)
+    if (fabsf(m_vel.x) > 1e-6f || fabsf(m_vel.z) > 1e-6f)
+    {
+        _vec3 pos; m_pTransformCom->Get_Pos(&pos);
+        pos.x += m_vel.x * fTimeDelta;
+        pos.z += m_vel.z * fTimeDelta;
+        m_pTransformCom->Set_Pos(pos.x, pos.y, pos.z);
+
+        // 2. 감쇠(마찰) - 지수감쇠 근사
+        float damp = max(0.f, 1.f - m_drag * fTimeDelta);
+        m_vel.x *= damp;
+        m_vel.z *= damp;
+        if (fabsf(m_vel.x) < 0.01f) m_vel.x = 0.f;
+        if (fabsf(m_vel.z) < 0.01f) m_vel.z = 0.f;
+    }
+
+    if (m_state == State::Primed) {
+        // 지연 타이머 진행
+        m_fuseAcc += fTimeDelta;
+        if (m_fuseAcc >= m_fuseTime) {
+            BeginExplosion(); // 지연이 끝나면 실제 폭발
+        }
+    }
+
+    // === 상태 기반 업데이트 ===
+    if (m_state == State::Exploding)
+    {
+        m_animAcc += fTimeDelta;
+        const float frameTime = 0.06f;
+        if (m_animAcc >= frameTime) {
+            m_animAcc = 0.f;
+
+            // 다음 프레임이 없으면 종료
+            if (m_explFrameCount <= 0 || (m_iFrame_Explosion + 1) >= m_explFrameCount) {
+                m_state = State::Dead;
+                m_bDead = true;
+                return -1; // DEAD 상수 사용 중이면 그걸로
+            }
+
+            ++m_iFrame_Explosion;
+        }
+    }
+    else // Idle
+    {
+        // idle 프레임이 1장 이하이면 0 고정, 2장이면 토글 등
+        if (m_idleFrameCount > 1)
+            m_iFrame_Barrel = (m_iFrame_Barrel + 1) % m_idleFrameCount;
+        else
+            m_iFrame_Barrel = 0;
+    }
 
     CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
-
-    if (m_bExploding)
-        return -1; // 엔진 상수에 맞춰 사용
 
     return 0;
 }
@@ -66,7 +135,6 @@ _int CBarrelExplosive::Update_GameObject(const float& fTimeDelta)
 void CBarrelExplosive::LateUpdate_GameObject(const float& fTimeDelta)
 {
     CGameObject::LateUpdate_GameObject(fTimeDelta);
-    //m_pAnimCom->Play_Animation(m_eAnim_Type, 0, fTimeDelta, m_iFrame_Barrel);
 
     if (m_pColliderCom)
         m_pColliderCom->Late_Update(); // ★ 중요
@@ -79,11 +147,24 @@ void CBarrelExplosive::Render_GameObject(const _float& fTimeDelta)
     m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
     if (m_state == State::Exploding) {
-        if (m_pTexExplode) m_pTexExplode->Set_Texture(m_iFrame_Explosion);
+        if (m_pTexExplode &&
+            m_iFrame_Explosion >= 0 &&
+            m_iFrame_Explosion < m_explFrameCount &&
+            m_pTexExplode->GetTextureHandle(m_iFrame_Explosion))
+        {
+            m_pTexExplode->Set_Texture(m_iFrame_Explosion);
+        }
     }
-    else { // Idle
-        if (m_pTexIdle)    m_pTexIdle->Set_Texture(m_iFrame_Barrel);
+    else {
+        if (m_pTexIdle &&
+            m_iFrame_Barrel >= 0 &&
+            (m_idleFrameCount == 0 || m_iFrame_Barrel < m_idleFrameCount) &&
+            m_pTexIdle->GetTextureHandle(m_iFrame_Barrel))
+        {
+            m_pTexIdle->Set_Texture(m_iFrame_Barrel);
+        }
     }
+
     m_pBufferCom->Render_Buffer();
 
     //충돌체
@@ -97,14 +178,21 @@ void CBarrelExplosive::OnCollision(CCollider* _pOther)
 
 void CBarrelExplosive::OnCollisionEnter(CCollider* _pOther)
 {
-    if (!_pOther || m_bExploding) return;
-    auto layer = _pOther->Get_ColLayer(); 
-    //if (layer & (COL_BULLET | COL_ATTACK)) { TakeDamage(10); return; }
-    //if (layer & COL_EXPLOSION) { TakeDamage(9999); return; } // 연쇄폭발
-    // 
+    if (!_pOther) return;
 
-    // 카메라 레이(=사격)도 피격으로 인정
-    if (layer & (COL_BULLET | COL_ATTACK | COL_EXPLOSION | COL_PLAYERCAMERA)) {
+    char buf[128];
+    sprintf_s(buf, "[Barrel] OnCollisionEnter layer=0x%08X\n",
+        (unsigned)_pOther->Get_ColLayer());
+    OutputDebugStringA(buf);
+
+    // 폭발 중에는 추가 히트 무시
+    if (m_state != State::Idle) return;
+
+    const auto layer = _pOther->Get_ColLayer();
+
+    // 레이/투사체/공격/폭발 모두 허용 (혹시 카메라 레이어 명이 다르면 대비)
+    if (layer & (COL_BULLET | COL_ATTACK | COL_EXPLOSION
+        | COL_PLAYERCAMERA | COL_PLAYER | COL_DYNAMICCAMERA)) {
         TakeDamage((layer & COL_EXPLOSION) ? 9999 : 10);
         return;
     }
@@ -127,8 +215,17 @@ void CBarrelExplosive::BeginExplosion()
     m_animAcc = 0.f;
     m_iFrame_Explosion = 0;
 
-    // 반경 데미지는 첫 프레임에 1회만 주자
+    // 더 이상 피격/겹침 없도록 콜라이더 비활성화
+    if (m_pColliderCom) m_pColliderCom->Set_Active(false);
+
+    // 첫 프레임에 반경 데미지 1회
     ApplyExplosionDamage();
+
+    // 폭발 스프라이트가 아예 없거나 1장도 없으면 바로 제거
+    if (m_explFrameCount <= 0) {
+        m_state = State::Dead;
+        m_bDead = true;
+    }
 }
 
 void CBarrelExplosive::ApplyExplosionDamage()
@@ -136,43 +233,90 @@ void CBarrelExplosive::ApplyExplosionDamage()
     if (m_damageApplied) return;
     m_damageApplied = true;
 
-    // 1) 내 위치 얻기
-    _vec3 myPos;
-    m_pTransformCom->Get_Pos(&myPos); // Get_Pos로 수정
+    // 내 위치
+    _vec3 myPos; m_pTransformCom->Get_Pos(&myPos);
 
-    const float R = 4.0f;     // 폭발 반경(원하는 값)
+    const float R = 4.0f;        // 폭발 반경(필요시 4~6 사이로 조정)
     const float R2 = R * R;
 
-    // 2) 현재 씬에서 몬스터 그룹 벡터 얻기
     Engine::CScene* pScene = Engine::CManagement::GetInstance()->Get_Scene();
     if (!pScene) return;
 
-    // 프로젝트의 OBJID에서 '몬스터' 그룹 enum을 사용하세요.
-    // CColliderManager가 내부에서 쓰는 API는 Get_TotalGameObject(OBJID) 입니다. :contentReference[oaicite:4]{index=4}
-    const std::vector<Engine::CGameObject*>& monsters =
-        pScene->Get_TotalGameObject(OBJID::OBJ_ENEMY); // ← 실제 enum 이름에 맞게 변경
-
-    for (auto* obj : monsters)
+    // 1) 몬스터에 피해 (기존 로직 그대로)
     {
-        if (!obj || obj->Get_Dead()) continue;
-
-        // 3) 몬스터 위치 얻기
-        // 공용 Transform 포인터가 없다면 컴포넌트 맵에서 "Com_Transform"를 꺼내 쓰는 방식도 가능
-        Engine::CTransform* pTr =
-            dynamic_cast<Engine::CTransform*>(obj->Get_Component(Engine::ID_DYNAMIC, L"Com_Transform"));
-        if (!pTr) continue;
-
-        _vec3 targetPos;
-        pTr->Get_Pos(&targetPos);
-
-        // 4) 거리 제곱으로 반경 판정
-        _vec3 d = targetPos - myPos;
-        if (D3DXVec3LengthSq(&d) <= R2)
+        const auto& monsters = pScene->Get_TotalGameObject(OBJID::OBJ_ENEMY);
+        for (auto* obj : monsters)
         {
-            // 5) 데미지 주기 (프로젝트의 몬스터 인터페이스에 맞게)
-            // 예: dynamic_cast<IMonster*>(obj)->TakeDamage(60);
+            if (!obj || obj->Get_Dead()) continue;
+
+            auto* tr = dynamic_cast<Engine::CTransform*>(obj->Get_Component(Engine::ID_DYNAMIC, L"Com_Transform"));
+            if (!tr) continue;
+
+            _vec3 pos; tr->Get_Pos(&pos);
+            _vec3 d = pos - myPos;
+            if (D3DXVec3LengthSq(&d) <= R2)
+            {
+                // TODO: 실제 데미지 인터페이스 연결
+                // 예) if (auto* ch = dynamic_cast<Engine::CCharacter*>(obj)) ch->ReceiveDamage(60, this);
+            }
         }
     }
+
+    // 2) 다른 배럴에도 피해 → 연쇄 폭발 유발
+    {
+        const auto& objects = pScene->Get_TotalGameObject(OBJID::OBJ_OBJECT);
+        for (auto* obj : objects)
+        {
+            if (!obj || obj == this || obj->Get_Dead()) continue;
+
+            auto* other = dynamic_cast<CBarrelExplosive*>(obj);
+            if (!other) continue;
+
+            auto* tr = dynamic_cast<Engine::CTransform*>(
+                obj->Get_Component(Engine::ID_DYNAMIC, L"Com_Transform"));
+            if (!tr) continue;
+
+            _vec3 pos; tr->Get_Pos(&pos);
+            _vec3 d = pos - myPos;
+            float dist2 = D3DXVec3LengthSq(&d);
+            if (dist2 > R2) continue;
+
+            // 거리 기반 지연으로 ‘웨이브’ 연출
+            float dist = sqrtf(dist2);
+            float t = max(0.f, 1.f - dist / R);     // 0..1
+            float impulse = m_pushForce * (0.4f + 0.6f * t); // 너무 약해지지 않게 바닥값 0.4 배
+
+             // ★ 먼저 '밀어내기'
+            other->AddImpulseXZ(d, impulse);
+
+            // ★ 그리고 '점화 지연'으로 연쇄 폭발
+            float baseDelay = 0.12f;
+            float perMeter = 0.06f;
+            float delay = baseDelay + perMeter * dist;
+            other->PrimeFuse(delay);            // 바로 터뜨리지 않고 ‘점화’만!
+        }
+    }
+}
+
+void CBarrelExplosive::PrimeFuse(float delaySec)
+{
+    if (m_state != State::Idle) return; // 이미 폭발 중/사망/점화면 무시
+    if (m_isPrimed) return;             // 중복 점화 방지
+
+    m_isPrimed = true;
+    m_state = State::Primed;
+    m_fuseAcc = 0.f;
+    m_fuseTime = delaySec;              // 지연 시간(초)
+}
+
+void CBarrelExplosive::AddImpulseXZ(const _vec3& dir, float magnitude)
+{
+    _vec3 n = dir;  n.y = 0.f;
+    if (D3DXVec3LengthSq(&n) < 1e-6f) return;
+    D3DXVec3Normalize(&n, &n);
+
+    m_vel.x += n.x * magnitude;
+    m_vel.z += n.z * magnitude;
 }
 
 HRESULT CBarrelExplosive::Add_Component()
