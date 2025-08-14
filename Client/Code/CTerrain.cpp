@@ -114,6 +114,13 @@ CTerrain* CTerrain::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	CTerrain* pTerrain = new CTerrain(pGraphicDev);
 
+	return pTerrain;
+}
+
+CTerrain* CTerrain::Clone()
+{
+	CTerrain* pTerrain = new CTerrain(*this);
+
 	if (FAILED(pTerrain->Ready_GameObject()))
 	{
 		Safe_Release(pTerrain);

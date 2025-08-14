@@ -11,6 +11,8 @@
 #include "CLightManager.h"
 #include "CColliderManager.h"
 
+#include "CTerrain.h"
+
 #include "CDynamicCamera.h"
 #include "CZombieMan.h"
 #include"CArchVile.h"
@@ -104,6 +106,9 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 		return E_FAIL;
 
 	if (FAILED(CDInputManager::GetInstance()->Ready_InputDev(g_hInst, g_hWnd)))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::TERRAIN, CTerrain::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	//Initiate GameObject Prototype
