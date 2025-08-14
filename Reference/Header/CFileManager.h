@@ -22,6 +22,8 @@ private:
 public:
     fs::path        GetCurrentDir();
     fs::path        GetCanonicalDir();
+    void            SetProjectDir();
+    void            MoveProjectDir();
     void            MoveParentDir();
     void            MoveDir(fs::path p);
 
@@ -43,6 +45,7 @@ public:
 private:
 
 private:
+    fs::path                    m_projectPath;
     fs::path                    m_DefaultPath = "../../Client/Asset";
     fs::path                    m_ConfigPath = "../../Client/Asset/Config.json";
     fs::path                    m_currentPath;
