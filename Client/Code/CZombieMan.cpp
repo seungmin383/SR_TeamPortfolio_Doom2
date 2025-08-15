@@ -114,7 +114,7 @@ HRESULT CZombieMan::Ready_GameObject()
 
 #pragma region VARIABLE_SETTING
 	m_fSightAngle =D3DXToRadian( 80.f);
-	m_fSightDistance		= 25.f;
+	m_fSightDistance		= 5.f;
 
 	m_fAtkSpeed			= 4.f;
 	m_iHp						= 20;
@@ -124,14 +124,18 @@ HRESULT CZombieMan::Ready_GameObject()
 	m_fMoveDelay			= 0.f;
 	m_fAtkDelay			= 0.f;
 
-	m_iGibDeadPlus = 24;
-	m_iNorDeadPlus = 25;
+	m_iGibDeadPlus		= 24;
+	m_iNorDeadPlus		= 25;
 
 	m_pTransformCom->Set_Pos(10.f, 0.f, 10.f);
 
 	//초기 룩으로 세팅해주고
 	m_pTransformCom->Get_Info(INFO_LOOK, &m_vMoveLook);
+	cout << m_vMoveLook.x << m_vMoveLook.y << m_vMoveLook.z << endl;
 
+	m_vMoveLook.z = m_vMoveLook.z;
+	m_vMoveLook.x = 1;
+	cout << m_vMoveLook.x << m_vMoveLook.y << m_vMoveLook.z << endl;
 #pragma endregion
 
 	return S_OK;

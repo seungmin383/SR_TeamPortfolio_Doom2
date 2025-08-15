@@ -39,7 +39,7 @@ public:
     //Object
     HRESULT         Ready_ObjPrototype(OBJPROTOTYPE eObjId, CGameObject* pComponent);
     CGameObject*     Clone_ObjPrototype(OBJPROTOTYPE eObjId);
-
+  
 private:
     //Component
     CComponent*     Find_ComPrototype(const _tchar* pComponentTag);

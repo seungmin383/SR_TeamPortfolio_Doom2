@@ -93,6 +93,8 @@ protected:
     //Thinker Variable
     _bool m_isDetect_Player;                //시야에 플레이어가 들어왔는가?
     _bool m_isDetected_Player;          //시야에 플레이어가 들어온 적이 있는가?
+    _bool m_isEverSeen_Player;          // 한번이라도 플레이어를 본 적이 있는가
+
     _bool m_isHit;                                 //총알에 맞았는지?
     _int    m_isDead;                             //죽었는가?
     _bool m_isNormalDead;                  //그냥 죽었는가?

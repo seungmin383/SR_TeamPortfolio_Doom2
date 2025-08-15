@@ -12,7 +12,8 @@ CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
 	m_isNormalDead(false),
 	m_isAtk(false),
 	m_eCurAnimState(0),
-	m_fAtkDelay(0.f), m_fMoveDelay(0.f), m_fChaseDelay(0.f)
+	m_fAtkDelay(0.f), m_fMoveDelay(0.f), m_fChaseDelay(0.f),
+	m_isEverSeen_Player(false)
 {
 }
 
@@ -22,7 +23,8 @@ CMonsterBase::CMonsterBase(const CMonsterBase& rhs)
 	m_isNormalDead(rhs.m_isNormalDead),
 	m_isAtk(rhs.m_isAtk),
 	m_eCurAnimState(rhs.m_eCurAnimState),
-	m_fAtkDelay(0.f), m_fMoveDelay(0.f), m_fChaseDelay(0.f)
+	m_fAtkDelay(0.f), m_fMoveDelay(0.f), m_fChaseDelay(0.f),
+	m_isEverSeen_Player(false)
 {
 }
 
@@ -142,6 +144,8 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 	m_isAtk						= Check_Attack(fTimeDelta);
 
 
+	if (!m_isEverSeen_Player && m_isDetect_Player)
+		m_isEverSeen_Player = TRUE;
 
 	if (m_isAtk && m_isDetect_Player)
 		m_isDetected_Player = TRUE;
@@ -392,8 +396,12 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 		if(m_eCurAnimState != m_ePreAnimState)
 			m_eAnim_Type = MOVE;
 
-		Set_Move_Direction(&m_vMoveLook, 1.f, fTimeDelta);
-		Movement(fTimeDelta);
+		if (m_isEverSeen_Player)
+		{
+			Set_Move_Direction(&m_vMoveLook, 1.f, fTimeDelta);
+			Movement(fTimeDelta);
+		}
+
 		cout << "AI_MOVE" << endl;
 		break;
 	}
