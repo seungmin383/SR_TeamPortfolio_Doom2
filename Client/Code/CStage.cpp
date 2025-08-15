@@ -19,6 +19,8 @@
 #include "CAmmo_Clip.h"
 #include "CAmmo_Shell.h"
 
+#include "CBarrelExplosive.h"
+
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -50,6 +52,8 @@ HRESULT CStage::Ready_Scene()
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_ITEM);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYERCAMERA, OBJID::OBJ_ENEMY);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYERCAMERA, OBJID::OBJ_ITEM);
+
+	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYERCAMERA, OBJID::OBJ_OBJECT);
 
 	return S_OK;
 }
@@ -151,6 +155,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
 		return E_FAIL;
 
+	// 체력(소)
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH);
 
 	if (nullptr == pGameObject)
@@ -159,6 +164,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
 		return E_FAIL;
 
+	// 아머(소)
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_ARMOR);
 
 	if (nullptr == pGameObject)
@@ -167,6 +173,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
 		return E_FAIL;
 
+	// 총알
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_CLIP);
 
 	if (nullptr == pGameObject)
@@ -175,6 +182,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
 		return E_FAIL;
 
+	// 샷건 탄약
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_SHELL);
 
 	if (nullptr == pGameObject)
@@ -183,7 +191,43 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
 		return E_FAIL;
 
-	m_mapLayer.insert({ _eLayerId, pLayer });
+	// 폭발통
+	// 1개만 소환
+	/*pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pGameObject)))						
+		return E_FAIL;
+
+	m_mapLayer.insert({ _eLayerId, pLayer });*/
+
+	// 여러개 소환(테스트)
+	std::vector<_vec3> kBarrelPos = {
+		_vec3(25.f, 0.f, 25.f),
+		_vec3(28.f, 0.f, 25.f),
+		_vec3(31.f, 0.f, 25.f),
+		_vec3(25.f, 0.f, 28.f),
+		_vec3(28.f, 0.f, 28.f),
+		_vec3(31.f, 0.f, 28.f),
+	};
+
+	for (const auto& p : kBarrelPos)
+	{
+		auto* pBarrel = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL);
+		if (!pBarrel) return E_FAIL;
+
+		// Transform 컴포넌트로 위치/스케일 세팅
+		if (auto* tr = dynamic_cast<Engine::CTransform*>(pBarrel->Get_Component(Engine::ID_DYNAMIC, L"Com_Transform")))
+		{
+			tr->Set_Pos(p.x, p.y, p.z);
+			tr->Set_Scale(_vec3(0.2f, 0.2f, 0.2f)); // 필요 시
+		}
+
+		if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pBarrel)))
+			return E_FAIL;
+	}
 
 	////스파이더 마스터마인드
 	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SPIDERMASTERMIND);

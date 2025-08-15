@@ -88,6 +88,12 @@
     <Filter Include="02. GameObject\02. Monster\CBulletBase">
       <UniqueIdentifier>{ccc5dfd5-d951-407e-90a4-dceb5459330d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\06. Object\Explosion">
+      <UniqueIdentifier>{9e0ba8a6-5c42-4df7-8a9c-59cffe9e246f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\06. Object\DropItem">
+      <UniqueIdentifier>{13c728af-3ad7-461e-8107-987924d6db8c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -162,26 +168,29 @@
     <ClInclude Include="..\Header\CSpiderMastermind.h">
       <Filter>02. GameObject\02. Monster\CMonsterBase\04.CSpider Mastermind</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\CHealth_Small.h">
-      <Filter>02. GameObject\06. Object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\CArmor_Small.h">
-      <Filter>02. GameObject\06. Object</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\CShotgunGuy.h">
       <Filter>02. GameObject\02. Monster\CMonsterBase\05.CShotgunGuy</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\CAmmo_Clip.h">
-      <Filter>02. GameObject\06. Object</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CGameUI_Info_Ammo.h">
       <Filter>02. GameObject\09. UI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\CAmmo_Shell.h">
-      <Filter>02. GameObject\06. Object</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\CBulletBase.h">
       <Filter>02. GameObject\02. Monster\CBulletBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CBarrelExplosive.h">
+      <Filter>02. GameObject\06. Object\Explosion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CAmmo_Clip.h">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CAmmo_Shell.h">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CArmor_Small.h">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CHealth_Small.h">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -248,26 +257,29 @@
     <ClCompile Include="..\Code\CSpiderMastermind.cpp">
       <Filter>02. GameObject\02. Monster\CMonsterBase\04.CSpider Mastermind</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\CHealth_Small.cpp">
-      <Filter>02. GameObject\06. Object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\CArmor_Small.cpp">
-      <Filter>02. GameObject\06. Object</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\CShotgunGuy.cpp">
       <Filter>02. GameObject\02. Monster\CMonsterBase\05.CShotgunGuy</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\CAmmo_Clip.cpp">
-      <Filter>02. GameObject\06. Object</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CGameUI_Info_Ammo.cpp">
       <Filter>02. GameObject\09. UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\CAmmo_Shell.cpp">
-      <Filter>02. GameObject\06. Object</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\CBulletBase.cpp">
       <Filter>02. GameObject\02. Monster\CBulletBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CBarrelExplosive.cpp">
+      <Filter>02. GameObject\06. Object\Explosion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CAmmo_Clip.cpp">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CAmmo_Shell.cpp">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CArmor_Small.cpp">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CHealth_Small.cpp">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,12 @@
+{
+  "ResourcePath": "../../Client/Resource/Texture/DoomTex",
+  "PlayerResourcePath": "../../Client/Resource/Texture/DoomTex/Player",
+  "MonsterResourcePath": "../../Client/Resource/Texture/DoomTex/Monster",
+  "UIResourcePath": "../../Client/Resource/Texture/DoomTex/UI",
+  "ObjectResourcePath": "../../Client/Resource/Texture/DoomTex/Object",
+  "TerrainResourcePath": "../../Client/Resource/Texture/DoomTex/Terrain",
+
+  "ObjectSpawnSavePath": "../../Client/Asset/ObjectSpawn",
+  "MonsterSpawnSavePath": "../../Client/Asset/MonsterSpawn",
+  "TerrainSavePath": "../../Client/Asset/TerrainSave"
+}
