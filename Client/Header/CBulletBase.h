@@ -14,8 +14,7 @@ public:
     virtual     void			OnCollisionEnter(CCollider* _pOther) override;
     virtual     void			OnCollisionExit(CCollider* _pOther) override;
 
-// ¿Ö ¿©±ä public??
-public:
+private:
     virtual HRESULT     Add_Component();
 
 protected:

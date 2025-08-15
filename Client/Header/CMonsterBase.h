@@ -25,6 +25,10 @@ public:
     virtual     void                 LateUpdate_GameObject(const _float& fTimeDelta);
     virtual     void                 Render_GameObject(const _float& fTimeDelta);
 
+    virtual void			            OnCollision(CCollider* _pOther) override;
+    virtual void			            OnCollisionEnter(CCollider* _pOther) override;
+    virtual void			            OnCollisionExit(CCollider* _pOther) override;
+
     //Thinker 개편
     virtual void Thinker(const _float& fTimeDelta);                                 //생각하는 함수 -> 몬스터 AI
     virtual _int Perception(const _float& fTimeDelta);                               //인지하는 함수 -> 몬스터가 어떤 행동을 할지 상태를 지정해주는 함수
