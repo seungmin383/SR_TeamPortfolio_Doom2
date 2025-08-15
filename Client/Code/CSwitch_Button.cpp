@@ -5,8 +5,9 @@
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
 
+
 CSwitch_Button::CSwitch_Button(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev)
+	: CGameObject(pGraphicDev), m_pObjTarget(nullptr)
 {
 }
 
@@ -23,6 +24,7 @@ HRESULT CSwitch_Button::Ready_GameObject()
 {
 	if (FAILED(Add_Component()))
 		return E_FAIL;
+
 
 	m_pTransformCom->Set_Pos(15.f, 0.f, 18.f);
 	m_pTransformCom->Set_Scale(_vec3(0.1f, 0.1f, 0.1f));
@@ -46,8 +48,6 @@ _int CSwitch_Button::Update_GameObject(const _float& fTimeDelta)
 	Set_OnTerrain();
 	Bill_Board();
 
-	//SetSwitchOn();
-
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	return 0;
@@ -67,12 +67,12 @@ void CSwitch_Button::Render_GameObject(const _float& fTimeDelta)
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
-	if (m_bPressed)
+	if (m_bPressed) {
 		m_pTextureCom2->Set_Texture();
+	}
 	else
 	{
 		m_pTextureCom->Set_Texture();
-		//SetSwitchOn();// 문 열림 처리
 	}
 
 
@@ -92,13 +92,14 @@ void CSwitch_Button::OnCollisionEnter(CCollider* _pOther)
 {
 	if (!_pOther) return;
 
-	if (m_state == State::Idle)
+	if (m_state == State::Idle && m_pObjTarget != nullptr)
 	{
 		const auto layer = _pOther->Get_ColLayer();
 
 		// 플레이어랑만 처리
 		if (layer & (COL_PLAYERCAMERA)) {
 			m_bPressed = true;
+			SetSwitchOn();
 			m_state = State::Dead;
 		}
 	}
@@ -209,7 +210,7 @@ void CSwitch_Button::Bill_Board()
 
 void CSwitch_Button::SetSwitchOn()
 {
-
+	m_pObjTarget->OpenDoor();
 }
 
 CSwitch_Button* CSwitch_Button::Create(LPDIRECT3DDEVICE9 pGraphicDev)

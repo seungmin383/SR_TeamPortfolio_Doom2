@@ -20,6 +20,8 @@ public:
 	virtual     void			OnCollisionEnter(CCollider* _pOther) override;
 	virtual     void			OnCollisionExit(CCollider* _pOther) override;
 
+	void OpenDoor();
+
 private:
 	bool m_bPressed = false;
 	_float m_fTimer  = 0.f;
@@ -28,7 +30,7 @@ private:
 	HRESULT Add_Component();
 	void        Set_OnTerrain();
 	void		Bill_Board();
-	void		DoorMoving(const _float& fTimeDelta);
+	void		DoorOpening(const _float& fTimeDelta);
 
 private:
 	enum class State { Idle, Opening, Open, Closing, Dead };

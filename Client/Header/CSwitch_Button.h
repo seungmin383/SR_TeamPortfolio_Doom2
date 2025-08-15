@@ -2,6 +2,7 @@
 #include "CGameObject.h"
 #include "CDynamicCamera.h"
 #include "CPrototypeManager.h"
+#include "CDoor.h"
 
 class CSwitch_Button :    public CGameObject
 {
@@ -20,6 +21,8 @@ public:
 	virtual     void			OnCollisionEnter(CCollider* _pOther) override;
 	virtual     void			OnCollisionExit(CCollider* _pOther) override;
 
+	void Set_Target(CDoor* pDoor) { m_pObjTarget = pDoor; }
+
 private:
 	bool m_bPressed = false;
 
@@ -33,6 +36,8 @@ private:
 	Engine::CTexture* m_pTextureCom;						// 스위치 초기상태
 	Engine::CTexture* m_pTextureCom2;						// 스위치 작동(대부분 켜져 있는걸 끄기)
 	Engine::CCalculator* m_pCalculatorCom;
+
+	CDoor* m_pObjTarget;
 
 private:
 	enum class State { Idle, Dead };

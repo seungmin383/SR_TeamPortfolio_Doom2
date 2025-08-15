@@ -58,11 +58,9 @@ HRESULT CDoor::Ready_GameObject()
 
 _int CDoor::Update_GameObject(const _float& fTimeDelta)
 {
-
-
 	CGameObject::Update_GameObject(fTimeDelta);
 
-	DoorMoving(fTimeDelta);
+	DoorOpening(fTimeDelta);
 
 	Bill_Board();
 
@@ -108,13 +106,21 @@ void CDoor::OnCollisionEnter(CCollider* _pOther)
 
 		// 플레이어랑만 처리
 		if (layer & (COL_PLAYERCAMERA)) {
-			m_state = State::Opening;
+			OpenDoor();
 		}
 	}	
 }
 
 void CDoor::OnCollisionExit(CCollider* _pOther)
 {
+}
+
+void CDoor::OpenDoor()
+{
+	if (m_state == State::Idle)
+	{
+		m_state = State::Opening;
+	}
 }
 
 HRESULT CDoor::Add_Component()
@@ -188,7 +194,7 @@ void CDoor::Bill_Board()
 {
 }
 
-void CDoor::DoorMoving(const _float& fTimeDelta)
+void CDoor::DoorOpening(const _float& fTimeDelta)
 {
 	_vec3 vUp = { 0.f, 1.f, 0.f };
 	_vec3 vDown = { 0.f, -1.f, 0.f };
