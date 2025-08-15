@@ -152,6 +152,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
+	auto a = pGameObject;
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
 		return E_FAIL;
 
@@ -249,7 +250,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
 	//	return E_FAIL;
 
-	//m_mapLayer.insert({ _eLayerId, pLayer });
+	m_mapLayer.insert({ _eLayerId, pLayer });
 	return S_OK;
 }
 
