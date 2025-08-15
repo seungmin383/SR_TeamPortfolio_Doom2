@@ -116,7 +116,8 @@ protected:
 
     _bool m_isPinky = FALSE;
 
-    _float m_fMoveAngle = 0.f;
+    _float m_fTargetAngle = 0.f;
+    _float m_fCurAngle = 1.f;
 protected:
     virtual void Free();
 

@@ -89,62 +89,189 @@ void CMonsterBase::OnCollisionEnter(CCollider* _pOther)
 void CMonsterBase::OnCollisionExit(CCollider* _pOther)
 {
 }
-
 _vec3 CMonsterBase::Set_Move_Direction(_vec3* _Look, _float _DelayTime, _float _fTimedelta)
 {
-	if(_Look != nullptr)
-		m_vtmpLook = *_Look;
+	std::cout << "m_fTargetAngle:" << m_fTargetAngle << std::endl;
+	std::cout << "m_fCurAngle:" << m_fCurAngle << std::endl;
 
-	_int RandMove = rand() % 2;
+	if (_Look != nullptr)
+		m_vtmpLook = *_Look;
 
 	_matrix RotMat;
 	D3DXMatrixIdentity(&RotMat);
-	m_fMoveDelay += _fTimedelta;
 
-	if(m_fMoveDelay > 1.f)
+	// --- 1) 랩 고려한 각도 차이(delta) 계산 ---
+	float delta = m_fTargetAngle - m_fCurAngle;
+	// -360~360로 먼저 접고
+	delta = fmodf(delta, 360.f);
+	// -180~180으로 재래핑
+	if (delta > 180.f) delta -= 360.f;
+	if (delta < -180.f) delta += 360.f;
+
+	// --- 2) 목표각을 향해 한 스텝 이동 (시간 기반 회전 속도 권장) ---
+	// 현재는 고정 2도/프레임. 시간기반 원하면 float turnSpeed=180.f; float step=turnSpeed*_fTimedelta;
+	float step = 2.f;
+	if (delta > step)      m_fCurAngle += step;
+	else if (delta < -step) m_fCurAngle -= step;
+	else                    m_fCurAngle = m_fTargetAngle; // 스냅
+
+	// --- 3) 현재각 래핑 (-180~180) ---
+	m_fCurAngle = fmodf(m_fCurAngle, 360.f);
+	if (m_fCurAngle > 180.f) m_fCurAngle -= 360.f;
+	if (m_fCurAngle < -180.f) m_fCurAngle += 360.f;
+
+	// --- 4) 도달 판정 → 새 목표각 선택 ---
+	// (delta를 다시 계산하지 않고도 사용 가능)
+	if (fabsf(delta) <= 2.f)
 	{
-		//각 숫자에 맞는 방향으로 이동하기
+		int RandMove = rand() % 14; 
 		switch (RandMove)
 		{
-		case 0:		m_fMoveAngle += 45.f;
-			break;
-
-		case 1:		m_fMoveAngle += -45.f;
-			break;
-
-		default:
-			break;
+		case 0:  m_fTargetAngle = 0.f;   break;
+		case 1:  m_fTargetAngle = 30.f;   break;
+		case 2:  m_fTargetAngle = 60.f;   break;
+		case 3:  m_fTargetAngle = 90.f;   break;
+		case 4:  m_fTargetAngle = 120.f;   break;
+		case 5:  m_fTargetAngle = 150.f;   break;
+		case 6:  m_fTargetAngle = 180.f;   break;
+		case 7:  m_fTargetAngle = -30.f;   break;
+		case 8:  m_fTargetAngle = -60.f;   break;
+		case 9:  m_fTargetAngle = -90.f;   break;
+		case 10: m_fTargetAngle = -120.f;  break;
+		case 11: m_fTargetAngle = -150.f;  break;
+		case 12: m_fTargetAngle = -180.f;  break;
+		case 13: m_fTargetAngle = 120.f;  break;
 		}
-		m_fMoveDelay = 0.f;
+		// 목표각도도 래핑
+		m_fTargetAngle = fmodf(m_fTargetAngle, 360.f);
+		if (m_fTargetAngle > 180.f) m_fTargetAngle -= 360.f;
+		if (m_fTargetAngle < -180.f) m_fTargetAngle += 360.f;
 	}
 
-	//좀더 둠스러운 움직임
-	switch (RandMove%2)
-	{
-	case 0:
-		m_fMoveAngle += 1.f;
-		break;
+	std::cout << "m_fAngle : " << m_fTargetAngle << std::endl;
 
-	case 1:
-		m_fMoveAngle -= 1.f;
-		break;
-
-	default:
-		m_fMoveAngle += 0.f;
-		break;
-	}
-
-	cout << "m_fAngle : " << m_fMoveAngle << endl;
-
-	_vec3 vForward(0.f, 0.f, 1.f);
-	D3DXMatrixRotationY(&RotMat, D3DXToRadian(m_fMoveAngle));
-	D3DXVec3Normalize(&m_vtmpLook, &m_vtmpLook);
+	// --- 5) 회전 적용 후 이동 방향 벡터 갱신 ---
+	const _vec3 vForward(0.f, 0.f, 1.f);
+	D3DXMatrixRotationY(&RotMat, D3DXToRadian(m_fCurAngle));
 	D3DXVec3TransformNormal(&m_vtmpLook, &vForward, &RotMat);
-	if(_Look != nullptr)
+	m_vtmpLook.y = 0.f;
+	D3DXVec3Normalize(&m_vtmpLook, &m_vtmpLook);
+
+	if (_Look != nullptr)
 		*_Look = m_vtmpLook;
 
 	return m_vtmpLook;
 }
+//_vec3 CMonsterBase::Set_Move_Direction(_vec3* _Look, _float _DelayTime, _float _fTimedelta)
+//{
+//	std::cout << "m_fTargetAngle:" << m_fTargetAngle << endl;
+//	std::cout << "m_fCurAngle:" << m_fCurAngle << endl;
+//
+//
+//
+//	if(_Look != nullptr)
+//		m_vtmpLook = *_Look;
+//
+//	_matrix RotMat;
+//	D3DXMatrixIdentity(&RotMat);
+//
+//	//절대값을 비교
+//
+//	//만약 CurAngle 절대값이 Target Angle 절대값 보다 크다
+//	//-> 빼기
+//	if (fabsf(m_fCurAngle) > fabsf(m_fTargetAngle))
+//		m_fCurAngle -= 1.f;
+//
+//	//만약 CurAngle 절대값이 targetAngle 절대값보다 작다
+//	//-> 더하기
+//	else if (fabsf(m_fCurAngle) < fabsf(m_fTargetAngle))
+//		m_fCurAngle += 1.f;
+//
+//	//만약 CurAngle이 180 보다 커진다
+//	//-> 부호 바꿔주기
+//	if (m_fCurAngle > 180.f)
+//		m_fCurAngle += -360.f;
+//	else if (m_fCurAngle < -180.f)
+//		m_fCurAngle += 360.f;
+//
+//	//만약 CurAngle이 -180 보다 작아진다
+//	//-> 부호 바꿔주기
+//
+//
+//	/*if (m_fTargetAngle >=  m_fCurAngle - 2.f && 
+//		m_fTargetAngle <= m_fCurAngle + 2.f)*/
+//	if(true)
+//	{
+//		_int RandMove = rand() % 16;
+//		
+//			//각 숫자에 맞는 방향으로 이동하기
+//			switch (RandMove)
+//			{
+//			case 0:
+//				m_fTargetAngle = 0.f;
+//				break;
+//			case 1:
+//				m_fTargetAngle = 30.f;
+//				break;
+//			case 2:
+//				m_fTargetAngle = 60.f;
+//				break;
+//			case 3:
+//				m_fTargetAngle = 90.f;
+//				break;
+//			case 4:
+//				m_fTargetAngle = 120.f;
+//				break;
+//			case 5:
+//				m_fTargetAngle = 150.f;
+//				break;
+//			case 6:
+//				m_fTargetAngle = 180.f;
+//				break;
+//			case 7:
+//				m_fTargetAngle = 0.f;
+//				break;
+//			case 8:
+//				m_fTargetAngle = -30.f;
+//				break;
+//			case 9:
+//				m_fTargetAngle = -60.f;
+//				break;
+//			case 10:
+//				m_fTargetAngle = -90.f;
+//				break;
+//			case 11:
+//				m_fTargetAngle = -120.f;
+//				break;
+//			case 12:
+//				m_fTargetAngle = -150.f;
+//				break;
+//			case 13:
+//				m_fTargetAngle = -180.f;
+//				break;
+//			case 14:
+//				m_fTargetAngle = -180.f;
+//				break;
+//			case 15:
+//				m_fTargetAngle = 180.f;
+//				break;
+//
+//			default:
+//				break;
+//			}
+//	}
+//	std::cout << "m_fAngle : " << m_fTargetAngle << endl;
+//
+//	_vec3 vForward(0.f, 0.f, 1.f);
+//	D3DXMatrixRotationY(&RotMat, D3DXToRadian(m_fCurAngle));
+//	D3DXVec3Normalize(&m_vtmpLook, &m_vtmpLook);
+//	D3DXVec3TransformNormal(&m_vtmpLook, &vForward, &RotMat);
+//
+//	if(_Look != nullptr)
+//		*_Look = m_vtmpLook;
+//
+//	return m_vtmpLook;
+//}
 
 void CMonsterBase::Thinker(const _float& fTimeDelta)
 {
@@ -300,7 +427,7 @@ _bool CMonsterBase::Check_Target()
 
 _bool CMonsterBase::Check_Dead()
 {
-	cout << m_iHp << endl;
+	std::cout << m_iHp << endl;
 	if (m_iHp <= 0)
 	{
 		if (m_iHp <= -30)
