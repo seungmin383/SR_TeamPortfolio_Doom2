@@ -54,6 +54,7 @@ public:
 public:
     // 08-12 - 최대 체력 넘어가면 안되는 코드 제작(200은 최대 Armor랑 최대 Hp, 최대 Clip수로 일단은 제한)
     // 08-13 - 최대 수치 관련 로직 수정
+    // 08-15 - 최대 수치 넘어가지 않게 수정
     void AddHP(_int heal) 
     { 
         m_iHp += heal;

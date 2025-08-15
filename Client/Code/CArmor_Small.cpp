@@ -72,6 +72,7 @@ void CArmor_Small::LateUpdate_GameObject(const _float& fTimeDelta)
 void CArmor_Small::Render_GameObject(const _float& fTimeDelta)
 {
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
@@ -81,6 +82,7 @@ void CArmor_Small::Render_GameObject(const _float& fTimeDelta)
 	//�浹ü
 	m_pColliderCom->Render(g_colRend);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }
 
 void CArmor_Small::OnCollision(CCollider* _pOther)

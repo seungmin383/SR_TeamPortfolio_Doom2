@@ -28,6 +28,8 @@
 #include "CAmmo_Shell.h"
 
 #include "CBarrelExplosive.h"
+#include "CDoor.h"
+#include "CSwitch_Button.h"
 
 CMainApp::CMainApp()
 	: m_pGraphicDev(nullptr),
@@ -156,6 +158,14 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL, CBarrelExplosive::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	// 문
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::DOOR, CDoor::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 스위치
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR, CSwitch_Button::Create(m_pGraphicDev))))
+		return E_FAIL;
+
 	//텍스처 필터
 	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
@@ -170,7 +180,7 @@ HRESULT CMainApp::Ready_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	m_pManagementClass->Add_Scene(SCENEID::LOGO, new CLogo(pGraphicDev));
 	m_pManagementClass->Add_Scene(SCENEID::STAGE1, new CStage(pGraphicDev));
-	
+
 	if (FAILED(m_pManagementClass->Change_Scene(SCENEID::LOGO)))
 	{
 		MSG_BOX("Scene Setting Failed");
@@ -197,7 +207,7 @@ void CMainApp::Free()
 {
 	Engine::Safe_Release(m_pDeviceClass);
 	Engine::Safe_Release(m_pGraphicDev);
-	
+
 	CColliderManager::GetInstance()->DestroyInstance();
 	CLightManager::GetInstance()->DestroyInstance();
 	CFontManager::GetInstance()->DestroyInstance();

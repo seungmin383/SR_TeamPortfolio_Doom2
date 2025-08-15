@@ -127,6 +127,15 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_BarrelExplosion", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/BEXPA%d.png", TEX_NORMAL, 5))))
 		return E_FAIL;
 
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Door_1", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/DOOR2_4.png", TEX_NORMAL))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Switch_On", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/SW1S1.png", TEX_NORMAL))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Switch_Off", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/SW1S0.png", TEX_NORMAL))))
+		return E_FAIL;
+
 	lstrcpy(m_szLoading, L"Etc Component Loading.....................");
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Transform", Engine::CTransform::Create(m_pGraphicDev))))

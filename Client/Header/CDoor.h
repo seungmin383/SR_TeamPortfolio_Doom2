@@ -1,0 +1,54 @@
+#pragma once
+#include "CGameObject.h"
+#include "CDynamicCamera.h"
+#include "CPrototypeManager.h"
+
+class CDoor :    public CGameObject
+{
+private:
+	explicit CDoor(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CDoor(const CGameObject& rhs);
+	virtual ~CDoor();
+
+public:
+	virtual HRESULT Ready_GameObject();
+	virtual _int    Update_GameObject(const _float& fTimeDelta);
+	virtual void	LateUpdate_GameObject(const _float& fTimeDelta);
+	virtual void    Render_GameObject(const _float& fTimeDelta);
+
+	virtual     void			OnCollision(CCollider* _pOther) override;
+	virtual     void			OnCollisionEnter(CCollider* _pOther) override;
+	virtual     void			OnCollisionExit(CCollider* _pOther) override;
+
+private:
+	bool m_bPressed = false;
+	_float m_fTimer  = 0.f;
+
+private:
+	HRESULT Add_Component();
+	void        Set_OnTerrain();
+	void		Bill_Board();
+	void		DoorMoving(const _float& fTimeDelta);
+
+private:
+	enum class State { Idle, Opening, Open, Closing, Dead };
+	State           m_state = State::Idle;
+
+	_vec3 m_vOriginPos;
+	_float m_fOpenHeight = 4.f;
+	_float m_fStayOpenTime = 5.f;
+
+private:
+	Engine::CRectSpriteTex* m_pBufferCom;
+	Engine::CTexture* m_pTextureCom;						// 스위치 초기상태
+	Engine::CCalculator* m_pCalculatorCom;
+
+public:
+	static CDoor* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual CDoor* Clone() override;
+
+private:
+	virtual void Free();
+
+};
+
