@@ -10,6 +10,7 @@
 #include "CTerrainTex.h"
 #include "CCubeTex.h"
 #include "CRectSpriteTex.h"
+#include "CTerrainTexSector.h"
 
 #include "CTransform.h"
 #include "CTexture.h"

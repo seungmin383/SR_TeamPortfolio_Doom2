@@ -22,7 +22,7 @@ CComponent* CScene::Get_Component(COMPONENTID eID, LAYERID eLayerId, OBJID eObjI
 	return iter->second->Get_Component(eID, eObjId, pComponentTag);
 }
 
-const vector<CGameObject*>& CScene::Get_ObjectGroup(LAYERID eLayerId, OBJID eObjId)
+const vector<CGameObject*> CScene::Get_ObjectGroup(LAYERID eLayerId, OBJID eObjId)
 {
 	vector<CGameObject*> result;
 

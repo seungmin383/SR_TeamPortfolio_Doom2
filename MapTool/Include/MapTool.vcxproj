@@ -158,10 +158,12 @@
     <ClInclude Include="..\Header\CMainApp.h" />
     <ClInclude Include="..\Header\CMonster.h" />
     <ClInclude Include="..\Header\CMonsterBase.h" />
+    <ClInclude Include="..\Header\CObjectFactory.h" />
     <ClInclude Include="..\Header\CPlayerWeapon.h" />
     <ClInclude Include="..\Header\CSkyBox.h" />
     <ClInclude Include="..\Header\CStage.h" />
     <ClInclude Include="..\Header\CTerrain.h" />
+    <ClInclude Include="..\Header\CTerrainSector.h" />
     <ClInclude Include="..\Header\CTextureExplorer.h" />
     <ClInclude Include="..\Header\CTextureManager.h" />
     <ClInclude Include="..\Header\CZombieMan.h" />
@@ -192,10 +194,12 @@
     <ClCompile Include="..\Code\CMainApp.cpp" />
     <ClCompile Include="..\Code\CMonster.cpp" />
     <ClCompile Include="..\Code\CMonsterBase.cpp" />
+    <ClCompile Include="..\Code\CObjectFactory.cpp" />
     <ClCompile Include="..\Code\CPlayerWeapon.cpp" />
     <ClCompile Include="..\Code\CSkyBox.cpp" />
     <ClCompile Include="..\Code\CStage.cpp" />
     <ClCompile Include="..\Code\CTerrain.cpp" />
+    <ClCompile Include="..\Code\CTerrainSector.cpp" />
     <ClCompile Include="..\Code\CTextureExplorer.cpp" />
     <ClCompile Include="..\Code\CTextureManager.cpp" />
     <ClCompile Include="..\Code\CZombieMan.cpp" />

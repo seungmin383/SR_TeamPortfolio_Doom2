@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CTextureExplorer.h"
+#include "CObjectFactory.h"
 
 CTextureExplorer::CTextureExplorer()
 	: TextureRepo(nullptr),
@@ -35,6 +36,7 @@ void CTextureExplorer::DrawExplorerWindow()
 
 	if (ImGui::Button("Move Upper"))
 		MoveParentDir();
+	ImGui::SameLine();
 
 	if (ImGui::Button("Scan Texture"))
 	{
@@ -42,6 +44,17 @@ void CTextureExplorer::DrawExplorerWindow()
 		if (drawTextureList)
 			BulkLoadTexture();
 	}
+
+	if (ImGui::Button("Select Texture"))
+	{
+		vector<_vec3> tempVertices;
+		tempVertices.push_back(_vec3(1, 1, 1));
+		tempVertices.push_back(_vec3(1, 1, 1));
+		tempVertices.push_back(_vec3(1, 1, 1));
+		tempVertices.push_back(_vec3(1, 1, 1));
+		CObjectFactory::GetInstance()->Create_Terrain(2, 2, 1, tempVertices, (_tchar*)selectedTexture.wstring().c_str());
+	}
+	ImGui::NewLine();
 
 	ChildListBox();
 	FileListListBox();
@@ -51,7 +64,6 @@ void CTextureExplorer::DrawExplorerWindow()
 		ImGui::BeginChild("Textures", ImVec2(0, 420.f));
 		TextureList();
 		ImGui::EndChild();
-
 	}
 }
 

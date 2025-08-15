@@ -76,6 +76,12 @@
     <Filter Include="04. ImGuiWindow\00. TextureExplorer">
       <UniqueIdentifier>{f56a35fb-2a07-48ef-a6fe-e9e9a433c76c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\90. TerrainSector">
+      <UniqueIdentifier>{5792defb-1536-4070-95d3-664e96b7da24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\92. ObjectFactory">
+      <UniqueIdentifier>{e469f74a-3374-4bfa-b72f-ccf2d769364f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -174,6 +180,12 @@
     <ClInclude Include="..\Header\CTextureExplorer.h">
       <Filter>04. ImGuiWindow\00. TextureExplorer</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CTerrainSector.h">
+      <Filter>02. GameObject\90. TerrainSector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CObjectFactory.h">
+      <Filter>03. Manager\92. ObjectFactory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapTool.cpp">
@@ -259,6 +271,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\CTextureExplorer.cpp">
       <Filter>04. ImGuiWindow\00. TextureExplorer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CTerrainSector.cpp">
+      <Filter>02. GameObject\90. TerrainSector</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CObjectFactory.cpp">
+      <Filter>03. Manager\92. ObjectFactory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

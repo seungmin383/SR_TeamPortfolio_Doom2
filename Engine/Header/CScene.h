@@ -17,9 +17,9 @@ public:
         OBJID eObjId,
         const _tchar* pComponentTag);
 
-    const vector<CGameObject*>& Get_ObjectGroup(LAYERID eLayerId, OBJID eObjId);
+    const vector<CGameObject*> Get_ObjectGroup(LAYERID eLayerId, OBJID eObjId);
 
-    const map<LAYERID, CLayer*>& Get_Layer() { return m_mapLayer; };
+    const map<LAYERID, CLayer*> Get_Layer() { return m_mapLayer; };
 
     const vector<CGameObject*> Get_TotalGameObject();
     const vector<CGameObject*> Get_TotalGameObject(OBJID eObjId);
