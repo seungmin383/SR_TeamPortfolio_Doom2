@@ -106,7 +106,13 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Heal_Small", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/Heal_Small%d.png", TEX_NORMAL, 4))))
 		return E_FAIL;
 
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Heal_Big", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/MEDIA0.png", TEX_NORMAL))))
+		return E_FAIL;
+
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Armor_Small", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/Armor_Small%d.png", TEX_NORMAL, 4))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Armor_Big", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/ARM2A%d.png", TEX_NORMAL, 2))))
 		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Clip", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/CLIPA0.png", TEX_NORMAL))))

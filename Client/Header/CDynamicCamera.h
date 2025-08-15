@@ -56,34 +56,31 @@ public:
     // 08-13 - 최대 수치 관련 로직 수정
     void AddHP(_int heal) 
     { 
+        m_iHp += heal;
         if (m_iHp >= m_iMax)
             m_iHp = m_iMax;
-        else
-            m_iHp += heal;
     }
 
     void AddArmor(_int armor) 
     { 
+        m_iArmor += armor;
         if (m_iArmor >= m_iMax)
             m_iArmor = m_iMax;
-        else
-            m_iArmor += armor;
     }
 
     void AddClip(_int clip) 
     {
+        m_iClip += clip;
         if (m_iClip >= m_iMax)
             m_iClip = m_iMax;
-        else
-            m_iClip += clip;
     }
 
     void AddShell(_int shell)
     {
-        if (m_iShell >= m_iMax)
-            m_iShell = m_iMax;
-        else
-            m_iShell += shell;
+        m_iShell += shell;
+        if (m_iShell >= m_iMax / 4)
+            m_iShell = m_iMax / 4;
+
     }
 
 private:

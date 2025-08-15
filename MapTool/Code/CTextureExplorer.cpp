@@ -5,7 +5,7 @@ CTextureExplorer::CTextureExplorer()
 	: TextureRepo(CTextureManager::GetInstance())
 {
 	CFileManager::GetInstance()->GetConfig();
-	CFileManager::GetInstance()->MoveDir(CFileManager::GetInstance()->GetTerrainResourceDir(););
+	CFileManager::GetInstance()->MoveDir(CFileManager::GetInstance()->GetTerrainResourceDir());
 	
 
 }

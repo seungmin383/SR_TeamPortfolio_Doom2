@@ -21,7 +21,9 @@
 
 #include "CPlayerWeapon.h"
 #include "CHealth_Small.h"
+#include "CHealth_Big.h"
 #include "CArmor_Small.h"
+#include "CArmor_Big.h"
 #include "CAmmo_Clip.h"
 #include "CAmmo_Shell.h"
 
@@ -127,11 +129,19 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 		return E_FAIL;
 
 	// 체력(소)
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH, CHealth_Small::Create(m_pGraphicDev))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH_SMALL, CHealth_Small::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 체력(대)
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH_BIG, CHealth_Big::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	// 아머(소)
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_ARMOR, CArmor_Small::Create(m_pGraphicDev))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_ARMOR_SMALL, CArmor_Small::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 아머(대)
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_ARMOR_BIG, CArmor_Big::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	// 총알

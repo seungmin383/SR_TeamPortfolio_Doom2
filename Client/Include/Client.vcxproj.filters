@@ -192,6 +192,12 @@
     <ClInclude Include="..\Header\CHealth_Small.h">
       <Filter>02. GameObject\06. Object\DropItem</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CArmor_Big.h">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CHealth_Big.h">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -279,6 +285,12 @@
       <Filter>02. GameObject\06. Object\DropItem</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CHealth_Small.cpp">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CArmor_Big.cpp">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CHealth_Big.cpp">
       <Filter>02. GameObject\06. Object\DropItem</Filter>
     </ClCompile>
   </ItemGroup>

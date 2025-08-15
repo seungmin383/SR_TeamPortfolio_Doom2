@@ -16,6 +16,7 @@
 #include "CGameUI_Info_Ammo.h"
 #include "CHealth_Small.h"
 #include "CArmor_Small.h"
+#include "CArmor_Big.h"
 #include "CAmmo_Clip.h"
 #include "CAmmo_Shell.h"
 
@@ -156,7 +157,16 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 		return E_FAIL;
 
 	// 체력(소)
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH);
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH_SMALL);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
+		return E_FAIL;
+
+	// 체력(대)
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH_BIG);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
@@ -165,7 +175,16 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 		return E_FAIL;
 
 	// 아머(소)
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_ARMOR);
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_ARMOR_SMALL);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
+		return E_FAIL;
+
+	// 아머(대)
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_ARMOR_BIG);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
@@ -193,15 +212,15 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	// 폭발통
 	// 1개만 소환
-	/*pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL);
+	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL);
+	//
+	//if (nullptr == pGameObject)
+	//	return E_FAIL;
+	//
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pGameObject)))						
+	//	return E_FAIL;
 
-	if (nullptr == pGameObject)
-		return E_FAIL;
-
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pGameObject)))						
-		return E_FAIL;
-
-	m_mapLayer.insert({ _eLayerId, pLayer });*/
+	/*m_mapLayer.insert({ _eLayerId, pLayer });*/
 
 	// 여러개 소환(테스트)
 	std::vector<_vec3> kBarrelPos = {
@@ -238,7 +257,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
 		return E_FAIL;
 
-	m_mapLayer.insert({ _eLayerId, pLayer });
+	//m_mapLayer.insert({ _eLayerId, pLayer });
 
 	//샷건 가이
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SHOTGUNGUY);
