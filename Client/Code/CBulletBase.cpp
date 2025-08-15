@@ -1,8 +1,11 @@
 #include "pch.h"
 #include "CBulletBase.h"
+#include "CManagement.h"
+#include <CDynamicCamera.h>
 
 CBulletBase::CBulletBase(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CGameObject(pGraphicDev)
+	:CGameObject(pGraphicDev),
+	m_iDamage(0)
 {
 }
 
@@ -70,6 +73,20 @@ HRESULT CBulletBase::Add_Component()
 
 	return S_OK;
 
+}
+
+void CBulletBase::OnCollision(CCollider* _pOther)
+{
+}
+
+void CBulletBase::OnCollisionEnter(CCollider* _pOther)
+{
+	if (_pOther == CManagement::GetInstance()->Get_Player()->GetCollider())
+		dynamic_cast<CDynamicCamera*>(_pOther->Get_Owner())->Take_Damage(m_iDamage);
+}
+
+void CBulletBase::OnCollisionExit(CCollider* _pOther)
+{
 }
 
 void CBulletBase::Free()

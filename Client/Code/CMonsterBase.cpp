@@ -71,6 +71,24 @@ void                 CMonsterBase::Render_GameObject(const _float& fTimeDelta)
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
  }
 
+void CMonsterBase::OnCollision(CCollider* _pOther)
+{
+}
+
+void CMonsterBase::OnCollisionEnter(CCollider* _pOther)
+{
+	// 모든 몬스터들이 콜라이더 충돌이 아니라 Ray로 충돌했을경우
+	if (m_pColliderCom->Is_RayHit())
+	{
+		// 몬스터들 체력 감소, 잠깐 넉백 등등 공통 로직들 수행
+		// 특정 몬스터의 특별한 충돌 처리를 하려면 특정 몬스터 클래스 내부의 OnCollisionEnter 함수 사용
+	}
+}
+
+void CMonsterBase::OnCollisionExit(CCollider* _pOther)
+{
+}
+
 _vec3 CMonsterBase::Set_Move_Direction(_vec3* _Look, _float _DelayTime, _float _fTimedelta)
 {
 	if(_Look != nullptr)
