@@ -114,7 +114,7 @@ HRESULT CZombieMan::Ready_GameObject()
 
 #pragma region VARIABLE_SETTING
 	m_fSightAngle =D3DXToRadian( 80.f);
-	m_fSightDistance		= 5.f;
+	m_fSightDistance		= 25.f;
 
 	m_fAtkSpeed			= 4.f;
 	m_iHp						= 20;
@@ -159,23 +159,23 @@ void CZombieMan::Render_GameObject(const _float& fTimeDelta)
 	CMonsterBase::Render_GameObject(fTimeDelta);
 }
 
-void CZombieMan::OnCollision(CCollider* _pOther)	//콜라이더 끼리 충돌하고 잇을 때
-{
-	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
-
-	auto a = _pOther->Get_ID();
-
-	cout << a << endl;
-
-}
-
-void CZombieMan::OnCollisionEnter(CCollider* _pOther)	//콜라이더 끼리 충돌을 시작했을 때
-{
-}
-
-void CZombieMan::OnCollisionExit(CCollider* _pOther)		//콜라이더 끼리 충돌이 끝났을 때
-{
-}
+//void CZombieMan::OnCollision(CCollider* _pOther)	//콜라이더 끼리 충돌하고 잇을 때
+//{
+//	//CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
+//
+//	auto a = _pOther->Get_ID();
+//
+//	cout << a << endl;
+//
+//}
+//
+//void CZombieMan::OnCollisionEnter(CCollider* _pOther)	//콜라이더 끼리 충돌을 시작했을 때
+//{
+//}
+//
+//void CZombieMan::OnCollisionExit(CCollider* _pOther)		//콜라이더 끼리 충돌이 끝났을 때
+//{
+//}
 
 HRESULT CZombieMan::Add_Component()
 {

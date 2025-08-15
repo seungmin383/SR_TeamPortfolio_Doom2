@@ -34,7 +34,7 @@ public:
     virtual _int Perception(const _float& fTimeDelta);                               //인지하는 함수 -> 몬스터가 어떤 행동을 할지 상태를 지정해주는 함수
         virtual _bool Check_Dead();                                                             // 죽었는가?
         virtual _bool Check_Target();                                                           //시야에 플레이어가 있는지 확인하는 함수
-        virtual _bool Check_Hit();                                                                //맞았는가?
+        virtual void Check_Hit(const _float& fTimeDelta);                                                                //맞았는가?
         virtual _bool Check_Attack(const _float& fTimeDelta);
 
     virtual void  Action(const _float& fTimeDelta, _int _Thought);          //행동하는 함수
@@ -87,8 +87,10 @@ protected:
     _float m_fAtkDelay; 
     _float m_fMoveDelay;
     _float m_fChaseDelay;
+    _float m_fHitDelay;
 
-    _int m_EnterCnt = 0;
+    _int m_AtkEnterCnt = 0;         //공격체크 함수에 몇번 들어갔는지 확인
+    _int m_HitEnterCnt = 0;          //히트체크 함수에 몇번 들어갔는지 확인
 
     _bool m_isMove;
     _bool m_isAtk;
@@ -105,7 +107,6 @@ protected:
     _bool m_isGibbingDead;                 //폭사했는가?
 
     //Decision Variable
-    _ulong Monster_Stat_Bit;
 
     //기능 Function Variable
     _vec3   m_PlayerPos;

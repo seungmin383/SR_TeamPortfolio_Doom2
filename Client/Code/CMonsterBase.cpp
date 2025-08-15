@@ -80,9 +80,10 @@ void CMonsterBase::OnCollisionEnter(CCollider* _pOther)
 	// 모든 몬스터들이 콜라이더 충돌이 아니라 Ray로 충돌했을경우
 	if (m_pColliderCom->Is_RayHit())
 	{
-		// 몬스터들 체력 감소, 잠깐 넉백 등등 공통 로직들 수행
-		// 특정 몬스터의 특별한 충돌 처리를 하려면 특정 몬스터 클래스 내부의 OnCollisionEnter 함수 사용
+		m_isHit = TRUE;
+		m_iHp -= 1;
 	}
+
 }
 
 void CMonsterBase::OnCollisionExit(CCollider* _pOther)
@@ -157,7 +158,8 @@ void CMonsterBase::Thinker(const _float& fTimeDelta)
 _int CMonsterBase::Perception(const _float& fTimeDelta)
 {
 	m_isDead						= Check_Dead();
-	m_isHit							= Check_Hit();
+	//m_isHit							= Check_Hit();
+	Check_Hit(fTimeDelta);
 	m_isDetect_Player		= Check_Target();
 	m_isAtk						= Check_Attack(fTimeDelta);
 
@@ -184,7 +186,6 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 	}
 	if (GetAsyncKeyState('C'))
 	{
-		m_iHp = 100;
 		if(!m_isPinky)
 			m_isHit = TRUE;
 		m_isDetect_Player = FALSE;
@@ -299,6 +300,7 @@ _bool CMonsterBase::Check_Target()
 
 _bool CMonsterBase::Check_Dead()
 {
+	cout << m_iHp << endl;
 	if (m_iHp <= 0)
 	{
 		if (m_iHp <= -30)
@@ -314,35 +316,50 @@ _bool CMonsterBase::Check_Dead()
 	return FALSE;
 }
 
-_bool CMonsterBase::Check_Hit()
+void CMonsterBase::Check_Hit(const _float& fTimeDelta)
 {
-	return FALSE;
+	if (m_HitEnterCnt == 0)									//이 함수에 처음 입장했다면
+	{
+		m_HitEnterCnt++;
+	}
+	else
+	{
+		if (m_isHit && m_pAnimCom->Get_isFinAct())			//애니메이션이 끝났다면
+		{
+			m_HitEnterCnt = 0;
+			m_fAtkDelay = 0.f;
+			m_isHit = FALSE;
+		}
+		else
+		{
+			m_HitEnterCnt++;
+		}
+	}
 }
 
 _bool CMonsterBase::Check_Attack(const _float& fTimeDelta)
 {
 	m_fAtkDelay += fTimeDelta;
 
-
 	if (m_fAtkDelay > m_fAtkSpeed)
 	{
-		if (m_EnterCnt == 0)									//이 함수에 처음 입장했다면
+		if (m_AtkEnterCnt == 0)									//이 함수에 처음 입장했다면
 		{
-			m_EnterCnt++;										//카운트만 올리고 return 
+			m_AtkEnterCnt++;										//카운트만 올리고 return 
 			return TRUE;
 		}
 		else
 		{
 			if (m_pAnimCom->Get_isFinAct())			//애니메이션이 끝났다면
 			{
-				m_EnterCnt = 0;
+				m_AtkEnterCnt = 0;
 				m_fAtkDelay = 0.f;
 				m_isDetected_Player = FALSE;
 				return FALSE;
 			}
 			else
 			{
-				m_EnterCnt++;
+				m_AtkEnterCnt++;
 				return TRUE;
 			}
 
@@ -377,6 +394,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			m_eCurAnimState = m_iNorDeadPlus;
 			m_eAnim_Type = NOR_DEATH;
 		}
+		m_pColliderCom->Set_Active(false);
 		//cout << "AI_DEAD" << endl;
 		break;
 

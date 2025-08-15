@@ -16,9 +16,9 @@ public:
     virtual     void            LateUpdate_GameObject(const _float& fTimeDelta);
     virtual     void            Render_GameObject(const _float& fTimeDelta);
 
-    virtual     void			OnCollision(CCollider* _pOther) override;
+  /*  virtual     void			OnCollision(CCollider* _pOther) override;
     virtual     void			OnCollisionEnter(CCollider* _pOther) override;
-    virtual     void			OnCollisionExit(CCollider* _pOther) override;
+    virtual     void			OnCollisionExit(CCollider* _pOther) override;*/
 
 #pragma endregion
 

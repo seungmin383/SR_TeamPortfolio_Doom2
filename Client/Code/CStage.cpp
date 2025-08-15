@@ -60,6 +60,7 @@ HRESULT CStage::Ready_Scene()
 
 _int CStage::Update_Scene(const _float& fTimeDelta)
 {
+	CColliderManager::GetInstance()->Update();
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
 
 	return iExit;
@@ -69,7 +70,6 @@ void CStage::LateUpdate_Scene(const _float& fTimeDelta)
 {
 	Engine::CScene::LateUpdate_Scene(fTimeDelta);
 
-	CColliderManager::GetInstance()->Update();
 }
 
 void CStage::Render_Scene(const _float& fTimeDelta)
