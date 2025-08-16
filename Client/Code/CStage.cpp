@@ -270,23 +270,25 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 			return E_FAIL;
 	}
 
-	// 문
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::DOOR);
+	// 문 생성
+	Engine::CGameObject* pDoorObj = CPrototypeManager::GetInstance()
+		->Clone_ObjPrototype(OBJPROTOTYPE::DOOR);
+	if (nullptr == pDoorObj) return E_FAIL;
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pDoorObj))) return E_FAIL;
 
-	if (nullptr == pGameObject)
-		return E_FAIL;
+	// 스위치 생성
+	Engine::CGameObject* pSwitchObj = CPrototypeManager::GetInstance()
+		->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
+	if (nullptr == pSwitchObj) return E_FAIL;
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj))) return E_FAIL;
+	
+	// 문, 스위치 연결
+	auto* pDoor = dynamic_cast<CDoor*>(pDoorObj);
+	auto* pSwitch = dynamic_cast<CSwitch_Button*>(pSwitchObj);
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pGameObject)))
-		return E_FAIL;
-
-	// 스위치
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
-
-	if (nullptr == pGameObject)
-		return E_FAIL;
-
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pGameObject)))
-		return E_FAIL;
+	if (pDoor && pSwitch) {
+		pSwitch->Set_Target(pDoor);
+	}
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
 	return S_OK;
