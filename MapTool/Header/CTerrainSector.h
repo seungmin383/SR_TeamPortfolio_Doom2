@@ -31,7 +31,6 @@ private:
 
 private:
     Engine::CTerrainTexSector* m_pBufferCom;
-    Engine::CTransform* m_pTransformCom;
     Engine::CTexture* m_pTextureCom;
     Engine::CMaterial* m_pMaterialCom;
 

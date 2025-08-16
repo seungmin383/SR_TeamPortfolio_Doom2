@@ -31,8 +31,7 @@ CGameObject* CObjectFactory::Create_Terrain(const _ulong& dwCntX, const _ulong& 
 	auto sectorBuffer = Engine::CTerrainTexSector::Create(m_pGraphicDev, vertices, dwCntX, dwCntZ, dwVtxItv);
 	auto texture = CPrototypeManager::GetInstance()->Clone_ComPrototype(texTag);
 
-	auto prototype = CTerrainSector::Create(m_pGraphicDev);
-	auto terrainSector = prototype->Clone();
+	auto terrainSector = dynamic_cast<CTerrainSector*>(CPrototypeManager::GetInstance()->GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::TERRAINSECTOR));
 
 	terrainSector->Set_BufferCom(sectorBuffer);
 	terrainSector->Set_TextureCom(dynamic_cast<CTexture*>(texture));

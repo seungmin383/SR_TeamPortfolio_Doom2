@@ -60,6 +60,7 @@ void CTerrainSector::Render_GameObject(const _float& fTimeDelta)
 
 void CTerrainSector::Set_BufferCom(Engine::CTerrainTexSector* pBuffer)
 {
+	m_pBufferCom = pBuffer;
 	m_mapComponent[ID_STATIC].insert({ L"Com_Buffer", pBuffer });
 }
 
@@ -70,6 +71,7 @@ void CTerrainSector::Mod_BufferCom(const _ulong& dwCntX, const _ulong& dwCntZ, c
 
 void CTerrainSector::Set_TextureCom(Engine::CTexture* pTexture)
 {
+	m_pTextureCom = pTexture;
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pTexture });
 }
 

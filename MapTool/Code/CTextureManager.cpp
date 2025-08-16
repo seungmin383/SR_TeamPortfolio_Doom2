@@ -30,14 +30,21 @@ void CTextureManager::BulkLoadTexture(LPDIRECT3DDEVICE9 pGraphicDev, string str)
 
 		auto fileName = item.filename().wstring();
 		auto filePath = item.wstring();
-		pm->Ready_ComPrototype(fileName.c_str(), CTexture::Create(pGraphicDev, filePath.c_str(), TEX_NORMAL));
-		textureRepo[repoIdx].insert({ item.filename(), dynamic_cast<CTexture*>(pm->Clone_ComPrototype(fileName.c_str()))});
+		pm->Ready_ComPrototype(fileName, CTexture::Create(pGraphicDev, filePath.c_str(), TEX_NORMAL));
+		textureRepo[repoIdx].insert({ fileName, dynamic_cast<CTexture*>(pm->Clone_ComPrototype(fileName))});
 	}
 }
 
 map<fs::path, CTexture*> CTextureManager::GetTextureGroup(string str)
 {
 	return textureRepo[(_uint)StringConversion(str)];
+}
+
+CTexture* CTextureManager::GetTexture(string str, fs::path tag)
+{
+	auto repo = textureRepo[(_uint)StringConversion(str)];
+
+	return (*repo.find(tag)).second;
 }
 
 CTextureManager::terrainDir CTextureManager::StringConversion(string str)
@@ -71,8 +78,5 @@ CTextureManager::terrainDir CTextureManager::StringConversion(string str)
 void CTextureManager::Free()
 {
 	for (auto m : textureRepo)
-	{
-		//PrototypeManagerø°º≠ «ÿ¡‹
-		m.clear();
-	}
+		for_each(m.begin(), m.end(), CDeleteMap());
 }

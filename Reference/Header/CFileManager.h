@@ -4,7 +4,6 @@
 #include "../../Engine/Include/ConfigModel.h"
 #include "../../Engine/Include/TerrainModels.h"
 #include <filesystem>
-#include <iostream>
 #include <fstream>
 
 namespace fs = std::filesystem;
@@ -21,7 +20,6 @@ private:
 
 public:
     fs::path        GetCurrentDir();
-    fs::path        GetCanonicalDir();
     void            SetProjectDir();
     void            MoveProjectDir();
     void            MoveParentDir();
@@ -48,9 +46,7 @@ private:
     fs::path                    m_projectPath;
     fs::path                    m_DefaultPath = "../../Client/Asset";
     fs::path                    m_ConfigPath = "../../Client/Asset/Config.json";
-    fs::path                    m_currentPath;
     ConfigModel                 m_tConfig;
-    vector<fs::path>            m_vecChildDir;
 
 private:
     virtual void Free();

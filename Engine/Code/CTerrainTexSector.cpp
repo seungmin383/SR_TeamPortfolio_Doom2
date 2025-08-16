@@ -31,6 +31,9 @@ HRESULT CTerrainTexSector::Ready_Buffer(const _ulong& dwCntX,
 	m_dwTriCnt = (dwCntX - 1) * (dwCntZ - 1) * 2;
 	m_dwFVF = FVF_TEX;
 
+	_float colCnt = dwCntX - 1;
+	_float rowCnt = dwCntZ - 1;
+
 	m_pPos = new _vec3[m_dwVtxCnt];
 
 	m_dwIdxSize = sizeof(INDEX32);
@@ -54,8 +57,8 @@ HRESULT CTerrainTexSector::Ready_Buffer(const _ulong& dwCntX,
 
 			pVertex[dwIndex].vNormal = { 0.f, 0.f, 0.f };
 
-			pVertex[dwIndex].vTexUV = { (_float)j / (dwCntX - 1) * 20.f,
-										(_float)i / (dwCntZ - 1) * 20.f };
+			pVertex[dwIndex].vTexUV = { (_float)j / (dwCntX - 1) * colCnt,
+										(_float)i / (dwCntZ - 1) * rowCnt };
 
 			m_pPos[dwIndex] = pVertex[dwIndex].vPosition;
 		}
@@ -116,7 +119,13 @@ HRESULT CTerrainTexSector::Ready_Buffer(const _ulong& dwCntX,
 
 void CTerrainTexSector::Render_Buffer()
 {
+	m_pGraphicDev->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+	m_pGraphicDev->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+
 	CVIBuffer::Render_Buffer();
+
+	m_pGraphicDev->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+	m_pGraphicDev->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 }
 
 CComponent* CTerrainTexSector::Clone()

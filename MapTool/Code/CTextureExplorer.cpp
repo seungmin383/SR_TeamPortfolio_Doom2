@@ -33,10 +33,13 @@ void CTextureExplorer::DrawExplorerWindow()
 
 	if (ImGui::Button("Move Resource Directory"))
 		MoveTerrainResourceDir();
+	ImGui::SameLine();
 
 	if (ImGui::Button("Move Upper"))
 		MoveParentDir();
 	ImGui::SameLine();
+
+	ImGui::NewLine();
 
 	if (ImGui::Button("Scan Texture"))
 	{
@@ -44,16 +47,8 @@ void CTextureExplorer::DrawExplorerWindow()
 		if (drawTextureList)
 			BulkLoadTexture();
 	}
+	ImGui::SameLine();
 
-	if (ImGui::Button("Select Texture"))
-	{
-		vector<_vec3> tempVertices;
-		tempVertices.push_back(_vec3(1, 1, 1));
-		tempVertices.push_back(_vec3(1, 1, 1));
-		tempVertices.push_back(_vec3(1, 1, 1));
-		tempVertices.push_back(_vec3(1, 1, 1));
-		CObjectFactory::GetInstance()->Create_Terrain(2, 2, 1, tempVertices, (_tchar*)selectedTexture.wstring().c_str());
-	}
 	ImGui::NewLine();
 
 	ChildListBox();
@@ -248,6 +243,8 @@ string CTextureExplorer::WideToUtf8(const _tchar* wc)
 
 void CTextureExplorer::Free()
 {
+	//for_each(curTextures.begin(), curTextures.end(), CDeleteMap());
+
 	m_pGraphicDev->Release();
-	CFileManager::DestroyInstance();
+	CFileManager::GetInstance()->DestroyInstance();
 }

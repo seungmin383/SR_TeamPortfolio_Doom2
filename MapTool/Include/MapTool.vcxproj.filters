@@ -82,6 +82,9 @@
     <Filter Include="03. Manager\92. ObjectFactory">
       <UniqueIdentifier>{e469f74a-3374-4bfa-b72f-ccf2d769364f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. ImGuiWindow\01. ControlPanel">
+      <UniqueIdentifier>{ceb33b8e-f78f-4266-8329-150547e0a827}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -186,6 +189,9 @@
     <ClInclude Include="..\Header\CObjectFactory.h">
       <Filter>03. Manager\92. ObjectFactory</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CControlPanel.h">
+      <Filter>04. ImGuiWindow\01. ControlPanel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapTool.cpp">
@@ -277,6 +283,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CObjectFactory.cpp">
       <Filter>03. Manager\92. ObjectFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CControlPanel.cpp">
+      <Filter>04. ImGuiWindow\01. ControlPanel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

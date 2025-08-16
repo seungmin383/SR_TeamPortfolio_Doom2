@@ -4,8 +4,6 @@ IMPLEMENT_SINGLETON(CFileManager)
 
 CFileManager::CFileManager()
 {
-	ZeroMemory(&m_currentPath, sizeof(fs::path));
-	ZeroMemory(&m_tConfig, sizeof(ConfigModel));
 }
 
 CFileManager::~CFileManager()
@@ -16,12 +14,6 @@ CFileManager::~CFileManager()
 fs::path CFileManager::GetCurrentDir()
 {
 	return fs::current_path();
-}
-
-fs::path CFileManager::GetCanonicalDir()
-{
-	fs::canonical(m_currentPath);
-	return m_currentPath;
 }
 
 void CFileManager::SetProjectDir()
@@ -76,8 +68,10 @@ void CFileManager::GetConfig()
 
 	ifstream read(m_ConfigPath);
 	json j = json::parse(read);
-	
+
 	m_tConfig = j.get<ConfigModel>();
+
+	read.close();
 }
 
 fs::path CFileManager::GetResourceDir()
@@ -147,6 +141,9 @@ void CFileManager::LoadTerrain()
 	json j = json::parse(read);
 
 	TerrainModels tm = j.get<TerrainModels>();
+
+	read.close();
+
 	//return tm;
 }
 

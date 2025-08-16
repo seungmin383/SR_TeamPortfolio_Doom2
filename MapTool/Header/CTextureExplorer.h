@@ -45,6 +45,10 @@ public:
     void            BulkLoadTexture();
     void            GetTextures();
 
+    fs::path        GetCurDir() { return curDir; }
+    
+    fs::path        GetSelectTexture() { return selectedTexture; };
+
     string          WideToUtf8(const _tchar* wc);
 
 private:

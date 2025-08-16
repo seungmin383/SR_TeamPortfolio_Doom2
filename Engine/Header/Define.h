@@ -52,6 +52,7 @@ enum class OBJPROTOTYPE
 
 	//1 ~ 50 오브젝트 관련
 	TERRAIN = 1,
+	TERRAINSECTOR,
 	WALL,
 	DOOR,
 	SHIFT_CUBE,
