@@ -57,7 +57,7 @@ HRESULT CTerrainTexSector::Ready_Buffer(const _ulong& dwCntX,
 
 			pVertex[dwIndex].vNormal = { 0.f, 0.f, 0.f };
 
-			pVertex[dwIndex].vTexUV = { (_float)j / (dwCntX - 1) * colCnt,
+			pVertex[dwIndex].vTexUV = { (_float)(dwCntX - j) / (dwCntX - 1) * colCnt,
 										(_float)i / (dwCntZ - 1) * rowCnt };
 
 			m_pPos[dwIndex] = pVertex[dwIndex].vPosition;

@@ -5,6 +5,8 @@
 #include "CTextureManager.h"
 #include "CTextureExplorer.h"
 
+#include "CTerrainSector.h"
+
 #ifdef new
 #pragma push_macro("new")
 #undef new
@@ -67,6 +69,8 @@ public:
 
     void                            GetSelectTexture();
 
+    void                            SetDefault();
+
     /// <summary>
     /// 현재 조정 완료하고 벡터에 추가
     /// </summary>
@@ -75,7 +79,7 @@ public:
 private:
     LPDIRECT3DDEVICE9               m_pGraphicDev;
     
-    currentControlInfo              tControlInfo;
+    vector<currentControlInfo>      tControlInfo;
     currentControlInfo              tCachingControlInfo;
     _vec3                           vecCachingVtx = _vec3(0.f, 0.f, 0.f);
     CTexture*                       curTex;
@@ -85,6 +89,9 @@ private:
     //TODO:
     //vector<CeilModel>            vecTerrainInfos;
     //vector<FloorMOdel>            vecTerrainInfos;
+
+    //수정 목적으로 보관
+    vector<CTerrainSector*>          vecSector;
 
     //trash
     _bool                           show_demo_window = false;

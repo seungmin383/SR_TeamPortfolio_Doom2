@@ -33,7 +33,6 @@ _bool CControlPanel::ControlPanelWindow()
 	if (ImGui::Button("Show Demo"))
 		show_demo_window = !show_demo_window;
 
-	//CTextureManager::GetInstance()
 	if (curTex != nullptr)
 	{
 		auto texRef = (IDirect3DTexture9*)curTex->GetTextureHandle();
@@ -114,7 +113,7 @@ _bool CControlPanel::ControlPanelWindow()
 	if (ImGui::InputFloat3("Input vertex pos", tCachingControlInfo.pos));
 
 	//TODO
-	//버텍스 선택, 선택한 버택스 값
+	//타일 선택, 선택한 타일 값
 	if (ImGui::InputFloat3("Input tile pos", vecCachingVtx))
 		tCachingControlInfo.vertices[tCachingControlInfo.vertexIdx] = vecCachingVtx;
 
@@ -126,15 +125,7 @@ _bool CControlPanel::ControlPanelWindow()
 	}
 
 	if (ImGui::Button("Apply"))
-	{
 		Apply();
-		//오브젝트 생성
-		CObjectFactory::GetInstance()->Create_Terrain(tControlInfo.vertexXCnt,
-			tControlInfo.vertexZCnt,
-			tControlInfo.vertexInterval,
-			tControlInfo.vertices,
-			(_tchar*)tControlInfo.currentTextureTag.wstring().c_str());
-	}
 
 	return show_demo_window;
 }
@@ -145,7 +136,7 @@ void CControlPanel::ControlerWindow()
 
 void CControlPanel::ChangeTileInfo()
 {
-	tControlInfo = tCachingControlInfo;
+	//tControlInfo = tCachingControlInfo;
 }
 
 void CControlPanel::AddXTile()
@@ -167,12 +158,42 @@ void CControlPanel::SetVertexInfo(_int tileIdx, _int vertexIdx, _vec3 vertexInfo
 void CControlPanel::GetSelectTexture()
 {
 	tCachingControlInfo.currentTextureTag = textureExpr->GetSelectTexture();
-	tControlInfo.currentTextureTag = tCachingControlInfo.currentTextureTag;
+}
+
+void CControlPanel::SetDefault()
+{
+	tCachingControlInfo.info = TILEINFO::FLOOR;
+	tCachingControlInfo.tileColCnt = 1;
+	tCachingControlInfo.tileRowCnt = 1;
+	tCachingControlInfo.vertexIdx = 0;
+	tCachingControlInfo.vertices.clear();
+	tCachingControlInfo.vertexXCnt = 2;
+	tCachingControlInfo.vertexZCnt = 2;
+	tCachingControlInfo.vertexYCnt = 0;
+	tCachingControlInfo.vertexInterval = 1.f;
+	tCachingControlInfo.terrainIdx = 0;
+	tCachingControlInfo.currentTextureTag = "";
+	tCachingControlInfo.pos = _vec3(0.f, 0.f, 0.f);
+
 }
 
 void CControlPanel::Apply()
 {
-	tControlInfo = tCachingControlInfo;
+	//오브젝트 생성
+	auto pObj = CObjectFactory::GetInstance()->Create_Terrain(tCachingControlInfo.vertexXCnt,
+		tCachingControlInfo.vertexZCnt,
+		tCachingControlInfo.vertexInterval,
+		tCachingControlInfo.vertices,
+		(_tchar*)tCachingControlInfo.currentTextureTag.wstring().c_str(),
+		tCachingControlInfo.pos);
+
+	vecSector.push_back(dynamic_cast<CTerrainSector*>(pObj));
+
+	tCachingControlInfo.terrainIdx = vecSector.capacity() - 1;
+
+	tControlInfo.push_back(tCachingControlInfo);
+
+	SetDefault();
 }
 
 void CControlPanel::Free()

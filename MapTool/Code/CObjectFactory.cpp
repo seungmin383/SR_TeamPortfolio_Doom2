@@ -26,7 +26,7 @@ CGameObject* CObjectFactory::Create_Object(CGameObject* pObj, OBJID eObjId, _vec
 	return nullptr;
 }
 
-CGameObject* CObjectFactory::Create_Terrain(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv, vector<_vec3> vertices, _tchar* texTag)
+CGameObject* CObjectFactory::Create_Terrain(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv, vector<_vec3> vertices, _tchar* texTag, _vec3 pos)
 {
 	auto sectorBuffer = Engine::CTerrainTexSector::Create(m_pGraphicDev, vertices, dwCntX, dwCntZ, dwVtxItv);
 	auto texture = CPrototypeManager::GetInstance()->Clone_ComPrototype(texTag);
@@ -35,6 +35,8 @@ CGameObject* CObjectFactory::Create_Terrain(const _ulong& dwCntX, const _ulong& 
 
 	terrainSector->Set_BufferCom(sectorBuffer);
 	terrainSector->Set_TextureCom(dynamic_cast<CTexture*>(texture));
+	
+	terrainSector->Get_Transform()->Set_Pos(pos.x, pos.y, pos.z);
 
 	//Set terrain_sector to layer
 	auto scene = CManagement::GetInstance()->Get_Scene();
@@ -46,7 +48,7 @@ CGameObject* CObjectFactory::Create_Terrain(const _ulong& dwCntX, const _ulong& 
 	return terrainSector;
 }
 
-CGameObject* CObjectFactory::Mod_Terrain(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv, vector<_vec3> vertices, _tchar* texTag)
+CGameObject* CObjectFactory::Mod_Terrain(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv, vector<_vec3> vertices, _tchar* texTag, _vec3 pos)
 {
 	//Set terrain_sector to layer
 	auto layerIter = CManagement::GetInstance()->Get_Scene()->Get_Layer().find(LAYERID::LAYER_ENVIRONMENT);

@@ -32,20 +32,16 @@ void CTextureExplorer::DrawExplorerWindow()
 	static bool drawTextureList = false;
 
 	if (ImGui::Button("Move Resource Directory"))
+	{
 		MoveTerrainResourceDir();
+		BulkLoadTexture();
+	}
 	ImGui::SameLine();
 
 	if (ImGui::Button("Move Upper"))
-		MoveParentDir();
-	ImGui::SameLine();
-
-	ImGui::NewLine();
-
-	if (ImGui::Button("Scan Texture"))
 	{
-		drawTextureList = !drawTextureList;
-		if (drawTextureList)
-			BulkLoadTexture();
+		MoveParentDir();
+		BulkLoadTexture();
 	}
 	ImGui::SameLine();
 
@@ -54,12 +50,9 @@ void CTextureExplorer::DrawExplorerWindow()
 	ChildListBox();
 	FileListListBox();
 
-	if (drawTextureList)
-	{
-		ImGui::BeginChild("Textures", ImVec2(0, 420.f));
-		TextureList();
-		ImGui::EndChild();
-	}
+	ImGui::BeginChild("Textures", ImVec2(0, 420.f));
+	TextureList();
+	ImGui::EndChild();
 }
 
 void CTextureExplorer::ChildListBox()
@@ -78,7 +71,10 @@ void CTextureExplorer::ChildListBox()
 	if (ImGui::BeginListBox("Directory list"))
 	{
 		if (ImGui::Button("Enter") && curChildList.empty() == false)
+		{
 			MoveDir(curChildList[dir_selected_idx]);
+			BulkLoadTexture();
+		}
 
 		for (auto p : curChildList)
 		{
@@ -138,11 +134,11 @@ void CTextureExplorer::TextureList()
 	if (curTextures.empty())
 		GetTextures();
 
-	_uint col = 5;
+	_uint col = 3;
 
 	for (auto t : curTextures)
 	{
-		if (col < 5)
+		if (col < 3)
 			ImGui::SameLine();
 
 		auto texRef = (IDirect3DTexture9*)t.second->GetTextureHandle();
@@ -163,7 +159,7 @@ void CTextureExplorer::TextureList()
 
 		col--;
 		if (col == 0)
-			col = 5;
+			col = 3;
 	}
 }
 
@@ -204,9 +200,13 @@ void CTextureExplorer::BulkLoadTexture()
 	curDir = CFileManager::GetInstance()->GetCurrentDir();
 
 	string curDirName = curDir.filename().string();
+
+	if (curDirName == "DoomTex")
+		return;
+
 	_uint cachedIdx = (_uint)CTextureManager::GetInstance()->StringConversion(curDirName);
 
-	if (cacheCheck[cachedIdx])
+	if (cacheCheck[cachedIdx] && cachedIdx != (_uint)CTextureManager::terrainDir::ETC)
 	{
 		curTextures = CTextureManager::GetInstance()->GetTextureGroup(curDir.filename().string());
 		return;
@@ -226,7 +226,7 @@ void CTextureExplorer::GetTextures()
 	string curDirName = curDir.filename().string();
 	_uint cachedIdx = (_uint)CTextureManager::GetInstance()->StringConversion(curDirName);
 
-	if (cacheCheck[cachedIdx] == false)
+	if (cacheCheck[cachedIdx] == false || cachedIdx != (_uint)CTextureManager::terrainDir::ETC)
 		return;
 
 	curTextures = CTextureManager::GetInstance()->GetTextureGroup(curDirName);

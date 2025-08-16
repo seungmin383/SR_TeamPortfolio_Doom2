@@ -6,7 +6,8 @@ IMPLEMENT_SINGLETON(CImGuiManager)
 
 CImGuiManager::CImGuiManager()
 	: m_pGraphicDev(nullptr),
-	textureExpr(nullptr)
+	textureExpr(nullptr),
+	controlPanel(nullptr)
 {
 }
 
@@ -153,6 +154,7 @@ void CImGuiManager::DemoAnotherWindow()
 void CImGuiManager::Free()
 {
 	textureExpr->Release();
+	controlPanel->Release();
 
 	// Cleanup
 	ImGui_ImplDX9_Shutdown();

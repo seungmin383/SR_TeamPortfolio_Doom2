@@ -76,16 +76,12 @@ void CFileManager::GetConfig()
 
 fs::path CFileManager::GetResourceDir()
 {
-	MoveProjectDir();
-
 	fs::path p(m_tConfig.ResourcePath);
 	return p;
 }
 
 fs::path CFileManager::GetTerrainResourceDir()
 {
-	MoveProjectDir();
-
 	fs::path p(m_tConfig.TerrainResourcePath);
 	return p;
 }
@@ -124,11 +120,15 @@ vector<fs::path> CFileManager::GetListChildDir()
 
 void CFileManager::SaveTerrain()
 {
+	MoveProjectDir();
+
 	//write = j.dump()
 }
 
 void CFileManager::LoadTerrain()
 {
+	MoveProjectDir();
+
 	fs::path p(m_tConfig.TerrainSavePath);
 
 	if (!fs::exists(p))
