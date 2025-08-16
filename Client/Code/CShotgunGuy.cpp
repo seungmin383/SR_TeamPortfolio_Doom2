@@ -34,9 +34,9 @@ HRESULT CShotgunGuy::Ready_GameObject()
 
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
-	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(2.f, 2.f, 2.f), _vec3(0.f, 0.f, 0.f),
+	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(20.f, 20.f, 20.f), _vec3(0.f, 0.f, 0.f),
 		COLLAYERID::COL_ENEMY,
-		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT);
+		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT | COLLAYERID::COL_ENEMY);
 
 
 #pragma region ANIM_SETTING

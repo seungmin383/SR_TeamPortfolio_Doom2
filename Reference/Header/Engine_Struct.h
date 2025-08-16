@@ -49,6 +49,21 @@ namespace Engine
 
 	}INDEX32;
 	
+
+	typedef struct  RAY
+	{
+		_vec3 m_vPos;
+		_vec3 m_vDir;
+		_float m_fDistance;
+
+		RAY() :
+			m_vPos({_vec3{0.f, 0.f, 0.f}}), m_vDir(_vec3{0.f, 0.f, 0.f}), 
+			m_fDistance(0.f) 
+		{ }
+		~RAY(){}
+
+
+	}Ray;
 }
 
 

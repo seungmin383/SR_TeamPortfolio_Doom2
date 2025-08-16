@@ -53,6 +53,8 @@ public:
 
 	const _vec3			Get_FinalPos() const { return m_vFinalPos; }
 
+	bool				Is_RayHit() const { return m_bHit; }
+
 	/// <summary>
 	/// 충돌 분류
 	/// ex)

@@ -38,6 +38,7 @@ protected:
 
 protected:
     virtual void Free();
+
 };
 
 END

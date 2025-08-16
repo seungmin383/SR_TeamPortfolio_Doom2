@@ -12,14 +12,13 @@ private :
 
 public:
     virtual     HRESULT         Ready_GameObject();
-    virtual     _int            Update_GameObject(const _float& fTimeDelta);
+    virtual     _int             Update_GameObject(const _float& fTimeDelta);
     virtual     void            LateUpdate_GameObject(const _float& fTimeDelta);
     virtual     void            Render_GameObject(const _float& fTimeDelta);
 
     virtual     void			OnCollision(CCollider* _pOther) override;
     virtual     void			OnCollisionEnter(CCollider* _pOther) override;
     virtual     void			OnCollisionExit(CCollider* _pOther) override;
-
 
 #pragma endregion
 
@@ -28,7 +27,8 @@ private:
 
 public:
     static CZombieMan* Create(LPDIRECT3DDEVICE9 pGraphicDev);
-    virtual CZombieMan* Clone() override;
+    CZombieMan* Clone() override;
+    CZombieMan* Clone(_vec3 InitPos, _vec3 InitLook);
 
 private:
     virtual void        Free();
