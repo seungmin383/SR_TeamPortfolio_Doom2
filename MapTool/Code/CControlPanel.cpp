@@ -571,6 +571,11 @@ void CControlPanel::LoadTerrain()
 
 		tControlInfo.push_back(tCachingControlInfo);
 	}
+
+	tCachingControlInfo.terrainIdx = vecSector.capacity() - 1;
+
+	applied = true;
+	isModifing = true;
 }
 
 void CControlPanel::SaveWallAndCeil(fs::path path, string filename)
