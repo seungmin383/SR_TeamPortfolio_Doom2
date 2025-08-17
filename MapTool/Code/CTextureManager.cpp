@@ -44,7 +44,12 @@ CTexture* CTextureManager::GetTexture(string str, fs::path tag)
 {
 	auto repo = textureRepo[(_uint)StringConversion(str)];
 
-	return (*repo.find(tag)).second;
+	auto result = repo.find(tag);
+
+	if (result == repo.end())
+		return nullptr;
+
+	return (*result).second;
 }
 
 CTextureManager::terrainDir CTextureManager::StringConversion(string str)

@@ -46,19 +46,40 @@ _bool CControlPanel::ControlPanelWindow()
 
 	if (ImGui::Button("Rolling"))
 	{
+		D3DXMATRIX a;
+		D3DXMatrixIdentity(&a);
+		D3DXMatrixRotationX(&a, D3DXToRadian(90));
 
+		for (size_t i = 0; i < tCachingControlInfo.vertices.capacity(); i++)
+			D3DXVec3TransformNormal(&tCachingControlInfo.vertices[i], &tCachingControlInfo.vertices[i], &a);
+
+		Apply();
 	}
 	ImGui::SameLine();
 
 	if (ImGui::Button("Pitching"))
 	{
+		D3DXMATRIX a;
+		D3DXMatrixIdentity(&a);
+		D3DXMatrixRotationY(&a, D3DXToRadian(90));
 
+		for (size_t i = 0; i < tCachingControlInfo.vertices.capacity(); i++)
+			D3DXVec3TransformNormal(&tCachingControlInfo.vertices[i], &tCachingControlInfo.vertices[i], &a);
+		
+		Apply();
 	}
 	ImGui::SameLine();
 
 	if (ImGui::Button("Yaw"))
 	{
+		D3DXMATRIX a;
+		D3DXMatrixIdentity(&a);
+		D3DXMatrixRotationZ(&a, D3DXToRadian(90));
 
+		for (size_t i = 0; i < tCachingControlInfo.vertices.capacity(); i++)
+			D3DXVec3TransformNormal(&tCachingControlInfo.vertices[i], &tCachingControlInfo.vertices[i], &a);
+		
+		Apply();
 	}
 	ImGui::SameLine();
 	ImGui::NewLine();
@@ -101,15 +122,17 @@ _bool CControlPanel::ControlPanelWindow()
 			{
 				dwIndex = tCachingControlInfo.vertexXCnt * i + j;
 
-				tCachingControlInfo.vertices.push_back({ j * tCachingControlInfo.vertexInterval
+				tCachingControlInfo.vertices.push_back({ (_float)j * tCachingControlInfo.vertexInterval
 													, 0.f,
-													i * tCachingControlInfo.vertexInterval });
+													(_float)i * tCachingControlInfo.vertexInterval });
 
 				//tCachingControlInfo.vertices[dwIndex] = { j * tCachingControlInfo.vertexInterval
 				//										, 0.f,
 				//										i * tCachingControlInfo.vertexInterval };
 			}
 		}
+
+		tCachingControlInfo.vertices.shrink_to_fit();
 
 		if (isModifing)
 			Apply();
@@ -132,9 +155,9 @@ _bool CControlPanel::ControlPanelWindow()
 			{
 				dwIndex = tCachingControlInfo.vertexXCnt * i + j;
 
-				tCachingControlInfo.vertices.push_back({ j * tCachingControlInfo.vertexInterval
+				tCachingControlInfo.vertices.push_back({ (_float)j * tCachingControlInfo.vertexInterval
 													, 0.f,
-													i * tCachingControlInfo.vertexInterval });
+													(_float)i * tCachingControlInfo.vertexInterval });
 
 				//tCachingControlInfo.vertices[dwIndex] = { j * tCachingControlInfo.vertexInterval
 				//										, 0.f,
@@ -142,9 +165,14 @@ _bool CControlPanel::ControlPanelWindow()
 			}
 		}
 
+		tCachingControlInfo.vertices.shrink_to_fit();
+
 		if (isModifing)
 			Apply();
 	}
+
+	if (ImGui::InputInt("tile interval", &tCachingControlInfo.vertexInterval))
+		Apply();
 
 	//TODO
 	//버텍스 선택, 선택한 버택스 값
@@ -155,12 +183,21 @@ _bool CControlPanel::ControlPanelWindow()
 	//타일 선택, 선택한 타일 값
 	if (ImGui::DragFloat3("Input tile pos", tCachingControlInfo.pos, tCachingControlInfo.vertexInterval, -50.f, 300.f, "%.1f") && isModifing)
 		Apply();
+	if (ImGui::InputFloat("tile pos x", &tCachingControlInfo.pos.x, tCachingControlInfo.vertexInterval, 0.5f, "%.1f"))
+		Apply();
+	if (ImGui::InputFloat("tile pos y", &tCachingControlInfo.pos.y, tCachingControlInfo.vertexInterval, 0.5f, "%.1f"))
+		Apply();
+	if (ImGui::InputFloat("tile pos z", &tCachingControlInfo.pos.z, tCachingControlInfo.vertexInterval, 0.5f, "%.1f"))
+		Apply();
 
 	if (ImGui::Button("Select Texture"))
 	{
 		GetSelectTexture();
-		string curDir = CFileManager::GetInstance()->GetCurrentDir().filename().string();
-		curTex = CTextureManager::GetInstance()->GetTexture(curDir, tCachingControlInfo.currentTextureTag);
+		if (tCachingControlInfo.currentTextureTag != L"")
+		{
+			string curDir = CFileManager::GetInstance()->GetCurrentDir().filename().string();
+			curTex = CTextureManager::GetInstance()->GetTexture(curDir, tCachingControlInfo.currentTextureTag);
+		}
 	}
 
 	if (ImGui::Button("Apply"))
@@ -168,8 +205,11 @@ _bool CControlPanel::ControlPanelWindow()
 		if (curTex == nullptr)
 		{
 			GetSelectTexture();
-			string curDir = CFileManager::GetInstance()->GetCurrentDir().filename().string();
-			curTex = CTextureManager::GetInstance()->GetTexture(curDir, tCachingControlInfo.currentTextureTag);
+			if (tCachingControlInfo.currentTextureTag != L"")
+			{
+				string curDir = CFileManager::GetInstance()->GetCurrentDir().filename().string();
+				curTex = CTextureManager::GetInstance()->GetTexture(curDir, tCachingControlInfo.currentTextureTag);
+			}
 		}
 		Apply();
 	}
@@ -256,7 +296,7 @@ void CControlPanel::SetDefault()
 	tCachingControlInfo.vertexYCnt = 0;
 	tCachingControlInfo.vertexInterval = 1.f;
 	tCachingControlInfo.terrainIdx = 0;
-	tCachingControlInfo.pos = _vec3(0.f, 0.f, 0.f);
+	//tCachingControlInfo.pos = _vec3(0.f, 0.f, 0.f);
 
 	DWORD dwIndex = 0;
 	_int cnt = tCachingControlInfo.vertexZCnt * tCachingControlInfo.vertexXCnt;
@@ -266,19 +306,24 @@ void CControlPanel::SetDefault()
 		{
 			dwIndex = tCachingControlInfo.vertexXCnt * i + j;
 
-			tCachingControlInfo.vertices.push_back({ j * tCachingControlInfo.vertexInterval
+			tCachingControlInfo.vertices.push_back({ (_float)j * tCachingControlInfo.vertexInterval
 												, 0.f,
-												i * tCachingControlInfo.vertexInterval });
+												(_float)i * tCachingControlInfo.vertexInterval });
 
 			//tCachingControlInfo.vertices[dwIndex] = { j * tCachingControlInfo.vertexInterval
 			//										, 0.f,
 			//										i * tCachingControlInfo.vertexInterval };
 		}
 	}
+
+	tCachingControlInfo.vertices.shrink_to_fit();
 }
 
 void CControlPanel::Apply()
 {
+	if (tCachingControlInfo.currentTextureTag == "")
+		return;
+
 	if (isModifing && applied)
 	{
 		vecSector[tCachingControlInfo.terrainIdx]->Mod_BufferCom(

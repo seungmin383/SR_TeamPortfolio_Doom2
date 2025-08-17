@@ -19,7 +19,7 @@ public:
     void        Set_BufferCom(Engine::CTerrainTexSector* pBuffer);
     void        Mod_BufferCom(const _ulong& dwCntX,
         const _ulong& dwCntZ,
-        const _ulong& dwVtxItv,
+        const _float& dwVtxItv,
         vector<_vec3> vertices);
 
     void        Set_TextureCom(Engine::CTexture* pTexture);

@@ -37,7 +37,7 @@ class CControlPanel :
         _int vertexZCnt = 2;
         _int vertexYCnt = 0;
         
-        _float vertexInterval = 1.f;
+        _int vertexInterval = 1.f;
 
         _int terrainIdx = 0;
         fs::path currentTextureTag = "";

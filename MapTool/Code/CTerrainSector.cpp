@@ -64,7 +64,7 @@ void CTerrainSector::Set_BufferCom(Engine::CTerrainTexSector* pBuffer)
 	m_mapComponent[ID_STATIC].insert({ L"Com_Buffer", pBuffer });
 }
 
-void CTerrainSector::Mod_BufferCom(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv, vector<_vec3> vertices)
+void CTerrainSector::Mod_BufferCom(const _ulong& dwCntX, const _ulong& dwCntZ, const _float& dwVtxItv, vector<_vec3> vertices)
 {
 	m_pBufferCom->Ready_Buffer(dwCntX, dwCntZ, dwVtxItv, vertices);
 }
