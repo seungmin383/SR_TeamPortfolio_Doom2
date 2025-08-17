@@ -87,9 +87,27 @@ _bool CControlPanel::ControlPanelWindow()
 	{
 
 	}
+
+	if (ImGui::Button("Load terrain"))
+	{
+		LoadTerrain();
+	}
 	ImGui::SameLine();
+	if (ImGui::Button("Load wall and ceil"))
+	{
+
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Load item"))
+	{
+
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Load monster"))
+	{
+
+	}
 	
-	ImGui::NewLine();
 	ImGui::BeginDisabled(!applied);
 	if (ImGui::Button("New"))
 	{
@@ -505,14 +523,14 @@ void CControlPanel::SaveTerrain(fs::path path, string filename)
 {
 	CFileManager::GetInstance()->MoveProjectDir();
 
-	auto basePath = CFileManager::GetInstance()->GetBaseDir();
+	auto basePath = fs::current_path();
 
 	for (auto terraininfo : tControlInfo)
 	{
 		TerrainModel model;
 		model.idx = terraininfo.terrainIdx;
 		model.pos = terraininfo.pos;
-		model.strTextureTag = fs::relative(terraininfo.currentTextureTag, basePath).string();
+		model.strTextureTag = fs::relative(terraininfo.currentTextureTag, basePath).relative_path().generic_string();
 		model.vertexCountX = terraininfo.vertexXCnt;
 		model.vertexCountZ = terraininfo.vertexZCnt;
 		model.vertexInterval = terraininfo.vertexInterval;
@@ -524,15 +542,58 @@ void CControlPanel::SaveTerrain(fs::path path, string filename)
 	CFileManager::GetInstance()->SaveTerrain(path, filename, vecTerrainInfos);
 }
 
-void CControlPanel::SaveWallAndCeil()
+void CControlPanel::LoadTerrain()
+{
+	TerrainModels tm = CFileManager::GetInstance()->LoadTerrain();
+
+	vecSector.clear();
+	vecSector.shrink_to_fit();
+
+	for (auto m : tm.model)
+	{
+		tCachingControlInfo.terrainIdx = m.idx;
+		tCachingControlInfo.pos = m.pos;
+		tCachingControlInfo.currentTextureTag = m.strTextureTag;
+		tCachingControlInfo.vertexXCnt = m.vertexCountX;
+		tCachingControlInfo.vertexZCnt = m.vertexCountZ;
+		tCachingControlInfo.vertexInterval = m.vertexInterval;
+		tCachingControlInfo.vertices = m.vertices;
+
+		//오브젝트 생성
+		auto pObj = CObjectFactory::GetInstance()->Load_Terrain(tCachingControlInfo.vertexXCnt,
+			tCachingControlInfo.vertexZCnt,
+			tCachingControlInfo.vertexInterval,
+			tCachingControlInfo.vertices,
+			tCachingControlInfo.currentTextureTag,
+			tCachingControlInfo.pos);
+
+		vecSector.push_back(dynamic_cast<CTerrainSector*>(pObj));
+
+		tControlInfo.push_back(tCachingControlInfo);
+	}
+}
+
+void CControlPanel::SaveWallAndCeil(fs::path path, string filename)
 {
 }
 
-void CControlPanel::SaveItem()
+void CControlPanel::LoadWallAndCeil()
 {
 }
 
-void CControlPanel::SaveMonster()
+void CControlPanel::SaveItem(fs::path path, string filename)
+{
+}
+
+void CControlPanel::LoadItem()
+{
+}
+
+void CControlPanel::SaveMonster(fs::path path, string filename)
+{
+}
+
+void CControlPanel::LoadMonster()
 {
 }
 

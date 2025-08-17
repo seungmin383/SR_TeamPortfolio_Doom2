@@ -82,9 +82,16 @@ public:
 
     //save
     void                            SaveTerrain(fs::path path, string filename);
-    void                            SaveWallAndCeil();
-    void                            SaveItem();
-    void                            SaveMonster();
+    void                            LoadTerrain();
+
+    void                            SaveWallAndCeil(fs::path path, string filename);
+    void                            LoadWallAndCeil();
+
+    void                            SaveItem(fs::path path, string filename);
+    void                            LoadItem();
+
+    void                            SaveMonster(fs::path path, string filename);
+    void                            LoadMonster();
 
 private:
     LPDIRECT3DDEVICE9               m_pGraphicDev;

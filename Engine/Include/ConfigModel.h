@@ -26,6 +26,7 @@ inline void to_json(json& j, const ConfigModel& c)
 
 	j["ObjectSpawnSavePath"] = c.ObjectSpawnSavePath;
 	j["MonsterSpawnSavePath"] = c.MonsterSpawnSavePath;
+	j["TerrainSavePath"] = c.TerrainSavePath;
 }
 
 inline void from_json(const json& j, ConfigModel& c)
@@ -39,4 +40,5 @@ inline void from_json(const json& j, ConfigModel& c)
 
 	j.at("ObjectSpawnSavePath").get_to(c.ObjectSpawnSavePath);
 	j.at("MonsterSpawnSavePath").get_to(c.MonsterSpawnSavePath);
+	j.at("TerrainSavePath").get_to(c.TerrainSavePath);
 }

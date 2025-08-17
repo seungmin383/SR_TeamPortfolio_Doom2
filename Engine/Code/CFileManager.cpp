@@ -153,7 +153,7 @@ TerrainModels CFileManager::LoadTerrain()
 	TerrainModels tm;
 
 	//TODO: 파일 이름 하드코딩 수정
-	fs::path p(m_tConfig.TerrainSavePath + "/" + "terrain");
+	fs::path p(m_tConfig.TerrainSavePath + "/" + "terrain.json");
 
 	if (!fs::exists(p))
 	{
