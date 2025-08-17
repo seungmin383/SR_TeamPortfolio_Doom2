@@ -16,6 +16,7 @@ CControlPanel::CControlPanel(LPDIRECT3DDEVICE9 pGraphicDev, CTextureExplorer* ex
 	curTex(nullptr)
 {
 	m_pGraphicDev->AddRef();
+	SetDefault();
 }
 
 CControlPanel::~CControlPanel()
@@ -32,6 +33,37 @@ _bool CControlPanel::ControlPanelWindow()
 {
 	if (ImGui::Button("Show Demo"))
 		show_demo_window = !show_demo_window;
+
+	ImGui::BeginDisabled(!applied);
+	if (ImGui::Button("New"))
+	{
+		//new할 뭐시기 저시기
+		SetDefault();
+		applied = false;
+		isModifing = false;
+	}
+	ImGui::EndDisabled();
+
+	if (ImGui::Button("Rolling"))
+	{
+
+	}
+	ImGui::SameLine();
+
+	if (ImGui::Button("Pitching"))
+	{
+
+	}
+	ImGui::SameLine();
+
+	if (ImGui::Button("Yaw"))
+	{
+
+	}
+	ImGui::SameLine();
+	ImGui::NewLine();
+
+	curTileIdx = ModifyChildWindow();
 
 	if (curTex != nullptr)
 	{
@@ -78,6 +110,9 @@ _bool CControlPanel::ControlPanelWindow()
 				//										i * tCachingControlInfo.vertexInterval };
 			}
 		}
+
+		if (isModifing)
+			Apply();
 	}
 
 	//타일행갯수
@@ -106,16 +141,20 @@ _bool CControlPanel::ControlPanelWindow()
 				//										i * tCachingControlInfo.vertexInterval };
 			}
 		}
+
+		if (isModifing)
+			Apply();
 	}
 
 	//TODO
 	//버텍스 선택, 선택한 버택스 값
-	if (ImGui::InputFloat3("Input vertex pos", tCachingControlInfo.pos));
+	if (ImGui::DragFloat3("Input vertex pos", vecCachingVtx))
+		tCachingControlInfo.vertices[tCachingControlInfo.vertexIdx] = vecCachingVtx;
 
 	//TODO
 	//타일 선택, 선택한 타일 값
-	if (ImGui::InputFloat3("Input tile pos", vecCachingVtx))
-		tCachingControlInfo.vertices[tCachingControlInfo.vertexIdx] = vecCachingVtx;
+	if (ImGui::DragFloat3("Input tile pos", tCachingControlInfo.pos, tCachingControlInfo.vertexInterval, -50.f, 300.f, "%.1f") && isModifing)
+		Apply();
 
 	if (ImGui::Button("Select Texture"))
 	{
@@ -125,13 +164,58 @@ _bool CControlPanel::ControlPanelWindow()
 	}
 
 	if (ImGui::Button("Apply"))
+	{
+		if (curTex == nullptr)
+		{
+			GetSelectTexture();
+			string curDir = CFileManager::GetInstance()->GetCurrentDir().filename().string();
+			curTex = CTextureManager::GetInstance()->GetTexture(curDir, tCachingControlInfo.currentTextureTag);
+		}
 		Apply();
+	}
 
 	return show_demo_window;
 }
 
 void CControlPanel::ControlerWindow()
 {
+}
+
+_uint CControlPanel::ModifyChildWindow()
+{
+	ImGui::BeginChild("Modify item select", ImVec2(0.f, 130.f));
+
+	static int tile_selected_idx = 0;
+
+	static bool tile_highlight = false;
+	int tile_highlighted_idx = -1;
+
+	int tileidx = 0;
+
+	if (ImGui::BeginListBox("tile list"))
+	{
+
+		for (size_t i = 0; i < vecSector.capacity(); i++)
+		{
+			const bool tile_is_selected = (tile_selected_idx == tileidx);
+			if (ImGui::Selectable(to_string(i).c_str(), tile_is_selected))
+				tile_selected_idx = tileidx;
+
+			if (tile_highlight && ImGui::IsItemHovered())
+				tile_highlighted_idx = tileidx;
+
+			if (tile_is_selected)
+				ImGui::SetItemDefaultFocus();
+
+			tileidx++;
+		}
+
+		ImGui::EndListBox();
+	}
+
+	ImGui::EndChild();
+
+	return tile_selected_idx;
 }
 
 void CControlPanel::ChangeTileInfo()
@@ -172,28 +256,62 @@ void CControlPanel::SetDefault()
 	tCachingControlInfo.vertexYCnt = 0;
 	tCachingControlInfo.vertexInterval = 1.f;
 	tCachingControlInfo.terrainIdx = 0;
-	tCachingControlInfo.currentTextureTag = "";
 	tCachingControlInfo.pos = _vec3(0.f, 0.f, 0.f);
 
+	DWORD dwIndex = 0;
+	_int cnt = tCachingControlInfo.vertexZCnt * tCachingControlInfo.vertexXCnt;
+	for (size_t i = 0; i < tCachingControlInfo.vertexZCnt; i++)
+	{
+		for (size_t j = 0; j < tCachingControlInfo.vertexXCnt; j++)
+		{
+			dwIndex = tCachingControlInfo.vertexXCnt * i + j;
+
+			tCachingControlInfo.vertices.push_back({ j * tCachingControlInfo.vertexInterval
+												, 0.f,
+												i * tCachingControlInfo.vertexInterval });
+
+			//tCachingControlInfo.vertices[dwIndex] = { j * tCachingControlInfo.vertexInterval
+			//										, 0.f,
+			//										i * tCachingControlInfo.vertexInterval };
+		}
+	}
 }
 
 void CControlPanel::Apply()
 {
-	//오브젝트 생성
-	auto pObj = CObjectFactory::GetInstance()->Create_Terrain(tCachingControlInfo.vertexXCnt,
-		tCachingControlInfo.vertexZCnt,
-		tCachingControlInfo.vertexInterval,
-		tCachingControlInfo.vertices,
-		(_tchar*)tCachingControlInfo.currentTextureTag.wstring().c_str(),
-		tCachingControlInfo.pos);
+	if (isModifing && applied)
+	{
+		vecSector[tCachingControlInfo.terrainIdx]->Mod_BufferCom(
+			tCachingControlInfo.vertexXCnt,
+			tCachingControlInfo.vertexZCnt,
+			tCachingControlInfo.vertexInterval,
+			tCachingControlInfo.vertices);
 
-	vecSector.push_back(dynamic_cast<CTerrainSector*>(pObj));
+		vecSector[tCachingControlInfo.terrainIdx]->Get_Transform()->Set_Pos(tCachingControlInfo.pos.x, tCachingControlInfo.pos.y, tCachingControlInfo.pos.z);
 
-	tCachingControlInfo.terrainIdx = vecSector.capacity() - 1;
+		vecSector[tCachingControlInfo.terrainIdx]->Set_TextureCom(curTex);
 
-	tControlInfo.push_back(tCachingControlInfo);
+		tControlInfo[tCachingControlInfo.terrainIdx] = tCachingControlInfo;
+	}
+	else
+	{
+		applied = true;
+		isModifing = true;
 
-	SetDefault();
+		//오브젝트 생성
+		auto pObj = CObjectFactory::GetInstance()->Create_Terrain(tCachingControlInfo.vertexXCnt,
+			tCachingControlInfo.vertexZCnt,
+			tCachingControlInfo.vertexInterval,
+			tCachingControlInfo.vertices,
+			(_tchar*)tCachingControlInfo.currentTextureTag.wstring().c_str(),
+			tCachingControlInfo.pos);
+
+		vecSector.push_back(dynamic_cast<CTerrainSector*>(pObj));
+
+		tCachingControlInfo.terrainIdx = vecSector.capacity() - 1;
+
+		tControlInfo.push_back(tCachingControlInfo);
+	}
 }
 
 void CControlPanel::Free()

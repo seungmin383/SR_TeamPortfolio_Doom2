@@ -57,6 +57,7 @@ public:
 public:
     _bool                           ControlPanelWindow();
     void                            ControlerWindow();
+    _uint                           ModifyChildWindow();
 
 public:
     void                            ChangeTileInfo();
@@ -71,6 +72,8 @@ public:
 
     void                            SetDefault();
 
+    void                            ModifyTile();
+
     /// <summary>
     /// 현재 조정 완료하고 벡터에 추가
     /// </summary>
@@ -83,6 +86,7 @@ private:
     currentControlInfo              tCachingControlInfo;
     _vec3                           vecCachingVtx = _vec3(0.f, 0.f, 0.f);
     CTexture*                       curTex;
+    _uint                           curTileIdx;
 
     //모델 벡터는 저장할 정보임
     vector<TerrainModel>            vecTerrainInfos;
@@ -95,6 +99,8 @@ private:
 
     //trash
     _bool                           show_demo_window = false;
+    _bool                           applied = false;
+    _bool                           isModifing = false;
 
     CTextureExplorer*               textureExpr;
 
