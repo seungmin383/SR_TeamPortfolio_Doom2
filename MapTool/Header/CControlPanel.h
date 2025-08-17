@@ -58,6 +58,7 @@ public:
     _bool                           ControlPanelWindow();
     void                            ControlerWindow();
     _uint                           ModifyChildWindow();
+    fs::path                        SaveExplorer();
 
 public:
     void                            ChangeTileInfo();
@@ -78,6 +79,12 @@ public:
     /// 현재 조정 완료하고 벡터에 추가
     /// </summary>
     void                            Apply();
+
+    //save
+    void                            SaveTerrain(fs::path path, string filename);
+    void                            SaveWallAndCeil();
+    void                            SaveItem();
+    void                            SaveMonster();
 
 private:
     LPDIRECT3DDEVICE9               m_pGraphicDev;
@@ -101,6 +108,8 @@ private:
     _bool                           show_demo_window = false;
     _bool                           applied = false;
     _bool                           isModifing = false;
+
+    string                          filename;
 
     CTextureExplorer*               textureExpr;
 

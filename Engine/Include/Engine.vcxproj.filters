@@ -282,6 +282,9 @@
     <ClInclude Include="..\Header\CTerrainTexSector.h">
       <Filter>00. Manager\03 .Management\03. Component\00. VIBuffer\07. TerrainTexSector</Filter>
     </ClInclude>
+    <ClInclude Include="StageInfo.h">
+      <Filter>DataModel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\CGraphicDev.cpp">

@@ -6,7 +6,7 @@ CTextureExplorer::CTextureExplorer()
 	: TextureRepo(nullptr),
 	m_pGraphicDev(nullptr)
 {
-	CFileManager::GetInstance()->GetConfig();
+	CFileManager::GetInstance()->LoadConfig();
 }
 
 CTextureExplorer::CTextureExplorer(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -14,7 +14,7 @@ CTextureExplorer::CTextureExplorer(LPDIRECT3DDEVICE9 pGraphicDev)
 	m_pGraphicDev(pGraphicDev)
 {
 	m_pGraphicDev->AddRef();
-	CFileManager::GetInstance()->GetConfig();
+	CFileManager::GetInstance()->LoadConfig();
 }
 
 CTextureExplorer::~CTextureExplorer()
@@ -154,7 +154,7 @@ void CTextureExplorer::TextureList()
 		ImVec2 uv1 = ImVec2(my_tex_w / my_tex_w, my_tex_h / my_tex_h);    // UV coordinates for (32,32) in our texture
 		ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);             // Black background
 		ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);           // No tint
-		if (ImGui::ImageButton(t.first.string().c_str(), my_tex_id, size, uv0, uv1, bg_col, tint_col))
+		if (ImGui::ImageButton(t.first.filename().string().c_str(), my_tex_id, size, uv0, uv1, bg_col, tint_col))
 			selectedTexture = t.first;
 
 		col--;

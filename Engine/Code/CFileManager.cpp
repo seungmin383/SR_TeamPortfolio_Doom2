@@ -19,7 +19,14 @@ fs::path CFileManager::GetCurrentDir()
 void CFileManager::SetProjectDir()
 {
 	m_projectPath = fs::current_path();
-	GetConfig();
+	LoadConfig();
+
+	MoveParentDir();
+	MoveParentDir();
+	//솔루션디렉토리라고믿음
+	m_basePath = fs::current_path();
+	//다시프로젝트로
+	MoveProjectDir();
 }
 
 void CFileManager::MoveProjectDir()
@@ -38,7 +45,7 @@ void CFileManager::MoveDir(fs::path p)
 	fs::current_path(p);
 }
 
-void CFileManager::GetConfig()
+void CFileManager::LoadConfig()
 {
 	if (!fs::exists(m_ConfigPath))
 	{
@@ -118,33 +125,50 @@ vector<fs::path> CFileManager::GetListChildDir()
 	return result;
 }
 
-void CFileManager::SaveTerrain()
+void CFileManager::SaveTerrain(fs::path path, string filename, vector<TerrainModel> datas)
 {
 	MoveProjectDir();
 
-	//write = j.dump()
+	TerrainModels dataSet;
+	dataSet.model = datas;
+
+	auto a = path.string() + "/" + filename;
+
+	ofstream write(path.string() + "/" + filename);
+
+	json j = dataSet;
+	write << j.dump();
+
+	write.close();
 }
 
-void CFileManager::LoadTerrain()
+TerrainModels CFileManager::LoadTerrain()
 {
+	//스테이지마다개별로?
+	//한번에 로드해서 들고있게?
+	//vector<TerrainModels> ??
+
 	MoveProjectDir();
 
-	fs::path p(m_tConfig.TerrainSavePath);
+	TerrainModels tm;
+
+	//TODO: 파일 이름 하드코딩 수정
+	fs::path p(m_tConfig.TerrainSavePath + "/" + "terrain");
 
 	if (!fs::exists(p))
 	{
 		MSG_BOX("not found terrain save");
-		return;
+		return tm;
 	}
 
 	ifstream read(p);
 	json j = json::parse(read);
 
-	TerrainModels tm = j.get<TerrainModels>();
+	tm = j.get<TerrainModels>();
 
 	read.close();
 
-	//return tm;
+	return tm;
 }
 
 void CFileManager::Free()

@@ -31,7 +31,9 @@ void CTextureManager::BulkLoadTexture(LPDIRECT3DDEVICE9 pGraphicDev, string str)
 		auto fileName = item.filename().wstring();
 		auto filePath = item.wstring();
 		pm->Ready_ComPrototype(fileName, CTexture::Create(pGraphicDev, filePath.c_str(), TEX_NORMAL));
-		textureRepo[repoIdx].insert({ fileName, dynamic_cast<CTexture*>(pm->Clone_ComPrototype(fileName))});
+
+		//전체 경로 key로 저장
+		textureRepo[repoIdx].insert({ item, dynamic_cast<CTexture*>(pm->Clone_ComPrototype(fileName))});
 	}
 }
 

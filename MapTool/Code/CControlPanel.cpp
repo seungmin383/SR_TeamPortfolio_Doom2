@@ -33,7 +33,63 @@ _bool CControlPanel::ControlPanelWindow()
 {
 	if (ImGui::Button("Show Demo"))
 		show_demo_window = !show_demo_window;
+	
+	if (ImGui::Button("Save terrain"))
+	{
+		//SaveModal();
+		ImGui::OpenPopup("Save?");
+	}
 
+	// Always center this window when appearing
+	ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+	ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+
+	if (ImGui::BeginPopupModal("Save?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+		ImGui::Text("check save type and file name");
+		ImGui::Separator();
+
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+		ImGui::PopStyleVar();
+
+		fs::path selecteddir = SaveExplorer();
+
+		ImGui::InputText("file name", &filename);
+
+		if (ImGui::Button("OK", ImVec2(120, 0)))
+		{ 
+			if (!filename.empty())
+			{
+				SaveTerrain(selecteddir, filename);
+				ImGui::CloseCurrentPopup();
+				filename.clear();
+			}
+		}
+
+		ImGui::SetItemDefaultFocus();
+		ImGui::SameLine();
+		if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+		ImGui::EndPopup();
+	}
+
+	ImGui::SameLine();
+	if (ImGui::Button("Save wall and ceil"))
+	{
+
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Save item"))
+	{
+
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Save monster"))
+	{
+
+	}
+	ImGui::SameLine();
+	
+	ImGui::NewLine();
 	ImGui::BeginDisabled(!applied);
 	if (ImGui::Button("New"))
 	{
@@ -258,6 +314,92 @@ _uint CControlPanel::ModifyChildWindow()
 	return tile_selected_idx;
 }
 
+fs::path CControlPanel::SaveExplorer()
+{
+	if (ImGui::Button("Move Asset Directory"))
+	{
+		fs::path assetpath = CFileManager::GetInstance()->GetAssetDir();
+		CFileManager::GetInstance()->MoveProjectDir();
+		CFileManager::GetInstance()->MoveDir(assetpath);
+	}
+	ImGui::SameLine();
+
+	if (ImGui::Button("Move Upper"))
+		CFileManager::GetInstance()->MoveParentDir();
+	
+	//dir list box
+	static int dir_selected_idx = 0;
+
+	static bool dir_highlight = false;
+	int dir_highlighted_idx = -1;
+
+	int diridx = 0;
+
+	auto dir = CFileManager::GetInstance()->GetListChildDir();
+
+	if (ImGui::Button("Enter"))
+		CFileManager::GetInstance()->MoveDir(dir[dir_selected_idx]);
+
+	if (ImGui::BeginListBox("Directory list"))
+	{
+		for (auto p : dir)
+		{
+			const bool dir_is_selected = (dir_selected_idx == diridx);
+			if (ImGui::Selectable((const char*)p.filename().string().c_str(), dir_is_selected))
+				dir_selected_idx = diridx;
+
+			if (dir_highlight && ImGui::IsItemHovered())
+				dir_highlighted_idx = diridx;
+
+			if (dir_is_selected)
+				ImGui::SetItemDefaultFocus();
+
+			diridx++;
+		}
+		ImGui::EndListBox();
+	}
+	//dir box end
+
+	//file list box
+	static int file_selected_idx = 0;
+
+	static bool file_highlight = false;
+	int file_highlighted_idx = -1;
+
+	int fileidx = 0;
+
+	auto file = CFileManager::GetInstance()->GetListCurrentDir();
+
+	if (ImGui::BeginListBox("File list"))
+	{
+		for (auto p : file)
+		{
+			const bool file_is_selected = (file_selected_idx == fileidx);
+			if (ImGui::Selectable((const char*)p.filename().string().c_str(), file_is_selected))
+				file_selected_idx = fileidx;
+
+			if (file_highlight && ImGui::IsItemHovered())
+				file_highlighted_idx = fileidx;
+
+			if (file_is_selected)
+				ImGui::SetItemDefaultFocus();
+
+			fileidx++;
+		}
+		ImGui::EndListBox();
+	}
+	//list box end
+
+	if (dir.empty())
+	{
+		return CFileManager::GetInstance()->GetCurrentDir();
+	}
+	else
+	{
+		return dir[dir_selected_idx];
+	}
+}
+
 void CControlPanel::ChangeTileInfo()
 {
 	//tControlInfo = tCachingControlInfo;
@@ -348,7 +490,7 @@ void CControlPanel::Apply()
 			tCachingControlInfo.vertexZCnt,
 			tCachingControlInfo.vertexInterval,
 			tCachingControlInfo.vertices,
-			(_tchar*)tCachingControlInfo.currentTextureTag.wstring().c_str(),
+			(_tchar*)tCachingControlInfo.currentTextureTag.filename().wstring().c_str(),
 			tCachingControlInfo.pos);
 
 		vecSector.push_back(dynamic_cast<CTerrainSector*>(pObj));
@@ -357,6 +499,41 @@ void CControlPanel::Apply()
 
 		tControlInfo.push_back(tCachingControlInfo);
 	}
+}
+
+void CControlPanel::SaveTerrain(fs::path path, string filename)
+{
+	CFileManager::GetInstance()->MoveProjectDir();
+
+	auto basePath = CFileManager::GetInstance()->GetBaseDir();
+
+	for (auto terraininfo : tControlInfo)
+	{
+		TerrainModel model;
+		model.idx = terraininfo.terrainIdx;
+		model.pos = terraininfo.pos;
+		model.strTextureTag = fs::relative(terraininfo.currentTextureTag, basePath).string();
+		model.vertexCountX = terraininfo.vertexXCnt;
+		model.vertexCountZ = terraininfo.vertexZCnt;
+		model.vertexInterval = terraininfo.vertexInterval;
+		model.vertices = terraininfo.vertices;
+
+		vecTerrainInfos.push_back(model);
+	}
+
+	CFileManager::GetInstance()->SaveTerrain(path, filename, vecTerrainInfos);
+}
+
+void CControlPanel::SaveWallAndCeil()
+{
+}
+
+void CControlPanel::SaveItem()
+{
+}
+
+void CControlPanel::SaveMonster()
+{
 }
 
 void CControlPanel::Free()
