@@ -22,6 +22,14 @@ public:
 
 	void OpenDoor();
 
+// 문이랑 스위치 태그기능
+public:
+	void Set_LinkId(const wstring& id) { m_linkId = id; }
+	const wstring& Get_LinkId() const { return m_linkId; }
+
+private:
+	wstring m_linkId;
+
 private:
 	bool m_bPressed = false;
 	_float m_fTimer  = 0.f;

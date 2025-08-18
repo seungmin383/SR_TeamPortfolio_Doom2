@@ -4,8 +4,11 @@
 #include "CPrototypeManager.h"
 #include "CDoor.h"
 
-class CSwitch_Button :    public CGameObject
+class CSwitch_Button : public CGameObject
 {
+public:
+	enum class LinkMode { OneToOne, OneToMany }; // 스위치별 모드(1:1, 1:N)
+
 private:
 	explicit CSwitch_Button(LPDIRECT3DDEVICE9 pGraphicDev);
 	explicit CSwitch_Button(const CGameObject& rhs);
@@ -21,7 +24,52 @@ public:
 	virtual     void			OnCollisionEnter(CCollider* _pOther) override;
 	virtual     void			OnCollisionExit(CCollider* _pOther) override;
 
-	void Set_Target(CDoor* pDoor) { m_pObjTarget = pDoor; }
+	void Set_Target(CDoor* pDoor) 
+	{
+		m_pObjTarget = pDoor;
+		m_target = pDoor;
+	}
+	void        Clear_Targets()					// 연결 리셋
+	{
+		m_pObjTarget = nullptr;
+		m_target = nullptr;
+		m_targets.clear();
+	}
+	void        Set_LinkMode(LinkMode m) { m_linkMode = m; }
+	LinkMode    Get_LinkMode() const { return m_linkMode; }
+	// 문이랑 스위치 태그기능
+public:
+	/// <summary>
+	/// 문과 스위치가 1:1일때 사용
+	/// </summary>
+	/// <param name="id"></param>
+	void Set_LinkId(const wstring& id) { m_linkId = id; }
+	const wstring& Get_LinkId() const { return m_linkId; }
+
+	/// <summary>
+	/// 한 스위치로 여러 문 열거나 이벤트가 나올 때 사용
+	/// </summary>
+	/// <param name="d"></param>
+	void Add_Target(CDoor* d)
+	{
+		if (!d) return;
+		m_targets.push_back(d);
+	}
+
+private:
+	/// <summary>
+	/// 문과 스위치가 1:1일때 사용
+	/// </summary>
+	wstring m_linkId;
+	LinkMode                m_linkMode = LinkMode::OneToOne; // 기본은 1:1
+
+	CDoor* m_target = nullptr;              // 1:1
+
+	/// <summary>
+	/// 한 스위치로 여러 문 열거나 이벤트가 나올 때 사용하는 벡터
+	/// </summary>
+	vector<CDoor*> m_targets;
+
 
 private:
 	bool m_bPressed = false;

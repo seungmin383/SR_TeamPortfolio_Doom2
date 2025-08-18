@@ -62,8 +62,6 @@ _int CDoor::Update_GameObject(const _float& fTimeDelta)
 
 	DoorOpening(fTimeDelta);
 
-	Bill_Board();
-
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	return 0;
@@ -236,7 +234,9 @@ void CDoor::DoorOpening(const _float& fTimeDelta)
 
 		if (vPos.y <= m_vOriginPos.y)
 		{
-			m_pTransformCom->Set_Pos(m_vOriginPos.x, m_vOriginPos.y, m_vOriginPos.z);
+			// XZ는 유지, Y만 원래 높이로
+			vPos.y = m_vOriginPos.y;
+			m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 			m_state = State::Idle;
 		}
 		else
