@@ -281,7 +281,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	// 문 #1 위치 지정 (확실히)
 	Engine::CTransform* tr1 = GetTransformPtr(pDoorObj);
 	if (tr1) {
-		tr1->Set_Pos(10.f, 0.f, 30.f);   // 기준 위치
+		tr1->Set_Pos(10.f, 2.f, 30.f);   // 기준 위치
 	}
 
 
@@ -294,7 +294,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	// 문 #2는 왼쪽으로 분리
 	Engine::CTransform* tr2 = GetTransformPtr(pDoorObj2);
-	if (tr2) tr2->Set_Pos(0.f, 0.f, 30.f);
+	if (tr2) tr2->Set_Pos(0.f, 2.f, 30.f);
 
 	// 스위치 생성(1:1)
 	Engine::CGameObject* pSwitchObj = CPrototypeManager::GetInstance()
