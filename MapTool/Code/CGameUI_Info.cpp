@@ -58,7 +58,7 @@ _int CGameUI_Info::Update_GameObject(const _float& fTimeDelta)
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_PLAYERUI, this);
 
-	return _int();
+	return 0;
 }
 
 void CGameUI_Info::LateUpdate_GameObject(const _float& fTimeDelta)

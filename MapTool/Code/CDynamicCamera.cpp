@@ -4,14 +4,15 @@
 #include "CManagement.h"
 #include "CRenderer.h"
 
-// 변수 초기화
+// Initialize static variable
 _long CDynamicCamera::s_lMouseMoveX = 0L;
 
 CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCamera(pGraphicDev),
-	m_bFix(false), m_bCheck(false),
-	m_iHp(0), m_iArmor(0),
-	m_fSpeed(0.f)
+	m_bFix(false), m_bCheck(false), m_bTrigger(false),
+	m_iHp(0), m_iArmor(0), m_iClip(0), m_iMax(200), m_iShell(0),
+	m_fSpeed(0.f),
+	m_eState(IDLE)
 {
 }
 
@@ -20,12 +21,12 @@ CDynamicCamera::~CDynamicCamera()
 }
 
 HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
-											const _vec3* pAt,
-											const _vec3* pUp,
-											const _float& fFov,
-											const _float& fAspect,
-											const _float& fNear,
-											const _float& fFar)
+	const _vec3* pAt,
+	const _vec3* pUp,
+	const _float& fFov,
+	const _float& fAspect,
+	const _float& fNear,
+	const _float& fFar)
 {
 	// Camera Default Settings
 	m_vEye = *pEye;
@@ -38,8 +39,10 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	m_fFar = fFar;
 
 	// Player Default Settings
-	m_iHp = 123;
+	m_iHp = 83;
 	m_iArmor = 45;
+	m_iClip = 67;
+	m_iShell = 12;
 
 	m_fSpeed = 10.f;
 
@@ -55,8 +58,8 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	_vec3 vScale{ 1.f, 1.f, 1.f };
 	_vec3 vOffset{ 0.f, 0.f, 0.f };
 
-	m_pColliderCom->Ready_CCollider(this, m_vEye, vScale, vOffset, COL_PLAYER,
-		COL_ENEMY | COL_OBJECT | COL_TERRAIN | COL_WALL);
+	m_pColliderCom->Ready_CCollider(this, m_vEye, vScale, vOffset, COL_PLAYERCAMERA,
+		COL_ENEMY | COL_OBJECT | COL_TERRAIN | COL_WALL | COL_ITEM);
 
 	return S_OK;
 }
@@ -64,7 +67,8 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 {
 	_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
-	
+
+	Update_State();
 	Set_OnTerrain();
 
 	return iExit;
@@ -75,6 +79,7 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 	Engine::CCamera::LateUpdate_GameObject(fTimeDelta);
 
 	Key_Input(fTimeDelta);
+	Mouse_Input();
 
 	m_pColliderCom->Late_Update();
 
@@ -120,21 +125,14 @@ HRESULT CDynamicCamera::Add_Component()
 
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
 
+	OutputDebugStringA("[Stage] add OBJ_PLAYERCAMERA: DynamicCamera\n");
+
 	return S_OK;
 
 }
 
 void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 {
-	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB))
-	{
-		auto a = m_pCalculatorCom->Picking_GameObject(g_hWnd);
-		if (a)
-		{
-			auto b = 1;
-		}
-	}
-
 	_matrix	matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, 0, &m_matView);
 
@@ -219,6 +217,25 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		return;
 }
 
+void CDynamicCamera::Mouse_Input()
+{
+	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB))
+	{
+		auto a = m_pCalculatorCom->Picking_GameObject(g_hWnd);
+		if (a)
+		{
+			auto b = 1;
+		}
+	}
+
+	m_bTrigger = false;
+
+	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_RB) & 0x80)
+	{
+		m_bTrigger = true;
+	}
+}
+
 void CDynamicCamera::Mouse_Move()
 {
 	_matrix	matCamWorld;
@@ -272,8 +289,31 @@ void CDynamicCamera::Set_OnTerrain()
 		(CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
 
 	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&m_vEye, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
-	
-	m_vEye.y = height + 2.f;
+
+	// 카메라의 높이 (m_vEye.y)가 변화할 때 마다 바라보는 목표(m_vAt.y)도 바뀌어야한다.
+	// 카메라의 높이 변화량을 계산해서 변화량을 m_vEye, m_vAt 모두 더해줘야 시점이 유지된다.
+	_float deltaHeight = (height + 2.f) - m_vEye.y;
+	m_vEye.y += deltaHeight;
+	m_vAt.y += deltaHeight;
+}
+
+void CDynamicCamera::Update_State()
+{
+	if (m_iHp >= 80)
+		m_eState = IDLE;
+	else if (m_iHp <= 79 && m_iHp >= 60)
+		m_eState = HURT1;
+	else if (m_iHp <= 59 && m_iHp >= 40)
+		m_eState = HURT2;
+	else if (m_iHp <= 39 && m_iHp >= 20)
+		m_eState = HURT3;
+	else if (m_iHp <= 19 && m_iHp >= 1)
+		m_eState = HURT4;
+	else
+	{
+		m_eState = DEAD;
+		m_bDead = true;
+	}
 }
 
 CDynamicCamera* CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)

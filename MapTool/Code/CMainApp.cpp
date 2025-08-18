@@ -10,15 +10,28 @@
 #include "CDInputManager.h"
 #include "CLightManager.h"
 #include "CColliderManager.h"
+//맵툴
 #include "CFileManager.h"
 #include "CObjectFactory.h"
+//맵툴
 
 #include "CTerrain.h"
-#include "CTerrainSector.h"
 
 #include "CDynamicCamera.h"
 #include "CZombieMan.h"
+#include"CArchVile.h"
+#include "CImp.h"
+#include "CPinky.h"
+#include"CSpiderMastermind.h"
+#include "CShotgunGuy.h"
+
 #include "CPlayerWeapon.h"
+#include "CHealth_Small.h"
+#include "CArmor_Small.h"
+#include "CAmmo_Clip.h"
+#include "CAmmo_Shell.h"
+
+#include "CBarrelExplosive.h"
 
 CMainApp::CMainApp()
 	: m_pGraphicDev(nullptr),
@@ -105,11 +118,44 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::TERRAIN, CTerrain::Create(m_pGraphicDev))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::TERRAINSECTOR, CTerrainSector::Create(m_pGraphicDev))))
+	//Initiate GameObject Prototype
+	//좀비맨
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ZOMBIEMAN, CZombieMan::Create(m_pGraphicDev))))
+		return E_FAIL;
+	//아크바일
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE, CArchVile::Create(m_pGraphicDev))))
+		return E_FAIL;
+	//임프
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP, CImp::Create(m_pGraphicDev))))
+		return E_FAIL;
+	//핑키
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON, CPinky::Create(m_pGraphicDev))))
+		return E_FAIL;
+	//스파이더 마스터마인드
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_SPIDERMASTERMIND, CSpiderMastermind::Create(m_pGraphicDev))))
+		return E_FAIL;
+	//샷건 가이
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_SHOTGUNGUY, CShotgunGuy::Create(m_pGraphicDev))))
 		return E_FAIL;
 
-	//Initiate GameObject Prototype
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ZOMBIEMAN, CZombieMan::Create(m_pGraphicDev))))
+	// 체력(소)
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH, CHealth_Small::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 아머(소)
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_ARMOR, CArmor_Small::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 총알
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_CLIP, CAmmo_Clip::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 샷건 탄약
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_SHELL, CAmmo_Shell::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 폭발통
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL, CBarrelExplosive::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	//텍스처 필터
@@ -119,10 +165,12 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	(*ppGraphicDev)->SetRenderState(D3DRS_ZENABLE, TRUE);		//Z 버퍼에 값을 기록, Z 값 기준 자동 정렬 수행 여부를 물음
 	(*ppGraphicDev)->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);	//Z 버퍼에 값을 기록할 지 결정
 
+	//맵툴
 	m_pImGuiClass->Init_ImGui(*ppGraphicDev);
 	CObjectFactory::GetInstance()->Set_Dev(*ppGraphicDev);
 
 	CFileManager::GetInstance()->SetProjectDir();
+	//맵툴
 
 	return S_OK;
 }

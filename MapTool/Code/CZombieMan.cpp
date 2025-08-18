@@ -36,7 +36,7 @@ HRESULT CZombieMan::Ready_GameObject()
 	m_pTransformCom->Get_Pos(&vPos);
 	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.f, 0.f),
 		COLLAYERID::COL_ENEMY,
-		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT);
+		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT | COLLAYERID::COL_ENEMY);
 
 
 #pragma region ANIM_SETTING
@@ -65,7 +65,7 @@ HRESULT CZombieMan::Ready_GameObject()
 		0,
 		3,
 		0.2f,
-		true,
+		false,
 		false
 	);
 
@@ -102,7 +102,7 @@ HRESULT CZombieMan::Ready_GameObject()
 		HIT,
 		m_pTextureCom,
 		m_pBufferCom,
-		6,
+		1,
 		1,
 		0,
 		1,
@@ -114,19 +114,28 @@ HRESULT CZombieMan::Ready_GameObject()
 
 #pragma region VARIABLE_SETTING
 	m_fSightAngle =D3DXToRadian( 80.f);
-	m_fSightDistance		= 50.f;
+	m_fSightDistance		= 5.f;
 
 	m_fAtkSpeed			= 4.f;
 	m_iHp						= 20;
 	m_iAtkDmg				= 3;
-	m_fAtkDelay			= 0.f;
 
+	m_fAtkDelay			= 0.f;
 	m_fMoveDelay			= 0.f;
 	m_fAtkDelay			= 0.f;
 
+	m_iGibDeadPlus		= 24;
+	m_iNorDeadPlus		= 25;
+
+	m_pTransformCom->Set_Pos(10.f, 0.f, 10.f);
+
 	//초기 룩으로 세팅해주고
 	m_pTransformCom->Get_Info(INFO_LOOK, &m_vMoveLook);
+	cout << m_vMoveLook.x << m_vMoveLook.y << m_vMoveLook.z << endl;
 
+	m_vMoveLook.z = m_vMoveLook.z;
+	m_vMoveLook.x = 1;
+	cout << m_vMoveLook.x << m_vMoveLook.y << m_vMoveLook.z << endl;
 #pragma endregion
 
 	return S_OK;
@@ -150,16 +159,21 @@ void CZombieMan::Render_GameObject(const _float& fTimeDelta)
 	CMonsterBase::Render_GameObject(fTimeDelta);
 }
 
-void CZombieMan::OnCollision(CCollider* _pOther)
+void CZombieMan::OnCollision(CCollider* _pOther)	//콜라이더 끼리 충돌하고 잇을 때
 {
 	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
+
+	auto a = _pOther->Get_ID();
+
+	cout << a << endl;
+
 }
 
-void CZombieMan::OnCollisionEnter(CCollider* _pOther)
+void CZombieMan::OnCollisionEnter(CCollider* _pOther)	//콜라이더 끼리 충돌을 시작했을 때
 {
 }
 
-void CZombieMan::OnCollisionExit(CCollider* _pOther)
+void CZombieMan::OnCollisionExit(CCollider* _pOther)		//콜라이더 끼리 충돌이 끝났을 때
 {
 }
 
