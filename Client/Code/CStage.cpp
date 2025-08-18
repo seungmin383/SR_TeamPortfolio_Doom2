@@ -21,6 +21,8 @@
 
 #include "CBarrelExplosive.h"
 
+#include "CPistol.h"
+
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {

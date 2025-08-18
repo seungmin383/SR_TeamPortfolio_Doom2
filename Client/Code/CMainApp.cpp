@@ -10,6 +10,7 @@
 #include "CDInputManager.h"
 #include "CLightManager.h"
 #include "CColliderManager.h"
+#include "CWeaponManager.h"
 
 #include "CDynamicCamera.h"
 #include "CZombieMan.h"
@@ -51,6 +52,7 @@ HRESULT CMainApp::Ready_MainApp()
 int CMainApp::Update_MainApp(const float& fTimeDelta)
 {
 	CDInputManager::GetInstance()->Update_InputDev();
+	CWeaponManager::GetInstance()->Update_Weapon(fTimeDelta);
 
 	m_pManagementClass->Update_Scene(fTimeDelta);
 
