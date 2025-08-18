@@ -16,6 +16,7 @@
 //¸ÊÅø
 
 #include "CTerrain.h"
+#include "CTerrainSector.h"
 
 #include "CDynamicCamera.h"
 #include "CZombieMan.h"
@@ -116,6 +117,9 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::TERRAIN, CTerrain::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::TERRAINSECTOR, CTerrainSector::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	//Initiate GameObject Prototype
