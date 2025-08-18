@@ -54,26 +54,23 @@ private:
 public:
     static CControlPanel* Create(LPDIRECT3DDEVICE9 pGraphicDev, CTextureExplorer* expr);
 
+    //TODO: ㅈ같은코드정리
 public:
     _bool                           ControlPanelWindow();
-    void                            ControlerWindow();
     _uint                           ModifyChildWindow();
     fs::path                        SaveExplorer();
 
+    void                            TerrainController();
+    void                            ObjectController();
+
 public:
     void                            ChangeTileInfo();
-
-    void                            AddXTile();
-    void                            AddZTile();
-    void                            AddYTile();
 
     void                            SetVertexInfo(_int tileIdx, _int vertexIdx, _vec3 vertexInfo);
 
     void                            GetSelectTexture();
 
     void                            SetDefault();
-
-    void                            ModifyTile();
 
     /// <summary>
     /// 현재 조정 완료하고 벡터에 추가
@@ -110,6 +107,10 @@ private:
 
     //수정 목적으로 보관
     vector<CTerrainSector*>          vecSector;
+
+    vector<GameObjectSpawnInfo>      vecItemInfos;
+
+    vector<GameObjectSpawnInfo>      vecMonsterInfos;
 
     //trash
     _bool                           show_demo_window = false;

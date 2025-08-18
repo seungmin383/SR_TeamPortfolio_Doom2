@@ -21,9 +21,11 @@ void CObjectFactory::Set_Dev(LPDIRECT3DDEVICE9 pGraphicDev)
 	m_pGraphicDev->AddRef();
 }
 
-CGameObject* CObjectFactory::Create_Object(CGameObject* pObj, OBJID eObjId, _vec3 vPos, _tchar* texTag)
+void CObjectFactory::Create_Object(OBJPROTOTYPE eprototype, OBJID eObjId, _vec3 vPos)
 {
-	return nullptr;
+	auto object = CPrototypeManager::GetInstance()->GetInstance()->Clone_ObjPrototype(eprototype);
+
+	CManagement::GetInstance()->Set_GameLogicObject(eprototype, eObjId, vPos);
 }
 
 CGameObject* CObjectFactory::Create_Terrain(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv, vector<_vec3> vertices, _tchar* texTag, _vec3 pos)

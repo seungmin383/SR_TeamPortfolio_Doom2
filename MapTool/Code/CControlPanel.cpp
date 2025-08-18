@@ -108,6 +108,158 @@ _bool CControlPanel::ControlPanelWindow()
 
 	}
 	
+	ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
+	if (ImGui::BeginTabBar("ControlPanel", tab_bar_flags))
+	{
+		if (ImGui::BeginTabItem("Terrain"))
+		{
+			ImGui::Text("This is the Terrain tab!");
+
+			TerrainController();
+
+			ImGui::EndTabItem();
+		}
+		if (ImGui::BeginTabItem("Object"))
+		{
+			ImGui::Text("This is the Object tab!");
+			ImGui::EndTabItem();
+		}
+		if (ImGui::BeginTabItem("Temp"))
+		{
+			ImGui::Text("This is the Temp tab!\nblah blah blah blah blah");
+			ImGui::EndTabItem();
+		}
+		ImGui::EndTabBar();
+	}
+
+	return show_demo_window;
+}
+
+_uint CControlPanel::ModifyChildWindow()
+{
+	ImGui::BeginChild("Modify item select", ImVec2(0.f, 130.f));
+
+	static int tile_selected_idx = 0;
+
+	static bool tile_highlight = false;
+	int tile_highlighted_idx = -1;
+
+	int tileidx = 0;
+
+	if (ImGui::BeginListBox("tile list"))
+	{
+
+		for (size_t i = 0; i < vecSector.capacity(); i++)
+		{
+			const bool tile_is_selected = (tile_selected_idx == tileidx);
+			if (ImGui::Selectable(to_string(i).c_str(), tile_is_selected))
+				tile_selected_idx = tileidx;
+
+			if (tile_highlight && ImGui::IsItemHovered())
+				tile_highlighted_idx = tileidx;
+
+			if (tile_is_selected)
+				ImGui::SetItemDefaultFocus();
+
+			tileidx++;
+		}
+
+		ImGui::EndListBox();
+	}
+
+	ImGui::EndChild();
+
+	return tile_selected_idx;
+}
+
+fs::path CControlPanel::SaveExplorer()
+{
+	if (ImGui::Button("Move Asset Directory"))
+	{
+		fs::path assetpath = CFileManager::GetInstance()->GetAssetDir();
+		CFileManager::GetInstance()->MoveProjectDir();
+		CFileManager::GetInstance()->MoveDir(assetpath);
+	}
+	ImGui::SameLine();
+
+	if (ImGui::Button("Move Upper"))
+		CFileManager::GetInstance()->MoveParentDir();
+	
+	//dir list box
+	static int dir_selected_idx = 0;
+
+	static bool dir_highlight = false;
+	int dir_highlighted_idx = -1;
+
+	int diridx = 0;
+
+	auto dir = CFileManager::GetInstance()->GetListChildDir();
+
+	if (ImGui::Button("Enter"))
+		CFileManager::GetInstance()->MoveDir(dir[dir_selected_idx]);
+
+	if (ImGui::BeginListBox("Directory list"))
+	{
+		for (auto p : dir)
+		{
+			const bool dir_is_selected = (dir_selected_idx == diridx);
+			if (ImGui::Selectable((const char*)p.filename().string().c_str(), dir_is_selected))
+				dir_selected_idx = diridx;
+
+			if (dir_highlight && ImGui::IsItemHovered())
+				dir_highlighted_idx = diridx;
+
+			if (dir_is_selected)
+				ImGui::SetItemDefaultFocus();
+
+			diridx++;
+		}
+		ImGui::EndListBox();
+	}
+	//dir box end
+
+	//file list box
+	static int file_selected_idx = 0;
+
+	static bool file_highlight = false;
+	int file_highlighted_idx = -1;
+
+	int fileidx = 0;
+
+	auto file = CFileManager::GetInstance()->GetListCurrentDir();
+
+	if (ImGui::BeginListBox("File list"))
+	{
+		for (auto p : file)
+		{
+			const bool file_is_selected = (file_selected_idx == fileidx);
+			if (ImGui::Selectable((const char*)p.filename().string().c_str(), file_is_selected))
+				file_selected_idx = fileidx;
+
+			if (file_highlight && ImGui::IsItemHovered())
+				file_highlighted_idx = fileidx;
+
+			if (file_is_selected)
+				ImGui::SetItemDefaultFocus();
+
+			fileidx++;
+		}
+		ImGui::EndListBox();
+	}
+	//list box end
+
+	if (dir.empty())
+	{
+		return CFileManager::GetInstance()->GetCurrentDir();
+	}
+	else
+	{
+		return dir[dir_selected_idx];
+	}
+}
+
+void CControlPanel::TerrainController()
+{
 	ImGui::BeginDisabled(!applied);
 	if (ImGui::Button("New"))
 	{
@@ -139,7 +291,7 @@ _bool CControlPanel::ControlPanelWindow()
 
 		for (size_t i = 0; i < tCachingControlInfo.vertices.capacity(); i++)
 			D3DXVec3TransformNormal(&tCachingControlInfo.vertices[i], &tCachingControlInfo.vertices[i], &a);
-		
+
 		Apply();
 	}
 	ImGui::SameLine();
@@ -152,7 +304,7 @@ _bool CControlPanel::ControlPanelWindow()
 
 		for (size_t i = 0; i < tCachingControlInfo.vertices.capacity(); i++)
 			D3DXVec3TransformNormal(&tCachingControlInfo.vertices[i], &tCachingControlInfo.vertices[i], &a);
-		
+
 		Apply();
 	}
 	ImGui::SameLine();
@@ -287,152 +439,20 @@ _bool CControlPanel::ControlPanelWindow()
 		}
 		Apply();
 	}
-
-	return show_demo_window;
 }
 
-void CControlPanel::ControlerWindow()
+void CControlPanel::ObjectController()
 {
-}
+	//type1 프로토타입
 
-_uint CControlPanel::ModifyChildWindow()
-{
-	ImGui::BeginChild("Modify item select", ImVec2(0.f, 130.f));
+	//type2 오브젝트id
 
-	static int tile_selected_idx = 0;
-
-	static bool tile_highlight = false;
-	int tile_highlighted_idx = -1;
-
-	int tileidx = 0;
-
-	if (ImGui::BeginListBox("tile list"))
-	{
-
-		for (size_t i = 0; i < vecSector.capacity(); i++)
-		{
-			const bool tile_is_selected = (tile_selected_idx == tileidx);
-			if (ImGui::Selectable(to_string(i).c_str(), tile_is_selected))
-				tile_selected_idx = tileidx;
-
-			if (tile_highlight && ImGui::IsItemHovered())
-				tile_highlighted_idx = tileidx;
-
-			if (tile_is_selected)
-				ImGui::SetItemDefaultFocus();
-
-			tileidx++;
-		}
-
-		ImGui::EndListBox();
-	}
-
-	ImGui::EndChild();
-
-	return tile_selected_idx;
-}
-
-fs::path CControlPanel::SaveExplorer()
-{
-	if (ImGui::Button("Move Asset Directory"))
-	{
-		fs::path assetpath = CFileManager::GetInstance()->GetAssetDir();
-		CFileManager::GetInstance()->MoveProjectDir();
-		CFileManager::GetInstance()->MoveDir(assetpath);
-	}
-	ImGui::SameLine();
-
-	if (ImGui::Button("Move Upper"))
-		CFileManager::GetInstance()->MoveParentDir();
-	
-	//dir list box
-	static int dir_selected_idx = 0;
-
-	static bool dir_highlight = false;
-	int dir_highlighted_idx = -1;
-
-	int diridx = 0;
-
-	auto dir = CFileManager::GetInstance()->GetListChildDir();
-
-	if (ImGui::Button("Enter"))
-		CFileManager::GetInstance()->MoveDir(dir[dir_selected_idx]);
-
-	if (ImGui::BeginListBox("Directory list"))
-	{
-		for (auto p : dir)
-		{
-			const bool dir_is_selected = (dir_selected_idx == diridx);
-			if (ImGui::Selectable((const char*)p.filename().string().c_str(), dir_is_selected))
-				dir_selected_idx = diridx;
-
-			if (dir_highlight && ImGui::IsItemHovered())
-				dir_highlighted_idx = diridx;
-
-			if (dir_is_selected)
-				ImGui::SetItemDefaultFocus();
-
-			diridx++;
-		}
-		ImGui::EndListBox();
-	}
-	//dir box end
-
-	//file list box
-	static int file_selected_idx = 0;
-
-	static bool file_highlight = false;
-	int file_highlighted_idx = -1;
-
-	int fileidx = 0;
-
-	auto file = CFileManager::GetInstance()->GetListCurrentDir();
-
-	if (ImGui::BeginListBox("File list"))
-	{
-		for (auto p : file)
-		{
-			const bool file_is_selected = (file_selected_idx == fileidx);
-			if (ImGui::Selectable((const char*)p.filename().string().c_str(), file_is_selected))
-				file_selected_idx = fileidx;
-
-			if (file_highlight && ImGui::IsItemHovered())
-				file_highlighted_idx = fileidx;
-
-			if (file_is_selected)
-				ImGui::SetItemDefaultFocus();
-
-			fileidx++;
-		}
-		ImGui::EndListBox();
-	}
-	//list box end
-
-	if (dir.empty())
-	{
-		return CFileManager::GetInstance()->GetCurrentDir();
-	}
-	else
-	{
-		return dir[dir_selected_idx];
-	}
+	//type3 여분값
 }
 
 void CControlPanel::ChangeTileInfo()
 {
 	//tControlInfo = tCachingControlInfo;
-}
-
-void CControlPanel::AddXTile()
-{
-}
-
-void CControlPanel::AddZTile()
-{
-}
-
-void CControlPanel::AddYTile()
-{
 }
 
 void CControlPanel::SetVertexInfo(_int tileIdx, _int vertexIdx, _vec3 vertexInfo)
