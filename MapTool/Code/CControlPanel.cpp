@@ -2,6 +2,7 @@
 #include "CControlPanel.h"
 #include "CObjectFactory.h"
 #include "CPrototypeManager.h"
+#include "CDInputManager.h"
 
 CControlPanel::CControlPanel()
 	: m_pGraphicDev(nullptr),
@@ -17,6 +18,7 @@ CControlPanel::CControlPanel(LPDIRECT3DDEVICE9 pGraphicDev, CTextureExplorer* ex
 {
 	m_pGraphicDev->AddRef();
 	SetDefault();
+	SetObjInfo();
 }
 
 CControlPanel::~CControlPanel()
@@ -33,7 +35,7 @@ _bool CControlPanel::ControlPanelWindow()
 {
 	if (ImGui::Button("Show Demo"))
 		show_demo_window = !show_demo_window;
-	
+
 	if (ImGui::Button("Save terrain"))
 	{
 		//SaveModal();
@@ -57,7 +59,7 @@ _bool CControlPanel::ControlPanelWindow()
 		ImGui::InputText("file name", &filename);
 
 		if (ImGui::Button("OK", ImVec2(120, 0)))
-		{ 
+		{
 			if (!filename.empty())
 			{
 				SaveTerrain(selecteddir, filename);
@@ -107,7 +109,7 @@ _bool CControlPanel::ControlPanelWindow()
 	{
 
 	}
-	
+
 	ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
 	if (ImGui::BeginTabBar("ControlPanel", tab_bar_flags))
 	{
@@ -122,6 +124,9 @@ _bool CControlPanel::ControlPanelWindow()
 		if (ImGui::BeginTabItem("Object"))
 		{
 			ImGui::Text("This is the Object tab!");
+
+			ObjectController();
+
 			ImGui::EndTabItem();
 		}
 		if (ImGui::BeginTabItem("Temp"))
@@ -184,7 +189,7 @@ fs::path CControlPanel::SaveExplorer()
 
 	if (ImGui::Button("Move Upper"))
 		CFileManager::GetInstance()->MoveParentDir();
-	
+
 	//dir list box
 	static int dir_selected_idx = 0;
 
@@ -444,8 +449,12 @@ void CControlPanel::TerrainController()
 void CControlPanel::ObjectController()
 {
 	//type1 프로토타입
+	static int type_current = 0;
+	ImGui::Combo("type", &type_current, typeTags, IM_ARRAYSIZE(*typeTags));
 
 	//type2 오브젝트id
+	static int id_current = 0;
+	ImGui::Combo("id", &id_current, idTags, IM_ARRAYSIZE(*idTags));
 
 	//type3 여분값
 }
@@ -622,7 +631,50 @@ void CControlPanel::LoadMonster()
 {
 }
 
+void CControlPanel::SetObjInfo()
+{
+	auto config = CFileManager::GetInstance()->GetConfig();
+
+	objPrototypeTags = config.ObjPrototypeTags;
+	typeTags = new char*[objPrototypeTags.size()];
+	for (size_t i = 0; i < objPrototypeTags.size(); i++)
+	{
+		typeTags[i] = new char[objPrototypeTags[i].tag.size() + 1];
+		strcpy_s(typeTags[i], (rsize_t)((objPrototypeTags[i].tag.size() + 1) * sizeof(char)), objPrototypeTags[i].tag.c_str());
+	}
+		
+	objIdTags = config.ObjIdTags;
+	idTags = new char*[objIdTags.size()];
+	for (size_t i = 0; i < objIdTags.size(); i++)
+	{
+		idTags[i] = new char[objIdTags[i].tag.size() + 1];
+		strcpy_s(idTags[i], (rsize_t)((objIdTags[i].tag.size() + 1) * sizeof(char)), objIdTags[i].tag.c_str());
+	}
+}
+
+void CControlPanel::InputMouse()
+{
+	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB))
+	{
+		m_pCalculatorCom->Picking_GameObject(g_hWnd);
+	}
+}
+
 void CControlPanel::Free()
 {
+	if (typeTags != nullptr)
+	{
+		for (size_t i = 0; i < objPrototypeTags.size(); i++)
+			Safe_Delete(typeTags[i]);
+		Safe_Delete_Array(typeTags);
+	}
+	
+	if (idTags != nullptr)
+	{
+		for (size_t i = 0; i < objIdTags.size(); i++)
+			Safe_Delete(idTags[i]);
+		Safe_Delete_Array(idTags);
+	}
+
 	m_pGraphicDev->Release();
 }

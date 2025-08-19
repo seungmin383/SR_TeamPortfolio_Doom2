@@ -27,8 +27,7 @@ public:
                                     CTransform* pTerrainTransformCom);
 
     _bool           Picking_GameObject(HWND hWnd);
-
-
+    _vec3           Picking_MapTool(HWND hWnd);
     
 public:
     static CCalculator*     Create(LPDIRECT3DDEVICE9 pGraphicDev);

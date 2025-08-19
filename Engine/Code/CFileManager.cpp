@@ -137,7 +137,7 @@ void CFileManager::SaveTerrain(fs::path path, string filename, vector<TerrainMod
 	ofstream write(path.string() + "/" + filename);
 
 	json j = dataSet;
-	write << j.dump();
+	write << j.dump(4);
 
 	write.close();
 }

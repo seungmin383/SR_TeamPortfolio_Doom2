@@ -90,6 +90,8 @@ public:
     void                            SaveMonster(fs::path path, string filename);
     void                            LoadMonster();
 
+    void                            SetObjInfo();
+
 private:
     LPDIRECT3DDEVICE9               m_pGraphicDev;
     
@@ -116,6 +118,11 @@ private:
     _bool                           show_demo_window = false;
     _bool                           applied = false;
     _bool                           isModifing = false;
+
+    vector<GameObjectType>          objPrototypeTags;
+    char**                          typeTags;
+    vector<GameObjectType>          objIdTags;
+    char**                          idTags;
 
     string                          filename;
 
