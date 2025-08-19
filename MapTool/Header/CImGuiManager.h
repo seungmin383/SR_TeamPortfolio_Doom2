@@ -2,6 +2,7 @@
 #include "CBase.h"
 #include "Engine_Define.h"
 #include "CTextureExplorer.h"
+#include "CControlPanel.h"
 
 #ifdef new
 #pragma push_macro("new")
@@ -30,6 +31,7 @@ public:
     void        Render_ImGui();
     void        ResetDevice();
 
+    void        ControlPanelWindow();
     void        DirExplorerWindow();
 
     void        DemoWindow();
@@ -42,9 +44,10 @@ private:
     LPDIRECT3DDEVICE9       m_pGraphicDev;
     ImVec4                  clear_color;
 
-    bool show_demo_window = true;
+    bool show_demo_window = false;
     bool show_another_window = false;
 
     CTextureExplorer*        textureExpr;
+    CControlPanel*           controlPanel;
 };
 

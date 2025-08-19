@@ -99,7 +99,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>../Header;../Include;../../Base;../../Reference/Header;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -119,7 +119,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>../Header;../Include;../../Base;../../Reference/Header;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -139,7 +139,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>../Header;../Include;../../Base;../../Reference/Header;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -159,7 +159,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>../Header;../Include;../../Base;../../Reference/Header;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -188,6 +188,7 @@
     <ClInclude Include="..\Header\CLoading.h" />
     <ClInclude Include="..\Header\CMonsterBase.h" />
     <ClInclude Include="..\Header\CPinky.h" />
+    <ClInclude Include="..\Header\CPistol.h" />
     <ClInclude Include="..\Header\CPlayerWeapon.h" />
     <ClInclude Include="..\Header\CShotgunGuy.h" />
     <ClInclude Include="..\Header\CSkyBox.h" />
@@ -197,6 +198,8 @@
     <ClInclude Include="..\Header\CLogo.h" />
     <ClInclude Include="..\Header\CMainApp.h" />
     <ClInclude Include="..\Header\CMonster.h" />
+    <ClInclude Include="..\Header\CWeapon.h" />
+    <ClInclude Include="..\Header\CWeaponManager.h" />
     <ClInclude Include="..\Header\CZombieMan.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
@@ -222,6 +225,7 @@
     <ClCompile Include="..\Code\CLoading.cpp" />
     <ClCompile Include="..\Code\CMonsterBase.cpp" />
     <ClCompile Include="..\Code\CPinky.cpp" />
+    <ClCompile Include="..\Code\CPistol.cpp" />
     <ClCompile Include="..\Code\CPlayerWeapon.cpp" />
     <ClCompile Include="..\Code\CShotgunGuy.cpp" />
     <ClCompile Include="..\Code\CSkyBox.cpp" />
@@ -231,6 +235,8 @@
     <ClCompile Include="..\Code\CLogo.cpp" />
     <ClCompile Include="..\Code\CMainApp.cpp" />
     <ClCompile Include="..\Code\CMonster.cpp" />
+    <ClCompile Include="..\Code\CWeapon.cpp" />
+    <ClCompile Include="..\Code\CWeaponManager.cpp" />
     <ClCompile Include="..\Code\CZombieMan.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="pch.cpp">

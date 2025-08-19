@@ -2,10 +2,11 @@
 #include "CPlayerWeapon.h"
 #include "CDInputManager.h"
 #include "CRenderer.h"
+#include "CWeaponManager.h"
 
 CPlayerWeapon::CPlayerWeapon(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CCharacter(pGraphicDev),
-	m_eCurWeaponId(PISTOL), m_eWeaponState(IDLE), m_eNextWeaponId(ID_END),
+	m_eCurWeaponId(ID_END), m_eWeaponState(STATE_END), m_eNextWeaponId(ID_END),
 	m_fSwapTime(0.f), m_fBobSpeed(0.f), m_fBobAngle(0.f),
 	m_bIsMoving(false), m_bBobForward(false)
 {
@@ -49,6 +50,9 @@ _int CPlayerWeapon::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
 
+	m_eCurWeaponId = (WEAPON_ID)CWeaponManager::GetInstance()->Get_CurWeaponID();
+	//m_eWeaponState = (WEAPON_STATE)CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponState();
+
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_UI, this);
 
 	return 0;
@@ -83,7 +87,6 @@ void CPlayerWeapon::LateUpdate_GameObject(const _float& fTimeDelta)
 	//wchar_t buf[64];
 	//swprintf(buf, 64, L"State : %d\n", m_eWeaponState);
 	//OutputDebugString(buf);
-
 }
 
 void CPlayerWeapon::Render_GameObject(const _float& fTimeDelta)
@@ -109,17 +112,17 @@ void CPlayerWeapon::Render_GameObject(const _float& fTimeDelta)
 void CPlayerWeapon::Ready_Animation()
 {
 	// Pistol Animation
-	m_pAnimatorCom->Add_Animation(PISTOL, m_pTextureCom, m_pBufferCom, 5, 1, 0, 0, 0.1f, true);
+	m_pAnimatorCom->Add_Animation(PISTOL, m_pTextureCom, m_pBufferCom, 5, 1, 0, 0, 0.f, true);
 	m_pAnimatorCom->Add_Animation(PISTOL + SWAP, m_pTextureCom, m_pBufferCom, 5, 1, 0, 0, 0.1f, true);
 	m_pAnimatorCom->Add_Animation(PISTOL + SHOT, m_pTextureCom, m_pBufferCom, 5, 1, 0, 4, 0.1f, true);
 	
 	// Shotgun Animation
-	m_pAnimatorCom->Add_Animation(SHOTGUN, m_pTextureCom, m_pBufferCom, 8, 1, 0, 0, 0.2f, true);
+	m_pAnimatorCom->Add_Animation(SHOTGUN, m_pTextureCom, m_pBufferCom, 8, 1, 0, 0, 0.f, true);
 	m_pAnimatorCom->Add_Animation(SHOTGUN + SWAP, m_pTextureCom, m_pBufferCom, 8, 1, 0, 0, 0.2f, true);
 	m_pAnimatorCom->Add_Animation(SHOTGUN + SHOT, m_pTextureCom, m_pBufferCom, 8, 1, 0, 7, 0.1f, true);
 
 	// Chaingun Animation
-	m_pAnimatorCom->Add_Animation(CHAINGUN, m_pTextureCom, m_pBufferCom, 3, 1, 0, 0, 0.1f, true);
+	m_pAnimatorCom->Add_Animation(CHAINGUN, m_pTextureCom, m_pBufferCom, 3, 1, 0, 0, 0.f, true);
 	m_pAnimatorCom->Add_Animation(CHAINGUN + SWAP, m_pTextureCom, m_pBufferCom, 3, 1, 0, 0, 0.1f, true);
 	m_pAnimatorCom->Add_Animation(CHAINGUN + SHOT, m_pTextureCom, m_pBufferCom, 3, 1, 1, 2, 0.1f, true);
 }
@@ -184,16 +187,22 @@ void CPlayerWeapon::Key_Input(const _float& fTimeDelta)
 	{
 		m_eNextWeaponId = PISTOL;
 		m_eWeaponState = SWAP;
+
+		CWeaponManager::GetInstance()->Change_Weapon((CWeaponManager::WEAPON_ID)m_eNextWeaponId);
 	}
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_2) & 0x80)
 	{
 		m_eNextWeaponId = SHOTGUN;
 		m_eWeaponState = SWAP;
+
+		CWeaponManager::GetInstance()->Change_Weapon((CWeaponManager::WEAPON_ID)m_eNextWeaponId);
 	}
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_3) & 0x80)
 	{
 		m_eNextWeaponId = CHAINGUN;
 		m_eWeaponState = SWAP;
+
+		CWeaponManager::GetInstance()->Change_Weapon((CWeaponManager::WEAPON_ID)m_eNextWeaponId);
 	}
 }
 
@@ -221,6 +230,7 @@ void CPlayerWeapon::Weapon_Swap(const _float& fTimeDelta)
 	else if (m_fSwapTime >= 0.5f && m_fSwapTime < 1.f)
 	{
 		m_eCurWeaponId = m_eNextWeaponId;
+		CWeaponManager::GetInstance()->Change_Weapon((CWeaponManager::WEAPON_ID)m_eCurWeaponId);
 		m_pTransformCom->Move_Pos(&vUp, 700.f, fTimeDelta);
 	}
 	else
@@ -301,5 +311,6 @@ CPlayerWeapon* CPlayerWeapon::Clone()
 
 void CPlayerWeapon::Free()
 {
+	CWeaponManager::GetInstance()->DestroyInstance();
 	Engine::CGameObject::Free();
 }

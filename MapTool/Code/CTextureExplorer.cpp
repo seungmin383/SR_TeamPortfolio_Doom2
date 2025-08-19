@@ -1,11 +1,12 @@
 #include "pch.h"
 #include "CTextureExplorer.h"
+#include "CObjectFactory.h"
 
 CTextureExplorer::CTextureExplorer()
 	: TextureRepo(nullptr),
 	m_pGraphicDev(nullptr)
 {
-	CFileManager::GetInstance()->GetConfig();
+	CFileManager::GetInstance()->LoadConfig();
 }
 
 CTextureExplorer::CTextureExplorer(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -13,7 +14,7 @@ CTextureExplorer::CTextureExplorer(LPDIRECT3DDEVICE9 pGraphicDev)
 	m_pGraphicDev(pGraphicDev)
 {
 	m_pGraphicDev->AddRef();
-	CFileManager::GetInstance()->GetConfig();
+	CFileManager::GetInstance()->LoadConfig();
 }
 
 CTextureExplorer::~CTextureExplorer()
@@ -31,28 +32,27 @@ void CTextureExplorer::DrawExplorerWindow()
 	static bool drawTextureList = false;
 
 	if (ImGui::Button("Move Resource Directory"))
+	{
 		MoveTerrainResourceDir();
+		BulkLoadTexture();
+	}
+	ImGui::SameLine();
 
 	if (ImGui::Button("Move Upper"))
-		MoveParentDir();
-
-	if (ImGui::Button("Scan Texture"))
 	{
-		drawTextureList = !drawTextureList;
-		if (drawTextureList)
-			BulkLoadTexture();
+		MoveParentDir();
+		BulkLoadTexture();
 	}
+	ImGui::SameLine();
+
+	ImGui::NewLine();
 
 	ChildListBox();
 	FileListListBox();
 
-	if (drawTextureList)
-	{
-		ImGui::BeginChild("Textures", ImVec2(0, 420.f));
-		TextureList();
-		ImGui::EndChild();
-
-	}
+	ImGui::BeginChild("Textures", ImVec2(0, 420.f));
+	TextureList();
+	ImGui::EndChild();
 }
 
 void CTextureExplorer::ChildListBox()
@@ -71,7 +71,10 @@ void CTextureExplorer::ChildListBox()
 	if (ImGui::BeginListBox("Directory list"))
 	{
 		if (ImGui::Button("Enter") && curChildList.empty() == false)
+		{
 			MoveDir(curChildList[dir_selected_idx]);
+			BulkLoadTexture();
+		}
 
 		for (auto p : curChildList)
 		{
@@ -131,11 +134,11 @@ void CTextureExplorer::TextureList()
 	if (curTextures.empty())
 		GetTextures();
 
-	_uint col = 5;
+	_uint col = 3;
 
 	for (auto t : curTextures)
 	{
-		if (col < 5)
+		if (col < 3)
 			ImGui::SameLine();
 
 		auto texRef = (IDirect3DTexture9*)t.second->GetTextureHandle();
@@ -151,12 +154,12 @@ void CTextureExplorer::TextureList()
 		ImVec2 uv1 = ImVec2(my_tex_w / my_tex_w, my_tex_h / my_tex_h);    // UV coordinates for (32,32) in our texture
 		ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);             // Black background
 		ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);           // No tint
-		if (ImGui::ImageButton(t.first.string().c_str(), my_tex_id, size, uv0, uv1, bg_col, tint_col))
+		if (ImGui::ImageButton(t.first.filename().string().c_str(), my_tex_id, size, uv0, uv1, bg_col, tint_col))
 			selectedTexture = t.first;
 
 		col--;
 		if (col == 0)
-			col = 5;
+			col = 3;
 	}
 }
 
@@ -197,9 +200,13 @@ void CTextureExplorer::BulkLoadTexture()
 	curDir = CFileManager::GetInstance()->GetCurrentDir();
 
 	string curDirName = curDir.filename().string();
+
+	if (curDirName == "DoomTex")
+		return;
+
 	_uint cachedIdx = (_uint)CTextureManager::GetInstance()->StringConversion(curDirName);
 
-	if (cacheCheck[cachedIdx])
+	if (cacheCheck[cachedIdx] && cachedIdx != (_uint)CTextureManager::terrainDir::ETC)
 	{
 		curTextures = CTextureManager::GetInstance()->GetTextureGroup(curDir.filename().string());
 		return;
@@ -219,7 +226,7 @@ void CTextureExplorer::GetTextures()
 	string curDirName = curDir.filename().string();
 	_uint cachedIdx = (_uint)CTextureManager::GetInstance()->StringConversion(curDirName);
 
-	if (cacheCheck[cachedIdx] == false)
+	if (cacheCheck[cachedIdx] == false || cachedIdx != (_uint)CTextureManager::terrainDir::ETC)
 		return;
 
 	curTextures = CTextureManager::GetInstance()->GetTextureGroup(curDirName);
@@ -236,6 +243,8 @@ string CTextureExplorer::WideToUtf8(const _tchar* wc)
 
 void CTextureExplorer::Free()
 {
+	//for_each(curTextures.begin(), curTextures.end(), CDeleteMap());
+
 	m_pGraphicDev->Release();
-	CFileManager::DestroyInstance();
+	CFileManager::GetInstance()->DestroyInstance();
 }

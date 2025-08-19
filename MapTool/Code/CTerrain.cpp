@@ -46,6 +46,8 @@ void CTerrain::Render_GameObject(const _float& fTimeDelta)
 {
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
+	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
 	m_pTextureCom->Set_Texture(0);
@@ -53,6 +55,8 @@ void CTerrain::Render_GameObject(const _float& fTimeDelta)
 	m_pMaterialCom->Set_Material();
 
 	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
@@ -113,6 +117,13 @@ HRESULT CTerrain::Ready_Material()
 CTerrain* CTerrain::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	CTerrain* pTerrain = new CTerrain(pGraphicDev);
+
+	return pTerrain;
+}
+
+CTerrain* CTerrain::Clone()
+{
+	CTerrain* pTerrain = new CTerrain(*this);
 
 	if (FAILED(pTerrain->Ready_GameObject()))
 	{

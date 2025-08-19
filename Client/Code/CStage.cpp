@@ -21,6 +21,8 @@
 
 #include "CBarrelExplosive.h"
 
+#include "CPistol.h"
+
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -84,7 +86,7 @@ HRESULT CStage::Ready_Environment_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	pGameObject = CTerrain::Create(m_pGraphicDev);
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::TERRAIN);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;

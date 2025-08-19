@@ -28,9 +28,6 @@
     <Filter Include="02. GameObject\00. BackGround">
       <UniqueIdentifier>{ecbd53fc-4879-4f5f-abf0-bbde2d9e7770}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. Player">
-      <UniqueIdentifier>{90d9cc1b-36bb-4a2a-b77b-181b43c3c3a5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\02. Monster">
       <UniqueIdentifier>{958b3f3f-a119-41fa-b878-e45534fab3e7}</UniqueIdentifier>
     </Filter>
@@ -67,9 +64,6 @@
     <Filter Include="03. Manager\00. WeaponManager">
       <UniqueIdentifier>{2c391351-0d97-4884-8e1b-8aa409f1629b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Manager\00. WeaponManager\00. Weapon">
-      <UniqueIdentifier>{db5b84db-6d09-4c29-abe6-545951c1d545}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\02. Monster\CMonsterBase\01.CArch_Vile">
       <UniqueIdentifier>{390040c1-2439-4489-916b-d636c8e38f7b}</UniqueIdentifier>
     </Filter>
@@ -93,6 +87,15 @@
     </Filter>
     <Filter Include="02. GameObject\06. Object\DropItem">
       <UniqueIdentifier>{13c728af-3ad7-461e-8107-987924d6db8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\00. WeaponManager\00. Weapon">
+      <UniqueIdentifier>{f9bb863c-16b4-4d00-8600-cafda35d847b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\00. Pistol">
+      <UniqueIdentifier>{0124ab0c-09d8-48fe-a9a7-42df23eec460}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Player">
+      <UniqueIdentifier>{90d9cc1b-36bb-4a2a-b77b-181b43c3c3a5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -192,6 +195,15 @@
     <ClInclude Include="..\Header\CHealth_Small.h">
       <Filter>02. GameObject\06. Object\DropItem</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CWeaponManager.h">
+      <Filter>03. Manager\00. WeaponManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CWeapon.h">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CPistol.h">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\00. Pistol</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -280,6 +292,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\CHealth_Small.cpp">
       <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CWeaponManager.cpp">
+      <Filter>03. Manager\00. WeaponManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CWeapon.cpp">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CPistol.cpp">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\00. Pistol</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

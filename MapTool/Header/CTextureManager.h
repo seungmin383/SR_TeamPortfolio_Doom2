@@ -20,7 +20,8 @@ private:
 public:
     void                                BulkLoadTexture(LPDIRECT3DDEVICE9 pGraphicDev, string str);
     map<fs::path, CTexture*>            GetTextureGroup(string str);
-    
+    CTexture*                           GetTexture(string str, fs::path tag);
+
     terrainDir                          StringConversion(string str);
 
 private:

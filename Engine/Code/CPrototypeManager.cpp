@@ -11,20 +11,20 @@ CPrototypeManager::~CPrototypeManager()
 	Free();
 }
 
-HRESULT CPrototypeManager::Ready_ComPrototype(const _tchar* pComponentTag, CComponent* pComponent)
+HRESULT CPrototypeManager::Ready_ComPrototype(wstring strComponentTag, CComponent* pComponent)
 {
-	CComponent* pInstance = Find_ComPrototype(pComponentTag);
+	CComponent* pInstance = Find_ComPrototype(strComponentTag);
 	if (nullptr != pInstance)
 		return E_FAIL;
 
-	m_mapComPrototype.insert({ pComponentTag, pComponent });
+	m_mapComPrototype.insert({ strComponentTag, pComponent });
 
 	return S_OK;
 }
 
-CComponent* CPrototypeManager::Clone_ComPrototype(const _tchar* pComponentTag)
+CComponent* CPrototypeManager::Clone_ComPrototype(wstring strComponentTag)
 {
-	CComponent* pInstance = Find_ComPrototype(pComponentTag);
+	CComponent* pInstance = Find_ComPrototype(strComponentTag);
 	if (nullptr == pInstance)
 		return nullptr;
 
@@ -51,9 +51,9 @@ CGameObject* CPrototypeManager::Clone_ObjPrototype(OBJPROTOTYPE eObjId)
 	return pInstance->Clone();
 }
 
-CComponent* CPrototypeManager::Find_ComPrototype(const _tchar* pComponentTag)
+CComponent* CPrototypeManager::Find_ComPrototype(wstring pComponentTag)
 {
-	auto iter = find_if(m_mapComPrototype.begin(), m_mapComPrototype.end(), CTag_Finder(pComponentTag));
+	auto iter = find_if(m_mapComPrototype.begin(), m_mapComPrototype.end(), [&pComponentTag](const pair<wstring, CComponent*> pair) { return pair.first == pComponentTag; });
 
 	if (iter == m_mapComPrototype.end())
 		return nullptr;
