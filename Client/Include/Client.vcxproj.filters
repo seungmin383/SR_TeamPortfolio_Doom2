@@ -195,6 +195,18 @@
     <ClInclude Include="..\Header\CHealth_Small.h">
       <Filter>02. GameObject\06. Object\DropItem</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CArmor_Big.h">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CHealth_Big.h">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CSwitch_Button.h">
+      <Filter>02. GameObject\06. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CDoor.h">
+      <Filter>02. GameObject\06. Object</Filter>
+    </ClInclude>
     <ClInclude Include="..\Header\CWeaponManager.h">
       <Filter>03. Manager\00. WeaponManager</Filter>
     </ClInclude>
@@ -292,6 +304,18 @@
     </ClCompile>
     <ClCompile Include="..\Code\CHealth_Small.cpp">
       <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CArmor_Big.cpp">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CHealth_Big.cpp">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CSwitch_Button.cpp">
+      <Filter>02. GameObject\06. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CDoor.cpp">
+      <Filter>02. GameObject\06. Object</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CWeaponManager.cpp">
       <Filter>03. Manager\00. WeaponManager</Filter>

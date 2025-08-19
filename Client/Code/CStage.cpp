@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CStage.h"
 
 #include "CTerrain.h"
@@ -16,10 +16,13 @@
 #include "CGameUI_Info_Ammo.h"
 #include "CHealth_Small.h"
 #include "CArmor_Small.h"
+#include "CArmor_Big.h"
 #include "CAmmo_Clip.h"
 #include "CAmmo_Shell.h"
 
 #include "CBarrelExplosive.h"
+#include "CDoor.h"
+#include "CSwitch_Button.h"
 
 #include "CPistol.h"
 
@@ -115,7 +118,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	////¾ÆÅ©¹ÙÀÏ
+	////ì•„í¬ë°”ì¼
 	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE);
 
 	//if (nullptr == pGameObject)
@@ -126,7 +129,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	//m_mapLayer.insert({ _eLayerId, pLayer });
 
-	////ÀÓÇÁ
+	////ì„í”„
 	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP);
 
 	//if (nullptr == pGameObject)
@@ -137,7 +140,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	//m_mapLayer.insert({ _eLayerId, pLayer });
 
-	////ÇÎÅ°
+	////í•‘í‚¤
 	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON);
 
 	//if (nullptr == pGameObject)
@@ -148,7 +151,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	//m_mapLayer.insert({ _eLayerId, pLayer });
 
-	//Á»ºñ¸Ç
+	//ì¢€ë¹„ë§¨
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ZOMBIEMAN);
 
 	if (nullptr == pGameObject)
@@ -158,8 +161,28 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
 		return E_FAIL;
 
-	// Ã¼·Â(¼Ò)
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH);
+	//ìŠ¤íŒŒì´ë” ë§ˆìŠ¤í„°ë§ˆì¸ë“œ
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SPIDERMASTERMIND);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
+		return E_FAIL;
+
+	//m_mapLayer.insert({ _eLayerId, pLayer });
+
+	//ìƒ·ê±´ ê°€ì´
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SHOTGUNGUY);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
+		return E_FAIL;
+
+	// ì²´ë ¥(ì†Œ)
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH_SMALL);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
@@ -167,8 +190,8 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
 		return E_FAIL;
 
-	// ¾Æ¸Ó(¼Ò)
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_ARMOR);
+	// ì²´ë ¥(ëŒ€)
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH_BIG);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
@@ -176,7 +199,25 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
 		return E_FAIL;
 
-	// ÃÑ¾Ë
+	// ì•„ë¨¸(ì†Œ)
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_ARMOR_SMALL);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
+		return E_FAIL;
+
+	// ì•„ë¨¸(ëŒ€)
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_ARMOR_BIG);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
+		return E_FAIL;
+
+	// ì´ì•Œ
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_CLIP);
 
 	if (nullptr == pGameObject)
@@ -185,7 +226,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
 		return E_FAIL;
 
-	// ¼¦°Ç Åº¾à
+	// ìƒ·ê±´ íƒ„ì•½
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_SHELL);
 
 	if (nullptr == pGameObject)
@@ -194,19 +235,19 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
 		return E_FAIL;
 
-	// Æø¹ßÅë
-	// 1°³¸¸ ¼ÒÈ¯
-	/*pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL);
+	// í­ë°œí†µ
+	// 1ê°œë§Œ ì†Œí™˜
+	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL);
+	//
+	//if (nullptr == pGameObject)
+	//	return E_FAIL;
+	//
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pGameObject)))						
+	//	return E_FAIL;
 
-	if (nullptr == pGameObject)
-		return E_FAIL;
+	/*m_mapLayer.insert({ _eLayerId, pLayer });*/
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pGameObject)))						
-		return E_FAIL;
-
-	m_mapLayer.insert({ _eLayerId, pLayer });*/
-
-	// ¿©·¯°³ ¼ÒÈ¯(Å×½ºÆ®)
+	// ì—¬ëŸ¬ê°œ ì†Œí™˜(í…ŒìŠ¤íŠ¸)
 	std::vector<_vec3> kBarrelPos = {
 		_vec3(25.f, 0.f, 25.f),
 		_vec3(28.f, 0.f, 25.f),
@@ -221,38 +262,92 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 		auto* pBarrel = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL);
 		if (!pBarrel) return E_FAIL;
 
-		// Transform ÄÄÆ÷³ÍÆ®·Î À§Ä¡/½ºÄÉÀÏ ¼¼ÆÃ
+		// Transform ì»´í¬ë„ŒíŠ¸ë¡œ ìœ„ì¹˜/ìŠ¤ì¼€ì¼ ì„¸íŒ…
 		if (auto* tr = dynamic_cast<Engine::CTransform*>(pBarrel->Get_Component(Engine::ID_DYNAMIC, L"Com_Transform")))
 		{
 			tr->Set_Pos(p.x, p.y, p.z);
-			tr->Set_Scale(_vec3(0.2f, 0.2f, 0.2f)); // ÇÊ¿ä ½Ã
+			tr->Set_Scale(_vec3(0.2f, 0.2f, 0.2f)); // í•„ìš” ì‹œ
 		}
 
 		if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pBarrel)))
 			return E_FAIL;
 	}
 
-	////½ºÆÄÀÌ´õ ¸¶½ºÅÍ¸¶ÀÎµå
+	// ë¬¸ ìƒì„±(2ê°œ)
+	Engine::CGameObject* pDoorObj = CPrototypeManager::GetInstance()
+		->Clone_ObjPrototype(OBJPROTOTYPE::DOOR);
+	if (nullptr == pDoorObj) return E_FAIL;
+	// (ì„ íƒ) Transform ì„¸íŒ… ...
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pDoorObj))) return E_FAIL;
+	dynamic_cast<CDoor*>(pDoorObj)->Set_LinkId(L"A");
+	////ìŠ¤íŒŒì´ë” ë§ˆìŠ¤í„°ë§ˆì¸ë“œ
 	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SPIDERMASTERMIND);
 
+	// ë¬¸ #1 ìœ„ì¹˜ ì§€ì • (í™•ì‹¤íˆ)
+	Engine::CTransform* tr1 = GetTransformPtr(pDoorObj);
+	if (tr1) {
+		tr1->Set_Pos(10.f, 2.f, 30.f);   // ê¸°ì¤€ ìœ„ì¹˜
+	}
 	//if (nullptr == pGameObject)
 	//	return E_FAIL;
 
 	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
 	//	return E_FAIL;
 
+	Engine::CGameObject* pDoorObj2 = CPrototypeManager::GetInstance()
+		->Clone_ObjPrototype(OBJPROTOTYPE::DOOR);
+	if (nullptr == pDoorObj2) return E_FAIL;
+	// (ì„ íƒ) Transform ì„¸íŒ… ...
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pDoorObj2))) return E_FAIL;
+	dynamic_cast<CDoor*>(pDoorObj2)->Set_LinkId(L"A");
+
+	// ë¬¸ #2ëŠ” ì™¼ìª½ìœ¼ë¡œ ë¶„ë¦¬
+	Engine::CTransform* tr2 = GetTransformPtr(pDoorObj2);
+	if (tr2) tr2->Set_Pos(0.f, 2.f, 30.f);
+
+	// ìŠ¤ìœ„ì¹˜ ìƒì„±(1:1)
+	Engine::CGameObject* pSwitchObj = CPrototypeManager::GetInstance()
+		->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
+	if (nullptr == pSwitchObj) return E_FAIL;
+	// (ì„ íƒ) Transform ì„¸íŒ… ...
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj))) return E_FAIL;
+
+	auto* sw1 = dynamic_cast<CSwitch_Button*> (pSwitchObj);
+	sw1->Set_LinkId(L"A");
+	sw1->Set_LinkMode(CSwitch_Button::LinkMode::OneToOne);
+
+	Engine::CTransform* tr3 = GetTransformPtr(pSwitchObj);
+	if (tr3) {
+		tr3->Set_Pos(15.f, 0.f, 18.f);   // ê¸°ì¤€ ìœ„ì¹˜
+	}
 	//m_mapLayer.insert({ _eLayerId, pLayer });
 
-	////¼¦°Ç °¡ÀÌ
+	// ìŠ¤ìœ„ì¹˜ ìƒì„±(1:N)
+	Engine::CGameObject* pSwitchObj2 = CPrototypeManager::GetInstance()
+		->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
+	if (nullptr == pSwitchObj2) return E_FAIL;
+	// (ì„ íƒ) Transform ì„¸íŒ… ...
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj2))) return E_FAIL;
+	////ìƒ·ê±´ ê°€ì´
 	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SHOTGUNGUY);
 
+	auto* sw2 = dynamic_cast<CSwitch_Button*> (pSwitchObj2);
+	sw2->Set_LinkId(L"A");
+	sw2->Set_LinkMode(CSwitch_Button::LinkMode::OneToMany);
 	//if (nullptr == pGameObject)
 	//	return E_FAIL;
 
+	Engine::CTransform* tr4 = GetTransformPtr(pSwitchObj2);
+	if (tr4) {
+		tr4->Set_Pos(5.f, 0.f, 18.f);   // ê¸°ì¤€ ìœ„ì¹˜
+	}
 	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
 	//	return E_FAIL;
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
+
+	ConnectDoorSwitchByLinkId();
+
 	return S_OK;
 }
 
@@ -270,7 +365,7 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_WEAPON, pGameObject)))				// ÀÏ´Ü OBJ_WEAPONÀÌ¶ó´Â enum °ªÀÌ ÀÖ¾î¼­ OBJ_UI->OBJ_WEAPONÀ¸·Î ±³Ã¼(08/05)
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_WEAPON, pGameObject)))				// ì¼ë‹¨ OBJ_WEAPONì´ë¼ëŠ” enum ê°’ì´ ìˆì–´ì„œ OBJ_UI->OBJ_WEAPONìœ¼ë¡œ êµì²´(08/05)
 		return E_FAIL;
 
 	// UI
@@ -292,12 +387,12 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 		return E_FAIL;
 
 	// Info
-	// (1) UI Info °´Ã¼ »ı¼º
+	// (1) UI Info ê°ì²´ ìƒì„±
 	pGameObject = CGameUI_Info::Create(m_pGraphicDev);
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	// (2) Camera °´Ã¼ Æ÷ÀÎÅÍ¸¦ ¾ò¾î¼­
+	// (2) Camera ê°ì²´ í¬ì¸í„°ë¥¼ ì–»ì–´ì„œ
 	const auto& cameraObjects = Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYERCAMERA);
 	if (cameraObjects.empty())
 		return E_FAIL;
@@ -306,32 +401,32 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 	if (pCameraObject == nullptr)
 		return E_FAIL;
 
-	// (3) UI Info¿¡ Camera Æ÷ÀÎÅÍ¸¦ ¿¬°á
+	// (3) UI Infoì— Camera í¬ì¸í„°ë¥¼ ì—°ê²°
 	static_cast<CGameUI_Info*>(pGameObject)->Set_Camera(pCameraObject);
 
-	// (4) UI Info¸¦ UI ·¹ÀÌ¾î¿¡ µî·Ï
+	// (4) UI Infoë¥¼ UI ë ˆì´ì–´ì— ë“±ë¡
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
 		return E_FAIL;
 
 	// Ammo
-	// (1) UI Info °´Ã¼ »ı¼º
+	// (1) UI Info ê°ì²´ ìƒì„±
 	pGameObject = CGameUI_Info_Ammo::Create(m_pGraphicDev);
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	// (2) Camera °´Ã¼ Æ÷ÀÎÅÍ¸¦ ¾ò¾î¼­
+	// (2) Camera ê°ì²´ í¬ì¸í„°ë¥¼ ì–»ì–´ì„œ
 	const auto& cameraObjects2 = Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYERCAMERA);
-	if (cameraObjects.empty())
+	if (cameraObjects2.empty())
 		return E_FAIL;
 
 	auto* pCameraObject2 = dynamic_cast<CDynamicCamera*>(cameraObjects2.back());
 	if (pCameraObject2 == nullptr)
 		return E_FAIL;
 
-	// (3) UI Info¿¡ Camera Æ÷ÀÎÅÍ¸¦ ¿¬°á
+	// (3) UI Infoì— Camera í¬ì¸í„°ë¥¼ ì—°ê²°
 	static_cast<CGameUI_Info_Ammo*>(pGameObject)->Set_Camera(pCameraObject2);
 
-	// (4) UI Info¸¦ UI ·¹ÀÌ¾î¿¡ µî·Ï
+	// (4) UI Infoë¥¼ UI ë ˆì´ì–´ì— ë“±ë¡
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
 		return E_FAIL;
 
@@ -363,7 +458,7 @@ HRESULT CStage::Ready_Camera_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_PLAYERCAMERA, pGameObject)))
 		return E_FAIL;
 
-	//CManagement¿¡ Player ¼¼ÆÃ
+	//CManagementì— Player ì„¸íŒ…
 	CManagement::GetInstance()->Set_Player(pGameObject);
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
@@ -407,6 +502,83 @@ CStage* CStage::Create()
 	}
 
 	return pStage;
+}
+
+void CStage::ConnectDoorSwitchByLinkId()
+{
+	// linkId -> ë¬¸ ëª©ë¡
+	unordered_map<wstring, vector<CDoor*>> doorsById;
+	// linkId -> ìŠ¤ìœ„ì¹˜ ëª©ë¡
+	unordered_map<wstring, vector<CSwitch_Button*>> switchesById;
+
+	const auto& objs = Get_ObjectGroup(LAYERID::LAYER_GAMELOGIC, OBJID::OBJ_OBJECT);
+
+	// 1) ë¶„ë¥˜
+	for (auto* o : objs)
+	{
+		if (auto* d = dynamic_cast<CDoor*>(o)) {
+			const std::wstring& id = d->Get_LinkId();
+			if (!id.empty()) doorsById[id].push_back(d);
+		}
+		else if (auto* s = dynamic_cast<CSwitch_Button*>(o)) {
+			const wstring& id = s->Get_LinkId();
+			if (!id.empty()) switchesById[id].push_back(s);
+		}
+	}
+
+	// 2) ì—°ê²° (ìŠ¤ìœ„ì¹˜ ëª¨ë“œì— ë”°ë¼ 1:1 ë˜ëŠ” 1:N)
+	for (const auto& kv : switchesById)
+	{
+		const wstring& id = kv.first;
+		const vector<CSwitch_Button*>& sws = kv.second;
+
+		auto it = doorsById.find(id);
+		if (it == doorsById.end()) continue;
+
+		const vector<CDoor*>& candDoors = it->second;
+
+		for (auto* sw : sws)
+		{
+			// ê¸°ì¡´ ì—°ê²° ì´ˆê¸°í™”
+			sw->Clear_Targets();
+			sw->Set_Target(nullptr);
+
+			if (sw->Get_LinkMode() == CSwitch_Button::LinkMode::OneToMany)
+			{
+				// 1:N â€” ê°™ì€ IDì˜ ëª¨ë“  ë¬¸
+				for (auto* d : candDoors)
+					sw->Add_Target(d);
+			}
+			else
+			{
+				// 1:1 â€” ê°™ì€ IDì˜ ë¬¸ë“¤ ì¤‘ ê°€ì¥ ê°€ê¹Œìš´ ë¬¸
+				auto* swTr = dynamic_cast<Engine::CTransform*>(
+					sw->Get_Component(Engine::ID_DYNAMIC, L"Com_Transform"));
+
+				CDoor* bestDoor = nullptr;
+				float bestD2 = (std::numeric_limits<float>::max)();		// ë§¤í¬ë¡œ íšŒí”¼(ì´ë ‡ê²Œ ì•ˆí•˜ë©´ max ë§¤í¬ë¡œë¥¼ ì¸ì‹í•˜ì§€ ëª»í•¨)
+
+				for (auto* d : candDoors)
+				{
+					auto* dTr = dynamic_cast<Engine::CTransform*>(
+						d->Get_Component(Engine::ID_DYNAMIC, L"Com_Transform"));
+
+					if (!swTr || !dTr) { // íŠ¸ëœìŠ¤í¼ ì—†ìœ¼ë©´ ì²« ë¬¸ìœ¼ë¡œ ëŒ€ì²´
+						if (!bestDoor) bestDoor = d;
+						continue;
+					}
+
+					_vec3 a; swTr->Get_Pos(&a);
+					_vec3 b; dTr->Get_Pos(&b);
+
+					const float dx = a.x - b.x, dy = a.y - b.y, dz = a.z - b.z;
+					const float d2 = dx * dx + dy * dy + dz * dz;
+					if (d2 < bestD2) { bestD2 = d2; bestDoor = d; }
+				}
+				if (bestDoor) sw->Set_Target(bestDoor);
+			}
+		}
+	}
 }
 
 void CStage::Free()

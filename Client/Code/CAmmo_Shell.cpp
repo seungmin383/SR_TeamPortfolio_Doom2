@@ -69,6 +69,7 @@ void CAmmo_Shell::Render_GameObject(const _float& fTimeDelta)
 {
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
 	m_pTextureCom->Set_Texture(m_iFrame_Shell);
@@ -77,6 +78,7 @@ void CAmmo_Shell::Render_GameObject(const _float& fTimeDelta)
 	//�浹ü
 	m_pColliderCom->Render(g_colRend);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
 }
 
 void CAmmo_Shell::OnCollision(CCollider* _pOther)
