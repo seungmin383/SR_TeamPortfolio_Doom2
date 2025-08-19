@@ -6,7 +6,8 @@ IMPLEMENT_SINGLETON(CImGuiManager)
 
 CImGuiManager::CImGuiManager()
 	: m_pGraphicDev(nullptr),
-	textureExpr(CTextureExplorer::Create())
+	textureExpr(nullptr),
+	controlPanel(nullptr)
 {
 }
 
@@ -19,6 +20,9 @@ void CImGuiManager::Init_ImGui(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	m_pGraphicDev = pGraphicDev;
 	m_pGraphicDev->AddRef();
+
+	textureExpr = CTextureExplorer::Create(m_pGraphicDev);
+	controlPanel = CControlPanel::Create(m_pGraphicDev, textureExpr);
 
 	//ImGui Init
 	// Make process DPI aware and obtain main monitor scale
@@ -63,16 +67,16 @@ void CImGuiManager::Render_ImGui()
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-
-	DemoWindow();
-
+	
+	ControlPanelWindow();
 	DirExplorerWindow();
+
+	if (show_demo_window)
+		DemoWindow();
 
 	// 3. Show another simple window.
 	if (show_another_window)
-	{
 		DemoAnotherWindow();
-	}
 
 	// Rendering
 	ImGui::EndFrame();
@@ -85,6 +89,15 @@ void CImGuiManager::ResetDevice()
 {
 	ImGui_ImplDX9_InvalidateDeviceObjects();
 	ImGui_ImplDX9_CreateDeviceObjects();
+}
+
+void CImGuiManager::ControlPanelWindow()
+{
+	ImGui::Begin("Control Panel");
+
+	show_demo_window = controlPanel->ControlPanelWindow();
+
+	ImGui::End();
 }
 
 void CImGuiManager::DirExplorerWindow()
@@ -141,6 +154,7 @@ void CImGuiManager::DemoAnotherWindow()
 void CImGuiManager::Free()
 {
 	textureExpr->Release();
+	controlPanel->Release();
 
 	// Cleanup
 	ImGui_ImplDX9_Shutdown();

@@ -1,6 +1,7 @@
 #pragma once
 #include "CBase.h"
 #include "Engine_Define.h"
+#include "CFileManager.h"
 #include "CTexture.h"
 
 class CTextureManager :
@@ -9,7 +10,7 @@ class CTextureManager :
 public:
     //게임오브젝트도 추가 될 수 있음
     enum class terrainDir
-    { CEIL, DECO, DOOR, ENV, FLAT, FLOOR, LIGHTTILE, OBSTACLES, STEP, SWITCH, WALL, DIR_END };
+    { CEIL, DECO, DOOR, ENV, FLAT, FLOOR, LIGHTTILE, OBSTACLES, STEP, SWITCH, WALL, ETC, DIR_END };
 
     DECLARE_SINGLETON(CTextureManager)
 private:
@@ -17,10 +18,14 @@ private:
     virtual ~CTextureManager();
 
 public:
-    void        BulkLoadTexture(LPDIRECT3DDEVICE9 pGraphicDev, terrainDir eDir);
+    void                                BulkLoadTexture(LPDIRECT3DDEVICE9 pGraphicDev, string str);
+    map<fs::path, CTexture*>            GetTextureGroup(string str);
+    CTexture*                           GetTexture(string str, fs::path tag);
+
+    terrainDir                          StringConversion(string str);
 
 private:
-    map<const _tchar*, CTexture*> textureRepo[(_uint)terrainDir::DIR_END];
+    map<fs::path, CTexture*> textureRepo[(_uint)terrainDir::DIR_END];
 
 private:
     virtual void        Free();

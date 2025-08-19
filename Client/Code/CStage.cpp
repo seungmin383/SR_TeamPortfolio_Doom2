@@ -25,6 +25,8 @@
 #include "CDoor.h"
 #include "CSwitch_Button.h"
 
+#include "CPistol.h"
+
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -88,7 +90,7 @@ HRESULT CStage::Ready_Environment_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	pGameObject = CTerrain::Create(m_pGraphicDev);
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::TERRAIN);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
@@ -118,37 +120,42 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	Engine::CGameObject* pGameObject = nullptr;
 
 	//아크바일
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE);
+	/*pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE);*/
 
-	if (nullptr == pGameObject)
-		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
-		return E_FAIL;
+	//if (nullptr == pGameObject)
+	//	return E_FAIL;
 
-	m_mapLayer.insert({ _eLayerId, pLayer });
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
+	//	return E_FAIL;
+
+	//m_mapLayer.insert({ _eLayerId, pLayer });
 
 	//임프
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP);
+	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP);
 
-	if (nullptr == pGameObject)
-		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
-		return E_FAIL;
+	//if (nullptr == pGameObject)
+	//	return E_FAIL;
 
-	m_mapLayer.insert({ _eLayerId, pLayer });
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
+	//	return E_FAIL;
+
+	//m_mapLayer.insert({ _eLayerId, pLayer });
+
+
 
 	//핑키
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON);
+	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON);
 
-	if (nullptr == pGameObject)
-		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
-		return E_FAIL;
+	//if (nullptr == pGameObject)
+	//	return E_FAIL;
 
-	m_mapLayer.insert({ _eLayerId, pLayer });
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
+	//	return E_FAIL;
+
+	//m_mapLayer.insert({ _eLayerId, pLayer });
 
 	//좀비맨
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ZOMBIEMAN);
@@ -156,6 +163,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
+	auto a = pGameObject;
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
 		return E_FAIL;
 
@@ -271,6 +279,16 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 			return E_FAIL;
 	}
 
+
+	////�����̴� �����͸��ε�
+	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SPIDERMASTERMIND);
+
+	//if (nullptr == pGameObject)
+	//	return E_FAIL;
+
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
+	//	return E_FAIL;
+
 	// 문 생성(2개)
 	Engine::CGameObject* pDoorObj = CPrototypeManager::GetInstance()
 		->Clone_ObjPrototype(OBJPROTOTYPE::DOOR);
@@ -325,9 +343,23 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 		tr4->Set_Pos(5.f, 0.f, 18.f);   // 기준 위치
 	}
 
+
+	//m_mapLayer.insert({ _eLayerId, pLayer });
+
+
+	////���� ����
+	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SHOTGUNGUY);
+
+	//if (nullptr == pGameObject)
+	//	return E_FAIL;
+
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
+	//	return E_FAIL;
+
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
 	ConnectDoorSwitchByLinkId();
+
 
 	return S_OK;
 }

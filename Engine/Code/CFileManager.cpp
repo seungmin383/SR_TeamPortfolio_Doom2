@@ -4,10 +4,6 @@ IMPLEMENT_SINGLETON(CFileManager)
 
 CFileManager::CFileManager()
 {
-	ZeroMemory(&m_currentPath, sizeof(fs::path));
-	ZeroMemory(&m_tConfig, sizeof(ConfigModel));
-
-	GetConfig();
 }
 
 CFileManager::~CFileManager()
@@ -20,10 +16,22 @@ fs::path CFileManager::GetCurrentDir()
 	return fs::current_path();
 }
 
-fs::path CFileManager::GetCanonicalDir()
+void CFileManager::SetProjectDir()
 {
-	fs::canonical(m_currentPath);
-	return m_currentPath;
+	m_projectPath = fs::current_path();
+	LoadConfig();
+
+	MoveParentDir();
+	MoveParentDir();
+	//솔루션디렉토리라고믿음
+	m_basePath = fs::current_path();
+	//다시프로젝트로
+	MoveProjectDir();
+}
+
+void CFileManager::MoveProjectDir()
+{
+	fs::current_path(m_projectPath);
 }
 
 void CFileManager::MoveParentDir()
@@ -37,7 +45,7 @@ void CFileManager::MoveDir(fs::path p)
 	fs::current_path(p);
 }
 
-void CFileManager::GetConfig()
+void CFileManager::LoadConfig()
 {
 	if (!fs::exists(m_ConfigPath))
 	{
@@ -67,8 +75,10 @@ void CFileManager::GetConfig()
 
 	ifstream read(m_ConfigPath);
 	json j = json::parse(read);
-	
+
 	m_tConfig = j.get<ConfigModel>();
+
+	read.close();
 }
 
 fs::path CFileManager::GetResourceDir()
@@ -115,26 +125,50 @@ vector<fs::path> CFileManager::GetListChildDir()
 	return result;
 }
 
-void CFileManager::SaveTerrain()
+void CFileManager::SaveTerrain(fs::path path, string filename, vector<TerrainModel> datas)
 {
-	//write = j.dump()
+	MoveProjectDir();
+
+	TerrainModels dataSet;
+	dataSet.model = datas;
+
+	auto a = path.string() + "/" + filename;
+
+	ofstream write(path.string() + "/" + filename);
+
+	json j = dataSet;
+	write << j.dump();
+
+	write.close();
 }
 
-void CFileManager::LoadTerrain()
+TerrainModels CFileManager::LoadTerrain()
 {
-	fs::path p(m_tConfig.TerrainSavePath);
+	//스테이지마다개별로?
+	//한번에 로드해서 들고있게?
+	//vector<TerrainModels> ??
+
+	MoveProjectDir();
+
+	TerrainModels tm;
+
+	//TODO: 파일 이름 하드코딩 수정
+	fs::path p(m_tConfig.TerrainSavePath + "/" + "terrain.json");
 
 	if (!fs::exists(p))
 	{
 		MSG_BOX("not found terrain save");
-		return;
+		return tm;
 	}
 
 	ifstream read(p);
 	json j = json::parse(read);
 
-	TerrainModels tm = j.get<TerrainModels>();
-	//return tm;
+	tm = j.get<TerrainModels>();
+
+	read.close();
+
+	return tm;
 }
 
 void CFileManager::Free()

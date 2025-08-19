@@ -84,6 +84,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>../Header;../Include;../../Base;../../Reference/Header;../Include/ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -101,6 +102,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>../Header;../Include;../../Base;../../Reference/Header;../Include/ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -138,6 +140,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>../Header;../Include;../../Base;../../Reference/Header;../Include/ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -148,6 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\CBackGround.h" />
+    <ClInclude Include="..\Header\CControlPanel.h" />
     <ClInclude Include="..\Header\CDynamicCamera.h" />
     <ClInclude Include="..\Header\CGameUI.h" />
     <ClInclude Include="..\Header\CGameUI_Face.h" />
@@ -158,10 +162,12 @@
     <ClInclude Include="..\Header\CMainApp.h" />
     <ClInclude Include="..\Header\CMonster.h" />
     <ClInclude Include="..\Header\CMonsterBase.h" />
+    <ClInclude Include="..\Header\CObjectFactory.h" />
     <ClInclude Include="..\Header\CPlayerWeapon.h" />
     <ClInclude Include="..\Header\CSkyBox.h" />
     <ClInclude Include="..\Header\CStage.h" />
     <ClInclude Include="..\Header\CTerrain.h" />
+    <ClInclude Include="..\Header\CTerrainSector.h" />
     <ClInclude Include="..\Header\CTextureExplorer.h" />
     <ClInclude Include="..\Header\CTextureManager.h" />
     <ClInclude Include="..\Header\CZombieMan.h" />
@@ -182,6 +188,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\CBackGround.cpp" />
+    <ClCompile Include="..\Code\CControlPanel.cpp" />
     <ClCompile Include="..\Code\CDynamicCamera.cpp" />
     <ClCompile Include="..\Code\CGameUI.cpp" />
     <ClCompile Include="..\Code\CGameUI_Face.cpp" />
@@ -192,10 +199,12 @@
     <ClCompile Include="..\Code\CMainApp.cpp" />
     <ClCompile Include="..\Code\CMonster.cpp" />
     <ClCompile Include="..\Code\CMonsterBase.cpp" />
+    <ClCompile Include="..\Code\CObjectFactory.cpp" />
     <ClCompile Include="..\Code\CPlayerWeapon.cpp" />
     <ClCompile Include="..\Code\CSkyBox.cpp" />
     <ClCompile Include="..\Code\CStage.cpp" />
     <ClCompile Include="..\Code\CTerrain.cpp" />
+    <ClCompile Include="..\Code\CTerrainSector.cpp" />
     <ClCompile Include="..\Code\CTextureExplorer.cpp" />
     <ClCompile Include="..\Code\CTextureManager.cpp" />
     <ClCompile Include="..\Code\CZombieMan.cpp" />

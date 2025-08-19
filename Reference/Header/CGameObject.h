@@ -20,7 +20,7 @@ public:
     CCollider* GetCollider() { return m_pColliderCom == nullptr ? nullptr : m_pColliderCom; }
     CTransform* Get_Transform() { return m_pTransformCom; }
 
-    const bool                          Get_Dead() const { return m_bDead; }
+    const bool                      Get_Dead() const { return m_bDead; }
     void                                Set_Dead(_bool _bVal) { m_bDead = _bVal; }
 
     virtual void			            OnCollision(CCollider* _pOther) {};

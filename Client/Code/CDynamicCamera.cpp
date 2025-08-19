@@ -3,8 +3,10 @@
 #include "CDInputManager.h"
 #include "CManagement.h"
 #include "CRenderer.h"
+#include "CWeaponManager.h"
+#include "CPistol.h"
 
-// 변수 초기화
+// Initialize static variable
 _long CDynamicCamera::s_lMouseMoveX = 0L;
 
 CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -61,6 +63,15 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	m_pColliderCom->Ready_CCollider(this, m_vEye, vScale, vOffset, COL_PLAYERCAMERA,
 		COL_ENEMY | COL_OBJECT | COL_TERRAIN | COL_WALL | COL_ITEM);
 
+	CWeapon* pPistol = CPistol::Create();
+
+	if (pPistol != nullptr)
+	{
+		CWeaponManager::GetInstance()->Add_Weapon(CWeaponManager::WEAPON_ID::PISTOL, pPistol);
+	}
+
+	CWeaponManager::GetInstance()->Change_Weapon(CWeaponManager::WEAPON_ID::PISTOL);
+
 	return S_OK;
 }
 
@@ -68,6 +79,7 @@ _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 {
 	_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
 	
+	Update_State();
 	Set_OnTerrain();
 
 	return iExit;
@@ -78,6 +90,7 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 	Engine::CCamera::LateUpdate_GameObject(fTimeDelta);
 
 	Key_Input(fTimeDelta);
+	Mouse_Input();
 
 	m_pColliderCom->Late_Update();
 
@@ -131,15 +144,6 @@ HRESULT CDynamicCamera::Add_Component()
 
 void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 {
-	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB))
-	{
-		auto a = m_pCalculatorCom->Picking_GameObject(g_hWnd);
-		if (a)
-		{
-			auto b = 1;
-		}
-	}
-
 	_matrix	matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, 0, &m_matView);
 
@@ -226,6 +230,15 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 void CDynamicCamera::Mouse_Input()
 {
+	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB))
+	{
+		CWeaponManager::GetInstance()->Fire_Weapon();
+
+		// SHOT 상태일 때만 픽킹
+		if (CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponState() == CWeapon::WEAPON_STATE::SHOT)
+			m_pCalculatorCom->Picking_GameObject(g_hWnd);
+	}
+
 	m_bTrigger = false;
 
 	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_RB) & 0x80)
@@ -295,7 +308,7 @@ void CDynamicCamera::Set_OnTerrain()
 	m_vAt.y += deltaHeight;
 }
 
-void CDynamicCamera::Check_State()
+void CDynamicCamera::Update_State()
 {
 	if (m_iHp >= 80)
 		m_eState = IDLE;

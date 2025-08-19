@@ -139,7 +139,7 @@ HRESULT CSpiderMastermind::Ready_GameObject()
 
 _int CSpiderMastermind::Update_GameObject(const _float& fTimeDelta)
 {
-	cout << "스파이더 마스터마인드 픎레이어 발견 : " << m_isDetect_Player << endl;
+//	cout << "스파이더 마스터마인드 픎레이어 발견 : " << m_isDetect_Player << endl;
 	CMonsterBase::Update_GameObject(fTimeDelta);
 	Bill_Board();
 	Set_OnTerrain();

@@ -10,6 +10,7 @@
 #include "CTerrainTex.h"
 #include "CCubeTex.h"
 #include "CRectSpriteTex.h"
+#include "CTerrainTexSector.h"
 
 #include "CTransform.h"
 #include "CTexture.h"
@@ -33,23 +34,23 @@ private:
 
 public:
     //Component
-    HRESULT         Ready_ComPrototype(const _tchar* pComponentTag, CComponent* pComponent);
-    CComponent*     Clone_ComPrototype(const _tchar* pComponentTag);
+    HRESULT         Ready_ComPrototype(wstring strComponentTag, CComponent* pComponent);
+    CComponent*     Clone_ComPrototype(wstring strComponentTag);
 
     //Object
     HRESULT         Ready_ObjPrototype(OBJPROTOTYPE eObjId, CGameObject* pComponent);
     CGameObject*     Clone_ObjPrototype(OBJPROTOTYPE eObjId);
-
+  
 private:
     //Component
-    CComponent*     Find_ComPrototype(const _tchar* pComponentTag);
+    CComponent*     Find_ComPrototype(wstring pComponentTag);
 
     //Object
     CGameObject*     Find_ObjPrototype(OBJPROTOTYPE eObjId);
 
 
 private:
-    map<const _tchar*, CComponent*> m_mapComPrototype;
+    map<wstring, CComponent*> m_mapComPrototype;
     map<OBJPROTOTYPE, CGameObject*>        m_mapObjPrototype;
 
 private:

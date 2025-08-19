@@ -23,29 +23,46 @@ class CTextureExplorer :
 {
 private:
     explicit CTextureExplorer();
+    explicit CTextureExplorer(LPDIRECT3DDEVICE9 pGraphicDev);
     virtual ~CTextureExplorer();
 
 public:
-    static CTextureExplorer* Create();
+    static CTextureExplorer* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 public:
     void            DrawExplorerWindow();
     void            ChildListBox();
     void            FileListListBox();
+    void            TextureList();
 
     void            MoveParentDir();
     void            MoveDir(fs::path p);
+    void            MoveTerrainResourceDir();
 
     void            GetChildList();
     void            GetFileList();
 
+    void            BulkLoadTexture();
+    void            GetTextures();
+
+    fs::path        GetCurDir() { return curDir; }
+    
+    fs::path        GetSelectTexture() { return selectedTexture; };
+
+    string          WideToUtf8(const _tchar* wc);
+
 private:
-    fs::path                curDir;
+    LPDIRECT3DDEVICE9               m_pGraphicDev;
+
+    fs::path                        curDir;
+    fs::path                        selectedTexture;
 
     vector<fs::path>                curChildList;
     vector<fs::path>                curFileList;
 
-    CTextureManager*        TextureRepo;
+    CTextureManager*                TextureRepo;
+    map<fs::path, CTexture*>        curTextures;
+    _bool                           cacheCheck[(_uint)CTextureManager::terrainDir::DIR_END] = { 0, };
 
 private:
     virtual void        Free();

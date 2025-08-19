@@ -11,6 +11,10 @@
 #include "CLightManager.h"
 #include "CColliderManager.h"
 #include "CFileManager.h"
+#include "CObjectFactory.h"
+
+#include "CTerrain.h"
+#include "CTerrainSector.h"
 
 #include "CDynamicCamera.h"
 #include "CZombieMan.h"
@@ -98,6 +102,12 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CDInputManager::GetInstance()->Ready_InputDev(g_hInst, g_hWnd)))
 		return E_FAIL;
 
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::TERRAIN, CTerrain::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::TERRAINSECTOR, CTerrainSector::Create(m_pGraphicDev))))
+		return E_FAIL;
+
 	//Initiate GameObject Prototype
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ZOMBIEMAN, CZombieMan::Create(m_pGraphicDev))))
 		return E_FAIL;
@@ -110,6 +120,9 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	(*ppGraphicDev)->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);	//Z 버퍼에 값을 기록할 지 결정
 
 	m_pImGuiClass->Init_ImGui(*ppGraphicDev);
+	CObjectFactory::GetInstance()->Set_Dev(*ppGraphicDev);
+
+	CFileManager::GetInstance()->SetProjectDir();
 
 	return S_OK;
 }
@@ -148,6 +161,8 @@ void CMainApp::Free()
 	Engine::Safe_Release(m_pDeviceClass);
 	Engine::Safe_Release(m_pGraphicDev);
 	
+	CTextureManager::GetInstance()->DestroyInstance();
+	CObjectFactory::GetInstance()->DestroyInstance();
 	CFileManager::GetInstance()->DestroyInstance();
 	CColliderManager::GetInstance()->DestroyInstance();
 	CLightManager::GetInstance()->DestroyInstance();

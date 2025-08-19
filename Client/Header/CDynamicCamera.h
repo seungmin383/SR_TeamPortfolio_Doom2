@@ -84,6 +84,14 @@ public:
 
     }
 
+    void Take_Damage(_int iDamage) 
+    { 
+        if (m_iHp <= 0)
+            m_iHp = 0;
+        else 
+            m_iHp -= iDamage;
+    }
+
 private:
     HRESULT     Add_Component();
     void        Key_Input(const _float& fTimeDelta);
@@ -91,7 +99,7 @@ private:
     void        Mouse_Move();
     void        Mouse_Fix();
     void        Set_OnTerrain(); 
-    void        Check_State();          // 체력에 따라 State 설정해주는 함수
+    void        Update_State();          // 플레이어의 State 설정해주는 함수
 
 private:
     Engine::CCalculator*    m_pCalculatorCom;
