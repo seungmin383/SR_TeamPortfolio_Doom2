@@ -22,6 +22,8 @@ CZombieMan::~CZombieMan()
 
 HRESULT CZombieMan::Ready_GameObject()
 {
+	CMonsterBase::Ready_GameObject();
+
 	AllocConsole();
 
 	FILE* fp;

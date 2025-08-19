@@ -59,6 +59,8 @@ public:
 
    virtual void Bill_Board();
 
+   virtual void Drop_Item();
+
    //Setting Function
    virtual HRESULT     Add_Component();
 

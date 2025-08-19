@@ -35,6 +35,9 @@ CMonsterBase::~CMonsterBase()
 
 HRESULT         CMonsterBase::Ready_GameObject()
 {
+	_vec3 vPos{ 10.f,10.f,10.f };
+
+	CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_ZOMBIEMAN, OBJID::OBJ_ENEMY, vPos, 1);
 	return S_OK;
  }
 
@@ -438,6 +441,8 @@ _bool CMonsterBase::Check_Dead()
 		}
 		m_isGibbingDead = FALSE;
 		m_isNormalDead = TRUE;
+
+		Drop_Item();
 		return TRUE;
 	}
 	return FALSE;
@@ -489,7 +494,6 @@ _bool CMonsterBase::Check_Attack(const _float& fTimeDelta)
 				m_AtkEnterCnt++;
 				return TRUE;
 			}
-
 		}
 	}
 	else
@@ -827,6 +831,13 @@ void CMonsterBase::Bill_Board()
 	matWorld = matBill * matWorld;
 
 	m_pTransformCom->Set_World(&matWorld);
+
+}
+
+void CMonsterBase::Drop_Item()
+{
+	_vec3 vPos;													//아이템 드롭 위치
+	m_pTransformCom->Get_Pos(&vPos);
 
 }
 
