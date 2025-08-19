@@ -307,6 +307,11 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	sw1->Set_LinkId(L"A");
 	sw1->Set_LinkMode(CSwitch_Button::LinkMode::OneToOne);
 
+	Engine::CTransform* tr3 = GetTransformPtr(pSwitchObj);
+	if (tr3) {
+		tr3->Set_Pos(15.f, 0.f, 18.f);   // 기준 위치
+	}
+
 	// 스위치 생성(1:N)
 	Engine::CGameObject* pSwitchObj2 = CPrototypeManager::GetInstance()
 		->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
@@ -317,6 +322,11 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	auto* sw2 = dynamic_cast<CSwitch_Button*> (pSwitchObj2);
 	sw2->Set_LinkId(L"A");
 	sw2->Set_LinkMode(CSwitch_Button::LinkMode::OneToMany);
+
+	Engine::CTransform* tr4 = GetTransformPtr(pSwitchObj2);
+	if (tr4) {
+		tr4->Set_Pos(5.f, 0.f, 18.f);   // 기준 위치
+	}
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
