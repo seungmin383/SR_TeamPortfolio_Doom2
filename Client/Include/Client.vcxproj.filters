@@ -94,6 +94,9 @@
     <Filter Include="02. GameObject\06. Object\DropItem">
       <UniqueIdentifier>{13c728af-3ad7-461e-8107-987924d6db8c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\06. Object\Weapon">
+      <UniqueIdentifier>{71884e34-9266-4130-95bf-4fef5e89fbaf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -204,6 +207,12 @@
     <ClInclude Include="..\Header\CDoor.h">
       <Filter>02. GameObject\06. Object</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CWeapon_Shotgun.h">
+      <Filter>02. GameObject\06. Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CGameUI_Info_Weapon.h">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -304,6 +313,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\CDoor.cpp">
       <Filter>02. GameObject\06. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CWeapon_Shotgun.cpp">
+      <Filter>02. GameObject\06. Object\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CGameUI_Info_Weapon.cpp">
+      <Filter>02. GameObject\09. UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -185,6 +185,7 @@
     <ClInclude Include="..\Header\CGameUI_Face.h" />
     <ClInclude Include="..\Header\CGameUI_Info.h" />
     <ClInclude Include="..\Header\CGameUI_Info_Ammo.h" />
+    <ClInclude Include="..\Header\CGameUI_Info_Weapon.h" />
     <ClInclude Include="..\Header\CHealth_Big.h" />
     <ClInclude Include="..\Header\CHealth_Small.h" />
     <ClInclude Include="..\Header\CImp.h" />
@@ -201,6 +202,7 @@
     <ClInclude Include="..\Header\CLogo.h" />
     <ClInclude Include="..\Header\CMainApp.h" />
     <ClInclude Include="..\Header\CMonster.h" />
+    <ClInclude Include="..\Header\CWeapon_Shotgun.h" />
     <ClInclude Include="..\Header\CZombieMan.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
@@ -223,6 +225,7 @@
     <ClCompile Include="..\Code\CGameUI_Face.cpp" />
     <ClCompile Include="..\Code\CGameUI_Info.cpp" />
     <ClCompile Include="..\Code\CGameUI_Info_Ammo.cpp" />
+    <ClCompile Include="..\Code\CGameUI_Info_Weapon.cpp" />
     <ClCompile Include="..\Code\CHealth_Big.cpp" />
     <ClCompile Include="..\Code\CHealth_Small.cpp" />
     <ClCompile Include="..\Code\CImp.cpp" />
@@ -239,6 +242,7 @@
     <ClCompile Include="..\Code\CLogo.cpp" />
     <ClCompile Include="..\Code\CMainApp.cpp" />
     <ClCompile Include="..\Code\CMonster.cpp" />
+    <ClCompile Include="..\Code\CWeapon_Shotgun.cpp" />
     <ClCompile Include="..\Code\CZombieMan.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="pch.cpp">

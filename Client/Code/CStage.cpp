@@ -11,6 +11,7 @@
 #include "CManagement.h"
 
 #include "CGameUI.h"
+#include "CGameUI_Info_Weapon.h"
 #include "CGameUI_Face.h"
 #include "CGameUI_Info.h"
 #include "CGameUI_Info_Ammo.h"
@@ -274,7 +275,6 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	Engine::CGameObject* pDoorObj = CPrototypeManager::GetInstance()
 		->Clone_ObjPrototype(OBJPROTOTYPE::DOOR);
 	if (nullptr == pDoorObj) return E_FAIL;
-	// (선택) Transform 세팅 ...
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pDoorObj))) return E_FAIL;
 	dynamic_cast<CDoor*>(pDoorObj)->Set_LinkId(L"A");
 
@@ -288,7 +288,6 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	Engine::CGameObject* pDoorObj2 = CPrototypeManager::GetInstance()
 		->Clone_ObjPrototype(OBJPROTOTYPE::DOOR);
 	if (nullptr == pDoorObj2) return E_FAIL;
-	// (선택) Transform 세팅 ...
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pDoorObj2))) return E_FAIL;
 	dynamic_cast<CDoor*>(pDoorObj2)->Set_LinkId(L"A");
 
@@ -300,7 +299,6 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	Engine::CGameObject* pSwitchObj = CPrototypeManager::GetInstance()
 		->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
 	if (nullptr == pSwitchObj) return E_FAIL;
-	// (선택) Transform 세팅 ...
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj))) return E_FAIL;
 
 	auto* sw1 = dynamic_cast<CSwitch_Button*> (pSwitchObj);
@@ -316,7 +314,6 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	Engine::CGameObject* pSwitchObj2 = CPrototypeManager::GetInstance()
 		->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
 	if (nullptr == pSwitchObj2) return E_FAIL;
-	// (선택) Transform 세팅 ...
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj2))) return E_FAIL;
 
 	auto* sw2 = dynamic_cast<CSwitch_Button*> (pSwitchObj2);
@@ -354,6 +351,14 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 
 	// UI
 	pGameObject = CGameUI::Create(m_pGraphicDev);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
+		return E_FAIL;
+
+	pGameObject = CGameUI_Info_Weapon::Create(m_pGraphicDev);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
