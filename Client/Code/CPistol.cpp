@@ -12,6 +12,7 @@ CPistol::~CPistol()
 
 HRESULT CPistol::Ready_GameObject()
 {
+	m_eWeaponID = WEAPON_ID::PISTOL;
 	m_eCurState = WEAPON_STATE::IDLE;
 	m_eAmmoType = AMMO_TYPE::CLIP;
 	m_iDamage = 10;
@@ -34,7 +35,7 @@ void CPistol::Fire()
 	else
 	{
 		// 총알이 없다면 이전 무기로 교체
-		CWeaponManager::GetInstance()->Change_Weapon(CWeaponManager::GetInstance()->Get_PrevWeaponID());
+		CWeaponManager::GetInstance()->Change_Weapon(CWeaponManager::GetInstance()->Get_PrevWeapon()->Get_WeaponID());
 	}
 }
 
