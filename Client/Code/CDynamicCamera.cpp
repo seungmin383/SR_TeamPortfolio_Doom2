@@ -5,6 +5,7 @@
 #include "CRenderer.h"
 #include "CWeaponManager.h"
 #include "CPistol.h"
+#include "CShotgun.h"
 
 // Initialize static variable
 _long CDynamicCamera::s_lMouseMoveX = 0L;
@@ -64,13 +65,18 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 		COL_ENEMY | COL_OBJECT | COL_TERRAIN | COL_WALL | COL_ITEM);
 
 	CWeapon* pPistol = CPistol::Create();
-
 	if (pPistol != nullptr)
 	{
-		CWeaponManager::GetInstance()->Add_Weapon(CWeaponManager::WEAPON_ID::PISTOL, pPistol);
+		CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::PISTOL, pPistol);
 	}
 
-	CWeaponManager::GetInstance()->Change_Weapon(CWeaponManager::WEAPON_ID::PISTOL);
+	CWeapon* pShotgun = CShotgun::Create();
+	if (pShotgun != nullptr)
+	{
+		CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::SHOTGUN, pShotgun);
+	}
+
+	CWeaponManager::GetInstance()->Set_CurWeapon(WEAPON_ID::PISTOL);
 
 	return S_OK;
 }
@@ -203,6 +209,23 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		m_vAt.z -= vLength.z;
 	}
 
+	// 무기 교체 관련 키 입력
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_1) & 0x80)
+	{
+		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::PISTOL);
+	}
+
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_2) & 0x80)
+	{
+		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::SHOTGUN);
+	}
+
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_3) & 0x80)
+	{
+		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::CHAINGUN);
+	}
+
+
 	//m_pTransformCom 업데이트 //collider 동기화 용
 	m_pTransformCom->Set_Pos(m_vEye.x, m_vEye.y, m_vEye.z);
 
@@ -232,10 +255,14 @@ void CDynamicCamera::Mouse_Input()
 {
 	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB))
 	{
-		CWeaponManager::GetInstance()->Fire_Weapon();
+		if (!CWeaponManager::GetInstance()->Fire_Weapon())
+		{
+			// 총알이 없어서 발사 실패하면 이전 무기로 변경
+			CWeaponManager::GetInstance()->Change_Weapon(CWeaponManager::GetInstance()->Get_PrevWeapon()->Get_WeaponID());
+		}
 
 		// SHOT 상태일 때만 픽킹
-		if (CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponState() == CWeapon::WEAPON_STATE::SHOT)
+		if (CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponState() == WEAPON_STATE::SHOT)
 			m_pCalculatorCom->Picking_GameObject(g_hWnd);
 	}
 
