@@ -92,7 +92,7 @@ void CWeapon_Shotgun::OnCollisionEnter(CCollider* _pOther)
 	// to-do) 무기매니저로 캐스팅해서 얻기
 	if (auto* mgr = CWeaponManager::GetInstance()) {
 		if (CWeapon* inv = (CWeapon*)CWeapon_Shotgun::Create(m_pGraphicDev)) { // 이 코드 상태에서 누수 발생
-			mgr->Add_Weapon(CWeaponManager::WEAPON_ID::SHOTGUN, inv); // 이 코드 상태에서 누수 발생
+			//mgr->Add_Weapon(CWeaponManager::WEAPON_ID::SHOTGUN, inv); // 이 코드 상태에서 누수 발생
 			
 			// mgr->Change_Weapon(CWeaponManager::WEAPON_ID::SHOTGUN);
 		}

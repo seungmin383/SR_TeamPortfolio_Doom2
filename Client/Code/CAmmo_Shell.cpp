@@ -4,9 +4,10 @@
 #include "CManagement.h"
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
+#include "CWeaponManager.h"
 
 CAmmo_Shell::CAmmo_Shell(LPDIRECT3DDEVICE9 pGraphicDev)
-    : CGameObject(pGraphicDev), m_iShell(0), m_iFrame_Shell(0)
+    : CGameObject(pGraphicDev), m_iShell(0), m_iFrame_Shell(0), m_pWeaponManager(nullptr)
 {
 }
 
@@ -27,6 +28,8 @@ HRESULT CAmmo_Shell::Ready_GameObject()
 	m_iShell = 8;
 
 	m_iFrame_Shell = 0;
+
+	m_pWeaponManager = CWeaponManager::GetInstance();
 
 	m_pTransformCom->Set_Pos(12.f, 0.f, 11.f);
 	m_pTransformCom->Set_Scale(_vec3(0.5f, 0.5f, 0.5f));
@@ -91,14 +94,31 @@ void CAmmo_Shell::OnCollisionEnter(CCollider* _pOther)
 
 	if (m_bPicked || !_pOther) return;
 
-	auto* who = _pOther->Get_Owner();
-	if (auto* pCam = dynamic_cast<CDynamicCamera*>(who)) {
-		// 1) HP 증가
-		pCam->AddShell(m_iShell);
+	//auto* who = _pOther->Get_Owner();
+	//if (auto* pCam = dynamic_cast<CDynamicCamera*>(who)) {
+	//	// 1) HP 증가
+	//	pCam->AddShell(m_iShell);
 
-		// 2) 더이상 충돌하지 않게 막기
-		m_bPicked = true;
+	//	// 2) 더이상 충돌하지 않게 막기
+	//	m_bPicked = true;
+	//}
+
+	 // 누가 부딪혔는지: 플레이어/카메라
+	const auto layer = _pOther->Get_ColLayer();
+	const bool allowed =
+		(layer & COL_PLAYER) ||
+		(layer & COL_PLAYERCAMERA);
+
+	if (!allowed) return;
+
+	// 무기 매니저로 탄약 지급
+	if (m_pWeaponManager) {
+		m_pWeaponManager->Add_Ammo(AMMO_TYPE::SHELL, m_iShell);
 	}
+
+	// 아이템 비활성화(충돌/업데이트에서 제거)
+	m_bPicked = true;
+	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
 }
 
 void CAmmo_Shell::OnCollisionExit(CCollider* _pOther)

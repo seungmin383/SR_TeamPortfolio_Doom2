@@ -9,6 +9,7 @@
 #include "CColliderManager.h"
 #include "CPlayerWeapon.h"
 #include "CManagement.h"
+#include "CWeaponManager.h"
 
 #include "CGameUI.h"
 #include "CGameUI_Info_Weapon.h"
@@ -344,13 +345,13 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 		tr4->Set_Pos(5.f, 0.f, 18.f);   // 기준 위치
 	}
 
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::WEAPON_SHOTGUN);
+	/*pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::WEAPON_SHOTGUN);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
-		return E_FAIL;
+		return E_FAIL;*/
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
@@ -431,19 +432,10 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	// (2) Camera 객체 포인터를 얻어서
-	const auto& cameraObjects2 = Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYERCAMERA);
-	if (cameraObjects2.empty())
-		return E_FAIL;
+	// (2) WeaponManager 포인터 연결
+	static_cast<CGameUI_Info_Ammo*>(pGameObject)->Set_WeaponManager(CWeaponManager::GetInstance());
 
-	auto* pCameraObject2 = dynamic_cast<CDynamicCamera*>(cameraObjects2.back());
-	if (pCameraObject2 == nullptr)
-		return E_FAIL;
-
-	// (3) UI Info에 Camera 포인터를 연결
-	static_cast<CGameUI_Info_Ammo*>(pGameObject)->Set_Camera(pCameraObject2);
-
-	// (4) UI Info를 UI 레이어에 등록
+	// (3) UI Info를 UI 레이어에 등록
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
 		return E_FAIL;
 

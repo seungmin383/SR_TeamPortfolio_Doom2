@@ -176,8 +176,8 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 		return E_FAIL;
 
 	// 샷건
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::WEAPON_SHOTGUN, CWeapon_Shotgun::Create(m_pGraphicDev))))
-		return E_FAIL;
+	/*if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::WEAPON_SHOTGUN, CWeapon_Shotgun::Create(m_pGraphicDev))))
+		return E_FAIL;*/
 
 	//텍스처 필터
 	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
