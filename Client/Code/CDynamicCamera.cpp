@@ -260,7 +260,6 @@ void CDynamicCamera::Mouse_Input()
 			// 총알이 없어서 발사 실패하면 이전 무기로 변경
 			CWeaponManager::GetInstance()->Change_Weapon(CWeaponManager::GetInstance()->Get_PrevWeapon()->Get_WeaponID());
 		}
-
 		// SHOT 상태일 때만 픽킹
 		if (CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponState() == WEAPON_STATE::SHOT)
 			m_pCalculatorCom->Picking_GameObject(g_hWnd);

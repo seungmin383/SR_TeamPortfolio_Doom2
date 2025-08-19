@@ -9,13 +9,13 @@ CWeaponManager::CWeaponManager() :
 	m_bIsSwapping(false),
 	m_fSwapTimer(0.f)	
 {
-	m_mapMaxAmmo.emplace(CWeapon::AMMO_TYPE::CLIP, 400);
-	m_mapMaxAmmo.emplace(CWeapon::AMMO_TYPE::SHELL, 100);
-	m_mapMaxAmmo.emplace(CWeapon::AMMO_TYPE::ROCKET, 100);
-	m_mapMaxAmmo.emplace(CWeapon::AMMO_TYPE::CELL, 600);
+	m_mapMaxAmmo.emplace(AMMO_TYPE::CLIP, 400);
+	m_mapMaxAmmo.emplace(AMMO_TYPE::SHELL, 100);
+	m_mapMaxAmmo.emplace(AMMO_TYPE::ROCKET, 100);
+	m_mapMaxAmmo.emplace(AMMO_TYPE::CELL, 600);
 
-	m_mapAmmo.emplace(CWeapon::AMMO_TYPE::CLIP, 50);
-	m_mapAmmo.emplace(CWeapon::AMMO_TYPE::SHELL, 50);
+	m_mapAmmo.emplace(AMMO_TYPE::CLIP, 50);
+	m_mapAmmo.emplace(AMMO_TYPE::SHELL, 50);
 }
 
 CWeaponManager::~CWeaponManager()
@@ -81,7 +81,7 @@ void CWeaponManager::Change_Weapon(WEAPON_ID eID)
 	//m_pCurWeapon = iter->second;
 }
 
-void CWeaponManager::Add_Ammo(CWeapon::AMMO_TYPE eAmmoType, _int iCnt)
+void CWeaponManager::Add_Ammo(AMMO_TYPE eAmmoType, _int iCnt)
 {
 	// 총알의 최대 개수를 초과하면 최대 개수로 고정
 	int iMaxAmmo = m_mapMaxAmmo[eAmmoType];
@@ -92,7 +92,7 @@ void CWeaponManager::Add_Ammo(CWeapon::AMMO_TYPE eAmmoType, _int iCnt)
 		m_mapAmmo[eAmmoType] = iMaxAmmo;
 }
 
-_bool CWeaponManager::Consume_Ammo(CWeapon::AMMO_TYPE eAmmoType)
+_bool CWeaponManager::Consume_Ammo(AMMO_TYPE eAmmoType)
 {
 	// 총알의 개수가 0보다 작다면
 	if (m_mapAmmo[eAmmoType] <= 0)
@@ -108,7 +108,7 @@ bool CWeaponManager::Fire_Weapon()
 	if (m_pCurWeapon != nullptr)
 	{
 		// 총알이 없다면 리턴
-		CWeapon::AMMO_TYPE eType = m_pCurWeapon->Get_AmmoType();
+		AMMO_TYPE eType = m_pCurWeapon->Get_AmmoType();
 		if (m_mapAmmo[eType] <= 0)
 		{
 			Change_Weapon(m_pPrevWeapon->Get_WeaponID());

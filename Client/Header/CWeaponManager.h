@@ -24,17 +24,19 @@ public:
 
 	_float	Get_SwapTime() { return m_fSwapTimer; }
 
+	_int	Get_Ammo(AMMO_TYPE eType) { return m_mapAmmo[eType]; }
+
 public:
 	void Add_Weapon(WEAPON_ID eID, CWeapon* pWeapon);					// 무기 추가 함수
 	void Change_Weapon(WEAPON_ID eID);									// 무기 교체 함수
-	void Add_Ammo(CWeapon::AMMO_TYPE eAmmoType, _int iCnt);				// 총알 추가 함수
-	_bool Consume_Ammo(CWeapon::AMMO_TYPE eAmmoType);					// 총알 소모 함수
+	void Add_Ammo(AMMO_TYPE eAmmoType, _int iCnt);						// 총알 추가 함수
+	_bool Consume_Ammo(AMMO_TYPE eAmmoType);							// 총알 소모 함수
 	_bool Fire_Weapon();												// 무기 발사 함수
 
 private:
 	map<WEAPON_ID, CWeapon*> m_mapWeapon;			// 무기 담긴 컨테이너
-	map<CWeapon::AMMO_TYPE, _int> m_mapAmmo;		// 총알 담긴 컨테이너
-	map<CWeapon::AMMO_TYPE, _int> m_mapMaxAmmo;		// 무기별 최대 총알 개수 담긴 컨테이너
+	map<AMMO_TYPE, _int> m_mapAmmo;		// 총알 담긴 컨테이너
+	map<AMMO_TYPE, _int> m_mapMaxAmmo;		// 무기별 최대 총알 개수 담긴 컨테이너
 
 	CWeapon* m_pCurWeapon;		// 현재 무기
 	CWeapon* m_pPrevWeapon;		// 이전 무기

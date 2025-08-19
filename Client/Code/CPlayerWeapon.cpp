@@ -50,7 +50,7 @@ _int CPlayerWeapon::Update_GameObject(const _float& fTimeDelta)
 	CGameObject::Update_GameObject(fTimeDelta);
 
 	m_eCurWeaponId = CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponID();
-	m_eWeaponState = (WEAPON_STATE)CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponState();
+	m_eWeaponState = CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponState();
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_UI, this);
 
@@ -62,7 +62,7 @@ void CPlayerWeapon::LateUpdate_GameObject(const _float& fTimeDelta)
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 
 	Key_Input(fTimeDelta);
-	Mouse_Input();
+	//Mouse_Input();
 	Weapon_Bobbing(m_bIsMoving, fTimeDelta);
 
 	if (m_eWeaponState == WEAPON_STATE::SWAP)

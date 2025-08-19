@@ -4,16 +4,6 @@
 
 class CWeapon : public CBase
 {
-public:
-	enum class AMMO_TYPE
-	{
-		CLIP,
-		SHELL,
-		ROCKET,
-		CELL,
-		AMMO_END
-	};
-
 protected:
 	explicit CWeapon();
 	virtual ~CWeapon();
