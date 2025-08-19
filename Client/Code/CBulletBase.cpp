@@ -89,6 +89,16 @@ void CBulletBase::OnCollisionExit(CCollider* _pOther)
 {
 }
 
+HRESULT CBulletBase::Ready_GameObject()
+{
+	return S_OK
+}
+
+_int CBulletBase::Update_GameObject(const _float& fTimeDelta)
+{
+
+}
+
 void CBulletBase::Free()
 {
 	CGameObject::Free();

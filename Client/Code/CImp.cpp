@@ -29,6 +29,9 @@ HRESULT CImp::Ready_GameObject()
 	freopen_s(&fp, "CONOUT$", "w", stderr);
 
 
+	m_iMonsterType = OBJPROTOTYPE::ENEMY_IMP;
+	CMonsterBase::Ready_GameObject();
+
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
@@ -37,8 +40,6 @@ HRESULT CImp::Ready_GameObject()
 	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.f, 0.f),
 		COLLAYERID::COL_ENEMY,
 		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT);
-
-
 #pragma region ANIM_SETTING
 
 	//ÀÌµ¿
@@ -152,18 +153,7 @@ void CImp::Render_GameObject(const _float& fTimeDelta)
 	CMonsterBase::Render_GameObject(fTimeDelta);
 }
 
-void CImp::OnCollision(CCollider* _pOther)
-{
-	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
-}
 
-void CImp::OnCollisionEnter(CCollider* _pOther)
-{
-}
-
-void CImp::OnCollisionExit(CCollider* _pOther)
-{
-}
 
 HRESULT CImp::Add_Component()
 {

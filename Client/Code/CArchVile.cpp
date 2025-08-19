@@ -23,6 +23,8 @@ CArchVile::~CArchVile()
 HRESULT CArchVile::Ready_GameObject()
 {
 	AllocConsole();
+	CMonsterBase::Ready_GameObject();
+	m_iMonsterType = OBJPROTOTYPE::ENEMY_ARCHVILE;
 
 	FILE* fp;
 	freopen_s(&fp, "CONOUT$", "w", stdout);
@@ -129,7 +131,9 @@ HRESULT CArchVile::Ready_GameObject()
 	//초기 룩으로 세팅해주고
 	m_pTransformCom->Get_Info(INFO_LOOK, &m_vMoveLook);
 
-	_vec3 vSize{ 3.f, 3.f, 3.f };
+	m_pTransformCom->Set_Pos(10.f, 10.f, 10.f);
+
+	_vec3 vSize{ 2.f, 2.f, 2.f };
 	m_pTransformCom->Set_Scale(vSize);
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
@@ -157,17 +161,18 @@ void CArchVile::Render_GameObject(const _float& fTimeDelta)
 	CMonsterBase::Render_GameObject(fTimeDelta);
 }
 
-void CArchVile::OnCollision(CCollider* _pOther)
+void CArchVile::Set_OnTerrain()
 {
-	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
-}
+	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
 
-void CArchVile::OnCollisionEnter(CCollider* _pOther)
-{
-}
+	Engine::CTerrainTex* pTerrainBufferCom =
+		static_cast<CTerrainTex*>
+		(CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
 
-void CArchVile::OnCollisionExit(CCollider* _pOther)
-{
+	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
+
+	m_pTransformCom->Set_Pos(pos.x, height + 3.f, pos.z);
 }
 
 HRESULT CArchVile::Add_Component()

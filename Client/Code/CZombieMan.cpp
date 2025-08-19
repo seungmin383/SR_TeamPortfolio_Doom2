@@ -23,7 +23,7 @@ CZombieMan::~CZombieMan()
 HRESULT CZombieMan::Ready_GameObject()
 {
 	CMonsterBase::Ready_GameObject();
-
+	m_iMonsterType = OBJPROTOTYPE::ENEMY_ZOMBIEMAN;
 	AllocConsole();
 
 	FILE* fp;

@@ -3,6 +3,7 @@
 #include "CManagement.h"
 #include "CRenderer.h"
 #include "Engine_Enum.h"
+#include "CWeaponManager.h"
 #include <iostream>
 
 
@@ -13,7 +14,7 @@ CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
 	m_isAtk(false),
 	m_eCurAnimState(0),
 	m_fAtkDelay(0.f), m_fMoveDelay(0.f), m_fChaseDelay(0.f),
-	m_isEverSeen_Player(false)
+	m_isRecognize_Player(false)
 {
 }
 
@@ -24,7 +25,7 @@ CMonsterBase::CMonsterBase(const CMonsterBase& rhs)
 	m_isAtk(rhs.m_isAtk),
 	m_eCurAnimState(rhs.m_eCurAnimState),
 	m_fAtkDelay(0.f), m_fMoveDelay(0.f), m_fChaseDelay(0.f),
-	m_isEverSeen_Player(false)
+	m_isRecognize_Player(false)
 {
 }
 
@@ -37,14 +38,12 @@ HRESULT         CMonsterBase::Ready_GameObject()
 {
 	_vec3 vPos{ 10.f,10.f,10.f };
 
-	CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_ZOMBIEMAN, OBJID::OBJ_ENEMY, vPos, 1);
 	return S_OK;
  }
 
 _int                  CMonsterBase::Update_GameObject(const _float& fTimeDelta)
 {
 	Thinker(fTimeDelta);
-
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 	CGameObject::Update_GameObject(fTimeDelta);
 	return 0;
@@ -83,10 +82,10 @@ void CMonsterBase::OnCollisionEnter(CCollider* _pOther)
 	// 모든 몬스터들이 콜라이더 충돌이 아니라 Ray로 충돌했을경우
 	if (m_pColliderCom->Is_RayHit())
 	{
+		m_isRecognize_Player = TRUE;
 		m_isHit = TRUE;
-		m_iHp -= 1;
+		m_iHp -= CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponDamage();
 	}
-
 }
 
 void CMonsterBase::OnCollisionExit(CCollider* _pOther)
@@ -94,9 +93,6 @@ void CMonsterBase::OnCollisionExit(CCollider* _pOther)
 }
 _vec3 CMonsterBase::Set_Move_Direction(_vec3* _Look, _float _DelayTime, _float _fTimedelta)
 {
-	std::cout << "m_fTargetAngle:" << m_fTargetAngle << std::endl;
-	std::cout << "m_fCurAngle:" << m_fCurAngle << std::endl;
-
 	if (_Look != nullptr)
 		m_vtmpLook = *_Look;
 
@@ -127,32 +123,29 @@ _vec3 CMonsterBase::Set_Move_Direction(_vec3* _Look, _float _DelayTime, _float _
 	// (delta를 다시 계산하지 않고도 사용 가능)
 	if (fabsf(delta) <= 2.f)
 	{
-		int RandMove = rand() % 14; 
+		int RandMove = rand() % 14;
 		switch (RandMove)
 		{
-		case 0:  m_fTargetAngle = 0.f;   break;
-		case 1:  m_fTargetAngle = 30.f;   break;
-		case 2:  m_fTargetAngle = 60.f;   break;
-		case 3:  m_fTargetAngle = 90.f;   break;
-		case 4:  m_fTargetAngle = 120.f;   break;
-		case 5:  m_fTargetAngle = 150.f;   break;
-		case 6:  m_fTargetAngle = 180.f;   break;
-		case 7:  m_fTargetAngle = -30.f;   break;
-		case 8:  m_fTargetAngle = -60.f;   break;
-		case 9:  m_fTargetAngle = -90.f;   break;
-		case 10: m_fTargetAngle = -120.f;  break;
-		case 11: m_fTargetAngle = -150.f;  break;
-		case 12: m_fTargetAngle = -180.f;  break;
-		case 13: m_fTargetAngle = 120.f;  break;
+		case 0:   m_fTargetAngle =		0.f;			break;
+		case 1:   m_fTargetAngle =		30.f;			break;
+		case 2:   m_fTargetAngle =		60.f;			break;
+		case 3:   m_fTargetAngle =		90.f;			break;
+		case 4:   m_fTargetAngle =		120.f;		break;
+		case 5:   m_fTargetAngle =		150.f;		break;
+		case 6:   m_fTargetAngle =		180.f;		break;
+		case 7:   m_fTargetAngle =		-30.f;		break;
+		case 8:   m_fTargetAngle =		-60.f;		break;
+		case 9:   m_fTargetAngle =		-90.f;		break;
+		case 10: m_fTargetAngle =		-120.f;		break;
+		case 11: m_fTargetAngle =		-150.f;		break;
+		case 12: m_fTargetAngle =		-180.f;		break;
+		case 13: m_fTargetAngle =		120.f;		break;
 		}
 		// 목표각도도 래핑
 		m_fTargetAngle = fmodf(m_fTargetAngle, 360.f);
 		if (m_fTargetAngle > 180.f) m_fTargetAngle -= 360.f;
 		if (m_fTargetAngle < -180.f) m_fTargetAngle += 360.f;
 	}
-
-	std::cout << "m_fAngle : " << m_fTargetAngle << std::endl;
-
 	// --- 5) 회전 적용 후 이동 방향 벡터 갱신 ---
 	const _vec3 vForward(0.f, 0.f, 1.f);
 	D3DXMatrixRotationY(&RotMat, D3DXToRadian(m_fCurAngle));
@@ -165,116 +158,6 @@ _vec3 CMonsterBase::Set_Move_Direction(_vec3* _Look, _float _DelayTime, _float _
 
 	return m_vtmpLook;
 }
-//_vec3 CMonsterBase::Set_Move_Direction(_vec3* _Look, _float _DelayTime, _float _fTimedelta)
-//{
-//	std::cout << "m_fTargetAngle:" << m_fTargetAngle << endl;
-//	std::cout << "m_fCurAngle:" << m_fCurAngle << endl;
-//
-//
-//
-//	if(_Look != nullptr)
-//		m_vtmpLook = *_Look;
-//
-//	_matrix RotMat;
-//	D3DXMatrixIdentity(&RotMat);
-//
-//	//절대값을 비교
-//
-//	//만약 CurAngle 절대값이 Target Angle 절대값 보다 크다
-//	//-> 빼기
-//	if (fabsf(m_fCurAngle) > fabsf(m_fTargetAngle))
-//		m_fCurAngle -= 1.f;
-//
-//	//만약 CurAngle 절대값이 targetAngle 절대값보다 작다
-//	//-> 더하기
-//	else if (fabsf(m_fCurAngle) < fabsf(m_fTargetAngle))
-//		m_fCurAngle += 1.f;
-//
-//	//만약 CurAngle이 180 보다 커진다
-//	//-> 부호 바꿔주기
-//	if (m_fCurAngle > 180.f)
-//		m_fCurAngle += -360.f;
-//	else if (m_fCurAngle < -180.f)
-//		m_fCurAngle += 360.f;
-//
-//	//만약 CurAngle이 -180 보다 작아진다
-//	//-> 부호 바꿔주기
-//
-//
-//	/*if (m_fTargetAngle >=  m_fCurAngle - 2.f && 
-//		m_fTargetAngle <= m_fCurAngle + 2.f)*/
-//	if(true)
-//	{
-//		_int RandMove = rand() % 16;
-//		
-//			//각 숫자에 맞는 방향으로 이동하기
-//			switch (RandMove)
-//			{
-//			case 0:
-//				m_fTargetAngle = 0.f;
-//				break;
-//			case 1:
-//				m_fTargetAngle = 30.f;
-//				break;
-//			case 2:
-//				m_fTargetAngle = 60.f;
-//				break;
-//			case 3:
-//				m_fTargetAngle = 90.f;
-//				break;
-//			case 4:
-//				m_fTargetAngle = 120.f;
-//				break;
-//			case 5:
-//				m_fTargetAngle = 150.f;
-//				break;
-//			case 6:
-//				m_fTargetAngle = 180.f;
-//				break;
-//			case 7:
-//				m_fTargetAngle = 0.f;
-//				break;
-//			case 8:
-//				m_fTargetAngle = -30.f;
-//				break;
-//			case 9:
-//				m_fTargetAngle = -60.f;
-//				break;
-//			case 10:
-//				m_fTargetAngle = -90.f;
-//				break;
-//			case 11:
-//				m_fTargetAngle = -120.f;
-//				break;
-//			case 12:
-//				m_fTargetAngle = -150.f;
-//				break;
-//			case 13:
-//				m_fTargetAngle = -180.f;
-//				break;
-//			case 14:
-//				m_fTargetAngle = -180.f;
-//				break;
-//			case 15:
-//				m_fTargetAngle = 180.f;
-//				break;
-//
-//			default:
-//				break;
-//			}
-//	}
-//	std::cout << "m_fAngle : " << m_fTargetAngle << endl;
-//
-//	_vec3 vForward(0.f, 0.f, 1.f);
-//	D3DXMatrixRotationY(&RotMat, D3DXToRadian(m_fCurAngle));
-//	D3DXVec3Normalize(&m_vtmpLook, &m_vtmpLook);
-//	D3DXVec3TransformNormal(&m_vtmpLook, &vForward, &RotMat);
-//
-//	if(_Look != nullptr)
-//		*_Look = m_vtmpLook;
-//
-//	return m_vtmpLook;
-//}
 
 void CMonsterBase::Thinker(const _float& fTimeDelta)
 {
@@ -293,9 +176,8 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 	m_isDetect_Player		= Check_Target();
 	m_isAtk						= Check_Attack(fTimeDelta);
 
-
-	if (!m_isEverSeen_Player && m_isDetect_Player)
-		m_isEverSeen_Player = TRUE;
+	if (!m_isRecognize_Player && m_isDetect_Player)
+		m_isRecognize_Player = TRUE;
 
 	if (m_isAtk && m_isDetect_Player)
 		m_isDetected_Player = TRUE;
@@ -321,7 +203,6 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 		m_isDetect_Player = FALSE;
 		m_isAtk = FALSE;
 	}
-
 
 	//죽었는지
 	if (m_isDead)
@@ -433,6 +314,7 @@ _bool CMonsterBase::Check_Dead()
 	std::cout << m_iHp << endl;
 	if (m_iHp <= 0)
 	{
+
 		if (m_iHp <= -30)
 		{
 			m_isGibbingDead = TRUE;
@@ -563,7 +445,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 		if(m_eCurAnimState != m_ePreAnimState)
 			m_eAnim_Type = MOVE;
 
-		if (m_isEverSeen_Player)
+		if (m_isRecognize_Player)
 		{
 			Set_Move_Direction(&m_vMoveLook, 1.f, fTimeDelta);
 			Movement(fTimeDelta);
