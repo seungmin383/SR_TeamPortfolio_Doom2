@@ -22,14 +22,8 @@ CArchVile::~CArchVile()
 
 HRESULT CArchVile::Ready_GameObject()
 {
-	AllocConsole();
 	CMonsterBase::Ready_GameObject();
 	m_iMonsterType = OBJPROTOTYPE::ENEMY_ARCHVILE;
-
-	FILE* fp;
-	freopen_s(&fp, "CONOUT$", "w", stdout);
-	freopen_s(&fp, "CONOUT$", "w", stderr);
-
 
 	if (FAILED(Add_Component()))
 		return E_FAIL;

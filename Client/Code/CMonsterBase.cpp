@@ -35,8 +35,12 @@ CMonsterBase::~CMonsterBase()
 
 
 HRESULT         CMonsterBase::Ready_GameObject()
-{
-	_vec3 vPos{ 10.f,10.f,10.f };
+{	
+	AllocConsole();
+
+	FILE* fp;
+	freopen_s(&fp, "CONOUT$", "w", stdout);
+	freopen_s(&fp, "CONOUT$", "w", stderr);
 
 	return S_OK;
  }

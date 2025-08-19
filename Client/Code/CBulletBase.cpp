@@ -5,12 +5,15 @@
 
 CBulletBase::CBulletBase(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CGameObject(pGraphicDev),
-	m_iDamage(0)
+	m_iDamage(0), m_vDir(_vec3{0.f,0.f,0.f}),
+	m_BulletType(MONSTER_BULLET_TYPE::BULLET_END)
 {
 }
 
 CBulletBase::CBulletBase(const CBulletBase& rhs)
-	:CGameObject(rhs)
+	:CGameObject(rhs),
+	m_iDamage(rhs.m_iDamage), m_vDir(_vec3{ 0.f,0.f,0.f }),
+	m_BulletType(rhs.m_BulletType)
 {
 }
 
@@ -89,12 +92,22 @@ void CBulletBase::OnCollisionExit(CCollider* _pOther)
 {
 }
 
-HRESULT CBulletBase::Ready_GameObject()
+HRESULT CBulletBase::Ready_GameObject(_vec3 vDir, MONSTER_BULLET_TYPE eBulletType, _vec3 vPos)
 {
-	return S_OK
+	m_vDir = vDir;
+	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
+
+	return S_OK;
 }
 
 _int CBulletBase::Update_GameObject(const _float& fTimeDelta)
+{
+
+
+	return 0;
+}
+
+void CBulletBase::Create(_vec3 vDir, MONSTER_BULLET_TYPE eBulletType, _vec3 vPos)
 {
 
 }

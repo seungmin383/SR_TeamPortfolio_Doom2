@@ -28,10 +28,10 @@ public:
 
     void                        LoadConfig();
     ConfigModel                 GetConfig() { return m_tConfig; }
-    fs::path                    GetResourceDir();
-    fs::path                    GetBaseDir() { return m_basePath; }
-    fs::path                    GetAssetDir() { return m_DefaultPath; }
-    fs::path                    GetTerrainResourceDir();
+    fs::path                             GetResourceDir();
+    fs::path                            GetBaseDir() { return m_basePath; }
+    fs::path                            GetAssetDir() { return m_DefaultPath; }
+    fs::path                            GetTerrainResourceDir();
     vector<fs::path>            GetListCurrentDir();
     vector<fs::path>            GetListChildDir();
 

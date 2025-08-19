@@ -122,8 +122,9 @@ protected:
     _float m_fTargetAngle = 0.f;
     _float m_fCurAngle = 1.f;
 
+    public:
 
-    private:
+
 protected:
     virtual void Free();
 

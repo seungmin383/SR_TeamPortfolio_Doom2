@@ -97,6 +97,15 @@
     <Filter Include="02. GameObject\01. Player">
       <UniqueIdentifier>{90d9cc1b-36bb-4a2a-b77b-181b43c3c3a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\02. Monster\CBulletBase\MovementStrategy">
+      <UniqueIdentifier>{05788ef3-bc9a-4b82-8025-c22ab26cd767}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Monster\CBulletBase\ImpactStrategy">
+      <UniqueIdentifier>{edf83df5-5aed-4450-b0a5-b3fc0d4f1580}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Monster\CBulletBase\MovementStrategy\LinearMovement">
+      <UniqueIdentifier>{ffeb7f33-5497-4e72-972d-167bf947570a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -204,6 +213,15 @@
     <ClInclude Include="..\Header\CPistol.h">
       <Filter>03. Manager\00. WeaponManager\00. Weapon\00. Pistol</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\IMovementStrategy.h">
+      <Filter>02. GameObject\02. Monster\CBulletBase\MovementStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\IImpactStrategy.h">
+      <Filter>02. GameObject\02. Monster\CBulletBase\ImpactStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CLinearMovement.h">
+      <Filter>02. GameObject\02. Monster\CBulletBase\MovementStrategy\LinearMovement</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -301,6 +319,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\CPistol.cpp">
       <Filter>03. Manager\00. WeaponManager\00. Weapon\00. Pistol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\IMovementStrategy.cpp">
+      <Filter>02. GameObject\02. Monster\CBulletBase\MovementStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\IImpactStrategy.cpp">
+      <Filter>02. GameObject\02. Monster\CBulletBase\ImpactStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CLinearMovement.cpp">
+      <Filter>02. GameObject\02. Monster\CBulletBase\MovementStrategy\LinearMovement</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
