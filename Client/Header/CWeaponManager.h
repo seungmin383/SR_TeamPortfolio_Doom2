@@ -18,6 +18,8 @@ public:
 	void Update_Weapon(const _float& fTimeDelta);
 
 public:
+	CWeapon* Get_Weapon(WEAPON_ID eID) { return m_mapWeapon[eID]; }
+
 	CWeapon* Get_CurWeapon() { return m_pCurWeapon; }
 	WEAPON_ID Get_CurWeaponID() { return m_eCurID; }
 
