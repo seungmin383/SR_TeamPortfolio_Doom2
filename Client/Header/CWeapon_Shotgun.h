@@ -2,6 +2,7 @@
 #include "CGameObject.h"
 #include "CPrototypeManager.h"
 #include "CDynamicCamera.h"
+#include "CWeaponManager.h"
 
 class CWeapon_Shotgun :    public CGameObject
 {

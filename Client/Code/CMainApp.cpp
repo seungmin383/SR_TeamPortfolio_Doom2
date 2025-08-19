@@ -30,6 +30,8 @@
 #include "CAmmo_Clip.h"
 #include "CAmmo_Shell.h"
 
+#include "CWeapon_Shotgun.h"
+
 #include "CBarrelExplosive.h"
 #include "CDoor.h"
 #include "CSwitch_Button.h"
@@ -171,6 +173,10 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 
 	// 스위치
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR, CSwitch_Button::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 샷건
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::WEAPON_SHOTGUN, CWeapon_Shotgun::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	//텍스처 필터

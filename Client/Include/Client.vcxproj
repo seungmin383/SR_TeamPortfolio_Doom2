@@ -186,6 +186,7 @@
     <ClInclude Include="..\Header\CGameUI_Info.h" />
     <ClInclude Include="..\Header\CGameUI_Info_Ammo.h" />
     <ClInclude Include="..\Header\CGameUI_Info_Weapon.h" />
+    <ClInclude Include="..\Header\CGameUI_Info_WeaponNum.h" />
     <ClInclude Include="..\Header\CHealth_Big.h" />
     <ClInclude Include="..\Header\CHealth_Small.h" />
     <ClInclude Include="..\Header\CImp.h" />
@@ -229,6 +230,7 @@
     <ClCompile Include="..\Code\CGameUI_Info.cpp" />
     <ClCompile Include="..\Code\CGameUI_Info_Ammo.cpp" />
     <ClCompile Include="..\Code\CGameUI_Info_Weapon.cpp" />
+    <ClCompile Include="..\Code\CGameUI_Info_WeaponNum.cpp" />
     <ClCompile Include="..\Code\CHealth_Big.cpp" />
     <ClCompile Include="..\Code\CHealth_Small.cpp" />
     <ClCompile Include="..\Code\CImp.cpp" />

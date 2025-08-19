@@ -110,6 +110,9 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Ammo_Number", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STYSNUM%d.png", TEX_NORMAL, 10))))
 		return E_FAIL;
 
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Ammo_Number_Off", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STGNUM%d.png", TEX_NORMAL, 10))))
+		return E_FAIL;
+
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Heal_Small", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/Heal_Small%d.png", TEX_NORMAL, 4))))
 		return E_FAIL;
 
@@ -141,6 +144,9 @@ _uint CLoading::Loading_ForStage()
 		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Switch_Off", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/SW1S0.png", TEX_NORMAL))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Shotgun", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/SHOTA0.png", TEX_NORMAL))))
 		return E_FAIL;
 
 	lstrcpy(m_szLoading, L"Etc Component Loading.....................");

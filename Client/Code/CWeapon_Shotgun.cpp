@@ -1,4 +1,4 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "CWeapon_Shotgun.h"
 #include "CRenderer.h"
 #include "CManagement.h"
@@ -6,12 +6,12 @@
 #include "CTimerManager.h"
 
 CWeapon_Shotgun::CWeapon_Shotgun(LPDIRECT3DDEVICE9 pGraphicDev)
-    : CGameObject(pGraphicDev)
+	: CGameObject(pGraphicDev)
 {
 }
 
 CWeapon_Shotgun::CWeapon_Shotgun(const CGameObject& rhs)
-    : CGameObject(rhs)
+	: CGameObject(rhs)
 {
 }
 
@@ -21,57 +21,59 @@ CWeapon_Shotgun::~CWeapon_Shotgun()
 
 HRESULT CWeapon_Shotgun::Ready_GameObject()
 {
-    if (FAILED(Add_Component()))
-        return E_FAIL;
+	if (FAILED(Add_Component()))
+		return E_FAIL;
 
-    m_pTransformCom->Set_Pos(5.f, 0.f, 10.f);
-    m_pTransformCom->Set_Scale(_vec3(0.2f, 0.2f, 0.2f));
+	m_bPicked = false;
 
-    m_pColliderCom->Ready_CCollider(
-        this,
-        _vec3(0, 0, 0),           // √ ±‚ ¿ßƒ°(Transform∞° Ω«¡¶∑Œ ¿‚æ∆¡‹)
-        _vec3(1.f, 1.f, 1.f),  // æ∆¿Ã≈€ π⁄Ω∫ ≈©±‚ øπΩ√
-        _vec3(0, 0.4f, 0),        // æ‡∞£ ¿ß∑Œ
-        COL_ITEM,               // ≥ »Ò COLLAYERIDø°º≠ æ∆¿Ã≈€ ∑π¿ÃæÓ
-        COL_PLAYER | COL_PLAYERCAMERA       // (∏∂Ω∫≈©∏¶ æ¥¥Ÿ∏È) «√∑π¿ÃæÓøÕ∏∏ ∏¬∞‘
-    );
-    m_pColliderCom->Set_Active(true);
+	m_pTransformCom->Set_Pos(22.f, 0.f, 10.f);
+	m_pTransformCom->Set_Scale(_vec3(1.f, 0.1f, 0.1f));
 
-    return S_OK;
+	m_pColliderCom->Ready_CCollider(
+		this,
+		_vec3(0, 0, 0),           // Ï¥àÍ∏∞ ÏúÑÏπò(TransformÍ∞Ä Ïã§Ï†úÎ°ú Ïû°ÏïÑÏ§å)
+		_vec3(1.f, 1.f, 1.f),  // ÏïÑÏù¥ÌÖú Î∞ïÏä§ ÌÅ¨Í∏∞ ÏòàÏãú
+		_vec3(0, 0.4f, 0),        // ÏïΩÍ∞Ñ ÏúÑÎ°ú
+		COL_ITEM,               // ÎÑàÌù¨ COLLAYERIDÏóêÏÑú ÏïÑÏù¥ÌÖú Î†àÏù¥Ïñ¥
+		COL_PLAYER | COL_PLAYERCAMERA       // (ÎßàÏä§ÌÅ¨Î•º Ïì¥Îã§Î©¥) ÌîåÎ†àÏù¥Ïñ¥ÏôÄÎßå ÎßûÍ≤å
+	);
+	m_pColliderCom->Set_Active(true);
+
+	return S_OK;
 }
 
 _int CWeapon_Shotgun::Update_GameObject(const _float& fTimeDelta)
 {
-    CGameObject::Update_GameObject(fTimeDelta);
-    Set_OnTerrain();
-    Bill_Board();
+	CGameObject::Update_GameObject(fTimeDelta);
+	Set_OnTerrain();
+	Bill_Board();
 
-    CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
+	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 
-    if (m_bPicked)
-        return -1; // ø£¡¯ ªÛºˆø° ∏¬√Á ªÁøÎ
+	if (m_bPicked)
+		return -1; // ÏóîÏßÑ ÏÉÅÏàòÏóê ÎßûÏ∂∞ ÏÇ¨Ïö©
 
-    return 0;
+	return 0;
 }
 
 void CWeapon_Shotgun::LateUpdate_GameObject(const _float& fTimeDelta)
 {
-    CGameObject::LateUpdate_GameObject(fTimeDelta);
-    if (m_pColliderCom)
-        m_pColliderCom->Late_Update(); 
+	CGameObject::LateUpdate_GameObject(fTimeDelta);
+	if (m_pColliderCom)
+		m_pColliderCom->Late_Update();
 }
 
 void CWeapon_Shotgun::Render_GameObject(const _float& fTimeDelta)
 {
-    m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-    m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
-    m_pTextureCom->Set_Texture();
-    m_pBufferCom->Render_Buffer();
+	m_pTextureCom->Set_Texture(0);
+	m_pBufferCom->Render_Buffer();
 
-    //√Êµπ√º
-    m_pColliderCom->Render(g_colRend);
-    m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//Ï∂©ÎèåÏ≤¥
+	m_pColliderCom->Render(g_colRend);
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void CWeapon_Shotgun::OnCollision(CCollider* _pOther)
@@ -80,6 +82,25 @@ void CWeapon_Shotgun::OnCollision(CCollider* _pOther)
 
 void CWeapon_Shotgun::OnCollisionEnter(CCollider* _pOther)
 {
+	OutputDebugStringA("[WS] OnCollisionEnter\n");
+	if (m_bPicked || !_pOther) return;
+
+	const auto layer = _pOther->Get_ColLayer();
+	if (!(layer & (COL_PLAYER | COL_PLAYERCAMERA)))
+		return;
+
+	// to-do) Î¨¥Í∏∞Îß§ÎãàÏ†ÄÎ°ú Ï∫êÏä§ÌåÖÌï¥ÏÑú ÏñªÍ∏∞
+	if (auto* mgr = CWeaponManager::GetInstance()) {
+		if (CWeapon* inv = (CWeapon*)CWeapon_Shotgun::Create(m_pGraphicDev)) { // Ïù¥ ÏΩîÎìú ÏÉÅÌÉúÏóêÏÑú ÎàÑÏàò Î∞úÏÉù
+			mgr->Add_Weapon(CWeaponManager::WEAPON_ID::SHOTGUN, inv); // Ïù¥ ÏΩîÎìú ÏÉÅÌÉúÏóêÏÑú ÎàÑÏàò Î∞úÏÉù
+			
+			// mgr->Change_Weapon(CWeaponManager::WEAPON_ID::SHOTGUN);
+		}
+	}
+	// ÏõîÎìúÏùò ÌîΩÏóÖ Ïò§Î∏åÏ†ùÌä∏Îäî Ï†úÍ±∞
+	m_bPicked = true;
+	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
+	// Update_GameObject()ÏóêÏÑú m_bPickedÏù¥Î©¥ -1 Î∞òÌôò ‚Üí Î†àÏù¥Ïñ¥Í∞Ä ÏïàÏ†Ñ ÏÇ≠Ï†ú
 }
 
 void CWeapon_Shotgun::OnCollisionExit(CCollider* _pOther)
@@ -88,76 +109,117 @@ void CWeapon_Shotgun::OnCollisionExit(CCollider* _pOther)
 
 HRESULT CWeapon_Shotgun::Add_Component()
 {
-    return E_NOTIMPL;
+	CComponent* pComponent = NULL;
+
+	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectSpriteTex*>
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_RectSpriteTex"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_Buffer", pComponent });
+
+	//Transform
+	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Transform"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
+
+	//Texture
+	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Shotgun"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
+
+	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Calculator"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_Calculator", pComponent });
+
+	pComponent = m_pColliderCom = dynamic_cast<Engine::CCollider*>
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Collider"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
+
+	OutputDebugStringA("[Stage] add OBJ_ITEM: Shotgun\n");
+
+	return S_OK;
 }
 
 void CWeapon_Shotgun::Set_OnTerrain()
 {
-    if (!m_pTransformCom || !m_pCalculatorCom) return;
+	if (!m_pTransformCom || !m_pCalculatorCom) return;
 
-    auto* pTerrainBuf = static_cast<CTerrainTex*>(
-        CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
-    if (!pTerrainBuf) return;
+	auto* pTerrainBuf = static_cast<CTerrainTex*>(
+		CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
+	if (!pTerrainBuf) return;
 
-    _vec3 pos; m_pTransformCom->Get_Pos(&pos);
+	_vec3 pos; m_pTransformCom->Get_Pos(&pos);
 
-    // ±◊∏ÆµÂ ∞Ê∞Ë(0..(VTXCNT-1)*VTXITV) π€¿Ã∏È ∫∏¡§ ∞«≥ ∂‹ (»§¿∫ clamp)
-    const float maxX = (VTXCNTX - 1) * VTXITV - 1e-3f;
-    const float maxZ = (VTXCNTZ - 1) * VTXITV - 1e-3f;
-    if (pos.x < 0.f || pos.z < 0.f || pos.x > maxX || pos.z > maxZ) return;
+	// Í∑∏Î¶¨Îìú Í≤ΩÍ≥Ñ(0..(VTXCNT-1)*VTXITV) Î∞ñÏù¥Î©¥ Î≥¥Ï†ï Í±¥ÎÑàÎúÄ (ÌòπÏùÄ clamp)
+	const float maxX = (VTXCNTX - 1) * VTXITV - 1e-3f;
+	const float maxZ = (VTXCNTZ - 1) * VTXITV - 1e-3f;
+	if (pos.x < 0.f || pos.z < 0.f || pos.x > maxX || pos.z > maxZ) return;
 
-    float h = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBuf->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
+	float h = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBuf->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
 
-    // ªÏ¬¶ ∂Áøˆº≠ ¡ˆ∏È ∞£º∑ πÊ¡ˆ
-    m_pTransformCom->Set_Pos(pos.x, h + 0.7f, pos.z);
+	// ÏÇ¥Ïßù ÎùÑÏõåÏÑú ÏßÄÎ©¥ Í∞ÑÏÑ≠ Î∞©ÏßÄ
+	m_pTransformCom->Set_Pos(pos.x, h + 0.7f, pos.z);
 }
 
 void CWeapon_Shotgun::Bill_Board()
 {
-    if (!m_pTransformCom)
-        return;
+	if (!m_pTransformCom)
+		return;
 
-    _matrix matWorld, matView, matBill;
-    m_pTransformCom->Get_World(&matWorld);
-    m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	_matrix matWorld, matView, matBill;
+	m_pTransformCom->Get_World(&matWorld);
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
 
-    // ∫Ù∫∏µÂ «‡∑ƒ¿« Ω∫ƒ…¿œ∞˙ ¿ßƒ°¥¬ ø˘µÂ «‡∑ƒ¿« ∞Õ¿ª ±◊¥Î∑Œ ªÁøÎ                          
-    matBill = matWorld;
+	// ÎπåÎ≥¥Îìú ÌñâÎ†¨Ïùò Ïä§ÏºÄÏùºÍ≥º ÏúÑÏπòÎäî ÏõîÎìú ÌñâÎ†¨Ïùò Í≤ÉÏùÑ Í∑∏ÎåÄÎ°ú ÏÇ¨Ïö©                          
+	matBill = matWorld;
 
-    // ∫‰«‡∑ƒø°º≠ ø™«‡∑ƒ¿ª ¿ÃøÎ«ÿ ƒ´∏ﬁ∂Û¿« »∏¿¸∞™¿ª ±∏«œ∞Ì, ∫Ù∫∏µÂ «‡∑ƒ¿« »∏¿¸∞™¿∏∑Œ º≥¡§  
-    D3DXMatrixInverse(&matBill, NULL, &matView);
+	// Î∑∞ÌñâÎ†¨ÏóêÏÑú Ïó≠ÌñâÎ†¨ÏùÑ Ïù¥Ïö©Ìï¥ Ïπ¥Î©îÎùºÏùò ÌöåÏ†ÑÍ∞íÏùÑ Íµ¨ÌïòÍ≥†, ÎπåÎ≥¥Îìú ÌñâÎ†¨Ïùò ÌöåÏ†ÑÍ∞íÏúºÎ°ú ÏÑ§Ï†ï  
+	D3DXMatrixInverse(&matBill, NULL, &matView);
 
-    // ∫Ù∫∏µÂ «‡∑ƒ¿« ¿ßƒ°∞™¿ª ø˘µÂ «‡∑ƒ¿« ¿ßƒ°∞™¿∏∑Œ º≥¡§                                  
-    matBill._41 = matWorld._41;
-    matBill._42 = matWorld._42;
-    matBill._43 = matWorld._43;
+	// ÎπåÎ≥¥Îìú ÌñâÎ†¨Ïùò ÏúÑÏπòÍ∞íÏùÑ ÏõîÎìú ÌñâÎ†¨Ïùò ÏúÑÏπòÍ∞íÏúºÎ°ú ÏÑ§Ï†ï                                  
+	matBill._41 = matWorld._41;
+	matBill._42 = matWorld._42;
+	matBill._43 = matWorld._43;
 
-    // √÷¡æ¿˚¿∏∑Œ ∫Ù∫∏µÂ «‡∑ƒ¿ª ø˘µÂ «‡∑ƒ∑Œ º≥¡§                                           
-    m_pTransformCom->Set_World(&matBill);
+	// ÏµúÏ¢ÖÏ†ÅÏúºÎ°ú ÎπåÎ≥¥Îìú ÌñâÎ†¨ÏùÑ ÏõîÎìú ÌñâÎ†¨Î°ú ÏÑ§Ï†ï                                           
+	m_pTransformCom->Set_World(&matBill);
 }
 
 CWeapon_Shotgun* CWeapon_Shotgun::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-    CWeapon_Shotgun* pShotgun = new CWeapon_Shotgun(pGraphicDev);
+	CWeapon_Shotgun* pShotgun = new CWeapon_Shotgun(pGraphicDev);
 
-    return pShotgun;
+	return pShotgun;
 }
 
 CWeapon_Shotgun* CWeapon_Shotgun::Clone()
 {
-    CWeapon_Shotgun* pWS = new CWeapon_Shotgun(*this);
+	CWeapon_Shotgun* pWS = new CWeapon_Shotgun(*this);
 
-    if (FAILED(pWS->Ready_GameObject()))
-    {
-        Safe_Release(pWS);
-        MSG_BOX("Shotgun Create Failed");
-        return nullptr;
-    }
+	if (FAILED(pWS->Ready_GameObject()))
+	{
+		Safe_Release(pWS);
+		MSG_BOX("Shotgun Create Failed");
+		return nullptr;
+	}
 
-    return pWS;
+	return pWS;
 }
 
 void CWeapon_Shotgun::Free()
 {
-    Engine::CGameObject::Free();
+	Engine::CGameObject::Free();
 }
