@@ -118,8 +118,9 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	////아크바일
-	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE);
+	//아크바일
+	/*pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE);*/
+
 
 	//if (nullptr == pGameObject)
 	//	return E_FAIL;
@@ -129,9 +130,10 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	//m_mapLayer.insert({ _eLayerId, pLayer });
 
-	////임프
+	//임프
 	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP);
 
+
 	//if (nullptr == pGameObject)
 	//	return E_FAIL;
 
@@ -140,8 +142,11 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	//m_mapLayer.insert({ _eLayerId, pLayer });
 
-	////핑키
+
+
+	//핑키
 	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON);
+
 
 	//if (nullptr == pGameObject)
 	//	return E_FAIL;
@@ -273,6 +278,16 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 			return E_FAIL;
 	}
 
+
+	////�����̴� �����͸��ε�
+	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SPIDERMASTERMIND);
+
+	//if (nullptr == pGameObject)
+	//	return E_FAIL;
+
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
+	//	return E_FAIL;
+
 	// 문 생성(2개)
 	Engine::CGameObject* pDoorObj = CPrototypeManager::GetInstance()
 		->Clone_ObjPrototype(OBJPROTOTYPE::DOOR);
@@ -280,19 +295,13 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	// (선택) Transform 세팅 ...
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pDoorObj))) return E_FAIL;
 	dynamic_cast<CDoor*>(pDoorObj)->Set_LinkId(L"A");
-	////스파이더 마스터마인드
-	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SPIDERMASTERMIND);
 
 	// 문 #1 위치 지정 (확실히)
 	Engine::CTransform* tr1 = GetTransformPtr(pDoorObj);
 	if (tr1) {
 		tr1->Set_Pos(10.f, 2.f, 30.f);   // 기준 위치
 	}
-	//if (nullptr == pGameObject)
-	//	return E_FAIL;
 
-	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
-	//	return E_FAIL;
 
 	Engine::CGameObject* pDoorObj2 = CPrototypeManager::GetInstance()
 		->Clone_ObjPrototype(OBJPROTOTYPE::DOOR);
@@ -320,7 +329,6 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (tr3) {
 		tr3->Set_Pos(15.f, 0.f, 18.f);   // 기준 위치
 	}
-	//m_mapLayer.insert({ _eLayerId, pLayer });
 
 	// 스위치 생성(1:N)
 	Engine::CGameObject* pSwitchObj2 = CPrototypeManager::GetInstance()
@@ -328,25 +336,33 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (nullptr == pSwitchObj2) return E_FAIL;
 	// (선택) Transform 세팅 ...
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj2))) return E_FAIL;
-	////샷건 가이
-	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SHOTGUNGUY);
 
 	auto* sw2 = dynamic_cast<CSwitch_Button*> (pSwitchObj2);
 	sw2->Set_LinkId(L"A");
 	sw2->Set_LinkMode(CSwitch_Button::LinkMode::OneToMany);
-	//if (nullptr == pGameObject)
-	//	return E_FAIL;
 
 	Engine::CTransform* tr4 = GetTransformPtr(pSwitchObj2);
 	if (tr4) {
 		tr4->Set_Pos(5.f, 0.f, 18.f);   // 기준 위치
 	}
+
+
+	//m_mapLayer.insert({ _eLayerId, pLayer });
+
+
+	////���� ����
+	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SHOTGUNGUY);
+
+	//if (nullptr == pGameObject)
+	//	return E_FAIL;
+
 	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
 	//	return E_FAIL;
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
 	ConnectDoorSwitchByLinkId();
+
 
 	return S_OK;
 }
