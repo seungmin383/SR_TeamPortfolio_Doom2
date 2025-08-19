@@ -1,0 +1,373 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="00. MainApp">
+      <UniqueIdentifier>{a541260f-d74a-45f1-8747-de329ca0d252}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene">
+      <UniqueIdentifier>{a36c6063-c952-4a3e-ac91-1329ea930047}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\00. Logo">
+      <UniqueIdentifier>{f2f38414-2940-45ca-b670-5b645e371911}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject">
+      <UniqueIdentifier>{f5f0357d-5046-431c-8d46-9155b9e3f473}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. BackGround">
+      <UniqueIdentifier>{ecbd53fc-4879-4f5f-abf0-bbde2d9e7770}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Monster">
+      <UniqueIdentifier>{958b3f3f-a119-41fa-b878-e45534fab3e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Terrain">
+      <UniqueIdentifier>{e769ba2e-a816-44b2-86f3-39531aba4672}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\01. Stage">
+      <UniqueIdentifier>{4e04e1cd-84f5-405e-8cfa-41ec85972bf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. Loading">
+      <UniqueIdentifier>{7fa19a23-f56b-4824-a674-007a9ca73472}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. DynamicCamera">
+      <UniqueIdentifier>{88c98e0f-d473-4fd4-ab15-eef9186a8849}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\05. SkyBox">
+      <UniqueIdentifier>{2c07fdd8-a438-4f26-b0dd-85abdd389786}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBase">
+      <UniqueIdentifier>{78a4b298-5947-447c-bfeb-dbeb39f3adee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBase\00.CZombieMan">
+      <UniqueIdentifier>{32d671ea-843c-4cd8-8652-06121a345778}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\09. UI">
+      <UniqueIdentifier>{719ef41e-8805-4f46-aa20-2e302d6f4087}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\06. Object">
+      <UniqueIdentifier>{7cfb09dd-b66b-47db-b560-aa729e4eb46d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager">
+      <UniqueIdentifier>{2e48eec6-a8b3-467d-8f4c-1f11b4888cf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\00. WeaponManager">
+      <UniqueIdentifier>{2c391351-0d97-4884-8e1b-8aa409f1629b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBase\01.CArch_Vile">
+      <UniqueIdentifier>{390040c1-2439-4489-916b-d636c8e38f7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBase\02.CImp">
+      <UniqueIdentifier>{da3bac9d-19f0-4aa1-948b-8d3a36e9a077}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBase\03.CPinky">
+      <UniqueIdentifier>{7f0866e1-2787-4610-b84f-ee61ce6433a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBase\04.CSpider Mastermind">
+      <UniqueIdentifier>{f9539bcf-5942-420a-92b4-7962f98a3c66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBase\05.CShotgunGuy">
+      <UniqueIdentifier>{6bce13b9-40d0-4eb3-9c42-7502972c98dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Monster\CBulletBase">
+      <UniqueIdentifier>{ccc5dfd5-d951-407e-90a4-dceb5459330d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\06. Object\Explosion">
+      <UniqueIdentifier>{9e0ba8a6-5c42-4df7-8a9c-59cffe9e246f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\06. Object\DropItem">
+      <UniqueIdentifier>{13c728af-3ad7-461e-8107-987924d6db8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\06. Object\Weapon">
+      <UniqueIdentifier>{71884e34-9266-4130-95bf-4fef5e89fbaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\00. WeaponManager\00. Weapon">
+      <UniqueIdentifier>{f9bb863c-16b4-4d00-8600-cafda35d847b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\00. Pistol">
+      <UniqueIdentifier>{0124ab0c-09d8-48fe-a9a7-42df23eec460}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Player">
+      <UniqueIdentifier>{90d9cc1b-36bb-4a2a-b77b-181b43c3c3a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\01. Shotgun">
+      <UniqueIdentifier>{44064502-cc38-49ec-97e5-f1b735b504f0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CMainApp.h">
+      <Filter>00. MainApp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CLogo.h">
+      <Filter>01. Scene\00. Logo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CBackGround.h">
+      <Filter>02. GameObject\00. BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CMonster.h">
+      <Filter>02. GameObject\02. Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CTerrain.h">
+      <Filter>02. GameObject\03. Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CStage.h">
+      <Filter>01. Scene\01. Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CLoading.h">
+      <Filter>01. Scene\02. Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CDynamicCamera.h">
+      <Filter>02. GameObject\04. DynamicCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CSkyBox.h">
+      <Filter>02. GameObject\05. SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CPlayerWeapon.h">
+      <Filter>02. GameObject\01. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CMonsterBase.h">
+      <Filter>02. GameObject\02. Monster\CMonsterBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CZombieMan.h">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\00.CZombieMan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CGameUI.h">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CGameUI_Face.h">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CGameUI_Info.h">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CArchVile.h">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\01.CArch_Vile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CImp.h">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\02.CImp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CPinky.h">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\03.CPinky</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CSpiderMastermind.h">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\04.CSpider Mastermind</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CShotgunGuy.h">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\05.CShotgunGuy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CGameUI_Info_Ammo.h">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CBulletBase.h">
+      <Filter>02. GameObject\02. Monster\CBulletBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CBarrelExplosive.h">
+      <Filter>02. GameObject\06. Object\Explosion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CAmmo_Clip.h">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CAmmo_Shell.h">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CArmor_Small.h">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CHealth_Small.h">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CArmor_Big.h">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CHealth_Big.h">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CSwitch_Button.h">
+      <Filter>02. GameObject\06. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CDoor.h">
+      <Filter>02. GameObject\06. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CWeapon_Shotgun.h">
+      <Filter>02. GameObject\06. Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CGameUI_Info_Weapon.h">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CWeaponManager.h">
+      <Filter>03. Manager\00. WeaponManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CWeapon.h">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CPistol.h">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\00. Pistol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CGameUI_Info_WeaponNum.h">
+      <Filter>02. GameObject\09. UI</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Header\CShotgun.h">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\01. Shotgun</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Client.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CMainApp.cpp">
+      <Filter>00. MainApp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CLogo.cpp">
+      <Filter>01. Scene\00. Logo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CBackGround.cpp">
+      <Filter>02. GameObject\00. BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CMonster.cpp">
+      <Filter>02. GameObject\02. Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CTerrain.cpp">
+      <Filter>02. GameObject\03. Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CStage.cpp">
+      <Filter>01. Scene\01. Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CLoading.cpp">
+      <Filter>01. Scene\02. Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CDynamicCamera.cpp">
+      <Filter>02. GameObject\04. DynamicCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CSkyBox.cpp">
+      <Filter>02. GameObject\05. SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CPlayerWeapon.cpp">
+      <Filter>02. GameObject\01. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CMonsterBase.cpp">
+      <Filter>02. GameObject\02. Monster\CMonsterBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CZombieMan.cpp">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\00.CZombieMan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CGameUI.cpp">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CGameUI_Face.cpp">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CGameUI_Info.cpp">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CArchVile.cpp">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\01.CArch_Vile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CImp.cpp">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\02.CImp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CPinky.cpp">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\03.CPinky</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CSpiderMastermind.cpp">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\04.CSpider Mastermind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CShotgunGuy.cpp">
+      <Filter>02. GameObject\02. Monster\CMonsterBase\05.CShotgunGuy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CGameUI_Info_Ammo.cpp">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CBulletBase.cpp">
+      <Filter>02. GameObject\02. Monster\CBulletBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CBarrelExplosive.cpp">
+      <Filter>02. GameObject\06. Object\Explosion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CAmmo_Clip.cpp">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CAmmo_Shell.cpp">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CArmor_Small.cpp">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CHealth_Small.cpp">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CArmor_Big.cpp">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CHealth_Big.cpp">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CSwitch_Button.cpp">
+      <Filter>02. GameObject\06. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CDoor.cpp">
+      <Filter>02. GameObject\06. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CWeapon_Shotgun.cpp">
+      <Filter>02. GameObject\06. Object\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CGameUI_Info_Weapon.cpp">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CWeaponManager.cpp">
+      <Filter>03. Manager\00. WeaponManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CPistol.cpp">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\00. Pistol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CGameUI_Info_WeaponNum.cpp">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CShotgun.cpp">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\01. Shotgun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CWeapon.cpp">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Client.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Client.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

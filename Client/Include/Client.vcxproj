@@ -195,6 +195,7 @@
     <ClInclude Include="..\Header\CPinky.h" />
     <ClInclude Include="..\Header\CPistol.h" />
     <ClInclude Include="..\Header\CPlayerWeapon.h" />
+    <ClInclude Include="..\Header\CShotgun.h" />
     <ClInclude Include="..\Header\CShotgunGuy.h" />
     <ClInclude Include="..\Header\CSkyBox.h" />
     <ClInclude Include="..\Header\CSpiderMastermind.h" />
@@ -239,6 +240,7 @@
     <ClCompile Include="..\Code\CPinky.cpp" />
     <ClCompile Include="..\Code\CPistol.cpp" />
     <ClCompile Include="..\Code\CPlayerWeapon.cpp" />
+    <ClCompile Include="..\Code\CShotgun.cpp" />
     <ClCompile Include="..\Code\CShotgunGuy.cpp" />
     <ClCompile Include="..\Code\CSkyBox.cpp" />
     <ClCompile Include="..\Code\CSpiderMastermind.cpp" />

@@ -100,6 +100,9 @@
     <Filter Include="02. GameObject\01. Player">
       <UniqueIdentifier>{90d9cc1b-36bb-4a2a-b77b-181b43c3c3a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\01. Shotgun">
+      <UniqueIdentifier>{44064502-cc38-49ec-97e5-f1b735b504f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -227,6 +230,9 @@
     </ClInclude>
     <ClInclude Include="..\Header\CGameUI_Info_WeaponNum.h">
       <Filter>02. GameObject\09. UI</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Header\CShotgun.h">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\01. Shotgun</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -338,14 +344,17 @@
     <ClCompile Include="..\Code\CWeaponManager.cpp">
       <Filter>03. Manager\00. WeaponManager</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\CWeapon.cpp">
-      <Filter>03. Manager\00. WeaponManager\00. Weapon</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\CPistol.cpp">
       <Filter>03. Manager\00. WeaponManager\00. Weapon\00. Pistol</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CGameUI_Info_WeaponNum.cpp">
       <Filter>02. GameObject\09. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CShotgun.cpp">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\01. Shotgun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CWeapon.cpp">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
