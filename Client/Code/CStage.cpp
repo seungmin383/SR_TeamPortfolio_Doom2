@@ -88,16 +88,16 @@ void CStage::Render_Scene(const _float& fTimeDelta)
 
 HRESULT CStage::Load_PreSet()
 {
-	//¸ÊÅøÁöÇü
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	CObjectFactory::GetInstance()->Create_Terrain_Default(VTXCNTX, VTXCNTZ, VTXITV, (_tchar*)L"Proto_TerrainTexture");
-	//¸ÊÅøÁöÇü
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-	//¸Ê ¾ÆÀÌÅÛ ·Îµå
+	//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½
 	TerrainModels tm = CFileManager::GetInstance()->LoadTerrain();
 
 	for (auto m : tm.model)
 	{
-		//¿ÀºêÁ§Æ® »ý¼º
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 		auto pObj = CObjectFactory::GetInstance()->Load_Terrain(m.vertexCountX,
 			m.vertexCountZ,
 			m.vertexInterval,
@@ -122,7 +122,7 @@ HRESULT CStage::Ready_Environment_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	//¸Ê Scene->Load_PreSet()À¸·Î º¯°æ 2025-08-20
+	//ï¿½ï¿½ Scene->Load_PreSet()ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 2025-08-20
 	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::TERRAIN);
 
 	//if (nullptr == pGameObject)

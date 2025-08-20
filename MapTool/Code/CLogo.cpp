@@ -7,7 +7,6 @@
 #include "CStage.h"
 #include "CManagement.h"
 #include "CFontManager.h"
-#include "CObjectFactory.h"
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev), m_pLoading(nullptr)

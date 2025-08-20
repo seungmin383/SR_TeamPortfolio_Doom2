@@ -112,6 +112,18 @@
     <Filter Include="02. GameObject\06. Object\Explosion">
       <UniqueIdentifier>{3782af00-d097-43d4-8b3c-c7da7c9df57c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Manager\00. WeaponManager">
+      <UniqueIdentifier>{0cca2dad-102a-44bb-bb03-06b581d39392}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\00. WeaponManager\00. Weapon">
+      <UniqueIdentifier>{95486b6b-6e99-4582-9145-79cdc23f475c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\00. Pistol">
+      <UniqueIdentifier>{66e6d011-4123-4638-8ab5-88d0345f176e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\01. Shotgun">
+      <UniqueIdentifier>{b4438d59-9e86-4911-9eb1-09c859ca09c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -255,6 +267,30 @@
     <ClInclude Include="..\Header\CGameUI_Info_Ammo.h">
       <Filter>02. GameObject\09. UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CPistol.h">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\00. Pistol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CShotgun.h">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\01. Shotgun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CWeapon.h">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CWeaponManager.h">
+      <Filter>03. Manager\00. WeaponManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CArmor_Big.h">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CHealth_Big.h">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CDoor.h">
+      <Filter>02. GameObject\06. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CSwitch_Button.h">
+      <Filter>02. GameObject\06. Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapTool.cpp">
@@ -385,6 +421,30 @@
     </ClCompile>
     <ClCompile Include="..\Code\CGameUI_Info_Ammo.cpp">
       <Filter>02. GameObject\09. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CPistol.cpp">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\00. Pistol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CShotgun.cpp">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\01. Shotgun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CWeapon.cpp">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CWeaponManager.cpp">
+      <Filter>03. Manager\00. WeaponManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CArmor_Big.cpp">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CHealth_Big.cpp">
+      <Filter>02. GameObject\06. Object\DropItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CDoor.cpp">
+      <Filter>02. GameObject\06. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CSwitch_Button.cpp">
+      <Filter>02. GameObject\06. Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

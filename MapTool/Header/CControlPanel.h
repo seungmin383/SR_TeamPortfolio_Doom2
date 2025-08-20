@@ -136,7 +136,7 @@ private:
 
     _float                          pickingtime;
     _float                          pickingdelay;
-
+    _bool                           EnablePick;
 
 private:
     virtual void        Free();

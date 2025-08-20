@@ -10,10 +10,9 @@
 #include "CDInputManager.h"
 #include "CLightManager.h"
 #include "CColliderManager.h"
-//맵툴
+#include "CWeaponManager.h"
 #include "CFileManager.h"
 #include "CObjectFactory.h"
-//맵툴
 
 #include "CTerrain.h"
 #include "CTerrainSector.h"
@@ -28,11 +27,15 @@
 
 #include "CPlayerWeapon.h"
 #include "CHealth_Small.h"
+#include "CHealth_Big.h"
 #include "CArmor_Small.h"
+#include "CArmor_Big.h"
 #include "CAmmo_Clip.h"
 #include "CAmmo_Shell.h"
 
 #include "CBarrelExplosive.h"
+#include "CDoor.h"
+#include "CSwitch_Button.h"
 
 CMainApp::CMainApp()
 	: m_pGraphicDev(nullptr),
@@ -70,13 +73,7 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 
 void CMainApp::LateUpdate_MainApp(const float& fTimeDelta)
 {
-	// _ulong	dwFlag(0);
-	// 
-	// if (dwFlag = CDInputMgr::GetInstance()->Get_DIMouseMove(DIMS_Z))
-	// {
-	// 	int a = 0;
-	// }
-
+	CWeaponManager::GetInstance()->Update_Weapon(fTimeDelta);
 	m_pManagementClass->LateUpdate_Scene(fTimeDelta);
 }
 
@@ -113,10 +110,10 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CFontManager::GetInstance()->Ready_Font(m_pGraphicDev, L"Font_Jinji", L"궁서", 20, 10, FW_THIN)))
 		return E_FAIL;
 
-	//[맵툴]
+	//맵툴용
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Calculator", Engine::CCalculator::Create(m_pGraphicDev))))
 		return E_FAIL;
-	//[맵툴]
+	//맵툴용
 
 	if (FAILED(CDInputManager::GetInstance()->Ready_InputDev(g_hInst, g_hWnd)))
 		return E_FAIL;
@@ -148,11 +145,19 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 		return E_FAIL;
 
 	// 체력(소)
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH, CHealth_Small::Create(m_pGraphicDev))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH_SMALL, CHealth_Small::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 체력(대)
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH_BIG, CHealth_Big::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	// 아머(소)
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_ARMOR, CArmor_Small::Create(m_pGraphicDev))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_ARMOR_SMALL, CArmor_Small::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 아머(대)
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_ARMOR_BIG, CArmor_Big::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	// 총알
@@ -167,6 +172,14 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL, CBarrelExplosive::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	// 문
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::DOOR, CDoor::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 스위치
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR, CSwitch_Button::Create(m_pGraphicDev))))
+		return E_FAIL;
+
 	//텍스처 필터
 	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
@@ -174,12 +187,10 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	(*ppGraphicDev)->SetRenderState(D3DRS_ZENABLE, TRUE);		//Z 버퍼에 값을 기록, Z 값 기준 자동 정렬 수행 여부를 물음
 	(*ppGraphicDev)->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);	//Z 버퍼에 값을 기록할 지 결정
 
-	//맵툴
 	m_pImGuiClass->Init_ImGui(*ppGraphicDev);
 	CObjectFactory::GetInstance()->Set_Dev(*ppGraphicDev);
 
 	CFileManager::GetInstance()->SetProjectDir();
-	//맵툴
 
 	return S_OK;
 }
@@ -188,7 +199,7 @@ HRESULT CMainApp::Ready_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	m_pManagementClass->Add_Scene(SCENEID::LOGO, new CLogo(pGraphicDev));
 	m_pManagementClass->Add_Scene(SCENEID::STAGE1, new CStage(pGraphicDev));
-	
+
 	if (FAILED(m_pManagementClass->Change_Scene(SCENEID::LOGO)))
 	{
 		MSG_BOX("Scene Setting Failed");
@@ -219,8 +230,8 @@ void CMainApp::Free()
 	Engine::Safe_Release(m_pGraphicDev);
 	
 	CTextureManager::GetInstance()->DestroyInstance();
-	CObjectFactory::GetInstance()->DestroyInstance();
 	CFileManager::GetInstance()->DestroyInstance();
+	CObjectFactory::GetInstance()->DestroyInstance();
 	CColliderManager::GetInstance()->DestroyInstance();
 	CLightManager::GetInstance()->DestroyInstance();
 	CFontManager::GetInstance()->DestroyInstance();
@@ -229,6 +240,7 @@ void CMainApp::Free()
 	CTimerManager::GetInstance()->DestroyInstance();
 	CFrameManager::GetInstance()->DestroyInstance();
 	CDInputManager::GetInstance()->DestroyInstance();
+	CWeaponManager::GetInstance()->DestroyInstance();
 
 	m_pManagementClass->DestroyInstance();
 	m_pDeviceClass->DestroyInstance();

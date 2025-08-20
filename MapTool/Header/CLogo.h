@@ -15,7 +15,7 @@ public:
     virtual         void        LateUpdate_Scene(const _float& fTimeDelta);
     virtual         void        Render_Scene(const _float& fTimeDelta);
 
-    virtual         HRESULT     Load_PreSet() {};
+    virtual         HRESULT     Load_PreSet() override { return S_OK; }
 
 private:
     HRESULT         Ready_Environment_Layer(LAYERID _eLayerId);

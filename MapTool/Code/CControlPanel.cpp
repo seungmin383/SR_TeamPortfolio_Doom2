@@ -10,7 +10,8 @@ CControlPanel::CControlPanel()
 	textureExpr(nullptr),
 	curTex(nullptr),
 	pickingtime(0.f),
-	pickingdelay(0.25f)
+	pickingdelay(0.25f),
+	EnablePick(true)
 {
 }
 
@@ -19,7 +20,8 @@ CControlPanel::CControlPanel(LPDIRECT3DDEVICE9 pGraphicDev, CTextureExplorer* ex
 	textureExpr(expr),
 	curTex(nullptr),
 	pickingtime(0.f),
-	pickingdelay(0.25f)
+	pickingdelay(0.25f),
+	EnablePick(true)
 {
 	m_pGraphicDev->AddRef();
 	SetDefault();
@@ -40,6 +42,9 @@ CControlPanel* CControlPanel::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTextureExpl
 _bool CControlPanel::ControlPanelWindow(const _float& timeDelta)
 {
 	pickingtime += timeDelta;
+
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_G) & 0x80)
+		EnablePick = !EnablePick;
 
 	if (ImGui::Button("Show Demo"))
 		show_demo_window = !show_demo_window;
@@ -199,7 +204,7 @@ _uint CControlPanel::ModifyChildWindow()
 	if (ImGui::BeginListBox("tile list"))
 	{
 
-		for (size_t i = 0; i < vecSector.capacity(); i++)
+		for (size_t i = 0; i < vecSector.size(); i++)
 		{
 			const bool tile_is_selected = (tile_selected_idx == tileidx);
 			if (ImGui::Selectable(to_string(i).c_str(), tile_is_selected))
@@ -326,7 +331,7 @@ void CControlPanel::TerrainController()
 		D3DXMatrixIdentity(&a);
 		D3DXMatrixRotationX(&a, D3DXToRadian(90));
 
-		for (size_t i = 0; i < tCachingControlInfo.vertices.capacity(); i++)
+		for (size_t i = 0; i < tCachingControlInfo.vertices.size(); i++)
 			D3DXVec3TransformNormal(&tCachingControlInfo.vertices[i], &tCachingControlInfo.vertices[i], &a);
 
 		Apply();
@@ -339,7 +344,7 @@ void CControlPanel::TerrainController()
 		D3DXMatrixIdentity(&a);
 		D3DXMatrixRotationY(&a, D3DXToRadian(90));
 
-		for (size_t i = 0; i < tCachingControlInfo.vertices.capacity(); i++)
+		for (size_t i = 0; i < tCachingControlInfo.vertices.size(); i++)
 			D3DXVec3TransformNormal(&tCachingControlInfo.vertices[i], &tCachingControlInfo.vertices[i], &a);
 
 		Apply();
@@ -352,7 +357,7 @@ void CControlPanel::TerrainController()
 		D3DXMatrixIdentity(&a);
 		D3DXMatrixRotationZ(&a, D3DXToRadian(90));
 
-		for (size_t i = 0; i < tCachingControlInfo.vertices.capacity(); i++)
+		for (size_t i = 0; i < tCachingControlInfo.vertices.size(); i++)
 			D3DXVec3TransformNormal(&tCachingControlInfo.vertices[i], &tCachingControlInfo.vertices[i], &a);
 
 		Apply();
@@ -592,7 +597,7 @@ void CControlPanel::Apply()
 
 		vecSector.push_back(dynamic_cast<CTerrainSector*>(pObj));
 
-		tCachingControlInfo.terrainIdx = vecSector.capacity() - 1;
+		tCachingControlInfo.terrainIdx = vecSector.size() - 1;
 
 		tControlInfo.push_back(tCachingControlInfo);
 	}
@@ -651,7 +656,7 @@ void CControlPanel::LoadTerrain()
 		tControlInfo.push_back(tCachingControlInfo);
 	}
 
-	tCachingControlInfo.terrainIdx = vecSector.capacity() - 1;
+	tCachingControlInfo.terrainIdx = vecSector.size() - 1;
 
 	applied = true;
 	isModifing = true;
@@ -712,6 +717,9 @@ void CControlPanel::SetObjInfo()
 
 void CControlPanel::InputMouse_Terrain()
 {
+	if (!EnablePick)
+		return;
+
 	if (pickingtime < pickingdelay)
 		return;
 	else
@@ -749,6 +757,9 @@ void CControlPanel::InputMouse_Terrain()
 
 void CControlPanel::InputMouse_Object()
 {
+	if (!EnablePick)
+		return;
+
 	if (pickingtime < pickingdelay)
 		return;
 	else

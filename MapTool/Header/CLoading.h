@@ -18,7 +18,7 @@ public:
     _bool           Get_Finish() { return m_bFinish; }
     const _tchar* Get_String() { return m_szLoading; }
 
-    virtual         HRESULT     Load_PreSet() {};
+    virtual         HRESULT     Load_PreSet() { return S_OK; }
 
 public:
     HRESULT         Ready_Loading(LOADINGID eID);

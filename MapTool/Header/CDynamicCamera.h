@@ -27,11 +27,11 @@ public:
     virtual         void        Render_GameObject(const _float& fTimeDelta);
 
 public:
-    _vec3           Get_Pos() { return m_vEye; }
-    _vec3           Get_At() { return m_vAt; }
-    _vec3           Get_Up() { return m_vUp; }
+    _vec3           Get_Pos()   { return m_vEye; }
+    _vec3           Get_At()    { return m_vAt; }
+    _vec3           Get_Up()    { return m_vUp; }
 
-    PLAYER_STATE    Get_State() { return m_eState; }
+    PLAYER_STATE    Get_State()                    { return m_eState; }
     void            Set_State(PLAYER_STATE pState) { m_eState = pState; }
 
     _bool           Get_Trigger() { return m_bTrigger; }
@@ -54,43 +54,41 @@ public:
 public:
     // 08-12 - 최대 체력 넘어가면 안되는 코드 제작(200은 최대 Armor랑 최대 Hp, 최대 Clip수로 일단은 제한)
     // 08-13 - 최대 수치 관련 로직 수정
-    void AddHP(_int heal)
-    {
+    // 08-15 - 최대 수치 넘어가지 않게 수정
+    void AddHP(_int heal) 
+    { 
+        m_iHp += heal;
         if (m_iHp >= m_iMax)
             m_iHp = m_iMax;
-        else
-            m_iHp += heal;
     }
 
-    void AddArmor(_int armor)
-    {
+    void AddArmor(_int armor) 
+    { 
+        m_iArmor += armor;
         if (m_iArmor >= m_iMax)
             m_iArmor = m_iMax;
-        else
-            m_iArmor += armor;
     }
 
-    void AddClip(_int clip)
+    void AddClip(_int clip) 
     {
+        m_iClip += clip;
         if (m_iClip >= m_iMax)
             m_iClip = m_iMax;
-        else
-            m_iClip += clip;
     }
 
     void AddShell(_int shell)
     {
-        if (m_iShell >= m_iMax)
-            m_iShell = m_iMax;
-        else
-            m_iShell += shell;
+        m_iShell += shell;
+        if (m_iShell >= m_iMax / 4)
+            m_iShell = m_iMax / 4;
+
     }
 
-    void Take_Damage(_int iDamage)
-    {
+    void Take_Damage(_int iDamage) 
+    { 
         if (m_iHp <= 0)
             m_iHp = 0;
-        else
+        else 
             m_iHp -= iDamage;
     }
 
@@ -100,11 +98,11 @@ private:
     void        Mouse_Input();
     void        Mouse_Move();
     void        Mouse_Fix();
-    void        Set_OnTerrain();
+    void        Set_OnTerrain(); 
     void        Update_State();          // 플레이어의 State 설정해주는 함수
 
 private:
-    Engine::CCalculator* m_pCalculatorCom;
+    Engine::CCalculator*    m_pCalculatorCom;
 
 public:
     // 마우스 x축 이동량을 저장
@@ -118,7 +116,7 @@ private:
     _int        m_iClip;
     _int        m_iShell;
     _int        m_iMax = 200;
-
+    
     _float      m_fSpeed;
     _bool       m_bFix;
     _bool       m_bCheck;
@@ -147,7 +145,7 @@ public:
     // Yn = d * Yv / -Zv * fAspect 
 
 public:
-    virtual CDynamicCamera* Clone() override { return this; }
+    virtual CDynamicCamera*     Clone() override { return this; }
 
 private:
     virtual void        Free();

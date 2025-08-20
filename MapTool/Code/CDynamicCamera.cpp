@@ -3,6 +3,9 @@
 #include "CDInputManager.h"
 #include "CManagement.h"
 #include "CRenderer.h"
+#include "CWeaponManager.h"
+#include "CPistol.h"
+#include "CShotgun.h"
 
 // Initialize static variable
 _long CDynamicCamera::s_lMouseMoveX = 0L;
@@ -21,12 +24,12 @@ CDynamicCamera::~CDynamicCamera()
 }
 
 HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
-	const _vec3* pAt,
-	const _vec3* pUp,
-	const _float& fFov,
-	const _float& fAspect,
-	const _float& fNear,
-	const _float& fFar)
+											const _vec3* pAt,
+											const _vec3* pUp,
+											const _float& fFov,
+											const _float& fAspect,
+											const _float& fNear,
+											const _float& fFar)
 {
 	// Camera Default Settings
 	m_vEye = *pEye;
@@ -61,13 +64,27 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	m_pColliderCom->Ready_CCollider(this, m_vEye, vScale, vOffset, COL_PLAYERCAMERA,
 		COL_ENEMY | COL_OBJECT | COL_TERRAIN | COL_WALL | COL_ITEM);
 
+	CWeapon* pPistol = CPistol::Create();
+	if (pPistol != nullptr)
+	{
+		CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::PISTOL, pPistol);
+	}
+
+	CWeapon* pShotgun = CShotgun::Create();
+	if (pShotgun != nullptr)
+	{
+		CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::SHOTGUN, pShotgun);
+	}
+
+	CWeaponManager::GetInstance()->Set_CurWeapon(WEAPON_ID::PISTOL);
+
 	return S_OK;
 }
 
 _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 {
 	_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
-
+	
 	Update_State();
 	Set_OnTerrain();
 
@@ -192,6 +209,23 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		m_vAt.z -= vLength.z;
 	}
 
+	// 무기 교체 관련 키 입력
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_1) & 0x80)
+	{
+		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::PISTOL);
+	}
+
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_2) & 0x80)
+	{
+		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::SHOTGUN);
+	}
+
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_3) & 0x80)
+	{
+		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::CHAINGUN);
+	}
+
+
 	//m_pTransformCom 업데이트 //collider 동기화 용
 	m_pTransformCom->Set_Pos(m_vEye.x, m_vEye.y, m_vEye.z);
 
@@ -219,13 +253,12 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 void CDynamicCamera::Mouse_Input()
 {
-	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB))
+	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB) & 0x80)
 	{
-		auto a = m_pCalculatorCom->Picking_GameObject(g_hWnd);
-		if (a)
-		{
-			auto b = 1;
-		}
+		_bool bFireCheck = CWeaponManager::GetInstance()->Fire_Weapon();
+
+		if (bFireCheck)
+			m_pCalculatorCom->Picking_GameObject(g_hWnd);
 	}
 
 	m_bTrigger = false;
@@ -289,7 +322,7 @@ void CDynamicCamera::Set_OnTerrain()
 		(CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
 
 	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&m_vEye, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
-
+	
 	// 카메라의 높이 (m_vEye.y)가 변화할 때 마다 바라보는 목표(m_vAt.y)도 바뀌어야한다.
 	// 카메라의 높이 변화량을 계산해서 변화량을 m_vEye, m_vAt 모두 더해줘야 시점이 유지된다.
 	_float deltaHeight = (height + 2.f) - m_vEye.y;
