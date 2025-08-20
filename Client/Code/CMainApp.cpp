@@ -29,6 +29,7 @@
 #include "CArmor_Big.h"
 #include "CAmmo_Clip.h"
 #include "CAmmo_Shell.h"
+#include "CAmmo_Rocket.h"
 
 #include "CWeapon_Shotgun.h"
 
@@ -161,6 +162,10 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 
 	// ¼¦°Ç Åº¾à
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_SHELL, CAmmo_Shell::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// ·ÎÄÏ Åº¾à
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_ROCKET, CAmmo_Rocket::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	// Æø¹ßÅë

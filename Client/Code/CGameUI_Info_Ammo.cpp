@@ -106,6 +106,8 @@ void CGameUI_Info_Ammo::Render_GameObject(const _float& fTimeDelta)
 	const int clipMax = m_pWeaponManager ? m_pWeaponManager->Get_MaxAmmo(AMMO_TYPE::CLIP) : 0;
 	const int shell = m_pWeaponManager ? m_pWeaponManager->Get_Ammo(AMMO_TYPE::SHELL) : 0;
 	const int shellMax = m_pWeaponManager ? m_pWeaponManager->Get_MaxAmmo(AMMO_TYPE::SHELL) : 0;
+	const int rocket = m_pWeaponManager ? m_pWeaponManager->Get_Ammo(AMMO_TYPE::ROCKET) : 0;
+	const int rocketMax = m_pWeaponManager ? m_pWeaponManager->Get_MaxAmmo(AMMO_TYPE::ROCKET) : 0;
 
 	Render_Number(clip, 560.f, -WINCY * 0.5f + vScale.y + 98.f, 10.f, 8.f / (4.f / 6.f));
 	Render_Number(clipMax, 680.f, -WINCY * 0.5f + vScale.y + 98.f, 10.f, 8.f / (4.f / 6.f));
