@@ -23,7 +23,6 @@ public:
 private:
     HRESULT     Add_Component();
     void        Key_Input();
-    void        Mouse_Input();
 
 
 private:

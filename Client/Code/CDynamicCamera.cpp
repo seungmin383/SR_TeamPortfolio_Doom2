@@ -255,9 +255,9 @@ void CDynamicCamera::Mouse_Input()
 {
 	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB) & 0x80)
 	{
-		CWeaponManager::GetInstance()->Fire_Weapon();
-		// SHOT 상태일 때만 픽킹
-		if (CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponState() == WEAPON_STATE::SHOT)
+		_bool bFireCheck = CWeaponManager::GetInstance()->Fire_Weapon();
+
+		if (bFireCheck)
 			m_pCalculatorCom->Picking_GameObject(g_hWnd);
 	}
 

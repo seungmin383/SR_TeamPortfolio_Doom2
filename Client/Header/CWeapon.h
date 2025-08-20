@@ -13,7 +13,7 @@ public:
 	virtual _int Update_GameObject(const _float& fTimeDelta);
 
 public:
-	virtual void	Fire() = 0;
+	virtual _bool	Fire() = 0;
 
 public:
 	WEAPON_ID		Get_WeaponID() { return m_eWeaponID; }

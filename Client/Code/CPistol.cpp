@@ -22,21 +22,19 @@ HRESULT CPistol::Ready_GameObject()
 	return S_OK;
 }
 
-void CPistol::Fire()
+_bool CPistol::Fire()
 {
 	if (m_eCurState != WEAPON_STATE::IDLE || m_fElapsedTime > 0.f)
-		return;
+		return false;
 
 	if (CWeaponManager::GetInstance()->Consume_Ammo(m_eAmmoType))
 	{
 		m_eCurState = WEAPON_STATE::SHOT;
 		m_fElapsedTime = m_fFireDelay;
+		return true;
 	}
-	//else
-	//{
-	//	// 총알이 없다면 이전 무기로 교체
-	//	CWeaponManager::GetInstance()->Change_Weapon(CWeaponManager::GetInstance()->Get_PrevWeapon()->Get_WeaponID());
-	//}
+
+	return false;
 }
 
 CPistol* CPistol::Create()

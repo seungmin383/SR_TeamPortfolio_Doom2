@@ -119,12 +119,10 @@ bool CWeaponManager::Fire_Weapon()
 			return false;
 		}
 
-		m_pCurWeapon->Set_WeaponState(WEAPON_STATE::IDLE);
-
-		m_pCurWeapon->Fire();
-
-		return true;
+		return m_pCurWeapon->Fire();
 	}
+
+	return false;
 }
 
 void CWeaponManager::Free()
