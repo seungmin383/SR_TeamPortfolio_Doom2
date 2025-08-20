@@ -3,22 +3,28 @@
 #include "CObjectFactory.h"
 #include "CPrototypeManager.h"
 #include "CDInputManager.h"
+#include "CManagement.h"
 
 CControlPanel::CControlPanel()
 	: m_pGraphicDev(nullptr),
 	textureExpr(nullptr),
-	curTex(nullptr)
+	curTex(nullptr),
+	pickingtime(0.f),
+	pickingdelay(0.25f)
 {
 }
 
 CControlPanel::CControlPanel(LPDIRECT3DDEVICE9 pGraphicDev, CTextureExplorer* expr)
 	: m_pGraphicDev(pGraphicDev),
 	textureExpr(expr),
-	curTex(nullptr)
+	curTex(nullptr),
+	pickingtime(0.f),
+	pickingdelay(0.25f)
 {
 	m_pGraphicDev->AddRef();
 	SetDefault();
 	SetObjInfo();
+	m_pCalculatorCom = dynamic_cast<CCalculator*>(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Calculator"));
 }
 
 CControlPanel::~CControlPanel()
@@ -31,22 +37,25 @@ CControlPanel* CControlPanel::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTextureExpl
 	return new CControlPanel(pGraphicDev, expr);
 }
 
-_bool CControlPanel::ControlPanelWindow()
+_bool CControlPanel::ControlPanelWindow(const _float& timeDelta)
 {
+	pickingtime += timeDelta;
+
 	if (ImGui::Button("Show Demo"))
 		show_demo_window = !show_demo_window;
 
+	//지형 저장
 	if (ImGui::Button("Save terrain"))
 	{
 		//SaveModal();
-		ImGui::OpenPopup("Save?");
+		ImGui::OpenPopup("Save terrain?");
 	}
 
 	// Always center this window when appearing
 	ImVec2 center = ImGui::GetMainViewport()->GetCenter();
 	ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 
-	if (ImGui::BeginPopupModal("Save?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	if (ImGui::BeginPopupModal("Save terrain?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		ImGui::Text("check save type and file name");
 		ImGui::Separator();
@@ -73,17 +82,51 @@ _bool CControlPanel::ControlPanelWindow()
 		if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
 		ImGui::EndPopup();
 	}
+	//지형 저장 끝
 
 	ImGui::SameLine();
 	if (ImGui::Button("Save wall and ceil"))
 	{
 
 	}
+
+	//아이템 저장
 	ImGui::SameLine();
 	if (ImGui::Button("Save item"))
 	{
-
+		//SaveModal();
+		ImGui::OpenPopup("Save item?");
 	}
+
+	if (ImGui::BeginPopupModal("Save item?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+		ImGui::Text("check save type and file name");
+		ImGui::Separator();
+
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+		ImGui::PopStyleVar();
+
+		fs::path selecteddir = SaveExplorer();
+
+		ImGui::InputText("file name", &filename);
+
+		if (ImGui::Button("OK", ImVec2(120, 0)))
+		{
+			if (!filename.empty())
+			{
+				SaveItem(selecteddir, filename);
+				ImGui::CloseCurrentPopup();
+				filename.clear();
+			}
+		}
+
+		ImGui::SetItemDefaultFocus();
+		ImGui::SameLine();
+		if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+		ImGui::EndPopup();
+	}
+	//아이템 저장 끝
+
 	ImGui::SameLine();
 	if (ImGui::Button("Save monster"))
 	{
@@ -102,7 +145,7 @@ _bool CControlPanel::ControlPanelWindow()
 	ImGui::SameLine();
 	if (ImGui::Button("Load item"))
 	{
-
+		LoadItem();
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Load monster"))
@@ -118,6 +161,7 @@ _bool CControlPanel::ControlPanelWindow()
 			ImGui::Text("This is the Terrain tab!");
 
 			TerrainController();
+			InputMouse_Terrain();
 
 			ImGui::EndTabItem();
 		}
@@ -126,6 +170,7 @@ _bool CControlPanel::ControlPanelWindow()
 			ImGui::Text("This is the Object tab!");
 
 			ObjectController();
+			InputMouse_Object();
 
 			ImGui::EndTabItem();
 		}
@@ -450,13 +495,18 @@ void CControlPanel::ObjectController()
 {
 	//type1 프로토타입
 	static int type_current = 0;
-	ImGui::Combo("type", &type_current, typeTags, IM_ARRAYSIZE(*typeTags));
+	ImGui::Combo("type", &type_current, typeTags, objPrototypeTags.size());
 
 	//type2 오브젝트id
 	static int id_current = 0;
-	ImGui::Combo("id", &id_current, idTags, IM_ARRAYSIZE(*idTags));
+	ImGui::Combo("id", &id_current, idTags, objIdTags.size());
 
 	//type3 여분값
+
+	//tag 기타 태그
+
+	tObjectinfo.type1 = type_current;
+	tObjectinfo.type2 = id_current;
 }
 
 void CControlPanel::ChangeTileInfo()
@@ -617,10 +667,18 @@ void CControlPanel::LoadWallAndCeil()
 
 void CControlPanel::SaveItem(fs::path path, string filename)
 {
+	CFileManager::GetInstance()->SaveItem(path, filename, vecItemInfos);
 }
 
 void CControlPanel::LoadItem()
 {
+	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem();;
+	
+	for (auto item : loadData)
+		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, item.position);
+
+	for (auto item : loadData)
+		vecItemInfos.push_back(item);
 }
 
 void CControlPanel::SaveMonster(fs::path path, string filename)
@@ -652,11 +710,76 @@ void CControlPanel::SetObjInfo()
 	}
 }
 
-void CControlPanel::InputMouse()
+void CControlPanel::InputMouse_Terrain()
 {
+	if (pickingtime < pickingdelay)
+		return;
+	else
+		pickingtime = 0.f;
+
 	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB))
 	{
-		m_pCalculatorCom->Picking_GameObject(g_hWnd);
+		auto* pTerrainBuf = static_cast<CTerrainTexSector*>(
+			CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
+
+		if (pTerrainBuf == nullptr)
+			return;
+
+		auto* pTerrainTransform = static_cast<CTransform*>(
+			CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Transform"));
+
+		if (pTerrainBuf == nullptr)
+			return;
+
+		if (m_pCalculatorCom->Picking_MapTool(g_hWnd, pTerrainBuf, pTerrainTransform, tCachingControlInfo.pos))
+		{
+			if (curTex == nullptr)
+			{
+				GetSelectTexture();
+				if (tCachingControlInfo.currentTextureTag != L"")
+				{
+					string curDir = CFileManager::GetInstance()->GetCurrentDir().filename().string();
+					curTex = CTextureManager::GetInstance()->GetTexture(curDir, tCachingControlInfo.currentTextureTag);
+				}
+			}
+			Apply();
+		}
+	}
+}
+
+void CControlPanel::InputMouse_Object()
+{
+	if (pickingtime < pickingdelay)
+		return;
+	else
+		pickingtime = 0.f;
+
+	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB))
+	{
+		if (tObjectinfo.type1 == 0)
+			return;
+
+		if (tObjectinfo.type2 == 0)
+			return;
+
+		auto* pTerrainBuf = static_cast<CTerrainTexSector*>(
+			CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
+
+		if (pTerrainBuf == nullptr)
+			return;
+
+		auto* pTerrainTransform = static_cast<CTransform*>(
+			CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Transform"));
+
+		if (pTerrainBuf == nullptr)
+			return;
+
+		if (m_pCalculatorCom->Picking_MapTool(g_hWnd, pTerrainBuf, pTerrainTransform, tObjectinfo.position))
+		{
+			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)tObjectinfo.type1, (OBJID)tObjectinfo.type2, tObjectinfo.position);
+
+			vecItemInfos.push_back(tObjectinfo);
+		}
 	}
 }
 
@@ -675,6 +798,8 @@ void CControlPanel::Free()
 			Safe_Delete(idTags[i]);
 		Safe_Delete_Array(idTags);
 	}
+
+	m_pCalculatorCom->Release();
 
 	m_pGraphicDev->Release();
 }

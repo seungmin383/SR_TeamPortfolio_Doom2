@@ -131,8 +131,10 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Transform", Engine::CTransform::Create(m_pGraphicDev))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Calculator", Engine::CCalculator::Create(m_pGraphicDev))))
-		return E_FAIL;
+	//[¸ÊÅø]mainappÀ¸·Î ¿Å±è
+	//if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Calculator", Engine::CCalculator::Create(m_pGraphicDev))))
+	//	return E_FAIL;
+	//[¸ÊÅø]mainappÀ¸·Î ¿Å±è
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Material", Engine::CMaterial::Create(m_pGraphicDev))))
 		return E_FAIL;

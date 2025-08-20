@@ -171,6 +171,52 @@ TerrainModels CFileManager::LoadTerrain()
 	return tm;
 }
 
+void CFileManager::SaveItem(fs::path path, string filename, vector<GameObjectSpawnInfo> datas)
+{
+	MoveProjectDir();
+
+	SceneSpawnInfo dataSet;
+	dataSet.objects = datas;
+
+	auto a = path.string() + "/" + filename;
+
+	ofstream write(path.string() + "/" + filename);
+
+	json j = dataSet;
+	write << j.dump(4);
+
+	write.close();
+}
+
+vector<GameObjectSpawnInfo> CFileManager::LoadItem()
+{
+	//스테이지마다개별로?
+	//한번에 로드해서 들고있게?
+	//vector<TerrainModels> ??
+
+	MoveProjectDir();
+
+	SceneSpawnInfo s;
+
+	//TODO: 파일 이름 하드코딩 수정
+	fs::path p(m_tConfig.ObjectSpawnSavePath + "/" + "item.json");
+
+	if (!fs::exists(p))
+	{
+		MSG_BOX("not found item save");
+		return s.objects;
+	}
+
+	ifstream read(p);
+	json j = json::parse(read);
+
+	s = j.get<SceneSpawnInfo>();
+
+	read.close();
+
+	return s.objects;
+}
+
 void CFileManager::Free()
 {
 }

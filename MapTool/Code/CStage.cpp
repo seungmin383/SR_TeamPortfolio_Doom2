@@ -9,6 +9,7 @@
 #include "CColliderManager.h"
 #include "CPlayerWeapon.h"
 #include "CManagement.h"
+#include "CObjectFactory.h"
 
 #include "CGameUI.h"
 #include "CGameUI_Face.h"
@@ -84,13 +85,15 @@ HRESULT CStage::Ready_Environment_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::TERRAIN);
+	//맵툴 지형
+	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::TERRAIN);
 
-	if (nullptr == pGameObject)
-		return E_FAIL;
+	//if (nullptr == pGameObject)
+	//	return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_TERRAIN, pGameObject)))
-		return E_FAIL;
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_TERRAIN, pGameObject)))
+	//	return E_FAIL;
+	//맵툴 지형
 
 	pGameObject = CSkyBox::Create(m_pGraphicDev);
 

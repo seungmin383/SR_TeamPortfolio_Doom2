@@ -23,9 +23,30 @@ void CObjectFactory::Set_Dev(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CObjectFactory::Create_Object(OBJPROTOTYPE eprototype, OBJID eObjId, _vec3 vPos)
 {
-	auto object = CPrototypeManager::GetInstance()->GetInstance()->Clone_ObjPrototype(eprototype);
-
+	//auto object = CPrototypeManager::GetInstance()->GetInstance()->Clone_ObjPrototype(eprototype);
 	CManagement::GetInstance()->Set_GameLogicObject(eprototype, eObjId, vPos);
+}
+
+CGameObject* CObjectFactory::Create_Terrain_Default(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv, _tchar* texTag, _vec3 pos)
+{
+	auto sectorBuffer = Engine::CTerrainTexSector::Create_Default(m_pGraphicDev, dwCntX, dwCntZ, dwVtxItv);
+	auto texture = CPrototypeManager::GetInstance()->Clone_ComPrototype(texTag);
+
+	auto terrainSector = dynamic_cast<CTerrainSector*>(CPrototypeManager::GetInstance()->GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::TERRAINSECTOR));
+
+	terrainSector->Set_BufferCom(sectorBuffer);
+	terrainSector->Set_TextureCom(dynamic_cast<CTexture*>(texture));
+
+	terrainSector->Get_Transform()->Set_Pos(pos.x, pos.y, pos.z);
+
+	//Set terrain_sector to layer
+	auto scene = CManagement::GetInstance()->Get_Scene();
+	auto maplayer = scene->Get_Layer();
+	auto layerIter = maplayer.find(LAYERID::LAYER_ENVIRONMENT);
+	auto layer = (*layerIter).second;
+	layer->Add_GameObject(OBJID::OBJ_TERRAIN, terrainSector);
+
+	return terrainSector;
 }
 
 CGameObject* CObjectFactory::Create_Terrain(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv, vector<_vec3> vertices, _tchar* texTag, _vec3 pos)

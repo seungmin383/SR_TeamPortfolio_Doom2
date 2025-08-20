@@ -28,10 +28,10 @@ private:
 
 public:
     void        Init_ImGui(LPDIRECT3DDEVICE9 pGraphicDev);
-    void        Render_ImGui();
+    void        Render_ImGui(const _float& timeDelta);
     void        ResetDevice();
 
-    void        ControlPanelWindow();
+    void        ControlPanelWindow(const _float& timeDelta);
     void        DirExplorerWindow();
 
     void        DemoWindow();

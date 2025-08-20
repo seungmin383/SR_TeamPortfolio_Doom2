@@ -7,6 +7,7 @@
 #include "CStage.h"
 #include "CManagement.h"
 #include "CFontManager.h"
+#include "CObjectFactory.h"
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev), m_pLoading(nullptr)
@@ -42,6 +43,9 @@ _int CLogo::Update_Scene(const _float& fTimeDelta)
 		if (GetAsyncKeyState(VK_RETURN))
 		{
 			CManagement::GetInstance()->Change_Scene(SCENEID::STAGE1);
+			//맵툴지형
+			CObjectFactory::GetInstance()->Create_Terrain_Default(VTXCNTX, VTXCNTZ, VTXITV, (_tchar*)L"Proto_TerrainTexture");
+			//맵툴지형
 		}
 	}
 

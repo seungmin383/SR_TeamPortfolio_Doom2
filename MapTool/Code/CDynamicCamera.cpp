@@ -284,8 +284,8 @@ void CDynamicCamera::Mouse_Fix()
 void CDynamicCamera::Set_OnTerrain()
 {
 	// 지형의 버텍스 정보를 가져온다
-	Engine::CTerrainTex* pTerrainBufferCom =
-		static_cast<CTerrainTex*>
+	Engine::CTerrainTexSector* pTerrainBufferCom =
+		static_cast<CTerrainTexSector*>
 		(CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
 
 	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&m_vEye, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);

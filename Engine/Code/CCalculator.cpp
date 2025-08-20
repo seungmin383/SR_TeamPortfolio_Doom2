@@ -1,5 +1,6 @@
 #include "CCalculator.h"
 #include "CTerrainTex.h"
+#include "CTerrainTexSector.h"
 #include "CTransform.h"
 #include "CManagement.h"
 #include "CCollider.h"
@@ -313,7 +314,7 @@ _bool CCalculator::Picking_GameObject(HWND hWnd)
 	return false;
 }
 
-_vec3 CCalculator::Picking_MapTool(HWND hWnd)
+_bool CCalculator::Picking_MapTool(HWND hWnd, CTerrainTexSector* pTerrainSectorBufferCom, CTransform* pTerrainTransformCom, _vec3& targetPos)
 {
 	POINT ptMouse{};
 
@@ -351,124 +352,47 @@ _vec3 CCalculator::Picking_MapTool(HWND hWnd)
 	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
 	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
 
-	//월드 -> 로컬
-	_matrix matWorld;
 	_float fU(0.f), fV(0.f), fDist(0.f);
 	_ulong dwVtxIdx[3]{};
-	const _vec3* objectColliderBox;
 
-	auto layers = CManagement::GetInstance()->Get_Scene()->Get_Layer();
+	const _vec3* pTerrainVtxPos = pTerrainSectorBufferCom->Get_VtxPos();
+	_ulong vtxCntX = pTerrainSectorBufferCom->Get_VtxCntX();
+	_ulong vtxCntZ = pTerrainSectorBufferCom->Get_VtxCntZ();
+	_ulong vtxItv = pTerrainSectorBufferCom->Get_VtxItv();
 
-	for (auto& pair : layers)
+	for (_ulong i = 0; i < vtxCntZ; i++)
 	{
-		auto objectArrayList = pair.second->Get_AllObject();
-
-		for (size_t i = 0; i < (_uint)OBJID::OBJ_END; i++)
+		for (_ulong j = 0; j < vtxCntX; j++)
 		{
-			for (auto object : objectArrayList[i])
+			_ulong dwIndex = i * vtxCntX + j;
+
+			//오른쪽 위
+			dwVtxIdx[0] = dwIndex + vtxCntX;
+			dwVtxIdx[1] = dwIndex + vtxCntX + 1;
+			dwVtxIdx[2] = dwIndex + 1;
+
+			//V1 + U(V2 - V1) + V(V3 - V1)
+			if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
+				&pTerrainVtxPos[dwVtxIdx[0]],
+				&pTerrainVtxPos[dwVtxIdx[2]],
+				&vRayPos, &vRayDir, &fU, &fV, &fDist))
 			{
-				objectColliderBox = object->GetCollider()->Get_WorldCollisionBox();
+				targetPos = pTerrainVtxPos[dwVtxIdx[1]] + (fU * (pTerrainVtxPos[dwVtxIdx[0]] - pTerrainVtxPos[dwVtxIdx[1]])) + (fV * (pTerrainVtxPos[dwVtxIdx[2]] - pTerrainVtxPos[dwVtxIdx[1]]));
+				return true;
+			}
 
-				//object->Get_Transform()->Get_World(&matWorld);
-				//D3DXMatrixInverse(&matWorld, 0, &matWorld);
+			//왼쪽 아래
+			dwVtxIdx[0] = dwIndex + vtxCntZ;
+			dwVtxIdx[1] = dwIndex + 1;
+			dwVtxIdx[2] = dwIndex;
 
-				//D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matWorld);
-				//D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matWorld);
-
-				//XY 평면
-				//오른쪽 위
-				dwVtxIdx[0] = 0;
-				dwVtxIdx[1] = 1;
-				dwVtxIdx[2] = 3;
-
-				//V1 + U(V2 - V1) + V(V3 - V1)
-				if (D3DXIntersectTri(&objectColliderBox[dwVtxIdx[1]],
-					&objectColliderBox[dwVtxIdx[0]],
-					&objectColliderBox[dwVtxIdx[2]],
-					&vRayPos, &vRayDir, &fU, &fV, &fDist))
-				{
-					//return _vec3(pTerrainVtxPos[dwVtxIdx[1]].x + fU * (pTerrainVtxPos[dwVtxIdx[0]].x - pTerrainVtxPos[dwVtxIdx[1]].x),
-					//	0.f,
-					//	pTerrainVtxPos[dwVtxIdx[1]].z + fV * (pTerrainVtxPos[dwVtxIdx[2]].z - pTerrainVtxPos[dwVtxIdx[0]].z));
-
-					return pTerrainVtxPos[dwVtxIdx[1]] + (fU * (pTerrainVtxPos[dwVtxIdx[0]] - pTerrainVtxPos[dwVtxIdx[1]])) + (fV * (pTerrainVtxPos[dwVtxIdx[2]] - pTerrainVtxPos[dwVtxIdx[1]]));
-				}
-
-				//왼쪽 아래
-				dwVtxIdx[0] = 1;
-				dwVtxIdx[1] = 2;
-				dwVtxIdx[2] = 3;
-
-				if (D3DXIntersectTri(&objectColliderBox[dwVtxIdx[2]],
-					&objectColliderBox[dwVtxIdx[1]],
-					&objectColliderBox[dwVtxIdx[0]],
-					&vRayPos, &vRayDir, &fU, &fV, &fDist))
-				{
-					return _vec3(pTerrainVtxPos[dwVtxIdx[2]].x + fU * (pTerrainVtxPos[dwVtxIdx[1]].x - pTerrainVtxPos[dwVtxIdx[2]].x),
-						0.f,
-						pTerrainVtxPos[dwVtxIdx[2]].z + fV * (pTerrainVtxPos[dwVtxIdx[0]].z - pTerrainVtxPos[dwVtxIdx[2]].z));
-				}
-
-				//YZ 평면
-				//오른쪽 위
-				dwVtxIdx[0] = 0;
-				dwVtxIdx[1] = 4;
-				dwVtxIdx[2] = 3;
-
-				//V1 + U(V2 - V1) + V(V3 - V1)
-				if (D3DXIntersectTri(&objectColliderBox[dwVtxIdx[1]],
-					&objectColliderBox[dwVtxIdx[0]],
-					&objectColliderBox[dwVtxIdx[2]],
-
-					&vRayPos, &vRayDir, &fU, &fV, &fDist))
-				{
-					object->GetCollider()->HitRay(CManagement::GetInstance()->Get_Player()->GetCollider());
-					return true;
-				}
-
-				//왼쪽 아래
-				dwVtxIdx[0] = 4;
-				dwVtxIdx[1] = 7;
-				dwVtxIdx[2] = 3;
-
-				if (D3DXIntersectTri(&objectColliderBox[dwVtxIdx[2]],
-					&objectColliderBox[dwVtxIdx[1]],
-					&objectColliderBox[dwVtxIdx[0]],
-					&vRayPos, &vRayDir, &fU, &fV, &fDist))
-				{
-					object->GetCollider()->HitRay(CManagement::GetInstance()->Get_Player()->GetCollider());
-					return true;
-				}
-
-				//XZ 평면
-				//오른쪽 위
-				dwVtxIdx[0] = 0;
-				dwVtxIdx[1] = 1;
-				dwVtxIdx[2] = 4;
-
-				//V1 + U(V2 - V1) + V(V3 - V1)
-				if (D3DXIntersectTri(&objectColliderBox[dwVtxIdx[1]],
-					&objectColliderBox[dwVtxIdx[0]],
-					&objectColliderBox[dwVtxIdx[2]],
-					&vRayPos, &vRayDir, &fU, &fV, &fDist))
-				{
-					object->GetCollider()->HitRay(CManagement::GetInstance()->Get_Player()->GetCollider());
-					return true;
-				}
-
-				//왼쪽 아래
-				dwVtxIdx[0] = 1;
-				dwVtxIdx[1] = 5;
-				dwVtxIdx[2] = 4;
-
-				if (D3DXIntersectTri(&objectColliderBox[dwVtxIdx[2]],
-					&objectColliderBox[dwVtxIdx[1]],
-					&objectColliderBox[dwVtxIdx[0]],
-					&vRayPos, &vRayDir, &fU, &fV, &fDist))
-				{
-					object->GetCollider()->HitRay(CManagement::GetInstance()->Get_Player()->GetCollider());
-					return true;
-				}
+			if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[2]],
+				&pTerrainVtxPos[dwVtxIdx[1]],
+				&pTerrainVtxPos[dwVtxIdx[0]],
+				&vRayPos, &vRayDir, &fU, &fV, &fDist))
+			{
+				targetPos = pTerrainVtxPos[dwVtxIdx[1]] + (fU * (pTerrainVtxPos[dwVtxIdx[0]] - pTerrainVtxPos[dwVtxIdx[1]])) + (fV * (pTerrainVtxPos[dwVtxIdx[2]] - pTerrainVtxPos[dwVtxIdx[1]]));
+				return true;
 			}
 		}
 	}

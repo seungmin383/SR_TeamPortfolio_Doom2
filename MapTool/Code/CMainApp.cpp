@@ -88,7 +88,7 @@ void CMainApp::Render_MainApp(const float& fTimeDelta)
 
 	m_pManagementClass->Render_Scene(m_pGraphicDev, fTimeDelta);
 
-	m_pImGuiClass->Render_ImGui();
+	m_pImGuiClass->Render_ImGui(fTimeDelta);
 
 	m_pDeviceClass->Render_End();
 }
@@ -112,6 +112,11 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 
 	if (FAILED(CFontManager::GetInstance()->Ready_Font(m_pGraphicDev, L"Font_Jinji", L"±Ã¼­", 20, 10, FW_THIN)))
 		return E_FAIL;
+
+	//[¸ÊÅø]
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Calculator", Engine::CCalculator::Create(m_pGraphicDev))))
+		return E_FAIL;
+	//[¸ÊÅø]
 
 	if (FAILED(CDInputManager::GetInstance()->Ready_InputDev(g_hInst, g_hWnd)))
 		return E_FAIL;
