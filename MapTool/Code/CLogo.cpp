@@ -43,9 +43,6 @@ _int CLogo::Update_Scene(const _float& fTimeDelta)
 		if (GetAsyncKeyState(VK_RETURN))
 		{
 			CManagement::GetInstance()->Change_Scene(SCENEID::STAGE1);
-			//맵툴지형
-			CObjectFactory::GetInstance()->Create_Terrain_Default(VTXCNTX, VTXCNTZ, VTXITV, (_tchar*)L"Proto_TerrainTexture");
-			//맵툴지형
 		}
 	}
 

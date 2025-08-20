@@ -15,6 +15,8 @@ public:
     virtual         void        LateUpdate_Scene(const _float& fTimeDelta);
     virtual         void        Render_Scene(const _float& fTimeDelta);
 
+    virtual         HRESULT     Load_PreSet() {};
+
 private:
     HRESULT         Ready_Environment_Layer(LAYERID _eLayerId);
     HRESULT         Ready_GameLogic_Layer(LAYERID _eLayerId) { return 0; }

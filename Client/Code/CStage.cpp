@@ -10,6 +10,11 @@
 #include "CPlayerWeapon.h"
 #include "CManagement.h"
 
+#include "CObjectFactory.h"
+#include "CFileManager.h"
+#include "../../Engine/Include/TerrainModels.h"
+#include "../../Engine/Include/GameObjectSpawnInfo.h"
+
 #include "CGameUI.h"
 #include "CGameUI_Face.h"
 #include "CGameUI_Info.h"
@@ -78,6 +83,34 @@ void CStage::Render_Scene(const _float& fTimeDelta)
 {
 }
 
+HRESULT CStage::Load_PreSet()
+{
+	//맵툴지형
+	CObjectFactory::GetInstance()->Create_Terrain_Default(VTXCNTX, VTXCNTZ, VTXITV, (_tchar*)L"Proto_TerrainTexture");
+	//맵툴지형
+
+	//맵 아이템 로드
+	TerrainModels tm = CFileManager::GetInstance()->LoadTerrain();
+
+	for (auto m : tm.model)
+	{
+		//오브젝트 생성
+		auto pObj = CObjectFactory::GetInstance()->Load_Terrain(m.vertexCountX,
+			m.vertexCountZ,
+			m.vertexInterval,
+			m.vertices,
+			m.strTextureTag,
+			m.pos);
+	}
+
+	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem();;
+
+	for (auto item : loadData)
+		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, item.position);
+
+	return S_OK;
+}
+
 HRESULT CStage::Ready_Environment_Layer(LAYERID _eLayerId)
 {
 	Engine::CLayer* pLayer = CLayer::Create();
@@ -86,13 +119,14 @@ HRESULT CStage::Ready_Environment_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::TERRAIN);
+	//맵 Scene->Load_PreSet()으로 변경 2025-08-20
+	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::TERRAIN);
 
-	if (nullptr == pGameObject)
-		return E_FAIL;
+	//if (nullptr == pGameObject)
+	//	return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_TERRAIN, pGameObject)))
-		return E_FAIL;
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_TERRAIN, pGameObject)))
+	//	return E_FAIL;
 
 	pGameObject = CSkyBox::Create(m_pGraphicDev);
 

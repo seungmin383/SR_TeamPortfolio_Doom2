@@ -18,6 +18,8 @@ public:
     _bool           Get_Finish() { return m_bFinish; }
     const _tchar* Get_String() { return m_szLoading; }
 
+    virtual         HRESULT     Load_PreSet() {};
+
 public:
     HRESULT         Ready_Loading(LOADINGID eID);
     _uint           Loading_ForStage();
