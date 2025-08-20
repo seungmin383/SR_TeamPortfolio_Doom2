@@ -37,7 +37,7 @@ HRESULT CBarrelExplosive::Ready_GameObject()
     m_fuseAcc = 0.f;
     m_fuseTime = 0.f;
 
-    m_pTransformCom->Set_Pos(25.f, 0.f, 25.f);
+    m_pTransformCom->Set_Pos(20.f, 0.f, 25.f);
     m_pTransformCom->Set_Scale(_vec3(0.2f, 0.2f, 0.2f));
 
     // Collider 세팅
@@ -397,7 +397,7 @@ HRESULT CBarrelExplosive::Add_Component()
 
     m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
 
-    OutputDebugStringA("[Stage] add OBJ_ITEM: Health_Small\n");
+    OutputDebugStringA("[Stage] add OBJ_ITEM: Barrel_Explosion\n");
 
     return S_OK;
 }

@@ -6,6 +6,10 @@ CTextureExplorer::CTextureExplorer()
 	: TextureRepo(nullptr),
 	m_pGraphicDev(nullptr)
 {
+	CFileManager::GetInstance()->GetConfig();
+	CFileManager::GetInstance()->MoveDir(CFileManager::GetInstance()->GetTerrainResourceDir());
+	
+
 	CFileManager::GetInstance()->LoadConfig();
 }
 
