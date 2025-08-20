@@ -42,7 +42,10 @@ void CWeaponManager::Update_Weapon(const _float& fTimeDelta)
 			m_pCurWeapon = m_mapWeapon[m_eNextWeaponID];
 		}
 		else if (m_fSwapTimer >= 1.f)
+		{
 			m_pCurWeapon->Set_WeaponState(WEAPON_STATE::IDLE);
+			m_pPrevWeapon->Set_WeaponState(WEAPON_STATE::IDLE);
+		}
 	}
 }
 
@@ -74,11 +77,9 @@ void CWeaponManager::Change_Weapon(WEAPON_ID eID)
 
 	// 무기를 교체 상태로 변경 후 교체 예정인 ID를 저장
 	m_pCurWeapon->Set_WeaponState(WEAPON_STATE::SWAP);
+	iter->second->Set_WeaponState(WEAPON_STATE::SWAP);
 	m_fSwapTimer = 0.f;
 	m_eNextWeaponID = eID;
-
-	//m_pPrevWeapon = m_pCurWeapon;
-	//m_pCurWeapon = iter->second;
 }
 
 void CWeaponManager::Add_Ammo(AMMO_TYPE eAmmoType, _int iCnt)
@@ -95,8 +96,11 @@ void CWeaponManager::Add_Ammo(AMMO_TYPE eAmmoType, _int iCnt)
 _bool CWeaponManager::Consume_Ammo(AMMO_TYPE eAmmoType)
 {
 	// 총알의 개수가 0보다 작다면
-	if (m_mapAmmo[eAmmoType] <= 0)
+	if (m_mapAmmo[eAmmoType] < 0)
+	{
+		m_mapAmmo[eAmmoType] = 0;
 		return false;
+	}
 	
 	m_mapAmmo[eAmmoType]--;
 	
@@ -107,9 +111,9 @@ bool CWeaponManager::Fire_Weapon()
 {
 	if (m_pCurWeapon != nullptr)
 	{
-		// 총알이 없다면 리턴
+		// 총알이 없다면 이전 무기로 변경
 		AMMO_TYPE eType = m_pCurWeapon->Get_AmmoType();
-		if (m_mapAmmo[eType] <= 0)
+		if (m_mapAmmo[eType] < 0)
 		{
 			Change_Weapon(m_pPrevWeapon->Get_WeaponID());
 			return false;
@@ -118,6 +122,7 @@ bool CWeaponManager::Fire_Weapon()
 		m_pCurWeapon->Set_WeaponState(WEAPON_STATE::IDLE);
 
 		m_pCurWeapon->Fire();
+
 		return true;
 	}
 }

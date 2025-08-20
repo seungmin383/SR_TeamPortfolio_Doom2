@@ -50,7 +50,9 @@ _int CPlayerWeapon::Update_GameObject(const _float& fTimeDelta)
 	CGameObject::Update_GameObject(fTimeDelta);
 
 	m_eCurWeaponId = CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponID();
-	m_eWeaponState = CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponState();
+
+	if (m_eWeaponState != WEAPON_STATE::SWAP)
+		m_eWeaponState = CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponState();
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_UI, this);
 
@@ -62,7 +64,7 @@ void CPlayerWeapon::LateUpdate_GameObject(const _float& fTimeDelta)
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 
 	Key_Input(fTimeDelta);
-	//Mouse_Input();
+	Mouse_Input();
 	Weapon_Bobbing(m_bIsMoving, fTimeDelta);
 
 	if (m_eWeaponState == WEAPON_STATE::SWAP)
@@ -176,33 +178,6 @@ void CPlayerWeapon::Key_Input(const _float& fTimeDelta)
 	{
 		m_bIsMoving = true;
 	}
-
-	//// 총을 바꾸려 할 때 사격 상태라면 리턴
-	//if (m_eWeaponState == WEAPON_STATE::SHOT || m_eWeaponState == WEAPON_STATE::SWAP)
-	//	return;
-
-	//// 무기 교체 관련 키 입력
-	//if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_1) & 0x80)
-	//{
-	//	m_eNextWeaponId = WEAPON_ID::PISTOL;
-	//	m_eWeaponState = WEAPON_STATE::SWAP;
-
-	//	CWeaponManager::GetInstance()->Change_Weapon(m_eNextWeaponId);
-	//}
-	//if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_2) & 0x80)
-	//{
-	//	m_eNextWeaponId = WEAPON_ID::SHOTGUN;
-	//	m_eWeaponState = WEAPON_STATE::SWAP;
-
-	//	CWeaponManager::GetInstance()->Change_Weapon(m_eNextWeaponId);
-	//}
-	//if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_3) & 0x80)
-	//{
-	//	m_eNextWeaponId = WEAPON_ID::CHAINGUN;
-	//	m_eWeaponState = WEAPON_STATE::SWAP;
-
-	//	CWeaponManager::GetInstance()->Change_Weapon(m_eNextWeaponId);
-	//}
 }
 
 void CPlayerWeapon::Mouse_Input()

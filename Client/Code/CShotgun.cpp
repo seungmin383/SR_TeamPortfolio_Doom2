@@ -32,11 +32,11 @@ void CShotgun::Fire()
 		m_eCurState = WEAPON_STATE::SHOT;
 		m_fElapsedTime = m_fFireDelay;
 	}
-	else
-	{
-		// 총알이 없다면 이전 무기로 교체
-		CWeaponManager::GetInstance()->Change_Weapon(CWeaponManager::GetInstance()->Get_PrevWeapon()->Get_WeaponID());
-	}
+	//else
+	//{
+	//	// 총알이 없다면 이전 무기로 교체
+	//	CWeaponManager::GetInstance()->Change_Weapon(CWeaponManager::GetInstance()->Get_PrevWeapon()->Get_WeaponID());
+	//}
 }
 
 CShotgun* CShotgun::Create()

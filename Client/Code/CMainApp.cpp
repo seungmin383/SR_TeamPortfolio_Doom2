@@ -58,7 +58,6 @@ HRESULT CMainApp::Ready_MainApp()
 int CMainApp::Update_MainApp(const float& fTimeDelta)
 {
 	CDInputManager::GetInstance()->Update_InputDev();
-	CWeaponManager::GetInstance()->Update_Weapon(fTimeDelta);
 
 	m_pManagementClass->Update_Scene(fTimeDelta);
 
@@ -70,13 +69,7 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 
 void CMainApp::LateUpdate_MainApp(const float& fTimeDelta)
 {
-	// _ulong	dwFlag(0);
-	// 
-	// if (dwFlag = CDInputMgr::GetInstance()->Get_DIMouseMove(DIMS_Z))
-	// {
-	// 	int a = 0;
-	// }
-
+	CWeaponManager::GetInstance()->Update_Weapon(fTimeDelta);
 	m_pManagementClass->LateUpdate_Scene(fTimeDelta);
 }
 
