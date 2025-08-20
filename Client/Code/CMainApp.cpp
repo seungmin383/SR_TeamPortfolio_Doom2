@@ -13,6 +13,7 @@
 #include "CWeaponManager.h"
 #include "CFileManager.h"
 #include "CObjectFactory.h"
+#include "CTextureManager.h"
 
 #include "CTerrain.h"
 #include "CTerrainSector.h"
@@ -218,6 +219,7 @@ void CMainApp::Free()
 	Engine::Safe_Release(m_pDeviceClass);
 	Engine::Safe_Release(m_pGraphicDev);
 	
+	CTextureManager::GetInstance()->DestroyInstance();
 	CFileManager::GetInstance()->DestroyInstance();
 	CObjectFactory::GetInstance()->DestroyInstance();
 	CColliderManager::GetInstance()->DestroyInstance();

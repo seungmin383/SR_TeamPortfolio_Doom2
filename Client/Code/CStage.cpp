@@ -88,16 +88,12 @@ void CStage::Render_Scene(const _float& fTimeDelta)
 
 HRESULT CStage::Load_PreSet()
 {
-	//��������
 	CObjectFactory::GetInstance()->Create_Terrain_Default(VTXCNTX, VTXCNTZ, VTXITV, (_tchar*)L"Proto_TerrainTexture");
-	//��������
 
-	//�� ������ �ε�
 	TerrainModels tm = CFileManager::GetInstance()->LoadTerrain();
 
 	for (auto m : tm.model)
 	{
-		//������Ʈ ����
 		auto pObj = CObjectFactory::GetInstance()->Load_Terrain(m.vertexCountX,
 			m.vertexCountZ,
 			m.vertexInterval,

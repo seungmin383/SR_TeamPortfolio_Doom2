@@ -91,7 +91,9 @@ CGameObject* CObjectFactory::Load_Terrain(const _ulong& dwCntX, const _ulong& dw
 {
 	auto sectorBuffer = Engine::CTerrainTexSector::Create(m_pGraphicDev, vertices, dwCntX, dwCntZ, dwVtxItv);
 	
-	CPrototypeManager::GetInstance()->Ready_ComPrototype(texPath.filename().wstring().c_str(), CTexture::Create(m_pGraphicDev, texPath.wstring().c_str(), TEX_NORMAL));
+	CTexture* tempTex = CTexture::Create(m_pGraphicDev, texPath.wstring().c_str(), TEX_NORMAL);
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(texPath.filename().wstring().c_str(), tempTex)))
+		Safe_Release(tempTex);
 
 	auto texture = CPrototypeManager::GetInstance()->Clone_ComPrototype(texPath.filename().wstring().c_str());
 
