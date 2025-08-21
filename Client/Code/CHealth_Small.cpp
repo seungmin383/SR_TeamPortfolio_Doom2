@@ -171,7 +171,7 @@ void CHealth_Small::Set_OnTerrain()
 	float h = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBuf->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
 
 	// 살짝 띄워서 지면 간섭 방지
-	m_pTransformCom->Set_Pos(pos.x, h + 0.7f, pos.z);
+	m_pTransformCom->Set_Pos(pos.x, h + 1.f, pos.z);
 }
 
 void CHealth_Small::Bill_Board()

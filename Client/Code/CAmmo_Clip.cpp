@@ -65,7 +65,7 @@ void CAmmo_Clip::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 	if (m_pColliderCom)
-		m_pColliderCom->Late_Update(); // ¡Ú Áß¿ä
+		m_pColliderCom->Late_Update(); // Áß¿ä
 }
 
 void CAmmo_Clip::Render_GameObject(const _float& fTimeDelta)
@@ -180,7 +180,7 @@ void CAmmo_Clip::Set_OnTerrain()
 	float h = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBuf->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
 
 	// »ìÂ¦ ¶ç¿ö¼­ Áö¸é °£¼· ¹æÁö
-	m_pTransformCom->Set_Pos(pos.x, h + 0.7f, pos.z);
+	m_pTransformCom->Set_Pos(pos.x, h + 1.f, pos.z);
 }
 
 void CAmmo_Clip::Bill_Board()

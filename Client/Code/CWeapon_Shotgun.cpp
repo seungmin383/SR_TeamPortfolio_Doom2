@@ -4,6 +4,7 @@
 #include "CManagement.h"
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
+#include "CWeaponManager.h"
 
 CWeapon_Shotgun::CWeapon_Shotgun(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -27,7 +28,9 @@ HRESULT CWeapon_Shotgun::Ready_GameObject()
 	m_bPicked = false;
 
 	m_pTransformCom->Set_Pos(22.f, 0.f, 10.f);
-	m_pTransformCom->Set_Scale(_vec3(1.f, 0.1f, 0.1f));
+	m_pTransformCom->Set_Scale(_vec3(1.f, 1.f, 1.f));
+
+	m_pWeaponManager = CWeaponManager::GetInstance();
 
 	m_pColliderCom->Ready_CCollider(
 		this,
@@ -90,12 +93,12 @@ void CWeapon_Shotgun::OnCollisionEnter(CCollider* _pOther)
 		return;
 
 	// to-do) 무기매니저로 캐스팅해서 얻기
-	if (auto* mgr = CWeaponManager::GetInstance()) {
-		if (CWeapon* inv = (CWeapon*)CWeapon_Shotgun::Create(m_pGraphicDev)) { // 이 코드 상태에서 누수 발생
-			//mgr->Add_Weapon(CWeaponManager::WEAPON_ID::SHOTGUN, inv); // 이 코드 상태에서 누수 발생
-			
-			// mgr->Change_Weapon(CWeaponManager::WEAPON_ID::SHOTGUN);
-		}
+	if (m_pWeaponManager) {
+		m_pWeaponManager->Add_Weapon(WEAPON_ID::SHOTGUN, (CWeapon*)this);
+	}
+	else
+	{
+		m_pWeaponManager->Add_Ammo(AMMO_TYPE::SHELL, 8);
 	}
 	// 월드의 픽업 오브젝트는 제거
 	m_bPicked = true;
@@ -157,7 +160,7 @@ void CWeapon_Shotgun::Set_OnTerrain()
 {
 	if (!m_pTransformCom || !m_pCalculatorCom) return;
 
-	auto* pTerrainBuf = static_cast<CTerrainTex*>(
+	auto* pTerrainBuf = static_cast<CTerrainTexSector*>(
 		CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
 	if (!pTerrainBuf) return;
 
@@ -182,20 +185,18 @@ void CWeapon_Shotgun::Bill_Board()
 	_matrix matWorld, matView, matBill;
 	m_pTransformCom->Get_World(&matWorld);
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixIdentity(&matBill);
 
-	// 빌보드 행렬의 스케일과 위치는 월드 행렬의 것을 그대로 사용                          
-	matBill = matWorld;
+	matBill._11 = matView._11;
+	matBill._13 = matView._13;
+	matBill._31 = matView._31;
+	matBill._33 = matView._33;
 
-	// 뷰행렬에서 역행렬을 이용해 카메라의 회전값을 구하고, 빌보드 행렬의 회전값으로 설정  
-	D3DXMatrixInverse(&matBill, NULL, &matView);
+	D3DXMatrixInverse(&matBill, 0, &matBill);		// 카메라가 갖고 있는 y회전의 역행렬 -역행렬> 카메라의 월드 상태의 y축 회전 행렬
 
-	// 빌보드 행렬의 위치값을 월드 행렬의 위치값으로 설정                                  
-	matBill._41 = matWorld._41;
-	matBill._42 = matWorld._42;
-	matBill._43 = matWorld._43;
-
+	matWorld = matBill * matWorld;
 	// 최종적으로 빌보드 행렬을 월드 행렬로 설정                                           
-	m_pTransformCom->Set_World(&matBill);
+	m_pTransformCom->Set_World(&matWorld);
 }
 
 CWeapon_Shotgun* CWeapon_Shotgun::Create(LPDIRECT3DDEVICE9 pGraphicDev)

@@ -4,6 +4,8 @@
 #include "CDynamicCamera.h"
 #include "CWeaponManager.h"
 
+class CWeaponManager;
+
 class CWeapon_Shotgun :    public CGameObject
 {
 private:
@@ -28,6 +30,9 @@ private:
 	HRESULT Add_Component();
 	void        Set_OnTerrain();
 	void		Bill_Board();
+
+private:
+	CWeaponManager* m_pWeaponManager = nullptr;
 
 private:
 	Engine::CRectSpriteTex* m_pBufferCom;
