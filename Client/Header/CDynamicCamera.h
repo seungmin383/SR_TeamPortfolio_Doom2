@@ -79,6 +79,7 @@ private:
     void        Mouse_Fix();
     void        Set_OnTerrain(); 
     void        Update_State();          // 플레이어의 State 설정해주는 함수
+    void        Camera_Bobbing(const _float& fTimeDelta);
 
 private:
     Engine::CCalculator*    m_pCalculatorCom;
@@ -95,9 +96,13 @@ private:
     _int        m_iMax = 200;       // 체력과 아머에 사용할 최대 수치
     
     _float      m_fSpeed;
+    _float      m_fAngle;           // 카메라 흔들림에 적용할 각도
+    _float      m_fAngleSpeed;      // 각도에 더해줄 변수
+
     _bool       m_bFix;
     _bool       m_bCheck;
     _bool       m_bTrigger;     // 문 열기, 스위치 누르기 등 체크용 변수
+    _bool       m_bIsMoving;
 
 public:
     static CDynamicCamera* Create(LPDIRECT3DDEVICE9 pGraphicDev,
