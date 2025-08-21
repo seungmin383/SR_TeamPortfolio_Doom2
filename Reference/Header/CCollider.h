@@ -111,6 +111,8 @@ private:
 	_float				m_fHitDelay;
 	_float				m_fHitTime;
 
+	LPD3DXLINE			m_pLine;		// 콜라이더 그리기용 멤버 변수
+
 private:
 	CGameObject*		m_pOwner;
 	bool				m_bActive;

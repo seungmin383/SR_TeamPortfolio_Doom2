@@ -35,12 +35,12 @@ CMonsterBase::~CMonsterBase()
 
 
 HRESULT         CMonsterBase::Ready_GameObject()
-{	
+{	/*
 	AllocConsole();
 
 	FILE* fp;
 	freopen_s(&fp, "CONOUT$", "w", stdout);
-	freopen_s(&fp, "CONOUT$", "w", stderr);
+	freopen_s(&fp, "CONOUT$", "w", stderr);*/
 
 	return S_OK;
  }
@@ -731,14 +731,6 @@ HRESULT CMonsterBase::Add_Component()
 		return E_FAIL;
 
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
-
-	//MoveTransform
-	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>
-		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Transform"));
-	if (nullptr == pComponent)
-		return E_FAIL;
-
-	m_mapComponent[ID_DYNAMIC].insert({ L"Com_MoveTransform", pComponent });
 
 	//Calculator
 	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
