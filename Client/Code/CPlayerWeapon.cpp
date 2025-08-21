@@ -30,7 +30,7 @@ HRESULT CPlayerWeapon::Ready_GameObject()
 		return E_FAIL;
 
 	m_bBobForward = true;
-	m_fBobSpeed = 5.f;
+	m_fBobSpeed = 3.5f;
 	m_fBobAngle = 0.f;
 	m_vScale = { 300.f, 300.f, 1.f };
 	m_vPos = { 0.f, -WINCY * 0.5f + m_vScale.y , 1.f };
@@ -215,7 +215,7 @@ void CPlayerWeapon::Weapon_Bobbing(bool bIsMoving, const _float& fTimeDelta)
 		}
 
 		// 위에서 구한 각도를 이용하여 수직, 수평 이동량을 구한다.
-		_float fVerticalBob = sinf(m_fBobAngle) * 5.f;
+		_float fVerticalBob = sinf(m_fBobAngle) * 2.5f;
 		_float fHorizontalBob = m_vPos.y - cosf(m_fBobAngle) * 25.f;
 
 		m_vBobPos.x += fVerticalBob;
@@ -226,7 +226,7 @@ void CPlayerWeapon::Weapon_Bobbing(bool bIsMoving, const _float& fTimeDelta)
 	else
 	{
 		// 이동을 멈춘다면 선형 보간을 하여 처음 위치로 초기화
-		D3DXVec3Lerp(&m_vBobPos, &m_vBobPos, &m_vPos, 10.f * fTimeDelta);
+		D3DXVec3Lerp(&m_vBobPos, &m_vBobPos, &m_vPos, 7.f * fTimeDelta);
 		m_pTransformCom->Set_Pos(m_vBobPos.x, m_vBobPos.y, m_vBobPos.z);
 		m_fBobAngle = 0.f;
 	}
