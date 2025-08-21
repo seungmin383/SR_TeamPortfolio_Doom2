@@ -172,6 +172,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\CAmmo_Clip.h" />
+    <ClInclude Include="..\Header\CAmmo_Rocket.h" />
     <ClInclude Include="..\Header\CAmmo_Shell.h" />
     <ClInclude Include="..\Header\CArmor_Big.h" />
     <ClInclude Include="..\Header\CArmor_Small.h" />
@@ -187,6 +188,8 @@
     <ClInclude Include="..\Header\CGameUI_Face.h" />
     <ClInclude Include="..\Header\CGameUI_Info.h" />
     <ClInclude Include="..\Header\CGameUI_Info_Ammo.h" />
+    <ClInclude Include="..\Header\CGameUI_Info_Weapon.h" />
+    <ClInclude Include="..\Header\CGameUI_Info_WeaponNum.h" />
     <ClInclude Include="..\Header\CHealth_Big.h" />
     <ClInclude Include="..\Header\CHealth_Small.h" />
     <ClInclude Include="..\Header\CImp.h" />
@@ -207,6 +210,9 @@
     <ClInclude Include="..\Header\CLogo.h" />
     <ClInclude Include="..\Header\CMainApp.h" />
     <ClInclude Include="..\Header\CMonster.h" />
+    <ClInclude Include="..\Header\CWeapon_ChainGun.h" />
+    <ClInclude Include="..\Header\CWeapon_Rocket.h" />
+    <ClInclude Include="..\Header\CWeapon_Shotgun.h" />
     <ClInclude Include="..\Header\CTerrainSector.h" />
     <ClInclude Include="..\Header\CTextureManager.h" />
     <ClInclude Include="..\Header\CWeapon.h" />
@@ -220,6 +226,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\CAmmo_Clip.cpp" />
+    <ClCompile Include="..\Code\CAmmo_Rocket.cpp" />
     <ClCompile Include="..\Code\CAmmo_Shell.cpp" />
     <ClCompile Include="..\Code\CArmor_Big.cpp" />
     <ClCompile Include="..\Code\CArmor_Small.cpp" />
@@ -235,6 +242,8 @@
     <ClCompile Include="..\Code\CGameUI_Face.cpp" />
     <ClCompile Include="..\Code\CGameUI_Info.cpp" />
     <ClCompile Include="..\Code\CGameUI_Info_Ammo.cpp" />
+    <ClCompile Include="..\Code\CGameUI_Info_Weapon.cpp" />
+    <ClCompile Include="..\Code\CGameUI_Info_WeaponNum.cpp" />
     <ClCompile Include="..\Code\CHealth_Big.cpp" />
     <ClCompile Include="..\Code\CHealth_Small.cpp" />
     <ClCompile Include="..\Code\CImp.cpp" />
@@ -255,6 +264,9 @@
     <ClCompile Include="..\Code\CLogo.cpp" />
     <ClCompile Include="..\Code\CMainApp.cpp" />
     <ClCompile Include="..\Code\CMonster.cpp" />
+    <ClCompile Include="..\Code\CWeapon_ChainGun.cpp" />
+    <ClCompile Include="..\Code\CWeapon_Rocket.cpp" />
+    <ClCompile Include="..\Code\CWeapon_Shotgun.cpp" />
     <ClCompile Include="..\Code\CTerrainSector.cpp" />
     <ClCompile Include="..\Code\CTextureManager.cpp" />
     <ClCompile Include="..\Code\CWeapon.cpp" />

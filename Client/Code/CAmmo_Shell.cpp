@@ -4,14 +4,15 @@
 #include "CManagement.h"
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
+#include "CWeaponManager.h"
 
 CAmmo_Shell::CAmmo_Shell(LPDIRECT3DDEVICE9 pGraphicDev)
-    : CGameObject(pGraphicDev), m_iShell(0), m_iFrame_Shell(0)
+	: CGameObject(pGraphicDev), m_iShell(0), m_iFrame_Shell(0), m_pWeaponManager(nullptr)
 {
 }
 
 CAmmo_Shell::CAmmo_Shell(const CGameObject& rhs)
-    : CGameObject(rhs)
+	: CGameObject(rhs)
 {
 }
 
@@ -27,6 +28,8 @@ HRESULT CAmmo_Shell::Ready_GameObject()
 	m_iShell = 8;
 
 	m_iFrame_Shell = 0;
+
+	m_pWeaponManager = CWeaponManager::GetInstance();
 
 	m_pTransformCom->Set_Pos(12.f, 0.f, 11.f);
 	m_pTransformCom->Set_Scale(_vec3(0.5f, 0.5f, 0.5f));
@@ -91,14 +94,33 @@ void CAmmo_Shell::OnCollisionEnter(CCollider* _pOther)
 
 	if (m_bPicked || !_pOther) return;
 
-	auto* who = _pOther->Get_Owner();
-	if (auto* pCam = dynamic_cast<CDynamicCamera*>(who)) {
-		// 1) HP 증가
-		pCam->AddShell(m_iShell);
+	//auto* who = _pOther->Get_Owner();
+	//if (auto* pCam = dynamic_cast<CDynamicCamera*>(who)) {
+	//	// 1) HP 증가
+	//	pCam->AddShell(m_iShell);
 
-		// 2) 더이상 충돌하지 않게 막기
+	//	// 2) 더이상 충돌하지 않게 막기
+	//	m_bPicked = true;
+	//}
+
+	 // 누가 부딪혔는지: 플레이어/카메라
+	const auto layer = _pOther->Get_ColLayer();
+	const bool allowed =
+		(layer & COL_PLAYER) ||
+		(layer & COL_PLAYERCAMERA);
+
+	if (!allowed) return;
+	else {
+		// 무기 매니저로 탄약 지급
+		if (m_pWeaponManager) {
+			m_pWeaponManager->Add_Ammo(AMMO_TYPE::SHELL, m_iShell);
+		}
+
+		// 아이템 비활성화(충돌/업데이트에서 제거)
 		m_bPicked = true;
+		if (m_pColliderCom) m_pColliderCom->Set_Active(false);
 	}
+
 }
 
 void CAmmo_Shell::OnCollisionExit(CCollider* _pOther)
@@ -180,20 +202,18 @@ void CAmmo_Shell::Bill_Board()
 	_matrix matWorld, matView, matBill;
 	m_pTransformCom->Get_World(&matWorld);
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixIdentity(&matBill);
 
-	// 빌보드 행렬의 스케일과 위치는 월드 행렬의 것을 그대로 사용                          
-	matBill = matWorld;
+	matBill._11 = matView._11;
+	matBill._13 = matView._13;
+	matBill._31 = matView._31;
+	matBill._33 = matView._33;
 
-	// 뷰행렬에서 역행렬을 이용해 카메라의 회전값을 구하고, 빌보드 행렬의 회전값으로 설정  
-	D3DXMatrixInverse(&matBill, NULL, &matView);
+	D3DXMatrixInverse(&matBill, 0, &matBill);		// 카메라가 갖고 있는 y회전의 역행렬 -역행렬> 카메라의 월드 상태의 y축 회전 행렬
 
-	// 빌보드 행렬의 위치값을 월드 행렬의 위치값으로 설정                                  
-	matBill._41 = matWorld._41;
-	matBill._42 = matWorld._42;
-	matBill._43 = matWorld._43;
-
+	matWorld = matBill * matWorld;
 	// 최종적으로 빌보드 행렬을 월드 행렬로 설정                                           
-	m_pTransformCom->Set_World(&matBill);
+	m_pTransformCom->Set_World(&matWorld);
 }
 
 CAmmo_Shell* CAmmo_Shell::Create(LPDIRECT3DDEVICE9 pGraphicDev)

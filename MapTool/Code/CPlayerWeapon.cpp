@@ -64,6 +64,12 @@ void CPlayerWeapon::LateUpdate_GameObject(const _float& fTimeDelta)
 	Key_Input(fTimeDelta);
 	Weapon_Bobbing(m_bIsMoving, fTimeDelta);
 
+	//애니메이션 실행
+	//m_pAnimatorCom->Play_Animation(m_eWeaponId + m_eWeaponState, 0, fTimeDelta);
+
+	// 만약 현재 애니메이션이 다 끝난 상태라면 총의 상태를 기본 상태로 돌려놓는다.
+	//if (m_pAnimatorCom->Get_isFinAct())
+		//m_eWeaponState = IDLE;
 	if (m_eWeaponState == WEAPON_STATE::SWAP)
 		Weapon_Swap(fTimeDelta);
 
@@ -80,6 +86,9 @@ void CPlayerWeapon::Render_GameObject(const _float& fTimeDelta)
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
+
+
+	//m_pTextureCom->Set_Texture(m_eWeaponId);
 
 	m_pTextureCom->Set_Texture((_uint)m_eCurWeaponId);
 	
@@ -98,6 +107,17 @@ void CPlayerWeapon::Render_GameObject(const _float& fTimeDelta)
 void CPlayerWeapon::Ready_Animation()
 {
 	// Pistol Animation
+	//m_pAnimatorCom->Add_Animation(PISTOL, m_pTextureCom, m_pBufferCom, 5, 1, 0, 0, 0.1f, true);
+	//m_pAnimatorCom->Add_Animation(PISTOL + SHOT, m_pTextureCom, m_pBufferCom, 5, 1, 0, 4, 0.1f, true);
+	//
+	//// Shotgun Animation
+	//m_pAnimatorCom->Add_Animation(SHOTGUN, m_pTextureCom, m_pBufferCom, 8, 1, 0, 0, 0.2f, true);
+	//m_pAnimatorCom->Add_Animation(SHOTGUN + SHOT, m_pTextureCom, m_pBufferCom, 8, 1, 0, 7, 0.1f, true);
+	//
+	//// Chaingun Animation
+	//m_pAnimatorCom->Add_Animation(CHAINGUN, m_pTextureCom, m_pBufferCom, 3, 1, 0, 0, 0.1f, true);
+	//m_pAnimatorCom->Add_Animation(CHAINGUN + SHOT, m_pTextureCom, m_pBufferCom, 3, 1, 1, 2, 0.1f, true);
+
 	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::PISTOL, m_pTextureCom, m_pBufferCom, 5, 1, 0, 0, 0.f, true);
 	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::PISTOL + (_uint)WEAPON_STATE::SWAP, m_pTextureCom, m_pBufferCom, 5, 1, 0, 0, 0.1f, true);
 	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::PISTOL + (_uint)WEAPON_STATE::SHOT, m_pTextureCom, m_pBufferCom, 5, 1, 0, 4, 0.1f, true);
@@ -111,6 +131,7 @@ void CPlayerWeapon::Ready_Animation()
 	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::CHAINGUN, m_pTextureCom, m_pBufferCom, 3, 1, 0, 0, 0.f, true);
 	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::CHAINGUN + (_uint)WEAPON_STATE::SWAP, m_pTextureCom, m_pBufferCom, 3, 1, 0, 0, 0.1f, true);
 	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::CHAINGUN + (_uint)WEAPON_STATE::SHOT, m_pTextureCom, m_pBufferCom, 3, 1, 1, 2, 0.1f, true);
+
 }
 
 HRESULT CPlayerWeapon::Add_Component()
@@ -153,6 +174,36 @@ HRESULT CPlayerWeapon::Add_Component()
 
 void CPlayerWeapon::Key_Input(const _float& fTimeDelta)
 {
+
+	//if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_1) & 0x80)
+	//{
+	//	// 총을 바꾸려 할 때 사격 상태라면 리턴
+	//	if (m_eWeaponState == SHOT)
+	//		return;
+
+	//	m_eWeaponId = PISTOL;
+	//	m_eWeaponState = IDLE;
+	//}
+	//if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_2) & 0x80)
+	//{
+	//	// 총을 바꾸려 할 때 사격 상태라면 리턴
+	//	if (m_eWeaponState == SHOT)
+	//		return;
+
+	//	m_eWeaponId = SHOTGUN;
+	//	m_eWeaponState = IDLE;
+	//}
+	//if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_3) & 0x80)
+	//{
+	//	// 총을 바꾸려 할 때 사격 상태라면 리턴
+	//	if (m_eWeaponState == SHOT)
+	//		return;
+
+	//	m_eWeaponId = CHAINGUN;
+	//	m_eWeaponState = IDLE;
+	//}
+
+
 	// 이동 관련 키 입력
 	m_bIsMoving = false;
 
@@ -163,10 +214,21 @@ void CPlayerWeapon::Key_Input(const _float& fTimeDelta)
 	{
 		m_bIsMoving = true;
 	}
+
 }
 
 void CPlayerWeapon::Weapon_Swap(const _float& fTimeDelta)
 {
+
+	//if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB) & 0x80)
+	//{
+	//	m_eWeaponState = SHOT;
+	//}
+	//if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_RB) & 0x80)
+	//{
+	//	m_eWeaponState = IDLE;
+	//}
+
 	_vec3 vUp = { 0.f, 1.f, 0.f };
 	_vec3 vDown = { 0.f, -1.f, 0.f };
 
@@ -232,6 +294,7 @@ void CPlayerWeapon::Weapon_Bobbing(bool bIsMoving, const _float& fTimeDelta)
 		m_pTransformCom->Set_Pos(m_vBobPos.x, m_vBobPos.y, m_vBobPos.z);
 		m_fBobAngle = 0.f;
 	}
+
 }
 
 

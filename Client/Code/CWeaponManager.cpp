@@ -14,7 +14,7 @@ CWeaponManager::CWeaponManager() :
 	m_mapMaxAmmo.emplace(AMMO_TYPE::ROCKET, 100);
 	m_mapMaxAmmo.emplace(AMMO_TYPE::CELL, 600);
 
-	m_mapAmmo.emplace(AMMO_TYPE::CLIP, 150);
+	m_mapAmmo.emplace(AMMO_TYPE::CLIP, 40);
 	m_mapAmmo.emplace(AMMO_TYPE::SHELL, 50);
 }
 
