@@ -11,7 +11,7 @@ CControlPanel::CControlPanel()
 	curTex(nullptr),
 	pickingtime(0.f),
 	pickingdelay(0.25f),
-	EnablePick(true)
+	EnablePick(false)
 {
 }
 
@@ -21,11 +21,12 @@ CControlPanel::CControlPanel(LPDIRECT3DDEVICE9 pGraphicDev, CTextureExplorer* ex
 	curTex(nullptr),
 	pickingtime(0.f),
 	pickingdelay(0.25f),
-	EnablePick(true)
+	EnablePick(false)
 {
 	m_pGraphicDev->AddRef();
 	SetDefault();
 	SetObjInfo();
+	SetLoadSceneTag();
 	m_pCalculatorCom = dynamic_cast<CCalculator*>(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Calculator"));
 }
 
@@ -49,7 +50,11 @@ _bool CControlPanel::ControlPanelWindow(const _float& timeDelta)
 	if (ImGui::Button("Show Demo"))
 		show_demo_window = !show_demo_window;
 
-	//지형 저장
+	//불러올 스테이지 선택
+	static int load_current = 0;
+	ImGui::Combo("load stage select", &load_current, loadSceneTags, (_uint)(SCENEID::SCENE_END) - 1);
+
+	//지형 저장 모달
 	if (ImGui::Button("Save terrain"))
 	{
 		//SaveModal();
@@ -95,7 +100,7 @@ _bool CControlPanel::ControlPanelWindow(const _float& timeDelta)
 
 	}
 
-	//아이템 저장
+	//아이템 저장 모달
 	ImGui::SameLine();
 	if (ImGui::Button("Save item"))
 	{
@@ -140,7 +145,7 @@ _bool CControlPanel::ControlPanelWindow(const _float& timeDelta)
 
 	if (ImGui::Button("Load terrain"))
 	{
-		LoadTerrain();
+		LoadTerrain(load_current);
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Load wall and ceil"))
@@ -150,7 +155,7 @@ _bool CControlPanel::ControlPanelWindow(const _float& timeDelta)
 	ImGui::SameLine();
 	if (ImGui::Button("Load item"))
 	{
-		LoadItem();
+		LoadItem(load_current);
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Load monster"))
@@ -406,10 +411,6 @@ void CControlPanel::TerrainController()
 				tCachingControlInfo.vertices.push_back({ (_float)j * tCachingControlInfo.vertexInterval
 													, 0.f,
 													(_float)i * tCachingControlInfo.vertexInterval });
-
-				//tCachingControlInfo.vertices[dwIndex] = { j * tCachingControlInfo.vertexInterval
-				//										, 0.f,
-				//										i * tCachingControlInfo.vertexInterval };
 			}
 		}
 
@@ -439,10 +440,6 @@ void CControlPanel::TerrainController()
 				tCachingControlInfo.vertices.push_back({ (_float)j * tCachingControlInfo.vertexInterval
 													, 0.f,
 													(_float)i * tCachingControlInfo.vertexInterval });
-
-				//tCachingControlInfo.vertices[dwIndex] = { j * tCachingControlInfo.vertexInterval
-				//										, 0.f,
-				//										i * tCachingControlInfo.vertexInterval };
 			}
 		}
 
@@ -553,10 +550,6 @@ void CControlPanel::SetDefault()
 			tCachingControlInfo.vertices.push_back({ (_float)j * tCachingControlInfo.vertexInterval
 												, 0.f,
 												(_float)i * tCachingControlInfo.vertexInterval });
-
-			//tCachingControlInfo.vertices[dwIndex] = { j * tCachingControlInfo.vertexInterval
-			//										, 0.f,
-			//										i * tCachingControlInfo.vertexInterval };
 		}
 	}
 
@@ -626,9 +619,9 @@ void CControlPanel::SaveTerrain(fs::path path, string filename)
 	CFileManager::GetInstance()->SaveTerrain(path, filename, vecTerrainInfos);
 }
 
-void CControlPanel::LoadTerrain()
+void CControlPanel::LoadTerrain(int sceneNumber)
 {
-	TerrainModels tm = CFileManager::GetInstance()->LoadTerrain();
+	TerrainModels tm = CFileManager::GetInstance()->LoadTerrain(sceneNumber);
 
 	vecSector.clear();
 	vecSector.shrink_to_fit();
@@ -675,9 +668,9 @@ void CControlPanel::SaveItem(fs::path path, string filename)
 	CFileManager::GetInstance()->SaveItem(path, filename, vecItemInfos);
 }
 
-void CControlPanel::LoadItem()
+void CControlPanel::LoadItem(int sceneNumber)
 {
-	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem();;
+	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem(sceneNumber);;
 	
 	for (auto item : loadData)
 		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, item.position);
@@ -712,6 +705,17 @@ void CControlPanel::SetObjInfo()
 	{
 		idTags[i] = new char[objIdTags[i].tag.size() + 1];
 		strcpy_s(idTags[i], (rsize_t)((objIdTags[i].tag.size() + 1) * sizeof(char)), objIdTags[i].tag.c_str());
+	}
+}
+
+void CControlPanel::SetLoadSceneTag()
+{
+	loadSceneTags = new char* [(_uint)SCENEID::SCENE_END];
+	for (size_t i = 0; i < (_uint)SCENEID::SCENE_END; i++)
+	{
+		string c = to_string(i);
+		loadSceneTags[i] = new char[c.size() + 1];
+		strcpy_s(loadSceneTags[i], (rsize_t)((c.size() + 1) * sizeof(char)), c.c_str());
 	}
 }
 
@@ -808,6 +812,13 @@ void CControlPanel::Free()
 		for (size_t i = 0; i < objIdTags.size(); i++)
 			Safe_Delete(idTags[i]);
 		Safe_Delete_Array(idTags);
+	}
+
+	if (loadSceneTags != nullptr)
+	{
+		for (size_t i = 0; i < (_uint)SCENEID::SCENE_END; i++)
+			Safe_Delete(loadSceneTags[i]);
+		Safe_Delete_Array(loadSceneTags);
 	}
 
 	m_pCalculatorCom->Release();

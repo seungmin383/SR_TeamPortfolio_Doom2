@@ -77,18 +77,19 @@ public:
 
     //save load
     void                            SaveTerrain(fs::path path, string filename);
-    void                            LoadTerrain();
+    void                            LoadTerrain(int sceneNumber);
 
     void                            SaveWallAndCeil(fs::path path, string filename);
     void                            LoadWallAndCeil();
 
     void                            SaveItem(fs::path path, string filename);
-    void                            LoadItem();
+    void                            LoadItem(int sceneNumber);
 
     void                            SaveMonster(fs::path path, string filename);
     void                            LoadMonster();
 
     void                            SetObjInfo();
+    void                            SetLoadSceneTag();
 
     void                            InputMouse_Terrain();
     void                            InputMouse_Object();
@@ -127,6 +128,8 @@ private:
     char**                          typeTags;
     vector<GameObjectType>          objIdTags;
     char**                          idTags;
+
+    char**                          loadSceneTags;
 
     string                          filename;
 

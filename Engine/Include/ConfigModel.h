@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine_Define.h"
 #include "GameObjectType.h"
+#include "StageSet.h"
 
 struct ConfigModel
 {
@@ -14,6 +15,8 @@ struct ConfigModel
 	string ObjectSpawnSavePath = "";
 	string MonsterSpawnSavePath = "";
 	string TerrainSavePath = "";
+
+	vector<StageSet> StageSettings;
 
 	vector<GameObjectType> ObjPrototypeTags;
 	vector<GameObjectType> ObjIdTags;
@@ -32,6 +35,8 @@ inline void to_json(json& j, const ConfigModel& c)
 	j["MonsterSpawnSavePath"] = c.MonsterSpawnSavePath;
 	j["TerrainSavePath"] = c.TerrainSavePath;
 
+	j["StageSettings"] = c.StageSettings;
+
 	j["ObjPrototypeTags"] = c.ObjPrototypeTags;
 	j["ObjIdTags"] = c.ObjIdTags;
 }
@@ -48,6 +53,8 @@ inline void from_json(const json& j, ConfigModel& c)
 	j.at("ObjectSpawnSavePath").get_to(c.ObjectSpawnSavePath);
 	j.at("MonsterSpawnSavePath").get_to(c.MonsterSpawnSavePath);
 	j.at("TerrainSavePath").get_to(c.TerrainSavePath);
+
+	j.at("StageSettings").get_to(c.StageSettings);
 
 	j.at("ObjPrototypeTags").get_to(c.ObjPrototypeTags);
 	j.at("ObjIdTags").get_to(c.ObjIdTags);
