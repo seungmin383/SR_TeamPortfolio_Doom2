@@ -10,6 +10,7 @@
 #include "CPlayerWeapon.h"
 #include "CManagement.h"
 #include "CWeaponManager.h"
+#include "CDInputManager.h"
 
 #include "CObjectFactory.h"
 #include "CFileManager.h"
@@ -77,6 +78,11 @@ _int CStage::Update_Scene(const _float& fTimeDelta)
 	CColliderManager::GetInstance()->Update();
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
 
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_T) & 0x80)
+	{
+		CManagement::GetInstance()->Change_Scene(SCENEID::STAGE2);
+	}
+
 	return iExit;
 }
 
@@ -122,7 +128,6 @@ HRESULT CStage::Ready_Environment_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	//�� Scene->Load_PreSet()���� ���� 2025-08-20
 	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::TERRAIN);
 
 	//if (nullptr == pGameObject)
