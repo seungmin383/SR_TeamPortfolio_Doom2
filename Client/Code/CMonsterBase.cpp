@@ -470,7 +470,7 @@ void CMonsterBase::Set_OnTerrain()
 
 	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
 
-	m_pTransformCom->Set_Pos(pos.x, height + 2.f, pos.z);
+	m_pTransformCom->Set_Pos(pos.x, height + 1.f, pos.z);
 }
 
 void CMonsterBase::Movement(const _float fTimeDelta)
