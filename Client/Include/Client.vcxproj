@@ -177,7 +177,7 @@
     <ClInclude Include="..\Header\CArchVile.h" />
     <ClInclude Include="..\Header\CBackGround.h" />
     <ClInclude Include="..\Header\CBarrelExplosive.h" />
-    <ClInclude Include="..\Header\CBulletBase.h" />
+    <ClInclude Include="..\Header\CBullet.h" />
     <ClInclude Include="..\Header\CDynamicCamera.h" />
     <ClInclude Include="..\Header\CGameUI.h" />
     <ClInclude Include="..\Header\CGameUI_Face.h" />
@@ -217,7 +217,7 @@
     <ClCompile Include="..\Code\CArchVile.cpp" />
     <ClCompile Include="..\Code\CBackGround.cpp" />
     <ClCompile Include="..\Code\CBarrelExplosive.cpp" />
-    <ClCompile Include="..\Code\CBulletBase.cpp" />
+    <ClCompile Include="..\Code\CBullet.cpp" />
     <ClCompile Include="..\Code\CDynamicCamera.cpp" />
     <ClCompile Include="..\Code\CGameUI.cpp" />
     <ClCompile Include="..\Code\CGameUI_Face.cpp" />

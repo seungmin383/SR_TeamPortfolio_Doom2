@@ -1,6 +1,7 @@
 #pragma once
 #include "CCharacter.h"
 #include "CPrototypeManager.h"
+#include "CBullet.h"
 
 #define ANIM_MOVE 0
 #define ANIM_ATK 1
@@ -39,6 +40,7 @@ public:
 
     virtual void  Action(const _float& fTimeDelta, _int _Thought);          //행동하는 함수
         virtual void Monster_Look_Player(_vec3* _vLook);
+        virtual void Monster_Fire();
 
 
 
@@ -122,7 +124,8 @@ protected:
     _float m_fTargetAngle = 0.f;
     _float m_fCurAngle = 1.f;
 
-    public:
+public:
+    CBullet* m_pBullet = nullptr;
 
 
 protected:

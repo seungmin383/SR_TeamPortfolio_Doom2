@@ -1,28 +1,28 @@
 #include "pch.h"
-#include "CBulletBase.h"
+#include "CBullet.h"
 #include "CManagement.h"
 #include <CDynamicCamera.h>
 
-CBulletBase::CBulletBase(LPDIRECT3DDEVICE9 pGraphicDev)
+CBullet::CBullet(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CGameObject(pGraphicDev),
 	m_iDamage(0), m_vDir(_vec3{0.f,0.f,0.f}),
 	m_BulletType(MONSTER_BULLET_TYPE::BULLET_END)
 {
 }
 
-CBulletBase::CBulletBase(const CBulletBase& rhs)
+CBullet::CBullet(const CBullet& rhs)
 	:CGameObject(rhs),
 	m_iDamage(rhs.m_iDamage), m_vDir(_vec3{ 0.f,0.f,0.f }),
 	m_BulletType(rhs.m_BulletType)
 {
 }
 
-CBulletBase::~CBulletBase()
+CBullet::~CBullet()
 {
 
 }
 
-HRESULT CBulletBase::Add_Component()
+HRESULT CBullet::Add_Component()
 {
 	CComponent* pComponent = NULL;
 
@@ -78,41 +78,77 @@ HRESULT CBulletBase::Add_Component()
 
 }
 
-void CBulletBase::OnCollision(CCollider* _pOther)
+void CBullet::OnCollision(CCollider* _pOther)
 {
 }
 
-void CBulletBase::OnCollisionEnter(CCollider* _pOther)
+void CBullet::OnCollisionEnter(CCollider* _pOther)
 {
 	if (_pOther == CManagement::GetInstance()->Get_Player()->GetCollider())
 		dynamic_cast<CDynamicCamera*>(_pOther->Get_Owner())->Take_Damage(m_iDamage);
 }
 
-void CBulletBase::OnCollisionExit(CCollider* _pOther)
+void CBullet::OnCollisionExit(CCollider* _pOther)
 {
 }
 
-HRESULT CBulletBase::Ready_GameObject(_vec3 vDir, MONSTER_BULLET_TYPE eBulletType, _vec3 vPos)
+HRESULT CBullet::Ready_GameObject()
 {
-	m_vDir = vDir;
-	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
+	Add_Component();
+
+	if(Movement_Strategy)
+		Movement_Strategy->Ready_Movement(this);
+
+	if(Impact_Strategy)
+		Impact_Strategy->Ready_Impact(this);
 
 	return S_OK;
 }
 
-_int CBulletBase::Update_GameObject(const _float& fTimeDelta)
+_int CBullet::Update_GameObject(const _float& fTimeDelta)
 {
+	if(Movement_Strategy)
+		Movement_Strategy->Update_Movement(this, fTimeDelta);
 
+	if(Impact_Strategy)
+		Impact_Strategy->Update_Impact(this, fTimeDelta);
 
 	return 0;
 }
 
-void CBulletBase::Create(_vec3 vDir, MONSTER_BULLET_TYPE eBulletType, _vec3 vPos)
+CBullet* CBullet::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
+	CBullet* Bullet = new CBullet(pGraphicDev);
 
+	if (Bullet == nullptr)
+		return nullptr;
+
+	if (FAILED(Bullet->Ready_GameObject()))
+	{
+		Safe_Release(Bullet);
+		MSG_BOX("총알 생성 실패");
+		return nullptr;
+	}
+
+	return Bullet;
 }
 
-void CBulletBase::Free()
+CGameObject* CBullet::Clone()
+{
+	CBullet* PBullet = new CBullet(*this);
+
+	if (FAILED(PBullet->Ready_GameObject()))
+	{
+		Safe_Release(PBullet);
+		MSG_BOX("ArchVile Create Failed");
+		return nullptr;
+	}
+
+	return PBullet;
+}
+
+void CBullet::Free()
 {
 	CGameObject::Free();
 }
+

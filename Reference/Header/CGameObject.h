@@ -23,6 +23,9 @@ public:
     const bool                      Get_Dead() const { return m_bDead; }
     void                                Set_Dead(_bool _bVal) { m_bDead = _bVal; }
 
+    _float Get_Speed() const { return m_fSpeed; }
+    void   Set_Speed(_float _Speed) { m_fSpeed = _Speed; }
+
     virtual void			            OnCollision(CCollider* _pOther) {};
     virtual void			            OnCollisionEnter(CCollider* _pOther) {};
     virtual void			            OnCollisionExit(CCollider* _pOther) {};

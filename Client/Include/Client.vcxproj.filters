@@ -186,7 +186,7 @@
     <ClInclude Include="..\Header\CGameUI_Info_Ammo.h">
       <Filter>02. GameObject\09. UI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\CBulletBase.h">
+    <ClInclude Include="..\Header\CBullet.h">
       <Filter>02. GameObject\02. Monster\CBulletBase</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CBarrelExplosive.h">
@@ -293,7 +293,7 @@
     <ClCompile Include="..\Code\CGameUI_Info_Ammo.cpp">
       <Filter>02. GameObject\09. UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\CBulletBase.cpp">
+    <ClCompile Include="..\Code\CBullet.cpp">
       <Filter>02. GameObject\02. Monster\CBulletBase</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CBarrelExplosive.cpp">

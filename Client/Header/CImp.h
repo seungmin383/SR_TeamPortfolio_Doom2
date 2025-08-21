@@ -16,6 +16,7 @@ public:
     virtual     void            LateUpdate_GameObject(const _float& fTimeDelta);
     virtual     void            Render_GameObject(const _float& fTimeDelta);
 
+    void Monster_Fire()override;
 
 #pragma endregion
 

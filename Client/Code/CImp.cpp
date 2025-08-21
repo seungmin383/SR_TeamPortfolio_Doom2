@@ -6,6 +6,8 @@
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
 
+#include "CLinearMovement.h"
+
 CImp::CImp(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonsterBase(pGraphicDev)
 {
@@ -144,6 +146,15 @@ void CImp::LateUpdate_GameObject(const _float& fTimeDelta)
 void CImp::Render_GameObject(const _float& fTimeDelta)
 {
 	CMonsterBase::Render_GameObject(fTimeDelta);
+}
+
+void CImp::Monster_Fire()
+{
+	CMonsterBase::Monster_Fire();												//불렛을 만들고
+
+	m_pBullet->Set_TextureCom(L"Proto_Imp_Bullet_Texture");	//텍스쳐 지정해주고
+	m_pBullet->Set_Speed(5.f);
+	m_pBullet->SetMovementStrategy(new CLinearMovement());
 }
 
 

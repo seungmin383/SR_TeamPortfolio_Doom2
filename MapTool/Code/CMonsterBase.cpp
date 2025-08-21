@@ -276,7 +276,7 @@ _bool CMonsterBase::Check_Attack(const _float& fTimeDelta)
 {
 	m_fAtkDelay += fTimeDelta;
 
-	cout << "m_fAtkDelay:" << m_fAtkDelay << endl;
+	//cout << "m_fAtkDelay:" << m_fAtkDelay << endl;
 
 	if (m_fAtkDelay > m_fAtkSpeed)
 	{
@@ -291,12 +291,12 @@ _bool CMonsterBase::Check_Attack(const _float& fTimeDelta)
 			{
 				m_EnterCnt = 0;
 				m_fAtkDelay = 0.f;
-				cout << "Get_isFinAct:true" << endl;
+				//cout << "Get_isFinAct:true" << endl;
 				return FALSE;
 			}
 			else
 			{
-				cout << "Get_isFinAct:false" << endl;
+				//cout << "Get_isFinAct:false" << endl;
 				m_EnterCnt++;
 				return TRUE;
 			}

@@ -50,6 +50,11 @@ _int                  CMonsterBase::Update_GameObject(const _float& fTimeDelta)
 	Thinker(fTimeDelta);
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 	CGameObject::Update_GameObject(fTimeDelta);
+
+
+	if(m_pBullet)
+		m_pBullet->Update_GameObject(fTimeDelta);
+
 	return 0;
  }
 
@@ -315,7 +320,6 @@ _bool CMonsterBase::Check_Target()
 
 _bool CMonsterBase::Check_Dead()
 {
-	std::cout << m_iHp << endl;
 	if (m_iHp <= 0)
 	{
 
@@ -426,6 +430,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 	case AI_ATTACK:
 		m_eCurAnimState += 8;
 		m_eAnim_Type = ATK;
+		Monster_Fire();
 		//cout << "AI_ATTACK" << endl;
 		break;
 
@@ -441,7 +446,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			m_fChaseDelay = 0.f;
 		}
 		Movement(fTimeDelta);
-		cout << "AI_CHASE" << endl;
+		//cout << "AI_CHASE" << endl;
 		break;
 
 		//아이들 상태
@@ -455,7 +460,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			Movement(fTimeDelta);
 		}
 
-		cout << "AI_MOVE" << endl;
+	//	cout << "AI_MOVE" << endl;
 		break;
 	}
 
@@ -472,6 +477,18 @@ void CMonsterBase::Monster_Look_Player(_vec3* _vLook)
 	_vec3 tmp = vPlayerPos - vPos;
 	D3DXVec3Normalize(&tmp, &tmp);
 	*_vLook = tmp;
+}
+
+void CMonsterBase::Monster_Fire()
+{
+	m_pBullet = CBullet::Create(m_pGraphicDev);
+
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+
+	cout << "x: " << vPos.x << "  / y: " << vPos.y << " / z: " << vPos.z << endl;
+	m_pBullet->Set_Dir(m_vMoveLook);
+	m_pBullet->Set_Pos(vPos);
 }
 
 void CMonsterBase::Set_OnTerrain()
