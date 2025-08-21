@@ -22,19 +22,15 @@ CArchVile::~CArchVile()
 
 HRESULT CArchVile::Ready_GameObject()
 {
-	AllocConsole();
-
-	FILE* fp;
-	freopen_s(&fp, "CONOUT$", "w", stdout);
-	freopen_s(&fp, "CONOUT$", "w", stderr);
-
+	CMonsterBase::Ready_GameObject();
+	m_iMonsterType = OBJPROTOTYPE::ENEMY_ARCHVILE;
 
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
-	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(2.f, 2.f, 2.f), _vec3(0.f, 0.f, 0.f),
+	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(2.f, 2.f, 2.f), _vec3(0.f, -1.f, 0.f),
 		COLLAYERID::COL_ENEMY,
 		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT);
 
@@ -129,7 +125,9 @@ HRESULT CArchVile::Ready_GameObject()
 	//초기 룩으로 세팅해주고
 	m_pTransformCom->Get_Info(INFO_LOOK, &m_vMoveLook);
 
-	_vec3 vSize{ 3.f, 3.f, 3.f };
+	m_pTransformCom->Set_Pos(52.f, 10.f, 10.f);
+
+	_vec3 vSize{ 2.f, 2.f, 2.f };
 	m_pTransformCom->Set_Scale(vSize);
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
@@ -157,17 +155,18 @@ void CArchVile::Render_GameObject(const _float& fTimeDelta)
 	CMonsterBase::Render_GameObject(fTimeDelta);
 }
 
-void CArchVile::OnCollision(CCollider* _pOther)
+void CArchVile::Set_OnTerrain()
 {
-	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
-}
+	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
 
-void CArchVile::OnCollisionEnter(CCollider* _pOther)
-{
-}
+	Engine::CTerrainTexSector* pTerrainBufferCom =
+		static_cast<CTerrainTexSector*>
+		(CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
 
-void CArchVile::OnCollisionExit(CCollider* _pOther)
-{
+	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
+
+	m_pTransformCom->Set_Pos(pos.x, height + 2.f, pos.z);
 }
 
 HRESULT CArchVile::Add_Component()

@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClInclude Include="..\Header\CAnimation.h" />
     <ClInclude Include="..\Header\CAnimator.h" />
+    <ClInclude Include="..\Header\CBullet.h" />
+    <ClInclude Include="..\Header\CBulletMananger.h" />
     <ClInclude Include="..\Header\CCalculator.h" />
     <ClInclude Include="..\Header\CCamera.h" />
     <ClInclude Include="..\Header\CCameraCom.h" />
@@ -76,6 +78,8 @@
   <ItemGroup>
     <ClCompile Include="..\Code\CAnimation.cpp" />
     <ClCompile Include="..\Code\CAnimator.cpp" />
+    <ClCompile Include="..\Code\CBullet.cpp" />
+    <ClCompile Include="..\Code\CBulletMananger.cpp" />
     <ClCompile Include="..\Code\CCalculator.cpp" />
     <ClCompile Include="..\Code\CCamera.cpp" />
     <ClCompile Include="..\Code\CCameraCom.cpp" />

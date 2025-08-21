@@ -3,6 +3,7 @@
 #include "CManagement.h"
 #include "CRenderer.h"
 #include "Engine_Enum.h"
+#include "CWeaponManager.h"
 #include <iostream>
 
 
@@ -13,7 +14,7 @@ CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
 	m_isAtk(false),
 	m_eCurAnimState(0),
 	m_fAtkDelay(0.f), m_fMoveDelay(0.f), m_fChaseDelay(0.f),
-	m_isEverSeen_Player(false)
+	m_isRecognize_Player(false)
 {
 }
 
@@ -24,7 +25,7 @@ CMonsterBase::CMonsterBase(const CMonsterBase& rhs)
 	m_isAtk(rhs.m_isAtk),
 	m_eCurAnimState(rhs.m_eCurAnimState),
 	m_fAtkDelay(0.f), m_fMoveDelay(0.f), m_fChaseDelay(0.f),
-	m_isEverSeen_Player(false)
+	m_isRecognize_Player(false)
 {
 }
 
@@ -34,16 +35,22 @@ CMonsterBase::~CMonsterBase()
 
 
 HRESULT         CMonsterBase::Ready_GameObject()
-{
+{	/*
+	AllocConsole();
+
+	FILE* fp;
+	freopen_s(&fp, "CONOUT$", "w", stdout);
+	freopen_s(&fp, "CONOUT$", "w", stderr);*/
+
 	return S_OK;
  }
 
-_int                  CMonsterBase::Update_GameObject(const _float& fTimeDelta)
+_int CMonsterBase::Update_GameObject(const _float& fTimeDelta)
 {
 	Thinker(fTimeDelta);
-
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 	CGameObject::Update_GameObject(fTimeDelta);
+
 	return 0;
  }
 
@@ -52,6 +59,7 @@ void                 CMonsterBase::LateUpdate_GameObject(const _float& fTimeDelt
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 	m_pAnimCom->Play_Animation(m_eAnim_Type, 0, fTimeDelta, m_eCurAnimState);
 	m_pColliderCom->Late_Update();
+
  }
 
 void                 CMonsterBase::Render_GameObject(const _float& fTimeDelta)
@@ -63,7 +71,6 @@ void                 CMonsterBase::Render_GameObject(const _float& fTimeDelta)
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 	m_pTextureCom->Set_Texture(m_eCurAnimState);
 	m_pBufferCom->Render_Buffer();
-
 	//충돌체
 	m_pColliderCom->Render(g_colRend);
 
@@ -80,66 +87,78 @@ void CMonsterBase::OnCollisionEnter(CCollider* _pOther)
 	// 모든 몬스터들이 콜라이더 충돌이 아니라 Ray로 충돌했을경우
 	if (m_pColliderCom->Is_RayHit())
 	{
-		// 몬스터들 체력 감소, 잠깐 넉백 등등 공통 로직들 수행
-		// 특정 몬스터의 특별한 충돌 처리를 하려면 특정 몬스터 클래스 내부의 OnCollisionEnter 함수 사용
+		m_isRecognize_Player = TRUE;
+		m_isHit = TRUE;
+		m_iHp -= CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponDamage();
 	}
 }
 
 void CMonsterBase::OnCollisionExit(CCollider* _pOther)
 {
 }
-
 _vec3 CMonsterBase::Set_Move_Direction(_vec3* _Look, _float _DelayTime, _float _fTimedelta)
 {
-	if(_Look != nullptr)
+	if (_Look != nullptr)
 		m_vtmpLook = *_Look;
-
-	_int RandMove = rand() % 2;
 
 	_matrix RotMat;
 	D3DXMatrixIdentity(&RotMat);
-	m_fMoveDelay += _fTimedelta;
 
-	if(m_fMoveDelay > 1.f)
+	// --- 1) 랩 고려한 각도 차이(delta) 계산 ---
+	float delta = m_fTargetAngle - m_fCurAngle;
+	// -360~360로 먼저 접고
+	delta = fmodf(delta, 360.f);
+	// -180~180으로 재래핑
+	if (delta > 180.f) delta -= 360.f;
+	if (delta < -180.f) delta += 360.f;
+
+	// --- 2) 목표각을 향해 한 스텝 이동 (시간 기반 회전 속도 권장) ---
+	// 현재는 고정 2도/프레임. 시간기반 원하면 float turnSpeed=180.f; float step=turnSpeed*_fTimedelta;
+	float step = 2.f;
+	if (delta > step)      m_fCurAngle += step;
+	else if (delta < -step) m_fCurAngle -= step;
+	else                    m_fCurAngle = m_fTargetAngle; // 스냅
+
+	// --- 3) 현재각 래핑 (-180~180) ---
+	m_fCurAngle = fmodf(m_fCurAngle, 360.f);
+	if (m_fCurAngle > 180.f) m_fCurAngle -= 360.f;
+	if (m_fCurAngle < -180.f) m_fCurAngle += 360.f;
+
+	// --- 4) 도달 판정 → 새 목표각 선택 ---
+	// (delta를 다시 계산하지 않고도 사용 가능)
+	if (fabsf(delta) <= 2.f)
 	{
-		//각 숫자에 맞는 방향으로 이동하기
+		int RandMove = rand() % 14;
 		switch (RandMove)
 		{
-		case 0:		m_fMoveAngle += 45.f;
-			break;
-
-		case 1:		m_fMoveAngle += -45.f;
-			break;
-
-		default:
-			break;
+		case 0:   m_fTargetAngle =		0.f;			break;
+		case 1:   m_fTargetAngle =		30.f;			break;
+		case 2:   m_fTargetAngle =		60.f;			break;
+		case 3:   m_fTargetAngle =		90.f;			break;
+		case 4:   m_fTargetAngle =		120.f;		break;
+		case 5:   m_fTargetAngle =		150.f;		break;
+		case 6:   m_fTargetAngle =		180.f;		break;
+		case 7:   m_fTargetAngle =		-30.f;		break;
+		case 8:   m_fTargetAngle =		-60.f;		break;
+		case 9:   m_fTargetAngle =		-90.f;		break;
+		case 10: m_fTargetAngle =		-120.f;		break;
+		case 11: m_fTargetAngle =		-150.f;		break;
+		case 12: m_fTargetAngle =		-180.f;		break;
+		case 13: m_fTargetAngle =		120.f;		break;
 		}
-		m_fMoveDelay = 0.f;
+		// 목표각도도 래핑
+		m_fTargetAngle = fmodf(m_fTargetAngle, 360.f);
+		if (m_fTargetAngle > 180.f) m_fTargetAngle -= 360.f;
+		if (m_fTargetAngle < -180.f) m_fTargetAngle += 360.f;
 	}
-
-	//좀더 둠스러운 움직임
-	switch (RandMove%2)
-	{
-	case 0:
-		m_fMoveAngle += 1.f;
-		break;
-
-	case 1:
-		m_fMoveAngle -= 1.f;
-		break;
-
-	default:
-		m_fMoveAngle += 0.f;
-		break;
-	}
-
-	cout << "m_fAngle : " << m_fMoveAngle << endl;
-
-	_vec3 vForward(0.f, 0.f, 1.f);
-	D3DXMatrixRotationY(&RotMat, D3DXToRadian(m_fMoveAngle));
-	D3DXVec3Normalize(&m_vtmpLook, &m_vtmpLook);
+	// --- 5) 회전 적용 후 이동 방향 벡터 갱신 ---
+	const _vec3 vForward(0.f, 0.f, 1.f);
+	D3DXMatrixRotationY(&RotMat, D3DXToRadian(m_fCurAngle));
 	D3DXVec3TransformNormal(&m_vtmpLook, &vForward, &RotMat);
-	if(_Look != nullptr)
+	m_vtmpLook.y = 0.f;
+	D3DXVec3Normalize(&m_vtmpLook, &m_vtmpLook);
+
+	if (_Look != nullptr)
 		*_Look = m_vtmpLook;
 
 	return m_vtmpLook;
@@ -157,39 +176,16 @@ void CMonsterBase::Thinker(const _float& fTimeDelta)
 _int CMonsterBase::Perception(const _float& fTimeDelta)
 {
 	m_isDead						= Check_Dead();
-	m_isHit							= Check_Hit();
+	//m_isHit							= Check_Hit();
+	Check_Hit(fTimeDelta);
 	m_isDetect_Player		= Check_Target();
 	m_isAtk						= Check_Attack(fTimeDelta);
 
-
-	if (!m_isEverSeen_Player && m_isDetect_Player)
-		m_isEverSeen_Player = TRUE;
+	if (!m_isRecognize_Player && m_isDetect_Player)
+		m_isRecognize_Player = TRUE;
 
 	if (m_isAtk && m_isDetect_Player)
 		m_isDetected_Player = TRUE;
-
-	if (GetAsyncKeyState('Z'))
-	{
-		m_iHp = -5;
-		m_isHit = FALSE;
-		m_isDetect_Player = FALSE;
-		m_isAtk = FALSE;
-	}
-	if (GetAsyncKeyState('X'))
-	{
-		m_iHp = -50;
-		m_isHit = FALSE;
-		m_isDetect_Player = FALSE;
-		m_isAtk = FALSE;
-	}
-	if (GetAsyncKeyState('C'))
-	{
-		m_iHp = 100;
-		if(!m_isPinky)
-			m_isHit = TRUE;
-		m_isDetect_Player = FALSE;
-		m_isAtk = FALSE;
-	}
 
 
 	//죽었는지
@@ -301,6 +297,7 @@ _bool CMonsterBase::Check_Dead()
 {
 	if (m_iHp <= 0)
 	{
+
 		if (m_iHp <= -30)
 		{
 			m_isGibbingDead = TRUE;
@@ -309,43 +306,59 @@ _bool CMonsterBase::Check_Dead()
 		}
 		m_isGibbingDead = FALSE;
 		m_isNormalDead = TRUE;
+
+		Drop_Item();
 		return TRUE;
 	}
 	return FALSE;
 }
 
-_bool CMonsterBase::Check_Hit()
+void CMonsterBase::Check_Hit(const _float& fTimeDelta)
 {
-	return FALSE;
+	if (m_HitEnterCnt == 0)									//이 함수에 처음 입장했다면
+	{
+		m_HitEnterCnt++;
+	}
+	else
+	{
+		if (m_isHit && m_pAnimCom->Get_isFinAct())			//애니메이션이 끝났다면
+		{
+			m_HitEnterCnt = 0;
+			m_fAtkDelay = 0.f;
+			m_isHit = FALSE;
+		}
+		else
+		{
+			m_HitEnterCnt++;
+		}
+	}
 }
 
 _bool CMonsterBase::Check_Attack(const _float& fTimeDelta)
 {
 	m_fAtkDelay += fTimeDelta;
 
-
 	if (m_fAtkDelay > m_fAtkSpeed)
 	{
-		if (m_EnterCnt == 0)									//이 함수에 처음 입장했다면
+		if (m_AtkEnterCnt == 0)									//이 함수에 처음 입장했다면
 		{
-			m_EnterCnt++;										//카운트만 올리고 return 
+			m_AtkEnterCnt++;										//카운트만 올리고 return 
 			return TRUE;
 		}
 		else
 		{
 			if (m_pAnimCom->Get_isFinAct())			//애니메이션이 끝났다면
 			{
-				m_EnterCnt = 0;
+				m_AtkEnterCnt = 0;
 				m_fAtkDelay = 0.f;
 				m_isDetected_Player = FALSE;
 				return FALSE;
 			}
 			else
 			{
-				m_EnterCnt++;
+				m_AtkEnterCnt++;
 				return TRUE;
 			}
-
 		}
 	}
 	else
@@ -377,21 +390,24 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			m_eCurAnimState = m_iNorDeadPlus;
 			m_eAnim_Type = NOR_DEATH;
 		}
-		//cout << "AI_DEAD" << endl;
+		m_pColliderCom->Set_Active(false);
+		cout << "AI_DEAD" << endl;
 		break;
 
 		//맞았을 때
 	case AI_HIT:
-		m_eCurAnimState += 16;
+		if (!m_isPinky)
+			m_eCurAnimState += 16;
 		m_eAnim_Type = HIT;
-		//cout << "AI_HIT" << endl;
+		cout << "AI_HIT" << endl;
 		break;
 
 		//공격할 때
 	case AI_ATTACK:
-		m_eCurAnimState += 8;
+			m_eCurAnimState += 8;
 		m_eAnim_Type = ATK;
-		//cout << "AI_ATTACK" << endl;
+		//Monster_Fire();
+		cout << "AI_ATTACK" << endl;
 		break;
 
 		//플레이어를 발견했을 때
@@ -400,7 +416,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 		if (m_eCurAnimState != m_ePreAnimState)
 			m_eAnim_Type = MOVE;
 
-		if (m_fChaseDelay > 0.1f)
+		if (m_fChaseDelay > 0.5f)
 		{
 			Monster_Look_Player(&m_vMoveLook);
 			m_fChaseDelay = 0.f;
@@ -414,7 +430,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 		if(m_eCurAnimState != m_ePreAnimState)
 			m_eAnim_Type = MOVE;
 
-		if (m_isEverSeen_Player)
+		if (m_isRecognize_Player)
 		{
 			Set_Move_Direction(&m_vMoveLook, 1.f, fTimeDelta);
 			Movement(fTimeDelta);
@@ -439,6 +455,10 @@ void CMonsterBase::Monster_Look_Player(_vec3* _vLook)
 	*_vLook = tmp;
 }
 
+void CMonsterBase::Monster_Fire()
+{
+}
+
 void CMonsterBase::Set_OnTerrain()
 {
 	_vec3 pos;
@@ -450,7 +470,7 @@ void CMonsterBase::Set_OnTerrain()
 
 	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
 
-	m_pTransformCom->Set_Pos(pos.x, height + 2.f, pos.z);
+	m_pTransformCom->Set_Pos(pos.x, height + 1.f, pos.z);
 }
 
 void CMonsterBase::Movement(const _float fTimeDelta)
@@ -682,6 +702,13 @@ void CMonsterBase::Bill_Board()
 	matWorld = matBill * matWorld;
 
 	m_pTransformCom->Set_World(&matWorld);
+
+}
+
+void CMonsterBase::Drop_Item()
+{
+	_vec3 vPos;													//아이템 드롭 위치
+	m_pTransformCom->Get_Pos(&vPos);
 
 }
 

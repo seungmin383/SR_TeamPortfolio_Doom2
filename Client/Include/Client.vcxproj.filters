@@ -79,9 +79,6 @@
     <Filter Include="02. GameObject\02. Monster\CMonsterBase\05.CShotgunGuy">
       <UniqueIdentifier>{6bce13b9-40d0-4eb3-9c42-7502972c98dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\02. Monster\CBulletBase">
-      <UniqueIdentifier>{ccc5dfd5-d951-407e-90a4-dceb5459330d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\06. Object\Explosion">
       <UniqueIdentifier>{9e0ba8a6-5c42-4df7-8a9c-59cffe9e246f}</UniqueIdentifier>
     </Filter>
@@ -126,6 +123,15 @@
     </Filter>
     <Filter Include="02. GameObject\06. Object\FieldObject">
       <UniqueIdentifier>{b2c9802f-a0bb-4737-92b0-a9308fcd361e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\02. Chaingun">
+      <UniqueIdentifier>{57ad497c-b216-4080-87a1-051d6560c90e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\03. Rocket">
+      <UniqueIdentifier>{aed8d658-ae9f-45c7-8aac-4bb06340b1fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\04. BFG">
+      <UniqueIdentifier>{bc2d50ca-a6cc-4e0d-bcfc-aa78bc071cb5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -201,8 +207,8 @@
     <ClInclude Include="..\Header\CShotgunGuy.h">
       <Filter>02. GameObject\02. Monster\CMonsterBase\05.CShotgunGuy</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\CBulletBase.h">
-      <Filter>02. GameObject\02. Monster\CBulletBase</Filter>
+    <ClInclude Include="..\Header\CGameUI_Info_Ammo.h">
+      <Filter>02. GameObject\09. UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CBarrelExplosive.h">
       <Filter>02. GameObject\06. Object\Explosion</Filter>
@@ -279,6 +285,15 @@
     <ClInclude Include="..\Header\CWeapon_BFG.h">
       <Filter>02. GameObject\06. Object\Weapon</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CChaingun.h">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\02. Chaingun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CRocket.h">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\03. Rocket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CBfg.h">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\04. BFG</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -344,8 +359,8 @@
     <ClCompile Include="..\Code\CShotgunGuy.cpp">
       <Filter>02. GameObject\02. Monster\CMonsterBase\05.CShotgunGuy</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\CBulletBase.cpp">
-      <Filter>02. GameObject\02. Monster\CBulletBase</Filter>
+    <ClCompile Include="..\Code\CGameUI_Info_Ammo.cpp">
+      <Filter>02. GameObject\09. UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CBarrelExplosive.cpp">
       <Filter>02. GameObject\06. Object\Explosion</Filter>
@@ -424,6 +439,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\CWeapon_BFG.cpp">
       <Filter>02. GameObject\06. Object\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CChaingun.cpp">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\02. Chaingun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CRocket.cpp">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\03. Rocket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CBfg.cpp">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\04. BFG</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

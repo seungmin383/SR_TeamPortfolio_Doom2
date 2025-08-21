@@ -67,6 +67,10 @@ void CPlayerWeapon::LateUpdate_GameObject(const _float& fTimeDelta)
 	if (m_eWeaponState == WEAPON_STATE::SWAP)
 		Weapon_Swap(fTimeDelta);
 
+	// 사격 상태일 때 가운데로 위치 조정
+	if (m_eWeaponState == WEAPON_STATE::SHOT)
+		m_pTransformCom->Set_Pos(m_vPos.x, m_vPos.y, m_vPos.z);
+
 	m_pAnimatorCom->Play_Animation((_uint)m_eCurWeaponId + (_uint)m_eWeaponState, 0, fTimeDelta);
 
 	// 디버깅용 코드
@@ -110,7 +114,7 @@ void CPlayerWeapon::Ready_Animation()
 	// Chaingun Animation
 	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::CHAINGUN, m_pTextureCom, m_pBufferCom, 3, 1, 0, 0, 0.f, true);
 	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::CHAINGUN + (_uint)WEAPON_STATE::SWAP, m_pTextureCom, m_pBufferCom, 3, 1, 0, 0, 0.1f, true);
-	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::CHAINGUN + (_uint)WEAPON_STATE::SHOT, m_pTextureCom, m_pBufferCom, 3, 1, 1, 2, 0.1f, true);
+	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::CHAINGUN + (_uint)WEAPON_STATE::SHOT, m_pTextureCom, m_pBufferCom, 3, 1, 1, 2, 0.057f, true);
 }
 
 HRESULT CPlayerWeapon::Add_Component()
@@ -175,16 +179,10 @@ void CPlayerWeapon::Weapon_Swap(const _float& fTimeDelta)
 	if (m_fSwapTime < 0.5f)
 		m_pTransformCom->Move_Pos(&vDown, 700.f, fTimeDelta);
 	else if (m_fSwapTime >= 0.5f && m_fSwapTime < 1.f)
-	{
-		//m_eCurWeaponId = m_eNextWeaponId;
-		//CWeaponManager::GetInstance()->Set_CurWeapon(m_eCurWeaponId);
 		m_pTransformCom->Move_Pos(&vUp, 700.f, fTimeDelta);
-	}
 	else
 	{
 		m_pTransformCom->Set_Pos(m_vPos.x, m_vPos.y, m_vPos.z);
-		//m_eWeaponState = WEAPON_STATE::IDLE;
-		//m_fSwapTime = 0.f;
 		return;
 	}
 }

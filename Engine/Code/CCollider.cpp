@@ -14,7 +14,7 @@ CCollider::CCollider(LPDIRECT3DDEVICE9 pGraphicDev)
 	m_bHit(false),
 	m_fHitDelay(0.5f),
 	m_fHitTime(0.f),
-	m_pOwner(nullptr),
+	m_pOwner(nullptr), m_pLine(nullptr),
 	m_bActive(true)
 {
 }
@@ -28,7 +28,7 @@ CCollider::CCollider(const CCollider& rhs)
 	m_bHit(rhs.m_bHit),
 	m_fHitDelay(rhs.m_fHitDelay),
 	m_fHitTime(rhs.m_fHitTime),
-	m_pOwner(rhs.m_pOwner),
+	m_pOwner(rhs.m_pOwner), m_pLine(nullptr),
 	m_bActive(rhs.m_bActive)
 
 {
@@ -49,6 +49,9 @@ HRESULT CCollider::Ready_CCollider(CGameObject* _pObj, _vec3 _vPos, _vec3 _vScal
 	m_vFinalPos = m_vPos + m_vOffsetPos;
 	m_eColLayerId = _eColLayerId;
 	m_iColMask = _iColMask;
+
+	if (FAILED(D3DXCreateLine(m_pGraphicDev, &m_pLine)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -75,7 +78,7 @@ void CCollider::Late_Update()
 
 void CCollider::Render(_bool _colRend)
 {
-	if (!_colRend)
+	if (!_colRend || !m_bActive || m_pLine == nullptr)
 		return;
 
 	_matrix matView, matProj;
@@ -83,8 +86,8 @@ void CCollider::Render(_bool _colRend)
 	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
 	matView = matView * matProj;
 	
-	LPD3DXLINE pLine;
-	D3DXCreateLine(m_pGraphicDev, &pLine);
+	//LPD3DXLINE pLine;
+	//D3DXCreateLine(m_pGraphicDev, &pLine);
 
 	_vec3 vpoints[8] =
 	{ m_ColliderBox[0], m_ColliderBox[1],
@@ -95,43 +98,43 @@ void CCollider::Render(_bool _colRend)
 	D3DCOLOR color = (m_iCol || m_bHit) ? D3DCOLOR_RGBA(255, 0, 0, 255) : D3DCOLOR_RGBA(0, 255, 0, 255);
 
 	_vec3 vline[2];
-	pLine->Begin();
+	m_pLine->Begin();
 	vline[0] = vpoints[0]; vline[1] = vpoints[1];
-	pLine->DrawTransform(vline, 2, &matView, color);
+	m_pLine->DrawTransform(vline, 2, &matView, color);
 
 	vline[0] = vpoints[0]; vline[1] = vpoints[3];
-	pLine->DrawTransform(vline, 2, &matView, color);
+	m_pLine->DrawTransform(vline, 2, &matView, color);
 
 	vline[0] = vpoints[0]; vline[1] = vpoints[4];
-	pLine->DrawTransform(vline, 2, &matView, color);
+	m_pLine->DrawTransform(vline, 2, &matView, color);
 
 	vline[0] = vpoints[5]; vline[1] = vpoints[4];
-	pLine->DrawTransform(vline, 2, &matView, color);
+	m_pLine->DrawTransform(vline, 2, &matView, color);
 
 	vline[0] = vpoints[5]; vline[1] = vpoints[1];
-	pLine->DrawTransform(vline, 2, &matView, color);
+	m_pLine->DrawTransform(vline, 2, &matView, color);
 
 	vline[0] = vpoints[5]; vline[1] = vpoints[6];
-	pLine->DrawTransform(vline, 2, &matView, color);
+	m_pLine->DrawTransform(vline, 2, &matView, color);
 
 	vline[0] = vpoints[7]; vline[1] = vpoints[3];
-	pLine->DrawTransform(vline, 2, &matView, color);
+	m_pLine->DrawTransform(vline, 2, &matView, color);
 
 	vline[0] = vpoints[7]; vline[1] = vpoints[4];
-	pLine->DrawTransform(vline, 2, &matView, color);
+	m_pLine->DrawTransform(vline, 2, &matView, color);
 
 	vline[0] = vpoints[7]; vline[1] = vpoints[6];
-	pLine->DrawTransform(vline, 2, &matView, color);
+	m_pLine->DrawTransform(vline, 2, &matView, color);
 
 	vline[0] = vpoints[2]; vline[1] = vpoints[3];
-	pLine->DrawTransform(vline, 2, &matView, color);
+	m_pLine->DrawTransform(vline, 2, &matView, color);
 
 	vline[0] = vpoints[2]; vline[1] = vpoints[1];
-	pLine->DrawTransform(vline, 2, &matView, color);
+	m_pLine->DrawTransform(vline, 2, &matView, color);
 
 	vline[0] = vpoints[2]; vline[1] = vpoints[6];
-	pLine->DrawTransform(vline, 2, &matView, color);
-	pLine->End();
+	m_pLine->DrawTransform(vline, 2, &matView, color);
+	m_pLine->End();
 }
 
 CComponent* CCollider::Clone()
@@ -165,11 +168,11 @@ void CCollider::OnCollisionExit(CCollider* _pOther)
 
 void CCollider::HitRay(CCollider* _pOther)
 {
-	if (m_bHit)
+	if (!m_bActive || m_bHit)
 		return;
 
-	m_pOwner->OnCollisionEnter(_pOther);
 	m_bHit = true;
+	m_pOwner->OnCollisionEnter(_pOther);
 }
 
 void CCollider::Update_Box()
@@ -189,5 +192,6 @@ void CCollider::Update_Box()
 
 void CCollider::Free()
 {
+	Safe_Release(m_pLine);
 	CComponent::Free();
 }

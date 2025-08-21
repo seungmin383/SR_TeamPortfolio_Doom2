@@ -76,7 +76,6 @@ void CAnimator::Play_Animation(_uint _iState, _uint _iRow, const _float& fTimeDe
 	if (m_pCurAnimation == nullptr)
 		return;
 
-	m_pCurAnimation->Set_Texture(_setTexNum);								//셋 텍스쳐 해주고
 	m_pCurAnimation->Play_Animation(_iRow, fTimeDelta);				//애니메이션 플레이
 }
 
