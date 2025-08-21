@@ -732,14 +732,6 @@ HRESULT CMonsterBase::Add_Component()
 
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
 
-	//MoveTransform
-	pComponent = m_pTransformCom = dynamic_cast<Engine::CTransform*>
-		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Transform"));
-	if (nullptr == pComponent)
-		return E_FAIL;
-
-	m_mapComponent[ID_DYNAMIC].insert({ L"Com_MoveTransform", pComponent });
-
 	//Calculator
 	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
 		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Calculator"));

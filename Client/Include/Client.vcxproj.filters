@@ -133,6 +133,12 @@
     <Filter Include="03. Manager\00. WeaponManager\00. Weapon\04. BFG">
       <UniqueIdentifier>{bc2d50ca-a6cc-4e0d-bcfc-aa78bc071cb5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Scene\03. Stage2">
+      <UniqueIdentifier>{01e87ffc-3170-4e4e-8937-a38c18e84d43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\04. Stage3">
+      <UniqueIdentifier>{f6e86f27-c2ca-4c27-9cdc-22a83d8f86f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -294,6 +300,12 @@
     <ClInclude Include="..\Header\CBfg.h">
       <Filter>03. Manager\00. WeaponManager\00. Weapon\04. BFG</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CStage2.h">
+      <Filter>01. Scene\03. Stage2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CStage3.h">
+      <Filter>01. Scene\04. Stage3</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -448,6 +460,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\CBfg.cpp">
       <Filter>03. Manager\00. WeaponManager\00. Weapon\04. BFG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CStage2.cpp">
+      <Filter>01. Scene\03. Stage2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CStage3.cpp">
+      <Filter>01. Scene\04. Stage3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -204,6 +204,7 @@
     <ClInclude Include="..\Header\CSkyBox.h" />
     <ClInclude Include="..\Header\CSpiderMastermind.h" />
     <ClInclude Include="..\Header\CStage.h" />
+    <ClInclude Include="..\Header\CStage3.h" />
     <ClInclude Include="..\Header\CSwitch_Button.h" />
     <ClInclude Include="..\Header\CTerrain.h" />
     <ClInclude Include="..\Header\CLogo.h" />
@@ -218,6 +219,7 @@
     <ClInclude Include="..\Header\CWeapon.h" />
     <ClInclude Include="..\Header\CWeaponManager.h" />
     <ClInclude Include="..\Header\CZombieMan.h" />
+    <ClInclude Include="..\Header\CStage2.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
@@ -258,6 +260,7 @@
     <ClCompile Include="..\Code\CSkyBox.cpp" />
     <ClCompile Include="..\Code\CSpiderMastermind.cpp" />
     <ClCompile Include="..\Code\CStage.cpp" />
+    <ClCompile Include="..\Code\CStage3.cpp" />
     <ClCompile Include="..\Code\CSwitch_Button.cpp" />
     <ClCompile Include="..\Code\CTerrain.cpp" />
     <ClCompile Include="..\Code\CLogo.cpp" />
@@ -272,6 +275,7 @@
     <ClCompile Include="..\Code\CWeapon.cpp" />
     <ClCompile Include="..\Code\CWeaponManager.cpp" />
     <ClCompile Include="..\Code\CZombieMan.cpp" />
+    <ClCompile Include="..\Code\CStage2.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
