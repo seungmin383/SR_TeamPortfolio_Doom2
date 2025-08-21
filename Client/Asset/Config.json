@@ -10,141 +10,174 @@
   "MonsterSpawnSavePath": "../../Client/Asset/MonsterSpawn",
   "TerrainSavePath": "../../Client/Asset/TerrainSave",
 
-    "ObjPrototypeTags": [
-        {
-            "value": 0,
-            "tag": "PLAYER"
-        },
+  "StageSettings": [
+    {
+      "StageNumber": 0,
+      "terrainFileName": "",
+      "ObjectFileName": "",
+      "MonsterFileName": ""
+    },
+    {
+      "StageNumber": 1,
+      "terrainFileName": "",
+      "ObjectFileName": "",
+      "MonsterFileName": ""
+    },
+    {
+      "StageNumber": 2,
+      "terrainFileName": "terrain1.json",
+      "ObjectFileName": "object1.json",
+      "MonsterFileName": "monster1.json"
+    },
+    {
+      "StageNumber": 3,
+      "terrainFileName": "terrain2.json",
+      "ObjectFileName": "object2.json",
+      "MonsterFileName": "monster2.json"
+    },
+    {
+      "StageNumber": 4,
+      "terrainFileName": "terrain3.json",
+      "ObjectFileName": "object3.json",
+      "MonsterFileName": "monster3.json"
+    }
+  ],
 
-        {
-            "value": 1,
-            "tag": "TERRAIN"
-        },
-        {
-            "value": 2,
-            "tag": "TERRAINSECTOR"
-        },
-        {
-            "value": 3,
-            "tag": "WALL"
-        },
-        {
-            "value": 4,
-            "tag": "DOOR"
-        },
-        {
-            "value": 5,
-            "tag": "SHIFT_CUBE"
-        },
-        {
-            "value": 6,
-            "tag": "ITEM_HELTH_SMALL"
-        },
-        {
-            "value": 7,
-            "tag": "ITEM_HELTH_BIG"
-        },
-        {
-            "value": 8,
-            "tag": "ITEM_ARMOR_SMALL"
-        },
-        {
-            "value": 9,
-            "tag": "ITEM_ARMOR_BIG"
-        },
-        {
-            "value": 10,
-            "tag": "ITEM_CLIP"
-        },
-        {
-            "value": 11,
-            "tag": "ITEM_SHELL"
-        },
-        {
-            "value": 12,
-            "tag": "OBJ_BARREL"
-        },
-        {
-            "value": 13,
-            "tag": "BUTTON_DOOR"
-        },
+  "ObjPrototypeTags": [
+    {
+      "value": 0,
+      "tag": "PLAYER"
+    },
 
-        {
-            "value": 51,
-            "tag": "ATTCK"
-        },
-        {
-            "value": 52,
-            "tag": "RAY"
-        },
-        {
-            "value": 53,
-            "tag": "EXPLOSION"
-        },
-        {
-            "value": 54,
-            "tag": "FOG"
-        },
-        {
-            "value": 55,
-            "tag": "SWAMP"
-        },
-        {
-            "value": 56,
-            "tag": "BULLET"
-        },
+    {
+      "value": 1,
+      "tag": "TERRAIN"
+    },
+    {
+      "value": 2,
+      "tag": "TERRAINSECTOR"
+    },
+    {
+      "value": 3,
+      "tag": "WALL"
+    },
+    {
+      "value": 4,
+      "tag": "DOOR"
+    },
+    {
+      "value": 5,
+      "tag": "SHIFT_CUBE"
+    },
+    {
+      "value": 6,
+      "tag": "ITEM_HELTH_SMALL"
+    },
+    {
+      "value": 7,
+      "tag": "ITEM_HELTH_BIG"
+    },
+    {
+      "value": 8,
+      "tag": "ITEM_ARMOR_SMALL"
+    },
+    {
+      "value": 9,
+      "tag": "ITEM_ARMOR_BIG"
+    },
+    {
+      "value": 10,
+      "tag": "ITEM_CLIP"
+    },
+    {
+      "value": 11,
+      "tag": "ITEM_SHELL"
+    },
+    {
+      "value": 12,
+      "tag": "OBJ_BARREL"
+    },
+    {
+      "value": 13,
+      "tag": "BUTTON_DOOR"
+    },
 
-        {
-            "value": 61,
-            "tag": "UI"
-        },
-        {
-            "value": 62,
-            "tag": "DYNAMICCAMERA"
-        },
-        {
-            "value": 63,
-            "tag": "PLAYERCAMERA"
-        },
-        {
-            "value": 64,
-            "tag": "WEAPON"
-        },
+    {
+      "value": 51,
+      "tag": "ATTCK"
+    },
+    {
+      "value": 52,
+      "tag": "RAY"
+    },
+    {
+      "value": 53,
+      "tag": "EXPLOSION"
+    },
+    {
+      "value": 54,
+      "tag": "FOG"
+    },
+    {
+      "value": 55,
+      "tag": "SWAMP"
+    },
+    {
+      "value": 56,
+      "tag": "BULLET"
+    },
 
-        {
-            "value": 71,
-            "tag": "BACKGROUND"
-        },
-        {
-            "value": 72,
-            "tag": "SKYBOX"
-        },
+    {
+      "value": 61,
+      "tag": "UI"
+    },
+    {
+      "value": 62,
+      "tag": "DYNAMICCAMERA"
+    },
+    {
+      "value": 63,
+      "tag": "PLAYERCAMERA"
+    },
+    {
+      "value": 64,
+      "tag": "WEAPON"
+    },
 
-        {
-            "value": 81,
-            "tag": "ENEMY_ZOMBIEMAN"
-        },
-        {
-            "value": 82,
-            "tag": "ENEMY_SHOTGUNGUY"
-        },
-        {
-            "value": 83,
-            "tag": "ENEMY_IMP"
-        },
-        {
-            "value": 84,
-            "tag": "ENEMY_DEMON"
-        },
-        {
-            "value": 85,
-            "tag": "ENEMY_ARCHVILE"
-        },
-        {
-            "value": 86,
-            "tag": "ENEMY_SPIDERMASTERMIND"
-        }
-    ],
+    {
+      "value": 71,
+      "tag": "BACKGROUND"
+    },
+    {
+      "value": 72,
+      "tag": "SKYBOX"
+    },
+
+    {
+      "value": 81,
+      "tag": "ENEMY_ZOMBIEMAN"
+    },
+    {
+      "value": 82,
+      "tag": "ENEMY_SHOTGUNGUY"
+    },
+    {
+      "value": 83,
+      "tag": "ENEMY_IMP"
+    },
+    {
+      "value": 84,
+      "tag": "ENEMY_DEMON"
+    },
+    {
+      "value": 85,
+      "tag": "ENEMY_ARCHVILE"
+    },
+    {
+      "value": 86,
+      "tag": "ENEMY_SPIDERMASTERMIND"
+    }
+  ],
   "ObjIdTags": [
     {
       "value": 0,

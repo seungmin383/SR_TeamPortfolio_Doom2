@@ -2,7 +2,7 @@
 #include "CGameObject.h"
 #include "CPrototypeManager.h"
 
-class CBullet : public CGameObject
+class ENGINE_DLL CBullet : public CGameObject
 {
 protected:
 	explicit CBullet(LPDIRECT3DDEVICE9 pGraphicDev);
@@ -15,16 +15,20 @@ protected:
 	Engine::CTexture* m_pTextureCom = nullptr;
 	Engine::CAnimator* m_pAnimCom = nullptr;
 
-public:
-	virtual void			            OnCollision(CCollider* _pOther) override;
-	virtual void			            OnCollisionEnter(CCollider* _pOther) override;
-	virtual void			            OnCollisionExit(CCollider* _pOther) override;
+	//내 생각에 총알이 알고 있어야 될 것
+	CGameObject* m_pOwner = nullptr;				//총알의 주인
+	_vec3 m_vInitDir;												//발사할 때 총알의 방향
+	//_float m_fSpeed;											//발사속도(gameobject에 있음)
+	_uint m_iDmg = 0;													//총알 데미지
+
 
 public:
-	static CGameObject* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual void			            OnCollision(CCollider* _pOther)override;
+	virtual void			            OnCollisionEnter(CCollider* _pOther)override;
+	virtual void			            OnCollisionExit(CCollider* _pOther)override;
 
 public:
-	virtual CGameObject* Clone() override;
+	virtual HRESULT     Add_Component();
 
 private:
     virtual void        Free()override;

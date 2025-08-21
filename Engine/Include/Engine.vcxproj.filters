@@ -300,6 +300,9 @@
     <ClInclude Include="..\Header\CBullet.h">
       <Filter>00. Manager\03 .Management\02. GameObject\Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="StageSet.h">
+      <Filter>DataModel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\CGraphicDev.cpp">

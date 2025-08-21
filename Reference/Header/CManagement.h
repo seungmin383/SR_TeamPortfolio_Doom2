@@ -30,6 +30,8 @@ public:
     HRESULT         Set_Player(CGameObject* pObj);
     CGameObject*    Get_Player() { return m_pPlayer; }
 
+    SCENEID         Get_CurSceneId() { return m_eCurSceneId; }
+
     /// <summary>
     /// Game Logic Layer에 추가한다
     /// </summary>
@@ -45,6 +47,7 @@ public:
 private:
     CScene*                 m_pScene;
     CScene*                 m_pArrScene[(_uint)SCENEID::SCENE_END];
+    SCENEID                 m_eCurSceneId;
 
     CGameObject*            m_pPlayer;
 

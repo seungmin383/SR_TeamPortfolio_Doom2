@@ -142,18 +142,15 @@ void CFileManager::SaveTerrain(fs::path path, string filename, vector<TerrainMod
 	write.close();
 }
 
-TerrainModels CFileManager::LoadTerrain()
+TerrainModels CFileManager::LoadTerrain(_int stageNumber)
 {
-	//스테이지마다개별로?
-	//한번에 로드해서 들고있게?
-	//vector<TerrainModels> ??
-
 	MoveProjectDir();
 
 	TerrainModels tm;
 
-	//TODO: 파일 이름 하드코딩 수정
-	fs::path p(m_tConfig.TerrainSavePath + "/" + "terrain.json");
+	vector<StageSet>::iterator stage = find_if(m_tConfig.StageSettings.begin(), m_tConfig.StageSettings.end(), [&stageNumber](StageSet item) {return item.StageNumber == stageNumber; });
+
+	fs::path p(m_tConfig.TerrainSavePath + "/" + (*stage).terrainFileName);
 
 	if (!fs::exists(p))
 	{
@@ -188,18 +185,15 @@ void CFileManager::SaveItem(fs::path path, string filename, vector<GameObjectSpa
 	write.close();
 }
 
-vector<GameObjectSpawnInfo> CFileManager::LoadItem()
+vector<GameObjectSpawnInfo> CFileManager::LoadItem(_int stageNumber)
 {
-	//스테이지마다개별로?
-	//한번에 로드해서 들고있게?
-	//vector<TerrainModels> ??
-
 	MoveProjectDir();
 
 	SceneSpawnInfo s;
 
-	//TODO: 파일 이름 하드코딩 수정
-	fs::path p(m_tConfig.ObjectSpawnSavePath + "/" + "item.json");
+	vector<StageSet>::iterator stage = find_if(m_tConfig.StageSettings.begin(), m_tConfig.StageSettings.end(), [&stageNumber](StageSet item) {return item.StageNumber == stageNumber; });
+
+	fs::path p(m_tConfig.ObjectSpawnSavePath + "/" + (*stage).ObjectFileName);
 
 	if (!fs::exists(p))
 	{
