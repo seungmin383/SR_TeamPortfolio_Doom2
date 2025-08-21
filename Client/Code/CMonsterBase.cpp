@@ -45,15 +45,11 @@ HRESULT         CMonsterBase::Ready_GameObject()
 	return S_OK;
  }
 
-_int                  CMonsterBase::Update_GameObject(const _float& fTimeDelta)
+_int CMonsterBase::Update_GameObject(const _float& fTimeDelta)
 {
 	Thinker(fTimeDelta);
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 	CGameObject::Update_GameObject(fTimeDelta);
-
-
-	if(m_pBullet)
-		m_pBullet->Update_GameObject(fTimeDelta);
 
 	return 0;
  }
@@ -63,6 +59,7 @@ void                 CMonsterBase::LateUpdate_GameObject(const _float& fTimeDelt
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 	m_pAnimCom->Play_Animation(m_eAnim_Type, 0, fTimeDelta, m_eCurAnimState);
 	m_pColliderCom->Late_Update();
+
  }
 
 void                 CMonsterBase::Render_GameObject(const _float& fTimeDelta)
@@ -74,7 +71,6 @@ void                 CMonsterBase::Render_GameObject(const _float& fTimeDelta)
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 	m_pTextureCom->Set_Texture(m_eCurAnimState);
 	m_pBufferCom->Render_Buffer();
-
 	//충돌체
 	m_pColliderCom->Render(g_colRend);
 
@@ -191,27 +187,6 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 	if (m_isAtk && m_isDetect_Player)
 		m_isDetected_Player = TRUE;
 
-	if (GetAsyncKeyState('Z'))
-	{
-		m_iHp = -5;
-		m_isHit = FALSE;
-		m_isDetect_Player = FALSE;
-		m_isAtk = FALSE;
-	}
-	if (GetAsyncKeyState('X'))
-	{
-		m_iHp = -50;
-		m_isHit = FALSE;
-		m_isDetect_Player = FALSE;
-		m_isAtk = FALSE;
-	}
-	if (GetAsyncKeyState('C'))
-	{
-		if(!m_isPinky)
-			m_isHit = TRUE;
-		m_isDetect_Player = FALSE;
-		m_isAtk = FALSE;
-	}
 
 	//죽었는지
 	if (m_isDead)
@@ -416,22 +391,23 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			m_eAnim_Type = NOR_DEATH;
 		}
 		m_pColliderCom->Set_Active(false);
-		//cout << "AI_DEAD" << endl;
+		cout << "AI_DEAD" << endl;
 		break;
 
 		//맞았을 때
 	case AI_HIT:
-		m_eCurAnimState += 16;
+		if (!m_isPinky)
+			m_eCurAnimState += 16;
 		m_eAnim_Type = HIT;
-		//cout << "AI_HIT" << endl;
+		cout << "AI_HIT" << endl;
 		break;
 
 		//공격할 때
 	case AI_ATTACK:
-		m_eCurAnimState += 8;
+			m_eCurAnimState += 8;
 		m_eAnim_Type = ATK;
-		Monster_Fire();
-		//cout << "AI_ATTACK" << endl;
+		//Monster_Fire();
+		cout << "AI_ATTACK" << endl;
 		break;
 
 		//플레이어를 발견했을 때
@@ -440,13 +416,13 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 		if (m_eCurAnimState != m_ePreAnimState)
 			m_eAnim_Type = MOVE;
 
-		if (m_fChaseDelay > 0.1f)
+		if (m_fChaseDelay > 0.5f)
 		{
 			Monster_Look_Player(&m_vMoveLook);
 			m_fChaseDelay = 0.f;
 		}
 		Movement(fTimeDelta);
-		//cout << "AI_CHASE" << endl;
+		cout << "AI_CHASE" << endl;
 		break;
 
 		//아이들 상태
@@ -460,7 +436,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			Movement(fTimeDelta);
 		}
 
-	//	cout << "AI_MOVE" << endl;
+		cout << "AI_MOVE" << endl;
 		break;
 	}
 
@@ -481,14 +457,6 @@ void CMonsterBase::Monster_Look_Player(_vec3* _vLook)
 
 void CMonsterBase::Monster_Fire()
 {
-	m_pBullet = CBullet::Create(m_pGraphicDev);
-
-	_vec3 vPos;
-	m_pTransformCom->Get_Pos(&vPos);
-
-	cout << "x: " << vPos.x << "  / y: " << vPos.y << " / z: " << vPos.z << endl;
-	m_pBullet->Set_Dir(m_vMoveLook);
-	m_pBullet->Set_Pos(vPos);
 }
 
 void CMonsterBase::Set_OnTerrain()

@@ -1,7 +1,6 @@
 #pragma once
 #include "CCharacter.h"
 #include "CPrototypeManager.h"
-#include "CBullet.h"
 
 #define ANIM_MOVE 0
 #define ANIM_ATK 1
@@ -84,38 +83,38 @@ protected:
     _vec3 m_vMoveLook;
     _vec3 m_vtmpLook;
 
-    _float m_fSightAngle;
-    _float m_fSightDistance;
+    _float m_fSightAngle = 0.f;
+    _float m_fSightDistance = 0.f;
 
 
-    _float m_fAtkDelay; 
-    _float m_fMoveDelay;
-    _float m_fChaseDelay;
-    _float m_fHitDelay;
+    _float m_fAtkDelay = 0.f; 
+    _float m_fMoveDelay = 0.f;
+    _float m_fChaseDelay = 0.f;
+    _float m_fHitDelay = 0.f;
 
     _int m_AtkEnterCnt = 0;         //공격체크 함수에 몇번 들어갔는지 확인
     _int m_HitEnterCnt = 0;          //히트체크 함수에 몇번 들어갔는지 확인
 
-    _bool m_isMove;
-    _bool m_isAtk;
+    _bool m_isMove = false;
+    _bool m_isAtk = false;
 
     //Thinker Variable
-    _bool m_isDetect_Player;                //시야에 플레이어가 들어왔는가?
-    _bool m_isDetected_Player;           //시야에 플레이어가 들어온 적이 있는가?
-    _bool m_isRecognize_Player;          // 한번이라도 플레이어를 본 적이 있는가
+    _bool m_isDetect_Player         = false;                //시야에 플레이어가 들어왔는가?
+    _bool m_isDetected_Player     = false;           //시야에 플레이어가 들어온 적이 있는가?
+    _bool m_isRecognize_Player   = false;          // 한번이라도 플레이어를 본 적이 있는가
 
-    _bool m_isHit;                                 //총알에 맞았는지?
-    _int    m_isDead;                             //죽었는가?
-    _bool m_isNormalDead;                  //그냥 죽었는가?
-    _bool m_isGibbingDead;                 //폭사했는가?
+    _bool m_isHit = false;                                 //총알에 맞았는지?
+    _int    m_isDead = false;                             //죽었는가?
+    _bool m_isNormalDead = false;                  //그냥 죽었는가?
+    _bool m_isGibbingDead = false;                 //폭사했는가?
 
     //Decision Variable
 
     //기능 Function Variable
     _vec3   m_PlayerPos;
 
-    _uint m_iGibDeadPlus;
-    _uint m_iNorDeadPlus;
+    _uint m_iGibDeadPlus = 0;
+    _uint m_iNorDeadPlus = 0;
 
     _bool m_isPinky = FALSE;
 
@@ -125,7 +124,6 @@ protected:
     _float m_fCurAngle = 1.f;
 
 public:
-    CBullet* m_pBullet = nullptr;
 
 
 protected:

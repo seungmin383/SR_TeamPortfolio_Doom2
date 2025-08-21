@@ -22,19 +22,14 @@ CShotgunGuy::~CShotgunGuy()
 
 HRESULT CShotgunGuy::Ready_GameObject()
 {
-	AllocConsole();
-
-	FILE* fp;
-	freopen_s(&fp, "CONOUT$", "w", stdout);
-	freopen_s(&fp, "CONOUT$", "w", stderr);
-
 
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
+	m_pTransformCom->Set_Pos(65.f, 0.f, 10.f);
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
-	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(20.f, 20.f, 20.f), _vec3(0.f, 0.f, 0.f),
+	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.f, 0.f),
 		COLLAYERID::COL_ENEMY,
 		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT | COLLAYERID::COL_ENEMY);
 
@@ -155,18 +150,6 @@ void CShotgunGuy::Render_GameObject(const _float& fTimeDelta)
 	CMonsterBase::Render_GameObject(fTimeDelta);
 }
 
-void CShotgunGuy::OnCollision(CCollider* _pOther)
-{
-	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
-}
-
-void CShotgunGuy::OnCollisionEnter(CCollider* _pOther)
-{
-}
-
-void CShotgunGuy::OnCollisionExit(CCollider* _pOther)
-{
-}
 
 HRESULT CShotgunGuy::Add_Component()
 {

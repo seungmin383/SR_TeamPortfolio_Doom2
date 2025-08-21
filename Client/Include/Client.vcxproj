@@ -177,7 +177,6 @@
     <ClInclude Include="..\Header\CArchVile.h" />
     <ClInclude Include="..\Header\CBackGround.h" />
     <ClInclude Include="..\Header\CBarrelExplosive.h" />
-    <ClInclude Include="..\Header\CBullet.h" />
     <ClInclude Include="..\Header\CDynamicCamera.h" />
     <ClInclude Include="..\Header\CGameUI.h" />
     <ClInclude Include="..\Header\CGameUI_Face.h" />
@@ -185,7 +184,6 @@
     <ClInclude Include="..\Header\CGameUI_Info_Ammo.h" />
     <ClInclude Include="..\Header\CHealth_Small.h" />
     <ClInclude Include="..\Header\CImp.h" />
-    <ClInclude Include="..\Header\CLinearMovement.h" />
     <ClInclude Include="..\Header\CLoading.h" />
     <ClInclude Include="..\Header\CMonsterBase.h" />
     <ClInclude Include="..\Header\CPinky.h" />
@@ -202,8 +200,6 @@
     <ClInclude Include="..\Header\CWeapon.h" />
     <ClInclude Include="..\Header\CWeaponManager.h" />
     <ClInclude Include="..\Header\CZombieMan.h" />
-    <ClInclude Include="..\Header\IImpactStrategy.h" />
-    <ClInclude Include="..\Header\IMovementStrategy.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
@@ -217,7 +213,6 @@
     <ClCompile Include="..\Code\CArchVile.cpp" />
     <ClCompile Include="..\Code\CBackGround.cpp" />
     <ClCompile Include="..\Code\CBarrelExplosive.cpp" />
-    <ClCompile Include="..\Code\CBullet.cpp" />
     <ClCompile Include="..\Code\CDynamicCamera.cpp" />
     <ClCompile Include="..\Code\CGameUI.cpp" />
     <ClCompile Include="..\Code\CGameUI_Face.cpp" />
@@ -225,7 +220,6 @@
     <ClCompile Include="..\Code\CGameUI_Info_Ammo.cpp" />
     <ClCompile Include="..\Code\CHealth_Small.cpp" />
     <ClCompile Include="..\Code\CImp.cpp" />
-    <ClCompile Include="..\Code\CLinearMovement.cpp" />
     <ClCompile Include="..\Code\CLoading.cpp" />
     <ClCompile Include="..\Code\CMonsterBase.cpp" />
     <ClCompile Include="..\Code\CPinky.cpp" />
@@ -242,12 +236,6 @@
     <ClCompile Include="..\Code\CWeapon.cpp" />
     <ClCompile Include="..\Code\CWeaponManager.cpp" />
     <ClCompile Include="..\Code\CZombieMan.cpp" />
-    <ClCompile Include="..\Code\IImpactStrategy.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\Code\IMovementStrategy.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
