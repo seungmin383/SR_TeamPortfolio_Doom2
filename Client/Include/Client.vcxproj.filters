@@ -79,9 +79,6 @@
     <Filter Include="02. GameObject\02. Monster\CMonsterBase\05.CShotgunGuy">
       <UniqueIdentifier>{6bce13b9-40d0-4eb3-9c42-7502972c98dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\02. Monster\CBulletBase">
-      <UniqueIdentifier>{ccc5dfd5-d951-407e-90a4-dceb5459330d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\06. Object\Explosion">
       <UniqueIdentifier>{9e0ba8a6-5c42-4df7-8a9c-59cffe9e246f}</UniqueIdentifier>
     </Filter>
@@ -210,8 +207,8 @@
     <ClInclude Include="..\Header\CShotgunGuy.h">
       <Filter>02. GameObject\02. Monster\CMonsterBase\05.CShotgunGuy</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\CBulletBase.h">
-      <Filter>02. GameObject\02. Monster\CBulletBase</Filter>
+    <ClInclude Include="..\Header\CGameUI_Info_Ammo.h">
+      <Filter>02. GameObject\09. UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CBarrelExplosive.h">
       <Filter>02. GameObject\06. Object\Explosion</Filter>
@@ -359,8 +356,8 @@
     <ClCompile Include="..\Code\CShotgunGuy.cpp">
       <Filter>02. GameObject\02. Monster\CMonsterBase\05.CShotgunGuy</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\CBulletBase.cpp">
-      <Filter>02. GameObject\02. Monster\CBulletBase</Filter>
+    <ClCompile Include="..\Code\CGameUI_Info_Ammo.cpp">
+      <Filter>02. GameObject\09. UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CBarrelExplosive.cpp">
       <Filter>02. GameObject\06. Object\Explosion</Filter>

@@ -6,6 +6,7 @@
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
 
+
 CImp::CImp(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonsterBase(pGraphicDev)
 {
@@ -22,22 +23,19 @@ CImp::~CImp()
 
 HRESULT CImp::Ready_GameObject()
 {
-	AllocConsole();
-
-	FILE* fp;
-	freopen_s(&fp, "CONOUT$", "w", stdout);
-	freopen_s(&fp, "CONOUT$", "w", stderr);
-
+	//m_iMonsterType = OBJPROTOTYPE::ENEMY_IMP;
+	CMonsterBase::Ready_GameObject();
 
 	if (FAILED(Add_Component()))
 		return E_FAIL;
+
+	m_pTransformCom->Set_Pos(50.f, 10.f, 10.f);
 
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
 	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.f, 0.f),
 		COLLAYERID::COL_ENEMY,
 		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT);
-
 
 #pragma region ANIM_SETTING
 
@@ -149,20 +147,8 @@ void CImp::LateUpdate_GameObject(const _float& fTimeDelta)
 
 void CImp::Render_GameObject(const _float& fTimeDelta)
 {
+	cout << "임프 애니메이션 스테이트:" << m_eCurAnimState << endl;
 	CMonsterBase::Render_GameObject(fTimeDelta);
-}
-
-void CImp::OnCollision(CCollider* _pOther)
-{
-	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
-}
-
-void CImp::OnCollisionEnter(CCollider* _pOther)
-{
-}
-
-void CImp::OnCollisionExit(CCollider* _pOther)
-{
 }
 
 HRESULT CImp::Add_Component()

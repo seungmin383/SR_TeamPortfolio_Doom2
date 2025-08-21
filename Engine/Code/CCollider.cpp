@@ -75,7 +75,7 @@ void CCollider::Late_Update()
 
 void CCollider::Render(_bool _colRend)
 {
-	if (!_colRend)
+	if (!_colRend || !m_bActive)
 		return;
 
 	_matrix matView, matProj;
@@ -165,11 +165,11 @@ void CCollider::OnCollisionExit(CCollider* _pOther)
 
 void CCollider::HitRay(CCollider* _pOther)
 {
-	if (m_bHit)
+	if (!m_bActive || m_bHit)
 		return;
 
-	m_pOwner->OnCollisionEnter(_pOther);
 	m_bHit = true;
+	m_pOwner->OnCollisionEnter(_pOther);
 }
 
 void CCollider::Update_Box()

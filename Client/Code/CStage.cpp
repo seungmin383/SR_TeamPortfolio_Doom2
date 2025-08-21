@@ -68,11 +68,13 @@ HRESULT CStage::Ready_Scene()
 
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYERCAMERA, OBJID::OBJ_OBJECT);
 
+	
 	return S_OK;
 }
 
 _int CStage::Update_Scene(const _float& fTimeDelta)
 {
+	CColliderManager::GetInstance()->Update();
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
 
 	return iExit;
@@ -82,7 +84,6 @@ void CStage::LateUpdate_Scene(const _float& fTimeDelta)
 {
 	Engine::CScene::LateUpdate_Scene(fTimeDelta);
 
-	CColliderManager::GetInstance()->Update();
 }
 
 void CStage::Render_Scene(const _float& fTimeDelta)
@@ -151,43 +152,32 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
+	//핑키데몬
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
+		return E_FAIL;
+
 	//아크바일
-	/*pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE);*/
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE);
 
+	if (nullptr == pGameObject)
+		return E_FAIL;
 
-	//if (nullptr == pGameObject)
-	//	return E_FAIL;
-
-	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
-	//	return E_FAIL;
-
-	//m_mapLayer.insert({ _eLayerId, pLayer });
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
+		return E_FAIL;
 
 	//임프
-	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP);
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP);
 
+	if (nullptr == pGameObject)
+		return E_FAIL;
 
-	//if (nullptr == pGameObject)
-	//	return E_FAIL;
-
-	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
-	//	return E_FAIL;
-
-	//m_mapLayer.insert({ _eLayerId, pLayer });
-
-
-
-	//핑키
-	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON);
-
-
-	//if (nullptr == pGameObject)
-	//	return E_FAIL;
-
-	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
-	//	return E_FAIL;
-
-	//m_mapLayer.insert({ _eLayerId, pLayer });
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
+		return E_FAIL;
 
 	//좀비맨
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ZOMBIEMAN);
@@ -199,7 +189,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
 		return E_FAIL;
 
-	//스파이더 마스터마인드
+	//스파이더 마스터마인
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SPIDERMASTERMIND);
 
 	if (nullptr == pGameObject)
@@ -207,8 +197,6 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
 		return E_FAIL;
-
-	//m_mapLayer.insert({ _eLayerId, pLayer });
 
 	//샷건 가이
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SHOTGUNGUY);
@@ -218,6 +206,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
 		return E_FAIL;
+
 
 	// 체력(소)
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH_SMALL);

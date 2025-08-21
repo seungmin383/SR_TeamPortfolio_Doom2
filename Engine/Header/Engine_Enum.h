@@ -72,5 +72,11 @@ namespace Engine
 		AI_MOVE
 	};
 
+	enum  MONSTER_BULLET_TYPE
+	{
+		BULLET_SHOOTING,
+		BULLET_BLAST,
+		BULLET_END
+	};
 }
 #endif // Engine_Enum_h__
