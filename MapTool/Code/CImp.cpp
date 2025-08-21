@@ -23,7 +23,7 @@ CImp::~CImp()
 HRESULT CImp::Ready_GameObject()
 {
 	
-	();
+	/*();*/
 
 	FILE* fp;
 	freopen_s(&fp, "CONOUT$", "w", stdout);

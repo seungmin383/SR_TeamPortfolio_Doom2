@@ -178,9 +178,10 @@ void CBarrelExplosive::OnCollision(CCollider* _pOther)
 
 void CBarrelExplosive::OnCollisionEnter(CCollider* _pOther)
 {
+    char buf[128];
+
     if (!_pOther) return;
 
-    char buf[128];
     sprintf_s(buf, "[Barrel] OnCollisionEnter layer=0x%08X\n",
         (unsigned)_pOther->Get_ColLayer());
     OutputDebugStringA(buf);
@@ -190,22 +191,28 @@ void CBarrelExplosive::OnCollisionEnter(CCollider* _pOther)
 
     const auto layer = _pOther->Get_ColLayer();
 
-    if (!(_pOther->Is_RayHit()))
+    // 오직 '레이 피킹'으로 맞았을 때만(= 계산기에서 HitRay로 들어왔을 때만) 데미지
+    // HitRay는 피격 대상 콜라이더의 m_bHit를 true로 설정하므로,
+    // 우리 콜라이더가 RayHit 상태인지 확인한다.
+    if (m_pColliderCom && m_pColliderCom->Is_RayHit())
     {
-        char buf[128];
-        sprintf_s(buf, "Hit by %08X\n",
-            (unsigned)_pOther->Get_ColLayer());
-        OutputDebugStringA(buf);
-        TakeDamage((layer & COL_EXPLOSION) ? 9999 : 10);
+        // 레이의 발사 주체: 플레이어 카메라의 콜라이더만 인정
+        if (layer & COL_PLAYERCAMERA)
+        {
+            TakeDamage(10);
+        }
         return;
     }
 
-    //// 레이/투사체/공격/폭발 모두 허용 (몸통 박치기로도 데미지 들어가는 버그 있음)
-    //if (layer & (COL_BULLET | COL_ATTACK | COL_EXPLOSION
-    //    | COL_PLAYERCAMERA | COL_PLAYER | COL_DYNAMICCAMERA)) {
-    //    TakeDamage((layer & COL_EXPLOSION) ? 9999 : 10);
-    //    return;
-    //}
+    // 체인 폭발
+    if (layer & COL_EXPLOSION)
+    {
+        TakeDamage(9999);
+        return;
+    }
+
+    // 그 외(COL_PLAYERCAMERA/플레이어 몸통/기타 충돌)는 피해 없음
+    return;
 }
 
 void CBarrelExplosive::OnCollisionExit(CCollider* _pOther)
