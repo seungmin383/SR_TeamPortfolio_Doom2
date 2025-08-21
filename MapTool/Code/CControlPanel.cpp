@@ -2,21 +2,31 @@
 #include "CControlPanel.h"
 #include "CObjectFactory.h"
 #include "CPrototypeManager.h"
+#include "CDInputManager.h"
+#include "CManagement.h"
 
 CControlPanel::CControlPanel()
 	: m_pGraphicDev(nullptr),
 	textureExpr(nullptr),
-	curTex(nullptr)
+	curTex(nullptr),
+	pickingtime(0.f),
+	pickingdelay(0.25f),
+	EnablePick(true)
 {
 }
 
 CControlPanel::CControlPanel(LPDIRECT3DDEVICE9 pGraphicDev, CTextureExplorer* expr)
 	: m_pGraphicDev(pGraphicDev),
 	textureExpr(expr),
-	curTex(nullptr)
+	curTex(nullptr),
+	pickingtime(0.f),
+	pickingdelay(0.25f),
+	EnablePick(true)
 {
 	m_pGraphicDev->AddRef();
 	SetDefault();
+	SetObjInfo();
+	m_pCalculatorCom = dynamic_cast<CCalculator*>(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Calculator"));
 }
 
 CControlPanel::~CControlPanel()
@@ -29,22 +39,28 @@ CControlPanel* CControlPanel::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTextureExpl
 	return new CControlPanel(pGraphicDev, expr);
 }
 
-_bool CControlPanel::ControlPanelWindow()
+_bool CControlPanel::ControlPanelWindow(const _float& timeDelta)
 {
+	pickingtime += timeDelta;
+
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_G) & 0x80)
+		EnablePick = !EnablePick;
+
 	if (ImGui::Button("Show Demo"))
 		show_demo_window = !show_demo_window;
-	
+
+	//지형 저장
 	if (ImGui::Button("Save terrain"))
 	{
 		//SaveModal();
-		ImGui::OpenPopup("Save?");
+		ImGui::OpenPopup("Save terrain?");
 	}
 
 	// Always center this window when appearing
 	ImVec2 center = ImGui::GetMainViewport()->GetCenter();
 	ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 
-	if (ImGui::BeginPopupModal("Save?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	if (ImGui::BeginPopupModal("Save terrain?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		ImGui::Text("check save type and file name");
 		ImGui::Separator();
@@ -57,7 +73,7 @@ _bool CControlPanel::ControlPanelWindow()
 		ImGui::InputText("file name", &filename);
 
 		if (ImGui::Button("OK", ImVec2(120, 0)))
-		{ 
+		{
 			if (!filename.empty())
 			{
 				SaveTerrain(selecteddir, filename);
@@ -71,17 +87,51 @@ _bool CControlPanel::ControlPanelWindow()
 		if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
 		ImGui::EndPopup();
 	}
+	//지형 저장 끝
 
 	ImGui::SameLine();
 	if (ImGui::Button("Save wall and ceil"))
 	{
 
 	}
+
+	//아이템 저장
 	ImGui::SameLine();
 	if (ImGui::Button("Save item"))
 	{
-
+		//SaveModal();
+		ImGui::OpenPopup("Save item?");
 	}
+
+	if (ImGui::BeginPopupModal("Save item?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+		ImGui::Text("check save type and file name");
+		ImGui::Separator();
+
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+		ImGui::PopStyleVar();
+
+		fs::path selecteddir = SaveExplorer();
+
+		ImGui::InputText("file name", &filename);
+
+		if (ImGui::Button("OK", ImVec2(120, 0)))
+		{
+			if (!filename.empty())
+			{
+				SaveItem(selecteddir, filename);
+				ImGui::CloseCurrentPopup();
+				filename.clear();
+			}
+		}
+
+		ImGui::SetItemDefaultFocus();
+		ImGui::SameLine();
+		if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+		ImGui::EndPopup();
+	}
+	//아이템 저장 끝
+
 	ImGui::SameLine();
 	if (ImGui::Button("Save monster"))
 	{
@@ -100,14 +150,171 @@ _bool CControlPanel::ControlPanelWindow()
 	ImGui::SameLine();
 	if (ImGui::Button("Load item"))
 	{
-
+		LoadItem();
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Load monster"))
 	{
 
 	}
-	
+
+	ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
+	if (ImGui::BeginTabBar("ControlPanel", tab_bar_flags))
+	{
+		if (ImGui::BeginTabItem("Terrain"))
+		{
+			ImGui::Text("This is the Terrain tab!");
+
+			TerrainController();
+			InputMouse_Terrain();
+
+			ImGui::EndTabItem();
+		}
+		if (ImGui::BeginTabItem("Object"))
+		{
+			ImGui::Text("This is the Object tab!");
+
+			ObjectController();
+			InputMouse_Object();
+
+			ImGui::EndTabItem();
+		}
+		if (ImGui::BeginTabItem("Temp"))
+		{
+			ImGui::Text("This is the Temp tab!\nblah blah blah blah blah");
+			ImGui::EndTabItem();
+		}
+		ImGui::EndTabBar();
+	}
+
+	return show_demo_window;
+}
+
+_uint CControlPanel::ModifyChildWindow()
+{
+	ImGui::BeginChild("Modify item select", ImVec2(0.f, 130.f));
+
+	static int tile_selected_idx = 0;
+
+	static bool tile_highlight = false;
+	int tile_highlighted_idx = -1;
+
+	int tileidx = 0;
+
+	if (ImGui::BeginListBox("tile list"))
+	{
+
+		for (size_t i = 0; i < vecSector.size(); i++)
+		{
+			const bool tile_is_selected = (tile_selected_idx == tileidx);
+			if (ImGui::Selectable(to_string(i).c_str(), tile_is_selected))
+				tile_selected_idx = tileidx;
+
+			if (tile_highlight && ImGui::IsItemHovered())
+				tile_highlighted_idx = tileidx;
+
+			if (tile_is_selected)
+				ImGui::SetItemDefaultFocus();
+
+			tileidx++;
+		}
+
+		ImGui::EndListBox();
+	}
+
+	ImGui::EndChild();
+
+	return tile_selected_idx;
+}
+
+fs::path CControlPanel::SaveExplorer()
+{
+	if (ImGui::Button("Move Asset Directory"))
+	{
+		fs::path assetpath = CFileManager::GetInstance()->GetAssetDir();
+		CFileManager::GetInstance()->MoveProjectDir();
+		CFileManager::GetInstance()->MoveDir(assetpath);
+	}
+	ImGui::SameLine();
+
+	if (ImGui::Button("Move Upper"))
+		CFileManager::GetInstance()->MoveParentDir();
+
+	//dir list box
+	static int dir_selected_idx = 0;
+
+	static bool dir_highlight = false;
+	int dir_highlighted_idx = -1;
+
+	int diridx = 0;
+
+	auto dir = CFileManager::GetInstance()->GetListChildDir();
+
+	if (ImGui::Button("Enter"))
+		CFileManager::GetInstance()->MoveDir(dir[dir_selected_idx]);
+
+	if (ImGui::BeginListBox("Directory list"))
+	{
+		for (auto p : dir)
+		{
+			const bool dir_is_selected = (dir_selected_idx == diridx);
+			if (ImGui::Selectable((const char*)p.filename().string().c_str(), dir_is_selected))
+				dir_selected_idx = diridx;
+
+			if (dir_highlight && ImGui::IsItemHovered())
+				dir_highlighted_idx = diridx;
+
+			if (dir_is_selected)
+				ImGui::SetItemDefaultFocus();
+
+			diridx++;
+		}
+		ImGui::EndListBox();
+	}
+	//dir box end
+
+	//file list box
+	static int file_selected_idx = 0;
+
+	static bool file_highlight = false;
+	int file_highlighted_idx = -1;
+
+	int fileidx = 0;
+
+	auto file = CFileManager::GetInstance()->GetListCurrentDir();
+
+	if (ImGui::BeginListBox("File list"))
+	{
+		for (auto p : file)
+		{
+			const bool file_is_selected = (file_selected_idx == fileidx);
+			if (ImGui::Selectable((const char*)p.filename().string().c_str(), file_is_selected))
+				file_selected_idx = fileidx;
+
+			if (file_highlight && ImGui::IsItemHovered())
+				file_highlighted_idx = fileidx;
+
+			if (file_is_selected)
+				ImGui::SetItemDefaultFocus();
+
+			fileidx++;
+		}
+		ImGui::EndListBox();
+	}
+	//list box end
+
+	if (dir.empty())
+	{
+		return CFileManager::GetInstance()->GetCurrentDir();
+	}
+	else
+	{
+		return dir[dir_selected_idx];
+	}
+}
+
+void CControlPanel::TerrainController()
+{
 	ImGui::BeginDisabled(!applied);
 	if (ImGui::Button("New"))
 	{
@@ -124,7 +331,7 @@ _bool CControlPanel::ControlPanelWindow()
 		D3DXMatrixIdentity(&a);
 		D3DXMatrixRotationX(&a, D3DXToRadian(90));
 
-		for (size_t i = 0; i < tCachingControlInfo.vertices.capacity(); i++)
+		for (size_t i = 0; i < tCachingControlInfo.vertices.size(); i++)
 			D3DXVec3TransformNormal(&tCachingControlInfo.vertices[i], &tCachingControlInfo.vertices[i], &a);
 
 		Apply();
@@ -137,9 +344,9 @@ _bool CControlPanel::ControlPanelWindow()
 		D3DXMatrixIdentity(&a);
 		D3DXMatrixRotationY(&a, D3DXToRadian(90));
 
-		for (size_t i = 0; i < tCachingControlInfo.vertices.capacity(); i++)
+		for (size_t i = 0; i < tCachingControlInfo.vertices.size(); i++)
 			D3DXVec3TransformNormal(&tCachingControlInfo.vertices[i], &tCachingControlInfo.vertices[i], &a);
-		
+
 		Apply();
 	}
 	ImGui::SameLine();
@@ -150,9 +357,9 @@ _bool CControlPanel::ControlPanelWindow()
 		D3DXMatrixIdentity(&a);
 		D3DXMatrixRotationZ(&a, D3DXToRadian(90));
 
-		for (size_t i = 0; i < tCachingControlInfo.vertices.capacity(); i++)
+		for (size_t i = 0; i < tCachingControlInfo.vertices.size(); i++)
 			D3DXVec3TransformNormal(&tCachingControlInfo.vertices[i], &tCachingControlInfo.vertices[i], &a);
-		
+
 		Apply();
 	}
 	ImGui::SameLine();
@@ -287,152 +494,29 @@ _bool CControlPanel::ControlPanelWindow()
 		}
 		Apply();
 	}
-
-	return show_demo_window;
 }
 
-void CControlPanel::ControlerWindow()
+void CControlPanel::ObjectController()
 {
-}
+	//type1 프로토타입
+	static int type_current = 0;
+	ImGui::Combo("type", &type_current, typeTags, objPrototypeTags.size());
 
-_uint CControlPanel::ModifyChildWindow()
-{
-	ImGui::BeginChild("Modify item select", ImVec2(0.f, 130.f));
+	//type2 오브젝트id
+	static int id_current = 0;
+	ImGui::Combo("id", &id_current, idTags, objIdTags.size());
 
-	static int tile_selected_idx = 0;
+	//type3 여분값
 
-	static bool tile_highlight = false;
-	int tile_highlighted_idx = -1;
+	//tag 기타 태그
 
-	int tileidx = 0;
-
-	if (ImGui::BeginListBox("tile list"))
-	{
-
-		for (size_t i = 0; i < vecSector.capacity(); i++)
-		{
-			const bool tile_is_selected = (tile_selected_idx == tileidx);
-			if (ImGui::Selectable(to_string(i).c_str(), tile_is_selected))
-				tile_selected_idx = tileidx;
-
-			if (tile_highlight && ImGui::IsItemHovered())
-				tile_highlighted_idx = tileidx;
-
-			if (tile_is_selected)
-				ImGui::SetItemDefaultFocus();
-
-			tileidx++;
-		}
-
-		ImGui::EndListBox();
-	}
-
-	ImGui::EndChild();
-
-	return tile_selected_idx;
-}
-
-fs::path CControlPanel::SaveExplorer()
-{
-	if (ImGui::Button("Move Asset Directory"))
-	{
-		fs::path assetpath = CFileManager::GetInstance()->GetAssetDir();
-		CFileManager::GetInstance()->MoveProjectDir();
-		CFileManager::GetInstance()->MoveDir(assetpath);
-	}
-	ImGui::SameLine();
-
-	if (ImGui::Button("Move Upper"))
-		CFileManager::GetInstance()->MoveParentDir();
-	
-	//dir list box
-	static int dir_selected_idx = 0;
-
-	static bool dir_highlight = false;
-	int dir_highlighted_idx = -1;
-
-	int diridx = 0;
-
-	auto dir = CFileManager::GetInstance()->GetListChildDir();
-
-	if (ImGui::Button("Enter"))
-		CFileManager::GetInstance()->MoveDir(dir[dir_selected_idx]);
-
-	if (ImGui::BeginListBox("Directory list"))
-	{
-		for (auto p : dir)
-		{
-			const bool dir_is_selected = (dir_selected_idx == diridx);
-			if (ImGui::Selectable((const char*)p.filename().string().c_str(), dir_is_selected))
-				dir_selected_idx = diridx;
-
-			if (dir_highlight && ImGui::IsItemHovered())
-				dir_highlighted_idx = diridx;
-
-			if (dir_is_selected)
-				ImGui::SetItemDefaultFocus();
-
-			diridx++;
-		}
-		ImGui::EndListBox();
-	}
-	//dir box end
-
-	//file list box
-	static int file_selected_idx = 0;
-
-	static bool file_highlight = false;
-	int file_highlighted_idx = -1;
-
-	int fileidx = 0;
-
-	auto file = CFileManager::GetInstance()->GetListCurrentDir();
-
-	if (ImGui::BeginListBox("File list"))
-	{
-		for (auto p : file)
-		{
-			const bool file_is_selected = (file_selected_idx == fileidx);
-			if (ImGui::Selectable((const char*)p.filename().string().c_str(), file_is_selected))
-				file_selected_idx = fileidx;
-
-			if (file_highlight && ImGui::IsItemHovered())
-				file_highlighted_idx = fileidx;
-
-			if (file_is_selected)
-				ImGui::SetItemDefaultFocus();
-
-			fileidx++;
-		}
-		ImGui::EndListBox();
-	}
-	//list box end
-
-	if (dir.empty())
-	{
-		return CFileManager::GetInstance()->GetCurrentDir();
-	}
-	else
-	{
-		return dir[dir_selected_idx];
-	}
+	tObjectinfo.type1 = type_current;
+	tObjectinfo.type2 = id_current;
 }
 
 void CControlPanel::ChangeTileInfo()
 {
 	//tControlInfo = tCachingControlInfo;
-}
-
-void CControlPanel::AddXTile()
-{
-}
-
-void CControlPanel::AddZTile()
-{
-}
-
-void CControlPanel::AddYTile()
-{
 }
 
 void CControlPanel::SetVertexInfo(_int tileIdx, _int vertexIdx, _vec3 vertexInfo)
@@ -513,7 +597,7 @@ void CControlPanel::Apply()
 
 		vecSector.push_back(dynamic_cast<CTerrainSector*>(pObj));
 
-		tCachingControlInfo.terrainIdx = vecSector.capacity() - 1;
+		tCachingControlInfo.terrainIdx = vecSector.size() - 1;
 
 		tControlInfo.push_back(tCachingControlInfo);
 	}
@@ -572,7 +656,7 @@ void CControlPanel::LoadTerrain()
 		tControlInfo.push_back(tCachingControlInfo);
 	}
 
-	tCachingControlInfo.terrainIdx = vecSector.capacity() - 1;
+	tCachingControlInfo.terrainIdx = vecSector.size() - 1;
 
 	applied = true;
 	isModifing = true;
@@ -588,10 +672,18 @@ void CControlPanel::LoadWallAndCeil()
 
 void CControlPanel::SaveItem(fs::path path, string filename)
 {
+	CFileManager::GetInstance()->SaveItem(path, filename, vecItemInfos);
 }
 
 void CControlPanel::LoadItem()
 {
+	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem();;
+	
+	for (auto item : loadData)
+		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, item.position);
+
+	for (auto item : loadData)
+		vecItemInfos.push_back(item);
 }
 
 void CControlPanel::SaveMonster(fs::path path, string filename)
@@ -602,7 +694,123 @@ void CControlPanel::LoadMonster()
 {
 }
 
+void CControlPanel::SetObjInfo()
+{
+	auto config = CFileManager::GetInstance()->GetConfig();
+
+	objPrototypeTags = config.ObjPrototypeTags;
+	typeTags = new char*[objPrototypeTags.size()];
+	for (size_t i = 0; i < objPrototypeTags.size(); i++)
+	{
+		typeTags[i] = new char[objPrototypeTags[i].tag.size() + 1];
+		strcpy_s(typeTags[i], (rsize_t)((objPrototypeTags[i].tag.size() + 1) * sizeof(char)), objPrototypeTags[i].tag.c_str());
+	}
+		
+	objIdTags = config.ObjIdTags;
+	idTags = new char*[objIdTags.size()];
+	for (size_t i = 0; i < objIdTags.size(); i++)
+	{
+		idTags[i] = new char[objIdTags[i].tag.size() + 1];
+		strcpy_s(idTags[i], (rsize_t)((objIdTags[i].tag.size() + 1) * sizeof(char)), objIdTags[i].tag.c_str());
+	}
+}
+
+void CControlPanel::InputMouse_Terrain()
+{
+	if (!EnablePick)
+		return;
+
+	if (pickingtime < pickingdelay)
+		return;
+	else
+		pickingtime = 0.f;
+
+	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB))
+	{
+		auto* pTerrainBuf = static_cast<CTerrainTexSector*>(
+			CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
+
+		if (pTerrainBuf == nullptr)
+			return;
+
+		auto* pTerrainTransform = static_cast<CTransform*>(
+			CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Transform"));
+
+		if (pTerrainBuf == nullptr)
+			return;
+
+		if (m_pCalculatorCom->Picking_MapTool(g_hWnd, pTerrainBuf, pTerrainTransform, tCachingControlInfo.pos))
+		{
+			if (curTex == nullptr)
+			{
+				GetSelectTexture();
+				if (tCachingControlInfo.currentTextureTag != L"")
+				{
+					string curDir = CFileManager::GetInstance()->GetCurrentDir().filename().string();
+					curTex = CTextureManager::GetInstance()->GetTexture(curDir, tCachingControlInfo.currentTextureTag);
+				}
+			}
+			Apply();
+		}
+	}
+}
+
+void CControlPanel::InputMouse_Object()
+{
+	if (!EnablePick)
+		return;
+
+	if (pickingtime < pickingdelay)
+		return;
+	else
+		pickingtime = 0.f;
+
+	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB))
+	{
+		if (tObjectinfo.type1 == 0)
+			return;
+
+		if (tObjectinfo.type2 == 0)
+			return;
+
+		auto* pTerrainBuf = static_cast<CTerrainTexSector*>(
+			CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
+
+		if (pTerrainBuf == nullptr)
+			return;
+
+		auto* pTerrainTransform = static_cast<CTransform*>(
+			CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Transform"));
+
+		if (pTerrainBuf == nullptr)
+			return;
+
+		if (m_pCalculatorCom->Picking_MapTool(g_hWnd, pTerrainBuf, pTerrainTransform, tObjectinfo.position))
+		{
+			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)tObjectinfo.type1, (OBJID)tObjectinfo.type2, tObjectinfo.position);
+
+			vecItemInfos.push_back(tObjectinfo);
+		}
+	}
+}
+
 void CControlPanel::Free()
 {
+	if (typeTags != nullptr)
+	{
+		for (size_t i = 0; i < objPrototypeTags.size(); i++)
+			Safe_Delete(typeTags[i]);
+		Safe_Delete_Array(typeTags);
+	}
+	
+	if (idTags != nullptr)
+	{
+		for (size_t i = 0; i < objIdTags.size(); i++)
+			Safe_Delete(idTags[i]);
+		Safe_Delete_Array(idTags);
+	}
+
+	m_pCalculatorCom->Release();
+
 	m_pGraphicDev->Release();
 }

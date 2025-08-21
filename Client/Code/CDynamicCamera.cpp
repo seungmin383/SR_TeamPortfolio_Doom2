@@ -253,15 +253,11 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 void CDynamicCamera::Mouse_Input()
 {
-	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB))
+	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB) & 0x80)
 	{
-		if (!CWeaponManager::GetInstance()->Fire_Weapon())
-		{
-			// 총알이 없어서 발사 실패하면 이전 무기로 변경
-			CWeaponManager::GetInstance()->Change_Weapon(CWeaponManager::GetInstance()->Get_PrevWeapon()->Get_WeaponID());
-		}
-		// SHOT 상태일 때만 픽킹
-		if (CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponState() == WEAPON_STATE::SHOT)
+		_bool bFireCheck = CWeaponManager::GetInstance()->Fire_Weapon();
+
+		if (bFireCheck)
 			m_pCalculatorCom->Picking_GameObject(g_hWnd);
 	}
 
@@ -321,8 +317,8 @@ void CDynamicCamera::Mouse_Fix()
 void CDynamicCamera::Set_OnTerrain()
 {
 	// 지형의 버텍스 정보를 가져온다
-	Engine::CTerrainTex* pTerrainBufferCom =
-		static_cast<CTerrainTex*>
+	Engine::CTerrainTexSector* pTerrainBufferCom =
+		static_cast<CTerrainTexSector*>
 		(CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
 
 	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&m_vEye, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);

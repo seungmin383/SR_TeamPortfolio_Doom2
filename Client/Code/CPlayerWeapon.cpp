@@ -62,25 +62,12 @@ void CPlayerWeapon::LateUpdate_GameObject(const _float& fTimeDelta)
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 
 	Key_Input(fTimeDelta);
-	//Mouse_Input();
 	Weapon_Bobbing(m_bIsMoving, fTimeDelta);
 
 	if (m_eWeaponState == WEAPON_STATE::SWAP)
-	{
 		Weapon_Swap(fTimeDelta);
 
-		//애니메이션 실행
-		m_pAnimatorCom->Play_Animation((_uint)m_eCurWeaponId + (_uint)m_eWeaponState, 0, fTimeDelta);
-	}
-	else
-	{
-		//애니메이션 실행
-		m_pAnimatorCom->Play_Animation((_uint)m_eCurWeaponId + (_uint)m_eWeaponState, 0, fTimeDelta);
-
-		// 만약 현재 애니메이션이 다 끝난 상태라면 총의 상태를 기본 상태로 돌려놓는다.
-		if (m_pAnimatorCom->Get_isFinAct())
-			m_eWeaponState = WEAPON_STATE::IDLE;
-	}
+	m_pAnimatorCom->Play_Animation((_uint)m_eCurWeaponId + (_uint)m_eWeaponState, 0, fTimeDelta);
 
 	// 디버깅용 코드
 	//wchar_t buf[64];
@@ -175,47 +162,6 @@ void CPlayerWeapon::Key_Input(const _float& fTimeDelta)
 		CDInputManager::GetInstance()->Get_DIKeyState(DIK_D) & 0x80)
 	{
 		m_bIsMoving = true;
-	}
-
-	//// 총을 바꾸려 할 때 사격 상태라면 리턴
-	//if (m_eWeaponState == WEAPON_STATE::SHOT || m_eWeaponState == WEAPON_STATE::SWAP)
-	//	return;
-
-	//// 무기 교체 관련 키 입력
-	//if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_1) & 0x80)
-	//{
-	//	m_eNextWeaponId = WEAPON_ID::PISTOL;
-	//	m_eWeaponState = WEAPON_STATE::SWAP;
-
-	//	CWeaponManager::GetInstance()->Change_Weapon(m_eNextWeaponId);
-	//}
-	//if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_2) & 0x80)
-	//{
-	//	m_eNextWeaponId = WEAPON_ID::SHOTGUN;
-	//	m_eWeaponState = WEAPON_STATE::SWAP;
-
-	//	CWeaponManager::GetInstance()->Change_Weapon(m_eNextWeaponId);
-	//}
-	//if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_3) & 0x80)
-	//{
-	//	m_eNextWeaponId = WEAPON_ID::CHAINGUN;
-	//	m_eWeaponState = WEAPON_STATE::SWAP;
-
-	//	CWeaponManager::GetInstance()->Change_Weapon(m_eNextWeaponId);
-	//}
-}
-
-void CPlayerWeapon::Mouse_Input()
-{
-	if (m_eWeaponState == WEAPON_STATE::SHOT || m_eWeaponState == WEAPON_STATE::SWAP)
-		return;
-
-	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB) & 0x80)
-	{
-		m_eWeaponState = WEAPON_STATE::SHOT;
-
-		// 이동하다가 사격을 하면 원래 위치로 되돌려줘야함
-		m_pTransformCom->Set_Pos(m_vPos.x, m_vPos.y, m_vPos.z);
 	}
 }
 

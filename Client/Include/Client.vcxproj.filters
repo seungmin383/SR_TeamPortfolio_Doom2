@@ -114,6 +114,15 @@
     </Filter>
     <Filter Include="02. GameObject\09. UI\Info">
       <UniqueIdentifier>{c95feaf8-1691-4378-850b-c764a92623e3}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="02. GameObject\03. Terrain\TerrainSector">
+      <UniqueIdentifier>{04cd5dd8-54e1-47a3-9405-3040b7114576}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\01. ObjectFactory">
+      <UniqueIdentifier>{64f5e621-a9ce-4bd1-9d72-2fa6f4b09d6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\02. TextureManager">
+      <UniqueIdentifier>{ade4b06f-1814-4489-89bf-8aece45473aa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -248,6 +257,15 @@
     </ClInclude>
     <ClInclude Include="..\Header\CAmmo_Rocket.h">
       <Filter>02. GameObject\06. Object\DropItem\Ammo</Filter>
+	</ClInclude>
+    <ClInclude Include="..\Header\CTerrainSector.h">
+      <Filter>02. GameObject\03. Terrain\TerrainSector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CObjectFactory.h">
+      <Filter>03. Manager\01. ObjectFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CTextureManager.h">
+      <Filter>03. Manager\02. TextureManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -373,6 +391,18 @@
     </ClCompile>
     <ClCompile Include="..\Code\CAmmo_Rocket.cpp">
       <Filter>02. GameObject\06. Object\DropItem\Ammo</Filter>
+	</ClCompile>
+    <ClCompile Include="..\Code\CPistol.cpp">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\00. Pistol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CTerrainSector.cpp">
+      <Filter>02. GameObject\03. Terrain\TerrainSector</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CObjectFactory.cpp">
+      <Filter>03. Manager\01. ObjectFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CTextureManager.cpp">
+      <Filter>03. Manager\02. TextureManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

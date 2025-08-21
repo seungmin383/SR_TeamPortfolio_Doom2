@@ -29,11 +29,27 @@ public:
         const _ulong& dwCntZ = VTXCNTZ,
         const _ulong& dwVtxItv = VTXITV);
 
+    static CTerrainTexSector* Create_Default(LPDIRECT3DDEVICE9 pGraphicDev,
+        const _ulong& dwCntX = VTXCNTX,
+        const _ulong& dwCntZ = VTXCNTZ,
+        const _ulong& dwVtxItv = VTXITV);
+
+    HRESULT Ready_Buffer_Default(const _ulong& dwCntX,
+        const _ulong& dwCntZ,
+        const _ulong& dwVtxItv);
+
 public:
     const _vec3* Get_VtxPos() { return m_pPos; }
+    _ulong       Get_VtxCntX() { return m_VtxCntX; }
+    _ulong       Get_VtxCntZ() { return m_VtxCntZ; }
+    _ulong       Get_VtxItv() { return m_VtxItv; }
 
 private:
     _vec3* m_pPos;
+
+    _ulong m_VtxCntX;
+    _ulong m_VtxCntZ;
+    _ulong m_VtxItv;
 
 public:
     virtual void    Free();

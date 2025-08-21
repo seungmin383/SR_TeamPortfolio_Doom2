@@ -11,7 +11,7 @@ public:
 	virtual HRESULT Ready_GameObject() override;
 
 public:
-	virtual void Fire() override;
+	virtual _bool Fire() override;
 
 public:
 	static CPistol* Create();

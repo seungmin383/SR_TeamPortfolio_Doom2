@@ -10,6 +10,7 @@
 #include "CDInputManager.h"
 #include "CLightManager.h"
 #include "CColliderManager.h"
+#include "CWeaponManager.h"
 #include "CFileManager.h"
 #include "CObjectFactory.h"
 
@@ -18,7 +19,23 @@
 
 #include "CDynamicCamera.h"
 #include "CZombieMan.h"
+#include"CArchVile.h"
+#include "CImp.h"
+#include "CPinky.h"
+#include"CSpiderMastermind.h"
+#include "CShotgunGuy.h"
+
 #include "CPlayerWeapon.h"
+#include "CHealth_Small.h"
+#include "CHealth_Big.h"
+#include "CArmor_Small.h"
+#include "CArmor_Big.h"
+#include "CAmmo_Clip.h"
+#include "CAmmo_Shell.h"
+
+#include "CBarrelExplosive.h"
+#include "CDoor.h"
+#include "CSwitch_Button.h"
 
 CMainApp::CMainApp()
 	: m_pGraphicDev(nullptr),
@@ -56,13 +73,7 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 
 void CMainApp::LateUpdate_MainApp(const float& fTimeDelta)
 {
-	// _ulong	dwFlag(0);
-	// 
-	// if (dwFlag = CDInputMgr::GetInstance()->Get_DIMouseMove(DIMS_Z))
-	// {
-	// 	int a = 0;
-	// }
-
+	CWeaponManager::GetInstance()->Update_Weapon(fTimeDelta);
 	m_pManagementClass->LateUpdate_Scene(fTimeDelta);
 }
 
@@ -74,7 +85,7 @@ void CMainApp::Render_MainApp(const float& fTimeDelta)
 
 	m_pManagementClass->Render_Scene(m_pGraphicDev, fTimeDelta);
 
-	m_pImGuiClass->Render_ImGui();
+	m_pImGuiClass->Render_ImGui(fTimeDelta);
 
 	m_pDeviceClass->Render_End();
 }
@@ -99,6 +110,11 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CFontManager::GetInstance()->Ready_Font(m_pGraphicDev, L"Font_Jinji", L"궁서", 20, 10, FW_THIN)))
 		return E_FAIL;
 
+	//맵툴용
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Calculator", Engine::CCalculator::Create(m_pGraphicDev))))
+		return E_FAIL;
+	//맵툴용
+
 	if (FAILED(CDInputManager::GetInstance()->Ready_InputDev(g_hInst, g_hWnd)))
 		return E_FAIL;
 
@@ -109,7 +125,59 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 		return E_FAIL;
 
 	//Initiate GameObject Prototype
+	//좀비맨
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ZOMBIEMAN, CZombieMan::Create(m_pGraphicDev))))
+		return E_FAIL;
+	//아크바일
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE, CArchVile::Create(m_pGraphicDev))))
+		return E_FAIL;
+	//임프
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP, CImp::Create(m_pGraphicDev))))
+		return E_FAIL;
+	//핑키
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON, CPinky::Create(m_pGraphicDev))))
+		return E_FAIL;
+	//스파이더 마스터마인드
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_SPIDERMASTERMIND, CSpiderMastermind::Create(m_pGraphicDev))))
+		return E_FAIL;
+	//샷건 가이
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_SHOTGUNGUY, CShotgunGuy::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 체력(소)
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH_SMALL, CHealth_Small::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 체력(대)
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH_BIG, CHealth_Big::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 아머(소)
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_ARMOR_SMALL, CArmor_Small::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 아머(대)
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_ARMOR_BIG, CArmor_Big::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 총알
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_CLIP, CAmmo_Clip::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 샷건 탄약
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_SHELL, CAmmo_Shell::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 폭발통
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL, CBarrelExplosive::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 문
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::DOOR, CDoor::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 스위치
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR, CSwitch_Button::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	//텍스처 필터
@@ -131,7 +199,7 @@ HRESULT CMainApp::Ready_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	m_pManagementClass->Add_Scene(SCENEID::LOGO, new CLogo(pGraphicDev));
 	m_pManagementClass->Add_Scene(SCENEID::STAGE1, new CStage(pGraphicDev));
-	
+
 	if (FAILED(m_pManagementClass->Change_Scene(SCENEID::LOGO)))
 	{
 		MSG_BOX("Scene Setting Failed");
@@ -162,8 +230,8 @@ void CMainApp::Free()
 	Engine::Safe_Release(m_pGraphicDev);
 	
 	CTextureManager::GetInstance()->DestroyInstance();
-	CObjectFactory::GetInstance()->DestroyInstance();
 	CFileManager::GetInstance()->DestroyInstance();
+	CObjectFactory::GetInstance()->DestroyInstance();
 	CColliderManager::GetInstance()->DestroyInstance();
 	CLightManager::GetInstance()->DestroyInstance();
 	CFontManager::GetInstance()->DestroyInstance();
@@ -172,6 +240,7 @@ void CMainApp::Free()
 	CTimerManager::GetInstance()->DestroyInstance();
 	CFrameManager::GetInstance()->DestroyInstance();
 	CDInputManager::GetInstance()->DestroyInstance();
+	CWeaponManager::GetInstance()->DestroyInstance();
 
 	m_pManagementClass->DestroyInstance();
 	m_pDeviceClass->DestroyInstance();

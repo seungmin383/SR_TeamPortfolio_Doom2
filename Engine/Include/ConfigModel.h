@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine_Define.h"
+#include "GameObjectType.h"
 
 struct ConfigModel
 {
@@ -13,6 +14,9 @@ struct ConfigModel
 	string ObjectSpawnSavePath = "";
 	string MonsterSpawnSavePath = "";
 	string TerrainSavePath = "";
+
+	vector<GameObjectType> ObjPrototypeTags;
+	vector<GameObjectType> ObjIdTags;
 };
 
 inline void to_json(json& j, const ConfigModel& c)
@@ -27,6 +31,9 @@ inline void to_json(json& j, const ConfigModel& c)
 	j["ObjectSpawnSavePath"] = c.ObjectSpawnSavePath;
 	j["MonsterSpawnSavePath"] = c.MonsterSpawnSavePath;
 	j["TerrainSavePath"] = c.TerrainSavePath;
+
+	j["ObjPrototypeTags"] = c.ObjPrototypeTags;
+	j["ObjIdTags"] = c.ObjIdTags;
 }
 
 inline void from_json(const json& j, ConfigModel& c)
@@ -41,4 +48,7 @@ inline void from_json(const json& j, ConfigModel& c)
 	j.at("ObjectSpawnSavePath").get_to(c.ObjectSpawnSavePath);
 	j.at("MonsterSpawnSavePath").get_to(c.MonsterSpawnSavePath);
 	j.at("TerrainSavePath").get_to(c.TerrainSavePath);
+
+	j.at("ObjPrototypeTags").get_to(c.ObjPrototypeTags);
+	j.at("ObjIdTags").get_to(c.ObjIdTags);
 }

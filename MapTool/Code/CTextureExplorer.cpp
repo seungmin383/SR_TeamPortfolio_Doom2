@@ -183,6 +183,7 @@ void CTextureExplorer::MoveDir(fs::path p)
 
 void CTextureExplorer::MoveTerrainResourceDir()
 {
+	CFileManager::GetInstance()->MoveProjectDir();
 	CFileManager::GetInstance()->MoveDir(CFileManager::GetInstance()->GetTerrainResourceDir());
 
 	GetChildList();

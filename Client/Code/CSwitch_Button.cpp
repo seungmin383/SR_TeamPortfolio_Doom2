@@ -167,7 +167,7 @@ void CSwitch_Button::Set_OnTerrain()
 {
 	if (!m_pTransformCom || !m_pCalculatorCom) return;
 
-	auto* pTerrainBuf = static_cast<CTerrainTex*>(
+	auto* pTerrainBuf = static_cast<CTerrainTexSector*>(
 		CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
 	if (!pTerrainBuf) return;
 

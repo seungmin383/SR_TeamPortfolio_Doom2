@@ -11,8 +11,12 @@
 #include "CLightManager.h"
 #include "CColliderManager.h"
 #include "CWeaponManager.h"
+#include "CFileManager.h"
+#include "CObjectFactory.h"
+#include "CTextureManager.h"
 
 #include "CTerrain.h"
+#include "CTerrainSector.h"
 
 #include "CDynamicCamera.h"
 #include "CZombieMan.h"
@@ -61,7 +65,6 @@ HRESULT CMainApp::Ready_MainApp()
 int CMainApp::Update_MainApp(const float& fTimeDelta)
 {
 	CDInputManager::GetInstance()->Update_InputDev();
-	CWeaponManager::GetInstance()->Update_Weapon(fTimeDelta);
 
 	m_pManagementClass->Update_Scene(fTimeDelta);
 
@@ -73,13 +76,7 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 
 void CMainApp::LateUpdate_MainApp(const float& fTimeDelta)
 {
-	// _ulong	dwFlag(0);
-	// 
-	// if (dwFlag = CDInputMgr::GetInstance()->Get_DIMouseMove(DIMS_Z))
-	// {
-	// 	int a = 0;
-	// }
-
+	CWeaponManager::GetInstance()->Update_Weapon(fTimeDelta);
 	m_pManagementClass->LateUpdate_Scene(fTimeDelta);
 }
 
@@ -118,6 +115,9 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::TERRAIN, CTerrain::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::TERRAINSECTOR, CTerrainSector::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	//Initiate GameObject Prototype
@@ -191,6 +191,10 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	(*ppGraphicDev)->SetRenderState(D3DRS_ZENABLE, TRUE);		//Z 버퍼에 값을 기록, Z 값 기준 자동 정렬 수행 여부를 물음
 	(*ppGraphicDev)->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);	//Z 버퍼에 값을 기록할 지 결정
 
+	CObjectFactory::GetInstance()->Set_Dev(*ppGraphicDev);
+
+	CFileManager::GetInstance()->SetProjectDir();
+
 	return S_OK;
 }
 
@@ -225,7 +229,10 @@ void CMainApp::Free()
 {
 	Engine::Safe_Release(m_pDeviceClass);
 	Engine::Safe_Release(m_pGraphicDev);
-
+	
+	CTextureManager::GetInstance()->DestroyInstance();
+	CFileManager::GetInstance()->DestroyInstance();
+	CObjectFactory::GetInstance()->DestroyInstance();
 	CColliderManager::GetInstance()->DestroyInstance();
 	CLightManager::GetInstance()->DestroyInstance();
 	CFontManager::GetInstance()->DestroyInstance();
