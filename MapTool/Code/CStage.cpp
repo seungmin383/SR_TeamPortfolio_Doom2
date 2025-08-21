@@ -78,10 +78,10 @@ _int CStage::Update_Scene(const _float& fTimeDelta)
 	CColliderManager::GetInstance()->Update();
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
 
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_T) & 0x80)
-	{
-		CManagement::GetInstance()->Change_Scene(SCENEID::STAGE2);
-	}
+	//if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_T) & 0x80)
+	//{
+	//	CManagement::GetInstance()->Change_Scene(SCENEID::STAGE2);
+	//}
 
 	return iExit;
 }
@@ -100,23 +100,6 @@ HRESULT CStage::Load_PreSet()
 {
 	CObjectFactory::GetInstance()->Create_Terrain_Default(VTXCNTX, VTXCNTZ, VTXITV, (_tchar*)L"Proto_TerrainTexture");
 
-	TerrainModels tm = CFileManager::GetInstance()->LoadTerrain((_uint)SCENEID::STAGE1);
-
-	for (auto m : tm.model)
-	{
-		auto pObj = CObjectFactory::GetInstance()->Load_Terrain(m.vertexCountX,
-			m.vertexCountZ,
-			m.vertexInterval,
-			m.vertices,
-			m.strTextureTag,
-			m.pos);
-	}
-
-	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem((_uint)SCENEID::STAGE1);;
-
-	for (auto item : loadData)
-		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, item.position);
-
 	return S_OK;
 }
 
@@ -127,14 +110,6 @@ HRESULT CStage::Ready_Environment_Layer(LAYERID _eLayerId)
 		return E_FAIL;
 
 	Engine::CGameObject* pGameObject = nullptr;
-
-	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::TERRAIN);
-
-	//if (nullptr == pGameObject)
-	//	return E_FAIL;
-
-	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_TERRAIN, pGameObject)))
-	//	return E_FAIL;
 
 	pGameObject = CSkyBox::Create(m_pGraphicDev);
 
@@ -157,266 +132,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	//핑키데몬
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON);
-
-	if (nullptr == pGameObject)
-		return E_FAIL;
-
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
-		return E_FAIL;
-
-	//아크바일
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE);
-
-	if (nullptr == pGameObject)
-		return E_FAIL;
-
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
-		return E_FAIL;
-
-	//임프
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP);
-
-	if (nullptr == pGameObject)
-		return E_FAIL;
-
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
-		return E_FAIL;
-
-	//좀비맨
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ZOMBIEMAN);
-
-	if (nullptr == pGameObject)
-		return E_FAIL;
-
-	auto a = pGameObject;
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
-		return E_FAIL;
-
-	//스파이더 마스터마인
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SPIDERMASTERMIND);
-
-	if (nullptr == pGameObject)
-		return E_FAIL;
-
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
-		return E_FAIL;
-
-	//샷건 가이
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SHOTGUNGUY);
-
-	if (nullptr == pGameObject)
-		return E_FAIL;
-
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
-		return E_FAIL;
-
-
-	// 체력(소)
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH_SMALL);
-
-	if (nullptr == pGameObject)
-		return E_FAIL;
-
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
-		return E_FAIL;
-
-	// 체력(대)
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH_BIG);
-
-	if (nullptr == pGameObject)
-		return E_FAIL;
-
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
-		return E_FAIL;
-
-	// 아머(소)
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_ARMOR_SMALL);
-
-	if (nullptr == pGameObject)
-		return E_FAIL;
-
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
-		return E_FAIL;
-
-	// 아머(대)
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_ARMOR_BIG);
-
-	if (nullptr == pGameObject)
-		return E_FAIL;
-
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
-		return E_FAIL;
-
-	// 총알
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_CLIP);
-
-	if (nullptr == pGameObject)
-		return E_FAIL;
-
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
-		return E_FAIL;
-
-	// 샷건 탄약
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_SHELL);
-
-	if (nullptr == pGameObject)
-		return E_FAIL;
-
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
-		return E_FAIL;
-
-	// 로켓 탄약
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_ROCKET);
-
-	if (nullptr == pGameObject)
-		return E_FAIL;
-
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
-		return E_FAIL;
-
-	// 폭발통
-	// 1개만 소환
-	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL);
-	//
-	//if (nullptr == pGameObject)
-	//	return E_FAIL;
-	//
-	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pGameObject)))						
-	//	return E_FAIL;
-
-	/*m_mapLayer.insert({ _eLayerId, pLayer });*/
-
-	// 여러개 소환(테스트)
-	std::vector<_vec3> kBarrelPos = {
-		_vec3(25.f, 0.f, 25.f),
-		_vec3(28.f, 0.f, 25.f),
-		_vec3(31.f, 0.f, 25.f),
-		_vec3(25.f, 0.f, 28.f),
-		_vec3(28.f, 0.f, 28.f),
-		_vec3(31.f, 0.f, 28.f),
-	};
-
-	for (const auto& p : kBarrelPos)
-	{
-		auto* pBarrel = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL);
-		if (!pBarrel) return E_FAIL;
-
-		// Transform 컴포넌트로 위치/스케일 세팅
-		if (auto* tr = dynamic_cast<Engine::CTransform*>(pBarrel->Get_Component(Engine::ID_DYNAMIC, L"Com_Transform")))
-		{
-			tr->Set_Pos(p.x, p.y, p.z);
-		}
-
-		if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pBarrel)))
-			return E_FAIL;
-	}
-
-
-	////�����̴� �����͸��ε�
-	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SPIDERMASTERMIND);
-
-	//if (nullptr == pGameObject)
-	//	return E_FAIL;
-
-	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
-	//	return E_FAIL;
-
-	// 문 생성(2개)
-	Engine::CGameObject* pDoorObj = CPrototypeManager::GetInstance()
-		->Clone_ObjPrototype(OBJPROTOTYPE::DOOR);
-	if (nullptr == pDoorObj) return E_FAIL;
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pDoorObj))) return E_FAIL;
-	dynamic_cast<CDoor*>(pDoorObj)->Set_LinkId(L"A");
-
-	// 문 #1 위치 지정 (확실히)
-	Engine::CTransform* tr1 = GetTransformPtr(pDoorObj);
-	if (tr1) {
-		tr1->Set_Pos(10.f, 2.f, 30.f);   // 기준 위치
-	}
-
-
-	Engine::CGameObject* pDoorObj2 = CPrototypeManager::GetInstance()
-		->Clone_ObjPrototype(OBJPROTOTYPE::DOOR);
-	if (nullptr == pDoorObj2) return E_FAIL;
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pDoorObj2))) return E_FAIL;
-	dynamic_cast<CDoor*>(pDoorObj2)->Set_LinkId(L"A");
-
-	// 문 #2는 왼쪽으로 분리
-	Engine::CTransform* tr2 = GetTransformPtr(pDoorObj2);
-	if (tr2) tr2->Set_Pos(0.f, 2.f, 30.f);
-
-	// 스위치 생성(1:1)
-	Engine::CGameObject* pSwitchObj = CPrototypeManager::GetInstance()
-		->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
-	if (nullptr == pSwitchObj) return E_FAIL;
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj))) return E_FAIL;
-
-	auto* sw1 = dynamic_cast<CSwitch_Button*> (pSwitchObj);
-	sw1->Set_LinkId(L"A");
-	sw1->Set_LinkMode(CSwitch_Button::LinkMode::OneToOne);
-
-	Engine::CTransform* tr3 = GetTransformPtr(pSwitchObj);
-	if (tr3) {
-		tr3->Set_Pos(15.f, 0.f, 18.f);   // 기준 위치
-	}
-
-	// 스위치 생성(1:N)
-	Engine::CGameObject* pSwitchObj2 = CPrototypeManager::GetInstance()
-		->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
-	if (nullptr == pSwitchObj2) return E_FAIL;
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj2))) return E_FAIL;
-
-	auto* sw2 = dynamic_cast<CSwitch_Button*> (pSwitchObj2);
-	sw2->Set_LinkId(L"A");
-	sw2->Set_LinkMode(CSwitch_Button::LinkMode::OneToMany);
-
-	Engine::CTransform* tr4 = GetTransformPtr(pSwitchObj2);
-	if (tr4) {
-		tr4->Set_Pos(5.f, 0.f, 18.f);   // 기준 위치
-	}
-
-	// 샷건 오브젝트
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::WEAPON_SHOTGUN);
-
-	if (nullptr == pGameObject)
-		return E_FAIL;
-
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
-		return E_FAIL;
-
-	// 체인건 오브젝트
-	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::WEAPON_CHAINGUN);
-
-	//if (nullptr == pGameObject)
-	//	return E_FAIL;
-
-	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
-	//	return E_FAIL;
-
-	//// 로켓 런처 오브젝트
-	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::WEAPON_ROCKET);
-
-	//if (nullptr == pGameObject)
-	//	return E_FAIL;
-
-	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
-	//	return E_FAIL;
-
-	//// BFG 오브젝트
-	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::WEAPON_BFG);
-
-	//if (nullptr == pGameObject)
-	//	return E_FAIL;
-
-	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
-	//	return E_FAIL;
-
 	m_mapLayer.insert({ _eLayerId, pLayer });
-
-	ConnectDoorSwitchByLinkId();
-
 
 	return S_OK;
 }

@@ -96,7 +96,7 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 	Engine::CCamera::LateUpdate_GameObject(fTimeDelta);
 
 	Key_Input(fTimeDelta);
-	Mouse_Input();
+	//Mouse_Input();
 
 	m_pColliderCom->Late_Update();
 
