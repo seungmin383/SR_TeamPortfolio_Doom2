@@ -272,12 +272,9 @@
     </ClInclude>
     <ClInclude Include="..\Header\CWeapon_Rocket.h">
       <Filter>02. GameObject\06. Object\Weapon</Filter>
-<<<<<<< Updated upstream
-=======
     </ClInclude>
     <ClInclude Include="..\Header\CWeapon_ChainGun.h">
       <Filter>02. GameObject\06. Object\Weapon</Filter>
->>>>>>> Stashed changes
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -418,12 +415,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CWeapon_Rocket.cpp">
       <Filter>02. GameObject\06. Object\Weapon</Filter>
-<<<<<<< Updated upstream
-=======
     </ClCompile>
     <ClCompile Include="..\Code\CWeapon_ChainGun.cpp">
       <Filter>02. GameObject\06. Object\Weapon</Filter>
->>>>>>> Stashed changes
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

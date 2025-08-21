@@ -7,11 +7,7 @@
 #include "CWeaponManager.h"
 
 CAmmo_Shell::CAmmo_Shell(LPDIRECT3DDEVICE9 pGraphicDev)
-<<<<<<< Updated upstream
-    : CGameObject(pGraphicDev), m_iShell(0), m_iFrame_Shell(0), m_pWeaponManager(nullptr)
-=======
 	: CGameObject(pGraphicDev), m_iShell(0), m_iFrame_Shell(0), m_pWeaponManager(nullptr)
->>>>>>> Stashed changes
 {
 }
 
@@ -110,21 +106,7 @@ void CAmmo_Shell::OnCollisionEnter(CCollider* _pOther)
 	 // 누가 부딪혔는지: 플레이어/카메라
 	const auto layer = _pOther->Get_ColLayer();
 	const bool allowed =
-<<<<<<< Updated upstream
 		(layer & COL_PLAYER) ||
-		(layer & COL_PLAYERCAMERA);
-
-	if (!allowed) return;
-
-	// 무기 매니저로 탄약 지급
-	if (m_pWeaponManager) {
-		m_pWeaponManager->Add_Ammo(AMMO_TYPE::SHELL, m_iShell);
-	}
-
-	// 아이템 비활성화(충돌/업데이트에서 제거)
-	m_bPicked = true;
-	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
-=======
 		(layer & COL_PLAYERCAMERA);
 
 	if (!allowed) return;
@@ -139,7 +121,6 @@ void CAmmo_Shell::OnCollisionEnter(CCollider* _pOther)
 		if (m_pColliderCom) m_pColliderCom->Set_Active(false);
 	}
 
->>>>>>> Stashed changes
 }
 
 void CAmmo_Shell::OnCollisionExit(CCollider* _pOther)

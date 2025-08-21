@@ -207,10 +207,7 @@
     <ClInclude Include="..\Header\CLogo.h" />
     <ClInclude Include="..\Header\CMainApp.h" />
     <ClInclude Include="..\Header\CMonster.h" />
-<<<<<<< Updated upstream
-=======
     <ClInclude Include="..\Header\CWeapon_ChainGun.h" />
->>>>>>> Stashed changes
     <ClInclude Include="..\Header\CWeapon_Rocket.h" />
     <ClInclude Include="..\Header\CWeapon_Shotgun.h" />
     <ClInclude Include="..\Header\CTerrainSector.h" />
@@ -261,10 +258,7 @@
     <ClCompile Include="..\Code\CLogo.cpp" />
     <ClCompile Include="..\Code\CMainApp.cpp" />
     <ClCompile Include="..\Code\CMonster.cpp" />
-<<<<<<< Updated upstream
-=======
     <ClCompile Include="..\Code\CWeapon_ChainGun.cpp" />
->>>>>>> Stashed changes
     <ClCompile Include="..\Code\CWeapon_Rocket.cpp" />
     <ClCompile Include="..\Code\CWeapon_Shotgun.cpp" />
     <ClCompile Include="..\Code\CTerrainSector.cpp" />
