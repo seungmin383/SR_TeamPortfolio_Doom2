@@ -9,6 +9,8 @@
 #include "CColliderManager.h"
 #include "CPlayerWeapon.h"
 #include "CManagement.h"
+#include "CWeaponManager.h"
+#include "CDInputManager.h"
 
 #include "CObjectFactory.h"
 #include "CFileManager.h"
@@ -16,9 +18,11 @@
 #include "../../Engine/Include/GameObjectSpawnInfo.h"
 
 #include "CGameUI.h"
+#include "CGameUI_Info_Weapon.h"
 #include "CGameUI_Face.h"
 #include "CGameUI_Info.h"
 #include "CGameUI_Info_Ammo.h"
+#include "CGameUI_Info_WeaponNum.h"
 #include "CHealth_Small.h"
 #include "CArmor_Small.h"
 #include "CArmor_Big.h"
@@ -65,12 +69,19 @@ HRESULT CStage::Ready_Scene()
 
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYERCAMERA, OBJID::OBJ_OBJECT);
 
+	
 	return S_OK;
 }
 
 _int CStage::Update_Scene(const _float& fTimeDelta)
 {
+	CColliderManager::GetInstance()->Update();
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
+
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_T) & 0x80)
+	{
+		CManagement::GetInstance()->Change_Scene(SCENEID::STAGE2);
+	}
 
 	return iExit;
 }
@@ -79,7 +90,6 @@ void CStage::LateUpdate_Scene(const _float& fTimeDelta)
 {
 	Engine::CScene::LateUpdate_Scene(fTimeDelta);
 
-	CColliderManager::GetInstance()->Update();
 }
 
 void CStage::Render_Scene(const _float& fTimeDelta)
@@ -90,24 +100,22 @@ HRESULT CStage::Load_PreSet()
 {
 	CObjectFactory::GetInstance()->Create_Terrain_Default(VTXCNTX, VTXCNTZ, VTXITV, (_tchar*)L"Proto_TerrainTexture");
 
-	////�� ������ �ε�
-	//TerrainModels tm = CFileManager::GetInstance()->LoadTerrain();
+	TerrainModels tm = CFileManager::GetInstance()->LoadTerrain((_uint)SCENEID::STAGE1);
 
-	//for (auto m : tm.model)
-	//{
-	//	//������Ʈ ����
-	//	auto pObj = CObjectFactory::GetInstance()->Load_Terrain(m.vertexCountX,
-	//		m.vertexCountZ,
-	//		m.vertexInterval,
-	//		m.vertices,
-	//		m.strTextureTag,
-	//		m.pos);
-	//}
+	for (auto m : tm.model)
+	{
+		auto pObj = CObjectFactory::GetInstance()->Load_Terrain(m.vertexCountX,
+			m.vertexCountZ,
+			m.vertexInterval,
+			m.vertices,
+			m.strTextureTag,
+			m.pos);
+	}
 
-	//vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem();;
+	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem((_uint)SCENEID::STAGE1);;
 
-	//for (auto item : loadData)
-	//	CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, item.position);
+	for (auto item : loadData)
+		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, item.position);
 
 	return S_OK;
 }
@@ -120,7 +128,6 @@ HRESULT CStage::Ready_Environment_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	//�� Scene->Load_PreSet()���� ���� 2025-08-20
 	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::TERRAIN);
 
 	//if (nullptr == pGameObject)
@@ -150,43 +157,32 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
+	//핑키데몬
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
+		return E_FAIL;
+
 	//아크바일
-	/*pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE);*/
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE);
 
+	if (nullptr == pGameObject)
+		return E_FAIL;
 
-	//if (nullptr == pGameObject)
-	//	return E_FAIL;
-
-	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
-	//	return E_FAIL;
-
-	//m_mapLayer.insert({ _eLayerId, pLayer });
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
+		return E_FAIL;
 
 	//임프
-	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP);
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP);
 
+	if (nullptr == pGameObject)
+		return E_FAIL;
 
-	//if (nullptr == pGameObject)
-	//	return E_FAIL;
-
-	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
-	//	return E_FAIL;
-
-	//m_mapLayer.insert({ _eLayerId, pLayer });
-
-
-
-	//핑키
-	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON);
-
-
-	//if (nullptr == pGameObject)
-	//	return E_FAIL;
-
-	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
-	//	return E_FAIL;
-
-	//m_mapLayer.insert({ _eLayerId, pLayer });
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
+		return E_FAIL;
 
 	//좀비맨
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ZOMBIEMAN);
@@ -198,7 +194,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
 		return E_FAIL;
 
-	//스파이더 마스터마인드
+	//스파이더 마스터마인
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SPIDERMASTERMIND);
 
 	if (nullptr == pGameObject)
@@ -206,8 +202,6 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
 		return E_FAIL;
-
-	//m_mapLayer.insert({ _eLayerId, pLayer });
 
 	//샷건 가이
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SHOTGUNGUY);
@@ -217,6 +211,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
 		return E_FAIL;
+
 
 	// 체력(소)
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH_SMALL);
@@ -272,6 +267,15 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
 		return E_FAIL;
 
+	// 로켓 탄약
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_ROCKET);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
+		return E_FAIL;
+
 	// 폭발통
 	// 1개만 소환
 	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL);
@@ -303,7 +307,6 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 		if (auto* tr = dynamic_cast<Engine::CTransform*>(pBarrel->Get_Component(Engine::ID_DYNAMIC, L"Com_Transform")))
 		{
 			tr->Set_Pos(p.x, p.y, p.z);
-			tr->Set_Scale(_vec3(0.2f, 0.2f, 0.2f)); // 필요 시
 		}
 
 		if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pBarrel)))
@@ -324,7 +327,6 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	Engine::CGameObject* pDoorObj = CPrototypeManager::GetInstance()
 		->Clone_ObjPrototype(OBJPROTOTYPE::DOOR);
 	if (nullptr == pDoorObj) return E_FAIL;
-	// (선택) Transform 세팅 ...
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pDoorObj))) return E_FAIL;
 	dynamic_cast<CDoor*>(pDoorObj)->Set_LinkId(L"A");
 
@@ -338,7 +340,6 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	Engine::CGameObject* pDoorObj2 = CPrototypeManager::GetInstance()
 		->Clone_ObjPrototype(OBJPROTOTYPE::DOOR);
 	if (nullptr == pDoorObj2) return E_FAIL;
-	// (선택) Transform 세팅 ...
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pDoorObj2))) return E_FAIL;
 	dynamic_cast<CDoor*>(pDoorObj2)->Set_LinkId(L"A");
 
@@ -350,7 +351,6 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	Engine::CGameObject* pSwitchObj = CPrototypeManager::GetInstance()
 		->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
 	if (nullptr == pSwitchObj) return E_FAIL;
-	// (선택) Transform 세팅 ...
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj))) return E_FAIL;
 
 	auto* sw1 = dynamic_cast<CSwitch_Button*> (pSwitchObj);
@@ -366,7 +366,6 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	Engine::CGameObject* pSwitchObj2 = CPrototypeManager::GetInstance()
 		->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
 	if (nullptr == pSwitchObj2) return E_FAIL;
-	// (선택) Transform 세팅 ...
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj2))) return E_FAIL;
 
 	auto* sw2 = dynamic_cast<CSwitch_Button*> (pSwitchObj2);
@@ -378,17 +377,40 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 		tr4->Set_Pos(5.f, 0.f, 18.f);   // 기준 위치
 	}
 
+	// 샷건 오브젝트
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::WEAPON_SHOTGUN);
 
-	//m_mapLayer.insert({ _eLayerId, pLayer });
+	if (nullptr == pGameObject)
+		return E_FAIL;
 
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
+		return E_FAIL;
 
-	////���� ����
-	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SHOTGUNGUY);
+	// 체인건 오브젝트
+	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::WEAPON_CHAINGUN);
 
 	//if (nullptr == pGameObject)
 	//	return E_FAIL;
 
-	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
+	//	return E_FAIL;
+
+	//// 로켓 런처 오브젝트
+	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::WEAPON_ROCKET);
+
+	//if (nullptr == pGameObject)
+	//	return E_FAIL;
+
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
+	//	return E_FAIL;
+
+	//// BFG 오브젝트
+	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::WEAPON_BFG);
+
+	//if (nullptr == pGameObject)
+	//	return E_FAIL;
+
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
 	//	return E_FAIL;
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
@@ -418,6 +440,14 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 
 	// UI
 	pGameObject = CGameUI::Create(m_pGraphicDev);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
+		return E_FAIL;
+
+	pGameObject = CGameUI_Info_Weapon::Create(m_pGraphicDev);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
@@ -462,17 +492,30 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	// (2) Camera 객체 포인터를 얻어서
-	const auto& cameraObjects2 = Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYERCAMERA);
-	if (cameraObjects2.empty())
+	// (2) WeaponManager 포인터 연결
+	static_cast<CGameUI_Info_Ammo*>(pGameObject)->Set_WeaponManager(CWeaponManager::GetInstance());
+
+	// (3) UI Info를 UI 레이어에 등록
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
 		return E_FAIL;
 
-	auto* pCameraObject2 = dynamic_cast<CDynamicCamera*>(cameraObjects2.back());
-	if (pCameraObject2 == nullptr)
+	// WeaponNumber
+		// (1) UI Info 객체 생성
+	pGameObject = CGameUI_Info_WeaponNum::Create(m_pGraphicDev);
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	// (2) Camera 객체 포인터를 얻어서
+	const auto& cameraObjects3 = Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYERCAMERA);
+	if (cameraObjects3.empty())
+		return E_FAIL;
+
+	auto* pCameraObject3 = dynamic_cast<CDynamicCamera*>(cameraObjects3.back());
+	if (pCameraObject3 == nullptr)
 		return E_FAIL;
 
 	// (3) UI Info에 Camera 포인터를 연결
-	static_cast<CGameUI_Info_Ammo*>(pGameObject)->Set_Camera(pCameraObject2);
+	static_cast<CGameUI_Info_WeaponNum*>(pGameObject)->Set_Camera(pCameraObject3);
 
 	// (4) UI Info를 UI 레이어에 등록
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))

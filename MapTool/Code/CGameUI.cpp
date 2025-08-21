@@ -153,13 +153,6 @@ HRESULT CGameUI::Add_Component()
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Calculator", pComponent });
 
-		/*pComponent = m_pColliderCom = dynamic_cast<Engine::CCollider*>
-		(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Collider"));
-	if (nullptr == pComponent)
-		return E_FAIL;
-
-	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });*/
-
 	return S_OK;
 }
 

@@ -2,9 +2,10 @@
 #include "CGameUI_Info_Ammo.h"
 #include "CManagement.h"
 #include "CRenderer.h"
+#include "CWeaponManager.h"
 
 CGameUI_Info_Ammo::CGameUI_Info_Ammo(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev), m_pCamera(nullptr), m_iNum(0)
+	: CGameObject(pGraphicDev), m_pWeaponManager(nullptr)
 {
 }
 
@@ -21,9 +22,6 @@ HRESULT CGameUI_Info_Ammo::Ready_GameObject()
 {
 	if (FAILED(Add_Component()))
 		return E_FAIL;
-
-	m_iNum = 0;
-
 
 	// 원본 텍스쳐의 크기와 비율을 정의
 	const _float fTexWidth = 4.f;
@@ -51,10 +49,6 @@ HRESULT CGameUI_Info_Ammo::Ready_GameObject()
 _int CGameUI_Info_Ammo::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
-
-	m_hundreds = m_pCamera->Get_Hp() / 100;
-	m_tens = m_pCamera->Get_Hp() % 100 / 10;
-	m_ones = m_pCamera->Get_Hp() % 10;
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_PLAYERUI, this);
 
@@ -108,11 +102,18 @@ void CGameUI_Info_Ammo::Render_GameObject(const _float& fTimeDelta)
 
 	vPos = { -300.f, -WINCY * 0.5f + vScale.y + 15.f, 0.f };
 
-	Render_Number(m_pCamera->Get_Clip(), 560.f, -WINCY * 0.5f + vScale.y + 98.f, 10.f, 8.f / (4.f / 6.f));
-	Render_Number(m_pCamera->Get_MaxNum(), 680.f, -WINCY * 0.5f + vScale.y + 98.f, 10.f, 8.f / (4.f / 6.f));
+	const int clip = m_pWeaponManager ? m_pWeaponManager->Get_Ammo(AMMO_TYPE::CLIP) : 0;
+	const int clipMax = m_pWeaponManager ? m_pWeaponManager->Get_MaxAmmo(AMMO_TYPE::CLIP) : 0;
+	const int shell = m_pWeaponManager ? m_pWeaponManager->Get_Ammo(AMMO_TYPE::SHELL) : 0;
+	const int shellMax = m_pWeaponManager ? m_pWeaponManager->Get_MaxAmmo(AMMO_TYPE::SHELL) : 0;
+	const int rocket = m_pWeaponManager ? m_pWeaponManager->Get_Ammo(AMMO_TYPE::ROCKET) : 0;
+	const int rocketMax = m_pWeaponManager ? m_pWeaponManager->Get_MaxAmmo(AMMO_TYPE::ROCKET) : 0;
 
-	Render_Number(m_pCamera->Get_Shell(), 560.f, -WINCY * 0.5f + vScale.y + 72.f, 10.f, 8.f / (4.f / 6.f));
-	Render_Number(m_pCamera->Get_MaxNum()/4, 680.f, -WINCY * 0.5f + vScale.y + 72.f, 10.f, 8.f / (4.f / 6.f));
+	Render_Number(clip, 560.f, -WINCY * 0.5f + vScale.y + 98.f, 10.f, 8.f / (4.f / 6.f));
+	Render_Number(clipMax, 680.f, -WINCY * 0.5f + vScale.y + 98.f, 10.f, 8.f / (4.f / 6.f));
+
+	Render_Number(shell, 560.f, -WINCY * 0.5f + vScale.y + 72.f, 10.f, 8.f / (4.f / 6.f));
+	Render_Number(shellMax, 680.f, -WINCY * 0.5f + vScale.y + 72.f, 10.f, 8.f / (4.f / 6.f));
 	// 5. 렌더링이 끝난 후, 백업해두었던 원래의 View, Projection 행렬로 복원합니다.                                           
 	// 이렇게 해야 다른 3D 오브젝트들이 정상적으로 렌더링됩니다.                                                              
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &matView);

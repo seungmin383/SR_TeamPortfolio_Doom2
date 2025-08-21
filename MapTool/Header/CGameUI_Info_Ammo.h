@@ -5,6 +5,8 @@
 #include "CDynamicCamera.h"
 #include "CPlayerWeapon.h"
 
+class CWeaponManager;
+
 class CGameUI_Info_Ammo : public CGameObject
 {
 private:
@@ -26,10 +28,10 @@ private:
 	HRESULT Add_Component();
 
 public:
-	void Set_Camera(CDynamicCamera* pCamera) { m_pCamera = pCamera; }
+	void Set_WeaponManager(CWeaponManager* pWeaponManager) { m_pWeaponManager = pWeaponManager; }
 
 private:
-	CDynamicCamera* m_pCamera;
+	CWeaponManager* m_pWeaponManager;
 
 private:
 	Engine::CRectTex* m_pBufferCom;
@@ -38,11 +40,6 @@ private:
 
 private:
 	vector<Engine::CTexture*> m_vecDigitTextures;
-
-	_int m_iNum;
-	_int m_hundreds;
-	_int m_tens;
-	_int m_ones;
 
 	void Render_Number(int number, float baseX, float baseY, float scaleX, float scaleY);
 
