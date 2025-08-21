@@ -65,9 +65,12 @@ enum class OBJPROTOTYPE
 	ITEM_ROCKET,
 	OBJ_BARREL,
 	WEAPON_SHOTGUN,
+<<<<<<< Updated upstream
+=======
 	WEAPON_CHAINGUN,
 	WEAPON_ROCKET,
 	WEAPON_BFG,
+>>>>>>> Stashed changes
 	BUTTON_DOOR,
 
 	//51 ~ 60 공격 관련

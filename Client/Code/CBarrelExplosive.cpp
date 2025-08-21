@@ -190,12 +190,22 @@ void CBarrelExplosive::OnCollisionEnter(CCollider* _pOther)
 
     const auto layer = _pOther->Get_ColLayer();
 
-    // 레이/투사체/공격/폭발 모두 허용 (혹시 카메라 레이어 명이 다르면 대비)
-    if (layer & (COL_BULLET | COL_ATTACK | COL_EXPLOSION
-        | COL_PLAYERCAMERA | COL_PLAYER | COL_DYNAMICCAMERA)) {
+    if (!(_pOther->Is_RayHit()))
+    {
+        char buf[128];
+        sprintf_s(buf, "Hit by %08X\n",
+            (unsigned)_pOther->Get_ColLayer());
+        OutputDebugStringA(buf);
         TakeDamage((layer & COL_EXPLOSION) ? 9999 : 10);
         return;
     }
+
+    //// 레이/투사체/공격/폭발 모두 허용 (몸통 박치기로도 데미지 들어가는 버그 있음)
+    //if (layer & (COL_BULLET | COL_ATTACK | COL_EXPLOSION
+    //    | COL_PLAYERCAMERA | COL_PLAYER | COL_DYNAMICCAMERA)) {
+    //    TakeDamage((layer & COL_EXPLOSION) ? 9999 : 10);
+    //    return;
+    //}
 }
 
 void CBarrelExplosive::OnCollisionExit(CCollider* _pOther)
