@@ -5,6 +5,7 @@
 
 struct StageInfo
 {
+	_int stageNumber;
 	//ÁöÇü
 	TerrainModels terrain;
 

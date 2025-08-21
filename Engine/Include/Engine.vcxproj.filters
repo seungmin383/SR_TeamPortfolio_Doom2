@@ -294,6 +294,9 @@
     <ClInclude Include="GameObjectType.h">
       <Filter>DataModel</Filter>
     </ClInclude>
+    <ClInclude Include="StageSet.h">
+      <Filter>DataModel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\CGraphicDev.cpp">

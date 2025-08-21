@@ -94,7 +94,7 @@ HRESULT CStage::Load_PreSet()
 {
 	CObjectFactory::GetInstance()->Create_Terrain_Default(VTXCNTX, VTXCNTZ, VTXITV, (_tchar*)L"Proto_TerrainTexture");
 
-	TerrainModels tm = CFileManager::GetInstance()->LoadTerrain();
+	TerrainModels tm = CFileManager::GetInstance()->LoadTerrain((_uint)SCENEID::STAGE1);
 
 	for (auto m : tm.model)
 	{
@@ -106,7 +106,7 @@ HRESULT CStage::Load_PreSet()
 			m.pos);
 	}
 
-	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem();;
+	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem((_uint)SCENEID::STAGE1);;
 
 	for (auto item : loadData)
 		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, item.position);

@@ -71,6 +71,7 @@
     <ClInclude Include="GameObjectType.h" />
     <ClInclude Include="SceneSpawnInfo.h" />
     <ClInclude Include="StageInfo.h" />
+    <ClInclude Include="StageSet.h" />
     <ClInclude Include="TerrainModel.h" />
     <ClInclude Include="Vec3Inline.h" />
   </ItemGroup>
