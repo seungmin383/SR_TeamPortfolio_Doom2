@@ -4,9 +4,10 @@
 #include "CManagement.h"
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
+#include "CWeaponManager.h"
 
 CAmmo_Clip::CAmmo_Clip(LPDIRECT3DDEVICE9 pGraphicDev)
-    : CGameObject(pGraphicDev), m_iClip(0), m_iFrame_Clip(0)
+    : CGameObject(pGraphicDev), m_iClip(0), m_iFrame_Clip(0), m_pWeaponManager(nullptr)
 {
 }
 
@@ -28,8 +29,10 @@ HRESULT CAmmo_Clip::Ready_GameObject()
 
 	m_iFrame_Clip = 0;
 
+	m_pWeaponManager = CWeaponManager::GetInstance();
+
 	m_pTransformCom->Set_Pos(8.f, 0.f, 10.f);
-	m_pTransformCom->Set_Scale(_vec3(0.5f, 0.5f, 0.5f));
+	m_pTransformCom->Set_Scale(_vec3(1.f, 1.f, 1.f));
 
 	m_pColliderCom->Ready_CCollider(
 		this,
@@ -37,7 +40,7 @@ HRESULT CAmmo_Clip::Ready_GameObject()
 		_vec3(1.f, 1.f, 1.f),  // 아이템 박스 크기 예시
 		_vec3(0, 0.4f, 0),        // 약간 위로
 		COL_ITEM,               // 너희 COLLAYERID에서 아이템 레이어
-		COL_PLAYER | COL_PLAYERCAMERA       // (마스크를 쓴다면) 플레이어와만 맞게
+		COL_PLAYERCAMERA       // (마스크를 쓴다면) 플레이어와만 맞게
 	);
 	m_pColliderCom->Set_Active(true);
 
@@ -62,12 +65,13 @@ void CAmmo_Clip::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 	if (m_pColliderCom)
-		m_pColliderCom->Late_Update(); // ★ 중요
+		m_pColliderCom->Late_Update(); // 중요
 }
 
 void CAmmo_Clip::Render_GameObject(const _float& fTimeDelta)
 {
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
@@ -77,6 +81,7 @@ void CAmmo_Clip::Render_GameObject(const _float& fTimeDelta)
 	//충돌체
 	m_pColliderCom->Render(g_colRend);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }
 
 void CAmmo_Clip::OnCollision(CCollider* _pOther)
@@ -89,14 +94,26 @@ void CAmmo_Clip::OnCollisionEnter(CCollider* _pOther)
 
 	if (m_bPicked || !_pOther) return;
 
-	auto* who = _pOther->Get_Owner();
-	if (auto* pCam = dynamic_cast<CDynamicCamera*>(who)) {
-		// 1) HP 증가
-		pCam->AddClip(m_iClip); 
+	// 누가 부딪혔는지: 플레이어/카메라
+	const auto layer = _pOther->Get_ColLayer();
+	const bool allowed =
+		(layer & COL_PLAYERCAMERA);
 
-		// 2) 더이상 충돌하지 않게 막기
+	if (!allowed) return;
+	else {
+		// 무기 매니저로 탄약 지급
+		if (m_pWeaponManager) {
+			m_pWeaponManager->Add_Ammo(AMMO_TYPE::CLIP, m_iClip);
+		}
+
+		// 아이템 비활성화(충돌/업데이트에서 제거)
 		m_bPicked = true;
+		if (m_pColliderCom) m_pColliderCom->Set_Active(false);
 	}
+
+	// 아이템 비활성화(충돌/업데이트에서 제거)
+	m_bPicked = true;
+	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
 }
 
 void CAmmo_Clip::OnCollisionExit(CCollider* _pOther)
@@ -153,7 +170,7 @@ void CAmmo_Clip::Set_OnTerrain()
 {
 	if (!m_pTransformCom || !m_pCalculatorCom) return;
 
-	auto* pTerrainBuf = static_cast<CTerrainTex*>(
+	auto* pTerrainBuf = static_cast<CTerrainTexSector*>(
 		CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
 	if (!pTerrainBuf) return;
 
@@ -167,7 +184,7 @@ void CAmmo_Clip::Set_OnTerrain()
 	float h = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBuf->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
 
 	// 살짝 띄워서 지면 간섭 방지
-	m_pTransformCom->Set_Pos(pos.x, h + 0.7f, pos.z);
+	m_pTransformCom->Set_Pos(pos.x, h + 1.f, pos.z);
 }
 
 void CAmmo_Clip::Bill_Board()
@@ -178,20 +195,18 @@ void CAmmo_Clip::Bill_Board()
 	_matrix matWorld, matView, matBill;
 	m_pTransformCom->Get_World(&matWorld);
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixIdentity(&matBill);
 
-	// 빌보드 행렬의 스케일과 위치는 월드 행렬의 것을 그대로 사용                          
-	matBill = matWorld;
+	matBill._11 = matView._11;
+	matBill._13 = matView._13;
+	matBill._31 = matView._31;
+	matBill._33 = matView._33;
 
-	// 뷰행렬에서 역행렬을 이용해 카메라의 회전값을 구하고, 빌보드 행렬의 회전값으로 설정  
-	D3DXMatrixInverse(&matBill, NULL, &matView);
+	D3DXMatrixInverse(&matBill, 0, &matBill);		// 카메라가 갖고 있는 y회전의 역행렬 -역행렬> 카메라의 월드 상태의 y축 회전 행렬
 
-	// 빌보드 행렬의 위치값을 월드 행렬의 위치값으로 설정                                  
-	matBill._41 = matWorld._41;
-	matBill._42 = matWorld._42;
-	matBill._43 = matWorld._43;
-
+	matWorld = matBill * matWorld;
 	// 최종적으로 빌보드 행렬을 월드 행렬로 설정                                           
-	m_pTransformCom->Set_World(&matBill);
+	m_pTransformCom->Set_World(&matWorld);
 }
 
 CAmmo_Clip* CAmmo_Clip::Create(LPDIRECT3DDEVICE9 pGraphicDev)

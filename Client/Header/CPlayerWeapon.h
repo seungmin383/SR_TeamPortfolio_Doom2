@@ -5,25 +5,6 @@
 class CPlayerWeapon :  public CCharacter
 {
 private:
-    enum WEAPON_ID 
-    {
-        PISTOL,
-        SHOTGUN,
-        CHAINGUN,
-        ROCKET,
-        BFG,
-        ID_END
-    };
-
-    enum WEAPON_STATE
-    {
-        IDLE = 0,
-        SHOT = 5,
-        SWAP = 10,
-        STATE_END
-    };
-
-private:
     explicit CPlayerWeapon(LPDIRECT3DDEVICE9 pGraphicDev);
     explicit CPlayerWeapon(const CCharacter& rhs);
     virtual ~CPlayerWeapon();

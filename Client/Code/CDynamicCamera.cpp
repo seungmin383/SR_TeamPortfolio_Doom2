@@ -5,6 +5,8 @@
 #include "CRenderer.h"
 #include "CWeaponManager.h"
 #include "CPistol.h"
+#include "CShotgun.h"
+#include "CChaingun.h"
 
 // Initialize static variable
 _long CDynamicCamera::s_lMouseMoveX = 0L;
@@ -64,13 +66,18 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 		COL_ENEMY | COL_OBJECT | COL_TERRAIN | COL_WALL | COL_ITEM);
 
 	CWeapon* pPistol = CPistol::Create();
-
 	if (pPistol != nullptr)
-	{
-		CWeaponManager::GetInstance()->Add_Weapon(CWeaponManager::WEAPON_ID::PISTOL, pPistol);
-	}
+		CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::PISTOL, pPistol);
 
-	CWeaponManager::GetInstance()->Change_Weapon(CWeaponManager::WEAPON_ID::PISTOL);
+	CWeapon* pShotgun = CShotgun::Create();
+	if (pShotgun != nullptr)
+		CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::SHOTGUN, pShotgun);
+
+	CWeapon* pChaingun = CChaingun::Create();
+	if (pChaingun != nullptr)
+		CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::CHAINGUN, pChaingun);
+
+	CWeaponManager::GetInstance()->Set_CurWeapon(WEAPON_ID::PISTOL);
 
 	return S_OK;
 }
@@ -203,6 +210,23 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		m_vAt.z -= vLength.z;
 	}
 
+	// 무기 교체 관련 키 입력
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_1) & 0x80)
+	{
+		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::PISTOL);
+	}
+
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_2) & 0x80)
+	{
+		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::SHOTGUN);
+	}
+
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_3) & 0x80)
+	{
+		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::CHAINGUN);
+	}
+
+
 	//m_pTransformCom 업데이트 //collider 동기화 용
 	m_pTransformCom->Set_Pos(m_vEye.x, m_vEye.y, m_vEye.z);
 
@@ -230,12 +254,11 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 void CDynamicCamera::Mouse_Input()
 {
-	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB))
+	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB) & 0x80)
 	{
-		CWeaponManager::GetInstance()->Fire_Weapon();
+		_bool bFireCheck = CWeaponManager::GetInstance()->Fire_Weapon();
 
-		// SHOT 상태일 때만 픽킹
-		if (CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponState() == CWeapon::WEAPON_STATE::SHOT)
+		if (bFireCheck)
 			m_pCalculatorCom->Picking_GameObject(g_hWnd);
 	}
 
@@ -295,8 +318,8 @@ void CDynamicCamera::Mouse_Fix()
 void CDynamicCamera::Set_OnTerrain()
 {
 	// 지형의 버텍스 정보를 가져온다
-	Engine::CTerrainTex* pTerrainBufferCom =
-		static_cast<CTerrainTex*>
+	Engine::CTerrainTexSector* pTerrainBufferCom =
+		static_cast<CTerrainTexSector*>
 		(CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
 
 	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&m_vEye, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);

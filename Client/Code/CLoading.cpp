@@ -93,6 +93,8 @@ _uint CLoading::Loading_ForStage()
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_PlayerUI", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/PLAYERUI.png", TEX_NORMAL))))
 		return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_PlayerUI_Weapon", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STARMS.png", TEX_NORMAL))))
+		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_FaceUI", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STFST0%d.png", TEX_NORMAL, 3))))
 		return E_FAIL;
@@ -111,10 +113,19 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Ammo_Number", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STYSNUM%d.png", TEX_NORMAL, 10))))
 		return E_FAIL;
 
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Ammo_Number_Off", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STGNUM%d.png", TEX_NORMAL, 10))))
+		return E_FAIL;
+
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Heal_Small", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/Heal_Small%d.png", TEX_NORMAL, 4))))
 		return E_FAIL;
 
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Heal_Big", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/MEDIA0.png", TEX_NORMAL))))
+		return E_FAIL;
+
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Armor_Small", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/Armor_Small%d.png", TEX_NORMAL, 4))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Armor_Big", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/ARM2A%d.png", TEX_NORMAL, 2))))
 		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Clip", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/CLIPA0.png", TEX_NORMAL))))
@@ -123,11 +134,32 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Shell", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/SHELA0.png", TEX_NORMAL))))
 		return E_FAIL;
 
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Rocket", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/ROCKA0.png", TEX_NORMAL))))
+		return E_FAIL;
+
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Barrel", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/BAR1A%d.png", TEX_NORMAL, 2))))
 		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_BarrelExplosion", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/BEXPA%d.png", TEX_NORMAL, 5))))
 		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Door_1", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/DOOR2_4.png", TEX_NORMAL))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Switch_On", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/SW1S1.png", TEX_NORMAL))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Switch_Off", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/SW1S0.png", TEX_NORMAL))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Shotgun", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/SHOTA0.png", TEX_NORMAL))))
+		return E_FAIL;
+
+	//if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_ChainGun", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/MGUNA0.png", TEX_NORMAL))))
+	//	return E_FAIL;
+
+	//if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Rocket", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/LAUNA0.png", TEX_NORMAL))))
+	//	return E_FAIL;
 
 	lstrcpy(m_szLoading, L"Etc Component Loading.....................");
 

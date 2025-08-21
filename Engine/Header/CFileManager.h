@@ -41,8 +41,11 @@ public:
     //TODO: save monster spawn
     //TODO: load monster spawn
 
-    void                SaveTerrain(fs::path path, string filename, vector<TerrainModel> datas);
-    TerrainModels       LoadTerrain();
+    void                              SaveTerrain(fs::path path, string filename, vector<TerrainModel> datas);
+    TerrainModels                     LoadTerrain();
+
+    void                              SaveItem(fs::path path, string filename, vector<GameObjectSpawnInfo> datas);
+    vector<GameObjectSpawnInfo>       LoadItem();
 
 private:
 

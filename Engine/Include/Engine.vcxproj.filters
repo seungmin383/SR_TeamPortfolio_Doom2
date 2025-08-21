@@ -291,6 +291,9 @@
     <ClInclude Include="..\Header\CBulletMananger.h">
       <Filter>00. Manager\12.BulletManager</Filter>
     </ClInclude>
+    <ClInclude Include="GameObjectType.h">
+      <Filter>DataModel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\CGraphicDev.cpp">

@@ -68,6 +68,7 @@
     <ClInclude Include="..\Header\CTriCol.h" />
     <ClInclude Include="ConfigModel.h" />
     <ClInclude Include="GameObjectSpawnInfo.h" />
+    <ClInclude Include="GameObjectType.h" />
     <ClInclude Include="SceneSpawnInfo.h" />
     <ClInclude Include="StageInfo.h" />
     <ClInclude Include="TerrainModel.h" />

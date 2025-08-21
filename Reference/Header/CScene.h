@@ -32,6 +32,8 @@ public:
     virtual         void        LateUpdate_Scene(const _float& fTimeDelta);
     virtual         void        Render_Scene(const _float& fTimeDelta) PURE;
 
+    virtual         HRESULT     Load_PreSet() PURE;
+
     virtual         CScene*     Create() PURE;
 
 protected:

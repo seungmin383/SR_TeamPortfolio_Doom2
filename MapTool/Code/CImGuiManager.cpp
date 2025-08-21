@@ -52,7 +52,7 @@ void CImGuiManager::Init_ImGui(LPDIRECT3DDEVICE9 pGraphicDev)
 	clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 }
 
-void CImGuiManager::Render_ImGui()
+void CImGuiManager::Render_ImGui(const _float& timeDelta)
 {
 	// Handle window resize (we don't resize directly in the WM_SIZE handler)
 	if (g_ResizeWidth != 0 && g_ResizeHeight != 0)
@@ -68,7 +68,7 @@ void CImGuiManager::Render_ImGui()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 	
-	ControlPanelWindow();
+	ControlPanelWindow(timeDelta);
 	DirExplorerWindow();
 
 	if (show_demo_window)
@@ -91,11 +91,11 @@ void CImGuiManager::ResetDevice()
 	ImGui_ImplDX9_CreateDeviceObjects();
 }
 
-void CImGuiManager::ControlPanelWindow()
+void CImGuiManager::ControlPanelWindow(const _float& timeDelta)
 {
 	ImGui::Begin("Control Panel");
 
-	show_demo_window = controlPanel->ControlPanelWindow();
+	show_demo_window = controlPanel->ControlPanelWindow(timeDelta);
 
 	ImGui::End();
 }

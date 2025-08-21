@@ -5,6 +5,7 @@ BEGIN(Engine)
 
 class CTerrainTex;
 class CTransform;
+class CTerrainTexSector;
 class CGameObject;
 
 class ENGINE_DLL CCalculator :
@@ -27,8 +28,7 @@ public:
                                     CTransform* pTerrainTransformCom);
 
     _bool           Picking_GameObject(HWND hWnd);
-
-
+    _bool           Picking_MapTool(HWND hWnd, CTerrainTexSector* pTerrainSectorBufferCom, CTransform* pTerrainTransformCom, _vec3& targetPos);
     
 public:
     static CCalculator*     Create(LPDIRECT3DDEVICE9 pGraphicDev);

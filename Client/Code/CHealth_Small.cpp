@@ -29,7 +29,7 @@ HRESULT CHealth_Small::Ready_GameObject()
 	m_iFrame = 0;
 
 	m_pTransformCom->Set_Pos(5.f, 0.f, 10.f);
-	m_pTransformCom->Set_Scale(_vec3(0.2f, 0.2f, 0.2f));
+	m_pTransformCom->Set_Scale(_vec3(1.f, 1.f, 1.f));
 
 	m_pColliderCom->Ready_CCollider(
 		this,
@@ -73,7 +73,6 @@ void CHealth_Small::Render_GameObject(const _float& fTimeDelta)
 {
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
 	m_pTextureCom->Set_Texture(m_iFrame);
@@ -158,7 +157,7 @@ void CHealth_Small::Set_OnTerrain()
 {
 	if (!m_pTransformCom || !m_pCalculatorCom) return;
 
-	auto* pTerrainBuf = static_cast<CTerrainTex*>(
+	auto* pTerrainBuf = static_cast<CTerrainTexSector*>(
 		CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
 	if (!pTerrainBuf) return;
 
@@ -172,7 +171,7 @@ void CHealth_Small::Set_OnTerrain()
 	float h = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBuf->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
 
 	// 살짝 띄워서 지면 간섭 방지
-	m_pTransformCom->Set_Pos(pos.x, h + 0.7f, pos.z);
+	m_pTransformCom->Set_Pos(pos.x, h + 1.f, pos.z);
 }
 
 void CHealth_Small::Bill_Board()
@@ -183,20 +182,18 @@ void CHealth_Small::Bill_Board()
 	_matrix matWorld, matView, matBill;
 	m_pTransformCom->Get_World(&matWorld);
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixIdentity(&matBill);
 
-	// 빌보드 행렬의 스케일과 위치는 월드 행렬의 것을 그대로 사용                          
-	matBill = matWorld;
+	matBill._11 = matView._11;
+	matBill._13 = matView._13;
+	matBill._31 = matView._31;
+	matBill._33 = matView._33;
 
-	// 뷰행렬에서 역행렬을 이용해 카메라의 회전값을 구하고, 빌보드 행렬의 회전값으로 설정  
-	D3DXMatrixInverse(&matBill, NULL, &matView);
+	D3DXMatrixInverse(&matBill, 0, &matBill);		// 카메라가 갖고 있는 y회전의 역행렬 -역행렬> 카메라의 월드 상태의 y축 회전 행렬
 
-	// 빌보드 행렬의 위치값을 월드 행렬의 위치값으로 설정                                  
-	matBill._41 = matWorld._41;
-	matBill._42 = matWorld._42;
-	matBill._43 = matWorld._43;
-
+	matWorld = matBill * matWorld;
 	// 최종적으로 빌보드 행렬을 월드 행렬로 설정                                           
-	m_pTransformCom->Set_World(&matBill);
+	m_pTransformCom->Set_World(&matWorld);
 }
 
 CHealth_Small* CHealth_Small::Create(LPDIRECT3DDEVICE9 pGraphicDev)

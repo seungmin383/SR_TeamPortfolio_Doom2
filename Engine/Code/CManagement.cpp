@@ -48,6 +48,8 @@ HRESULT CManagement::Set_Scene(CScene* pScene)
 
 	m_pScene = pScene;
 
+	m_pScene->Load_PreSet();
+
 	return S_OK;
 }
 

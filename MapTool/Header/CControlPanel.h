@@ -46,6 +46,7 @@ class CControlPanel :
 
         //ImGuiTexId texId;
     };
+
 private:
     explicit CControlPanel();
     explicit CControlPanel(LPDIRECT3DDEVICE9 pGraphicDev, CTextureExplorer* expr);
@@ -54,18 +55,17 @@ private:
 public:
     static CControlPanel* Create(LPDIRECT3DDEVICE9 pGraphicDev, CTextureExplorer* expr);
 
+    //TODO: ㅈ같은코드정리
 public:
-    _bool                           ControlPanelWindow();
-    void                            ControlerWindow();
+    _bool                           ControlPanelWindow(const _float& timeDelta);
     _uint                           ModifyChildWindow();
     fs::path                        SaveExplorer();
 
+    void                            TerrainController();
+    void                            ObjectController();
+
 public:
     void                            ChangeTileInfo();
-
-    void                            AddXTile();
-    void                            AddZTile();
-    void                            AddYTile();
 
     void                            SetVertexInfo(_int tileIdx, _int vertexIdx, _vec3 vertexInfo);
 
@@ -73,14 +73,9 @@ public:
 
     void                            SetDefault();
 
-    void                            ModifyTile();
-
-    /// <summary>
-    /// 현재 조정 완료하고 벡터에 추가
-    /// </summary>
     void                            Apply();
 
-    //save
+    //save load
     void                            SaveTerrain(fs::path path, string filename);
     void                            LoadTerrain();
 
@@ -93,32 +88,55 @@ public:
     void                            SaveMonster(fs::path path, string filename);
     void                            LoadMonster();
 
+    void                            SetObjInfo();
+
+    void                            InputMouse_Terrain();
+    void                            InputMouse_Object();
+
 private:
     LPDIRECT3DDEVICE9               m_pGraphicDev;
     
+    //지형 관련 멤버변수
     vector<currentControlInfo>      tControlInfo;
     currentControlInfo              tCachingControlInfo;
     _vec3                           vecCachingVtx = _vec3(0.f, 0.f, 0.f);
     CTexture*                       curTex;
     _uint                           curTileIdx;
 
-    //모델 벡터는 저장할 정보임
     vector<TerrainModel>            vecTerrainInfos;
-    //TODO:
-    //vector<CeilModel>            vecTerrainInfos;
-    //vector<FloorMOdel>            vecTerrainInfos;
 
     //수정 목적으로 보관
     vector<CTerrainSector*>          vecSector;
+    //지형 관련 멤버변수 끝
+
+    //아이템 관련 멤버변수
+    vector<GameObjectSpawnInfo>      vecItemInfos;
+    GameObjectSpawnInfo              tObjectinfo;
+    //아이템 관련 멤버변수 끝
+
+    //몬스터 관련 멤버변수
+    vector<GameObjectSpawnInfo>      vecMonsterInfos;
+    //몬스터 관련 멤버변수 끝
 
     //trash
     _bool                           show_demo_window = false;
     _bool                           applied = false;
     _bool                           isModifing = false;
 
+    vector<GameObjectType>          objPrototypeTags;
+    char**                          typeTags;
+    vector<GameObjectType>          objIdTags;
+    char**                          idTags;
+
     string                          filename;
 
     CTextureExplorer*               textureExpr;
+
+    CCalculator*                    m_pCalculatorCom;
+
+    _float                          pickingtime;
+    _float                          pickingdelay;
+    _bool                           EnablePick;
 
 private:
     virtual void        Free();
