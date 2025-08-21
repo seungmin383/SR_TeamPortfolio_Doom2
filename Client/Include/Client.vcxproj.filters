@@ -109,6 +109,15 @@
     <Filter Include="03. Manager\02. TextureManager">
       <UniqueIdentifier>{ade4b06f-1814-4489-89bf-8aece45473aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\02. Chaingun">
+      <UniqueIdentifier>{57ad497c-b216-4080-87a1-051d6560c90e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\03. Rocket">
+      <UniqueIdentifier>{aed8d658-ae9f-45c7-8aac-4bb06340b1fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\04. BFG">
+      <UniqueIdentifier>{bc2d50ca-a6cc-4e0d-bcfc-aa78bc071cb5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -240,6 +249,15 @@
     <ClInclude Include="..\Header\CTextureManager.h">
       <Filter>03. Manager\02. TextureManager</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CChaingun.h">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\02. Chaingun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CRocket.h">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\03. Rocket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CBfg.h">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\04. BFG</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -364,6 +382,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\CTextureManager.cpp">
       <Filter>03. Manager\02. TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CChaingun.cpp">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\02. Chaingun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CRocket.cpp">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\03. Rocket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CBfg.cpp">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\04. BFG</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

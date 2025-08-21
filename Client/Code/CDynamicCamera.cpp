@@ -6,6 +6,7 @@
 #include "CWeaponManager.h"
 #include "CPistol.h"
 #include "CShotgun.h"
+#include "CChaingun.h"
 
 // Initialize static variable
 _long CDynamicCamera::s_lMouseMoveX = 0L;
@@ -66,15 +67,15 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 
 	CWeapon* pPistol = CPistol::Create();
 	if (pPistol != nullptr)
-	{
 		CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::PISTOL, pPistol);
-	}
 
 	CWeapon* pShotgun = CShotgun::Create();
 	if (pShotgun != nullptr)
-	{
 		CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::SHOTGUN, pShotgun);
-	}
+
+	CWeapon* pChaingun = CChaingun::Create();
+	if (pChaingun != nullptr)
+		CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::CHAINGUN, pChaingun);
 
 	CWeaponManager::GetInstance()->Set_CurWeapon(WEAPON_ID::PISTOL);
 
