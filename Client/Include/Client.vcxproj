@@ -207,6 +207,7 @@
     <ClInclude Include="..\Header\CLogo.h" />
     <ClInclude Include="..\Header\CMainApp.h" />
     <ClInclude Include="..\Header\CMonster.h" />
+    <ClInclude Include="..\Header\CWeapon_BFG.h" />
     <ClInclude Include="..\Header\CWeapon_ChainGun.h" />
     <ClInclude Include="..\Header\CWeapon_Rocket.h" />
     <ClInclude Include="..\Header\CWeapon_Shotgun.h" />
@@ -258,6 +259,7 @@
     <ClCompile Include="..\Code\CLogo.cpp" />
     <ClCompile Include="..\Code\CMainApp.cpp" />
     <ClCompile Include="..\Code\CMonster.cpp" />
+    <ClCompile Include="..\Code\CWeapon_BFG.cpp" />
     <ClCompile Include="..\Code\CWeapon_ChainGun.cpp" />
     <ClCompile Include="..\Code\CWeapon_Rocket.cpp" />
     <ClCompile Include="..\Code\CWeapon_Shotgun.cpp" />

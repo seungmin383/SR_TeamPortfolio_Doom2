@@ -276,6 +276,9 @@
     <ClInclude Include="..\Header\CWeapon_ChainGun.h">
       <Filter>02. GameObject\06. Object\Weapon</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CWeapon_BFG.h">
+      <Filter>02. GameObject\06. Object\Weapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -417,6 +420,9 @@
       <Filter>02. GameObject\06. Object\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CWeapon_ChainGun.cpp">
+      <Filter>02. GameObject\06. Object\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CWeapon_BFG.cpp">
       <Filter>02. GameObject\06. Object\Weapon</Filter>
     </ClCompile>
   </ItemGroup>
