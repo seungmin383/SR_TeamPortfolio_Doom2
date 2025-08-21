@@ -179,16 +179,10 @@ void CPlayerWeapon::Weapon_Swap(const _float& fTimeDelta)
 	if (m_fSwapTime < 0.5f)
 		m_pTransformCom->Move_Pos(&vDown, 700.f, fTimeDelta);
 	else if (m_fSwapTime >= 0.5f && m_fSwapTime < 1.f)
-	{
-		//m_eCurWeaponId = m_eNextWeaponId;
-		//CWeaponManager::GetInstance()->Set_CurWeapon(m_eCurWeaponId);
 		m_pTransformCom->Move_Pos(&vUp, 700.f, fTimeDelta);
-	}
 	else
 	{
 		m_pTransformCom->Set_Pos(m_vPos.x, m_vPos.y, m_vPos.z);
-		//m_eWeaponState = WEAPON_STATE::IDLE;
-		//m_fSwapTime = 0.f;
 		return;
 	}
 }
