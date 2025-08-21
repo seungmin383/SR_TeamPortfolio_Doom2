@@ -5,8 +5,6 @@
 #include "CWeaponManager.h"
 
 CPlayerWeapon::CPlayerWeapon(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CCharacter(pGraphicDev)
-	//m_eWeaponId(PISTOL), m_eWeaponState(IDLE)
 	: CCharacter(pGraphicDev),
 	m_eCurWeaponId(WEAPON_ID::ID_END), m_eWeaponState(WEAPON_STATE::STATE_END), m_eNextWeaponId(WEAPON_ID::ID_END),
 	m_fSwapTime(0.f), m_fBobSpeed(0.f), m_fBobAngle(0.f),

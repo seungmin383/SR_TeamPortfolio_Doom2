@@ -313,7 +313,6 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 		if (auto* tr = dynamic_cast<Engine::CTransform*>(pBarrel->Get_Component(Engine::ID_DYNAMIC, L"Com_Transform")))
 		{
 			tr->Set_Pos(p.x, p.y, p.z);
-			tr->Set_Scale(_vec3(0.2f, 0.2f, 0.2f)); // 필요 시
 		}
 
 		if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pBarrel)))
