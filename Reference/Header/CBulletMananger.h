@@ -1,7 +1,7 @@
 #pragma once
 #include "CBase.h"
 #include "Engine_Define.h"
-#include "CGameObject.h"
+#include "CBullet.h"
 
 BEGIN(Engine)
 
@@ -14,6 +14,9 @@ private:
     virtual ~CBulletMananger();
 
     virtual void aa();
+
+
+public:
 
 private:
     void Free() override;

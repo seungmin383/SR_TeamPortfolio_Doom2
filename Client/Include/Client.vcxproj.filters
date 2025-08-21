@@ -133,6 +133,12 @@
     <Filter Include="03. Manager\00. WeaponManager\00. Weapon\04. BFG">
       <UniqueIdentifier>{bc2d50ca-a6cc-4e0d-bcfc-aa78bc071cb5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBullet">
+      <UniqueIdentifier>{c875faed-af74-4cea-8bba-b45f5eeed4f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBullet\CImpBullet">
+      <UniqueIdentifier>{de7ec3bb-98ca-4015-b99c-13c3ebba9d3a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -291,6 +297,9 @@
     <ClInclude Include="..\Header\CBfg.h">
       <Filter>03. Manager\00. WeaponManager\00. Weapon\04. BFG</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CImpBullet.h">
+      <Filter>02. GameObject\02. Monster\CMonsterBullet\CImpBullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -442,6 +451,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CBfg.cpp">
       <Filter>03. Manager\00. WeaponManager\00. Weapon\04. BFG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CImpBullet.cpp">
+      <Filter>02. GameObject\02. Monster\CMonsterBullet\CImpBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

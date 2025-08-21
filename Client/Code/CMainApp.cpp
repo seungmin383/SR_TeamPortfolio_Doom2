@@ -93,6 +93,8 @@ void CMainApp::Render_MainApp(const float& fTimeDelta)
 
 HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 {
+	srand(time(NULL));
+
 	if (FAILED(CGraphicDev::GetInstance()->Ready_GraphicDev(g_hWnd,
 		MODE_WIN, WINCX, WINCY, &m_pDeviceClass)))
 	{

@@ -14,6 +14,29 @@ CBullet::~CBullet()
 {
 }
 
+HRESULT CBullet::Ready_GameObject()
+{
+	CGameObject::Ready_GameObject();
+
+	return S_OK;
+}
+
+_int CBullet::Update_GameObject(const _float& fTimeDelta)
+{
+	CGameObject::Update_GameObject(fTimeDelta);
+	return 0;
+}
+
+void CBullet::LateUpdate_GameObject(const _float& fTimeDelta)
+{
+	CGameObject::LateUpdate_GameObject(fTimeDelta);
+}
+
+void CBullet::Render_GameObject(const _float& fTimeDelta)
+{
+	CGameObject::Render_GameObject(fTimeDelta);
+}
+
 
 void CBullet::OnCollision(CCollider* _pOther)
 {

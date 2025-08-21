@@ -9,6 +9,21 @@ protected:
 	explicit CBullet(const CBullet& rhs);
 	virtual ~CBullet();
 
+public:
+	virtual     HRESULT         Ready_GameObject()override;
+	virtual     _int                  Update_GameObject(const _float& fTimeDelta)override;
+	virtual     void                 LateUpdate_GameObject(const _float& fTimeDelta)override;
+	virtual     void                 Render_GameObject(const _float& fTimeDelta)override;
+
+
+public:
+	CGameObject* Get_Owner() { return m_pOwner; };
+	const _vec3 Get_InitDir() const { return m_vInitDir; };
+	const _uint Get_Dmg() const { return m_iDmg; };
+
+	void Set_Owner(CGameObject* _G) { m_pOwner = _G; };
+	void Set_InitDir(_vec3 _V)  { m_vInitDir = _V; };
+	void Set_Dmg(_uint _D)  {  m_iDmg = _D; };
 
 protected:
 	Engine::CRectSpriteTex* m_pBufferCom = nullptr;
@@ -30,7 +45,7 @@ public:
 public:
 	virtual HRESULT     Add_Component();
 
-private:
+protected:
     virtual void        Free()override;
 };
 
