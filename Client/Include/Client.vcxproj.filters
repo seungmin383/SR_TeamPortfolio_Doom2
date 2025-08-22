@@ -139,6 +139,9 @@
     <Filter Include="01. Scene\04. Stage3">
       <UniqueIdentifier>{f6e86f27-c2ca-4c27-9cdc-22a83d8f86f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Manager\03. BulletManager">
+      <UniqueIdentifier>{b0d5526d-f2a7-4229-8b10-88d5158cf177}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -303,6 +306,9 @@
     <ClInclude Include="..\Header\CStage3.h">
       <Filter>01. Scene\04. Stage3</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CBulletManager.h">
+      <Filter>03. Manager\03. BulletManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -460,6 +466,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CStage3.cpp">
       <Filter>01. Scene\04. Stage3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CBulletManager.cpp">
+      <Filter>03. Manager\03. BulletManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
