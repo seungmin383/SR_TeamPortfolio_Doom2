@@ -94,6 +94,13 @@ HRESULT CManagement::Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjI
 	return S_OK;
 }
 
+HRESULT CManagement::Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, CGameObject* _Owner)
+{
+	m_pScene->Set_GameLogicObject(eObjPrototype, eObjId, vPos, _Owner);
+	
+	return S_OK;
+}
+
 _int CManagement::Update_Scene(const _float& fTimeDelta)
 {
 	if (nullptr == m_pScene)

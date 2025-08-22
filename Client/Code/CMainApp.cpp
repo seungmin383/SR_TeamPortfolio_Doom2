@@ -29,6 +29,7 @@
 #include "CPinky.h"
 #include"CSpiderMastermind.h"
 #include "CShotgunGuy.h"
+#include "CImpBullet.h"
 
 #include "CPlayerWeapon.h"
 #include "CHealth_Small.h"
@@ -101,6 +102,8 @@ void CMainApp::Render_MainApp(const float& fTimeDelta)
 
 HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 {
+	srand(time(NULL));
+
 	if (FAILED(CGraphicDev::GetInstance()->Ready_GraphicDev(g_hWnd,
 		MODE_WIN, WINCX, WINCY, &m_pDeviceClass)))
 	{
@@ -207,6 +210,14 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	// BFG
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::WEAPON_BFG, CWeapon_BFG::Create(m_pGraphicDev))))
 		return E_FAIL;
+	// 임프총알
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP_BULLET, CImpBullet::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+
+
+
+
 	//텍스처 필터
 	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);

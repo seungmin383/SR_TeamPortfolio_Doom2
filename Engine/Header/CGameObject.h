@@ -37,6 +37,7 @@ public:
     virtual             void            Render_GameObject(const _float& fTimeDelta);
 
     virtual CGameObject* Clone() PURE;
+    virtual CGameObject* Clone(CGameObject* _Owner);
 
 protected:
     map<const _tchar*, CComponent*>         m_mapComponent[ID_END];

@@ -35,7 +35,7 @@ HRESULT CImp::Ready_GameObject()
 	m_pTransformCom->Get_Pos(&vPos);
 	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.f, 0.f),
 		COLLAYERID::COL_ENEMY,
-		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT);
+		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT | COL_PLAYERCAMERA);
 
 #pragma region ANIM_SETTING
 
@@ -147,8 +147,19 @@ void CImp::LateUpdate_GameObject(const _float& fTimeDelta)
 
 void CImp::Render_GameObject(const _float& fTimeDelta)
 {
-	cout << "임프 애니메이션 스테이트:" << m_eCurAnimState << endl;
 	CMonsterBase::Render_GameObject(fTimeDelta);
+}
+
+void CImp::Attack(const _float fTimeDelta)
+{
+	m_isShoot = TRUE;
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_IMP_BULLET, OBJID::OBJ_BULLET, vPos, this)))
+	{
+		int a = 0;
+	}
+
 }
 
 HRESULT CImp::Add_Component()

@@ -38,7 +38,7 @@ HRESULT CBarrelExplosive::Ready_GameObject()
     m_fuseTime = 0.f;
 
     m_pTransformCom->Set_Pos(20.f, 0.f, 25.f);
-    m_pTransformCom->Set_Scale(_vec3(0.2f, 0.2f, 0.2f));
+    m_pTransformCom->Set_Scale(_vec3(1.f, 1.f, 1.f));
 
     // Collider 세팅
     if (m_pColliderCom)
@@ -190,12 +190,22 @@ void CBarrelExplosive::OnCollisionEnter(CCollider* _pOther)
 
     const auto layer = _pOther->Get_ColLayer();
 
-    // 레이/투사체/공격/폭발 모두 허용 (혹시 카메라 레이어 명이 다르면 대비)
-    if (layer & (COL_BULLET | COL_ATTACK | COL_EXPLOSION
-        | COL_PLAYERCAMERA | COL_PLAYER | COL_DYNAMICCAMERA)) {
+    if (!(_pOther->Is_RayHit()))
+    {
+        char buf[128];
+        sprintf_s(buf, "Hit by %08X\n",
+            (unsigned)_pOther->Get_ColLayer());
+        OutputDebugStringA(buf);
         TakeDamage((layer & COL_EXPLOSION) ? 9999 : 10);
         return;
     }
+
+    //// 레이/투사체/공격/폭발 모두 허용 (몸통 박치기로도 데미지 들어가는 버그 있음)
+    //if (layer & (COL_BULLET | COL_ATTACK | COL_EXPLOSION
+    //    | COL_PLAYERCAMERA | COL_PLAYER | COL_DYNAMICCAMERA)) {
+    //    TakeDamage((layer & COL_EXPLOSION) ? 9999 : 10);
+    //    return;
+    //}
 }
 
 void CBarrelExplosive::OnCollisionExit(CCollider* _pOther)
@@ -431,20 +441,18 @@ void CBarrelExplosive::Bill_Board()
     _matrix matWorld, matView, matBill;
     m_pTransformCom->Get_World(&matWorld);
     m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+    D3DXMatrixIdentity(&matBill);
 
-    // 빌보드 행렬의 스케일과 위치는 월드 행렬의 것을 그대로 사용                          
-    matBill = matWorld;
+    matBill._11 = matView._11;
+    matBill._13 = matView._13;
+    matBill._31 = matView._31;
+    matBill._33 = matView._33;
 
-    // 뷰행렬에서 역행렬을 이용해 카메라의 회전값을 구하고, 빌보드 행렬의 회전값으로 설정  
-    D3DXMatrixInverse(&matBill, NULL, &matView);
+    D3DXMatrixInverse(&matBill, 0, &matBill);		// 카메라가 갖고 있는 y회전의 역행렬 -역행렬> 카메라의 월드 상태의 y축 회전 행렬
 
-    // 빌보드 행렬의 위치값을 월드 행렬의 위치값으로 설정                                  
-    matBill._41 = matWorld._41;
-    matBill._42 = matWorld._42;
-    matBill._43 = matWorld._43;
-
+    matWorld = matBill * matWorld;
     // 최종적으로 빌보드 행렬을 월드 행렬로 설정                                           
-    m_pTransformCom->Set_World(&matBill);
+    m_pTransformCom->Set_World(&matWorld);
 }
 
 CBarrelExplosive* CBarrelExplosive::Create(LPDIRECT3DDEVICE9 pGraphicDev)

@@ -1,7 +1,11 @@
 #include "pch.h"
 #include "CMainApp.h"
+
 #include "CLogo.h"
 #include "CStage.h"
+#include "CStage2.h"
+#include "CStage3.h"
+
 #include "CTimerManager.h"
 #include "CFrameManager.h"
 #include "CPrototypeManager.h"
@@ -13,6 +17,7 @@
 #include "CWeaponManager.h"
 #include "CFileManager.h"
 #include "CObjectFactory.h"
+#include "CTextureManager.h"
 
 #include "CTerrain.h"
 #include "CTerrainSector.h"
@@ -32,6 +37,9 @@
 #include "CArmor_Big.h"
 #include "CAmmo_Clip.h"
 #include "CAmmo_Shell.h"
+#include "CAmmo_Rocket.h"
+
+#include "CWeapon_Shotgun.h"
 
 #include "CBarrelExplosive.h"
 #include "CDoor.h"
@@ -110,10 +118,8 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CFontManager::GetInstance()->Ready_Font(m_pGraphicDev, L"Font_Jinji", L"±Ã¼­", 20, 10, FW_THIN)))
 		return E_FAIL;
 
-	//¸ÊÅø¿ë
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Calculator", Engine::CCalculator::Create(m_pGraphicDev))))
 		return E_FAIL;
-	//¸ÊÅø¿ë
 
 	if (FAILED(CDInputManager::GetInstance()->Ready_InputDev(g_hInst, g_hWnd)))
 		return E_FAIL;
@@ -168,6 +174,10 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_SHELL, CAmmo_Shell::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	// ·ÎÄÏ Åº¾à
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_ROCKET, CAmmo_Rocket::Create(m_pGraphicDev))))
+		return E_FAIL;
+
 	// Æø¹ßÅë
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL, CBarrelExplosive::Create(m_pGraphicDev))))
 		return E_FAIL;
@@ -178,6 +188,10 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 
 	// ½ºÀ§Ä¡
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR, CSwitch_Button::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// ¼¦°Ç
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::WEAPON_SHOTGUN, CWeapon_Shotgun::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	//ÅØ½ºÃ³ ÇÊÅÍ
@@ -199,6 +213,8 @@ HRESULT CMainApp::Ready_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	m_pManagementClass->Add_Scene(SCENEID::LOGO, new CLogo(pGraphicDev));
 	m_pManagementClass->Add_Scene(SCENEID::STAGE1, new CStage(pGraphicDev));
+	m_pManagementClass->Add_Scene(SCENEID::STAGE2, new CStage2(pGraphicDev));
+	m_pManagementClass->Add_Scene(SCENEID::STAGE3, new CStage3(pGraphicDev));
 
 	if (FAILED(m_pManagementClass->Change_Scene(SCENEID::LOGO)))
 	{

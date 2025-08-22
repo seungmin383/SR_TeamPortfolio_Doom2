@@ -45,10 +45,21 @@ HRESULT CPrototypeManager::Ready_ObjPrototype(OBJPROTOTYPE eObjId, CGameObject* 
 CGameObject* CPrototypeManager::Clone_ObjPrototype(OBJPROTOTYPE eObjId)
 {
 	CGameObject* pInstance = Find_ObjPrototype(eObjId);
+
 	if (nullptr == pInstance)
 		return nullptr;
 
 	return pInstance->Clone();
+}
+
+CGameObject* CPrototypeManager::Clone_ObjPrototype(OBJPROTOTYPE eObjId, CGameObject* _Owner)
+{
+	CGameObject* pInstance = Find_ObjPrototype(eObjId);
+
+	if (nullptr == pInstance)
+		return nullptr;
+
+	return pInstance->Clone(_Owner);
 }
 
 CComponent* CPrototypeManager::Find_ComPrototype(wstring pComponentTag)
