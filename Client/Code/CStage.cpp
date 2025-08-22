@@ -83,6 +83,7 @@ _int CStage::Update_Scene(const _float& fTimeDelta)
 void CStage::LateUpdate_Scene(const _float& fTimeDelta)
 {
 	Engine::CScene::LateUpdate_Scene(fTimeDelta);
+	CWeaponManager::GetInstance()->Update_Weapon(fTimeDelta);
 
 }
 
@@ -670,4 +671,5 @@ void CStage::ConnectDoorSwitchByLinkId()
 void CStage::Free()
 {
 	Engine::CScene::Free();
+	CWeaponManager::GetInstance()->DestroyInstance();
 }

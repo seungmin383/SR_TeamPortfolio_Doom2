@@ -20,10 +20,10 @@
 
 #include "CDynamicCamera.h"
 #include "CZombieMan.h"
-#include"CArchVile.h"
+#include "CArchVile.h"
 #include "CImp.h"
 #include "CPinky.h"
-#include"CSpiderMastermind.h"
+#include "CSpiderMastermind.h"
 #include "CShotgunGuy.h"
 
 #include "CPlayerWeapon.h"
@@ -76,7 +76,6 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 
 void CMainApp::LateUpdate_MainApp(const float& fTimeDelta)
 {
-	CWeaponManager::GetInstance()->Update_Weapon(fTimeDelta);
 	m_pManagementClass->LateUpdate_Scene(fTimeDelta);
 }
 
@@ -241,7 +240,6 @@ void CMainApp::Free()
 	CTimerManager::GetInstance()->DestroyInstance();
 	CFrameManager::GetInstance()->DestroyInstance();
 	CDInputManager::GetInstance()->DestroyInstance();
-	CWeaponManager::GetInstance()->DestroyInstance();
 
 	m_pManagementClass->DestroyInstance();
 	m_pDeviceClass->DestroyInstance();
