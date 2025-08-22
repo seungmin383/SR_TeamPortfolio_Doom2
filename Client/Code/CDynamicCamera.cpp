@@ -113,6 +113,11 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 	Key_Input(fTimeDelta);
 	Mouse_Input();
 
+	wchar_t buf[64];
+	swprintf(buf, 64, L"x : %f, y : %f, z : %f\n", m_vDist.x, m_vDist.y, m_vDist.z);
+	OutputDebugString(buf);
+
+
 	m_pColliderCom->Late_Update();
 
 	if (false == m_bFix)
@@ -140,6 +145,9 @@ void CDynamicCamera::OnCollision(CCollider* _pOther)
 		m_vEye.x += (-m_vDist.x);
 		m_vEye.z += (-m_vDist.z);
 
+		m_vAt.x += (-m_vDist.x);
+		m_vAt.z += (-m_vDist.z);
+
 		m_vDist = _vec3(0.f, 0.f, 0.f);
 	}
 }
@@ -152,8 +160,11 @@ void CDynamicCamera::OnCollisionEnter(CCollider* _pOther)
 		m_pTransformCom->Get_Pos(&curPos);
 		m_pTransformCom->Set_Pos(curPos.x + (-m_vDist.x), curPos.y, curPos.z + (-m_vDist.z));
 
-		m_vEye.x = curPos.x;
-		m_vEye.z = curPos.z;
+		m_vEye.x += (-m_vDist.x);
+		m_vEye.z += (-m_vDist.z);
+
+		m_vAt.x += (-m_vDist.x);
+		m_vAt.z += (-m_vDist.z);
 
 		m_vDist = _vec3(0.f, 0.f, 0.f);
 	}
