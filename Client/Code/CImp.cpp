@@ -5,6 +5,7 @@
 #include "CManagement.h"
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
+#include "CBullet.h"
 
 
 CImp::CImp(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -155,10 +156,19 @@ void CImp::Attack(const _float fTimeDelta)
 	m_isShoot = TRUE;
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
-	if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_IMP_BULLET, OBJID::OBJ_BULLET, vPos, this)))
+	CGameObject* tmp = nullptr;
+
+	if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_IMP_BULLET, OBJID::OBJ_BULLET, vPos, this, tmp)))
 	{
 		int a = 0;
 	}
+	if (tmp == nullptr)
+		return;
+
+	tmp->Set_Dead(FALSE);
+	tmp->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+	dynamic_cast<CBullet*>(tmp)->Set_InitDir(m_vMoveLook);
+
 
 }
 

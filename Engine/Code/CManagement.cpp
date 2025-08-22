@@ -94,9 +94,9 @@ HRESULT CManagement::Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjI
 	return S_OK;
 }
 
-HRESULT CManagement::Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, CGameObject* _Owner)
+HRESULT CManagement::Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, CGameObject* _Owner, CGameObject*& _Bullet)
 {
-	m_pScene->Set_GameLogicObject(eObjPrototype, eObjId, vPos, _Owner);
+	m_pScene->Set_GameLogicObject(eObjPrototype, eObjId, vPos, _Owner, _Bullet);
 	
 	return S_OK;
 }

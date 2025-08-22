@@ -47,7 +47,7 @@ protected:
     CTransform*                             m_pTransformCom;
 
     _float                                  m_fSpeed;
-    bool                                    m_bDead;
+    bool                                    m_bDead = FALSE;
 
 private:
     CComponent* Find_Component(COMPONENTID eID, const _tchar* pComponentTag);

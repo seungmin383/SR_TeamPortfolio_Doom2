@@ -17,6 +17,11 @@ public:
 
 #pragma endregion
 
+    virtual void Check_Anim_Is_Finish();
+private:
+    _uint Enter_Func_Cnt = 0;
+    _bool isFinAnim = FALSE;
+
 private:
     HRESULT     Add_Component()override;
 
@@ -24,6 +29,7 @@ public:
     static CImpBullet* Create(LPDIRECT3DDEVICE9 pGraphicDev);
     virtual CImpBullet* Clone() override;
     virtual CImpBullet* Clone(CGameObject* _Owner)override;
+
 
 
 private:

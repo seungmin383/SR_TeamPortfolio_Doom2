@@ -34,10 +34,9 @@ HRESULT CImpBullet::Ready_GameObject()
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
-
 	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.f, 0.f),
 		COLLAYERID::COL_BULLET,
-		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT | COLLAYERID::COL_ENEMY );
+		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT );
 
 	if (m_pOwner != nullptr)
 	{
@@ -75,19 +74,33 @@ HRESULT CImpBullet::Ready_GameObject()
 		false,
 		false
 	);
+
 	return S_OK;
 }
+	static int num = 0;
 
 _int CImpBullet::Update_GameObject(const _float& fTimeDelta)
 {
-	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
+	cout << num << endl;
+	if (GetAsyncKeyState('H'))
+		m_bDead = TRUE;
+	Check_Anim_Is_Finish();
+
 	CBullet::Update_GameObject(fTimeDelta);
+	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 	Linear_Movement(fTimeDelta);
+	m_pColliderCom->Late_Update();
 	Bill_Board();
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
-	cout << "X : " << vPos.x << " Y : " << vPos.y << " Z : " << vPos.z << endl;
+	cout << "아" << endl;
  
+	if (m_bDead && isFinAnim)
+	{
+		m_bDead = FALSE;
+		return -1;
+	}
+
 	return 0;
 }
 
@@ -95,7 +108,10 @@ void CImpBullet::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	CBullet::LateUpdate_GameObject(fTimeDelta);
 
-	m_pAnimCom->Play_Animation(0, 0, fTimeDelta, 0);
+	if(m_bDead)
+		m_pAnimCom->Play_Animation(1, 0, fTimeDelta, 0);
+	else
+		m_pAnimCom->Play_Animation(0, 0, fTimeDelta, 0);
 }
 
 void CImpBullet::Render_GameObject(const _float& fTimeDelta)
@@ -105,13 +121,43 @@ void CImpBullet::Render_GameObject(const _float& fTimeDelta)
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());	
 	CBullet::Render_GameObject(fTimeDelta);
-	m_pTextureCom->Set_Texture(0);
+
+	if(m_bDead)
+		m_pTextureCom->Set_Texture(1);
+	else
+		m_pTextureCom->Set_Texture(0);
+
 	m_pBufferCom->Render_Buffer();
+
 	//충돌체
 	m_pColliderCom->Render(g_colRend);
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+}
+
+void CImpBullet::Check_Anim_Is_Finish()
+{
+	if (Enter_Func_Cnt == 0)									//이 함수에 처음 입장했다면
+	{
+		Enter_Func_Cnt++;										//카운트만 올리고 return 
+		isFinAnim = FALSE;
+		return;
+	}
+	else
+	{
+		if (m_pAnimCom->Get_isFinAct())			//애니메이션이 끝났다면
+		{
+			Enter_Func_Cnt = 0;
+			isFinAnim = TRUE;
+			return ;
+		}
+		else
+		{
+			Enter_Func_Cnt++;
+			return;
+		}
+	}
 }
 
 HRESULT CImpBullet::Add_Component()
@@ -138,6 +184,8 @@ CImpBullet* CImpBullet::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 CImpBullet* CImpBullet::Clone()
 {
+	num++;
+
 	CImpBullet* pBullet = new CImpBullet(*this);
 	if (pBullet == nullptr)
 		return nullptr;
@@ -153,6 +201,7 @@ CImpBullet* CImpBullet::Clone()
 
 CImpBullet* CImpBullet::Clone(CGameObject* _Owner)
 {
+	num++;
 	CGameObject::Clone(_Owner);
 
 	CImpBullet* pBullet = new CImpBullet(*this);

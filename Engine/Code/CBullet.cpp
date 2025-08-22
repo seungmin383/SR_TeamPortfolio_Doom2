@@ -6,7 +6,7 @@ CBullet::CBullet(LPDIRECT3DDEVICE9 pGraphicDev)
 }
 
 CBullet::CBullet(const CBullet& rhs)
-	:CGameObject(rhs)
+	:CGameObject(rhs), m_pOwner(rhs.m_pOwner)
 {
 }
 
@@ -77,12 +77,16 @@ void CBullet::Bill_Board()
 
 }
 
+
+
 void CBullet::OnCollision(CCollider* _pOther)
 {
+	m_bDead = TRUE;
 }
 
 void CBullet::OnCollisionEnter(CCollider* _pOther)
 {
+	m_bDead = TRUE;
 }
 
 void CBullet::OnCollisionExit(CCollider* _pOther)
