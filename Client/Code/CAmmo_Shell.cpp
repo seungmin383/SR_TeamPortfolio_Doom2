@@ -40,7 +40,7 @@ HRESULT CAmmo_Shell::Ready_GameObject()
 		_vec3(1.f, 1.f, 1.f),  // 아이템 박스 크기 예시
 		_vec3(0, 0.4f, 0),        // 약간 위로
 		COL_ITEM,               // 너희 COLLAYERID에서 아이템 레이어
-		COL_PLAYER | COL_PLAYERCAMERA       // (마스크를 쓴다면) 플레이어와만 맞게
+		COL_PLAYER     // (마스크를 쓴다면) 플레이어와만 맞게
 	);
 	m_pColliderCom->Set_Active(true);
 
@@ -106,8 +106,7 @@ void CAmmo_Shell::OnCollisionEnter(CCollider* _pOther)
 	 // 누가 부딪혔는지: 플레이어/카메라
 	const auto layer = _pOther->Get_ColLayer();
 	const bool allowed =
-		(layer & COL_PLAYER) ||
-		(layer & COL_PLAYERCAMERA);
+		(layer & COL_PLAYER);
 
 	if (!allowed) return;
 	else {
