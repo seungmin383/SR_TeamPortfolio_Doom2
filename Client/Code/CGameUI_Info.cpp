@@ -119,24 +119,6 @@ void CGameUI_Info::Render_GameObject(const _float& fTimeDelta)
 	// 6. 렌더링 상태를 원래대로 복원합니다.                                                                                  
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-
-	
-
-	//_tchar szHp[128] = L"";
-	//_tchar szArmor[128] = L"";
-	////_tchar szClip[128] = L"";
-
-	//swprintf_s(szHp, L"%d", m_pCamera->Get_Hp());
-	//swprintf_s(szArmor, L"%d", m_pCamera->Get_Armor());
-	////swprintf_s(szClip, L"%d", m_pCamera->Get_Clip());
-
-	//_vec2 vPos1{ 380.f, 800.f };
-	//_vec2 vPos2{ 1000.f, 800.f };
-	////_vec2 vPos3{ 1470.f, 776.f };
-
-	//CFontManager::GetInstance()->Render_Font(L"Font_Default", szHp, &vPos1, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
-	//CFontManager::GetInstance()->Render_Font(L"Font_Default", szArmor, &vPos2, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
-	////CFontManager::GetInstance()->Render_Font(L"Font_Default", szClip, &vPos3, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 }
 
 void CGameUI_Info::Render_Number(int number, float baseX, float baseY, float scaleX, float scaleY)

@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CWeapon_ChainGun.h"
 #include "CRenderer.h"
 #include "CManagement.h"
@@ -28,17 +28,17 @@ HRESULT CWeapon_ChainGun::Ready_GameObject()
 	m_bPicked = false;
 
 	m_pTransformCom->Set_Pos(35.f, 0.f, 10.f);
-	m_pTransformCom->Set_Scale(_vec3(1.f, 1.f, 1.f));
+	m_pTransformCom->Set_Scale(_vec3(1.f, 0.5f, 1.f));
 
 	m_pWeaponManager = CWeaponManager::GetInstance();
 
 	m_pColliderCom->Ready_CCollider(
 		this,
-		_vec3(0, 0, 0),           // ÃÊ±â À§Ä¡(Transform°¡ ½ÇÁ¦·Î Àâ¾ÆÁÜ)
-		_vec3(1.f, 1.f, 1.f),  // ¾ÆÀÌÅÛ ¹Ú½º Å©±â ¿¹½Ã
-		_vec3(0, 0.4f, 0),        // ¾à°£ À§·Î
-		COL_ITEM,               // ³ÊÈñ COLLAYERID¿¡¼­ ¾ÆÀÌÅÛ ·¹ÀÌ¾î
-		COL_PLAYER | COL_PLAYERCAMERA       // (¸¶½ºÅ©¸¦ ¾´´Ù¸é) ÇÃ·¹ÀÌ¾î¿Í¸¸ ¸Â°Ô
+		_vec3(0, 0, 0),           // ì´ˆê¸° ìœ„ì¹˜(Transformê°€ ì‹¤ì œë¡œ ìž¡ì•„ì¤Œ)
+		_vec3(1.f, 1.f, 1.f),  // ì•„ì´í…œ ë°•ìŠ¤ í¬ê¸° ì˜ˆì‹œ
+		_vec3(0, 0.4f, 0),        // ì•½ê°„ ìœ„ë¡œ
+		COL_ITEM,               // ë„ˆí¬ COLLAYERIDì—ì„œ ì•„ì´í…œ ë ˆì´ì–´
+		COL_PLAYER      // (ë§ˆìŠ¤í¬ë¥¼ ì“´ë‹¤ë©´) í”Œë ˆì´ì–´ì™€ë§Œ ë§žê²Œ
 	);
 	m_pColliderCom->Set_Active(true);
 
@@ -54,7 +54,7 @@ _int CWeapon_ChainGun::Update_GameObject(const _float& fTimeDelta)
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	if (m_bPicked)
-		return -1; // ¿£Áø »ó¼ö¿¡ ¸ÂÃç »ç¿ë
+		return -1; // ì—”ì§„ ìƒìˆ˜ì— ë§žì¶° ì‚¬ìš©
 
 	return 0;
 }
@@ -74,7 +74,7 @@ void CWeapon_ChainGun::Render_GameObject(const _float& fTimeDelta)
 	m_pTextureCom->Set_Texture(0);
 	m_pBufferCom->Render_Buffer();
 
-	//Ãæµ¹Ã¼
+	//ì¶©ëŒì²´
 	m_pColliderCom->Render(g_colRend);
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
@@ -89,21 +89,24 @@ void CWeapon_ChainGun::OnCollisionEnter(CCollider* _pOther)
 	if (m_bPicked || !_pOther) return;
 
 	const auto layer = _pOther->Get_ColLayer();
-	if (!(layer & (COL_PLAYER | COL_PLAYERCAMERA)))
+	const bool allowed =
+		(layer & COL_PLAYER);
+	if (allowed)
 		return;
-
-	// to-do) ¹«±â¸Å´ÏÀú·Î Ä³½ºÆÃÇØ¼­ ¾ò±â
-	if (m_pWeaponManager) {
-		m_pWeaponManager->Add_Weapon(WEAPON_ID::CHAINGUN, (CWeapon*)this);
-	}
-	else
-	{
-		m_pWeaponManager->Add_Ammo(AMMO_TYPE::CLIP, 25);
-	}
-	// ¿ùµåÀÇ ÇÈ¾÷ ¿ÀºêÁ§Æ®´Â Á¦°Å
-	m_bPicked = true;
-	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
-	// Update_GameObject()¿¡¼­ m_bPickedÀÌ¸é -1 ¹ÝÈ¯ ¡æ ·¹ÀÌ¾î°¡ ¾ÈÀü »èÁ¦
+	else {
+		// to-do) ë¬´ê¸°ë§¤ë‹ˆì €ë¡œ ìºìŠ¤íŒ…í•´ì„œ ì–»ê¸°
+		if (m_pWeaponManager) {
+			m_pWeaponManager->Add_Weapon(WEAPON_ID::CHAINGUN, (CWeapon*)this);
+		}
+		else
+		{
+			m_pWeaponManager->Add_Ammo(AMMO_TYPE::CLIP, 25);
+		}
+		// ì›”ë“œì˜ í”½ì—… ì˜¤ë¸Œì íŠ¸ëŠ” ì œê±°
+		m_bPicked = true;
+		if (m_pColliderCom) m_pColliderCom->Set_Active(false);
+		// Update_GameObject()ì—ì„œ m_bPickedì´ë©´ -1 ë°˜í™˜ â†’ ë ˆì´ì–´ê°€ ì•ˆì „ ì‚­ì œ
+	}	
 }
 
 void CWeapon_ChainGun::OnCollisionExit(CCollider* _pOther)
@@ -166,14 +169,14 @@ void CWeapon_ChainGun::Set_OnTerrain()
 
 	_vec3 pos; m_pTransformCom->Get_Pos(&pos);
 
-	// ±×¸®µå °æ°è(0..(VTXCNT-1)*VTXITV) ¹ÛÀÌ¸é º¸Á¤ °Ç³Ê¶Ü (È¤Àº clamp)
+	// ê·¸ë¦¬ë“œ ê²½ê³„(0..(VTXCNT-1)*VTXITV) ë°–ì´ë©´ ë³´ì • ê±´ë„ˆëœ€ (í˜¹ì€ clamp)
 	const float maxX = (VTXCNTX - 1) * VTXITV - 1e-3f;
 	const float maxZ = (VTXCNTZ - 1) * VTXITV - 1e-3f;
 	if (pos.x < 0.f || pos.z < 0.f || pos.x > maxX || pos.z > maxZ) return;
 
 	float h = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBuf->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
 
-	// »ìÂ¦ ¶ç¿ö¼­ Áö¸é °£¼· ¹æÁö
+	// ì‚´ì§ ë„ì›Œì„œ ì§€ë©´ ê°„ì„­ ë°©ì§€
 	m_pTransformCom->Set_Pos(pos.x, h + 0.7f, pos.z);
 }
 
@@ -192,10 +195,10 @@ void CWeapon_ChainGun::Bill_Board()
 	matBill._31 = matView._31;
 	matBill._33 = matView._33;
 
-	D3DXMatrixInverse(&matBill, 0, &matBill);		// Ä«¸Þ¶ó°¡ °®°í ÀÖ´Â yÈ¸ÀüÀÇ ¿ªÇà·Ä -¿ªÇà·Ä> Ä«¸Þ¶óÀÇ ¿ùµå »óÅÂÀÇ yÃà È¸Àü Çà·Ä
+	D3DXMatrixInverse(&matBill, 0, &matBill);		// ì¹´ë©”ë¼ê°€ ê°–ê³  ìžˆëŠ” yíšŒì „ì˜ ì—­í–‰ë ¬ -ì—­í–‰ë ¬> ì¹´ë©”ë¼ì˜ ì›”ë“œ ìƒíƒœì˜ yì¶• íšŒì „ í–‰ë ¬
 
 	matWorld = matBill * matWorld;
-	// ÃÖÁ¾ÀûÀ¸·Î ºôº¸µå Çà·ÄÀ» ¿ùµå Çà·Ä·Î ¼³Á¤                                           
+	// ìµœì¢…ì ìœ¼ë¡œ ë¹Œë³´ë“œ í–‰ë ¬ì„ ì›”ë“œ í–‰ë ¬ë¡œ ì„¤ì •                                           
 	m_pTransformCom->Set_World(&matWorld);
 }
 

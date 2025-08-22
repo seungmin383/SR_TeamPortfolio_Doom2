@@ -5,6 +5,7 @@
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
 #include "CWeaponManager.h"
+#include "CGameUI_Face.h"
 
 CWeapon_Shotgun::CWeapon_Shotgun(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -28,7 +29,7 @@ HRESULT CWeapon_Shotgun::Ready_GameObject()
 	m_bPicked = false;
 
 	m_pTransformCom->Set_Pos(22.f, 0.f, 10.f);
-	m_pTransformCom->Set_Scale(_vec3(1.f, 1.f, 1.f));
+	m_pTransformCom->Set_Scale(_vec3(1.f, 0.5f, 1.f));
 
 	m_pWeaponManager = CWeaponManager::GetInstance();
 
@@ -38,7 +39,7 @@ HRESULT CWeapon_Shotgun::Ready_GameObject()
 		_vec3(1.f, 1.f, 1.f),  // 아이템 박스 크기 예시
 		_vec3(0, 0.4f, 0),        // 약간 위로
 		COL_ITEM,               // 너희 COLLAYERID에서 아이템 레이어
-		COL_PLAYER | COL_PLAYERCAMERA       // (마스크를 쓴다면) 플레이어와만 맞게
+		COL_PLAYER     // (마스크를 쓴다면) 플레이어와만 맞게
 	);
 	m_pColliderCom->Set_Active(true);
 
@@ -89,21 +90,32 @@ void CWeapon_Shotgun::OnCollisionEnter(CCollider* _pOther)
 	if (m_bPicked || !_pOther) return;
 
 	const auto layer = _pOther->Get_ColLayer();
-	if (!(layer & (COL_PLAYER | COL_PLAYERCAMERA)))
+	if ((layer & (COL_PLAYER)) == 1)
 		return;
-
-	// to-do) 무기매니저로 캐스팅해서 얻기
-	if (m_pWeaponManager) {
-		m_pWeaponManager->Add_Weapon(WEAPON_ID::SHOTGUN, (CWeapon*)this);
-	}
 	else
 	{
-		m_pWeaponManager->Add_Ammo(AMMO_TYPE::SHELL, 8);
+		m_bPicked = true;
+
+		// 얼굴 UI에 '획득' 표정 3초
+		const auto uiList = CManagement::GetInstance()->Get_ObjectGroup(LAYERID::LAYER_UI, OBJID::OBJ_UI);
+		for (auto* ui : uiList) {
+			if (auto* face = dynamic_cast<CGameUI_Face*>(ui)) {
+				face->Set_EvilFace(3.f);
+				break;
+			}
+		}
+
+		if (auto* wm = CWeaponManager::GetInstance()) {
+			wm->Add_Weapon(WEAPON_ID::SHOTGUN, (CWeapon*)this);
+			wm->Change_Weapon(WEAPON_ID::SHOTGUN);
+		}
+		else {
+			wm->Add_Ammo(AMMO_TYPE::SHELL, 8);
+		}
+		if (m_pColliderCom) m_pColliderCom->Set_Active(false);
+		// Update_GameObject()에서 m_bPicked면 -1 반환 → 레이어에서 제거
 	}
-	// 월드의 픽업 오브젝트는 제거
-	m_bPicked = true;
-	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
-	// Update_GameObject()에서 m_bPicked이면 -1 반환 → 레이어가 안전 삭제
+
 }
 
 void CWeapon_Shotgun::OnCollisionExit(CCollider* _pOther)

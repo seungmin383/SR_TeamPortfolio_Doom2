@@ -36,13 +36,12 @@ private:
 private:
 	Engine::CRectTex* m_pBufferCom;
 	Engine::CTexture* m_pTextureCom;
+	Engine::CTexture* m_pTextureCom2;
 	Engine::CCalculator* m_pCalculatorCom;
 
 private:
-	vector<Engine::CTexture*> m_vecDigitTextures;
-
 	void Render_Number(int number, float baseX, float baseY, float scaleX, float scaleY);
-
+	void Render_CurAmmo(int number, float baseX, float baseY, float scaleX, float scaleY);
 public:
 	static CGameUI_Info_Ammo* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual CGameUI_Info_Ammo* Clone() override { return this; }

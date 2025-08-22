@@ -108,12 +108,25 @@ void CGameUI_Info_Ammo::Render_GameObject(const _float& fTimeDelta)
 	const int shellMax = m_pWeaponManager ? m_pWeaponManager->Get_MaxAmmo(AMMO_TYPE::SHELL) : 0;
 	const int rocket = m_pWeaponManager ? m_pWeaponManager->Get_Ammo(AMMO_TYPE::ROCKET) : 0;
 	const int rocketMax = m_pWeaponManager ? m_pWeaponManager->Get_MaxAmmo(AMMO_TYPE::ROCKET) : 0;
+	const int cell = m_pWeaponManager ? m_pWeaponManager->Get_Ammo(AMMO_TYPE::CELL) : 0;
+	const int cellMax = m_pWeaponManager ? m_pWeaponManager->Get_MaxAmmo(AMMO_TYPE::CELL) : 0;
+
+	const int ammo = 100; // 플레이어가 들고있는 총을 기준으로
 
 	Render_Number(clip, 560.f, -WINCY * 0.5f + vScale.y + 98.f, 10.f, 8.f / (4.f / 6.f));
 	Render_Number(clipMax, 680.f, -WINCY * 0.5f + vScale.y + 98.f, 10.f, 8.f / (4.f / 6.f));
 
 	Render_Number(shell, 560.f, -WINCY * 0.5f + vScale.y + 72.f, 10.f, 8.f / (4.f / 6.f));
 	Render_Number(shellMax, 680.f, -WINCY * 0.5f + vScale.y + 72.f, 10.f, 8.f / (4.f / 6.f));
+
+	Render_Number(rocket, 560.f, -WINCY * 0.5f + vScale.y + 46.f, 10.f, 8.f / (4.f / 6.f));
+	Render_Number(rocketMax, 680.f, -WINCY * 0.5f + vScale.y + 46.f, 10.f, 8.f / (4.f / 6.f));
+
+	Render_Number(cell, 560.f, -WINCY * 0.5f + vScale.y + 20.f, 10.f, 8.f / (4.f / 6.f));
+	Render_Number(cellMax, 680.f, -WINCY * 0.5f + vScale.y + 20.f, 10.f, 8.f / (4.f / 6.f));
+
+	Render_CurAmmo(ammo, -700.f, -WINCY * 0.5f + vScale.y + 80.f, 30.f, 30.f);
+
 	// 5. 렌더링이 끝난 후, 백업해두었던 원래의 View, Projection 행렬로 복원합니다.                                           
 	// 이렇게 해야 다른 3D 오브젝트들이 정상적으로 렌더링됩니다.                                                              
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &matView);
@@ -163,6 +176,13 @@ HRESULT CGameUI_Info_Ammo::Add_Component()
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
 
+	pComponent = m_pTextureCom2 = dynamic_cast<Engine::CTexture*>
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Number"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
+
 	// Calculator
 	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
 		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Calculator"));
@@ -192,8 +212,8 @@ void CGameUI_Info_Ammo::Render_Number(int number, float baseX, float baseY, floa
 
 	for (int i = 0; i < 3; ++i)
 	{
-		float digitWidth = 28.f;  // 텍스처 한 칸 폭
-		float spacing = 0.3f;      // 자리 간의 여백(픽셀)
+		float digitWidth = 32.f;  // 텍스처 한 칸 폭
+		float spacing = 0.5f;      // 자리 간의 여백(픽셀)
 		float x = baseX + i * (digitWidth + spacing);	// 각 자리 위치를 계산 (자릿수 만큼 오른쪽으로 이동)
 		float y = baseY;
 
@@ -215,6 +235,40 @@ void CGameUI_Info_Ammo::Render_Number(int number, float baseX, float baseY, floa
 	}
 }
 
+void CGameUI_Info_Ammo::Render_CurAmmo(int number, float baseX, float baseY, float scaleX, float scaleY)
+{
+	// 숫자를 100, 10, 1의 자리로 분리
+	int digits[3] = {
+		number / 100,
+		(number % 100) / 10,
+		number % 10
+	};
+
+	for (int i = 0; i < 3; ++i)
+	{
+		float digitWidth = 50.f;  // 텍스처 한 칸 폭
+		float spacing = 0.3f;      // 자리 간의 여백(픽셀)
+		float x = baseX + i * (digitWidth + spacing);	// 각 자리 위치를 계산 (자릿수 만큼 오른쪽으로 이동)
+		float y = baseY;
+
+		// 위치/스케일 갱신 (매번!)
+		m_pTransformCom->Set_Pos(x, y, 0.f);
+		m_pTransformCom->Set_Scale({ scaleX, scaleY, 1.f });
+
+		// Set_Pos, Set_Scale 등으로 지정한 값을 실제 월드 행렬로 계산하여 적용한다.
+		// 이 호출이 없으면 위치/크기 변경이 렌더에 반영되지 않음!
+		m_pTransformCom->Update_Component(0.f);
+
+		// 월드 행렬 갱신
+		_matrix matWorld = *m_pTransformCom->Get_World();
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+
+		// 텍스처 지정 (0~9)
+		m_pTextureCom2->Set_Texture(digits[i]);
+		m_pBufferCom->Render_Buffer();
+	}
+}
+
 CGameUI_Info_Ammo* CGameUI_Info_Ammo::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	CGameUI_Info_Ammo* pInfoAmmo = new CGameUI_Info_Ammo(pGraphicDev);
@@ -231,11 +285,6 @@ CGameUI_Info_Ammo* CGameUI_Info_Ammo::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CGameUI_Info_Ammo::Free()
 {
-	for_each(m_vecDigitTextures.begin(), m_vecDigitTextures.end(), [](Engine::CTexture* pTexture)
-		{
-			Safe_Release(pTexture);
-		});
-	m_vecDigitTextures.clear();
-
+	Safe_Release(m_pTextureCom2);
 	Engine::CGameObject::Free();
 }

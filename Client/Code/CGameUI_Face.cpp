@@ -1,4 +1,4 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "CGameUI_Face.h"
 #include "CDynamicCamera.h"
 #include "CPrototypeManager.h"
@@ -7,6 +7,7 @@
 
 CGameUI_Face::CGameUI_Face(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev), m_lFrame(0.f), m_pCamera(nullptr)
+	, m_bIsEvil(false), m_fEvilTime(0.f)
 {
 }
 
@@ -26,23 +27,23 @@ HRESULT CGameUI_Face::Ready_GameObject()
 
 	m_lFrame = 0.f;
 
-	// ø¯∫ª ≈ÿΩ∫√ƒ¿« ≈©±‚øÕ ∫Ò¿≤¿ª ¡§¿«
+	// ÏõêÎ≥∏ ÌÖçÏä§Ï≥êÏùò ÌÅ¨Í∏∞ÏôÄ ÎπÑÏú®ÏùÑ Ï†ïÏùò
 	const _float fTexWidth = 32.f;
 	const _float fTexHeight = 31.f;
 	const _float fTexAspectRatio = fTexWidth / fTexHeight;
 
 	_vec3 vPos, vScale;
 
-	// UI¿« ≥ ∫Ò∏¶ »≠∏È¿« ≥ ∫Ò∑Œ º≥¡§
+	// UIÏùò ÎÑàÎπÑÎ•º ÌôîÎ©¥Ïùò ÎÑàÎπÑÎ°ú ÏÑ§Ï†ï
 	vScale.x = 68.f;
-	vScale.y = vScale.x / fTexAspectRatio;		// »≠∏È ≥ ∫Ò∏¶ 10¿∏∑Œ ≥™¥´ ∞™
+	vScale.y = vScale.x / fTexAspectRatio;		// ÌôîÎ©¥ ÎÑàÎπÑÎ•º 10ÏúºÎ°ú ÎÇòÎàà Í∞í
 	vScale.z = 1.f;
 
-	// UI¿« ¿ßƒ°∏¶ »≠∏È ∏« æ∆∑°∑Œ º≥¡§
-	// UI¿« ¡ﬂΩ…¡°¿∫ »≠∏È «œ¥‹ + UI ≥Ù¿Ã¿« ¿˝π› ¿ßƒ°ø° µ–¥Ÿ.
+	// UIÏùò ÏúÑÏπòÎ•º ÌôîÎ©¥ Îß® ÏïÑÎûòÎ°ú ÏÑ§Ï†ï
+	// UIÏùò Ï§ëÏã¨Ï†êÏùÄ ÌôîÎ©¥ ÌïòÎã® + UI ÎÜíÏù¥Ïùò Ï†àÎ∞ò ÏúÑÏπòÏóê ÎëîÎã§.
 	vPos = { 0.f, -WINCY * 0.5f + vScale.y + 15.f, 0.f };
 
-	// ∞ËªÍµ» ¿ßƒ°øÕ Ω∫ƒ…¿œ¿ª Transform ƒƒ∆˜≥Õ∆Æø° ¿˚øÎ
+	// Í≥ÑÏÇ∞Îêú ÏúÑÏπòÏôÄ Ïä§ÏºÄÏùºÏùÑ Transform Ïª¥Ìè¨ÎÑåÌä∏Ïóê Ï†ÅÏö©
 	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 	m_pTransformCom->Set_Scale(vScale);
 
@@ -54,18 +55,28 @@ HRESULT CGameUI_Face::Ready_GameObject()
 
 _int CGameUI_Face::Update_GameObject(const _float& fTimeDelta)
 {
+	if (m_bIsEvil)
+	{
+		m_fEvilTime -= fTimeDelta;
+		if (m_fEvilTime <= 0.f)
+		{
+			m_bIsEvil = false;
+			m_fEvilTime = 0.f;
+		}
+	}
+
 	CGameObject::Update_GameObject(fTimeDelta);
 
 
-	// ∏∂øÏΩ∫ ¿ÃµøπÊ«‚ø° µ˚∂Û æÛ±º æ÷¥œ∏ﬁ¿Ãº« √º≈©
+	// ÎßàÏö∞Ïä§ Ïù¥ÎèôÎ∞©Ìñ•Ïóê Îî∞Îùº ÏñºÍµ¥ Ïï†ÎãàÎ©îÏù¥ÏÖò Ï≤¥ÌÅ¨
 	_long lMouseMoveX = CDynamicCamera::s_lMouseMoveX;
 
 	if (lMouseMoveX < 0)
-		m_lFrame = 0.f;			// ¡¬
+		m_lFrame = 0.f;			// Ï¢å
 	else if (lMouseMoveX > 0)
-		m_lFrame = 2.f;			// øÏ
+		m_lFrame = 2.f;			// Ïö∞
 	else
-		m_lFrame = 1.f;			// ¡§∏È
+		m_lFrame = 1.f;			// Ï†ïÎ©¥
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_PLAYERUI, this);
 
@@ -81,56 +92,64 @@ void CGameUI_Face::LateUpdate_GameObject(const _float& fTimeDelta)
 
 void CGameUI_Face::Render_GameObject(const _float& fTimeDelta)
 {
-	// 1. ∑ª¥ı∏µø° πÊ«ÿ∞° µ«¥¬ ƒ√∏µ ø…º«¿ª ≤¸¥œ¥Ÿ.                                                                            
+	// 1. Î†åÎçîÎßÅÏóê Î∞©Ìï¥Í∞Ä ÎêòÎäî Ïª¨ÎßÅ ÏòµÏÖòÏùÑ ÎÅïÎãàÎã§.                                                                            
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-	// 2. ±‚¡∏¿« 3D ƒ´∏ﬁ∂ÛøÎ View, Projection «‡∑ƒ¿ª πÈæ˜«’¥œ¥Ÿ.                                                              
+	// 2. Í∏∞Ï°¥Ïùò 3D Ïπ¥Î©îÎùºÏö© View, Projection ÌñâÎ†¨ÏùÑ Î∞±ÏóÖÌï©ÎãàÎã§.                                                              
 	_matrix matView, matProj;
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
 	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
 
-	// 3. UI ∑ª¥ı∏µ¿ª ¿ß«ÿ View/Projection «‡∑ƒ¿ª ªı∑Œ º≥¡§«’¥œ¥Ÿ.                                                            
+	// 3. UI Î†åÎçîÎßÅÏùÑ ÏúÑÌï¥ View/Projection ÌñâÎ†¨ÏùÑ ÏÉàÎ°ú ÏÑ§Ï†ïÌï©ÎãàÎã§.                                                            
 	_matrix matWorld, matIdentity, matOrtho;
 
-	// UI¿« ¿ßƒ°øÕ ≈©±‚∏¶ ¥„¿∫ ø˘µÂ «‡∑ƒ¿ª ∞°¡Æø…¥œ¥Ÿ.                                                                        
+	// UIÏùò ÏúÑÏπòÏôÄ ÌÅ¨Í∏∞Î•º Îã¥ÏùÄ ÏõîÎìú ÌñâÎ†¨ÏùÑ Í∞ÄÏ†∏ÏòµÎãàÎã§.                                                                        
 	matWorld = *m_pTransformCom->Get_World();
 
-	// View «‡∑ƒ¿ª ¥‹¿ß «‡∑ƒ∑Œ ∏∏µÈæÓ ƒ´∏ﬁ∂Û¿« ¿ßƒ°, »∏¿¸ »ø∞˙∏¶ ¡¶∞≈«’¥œ¥Ÿ.                                                  
+	// View ÌñâÎ†¨ÏùÑ Îã®ÏúÑ ÌñâÎ†¨Î°ú ÎßåÎì§Ïñ¥ Ïπ¥Î©îÎùºÏùò ÏúÑÏπò, ÌöåÏ†Ñ Ìö®Í≥ºÎ•º Ï†úÍ±∞Ìï©ÎãàÎã§.                                                  
 	D3DXMatrixIdentity(&matIdentity);
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &matIdentity);
 
-	// »≠∏È ¡ﬂæ”¿ª (0,0)¿∏∑Œ «œ¥¬ ¡˜±≥ ≈ıøµ «‡∑ƒ¿ª ª˝º∫«œø© ø¯±Ÿ∞®¿ª æ¯æ÷∞Ì 2D√≥∑≥ ∏∏µÏ¥œ¥Ÿ.                                  
-	// WINCX, WINCY¥¬ Ω«¡¶ ¿©µµøÏ¿« ≥ ∫ÒøÕ ≥Ù¿Ãø©æﬂ «’¥œ¥Ÿ.                                                                   
+	// ÌôîÎ©¥ Ï§ëÏïôÏùÑ (0,0)ÏúºÎ°ú ÌïòÎäî ÏßÅÍµê Ìà¨ÏòÅ ÌñâÎ†¨ÏùÑ ÏÉùÏÑ±ÌïòÏó¨ ÏõêÍ∑ºÍ∞êÏùÑ ÏóÜÏï†Í≥† 2DÏ≤òÎüº ÎßåÎì≠ÎãàÎã§.                                  
+	// WINCX, WINCYÎäî Ïã§Ï†ú ÏúàÎèÑÏö∞Ïùò ÎÑàÎπÑÏôÄ ÎÜíÏù¥Ïó¨Ïïº Ìï©ÎãàÎã§.                                                                   
 	D3DXMatrixOrthoOffCenterLH(&matOrtho, -WINCX * 0.5f, WINCX * 0.5f, -WINCY * 0.5f, WINCY * 0.5f, 0.f, 1.f);
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matOrtho);
 
-	// 4. UI∏¶ ∑ª¥ı∏µ«’¥œ¥Ÿ.                                                                                                  
+	// 4. UIÎ•º Î†åÎçîÎßÅÌï©ÎãàÎã§.                                                                                                  
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
 
-	if (m_pCamera->Get_Hp() >= 80)
-		m_pTextureCom->Set_Texture((int)m_lFrame);
-	else if (m_pCamera->Get_Hp() >= 60)
-		m_pTextureCom1->Set_Texture((int)m_lFrame);
-	else if (m_pCamera->Get_Hp() >= 40)
-		m_pTextureCom2->Set_Texture((int)m_lFrame);
-	else if (m_pCamera->Get_Hp() >= 20)
-		m_pTextureCom3->Set_Texture((int)m_lFrame);
-	else
-		m_pTextureCom4->Set_Texture((int)m_lFrame);
-
-	// æÀ∆ƒ ∫Ì∑ªµ˘¿ª »∞º∫»≠«œø© ≈ı∏Ì«— ∫Œ∫–¿Ã √≥∏Æµ«µµ∑œ «’¥œ¥Ÿ.                                                              
+	// ÏïåÌåå Î∏îÎ†åÎî©ÏùÑ ÌôúÏÑ±ÌôîÌïòÏó¨ Ìà¨Î™ÖÌïú Î∂ÄÎ∂ÑÏù¥ Ï≤òÎ¶¨ÎêòÎèÑÎ°ù Ìï©ÎãàÎã§.                                                              
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
+	// 4-1) Í∏∞Î≥∏ ÌëúÏ†ï Î®ºÏ†Ä Í∑∏Î¶¨Í∏∞ (HP & Î∞©Ìñ• ÌîÑÎ†àÏûÑ)
+	const int hp = m_pCamera->Get_Hp();
+	if (hp >= 80)           m_pTextureCom->Set_Texture((int)m_lFrame);
+	else if (hp >= 60)      m_pTextureCom1->Set_Texture((int)m_lFrame);
+	else if (hp >= 40)      m_pTextureCom2->Set_Texture((int)m_lFrame);
+	else if (hp >= 20)      m_pTextureCom3->Set_Texture((int)m_lFrame);
+	else                    m_pTextureCom4->Set_Texture((int)m_lFrame);
 	m_pBufferCom->Render_Buffer();
 
-	// 5. ∑ª¥ı∏µ¿Ã ≥°≥≠ »ƒ, πÈæ˜«ÿµŒæ˙¥¯ ø¯∑°¿« View, Projection «‡∑ƒ∑Œ ∫πø¯«’¥œ¥Ÿ.                                           
-	// ¿Ã∑∏∞‘ «ÿæﬂ ¥Ÿ∏• 3D ø¿∫Í¡ß∆ÆµÈ¿Ã ¡§ªÛ¿˚¿∏∑Œ ∑ª¥ı∏µµÀ¥œ¥Ÿ.                                                              
+	// 4-2) (ÏòµÏÖò) ÏÇ¨Îßù Ïò§Î≤ÑÎ†àÏù¥
+	if (hp <= 0 && m_pTextureCom6) {
+		m_pTextureCom6->Set_Texture(0);
+		m_pBufferCom->Render_Buffer();
+	}
+
+	// 4-3) EVIL Ïò§Î≤ÑÎ†àÏù¥ (ÌîΩÏóÖ Ìö®Í≥º) ‚Äî Í∞ÄÏû• ÎèÑÎìúÎùºÏßÄÎäî Ïª∑ÏúºÎ°ú Í≥†Ï†ï
+	if (m_bIsEvil && m_pTextureCom5) {
+		m_pTextureCom5->Set_Texture(4);      // ‚Üê 0~4 Ï§ë Í∞ÄÏû• Í∞ïÌïú Ïª∑
+		m_pBufferCom->Render_Buffer();
+		 OutputDebugStringA("[FACE] EVIL overlay draw\n"); // ÌïÑÏöîÏãú ÏºúÏÑú ÌôïÏù∏
+	}
+
+	// 5. Î†åÎçîÎßÅÏù¥ ÎÅùÎÇú ÌõÑ, Î∞±ÏóÖÌï¥ÎëêÏóàÎçò ÏõêÎûòÏùò View, Projection ÌñâÎ†¨Î°ú Î≥µÏõêÌï©ÎãàÎã§.                                           
+	// Ïù¥Î†áÍ≤å Ìï¥Ïïº Îã§Î•∏ 3D Ïò§Î∏åÏ†ùÌä∏Îì§Ïù¥ Ï†ïÏÉÅÏ†ÅÏúºÎ°ú Î†åÎçîÎßÅÎê©ÎãàÎã§.                                                              
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &matView);
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
 
-	// 6. ∑ª¥ı∏µ ªÛ≈¬∏¶ ø¯∑°¥Î∑Œ ∫πø¯«’¥œ¥Ÿ.                                                                                  
+	// 6. Î†åÎçîÎßÅ ÏÉÅÌÉúÎ•º ÏõêÎûòÎåÄÎ°ú Î≥µÏõêÌï©ÎãàÎã§.                                                                                  
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }
@@ -141,10 +160,18 @@ void CGameUI_Face::OnCollision(CCollider* _pOther)
 
 void CGameUI_Face::OnCollisionEnter(CCollider* _pOther)
 {
+	Set_EvilFace(3.f);
 }
 
 void CGameUI_Face::OnCollisionExit(CCollider* _pOther)
 {
+}
+
+void CGameUI_Face::Set_EvilFace(const _float& fTime)
+{
+	m_bIsEvil = true;
+	m_fEvilTime = fTime;
+	OutputDebugStringA("[FACE] Set_EvilFace called\n");   // ‚Üê ÌôïÏù∏Ïö©(ÏõêÌïòÎ©¥ ÎπºÎèÑ Îê®)
 }
 
 HRESULT CGameUI_Face::Add_Component()
@@ -202,6 +229,22 @@ HRESULT CGameUI_Face::Add_Component()
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture4", pComponent });
 
+
+	pComponent = m_pTextureCom5 = dynamic_cast<Engine::CTexture*>
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_FaceUI5"));
+	if (nullptr == pComponent)
+		return E_FAIL;		
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_Texture5", pComponent });
+
+
+	pComponent = m_pTextureCom6 = dynamic_cast<Engine::CTexture*>
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_FaceUI6"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_Texture6", pComponent });
+
 	// Calculator
 	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
 		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Calculator"));
@@ -209,13 +252,6 @@ HRESULT CGameUI_Face::Add_Component()
 		return E_FAIL;
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Calculator", pComponent });
-
-	/*pComponent = m_pColliderCom = dynamic_cast<Engine::CCollider*>
-	(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Collider"));
-if (nullptr == pComponent)
-	return E_FAIL;
-
-m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });*/
 
 	return S_OK;
 }
