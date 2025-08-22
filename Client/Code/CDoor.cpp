@@ -29,7 +29,7 @@ HRESULT CDoor::Ready_GameObject()
 	m_fTimer = 0.f;
 
 	m_pTransformCom->Set_Pos(20.f, 2.f, 25.f);
-	m_pTransformCom->Set_Scale(_vec3(2.f, 2.f, 1.f));
+	m_pTransformCom->Set_Scale(_vec3(2.f, 2.f, 2.f));
 
 	m_pTransformCom->Get_Pos(&m_vOriginPos);
 
