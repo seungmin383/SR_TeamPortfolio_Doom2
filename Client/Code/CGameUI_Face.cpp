@@ -7,6 +7,7 @@
 
 CGameUI_Face::CGameUI_Face(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev), m_lFrame(0.f), m_pCamera(nullptr)
+	, m_bIsEvil(false), m_fEvilTime(0.f)
 {
 }
 
@@ -54,6 +55,16 @@ HRESULT CGameUI_Face::Ready_GameObject()
 
 _int CGameUI_Face::Update_GameObject(const _float& fTimeDelta)
 {
+	if (m_bIsEvil)
+	{
+		m_fEvilTime -= fTimeDelta;
+		if (m_fEvilTime <= 0.f)
+		{
+			m_bIsEvil = false;
+			m_fEvilTime = 0.f;
+		}
+	}
+
 	CGameObject::Update_GameObject(fTimeDelta);
 
 
@@ -108,18 +119,45 @@ void CGameUI_Face::Render_GameObject(const _float& fTimeDelta)
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
 
 	// 무기를 먹으면 Face_EVIL로 3초간 유지(체력에 따라 다르게 나오게 함)
+	if (m_bIsEvil)
+	{		
+		if (m_pCamera->Get_Hp() >= 80) {
+			m_fEvilTime = 0;
+		}
+		else if (m_pCamera->Get_Hp() >= 60)
+		{
+			m_fEvilTime = 1;
+		}
+		else if (m_pCamera->Get_Hp() >= 40)
+		{
+			m_fEvilTime = 2;
+		}
+		else if (m_pCamera->Get_Hp() >= 20)
+		{
+			m_fEvilTime = 3;
+		}
+		else
+		{
+			m_fEvilTime = 4;
+		}
+		m_pTextureCom5->Set_Texture(m_fEvilTime);
+	}
+	else {
+		if (m_pCamera->Get_Hp() >= 80)
+			m_pTextureCom->Set_Texture((int)m_lFrame);
+		else if (m_pCamera->Get_Hp() >= 60)
+			m_pTextureCom1->Set_Texture((int)m_lFrame);
+		else if (m_pCamera->Get_Hp() >= 40)
+			m_pTextureCom2->Set_Texture((int)m_lFrame);
+		else if (m_pCamera->Get_Hp() >= 20)
+			m_pTextureCom3->Set_Texture((int)m_lFrame);
+		else
+			m_pTextureCom4->Set_Texture((int)m_lFrame);
 
-	if (m_pCamera->Get_Hp() >= 80)
-		m_pTextureCom->Set_Texture((int)m_lFrame);
-	else if (m_pCamera->Get_Hp() >= 60)
-		m_pTextureCom1->Set_Texture((int)m_lFrame);
-	else if (m_pCamera->Get_Hp() >= 40)
-		m_pTextureCom2->Set_Texture((int)m_lFrame);
-	else if (m_pCamera->Get_Hp() >= 20)
-		m_pTextureCom3->Set_Texture((int)m_lFrame);
-	else
-		m_pTextureCom4->Set_Texture((int)m_lFrame);
-
+		// 사망 시 얼굴
+		if (m_pCamera->Get_Hp() <= 0)
+			m_pTextureCom6->Set_Texture(0);
+	}
 	// 알파 블렌딩을 활성화하여 투명한 부분이 처리되도록 합니다.                                                              
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
@@ -143,10 +181,17 @@ void CGameUI_Face::OnCollision(CCollider* _pOther)
 
 void CGameUI_Face::OnCollisionEnter(CCollider* _pOther)
 {
+	Set_EvilFace();
 }
 
 void CGameUI_Face::OnCollisionExit(CCollider* _pOther)
 {
+}
+
+void CGameUI_Face::Set_EvilFace(const _float& fTime)
+{
+	m_bIsEvil = true;
+	m_fEvilTime = fTime;
 }
 
 HRESULT CGameUI_Face::Add_Component()
@@ -204,19 +249,22 @@ HRESULT CGameUI_Face::Add_Component()
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture4", pComponent });
 
-	//pComponent = m_pTextureCom_DEAD = dynamic_cast<Engine::CTexture*>
-	//	(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_FaceUI_Dead"));
-	//if (nullptr == pComponent)
-	//	return E_FAIL;
 
-	//m_mapComponent[ID_STATIC].insert({ L"Com_Texture_DEAD", pComponent });
+	pComponent = m_pTextureCom5 = dynamic_cast<Engine::CTexture*>
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_FaceUI5"));
+	if (nullptr == pComponent)
+		return E_FAIL;		
 
-	//pComponent = m_pTextureCom_EVIL = dynamic_cast<Engine::CTexture*>
-	//	(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_FaceUI_Weapon"));
-	//if (nullptr == pComponent)
-	//	return E_FAIL;
+	m_mapComponent[ID_STATIC].insert({ L"Com_Texture5", pComponent });
 
-	m_mapComponent[ID_STATIC].insert({ L"Com_Texture_EVIL", pComponent });
+
+	pComponent = m_pTextureCom6 = dynamic_cast<Engine::CTexture*>
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_FaceUI6"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_Texture6", pComponent });
+
 	// Calculator
 	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
 		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Calculator"));
@@ -224,13 +272,6 @@ HRESULT CGameUI_Face::Add_Component()
 		return E_FAIL;
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Calculator", pComponent });
-
-	/*pComponent = m_pColliderCom = dynamic_cast<Engine::CCollider*>
-	(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Collider"));
-if (nullptr == pComponent)
-	return E_FAIL;
-
-m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });*/
 
 	return S_OK;
 }

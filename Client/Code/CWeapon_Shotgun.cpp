@@ -5,6 +5,7 @@
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
 #include "CWeaponManager.h"
+#include "CGameUI_Face.h"
 
 CWeapon_Shotgun::CWeapon_Shotgun(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -28,7 +29,7 @@ HRESULT CWeapon_Shotgun::Ready_GameObject()
 	m_bPicked = false;
 
 	m_pTransformCom->Set_Pos(22.f, 0.f, 10.f);
-	m_pTransformCom->Set_Scale(_vec3(1.f, 1.f, 1.f));
+	m_pTransformCom->Set_Scale(_vec3(1.f, 0.5f, 1.f));
 
 	m_pWeaponManager = CWeaponManager::GetInstance();
 
@@ -95,6 +96,7 @@ void CWeapon_Shotgun::OnCollisionEnter(CCollider* _pOther)
 	// to-do) 무기매니저로 캐스팅해서 얻기
 	if (m_pWeaponManager) {
 		m_pWeaponManager->Add_Weapon(WEAPON_ID::SHOTGUN, (CWeapon*)this);
+		m_pWeaponManager->Change_Weapon(WEAPON_ID::SHOTGUN);
 	}
 	else
 	{
