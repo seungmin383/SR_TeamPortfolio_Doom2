@@ -58,11 +58,7 @@ HRESULT CStage2::Ready_Scene()
 
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_ENEMY);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_ITEM);
-	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYERCAMERA, OBJID::OBJ_ENEMY);
-	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYERCAMERA, OBJID::OBJ_ITEM);
-
-	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYERCAMERA, OBJID::OBJ_OBJECT);
-
+	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_OBJECT);
 
 	return S_OK;
 }
@@ -198,7 +194,7 @@ HRESULT CStage2::Ready_UI_Layer(LAYERID _eLayerId)
 		return E_FAIL;
 
 	// (2) Camera 객체 포인터를 얻어서
-	const auto& cameraObjects = Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYERCAMERA);
+	const auto& cameraObjects = Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYER);
 	if (cameraObjects.empty())
 		return E_FAIL;
 
@@ -233,7 +229,7 @@ HRESULT CStage2::Ready_UI_Layer(LAYERID _eLayerId)
 		return E_FAIL;
 
 	// (2) Camera 객체 포인터를 얻어서
-	const auto& cameraObjects3 = Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYERCAMERA);
+	const auto& cameraObjects3 = Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYER);
 	if (cameraObjects3.empty())
 		return E_FAIL;
 
@@ -271,7 +267,7 @@ HRESULT CStage2::Ready_Camera_Layer(LAYERID _eLayerId)
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_PLAYERCAMERA, pGameObject)))
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_PLAYER, pGameObject)))
 		return E_FAIL;
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
