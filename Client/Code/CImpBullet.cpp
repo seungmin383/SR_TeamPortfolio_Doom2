@@ -64,7 +64,7 @@ HRESULT CImpBullet::Ready_GameObject()
 
 	//ÅÍÁú ¶§
 	m_pAnimCom->Add_Animation(
-		0,
+		1,
 		m_pTextureCom,
 		m_pBufferCom,
 		3,
