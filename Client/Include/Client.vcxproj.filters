@@ -139,8 +139,6 @@
     <Filter Include="01. Scene\04. Stage3">
       <UniqueIdentifier>{f6e86f27-c2ca-4c27-9cdc-22a83d8f86f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Manager\03. BulletManager">
-      <UniqueIdentifier>{b0d5526d-f2a7-4229-8b10-88d5158cf177}</UniqueIdentifier>
     <Filter Include="02. GameObject\02. Monster\CMonsterBullet">
       <UniqueIdentifier>{c875faed-af74-4cea-8bba-b45f5eeed4f1}</UniqueIdentifier>
     </Filter>
@@ -311,8 +309,6 @@
     <ClInclude Include="..\Header\CStage3.h">
       <Filter>01. Scene\04. Stage3</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\CBulletManager.h">
-      <Filter>03. Manager\03. BulletManager</Filter>
     <ClInclude Include="..\Header\CImpBullet.h">
       <Filter>02. GameObject\02. Monster\CMonsterBullet\CImpBullet</Filter>
     </ClInclude>
@@ -474,8 +470,6 @@
     <ClCompile Include="..\Code\CStage3.cpp">
       <Filter>01. Scene\04. Stage3</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\CBulletManager.cpp">
-      <Filter>03. Manager\03. BulletManager</Filter>
     <ClCompile Include="..\Code\CImpBullet.cpp">
       <Filter>02. GameObject\02. Monster\CMonsterBullet\CImpBullet</Filter>
     </ClCompile>

@@ -115,6 +115,16 @@ void CPlayerWeapon::Ready_Animation()
 	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::CHAINGUN, m_pTextureCom, m_pBufferCom, 3, 1, 0, 0, 0.f, true);
 	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::CHAINGUN + (_uint)WEAPON_STATE::SWAP, m_pTextureCom, m_pBufferCom, 3, 1, 0, 0, 0.1f, true);
 	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::CHAINGUN + (_uint)WEAPON_STATE::SHOT, m_pTextureCom, m_pBufferCom, 3, 1, 1, 2, 0.057f, true);
+
+	// Rocket Launcher Animation
+	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::ROCKET, m_pTextureCom, m_pBufferCom, 5, 1, 0, 0, 0.f, true);
+	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::ROCKET + (_uint)WEAPON_STATE::SWAP, m_pTextureCom, m_pBufferCom, 5, 1, 0, 0, 0.1f, true);
+	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::ROCKET + (_uint)WEAPON_STATE::SHOT, m_pTextureCom, m_pBufferCom, 5, 1, 1, 4, 0.15f, false);
+
+	// BFG9000 Animation
+	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::BFG, m_pTextureCom, m_pBufferCom, 3, 1, 0, 0, 0.f, true);
+	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::BFG + (_uint)WEAPON_STATE::SWAP, m_pTextureCom, m_pBufferCom, 3, 1, 0, 0, 0.1f, true);
+	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::BFG + (_uint)WEAPON_STATE::SHOT, m_pTextureCom, m_pBufferCom, 3, 1, 1, 2, 0.57f, false);
 }
 
 HRESULT CPlayerWeapon::Add_Component()

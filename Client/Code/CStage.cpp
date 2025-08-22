@@ -547,7 +547,7 @@ HRESULT CStage::Ready_Camera_Layer(LAYERID _eLayerId)
 	CManagement* pManagement = CManagement::GetInstance();
 
 	_vec3	vEye{ 0.f, 0.f, 0.f };
-	_vec3	vAt{ 0.f, 2.f, 1.f };
+	_vec3	vAt{ 0.f, 0.f, 1.f };
 	_vec3	vUp{ 0.f , 1.f, 0.f };
 
 	pGameObject = CDynamicCamera::Create(m_pGraphicDev, &vEye, &vAt, &vUp);
