@@ -69,8 +69,7 @@ void CTextureExplorer::ChildListBox()
 
 	int diridx = 0;
 
-	if (curChildList.empty())
-		curChildList = CFileManager::GetInstance()->GetListChildDir();
+	curChildList = CFileManager::GetInstance()->GetListChildDir();
 
 	if (ImGui::BeginListBox("Directory list"))
 	{
@@ -109,8 +108,7 @@ void CTextureExplorer::FileListListBox()
 
 	int fileidx = 0;
 
-	if (curFileList.empty())
-		curFileList = CFileManager::GetInstance()->GetListCurrentDir();
+	curFileList = CFileManager::GetInstance()->GetListCurrentDir();
 
 	if (ImGui::BeginListBox("File list"))
 	{

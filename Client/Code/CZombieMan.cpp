@@ -34,7 +34,7 @@ HRESULT CZombieMan::Ready_GameObject()
 	m_pTransformCom->Get_Pos(&vPos);
 	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.f, 0.f),
 		COLLAYERID::COL_ENEMY,
-		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT | COLLAYERID::COL_ENEMY);
+		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT | COLLAYERID::COL_ENEMY | COL_PLAYERCAMERA);
 
 
 #pragma region ANIM_SETTING

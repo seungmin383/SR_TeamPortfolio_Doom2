@@ -79,7 +79,7 @@ void CStage3::LateUpdate_Scene(const _float& fTimeDelta)
 	Engine::CScene::LateUpdate_Scene(fTimeDelta);
 
 }
-
+	
 void CStage3::Render_Scene(const _float& fTimeDelta)
 {
 }
@@ -88,7 +88,7 @@ HRESULT CStage3::Load_PreSet()
 {
 	CObjectFactory::GetInstance()->Create_Terrain_Default(VTXCNTX, VTXCNTZ, VTXITV, (_tchar*)L"Proto_TerrainTexture");
 
-	TerrainModels tm = CFileManager::GetInstance()->LoadTerrain((_uint)SCENEID::STAGE2);
+	TerrainModels tm = CFileManager::GetInstance()->LoadTerrain((_uint)SCENEID::STAGE3);
 
 	for (auto m : tm.model)
 	{
@@ -100,10 +100,10 @@ HRESULT CStage3::Load_PreSet()
 			m.pos);
 	}
 
-	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem((_uint)SCENEID::STAGE2);;
+	//vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem((_uint)SCENEID::STAGE3);;
 
-	for (auto item : loadData)
-		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, item.position);
+	//for (auto item : loadData)
+	//	CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, item.position);
 
 	return S_OK;
 }

@@ -52,11 +52,13 @@ _bool CControlPanel::ControlPanelWindow(const _float& timeDelta)
 
 	//불러올 스테이지 선택
 	static int load_current = 0;
-	ImGui::Combo("load stage select", &load_current, loadSceneTags, (_uint)(SCENEID::SCENE_END) - 1);
+	ImGui::Combo("load stage select", &load_current, loadSceneTags, (_uint)(SCENEID::SCENE_END));
 
 	//지형 저장 모달
 	if (ImGui::Button("Save terrain"))
 	{
+		prevPath = CFileManager::GetInstance()->GetCurrentDir();
+
 		//SaveModal();
 		ImGui::OpenPopup("Save terrain?");
 	}
@@ -104,6 +106,8 @@ _bool CControlPanel::ControlPanelWindow(const _float& timeDelta)
 	ImGui::SameLine();
 	if (ImGui::Button("Save item"))
 	{
+		prevPath = CFileManager::GetInstance()->GetCurrentDir();
+
 		//SaveModal();
 		ImGui::OpenPopup("Save item?");
 	}
@@ -145,6 +149,8 @@ _bool CControlPanel::ControlPanelWindow(const _float& timeDelta)
 
 	if (ImGui::Button("Load terrain"))
 	{
+		prevPath = CFileManager::GetInstance()->GetCurrentDir();
+
 		LoadTerrain(load_current);
 	}
 	ImGui::SameLine();
@@ -155,6 +161,8 @@ _bool CControlPanel::ControlPanelWindow(const _float& timeDelta)
 	ImGui::SameLine();
 	if (ImGui::Button("Load item"))
 	{
+		prevPath = CFileManager::GetInstance()->GetCurrentDir();
+
 		LoadItem(load_current);
 	}
 	ImGui::SameLine();
@@ -325,8 +333,6 @@ void CControlPanel::TerrainController()
 	{
 		//new할 뭐시기 저시기
 		SetDefault();
-		applied = false;
-		isModifing = false;
 	}
 	ImGui::EndDisabled();
 
@@ -507,8 +513,8 @@ void CControlPanel::ObjectController()
 
 	//tag 기타 태그
 
-	tObjectinfo.type1 = type_current;
-	tObjectinfo.type2 = id_current;
+	tObjectinfo.type1 = objPrototypeTags[type_current].value;
+	tObjectinfo.type2 = objIdTags[id_current].value;
 }
 
 void CControlPanel::ChangeTileInfo()
@@ -554,6 +560,9 @@ void CControlPanel::SetDefault()
 	}
 
 	tCachingControlInfo.vertices.shrink_to_fit();
+
+	applied = false;
+	isModifing = false;
 }
 
 void CControlPanel::Apply()
@@ -571,7 +580,8 @@ void CControlPanel::Apply()
 
 		vecSector[tCachingControlInfo.terrainIdx]->Get_Transform()->Set_Pos(tCachingControlInfo.pos.x, tCachingControlInfo.pos.y, tCachingControlInfo.pos.z);
 
-		vecSector[tCachingControlInfo.terrainIdx]->Set_TextureCom(curTex);
+		if (curTex != nullptr)
+			vecSector[tCachingControlInfo.terrainIdx]->Set_TextureCom(curTex);
 
 		tControlInfo[tCachingControlInfo.terrainIdx] = tCachingControlInfo;
 	}
@@ -598,6 +608,12 @@ void CControlPanel::Apply()
 
 void CControlPanel::SaveTerrain(fs::path path, string filename)
 {
+	Apply();
+	SetDefault();
+
+	vecTerrainInfos.clear();
+	vecTerrainInfos.shrink_to_fit();
+
 	CFileManager::GetInstance()->MoveProjectDir();
 
 	auto basePath = fs::current_path();
@@ -617,6 +633,8 @@ void CControlPanel::SaveTerrain(fs::path path, string filename)
 	}
 
 	CFileManager::GetInstance()->SaveTerrain(path, filename, vecTerrainInfos);
+
+	CFileManager::GetInstance()->MoveDir(prevPath);
 }
 
 void CControlPanel::LoadTerrain(int sceneNumber)
@@ -625,6 +643,9 @@ void CControlPanel::LoadTerrain(int sceneNumber)
 
 	vecSector.clear();
 	vecSector.shrink_to_fit();
+
+	tControlInfo.clear();
+	tControlInfo.shrink_to_fit();
 
 	for (auto m : tm.model)
 	{
@@ -653,6 +674,8 @@ void CControlPanel::LoadTerrain(int sceneNumber)
 
 	applied = true;
 	isModifing = true;
+
+	CFileManager::GetInstance()->MoveDir(prevPath);
 }
 
 void CControlPanel::SaveWallAndCeil(fs::path path, string filename)
@@ -666,6 +689,8 @@ void CControlPanel::LoadWallAndCeil()
 void CControlPanel::SaveItem(fs::path path, string filename)
 {
 	CFileManager::GetInstance()->SaveItem(path, filename, vecItemInfos);
+
+	CFileManager::GetInstance()->MoveDir(prevPath);
 }
 
 void CControlPanel::LoadItem(int sceneNumber)
@@ -677,6 +702,8 @@ void CControlPanel::LoadItem(int sceneNumber)
 
 	for (auto item : loadData)
 		vecItemInfos.push_back(item);
+	
+	CFileManager::GetInstance()->MoveDir(prevPath);
 }
 
 void CControlPanel::SaveMonster(fs::path path, string filename)

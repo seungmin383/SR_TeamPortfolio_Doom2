@@ -21,20 +21,21 @@ CPinky::~CPinky()
 }
 
 HRESULT CPinky::Ready_GameObject()
-{/*
-	AllocConsole();
+{
+	//AllocConsole();
 
-	FILE* fp;
-	freopen_s(&fp, "CONOUT$", "w", stdout);
-	freopen_s(&fp, "CONOUT$", "w", stderr);*/
+	//FILE* fp;
+	//freopen_s(&fp, "CONOUT$", "w", stdout);
+	//freopen_s(&fp, "CONOUT$", "w", stderr);
 
 
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
+	m_pTransformCom->Set_Pos(56.f, 0.f, 10.f);
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
-	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.f, 0.f),
+	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(2.f, 2.f, 2.f), _vec3(0.f, -1.f, 0.f),
 		COLLAYERID::COL_ENEMY,
 		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT);
 
@@ -104,7 +105,7 @@ HRESULT CPinky::Ready_GameObject()
 	m_fSightDistance = 50.f;
 
 	m_fAtkSpeed = 4.f;
-	m_iHp = 20;
+	m_iHp = 10;
 	m_iAtkDmg = 3;
 
 	m_fAtkDelay = 0.f;
@@ -113,6 +114,9 @@ HRESULT CPinky::Ready_GameObject()
 
 	m_iGibDeadPlus = 16;
 	m_iNorDeadPlus = 16;
+
+	_vec3 vSize{ 2.f, 2.f, 2.f };
+	m_pTransformCom->Set_Scale(vSize);
 
 	m_isPinky = TRUE;
 	//초기 룩으로 세팅해주고
@@ -138,20 +142,22 @@ void CPinky::LateUpdate_GameObject(const _float& fTimeDelta)
 
 void CPinky::Render_GameObject(const _float& fTimeDelta)
 {
+	cout << "핑키 애니메이션 스테이트:" << m_eCurAnimState << endl;
 	CMonsterBase::Render_GameObject(fTimeDelta);
 }
 
-void CPinky::OnCollision(CCollider* _pOther)
+void CPinky::Set_OnTerrain()
 {
-	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
-}
+	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
 
-void CPinky::OnCollisionEnter(CCollider* _pOther)
-{
-}
+	Engine::CTerrainTexSector* pTerrainBufferCom =
+		static_cast<CTerrainTexSector*>
+		(CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
 
-void CPinky::OnCollisionExit(CCollider* _pOther)
-{
+	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
+
+	m_pTransformCom->Set_Pos(pos.x, height + 2.f, pos.z);
 }
 
 HRESULT CPinky::Add_Component()

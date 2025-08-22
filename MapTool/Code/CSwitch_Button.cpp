@@ -27,7 +27,7 @@ HRESULT CSwitch_Button::Ready_GameObject()
 
 
 	m_pTransformCom->Set_Pos(15.f, 0.f, 18.f);
-	m_pTransformCom->Set_Scale(_vec3(0.1f, 0.1f, 0.1f));
+	m_pTransformCom->Set_Scale(_vec3(0.5f, 0.5f, 0.5f));
 
 	m_pColliderCom->Ready_CCollider(
 		this,
@@ -192,20 +192,18 @@ void CSwitch_Button::Bill_Board()
 	_matrix matWorld, matView, matBill;
 	m_pTransformCom->Get_World(&matWorld);
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixIdentity(&matBill);
 
-	// 빌보드 행렬의 스케일과 위치는 월드 행렬의 것을 그대로 사용                          
-	matBill = matWorld;
+	matBill._11 = matView._11;
+	matBill._13 = matView._13;
+	matBill._31 = matView._31;
+	matBill._33 = matView._33;
 
-	// 뷰행렬에서 역행렬을 이용해 카메라의 회전값을 구하고, 빌보드 행렬의 회전값으로 설정  
-	D3DXMatrixInverse(&matBill, NULL, &matView);
+	D3DXMatrixInverse(&matBill, 0, &matBill);		// 카메라가 갖고 있는 y회전의 역행렬 -역행렬> 카메라의 월드 상태의 y축 회전 행렬
 
-	// 빌보드 행렬의 위치값을 월드 행렬의 위치값으로 설정                                  
-	matBill._41 = matWorld._41;
-	matBill._42 = matWorld._42;
-	matBill._43 = matWorld._43;
-
+	matWorld = matBill * matWorld;
 	// 최종적으로 빌보드 행렬을 월드 행렬로 설정                                           
-	m_pTransformCom->Set_World(&matBill);
+	m_pTransformCom->Set_World(&matWorld);
 }
 
 void CSwitch_Button::SetSwitchOn()

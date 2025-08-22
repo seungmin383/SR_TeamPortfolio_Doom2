@@ -43,12 +43,6 @@ public:
     _int            Get_Armor() { return m_iArmor; }
     void            Set_Armor(_int i) { m_iArmor = i; }
 
-    _int            Get_Clip() { return m_iClip; }
-    void            Set_Clip(_int clip) { m_iClip = clip; }
-
-    _int            Get_Shell() { return m_iShell; }
-    void            Set_Shell(_int shell) { m_iShell = shell; }
-
     _int            Get_MaxNum() { return m_iMax; }
 
 public:
@@ -67,21 +61,6 @@ public:
         m_iArmor += armor;
         if (m_iArmor >= m_iMax)
             m_iArmor = m_iMax;
-    }
-
-    void AddClip(_int clip) 
-    {
-        m_iClip += clip;
-        if (m_iClip >= m_iMax)
-            m_iClip = m_iMax;
-    }
-
-    void AddShell(_int shell)
-    {
-        m_iShell += shell;
-        if (m_iShell >= m_iMax / 4)
-            m_iShell = m_iMax / 4;
-
     }
 
     void Take_Damage(_int iDamage) 
@@ -113,9 +92,7 @@ private:
 
     _int        m_iHp;
     _int        m_iArmor;
-    _int        m_iClip;
-    _int        m_iShell;
-    _int        m_iMax = 200;
+    _int        m_iMax = 200;       // 체력과 아머에 사용할 최대 수치
     
     _float      m_fSpeed;
     _bool       m_bFix;
