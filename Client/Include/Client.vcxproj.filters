@@ -141,6 +141,11 @@
     </Filter>
     <Filter Include="03. Manager\03. BulletManager">
       <UniqueIdentifier>{b0d5526d-f2a7-4229-8b10-88d5158cf177}</UniqueIdentifier>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBullet">
+      <UniqueIdentifier>{c875faed-af74-4cea-8bba-b45f5eeed4f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBullet\CImpBullet">
+      <UniqueIdentifier>{de7ec3bb-98ca-4015-b99c-13c3ebba9d3a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -308,6 +313,8 @@
     </ClInclude>
     <ClInclude Include="..\Header\CBulletManager.h">
       <Filter>03. Manager\03. BulletManager</Filter>
+    <ClInclude Include="..\Header\CImpBullet.h">
+      <Filter>02. GameObject\02. Monster\CMonsterBullet\CImpBullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -469,6 +476,8 @@
     </ClCompile>
     <ClCompile Include="..\Code\CBulletManager.cpp">
       <Filter>03. Manager\03. BulletManager</Filter>
+    <ClCompile Include="..\Code\CImpBullet.cpp">
+      <Filter>02. GameObject\02. Monster\CMonsterBullet\CImpBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

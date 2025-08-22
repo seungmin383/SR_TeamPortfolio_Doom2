@@ -38,6 +38,7 @@ public:
     /// <param name="eObjPrototype"></param>
     /// <returns></returns>
     HRESULT         Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos = _vec3(0.f, 0.f, 0.f), _int iCnt = 1);
+    HRESULT         Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, CGameObject* _Owner );
 
 public:
     _int        Update_Scene(const _float& fTimeDelta);
