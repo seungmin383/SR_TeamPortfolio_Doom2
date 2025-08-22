@@ -142,7 +142,7 @@ void CPinky::LateUpdate_GameObject(const _float& fTimeDelta)
 
 void CPinky::Render_GameObject(const _float& fTimeDelta)
 {
-	cout << "핑키 애니메이션 스테이트:" << m_eCurAnimState << endl;
+	//cout << "핑키 애니메이션 스테이트:" << m_eCurAnimState << endl;
 	CMonsterBase::Render_GameObject(fTimeDelta);
 }
 

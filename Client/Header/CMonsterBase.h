@@ -65,6 +65,9 @@ public:
    //Setting Function
    virtual HRESULT     Add_Component();
 
+public:
+    const _vec3 Get_MoveLook()const { return m_vMoveLook; };
+
 protected:
     Engine::CCalculator*            m_pCalculatorCom;
     Engine::CRectSpriteTex*      m_pBufferCom;
@@ -117,6 +120,7 @@ protected:
     _uint m_iNorDeadPlus = 0;
 
     _bool m_isPinky = FALSE;
+    _bool m_isShoot = FALSE;
 
     OBJPROTOTYPE m_iMonsterType = OBJPROTOTYPE::OBJPROTOTYPE_END;
 
