@@ -107,6 +107,8 @@ void CGameUI_Face::Render_GameObject(const _float& fTimeDelta)
 	// 4. UI를 렌더링합니다.                                                                                                  
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
 
+	// 무기를 먹으면 Face_EVIL로 3초간 유지(체력에 따라 다르게 나오게 함)
+
 	if (m_pCamera->Get_Hp() >= 80)
 		m_pTextureCom->Set_Texture((int)m_lFrame);
 	else if (m_pCamera->Get_Hp() >= 60)
@@ -202,6 +204,19 @@ HRESULT CGameUI_Face::Add_Component()
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture4", pComponent });
 
+	//pComponent = m_pTextureCom_DEAD = dynamic_cast<Engine::CTexture*>
+	//	(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_FaceUI_Dead"));
+	//if (nullptr == pComponent)
+	//	return E_FAIL;
+
+	//m_mapComponent[ID_STATIC].insert({ L"Com_Texture_DEAD", pComponent });
+
+	//pComponent = m_pTextureCom_EVIL = dynamic_cast<Engine::CTexture*>
+	//	(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_FaceUI_Weapon"));
+	//if (nullptr == pComponent)
+	//	return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_Texture_EVIL", pComponent });
 	// Calculator
 	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
 		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Calculator"));

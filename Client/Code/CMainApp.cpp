@@ -38,8 +38,12 @@
 #include "CAmmo_Clip.h"
 #include "CAmmo_Shell.h"
 #include "CAmmo_Rocket.h"
+#include "CAmmo_Cell.h"
 
 #include "CWeapon_Shotgun.h"
+#include "CWeapon_ChainGun.h"
+#include "CWeapon_Rocket.h"
+#include "CWeapon_BFG.h"
 
 #include "CBarrelExplosive.h"
 #include "CDoor.h"
@@ -172,6 +176,10 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_ROCKET, CAmmo_Rocket::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	// BFG 탄약
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_CELL, CAmmo_Cell::Create(m_pGraphicDev))))
+		return E_FAIL;
+
 	// 폭발통
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL, CBarrelExplosive::Create(m_pGraphicDev))))
 		return E_FAIL;
@@ -188,6 +196,17 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::WEAPON_SHOTGUN, CWeapon_Shotgun::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	// 체인건
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::WEAPON_CHAINGUN, CWeapon_ChainGun::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 로켓
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::WEAPON_ROCKET, CWeapon_Rocket::Create(m_pGraphicDev))))
+		return E_FAIL;
+	
+	// BFG
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::WEAPON_BFG, CWeapon_BFG::Create(m_pGraphicDev))))
+		return E_FAIL;
 	//텍스처 필터
 	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);

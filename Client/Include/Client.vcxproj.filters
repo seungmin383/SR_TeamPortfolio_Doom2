@@ -306,6 +306,12 @@
     <ClInclude Include="..\Header\CStage3.h">
       <Filter>01. Scene\04. Stage3</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CAmmo_Cell.h">
+      <Filter>02. GameObject\06. Object\DropItem\Ammo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CKey.h">
+      <Filter>02. GameObject\06. Object\FieldObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -466,6 +472,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\CStage3.cpp">
       <Filter>01. Scene\04. Stage3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CAmmo_Cell.cpp">
+      <Filter>02. GameObject\06. Object\DropItem\Ammo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CKey.cpp">
+      <Filter>02. GameObject\06. Object\FieldObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

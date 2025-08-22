@@ -24,16 +24,22 @@
 #include "CGameUI_Info_Ammo.h"
 #include "CGameUI_Info_WeaponNum.h"
 #include "CHealth_Small.h"
+#include "CHealth_Big.h"
 #include "CArmor_Small.h"
 #include "CArmor_Big.h"
 #include "CAmmo_Clip.h"
 #include "CAmmo_Shell.h"
+#include "CAmmo_Rocket.h"
 
 #include "CBarrelExplosive.h"
 #include "CDoor.h"
 #include "CSwitch_Button.h"
 
 #include "CPistol.h"
+#include "CWeapon_Shotgun.h"
+#include "CWeapon_Rocket.h"
+#include "CWeapon_Rocket.h"
+#include "CWeapon_BFG.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -276,6 +282,15 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
 		return E_FAIL;
 
+	// BFG 탄약
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_CELL);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
+		return E_FAIL;
+
 	// 폭발통
 	// 1개만 소환
 	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL);
@@ -387,31 +402,31 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 		return E_FAIL;
 
 	// 체인건 오브젝트
-	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::WEAPON_CHAINGUN);
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::WEAPON_CHAINGUN);
 
-	//if (nullptr == pGameObject)
-	//	return E_FAIL;
+	if (nullptr == pGameObject)
+		return E_FAIL;
 
-	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
-	//	return E_FAIL;
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
+		return E_FAIL;
 
-	//// 로켓 런처 오브젝트
-	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::WEAPON_ROCKET);
+	// 로켓 런처 오브젝트
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::WEAPON_ROCKET);
 
-	//if (nullptr == pGameObject)
-	//	return E_FAIL;
+	if (nullptr == pGameObject)
+		return E_FAIL;
 
-	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
-	//	return E_FAIL;
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
+		return E_FAIL;
 
-	//// BFG 오브젝트
-	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::WEAPON_BFG);
+	// BFG 오브젝트
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::WEAPON_BFG);
 
-	//if (nullptr == pGameObject)
-	//	return E_FAIL;
+	if (nullptr == pGameObject)
+		return E_FAIL;
 
-	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
-	//	return E_FAIL;
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
+		return E_FAIL;
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
 

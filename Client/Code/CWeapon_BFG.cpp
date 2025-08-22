@@ -27,7 +27,7 @@ HRESULT CWeapon_BFG::Ready_GameObject()
 
 	m_bPicked = false;
 
-	m_pTransformCom->Set_Pos(35.f, 0.f, 10.f);
+	m_pTransformCom->Set_Pos(50.f, 0.f, 40.f);
 	m_pTransformCom->Set_Scale(_vec3(1.f, 1.f, 1.f));
 
 	m_pWeaponManager = CWeaponManager::GetInstance();

@@ -35,6 +35,10 @@ private:
 	Engine::CTexture* m_pTextureCom2;
 	Engine::CTexture* m_pTextureCom3;
 	Engine::CTexture* m_pTextureCom4;
+
+	Engine::CTexture* m_pTextureCom_EVIL;
+	Engine::CTexture* m_pTextureCom_DEAD;
+
 	Engine::CCalculator* m_pCalculatorCom;
 
 public:
