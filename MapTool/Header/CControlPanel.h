@@ -97,6 +97,9 @@ public:
 private:
     LPDIRECT3DDEVICE9               m_pGraphicDev;
     
+    //저장직전 경로
+    fs::path                        prevPath;
+
     //지형 관련 멤버변수
     vector<currentControlInfo>      tControlInfo;
     currentControlInfo              tCachingControlInfo;
@@ -119,7 +122,6 @@ private:
     vector<GameObjectSpawnInfo>      vecMonsterInfos;
     //몬스터 관련 멤버변수 끝
 
-    //trash
     _bool                           show_demo_window = false;
     _bool                           applied = false;
     _bool                           isModifing = false;

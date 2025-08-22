@@ -1,0 +1,72 @@
+{
+    "model": [
+        {
+            "idx": 0,
+            "pos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Ceil/CEIL1_2.png",
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexInterval": 1,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 1.0
+                },
+                {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 1.0
+                }
+            ]
+        },
+        {
+            "idx": 1,
+            "pos": {
+                "x": 2.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Ceil/CEIL3_2.png",
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexInterval": 1,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 1.0
+                },
+                {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 1.0
+                }
+            ]
+        }
+    ]
+}
