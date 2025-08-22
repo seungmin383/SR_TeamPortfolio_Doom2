@@ -7,6 +7,8 @@
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
 #include <iostream>
+#include "CCollisionManager.h"
+#include "CTimerManager.h"
 
 
 CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
