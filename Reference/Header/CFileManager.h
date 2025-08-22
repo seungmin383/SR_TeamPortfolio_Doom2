@@ -42,10 +42,10 @@ public:
     //TODO: load monster spawn
 
     void                              SaveTerrain(fs::path path, string filename, vector<TerrainModel> datas);
-    TerrainModels                     LoadTerrain();
+    TerrainModels                     LoadTerrain(_int stageNumber);
 
     void                              SaveItem(fs::path path, string filename, vector<GameObjectSpawnInfo> datas);
-    vector<GameObjectSpawnInfo>       LoadItem();
+    vector<GameObjectSpawnInfo>       LoadItem(_int stageNumber);
 
 private:
 

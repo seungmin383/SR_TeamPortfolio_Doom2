@@ -1,5 +1,6 @@
 #include "CLayer.h"
 #include "CPrototypeManager.h"
+#include "CManagement.h"
 
 CLayer::CLayer()
 {
@@ -188,11 +189,13 @@ void CLayer::DeleteObjectGroup(OBJID _eTarget)
 
 void CLayer::DeleteAll()
 {
+	SCENEID curSceneId = CManagement::GetInstance()->Get_CurSceneId();
+
 	for (UINT i = 0; i < (UINT)OBJID::OBJ_END; ++i)
 	{
-		//if (i == (_uint)OBJID::OBJ_PLAYER
-		//	|| i == (_uint)OBJID::OBJ_PLAYERCAMERA)
-		//	continue;
+		if (curSceneId != SCENEID::STAGE3
+			&& i == (_uint)OBJID::OBJ_PLAYERCAMERA)
+			continue;
 
 		DeleteObjectGroup((OBJID)i);
 	}

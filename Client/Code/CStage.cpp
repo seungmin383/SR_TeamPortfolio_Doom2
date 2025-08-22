@@ -10,6 +10,7 @@
 #include "CPlayerWeapon.h"
 #include "CManagement.h"
 #include "CWeaponManager.h"
+#include "CDInputManager.h"
 
 #include "CObjectFactory.h"
 #include "CFileManager.h"
@@ -77,6 +78,11 @@ _int CStage::Update_Scene(const _float& fTimeDelta)
 	CColliderManager::GetInstance()->Update();
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
 
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_T) & 0x80)
+	{
+		CManagement::GetInstance()->Change_Scene(SCENEID::STAGE2);
+	}
+
 	return iExit;
 }
 
@@ -95,7 +101,7 @@ HRESULT CStage::Load_PreSet()
 {
 	CObjectFactory::GetInstance()->Create_Terrain_Default(VTXCNTX, VTXCNTZ, VTXITV, (_tchar*)L"Proto_TerrainTexture");
 
-	TerrainModels tm = CFileManager::GetInstance()->LoadTerrain();
+	TerrainModels tm = CFileManager::GetInstance()->LoadTerrain((_uint)SCENEID::STAGE1);
 
 	for (auto m : tm.model)
 	{
@@ -107,7 +113,7 @@ HRESULT CStage::Load_PreSet()
 			m.pos);
 	}
 
-	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem();;
+	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem((_uint)SCENEID::STAGE1);;
 
 	for (auto item : loadData)
 		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, item.position);
@@ -123,7 +129,6 @@ HRESULT CStage::Ready_Environment_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	//�� Scene->Load_PreSet()���� ���� 2025-08-20
 	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::TERRAIN);
 
 	//if (nullptr == pGameObject)
