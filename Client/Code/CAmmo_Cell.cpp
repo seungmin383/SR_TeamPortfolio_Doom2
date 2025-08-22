@@ -110,10 +110,6 @@ void CAmmo_Cell::OnCollisionEnter(CCollider* _pOther)
 		m_bPicked = true;
 		if (m_pColliderCom) m_pColliderCom->Set_Active(false);
 	}
-
-	// 아이템 비활성화(충돌/업데이트에서 제거)
-	m_bPicked = true;
-	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
 }
 
 void CAmmo_Cell::OnCollisionExit(CCollider* _pOther)
