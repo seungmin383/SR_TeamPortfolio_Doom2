@@ -90,6 +90,7 @@ _int CStage::Update_Scene(const _float& fTimeDelta)
 void CStage::LateUpdate_Scene(const _float& fTimeDelta)
 {
 	Engine::CScene::LateUpdate_Scene(fTimeDelta);
+	CWeaponManager::GetInstance()->Update_Weapon(fTimeDelta);
 
 	CColliderManager::GetInstance()->Update();
 }
@@ -557,7 +558,7 @@ HRESULT CStage::Ready_Camera_Layer(LAYERID _eLayerId)
 	CManagement* pManagement = CManagement::GetInstance();
 
 	_vec3	vEye{ 0.f, 0.f, 0.f };
-	_vec3	vAt{ 0.f, 2.f, 1.f };
+	_vec3	vAt{ 0.f, 0.f, 1.f };
 	_vec3	vUp{ 0.f , 1.f, 0.f };
 
 	pGameObject = CDynamicCamera::Create(m_pGraphicDev, &vEye, &vAt, &vUp);
@@ -694,4 +695,5 @@ void CStage::ConnectDoorSwitchByLinkId()
 void CStage::Free()
 {
 	Engine::CScene::Free();
+	CWeaponManager::GetInstance()->DestroyInstance();
 }
