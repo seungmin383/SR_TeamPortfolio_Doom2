@@ -3,7 +3,6 @@
 
 class CImpBullet : public CBullet
 {
-    //±âº» ÃÑ ½î´Â ¸ó½ºÅÍ
 private:
     explicit CImpBullet(LPDIRECT3DDEVICE9 pGraphicDev);
     explicit CImpBullet(const CImpBullet& rhs);

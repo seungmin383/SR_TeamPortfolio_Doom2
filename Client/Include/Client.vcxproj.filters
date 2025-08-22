@@ -145,6 +145,9 @@
     <Filter Include="02. GameObject\02. Monster\CMonsterBullet\CImpBullet">
       <UniqueIdentifier>{de7ec3bb-98ca-4015-b99c-13c3ebba9d3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBullet\CArchvileBullet">
+      <UniqueIdentifier>{1cbf5616-febe-4514-8ae4-cff8b435c829}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -312,6 +315,9 @@
     <ClInclude Include="..\Header\CImpBullet.h">
       <Filter>02. GameObject\02. Monster\CMonsterBullet\CImpBullet</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CArchvileBullet.h">
+      <Filter>02. GameObject\02. Monster\CMonsterBullet\CArchvileBullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -472,6 +478,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CImpBullet.cpp">
       <Filter>02. GameObject\02. Monster\CMonsterBullet\CImpBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CArchvileBullet.cpp">
+      <Filter>02. GameObject\02. Monster\CMonsterBullet\CArchvileBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

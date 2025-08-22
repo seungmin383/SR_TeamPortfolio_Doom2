@@ -77,18 +77,18 @@ HRESULT CImpBullet::Ready_GameObject()
 
 	return S_OK;
 }
-	static int num = 0;
 
 _int CImpBullet::Update_GameObject(const _float& fTimeDelta)
 {
-	cout << num << endl;
 	if (GetAsyncKeyState('H'))
 		m_bDead = TRUE;
 	Check_Anim_Is_Finish();
 
 	CBullet::Update_GameObject(fTimeDelta);
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
-	Linear_Movement(fTimeDelta);
+	if(!m_bDead)
+		Linear_Movement(fTimeDelta);
+
 	m_pColliderCom->Late_Update();
 	Bill_Board();
 	_vec3 vPos;
@@ -184,7 +184,6 @@ CImpBullet* CImpBullet::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 CImpBullet* CImpBullet::Clone()
 {
-	num++;
 
 	CImpBullet* pBullet = new CImpBullet(*this);
 	if (pBullet == nullptr)
@@ -201,7 +200,6 @@ CImpBullet* CImpBullet::Clone()
 
 CImpBullet* CImpBullet::Clone(CGameObject* _Owner)
 {
-	num++;
 	CGameObject::Clone(_Owner);
 
 	CImpBullet* pBullet = new CImpBullet(*this);

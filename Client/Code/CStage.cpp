@@ -157,6 +157,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 	Engine::CGameObject* pImp = nullptr;
+	Engine::CGameObject* pArchvile = nullptr;
 
 	//핑키데몬
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON);
@@ -168,12 +169,12 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 		return E_FAIL;
 
 	//아크바일
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE);
+	pArchvile = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE);
 
-	if (nullptr == pGameObject)
+	if (nullptr == pArchvile)
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pArchvile)))
 		return E_FAIL;
 
 	//임프
@@ -215,6 +216,15 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	//임프 불렛
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP_BULLET, pImp);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_BULLET, pGameObject)))
+		return E_FAIL;
+
+	//아크바일 불렛
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE_BULLET, pArchvile);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
