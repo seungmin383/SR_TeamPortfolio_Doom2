@@ -121,14 +121,14 @@ void CDynamicCamera::Render_GameObject(const _float& fTimeDelta)
 
 void CDynamicCamera::OnCollision(CCollider* _pOther)
 {
-	if (CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
+	if (_pOther->Get_ColLayer() == COL_ENEMY && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
 	{
 		_vec3 curPos;
 		m_pTransformCom->Get_Pos(&curPos);
 		m_pTransformCom->Set_Pos(curPos.x + (-m_vDist.x), curPos.y, curPos.z + (-m_vDist.z));
 
 		m_vEye.x += (-m_vDist.x);
-		m_vEye.z += (-m_vDist.z);
+		m_vEye.z += (-m_vDist.x);
 
 		m_vDist = _vec3(0.f, 0.f, 0.f);
 	}
@@ -136,14 +136,14 @@ void CDynamicCamera::OnCollision(CCollider* _pOther)
 
 void CDynamicCamera::OnCollisionEnter(CCollider* _pOther)
 {
-	if (CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
+	if (_pOther->Get_ColLayer() == COL_ENEMY && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
 	{
 		_vec3 curPos;
 		m_pTransformCom->Get_Pos(&curPos);
 		m_pTransformCom->Set_Pos(curPos.x + (-m_vDist.x), curPos.y, curPos.z + (-m_vDist.z));
 
-		m_vEye.x = curPos.x;
-		m_vEye.z = curPos.z;
+		m_vEye.x += (-m_vDist.x);
+		m_vEye.z += (-m_vDist.x);
 
 		m_vDist = _vec3(0.f, 0.f, 0.f);
 	}
