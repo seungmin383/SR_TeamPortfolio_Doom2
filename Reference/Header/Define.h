@@ -34,9 +34,6 @@ enum class OBJID
 
 	OBJ_UI,
 
-	//OBJ_DYNAMICCAMERA,
-	//OBJ_PLAYERCAMERA,
-
 	OBJ_WEAPON,
 
 	OBJ_BACKGROUND,
@@ -81,8 +78,6 @@ enum class OBJPROTOTYPE
 
 	//61 ~ 70 UI/UX 관련
 	UI = 61,
-	//DYNAMICCAMERA,
-	//PLAYERCAMERA,
 	WEAPON,
 
 	//71 ~ 80 환경 관련
@@ -131,9 +126,6 @@ enum COLLAYERID
 	COL_FOG = 1 << 11,
 
 	COL_UI = 1 << 12,
-
-	//COL_DYNAMICCAMERA = 1 << 13,
-	//COL_PLAYERCAMERA = 1 << 14,
 
 	COL_WEAPON = 1 << 13,
 
