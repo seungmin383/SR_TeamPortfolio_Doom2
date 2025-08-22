@@ -95,9 +95,8 @@ void CSwitch_Button::OnCollisionEnter(CCollider* _pOther)
 	if (m_state == State::Idle && (m_pObjTarget != nullptr || m_target != nullptr || !m_targets.empty()))
 	{
 		const auto layer = _pOther->Get_ColLayer();
-
-		// 플레이어랑만 처리
-		if (layer & (COL_PLAYER)) {
+		const bool allowed = layer & (COL_PLAYER);
+		if (!allowed) {
 			m_bPressed = true;
 			SetSwitchOn();
 			m_state = State::Dead;

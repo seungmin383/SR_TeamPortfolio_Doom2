@@ -181,7 +181,7 @@ void CGameUI_Face::OnCollision(CCollider* _pOther)
 
 void CGameUI_Face::OnCollisionEnter(CCollider* _pOther)
 {
-	Set_EvilFace();
+	//Set_EvilFace(3.f);
 }
 
 void CGameUI_Face::OnCollisionExit(CCollider* _pOther)

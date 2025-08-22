@@ -20,7 +20,8 @@ public:
 	virtual     void			OnCollisionEnter(CCollider* _pOther) override;
 	virtual     void			OnCollisionExit(CCollider* _pOther) override;
 
-	void Set_EvilFace(const _float& fTime = 3.f);
+	void Set_EvilFace(const _float& fTime);
+
 private:
 	HRESULT Add_Component();
 
@@ -35,13 +36,13 @@ private:
 
 private:
 	Engine::CRectTex* m_pBufferCom;
-	Engine::CTexture* m_pTextureCom;
-	Engine::CTexture* m_pTextureCom1;
-	Engine::CTexture* m_pTextureCom2;
-	Engine::CTexture* m_pTextureCom3;
-	Engine::CTexture* m_pTextureCom4;
-	Engine::CTexture* m_pTextureCom5;
-	Engine::CTexture* m_pTextureCom6;
+	Engine::CTexture* m_pTextureCom;				// 체력 80퍼 이상
+	Engine::CTexture* m_pTextureCom1;				// 체력 80퍼 미만
+	Engine::CTexture* m_pTextureCom2;				// 체력 60퍼 미만
+	Engine::CTexture* m_pTextureCom3;				// 체력 40퍼 미만
+	Engine::CTexture* m_pTextureCom4;				// 체력 20퍼 미만
+	Engine::CTexture* m_pTextureCom5;				// 무기 획득
+	Engine::CTexture* m_pTextureCom6;				// 죽음
 
 	Engine::CCalculator* m_pCalculatorCom;
 

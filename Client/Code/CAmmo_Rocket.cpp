@@ -98,16 +98,18 @@ void CAmmo_Rocket::OnCollisionEnter(CCollider* _pOther)
 	const bool allowed =
 		(layer & COL_PLAYER);
 
-	if (!allowed) return;
+	if (allowed) return;
+	else {
+		// 무기 매니저로 탄약 지급
+		if (m_pWeaponManager) {
+			m_pWeaponManager->Add_Ammo(AMMO_TYPE::ROCKET, m_iRocket);
+		}
 
-	// 무기 매니저로 탄약 지급
-	if (m_pWeaponManager) {
-		m_pWeaponManager->Add_Ammo(AMMO_TYPE::ROCKET, m_iRocket);
+		// 아이템 비활성화(충돌/업데이트에서 제거)
+		m_bPicked = true;
+		if (m_pColliderCom) m_pColliderCom->Set_Active(false);
 	}
-
-	// 아이템 비활성화(충돌/업데이트에서 제거)
-	m_bPicked = true;
-	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
+	
 }
 
 void CAmmo_Rocket::OnCollisionExit(CCollider* _pOther)

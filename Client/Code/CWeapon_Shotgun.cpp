@@ -90,22 +90,36 @@ void CWeapon_Shotgun::OnCollisionEnter(CCollider* _pOther)
 	if (m_bPicked || !_pOther) return;
 
 	const auto layer = _pOther->Get_ColLayer();
-	if (!(layer & (COL_PLAYER)))
+	const bool allowed =
+		(layer & COL_PLAYER);
+	if (allowed)
 		return;
+	else {	
+		m_bPicked = true;
+		// to-do) 무기매니저로 캐스팅해서 얻기
+		if (m_pWeaponManager) {
+			auto& uiList = CManagement::GetInstance()->Get_ObjectGroup(LAYERID::LAYER_UI, OBJID::OBJ_UI);
+			for (auto* ui : uiList) {
+				if (auto* face = dynamic_cast<CGameUI_Face*>(ui))
+				{
+					face->Set_EvilFace(3.f);
+					break;
+				}
+			}
 
-	// to-do) 무기매니저로 캐스팅해서 얻기
-	if (m_pWeaponManager) {
-		m_pWeaponManager->Add_Weapon(WEAPON_ID::SHOTGUN, (CWeapon*)this);
-		m_pWeaponManager->Change_Weapon(WEAPON_ID::SHOTGUN);
+			m_pWeaponManager->Add_Weapon(WEAPON_ID::SHOTGUN, (CWeapon*)this);
+			m_pWeaponManager->Change_Weapon(WEAPON_ID::SHOTGUN);
+		}
+		else
+		{
+			m_pWeaponManager->Add_Ammo(AMMO_TYPE::SHELL, 8);
+		}
+		// 월드의 픽업 오브젝트는 제거
+		m_bPicked = true;
+		if (m_pColliderCom) m_pColliderCom->Set_Active(false);
+		// Update_GameObject()에서 m_bPicked이면 -1 반환 → 레이어가 안전 삭제
 	}
-	else
-	{
-		m_pWeaponManager->Add_Ammo(AMMO_TYPE::SHELL, 8);
-	}
-	// 월드의 픽업 오브젝트는 제거
-	m_bPicked = true;
-	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
-	// Update_GameObject()에서 m_bPicked이면 -1 반환 → 레이어가 안전 삭제
+	
 }
 
 void CWeapon_Shotgun::OnCollisionExit(CCollider* _pOther)
