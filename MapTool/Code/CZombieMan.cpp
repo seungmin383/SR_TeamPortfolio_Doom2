@@ -158,23 +158,23 @@ void CZombieMan::Render_GameObject(const _float& fTimeDelta)
 	CMonsterBase::Render_GameObject(fTimeDelta);
 }
 
-void CZombieMan::OnCollision(CCollider* _pOther)	//콜라이더 끼리 충돌하고 잇을 때
-{
-	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
-
-	auto a = _pOther->Get_ID();
-
-	//cout << a << endl;
-
-}
-
-void CZombieMan::OnCollisionEnter(CCollider* _pOther)	//콜라이더 끼리 충돌을 시작했을 때
-{
-}
-
-void CZombieMan::OnCollisionExit(CCollider* _pOther)		//콜라이더 끼리 충돌이 끝났을 때
-{
-}
+//void CZombieMan::OnCollision(CCollider* _pOther)
+//{
+//    //CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
+//
+//    auto a = _pOther->Get_ID();
+//
+//    cout << a << endl;
+//
+//}
+//
+//void CZombieMan::OnCollisionEnter(CCollider* _pOther)
+//{
+//}
+//
+//void CZombieMan::OnCollisionExit(CCollider* _pOther)
+//{
+//}
 
 HRESULT CZombieMan::Add_Component()
 {

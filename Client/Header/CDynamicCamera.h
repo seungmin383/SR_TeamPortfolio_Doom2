@@ -46,6 +46,11 @@ public:
     _int            Get_MaxNum() { return m_iMax; }
 
 public:
+    void            OnCollision(CCollider* _pOther) override;
+    void            OnCollisionEnter(CCollider* _pOther) override;
+    void            OnCollisionExit(CCollider* _pOther) override;
+
+public:
     // 08-12 - 최대 체력 넘어가면 안되는 코드 제작(200은 최대 Armor랑 최대 Hp, 최대 Clip수로 일단은 제한)
     // 08-13 - 최대 수치 관련 로직 수정
     // 08-15 - 최대 수치 넘어가지 않게 수정
@@ -104,6 +109,7 @@ private:
     _bool       m_bTrigger;     // 문 열기, 스위치 누르기 등 체크용 변수
     _bool       m_bIsMoving;
 
+    _vec3       m_vDist; //이동거리
 public:
     static CDynamicCamera* Create(LPDIRECT3DDEVICE9 pGraphicDev,
         const _vec3* pEye,

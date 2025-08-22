@@ -7,6 +7,8 @@
 #include "CPistol.h"
 #include "CShotgun.h"
 #include "CChaingun.h"
+#include "CCollisionManager.h"
+#include "CTimerManager.h"
 
 // Initialize static variable
 _long CDynamicCamera::s_lMouseMoveX = 0L;
@@ -60,7 +62,7 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 		return E_FAIL;
 
 	// Collider Default Settings
-	_vec3 vScale{ 1.f, 1.f, 1.f };
+	_vec3 vScale{ 1.f, 2.f, 1.f };
 	_vec3 vOffset{ 0.f, 0.f, 0.f };
 
 	m_pColliderCom->Ready_CCollider(this, m_vEye, vScale, vOffset, COL_PLAYERCAMERA,
@@ -117,6 +119,40 @@ void CDynamicCamera::Render_GameObject(const _float& fTimeDelta)
 	m_pColliderCom->Render(g_colRend);
 }
 
+void CDynamicCamera::OnCollision(CCollider* _pOther)
+{
+	if (CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
+	{
+		_vec3 curPos;
+		m_pTransformCom->Get_Pos(&curPos);
+		m_pTransformCom->Set_Pos(curPos.x + (-m_vDist.x), curPos.y, curPos.z + (-m_vDist.z));
+
+		m_vEye.x += (-m_vDist.x);
+		m_vEye.z += (-m_vDist.z);
+
+		m_vDist = _vec3(0.f, 0.f, 0.f);
+	}
+}
+
+void CDynamicCamera::OnCollisionEnter(CCollider* _pOther)
+{
+	if (CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
+	{
+		_vec3 curPos;
+		m_pTransformCom->Get_Pos(&curPos);
+		m_pTransformCom->Set_Pos(curPos.x + (-m_vDist.x), curPos.y, curPos.z + (-m_vDist.z));
+
+		m_vEye.x = curPos.x;
+		m_vEye.z = curPos.z;
+
+		m_vDist = _vec3(0.f, 0.f, 0.f);
+	}
+}
+
+void CDynamicCamera::OnCollisionExit(CCollider* _pOther)
+{
+}
+
 HRESULT CDynamicCamera::Add_Component()
 {
 	CComponent* pComponent = NULL;
@@ -165,6 +201,8 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		_vec3	vLength = *D3DXVec3Normalize(&vLook, &vLook) * fTimeDelta * m_fSpeed;
 
+		m_vDist = vLength;
+
 		m_vEye.x += vLength.x;
 		m_vEye.z += vLength.z;
 
@@ -180,6 +218,8 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
 
 		_vec3	vLength = *D3DXVec3Normalize(&vLook, &vLook) * fTimeDelta * m_fSpeed;
+
+		m_vDist = -vLength;
 
 		m_vEye.x -= vLength.x;
 		m_vEye.z -= vLength.z;
@@ -197,6 +237,8 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		_vec3	vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
 
+		m_vDist = vLength;
+
 		m_vEye.x += vLength.x;
 		m_vEye.z += vLength.z;
 
@@ -212,6 +254,8 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
 
 		_vec3	vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
+
+		m_vDist = -vLength;
 
 		m_vEye.x -= vLength.x;
 		m_vEye.z -= vLength.z;

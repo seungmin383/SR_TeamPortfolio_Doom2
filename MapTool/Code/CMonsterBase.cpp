@@ -158,29 +158,7 @@ _vec3 CMonsterBase::Set_Move_Direction(_vec3* _Look, _float _DelayTime, _float _
 	m_vtmpLook.y = 0.f;
 	D3DXVec3Normalize(&m_vtmpLook, &m_vtmpLook);
 
-	//좀더 둠스러운 움직임
-	switch (RandMove%2)
-	{
-	case 0:
-		m_fMoveAngle += 1.f;
-		break;
-
-	case 1:
-		m_fMoveAngle -= 1.f;
-		break;
-
-	default:
-		m_fMoveAngle += 0.f;
-		break;
-	}
-
-//	cout << "m_fAngle : " << m_fMoveAngle << endl;
-
-	_vec3 vForward(0.f, 0.f, 1.f);
-	D3DXMatrixRotationY(&RotMat, D3DXToRadian(m_fMoveAngle));
-	D3DXVec3Normalize(&m_vtmpLook, &m_vtmpLook);
-	D3DXVec3TransformNormal(&m_vtmpLook, &vForward, &RotMat);
-	if(_Look != nullptr)
+	if (_Look != nullptr)
 		*_Look = m_vtmpLook;
 
 	return m_vtmpLook;
@@ -444,7 +422,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			m_fChaseDelay = 0.f;
 		}
 		Movement(fTimeDelta);
-		//cout << "AI_CHASE" << endl;
+		cout << "AI_CHASE" << endl;
 		break;
 
 		//아이들 상태
@@ -458,7 +436,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			Movement(fTimeDelta);
 		}
 
-		//cout << "AI_MOVE" << endl;
+		cout << "AI_MOVE" << endl;
 		break;
 	}
 
