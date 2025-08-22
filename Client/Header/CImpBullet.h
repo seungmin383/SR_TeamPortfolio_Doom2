@@ -23,6 +23,11 @@ private:
 public:
     static CImpBullet* Create(LPDIRECT3DDEVICE9 pGraphicDev);
     virtual CImpBullet* Clone() override;
+    virtual CImpBullet* Clone(CGameObject* _Owner)override;
+
+
+private:
+
 
 private:
     virtual void        Free()override;

@@ -131,11 +131,11 @@ HRESULT CZombieMan::Ready_GameObject()
 
 	//초기 룩으로 세팅해주고
 	m_pTransformCom->Get_Info(INFO_LOOK, &m_vMoveLook);
-	cout << m_vMoveLook.x << m_vMoveLook.y << m_vMoveLook.z << endl;
+	//cout << m_vMoveLook.x << m_vMoveLook.y << m_vMoveLook.z << endl;
 
 	m_vMoveLook.z = m_vMoveLook.z;
 	m_vMoveLook.x = 1;
-	cout << m_vMoveLook.x << m_vMoveLook.y << m_vMoveLook.z << endl;
+	//cout << m_vMoveLook.x << m_vMoveLook.y << m_vMoveLook.z << endl;
 #pragma endregion
 
 	return S_OK;
@@ -165,7 +165,7 @@ void CZombieMan::OnCollision(CCollider* _pOther)	//콜라이더 끼리 충돌하고 잇을 �
 
 	auto a = _pOther->Get_ID();
 
-	cout << a << endl;
+	//cout << a << endl;
 
 }
 

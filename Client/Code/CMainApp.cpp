@@ -29,6 +29,7 @@
 #include "CPinky.h"
 #include"CSpiderMastermind.h"
 #include "CShotgunGuy.h"
+#include "CImpBullet.h"
 
 #include "CPlayerWeapon.h"
 #include "CHealth_Small.h"
@@ -189,6 +190,14 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	// 샷건
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::WEAPON_SHOTGUN, CWeapon_Shotgun::Create(m_pGraphicDev))))
 		return E_FAIL;
+
+	// 임프총알
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP_BULLET, CImpBullet::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+
+
+
 
 	//텍스처 필터
 	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);

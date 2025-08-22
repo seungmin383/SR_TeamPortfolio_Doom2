@@ -133,7 +133,7 @@ _vec3 CMonsterBase::Set_Move_Direction(_vec3* _Look, _float _DelayTime, _float _
 		break;
 	}
 
-	cout << "m_fAngle : " << m_fMoveAngle << endl;
+//	cout << "m_fAngle : " << m_fMoveAngle << endl;
 
 	_vec3 vForward(0.f, 0.f, 1.f);
 	D3DXMatrixRotationY(&RotMat, D3DXToRadian(m_fMoveAngle));
@@ -408,7 +408,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			m_fChaseDelay = 0.f;
 		}
 		Movement(fTimeDelta);
-		cout << "AI_CHASE" << endl;
+		//cout << "AI_CHASE" << endl;
 		break;
 
 		//아이들 상태
@@ -422,7 +422,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			Movement(fTimeDelta);
 		}
 
-		cout << "AI_MOVE" << endl;
+		//cout << "AI_MOVE" << endl;
 		break;
 	}
 

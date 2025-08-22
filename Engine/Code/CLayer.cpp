@@ -104,6 +104,69 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 	return S_OK;
 }
 
+HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, CGameObject* _Owner)
+{
+	CGameObject* pGameObject = nullptr;
+
+	//오브젝트 풀이 비어있으면
+	if (m_vecObjectPool[(_uint)eObjId].empty())
+	{
+		//횟수만큼 추가
+		for (size_t i = 0; i < 1; i++)
+		{
+			pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(eObjPrototype, _Owner);
+
+			if (nullptr == pGameObject)
+				return E_FAIL;
+
+			pGameObject->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+			//스테이지에서 사라진 오브젝트는 별도 처리로 다시 오브젝트 풀로 돌아온다
+			m_vecObject[(UINT)eObjId].push_back(pGameObject);
+		}
+	}
+	else
+	{
+		//중복 코드 추후 함수화
+		if (m_vecObjectPool[(_uint)eObjId].capacity() >= 1)
+		{
+			for (size_t i = 0; i < 1; i++)
+			{
+				pGameObject = m_vecObjectPool[(_uint)eObjId].back();
+				m_vecObjectPool[(_uint)eObjId].pop_back();
+
+				m_vecObject[(UINT)eObjId].push_back(pGameObject);
+			}
+		}
+		else if (m_vecObjectPool[(_uint)eObjId].capacity() < 1)
+		{
+			_int additionalCnt = 1 - m_vecObjectPool[(_uint)eObjId].capacity();
+
+			for (size_t i = 0; i < 1; i++)
+			{
+				pGameObject = m_vecObjectPool[(_uint)eObjId].back();
+				m_vecObjectPool[(_uint)eObjId].pop_back();
+
+				m_vecObject[(UINT)eObjId].push_back(pGameObject);
+			}
+
+			//횟수만큼 추가
+			for (size_t i = 0; i < additionalCnt; i++)
+			{
+				pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(eObjPrototype, _Owner);
+
+				if (nullptr == pGameObject)
+					return E_FAIL;
+
+				pGameObject->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+				//스테이지에서 사라진 오브젝트는 별도 처리로 다시 오브젝트 풀로 돌아온다
+				m_vecObject[(UINT)eObjId].push_back(pGameObject);
+			}
+		}
+	}
+
+	return S_OK;
+}
+
 HRESULT CLayer::SetOff_GameLogicObject(_int eObjId, CGameObject* pObj)
 {
 	//초기화코드 필요 여부 검토

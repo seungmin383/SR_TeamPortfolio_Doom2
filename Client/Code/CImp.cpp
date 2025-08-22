@@ -147,8 +147,19 @@ void CImp::LateUpdate_GameObject(const _float& fTimeDelta)
 
 void CImp::Render_GameObject(const _float& fTimeDelta)
 {
-	cout << "임프 애니메이션 스테이트:" << m_eCurAnimState << endl;
 	CMonsterBase::Render_GameObject(fTimeDelta);
+}
+
+void CImp::Attack(const _float fTimeDelta)
+{
+	m_isShoot = TRUE;
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_IMP_BULLET, OBJID::OBJ_BULLET, vPos, this)))
+	{
+		int a = 0;
+	}
+
 }
 
 HRESULT CImp::Add_Component()

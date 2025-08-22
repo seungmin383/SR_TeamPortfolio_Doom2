@@ -57,6 +57,11 @@ void CGameObject::Render_GameObject(const _float& fTimeDelta)
 {
 }
 
+CGameObject* CGameObject::Clone(CGameObject* _Owner)
+{
+	return nullptr;
+}
+
 CComponent* CGameObject::Find_Component(COMPONENTID eID, const _tchar* pComponentTag)
 {
 	auto			iter = find_if(m_mapComponent[eID].begin(),
