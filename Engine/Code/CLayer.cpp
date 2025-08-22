@@ -257,7 +257,7 @@ void CLayer::DeleteAll()
 	for (UINT i = 0; i < (UINT)OBJID::OBJ_END; ++i)
 	{
 		if (curSceneId != SCENEID::STAGE3
-			&& i == (_uint)OBJID::OBJ_PLAYERCAMERA)
+			&& i == (_uint)OBJID::OBJ_PLAYER)
 			continue;
 
 		DeleteObjectGroup((OBJID)i);

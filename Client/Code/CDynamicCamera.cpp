@@ -143,7 +143,7 @@ void CDynamicCamera::OnCollision(CCollider* _pOther)
 		m_pTransformCom->Set_Pos(curPos.x + (-m_vDist.x), curPos.y, curPos.z + (-m_vDist.z));
 
 		m_vEye.x += (-m_vDist.x);
-		m_vEye.z += (-m_vDist.x);
+		m_vEye.z += (-m_vDist.z);
 
 		m_vAt.x += (-m_vDist.x);
 		m_vAt.z += (-m_vDist.z);
