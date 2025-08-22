@@ -13,9 +13,9 @@ _long CDynamicCamera::s_lMouseMoveX = 0L;
 
 CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCamera(pGraphicDev),
-	m_bFix(false), m_bCheck(false), m_bTrigger(false),
+	m_bFix(false), m_bCheck(false), m_bTrigger(false), m_bIsMoving(false),
 	m_iHp(0), m_iArmor(0),
-	m_fSpeed(0.f),
+	m_fSpeed(0.f), m_fAngle(0.f), m_fAngleSpeed(0.f),
 	m_eState(IDLE)
 {
 }
@@ -46,9 +46,12 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	m_iHp = 83;
 	m_iArmor = 45;
 
-	m_fSpeed = 10.f;
+	m_fSpeed = 20.f;
+	m_fAngle = 0.f;
+	m_fAngleSpeed = 10.f;
 
 	m_bDead = false;
+	m_bIsMoving = false;
 
 	if (FAILED(Engine::CCamera::Ready_GameObject()))
 		return E_FAIL;
@@ -150,6 +153,8 @@ HRESULT CDynamicCamera::Add_Component()
 
 void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 {
+	m_bIsMoving = false;
+
 	_matrix	matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, 0, &m_matView);
 
@@ -165,6 +170,8 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		m_vAt.x += vLength.x;
 		m_vAt.z += vLength.z;
+	
+		m_bIsMoving = true;
 	}
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_S) & 0x80)
@@ -179,6 +186,8 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		m_vAt.x -= vLength.x;
 		m_vAt.z -= vLength.z;
+
+		m_bIsMoving = true;
 	}
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_D) & 0x80)
@@ -193,6 +202,8 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		m_vAt.x += vLength.x;
 		m_vAt.z += vLength.z;
+
+		m_bIsMoving = true;
 	}
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_A) & 0x80)
@@ -207,7 +218,12 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		m_vAt.x -= vLength.x;
 		m_vAt.z -= vLength.z;
+
+		m_bIsMoving = true;
 	}
+
+	if (m_bIsMoving)
+		Camera_Bobbing(fTimeDelta);
 
 	// 무기 교체 관련 키 입력
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_1) & 0x80)
@@ -347,6 +363,15 @@ void CDynamicCamera::Update_State()
 		m_eState = DEAD;
 		m_bDead = true;
 	}
+}
+
+void CDynamicCamera::Camera_Bobbing(const _float& fTimeDelta)
+{
+	// 카메라 위, 아래 효과
+	m_fAngle += m_fAngleSpeed * fTimeDelta;
+	_float fBobAngle = sinf(m_fAngle) * 0.2f;
+	m_vEye.y += fBobAngle;
+	m_vAt.y += fBobAngle;
 }
 
 CDynamicCamera* CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)
