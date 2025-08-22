@@ -165,10 +165,10 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_ChainGun", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/MGUNA0.png", TEX_NORMAL))))
 		return E_FAIL;
 
-	//if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Rocket", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/LAUNA0.png", TEX_NORMAL))))
-	//	return E_FAIL;
-
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_BFG", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/BFUGA0.png", TEX_NORMAL))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Rocket_Lanuncher", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/LAUNA0.png", TEX_NORMAL))))
 		return E_FAIL;
 
 	lstrcpy(m_szLoading, L"Etc Component Loading.....................");

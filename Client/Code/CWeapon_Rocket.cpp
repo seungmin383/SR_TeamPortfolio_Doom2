@@ -27,8 +27,8 @@ HRESULT CWeapon_Rocket::Ready_GameObject()
 
 	m_bPicked = false;
 
-	m_pTransformCom->Set_Pos(29.f, 0.f, 10.f);
-	m_pTransformCom->Set_Scale(_vec3(1.f, 1.f, 1.f));
+	m_pTransformCom->Set_Pos(39.f, 0.f, 30.f);
+	m_pTransformCom->Set_Scale(_vec3(1.f, 0.5f, 1.f));
 
 	m_pWeaponManager = CWeaponManager::GetInstance();
 
@@ -131,7 +131,7 @@ HRESULT CWeapon_Rocket::Add_Component()
 
 	//Texture
 	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>
-		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Rocket"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Rocket_Lanuncher"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
