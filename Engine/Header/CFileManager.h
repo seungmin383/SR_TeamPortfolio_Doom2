@@ -35,9 +35,6 @@ public:
     vector<fs::path>            GetListCurrentDir();
     vector<fs::path>            GetListChildDir();
 
-    //TODO: save object spawn
-    //TODO: load object spawn
-    
     //TODO: save monster spawn
     //TODO: load monster spawn
 

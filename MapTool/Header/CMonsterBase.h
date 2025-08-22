@@ -34,11 +34,12 @@ public:
     virtual _int Perception(const _float& fTimeDelta);                               //인지하는 함수 -> 몬스터가 어떤 행동을 할지 상태를 지정해주는 함수
         virtual _bool Check_Dead();                                                             // 죽었는가?
         virtual _bool Check_Target();                                                           //시야에 플레이어가 있는지 확인하는 함수
-        virtual _bool Check_Hit();                                                                //맞았는가?
+        virtual void Check_Hit(const _float& fTimeDelta);                                                                //맞았는가?
         virtual _bool Check_Attack(const _float& fTimeDelta);
 
     virtual void  Action(const _float& fTimeDelta, _int _Thought);          //행동하는 함수
         virtual void Monster_Look_Player(_vec3* _vLook);
+        virtual void Monster_Fire();
 
 
 
@@ -58,6 +59,8 @@ public:
    virtual void Debug_Rectangle(_vec3 _LeftTop, _vec3 _RightTop, _vec3 _RightBottom, _vec3 _LeftBottom);
 
    virtual void Bill_Board();
+
+   virtual void Drop_Item();
 
    //Setting Function
    virtual HRESULT     Add_Component();
@@ -80,42 +83,49 @@ protected:
     _vec3 m_vMoveLook;
     _vec3 m_vtmpLook;
 
-    _float m_fSightAngle;
-    _float m_fSightDistance;
+    _float m_fSightAngle = 0.f;
+    _float m_fSightDistance = 0.f;
 
 
-    _float m_fAtkDelay; 
-    _float m_fMoveDelay;
-    _float m_fChaseDelay;
+    _float m_fAtkDelay = 0.f; 
+    _float m_fMoveDelay = 0.f;
+    _float m_fChaseDelay = 0.f;
+    _float m_fHitDelay = 0.f;
 
-    _int m_EnterCnt = 0;
+    _int m_AtkEnterCnt = 0;         //공격체크 함수에 몇번 들어갔는지 확인
+    _int m_HitEnterCnt = 0;          //히트체크 함수에 몇번 들어갔는지 확인
 
-    _bool m_isMove;
-    _bool m_isAtk;
-
+    _bool m_isMove = false;
+    _bool m_isAtk = false;
 
     //Thinker Variable
-    _bool m_isDetect_Player;                //시야에 플레이어가 들어왔는가?
-    _bool m_isDetected_Player;          //시야에 플레이어가 들어온 적이 있는가?
-    _bool m_isEverSeen_Player;          // 한번이라도 플레이어를 본 적이 있는가
+    _bool m_isDetect_Player         = false;                //시야에 플레이어가 들어왔는가?
+    _bool m_isDetected_Player     = false;           //시야에 플레이어가 들어온 적이 있는가?
+    _bool m_isRecognize_Player   = false;          // 한번이라도 플레이어를 본 적이 있는가
 
-    _bool m_isHit;                                 //총알에 맞았는지?
-    _int    m_isDead;                             //죽었는가?
-    _bool m_isNormalDead;                  //그냥 죽었는가?
-    _bool m_isGibbingDead;                 //폭사했는가?
+    _bool m_isHit = false;                                 //총알에 맞았는지?
+    _int    m_isDead = false;                             //죽었는가?
+    _bool m_isNormalDead = false;                  //그냥 죽었는가?
+    _bool m_isGibbingDead = false;                 //폭사했는가?
 
     //Decision Variable
-    _ulong Monster_Stat_Bit;
 
     //기능 Function Variable
     _vec3   m_PlayerPos;
 
-    _uint m_iGibDeadPlus;
-    _uint m_iNorDeadPlus;
+    _uint m_iGibDeadPlus = 0;
+    _uint m_iNorDeadPlus = 0;
 
     _bool m_isPinky = FALSE;
 
-    _float m_fMoveAngle = 0.f;
+    OBJPROTOTYPE m_iMonsterType = OBJPROTOTYPE::OBJPROTOTYPE_END;
+
+    _float m_fTargetAngle = 0.f;
+    _float m_fCurAngle = 1.f;
+
+public:
+
+
 protected:
     virtual void Free();
 

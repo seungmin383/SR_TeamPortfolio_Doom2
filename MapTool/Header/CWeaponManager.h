@@ -25,6 +25,7 @@ public:
 	_float	Get_SwapTime() { return m_fSwapTimer; }
 
 	_int	Get_Ammo(AMMO_TYPE eType) { return m_mapAmmo[eType]; }
+	_int	Get_MaxAmmo(AMMO_TYPE eType) { return m_mapMaxAmmo[eType]; }		// 혹시 몰라서 추가(김홍인)
 
 public:
 	void Add_Weapon(WEAPON_ID eID, CWeapon* pWeapon);					// 무기 추가 함수

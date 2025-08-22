@@ -5,7 +5,7 @@
 #include "Engine_Enum.h"
 #include "CWeaponManager.h"
 #include "CCollisionManager.h"
-#include"CTimerManager.h"
+#include "CTimerManager.h"
 #include <iostream>
 
 
@@ -82,15 +82,11 @@ void                 CMonsterBase::Render_GameObject(const _float& fTimeDelta)
 
 void CMonsterBase::OnCollision(CCollider* _pOther)
 {
-	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
-
+	CCollisionManager::Collision_Rect_Resolve(m_pColliderCom, _pOther, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
 }
 
 void CMonsterBase::OnCollisionEnter(CCollider* _pOther)
 {
-	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
-
-	// 모든 몬스터들이 콜라이더 충돌이 아니라 Ray로 충돌했을경우
 	if (m_pColliderCom->Is_RayHit())
 	{
 		m_isRecognize_Player = TRUE;

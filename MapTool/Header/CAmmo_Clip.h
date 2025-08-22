@@ -3,6 +3,8 @@
 #include "CPrototypeManager.h"
 #include "CDynamicCamera.h"
 
+class CWeaponManager;
+
 class CAmmo_Clip :    public CGameObject
 {
 private:
@@ -29,6 +31,9 @@ private:
 	HRESULT Add_Component();
 	void        Set_OnTerrain();
 	void		Bill_Board();
+
+private:
+	CWeaponManager* m_pWeaponManager = nullptr;
 
 private:
 	Engine::CRectSpriteTex* m_pBufferCom;

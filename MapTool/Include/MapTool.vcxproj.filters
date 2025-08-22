@@ -124,6 +124,36 @@
     <Filter Include="03. Manager\00. WeaponManager\00. Weapon\01. Shotgun">
       <UniqueIdentifier>{b4438d59-9e86-4911-9eb1-09c859ca09c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Scene\03. Stage2">
+      <UniqueIdentifier>{3531a67f-177e-4982-ad3d-bbf71f84d42a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\04. Stage3">
+      <UniqueIdentifier>{7025e6a5-c367-4b8f-954d-d1f11feaa579}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\02. Chaingun">
+      <UniqueIdentifier>{7720c58b-de83-4559-a933-d516215aaf30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\03. Rocket">
+      <UniqueIdentifier>{d27ab94b-4220-4da3-8739-2b8043fdeda3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\04. BFG">
+      <UniqueIdentifier>{bc712a25-11a8-4012-b43a-9a2f2ac30265}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\06. Object\DropItem\Ammo">
+      <UniqueIdentifier>{f306528f-fcb4-4e57-a16b-fa46fa144b5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\06. Object\DropItem\Armor">
+      <UniqueIdentifier>{22386f06-d18a-4b2c-b907-745349e2beff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\06. Object\DropItem\Health">
+      <UniqueIdentifier>{3e21b43f-f74b-43d2-ab50-550c898cf810}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\06. Object\Weapon">
+      <UniqueIdentifier>{b2e7a43b-4036-4dd8-b3f4-900d72805e01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\09. UI\Info">
+      <UniqueIdentifier>{5728160d-7033-4b3f-8192-db2e9c2ee600}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -181,9 +211,6 @@
       <Filter>02. GameObject\09. UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CGameUI_Face.h">
-      <Filter>02. GameObject\09. UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\CGameUI_Info.h">
       <Filter>02. GameObject\09. UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CImGuiManager.h">
@@ -249,23 +276,8 @@
     <ClInclude Include="..\Header\CShotgunGuy.h">
       <Filter>02. GameObject\02. Monster\CMonsterBase\05 ShotgunGuy</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\CAmmo_Clip.h">
-      <Filter>02. GameObject\06. Object\DropItem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\CAmmo_Shell.h">
-      <Filter>02. GameObject\06. Object\DropItem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\CArmor_Small.h">
-      <Filter>02. GameObject\06. Object\DropItem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\CHealth_Small.h">
-      <Filter>02. GameObject\06. Object\DropItem</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\CBarrelExplosive.h">
       <Filter>02. GameObject\06. Object\Explosion</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\CGameUI_Info_Ammo.h">
-      <Filter>02. GameObject\09. UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CPistol.h">
       <Filter>03. Manager\00. WeaponManager\00. Weapon\00. Pistol</Filter>
@@ -279,17 +291,68 @@
     <ClInclude Include="..\Header\CWeaponManager.h">
       <Filter>03. Manager\00. WeaponManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\CArmor_Big.h">
-      <Filter>02. GameObject\06. Object\DropItem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\CHealth_Big.h">
-      <Filter>02. GameObject\06. Object\DropItem</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\CDoor.h">
       <Filter>02. GameObject\06. Object</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CSwitch_Button.h">
       <Filter>02. GameObject\06. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CStage2.h">
+      <Filter>01. Scene\03. Stage2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CStage3.h">
+      <Filter>01. Scene\04. Stage3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CChaingun.h">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\02. Chaingun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CBfg.h">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\04. BFG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CRocket.h">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\03. Rocket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CAmmo_Clip.h">
+      <Filter>02. GameObject\06. Object\DropItem\Ammo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CAmmo_Shell.h">
+      <Filter>02. GameObject\06. Object\DropItem\Ammo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CArmor_Big.h">
+      <Filter>02. GameObject\06. Object\DropItem\Armor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CArmor_Small.h">
+      <Filter>02. GameObject\06. Object\DropItem\Armor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CHealth_Big.h">
+      <Filter>02. GameObject\06. Object\DropItem\Health</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CHealth_Small.h">
+      <Filter>02. GameObject\06. Object\DropItem\Health</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CAmmo_Rocket.h">
+      <Filter>02. GameObject\06. Object\DropItem\Ammo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CWeapon_ChainGun.h">
+      <Filter>02. GameObject\06. Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CWeapon_Rocket.h">
+      <Filter>02. GameObject\06. Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CWeapon_Shotgun.h">
+      <Filter>02. GameObject\06. Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CGameUI_Info.h">
+      <Filter>02. GameObject\09. UI\Info</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CGameUI_Info_Ammo.h">
+      <Filter>02. GameObject\09. UI\Info</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CGameUI_Info_Weapon.h">
+      <Filter>02. GameObject\09. UI\Info</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CGameUI_Info_WeaponNum.h">
+      <Filter>02. GameObject\09. UI\Info</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -339,9 +402,6 @@
       <Filter>02. GameObject\09. UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CGameUI_Face.cpp">
-      <Filter>02. GameObject\09. UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\CGameUI_Info.cpp">
       <Filter>02. GameObject\09. UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CImGuiManager.cpp">
@@ -404,23 +464,8 @@
     <ClCompile Include="..\Code\CShotgunGuy.cpp">
       <Filter>02. GameObject\02. Monster\CMonsterBase\05 ShotgunGuy</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\CAmmo_Clip.cpp">
-      <Filter>02. GameObject\06. Object\DropItem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\CAmmo_Shell.cpp">
-      <Filter>02. GameObject\06. Object\DropItem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\CArmor_Small.cpp">
-      <Filter>02. GameObject\06. Object\DropItem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\CHealth_Small.cpp">
-      <Filter>02. GameObject\06. Object\DropItem</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\CBarrelExplosive.cpp">
       <Filter>02. GameObject\06. Object\Explosion</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\CGameUI_Info_Ammo.cpp">
-      <Filter>02. GameObject\09. UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CPistol.cpp">
       <Filter>03. Manager\00. WeaponManager\00. Weapon\00. Pistol</Filter>
@@ -434,17 +479,68 @@
     <ClCompile Include="..\Code\CWeaponManager.cpp">
       <Filter>03. Manager\00. WeaponManager</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\CArmor_Big.cpp">
-      <Filter>02. GameObject\06. Object\DropItem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\CHealth_Big.cpp">
-      <Filter>02. GameObject\06. Object\DropItem</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\CDoor.cpp">
       <Filter>02. GameObject\06. Object</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CSwitch_Button.cpp">
       <Filter>02. GameObject\06. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CStage2.cpp">
+      <Filter>01. Scene\03. Stage2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CStage3.cpp">
+      <Filter>01. Scene\04. Stage3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CChaingun.cpp">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\02. Chaingun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CBfg.cpp">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\04. BFG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CRocket.cpp">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\03. Rocket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CAmmo_Clip.cpp">
+      <Filter>02. GameObject\06. Object\DropItem\Ammo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CAmmo_Shell.cpp">
+      <Filter>02. GameObject\06. Object\DropItem\Ammo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CArmor_Big.cpp">
+      <Filter>02. GameObject\06. Object\DropItem\Armor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CArmor_Small.cpp">
+      <Filter>02. GameObject\06. Object\DropItem\Armor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CHealth_Big.cpp">
+      <Filter>02. GameObject\06. Object\DropItem\Health</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CHealth_Small.cpp">
+      <Filter>02. GameObject\06. Object\DropItem\Health</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CAmmo_Rocket.cpp">
+      <Filter>02. GameObject\06. Object\DropItem\Ammo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CWeapon_ChainGun.cpp">
+      <Filter>02. GameObject\06. Object\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CWeapon_Rocket.cpp">
+      <Filter>02. GameObject\06. Object\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CWeapon_Shotgun.cpp">
+      <Filter>02. GameObject\06. Object\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CGameUI_Info.cpp">
+      <Filter>02. GameObject\09. UI\Info</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CGameUI_Info_Ammo.cpp">
+      <Filter>02. GameObject\09. UI\Info</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CGameUI_Info_Weapon.cpp">
+      <Filter>02. GameObject\09. UI\Info</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CGameUI_Info_WeaponNum.cpp">
+      <Filter>02. GameObject\09. UI\Info</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
