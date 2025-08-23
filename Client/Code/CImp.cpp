@@ -5,6 +5,7 @@
 #include "CManagement.h"
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
+#include "CBullet.h"
 
 
 CImp::CImp(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -35,7 +36,7 @@ HRESULT CImp::Ready_GameObject()
 	m_pTransformCom->Get_Pos(&vPos);
 	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.5f, 0.f),
 		COLLAYERID::COL_ENEMY,
-		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT);
+		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT | COL_BULLET);
 
 #pragma region ANIM_SETTING
 
@@ -115,7 +116,7 @@ HRESULT CImp::Ready_GameObject()
 	m_fSightDistance = 50.f;
 
 	m_fAtkSpeed = 4.f;
-	m_iHp = 20;
+	m_iGameHp = 20;
 	m_iAtkDmg = 3;
 
 	m_fAtkDelay = 0.f;
@@ -155,10 +156,19 @@ void CImp::Attack(const _float fTimeDelta)
 	m_isShoot = TRUE;
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
-	if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_IMP_BULLET, OBJID::OBJ_BULLET, vPos, this)))
+	CGameObject* tmp = nullptr;
+
+	if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_IMP_BULLET, OBJID::OBJ_BULLET, vPos, this, tmp)))
 	{
 		int a = 0;
 	}
+	if (tmp == nullptr)
+		return;
+
+	tmp->Set_Dead(FALSE);
+	tmp->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+	dynamic_cast<CBullet*>(tmp)->Set_InitDir(m_vMoveLook);
+
 
 }
 

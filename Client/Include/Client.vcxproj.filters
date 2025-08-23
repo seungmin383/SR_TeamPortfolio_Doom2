@@ -154,6 +154,9 @@
     <Filter Include="03. Manager\00. WeaponManager\00. Weapon\04. BFG\01. BFGBullet">
       <UniqueIdentifier>{7c517f02-e6f6-4f4a-b871-f51eaf25049c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBullet\CArchvileBullet">
+      <UniqueIdentifier>{1cbf5616-febe-4514-8ae4-cff8b435c829}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -336,6 +339,9 @@
     <ClInclude Include="..\Header\CRocketBullet.h">
       <Filter>03. Manager\00. WeaponManager\00. Weapon\03. Rocket\00. RocketBullet</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CArchvileBullet.h">
+      <Filter>02. GameObject\02. Monster\CMonsterBullet\CArchvileBullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -511,6 +517,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CRocketBullet.cpp">
       <Filter>03. Manager\00. WeaponManager\00. Weapon\03. Rocket\00. RocketBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CArchvileBullet.cpp">
+      <Filter>02. GameObject\02. Monster\CMonsterBullet\CArchvileBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

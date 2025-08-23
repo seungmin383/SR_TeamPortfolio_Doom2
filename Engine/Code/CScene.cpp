@@ -81,14 +81,14 @@ HRESULT CScene::Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _v
 	return S_OK;
 }
 
-HRESULT CScene::Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, CGameObject* _Owner)
+HRESULT CScene::Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, CGameObject* _Owner, CGameObject*& _Bullet)
 {
 	auto iter = m_mapLayer.find(LAYERID::LAYER_GAMELOGIC);
 
 	if (iter == m_mapLayer.end())
 		return E_FAIL;
 
-	(*iter).second->SetOn_GameLogicObject(eObjPrototype, eObjId, vPos, _Owner);
+	(*iter).second->SetOn_GameLogicObject(eObjPrototype, eObjId, vPos, _Owner, _Bullet);
 
 	return S_OK;
 }

@@ -26,6 +26,10 @@ public:
     _float Get_Speed() const { return m_fSpeed; }
     void   Set_Speed(_float _Speed) { m_fSpeed = _Speed; }
 
+    _int Get_GameHp()const { return m_iGameHp; };
+    void Set_GameHp(_int _Hp) { m_iGameHp = _Hp; };
+    _int Take_Dmg(_int _Dmg) { _int  tmp = (m_iGameHp - _Dmg); m_iGameHp = tmp;     return  tmp; };
+
     virtual void			            OnCollision(CCollider* _pOther) {};
     virtual void			            OnCollisionEnter(CCollider* _pOther) {};
     virtual void			            OnCollisionExit(CCollider* _pOther) {};
@@ -47,8 +51,8 @@ protected:
     CTransform*                             m_pTransformCom;
 
     _float                                  m_fSpeed;
-    bool                                    m_bDead;
-
+    bool                                    m_bDead = FALSE;
+    _int m_iGameHp = 0;
 private:
     CComponent* Find_Component(COMPONENTID eID, const _tchar* pComponentTag);
 
