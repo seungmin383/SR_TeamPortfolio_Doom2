@@ -118,8 +118,8 @@ void CGameUI_Info::Render_GameObject(const _float& fTimeDelta)
 	{
 		if (m_pKeyTextureCom) {
 			// 우상단에 32x32 아이콘 표시 (필요시 크기/좌표 튜닝)
-			_vec3 kScale = { 32.f, 32.f, 1.f };
-			_vec3 kPos = { (WINCX * 0.5f - 400.f), -WINCY * 0.5f + 48.f, 0.f };
+			_vec3 kScale = { 16.f, 16.f, 1.f };
+			_vec3 kPos = { (WINCX * 0.5f - 400.f), -WINCY * 0.5f + 28.f, 0.f };
 			m_pTransformCom->Set_Pos(kPos.x, kPos.y, 0.f);
 			m_pTransformCom->Set_Scale(kScale);
 			m_pTransformCom->Update_Component(0.f);
