@@ -94,7 +94,7 @@ void CStage::Render_Scene(const _float& fTimeDelta)
 
 HRESULT CStage::Load_PreSet()
 {
-	CObjectFactory::GetInstance()->Create_Terrain_Default(VTXCNTX, VTXCNTZ, VTXITV, (_tchar*)L"Proto_TerrainTexture");
+	//CObjectFactory::GetInstance()->Create_Terrain_Default(VTXCNTX, VTXCNTZ, VTXITV, (_tchar*)L"Proto_TerrainTexture");
 
 	return S_OK;
 }
