@@ -7,6 +7,8 @@
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
 #include <iostream>
+#include "CCollisionManager.h"
+#include "CTimerManager.h"
 
 
 CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -82,11 +84,13 @@ void                 CMonsterBase::Render_GameObject(const _float& fTimeDelta)
 
 void CMonsterBase::OnCollision(CCollider* _pOther)
 {
-	CCollisionManager::Collision_Rect_Resolve(m_pColliderCom, _pOther, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
+	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
 }
 
 void CMonsterBase::OnCollisionEnter(CCollider* _pOther)
 {
+	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
+
 	if (m_pColliderCom->Is_RayHit())
 	{
 		m_isRecognize_Player = TRUE;

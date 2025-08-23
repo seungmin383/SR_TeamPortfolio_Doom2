@@ -9,6 +9,8 @@
 #include "CChaingun.h"
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
+#include "CRocket.h"
+#include "CBfg.h"
 
 // Initialize static variable
 _long CDynamicCamera::s_lMouseMoveX = 0L;
@@ -62,10 +64,10 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 		return E_FAIL;
 
 	// Collider Default Settings
-	_vec3 vScale{ 1.f, 2.f, 1.f };
-	_vec3 vOffset{ 0.f, 0.f, 0.f };
+	_vec3 vScale{ 1.f, 3.f, 1.f };
+	_vec3 vOffset{ 0.f, -1.5f, 0.f };
 
-	m_pColliderCom->Ready_CCollider(this, m_vEye, vScale, vOffset, COL_PLAYERCAMERA,
+	m_pColliderCom->Ready_CCollider(this, m_vEye, vScale, vOffset, COL_PLAYER,
 		COL_ENEMY | COL_OBJECT | COL_TERRAIN | COL_WALL | COL_ITEM);
 
 	CWeapon* pPistol = CPistol::Create();
@@ -80,6 +82,14 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	CWeapon* pChaingun = CChaingun::Create();
 	if (pChaingun != nullptr)
 		CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::CHAINGUN, pChaingun);
+
+	CWeapon* pRocket = CRocket::Create();
+	if (pRocket != nullptr)
+		CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::ROCKET, pRocket);
+
+	CWeapon* pBfg = CBfg::Create();
+	if (pBfg != nullptr)
+		CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::BFG, pBfg);
 
 	CWeaponManager::GetInstance()->Set_CurWeapon(WEAPON_ID::PISTOL);
 
@@ -103,6 +113,11 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 	Key_Input(fTimeDelta);
 	Mouse_Input();
 
+	wchar_t buf[64];
+	swprintf(buf, 64, L"x : %f, y : %f, z : %f\n", m_vDist.x, m_vDist.y, m_vDist.z);
+	OutputDebugString(buf);
+
+
 	m_pColliderCom->Late_Update();
 
 	if (false == m_bFix)
@@ -121,8 +136,10 @@ void CDynamicCamera::Render_GameObject(const _float& fTimeDelta)
 
 void CDynamicCamera::OnCollision(CCollider* _pOther)
 {
-	if (CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
+	if (_pOther->Get_ColLayer() == COL_ENEMY && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
 	{
+		CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
+
 		_vec3 curPos;
 		m_pTransformCom->Get_Pos(&curPos);
 		m_pTransformCom->Set_Pos(curPos.x + (-m_vDist.x), curPos.y, curPos.z + (-m_vDist.z));
@@ -130,20 +147,29 @@ void CDynamicCamera::OnCollision(CCollider* _pOther)
 		m_vEye.x += (-m_vDist.x);
 		m_vEye.z += (-m_vDist.z);
 
+		m_vAt.x += (-m_vDist.x);
+		m_vAt.z += (-m_vDist.z);
+
 		m_vDist = _vec3(0.f, 0.f, 0.f);
 	}
 }
 
 void CDynamicCamera::OnCollisionEnter(CCollider* _pOther)
 {
-	if (CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
+	if (_pOther->Get_ColLayer() == COL_ENEMY && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
 	{
+		CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
+
 		_vec3 curPos;
 		m_pTransformCom->Get_Pos(&curPos);
 		m_pTransformCom->Set_Pos(curPos.x + (-m_vDist.x), curPos.y, curPos.z + (-m_vDist.z));
 
-		m_vEye.x = curPos.x;
-		m_vEye.z = curPos.z;
+		m_vEye.x += (-m_vDist.x);
+		m_vEye.z += (-m_vDist.z);
+
+		m_vAt.x += (-m_vDist.x);
+		m_vAt.z += (-m_vDist.z);
+
 
 		m_vDist = _vec3(0.f, 0.f, 0.f);
 	}
@@ -285,6 +311,16 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::CHAINGUN);
 	}
 
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_4) & 0x80)
+	{
+		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::ROCKET);
+	}
+
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_5) & 0x80)
+	{
+		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::BFG);
+	}
+
 
 	//m_pTransformCom 업데이트 //collider 동기화 용
 	m_pTransformCom->Set_Pos(m_vEye.x, m_vEye.y, m_vEye.z);
@@ -385,7 +421,7 @@ void CDynamicCamera::Set_OnTerrain()
 	
 	// 카메라의 높이 (m_vEye.y)가 변화할 때 마다 바라보는 목표(m_vAt.y)도 바뀌어야한다.
 	// 카메라의 높이 변화량을 계산해서 변화량을 m_vEye, m_vAt 모두 더해줘야 시점이 유지된다.
-	_float deltaHeight = (height + 2.f) - m_vEye.y;
+	_float deltaHeight = (height + 3.f) - m_vEye.y;
 	m_vEye.y += deltaHeight;
 	m_vAt.y += deltaHeight;
 }
