@@ -97,10 +97,11 @@ void CSwitch_Button::OnCollisionEnter(CCollider* _pOther)
 		const auto layer = _pOther->Get_ColLayer();
 		const bool allowed = layer & (COL_PLAYER);
 		if (!allowed) {
-			m_bPressed = true;
-			SetSwitchOn();
-			m_state = State::Dead;
+			return;
 		}
+		m_bPressed = true;
+		SetSwitchOn();
+		m_state = State::Dead;
 	}
 }
 

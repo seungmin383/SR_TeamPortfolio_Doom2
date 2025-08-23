@@ -43,7 +43,7 @@ HRESULT CDoorWithKey::Ready_GameObject()
 			_vec3(0, 0.4f, 0),      // 약간 위로
 			COL_OBJECT,             // 내 레이어
 			// 공격으로 인정할 대상 레이어(레이 사격 포함)
-			COL_PLAYERCAMERA
+			COL_PLAYER
 		);
 		m_pColliderCom->Set_Active(true);
 	}
@@ -58,13 +58,14 @@ HRESULT CDoorWithKey::Ready_GameObject()
 
 _int CDoorWithKey::Update_GameObject(const _float& fTimeDelta)
 {
+	CGameObject::Update_GameObject(fTimeDelta);
+
 	if (!CManagement::GetInstance()->Is_KeyOwned()) {
 		CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 		return 0;
 	}
 
-	CGameObject::Update_GameObject(fTimeDelta);
-
+	
 	DoorOpening(fTimeDelta);
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
@@ -108,9 +109,9 @@ void CDoorWithKey::OnCollisionEnter(CCollider* _pOther)
 		const auto layer = _pOther->Get_ColLayer();
 		const bool allowed = layer & (COL_PLAYER);
 		// 플레이어랑만 처리
-		if (!allowed) {
-			OpenDoor();
-		}
+		if (allowed == 0) return;    // 플레이어가 아니면 무시
+		if (!CManagement::GetInstance()->Is_KeyOwned()) return; // 키 없으면 무시
+		OpenDoor();
 	}
 }
 

@@ -90,88 +90,31 @@ void CWeapon_Shotgun::OnCollisionEnter(CCollider* _pOther)
 	if (m_bPicked || !_pOther) return;
 
 	const auto layer = _pOther->Get_ColLayer();
-
-	// 1) 플레이어/카메라와의 충돌만 허용
-	if ((layer & (COL_PLAYER)))
+	if ((layer & (COL_PLAYER)) == 0)
 		return;
+	else
+	{
+		m_bPicked = true;
 
-	m_bPicked = true;
-
-	// 2) 얼굴 UI: LAYER_UI / OBJ_UI 그룹에서 찾기 (임시 참조 금지)
-	const auto uiList = CManagement::GetInstance()
-		->Get_ObjectGroup(LAYERID::LAYER_UI, OBJID::OBJ_UI);
-
-	char buf[128];
-	sprintf_s(buf, "[WS] uiList size=%zu\n", uiList.size());
-	OutputDebugStringA(buf);
-
-	if (!uiList.empty()) {
+		// 얼굴 UI에 '획득' 표정 3초
+		const auto uiList = CManagement::GetInstance()->Get_ObjectGroup(LAYERID::LAYER_UI, OBJID::OBJ_UI);
 		for (auto* ui : uiList) {
 			if (auto* face = dynamic_cast<CGameUI_Face*>(ui)) {
 				face->Set_EvilFace(3.f);
-				OutputDebugStringA("[WS] Face->Set_EvilFace(3)\n");
 				break;
 			}
 		}
-	}
-	else {
-		// (fallback) 혹시 UI가 OBJ_WEAPON에 등록되어 있다면 거기서도 시도
-		const auto uiList2 = CManagement::GetInstance()
-			->Get_ObjectGroup(LAYERID::LAYER_UI, OBJID::OBJ_WEAPON);
-		sprintf_s(buf, "[WS] fallback uiList2 size=%zu\n", uiList2.size());
-		OutputDebugStringA(buf);
-		for (auto* ui : uiList2) {
-			if (auto* face = dynamic_cast<CGameUI_Face*>(ui)) {
-				face->Set_EvilFace(3.f);
-				OutputDebugStringA("[WS] Face->Set_EvilFace(3) via fallback\n");
-				break;
-			}
+
+		if (auto* wm = CWeaponManager::GetInstance()) {
+			wm->Add_Weapon(WEAPON_ID::SHOTGUN, (CWeapon*)this);
+			wm->Change_Weapon(WEAPON_ID::SHOTGUN);
 		}
+		else {
+			wm->Add_Ammo(AMMO_TYPE::SHELL, 8);
+		}
+		if (m_pColliderCom) m_pColliderCom->Set_Active(false);
+		// Update_GameObject()에서 m_bPicked면 -1 반환 → 레이어에서 제거
 	}
-
-	// 3) 무기 지급/전환 (널 안전)
-	if (m_pWeaponManager) {
-		m_pWeaponManager->Add_Weapon(WEAPON_ID::SHOTGUN, (CWeapon*)this);
-		m_pWeaponManager->Change_Weapon(WEAPON_ID::SHOTGUN);
-	}
-	else if (auto* wm = CWeaponManager::GetInstance()) {
-		wm->Add_Weapon(WEAPON_ID::SHOTGUN, (CWeapon*)this);
-		wm->Change_Weapon(WEAPON_ID::SHOTGUN);
-	}
-	else {
-		OutputDebugStringA("[WS] WeaponManager null\n");
-	}
-
-	// 4) 더 이상 충돌 안 나게 비활성화
-	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
-	// Update_GameObject()에서 m_bPicked면 -1 반환 → 레이어에서 제거
-
-	//const auto layer = _pOther->Get_ColLayer();
-	//if ((layer & (COL_PLAYER)) == 1)
-	//	return;
-	//else
-	//{
-	//	m_bPicked = true;
-
-	//	// 얼굴 UI에 '획득' 표정 3초
-	//	const auto uiList = CManagement::GetInstance()->Get_ObjectGroup(LAYERID::LAYER_UI, OBJID::OBJ_UI);
-	//	for (auto* ui : uiList) {
-	//		if (auto* face = dynamic_cast<CGameUI_Face*>(ui)) {
-	//			face->Set_EvilFace(3.f);
-	//			break;
-	//		}
-	//	}
-
-	//	if (auto* wm = CWeaponManager::GetInstance()) {
-	//		wm->Add_Weapon(WEAPON_ID::SHOTGUN, (CWeapon*)this);
-	//		wm->Change_Weapon(WEAPON_ID::SHOTGUN);
-	//	}
-	//	else {
-	//		wm->Add_Ammo(AMMO_TYPE::SHELL, 8);
-	//	}
-	//	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
-	//	// Update_GameObject()에서 m_bPicked면 -1 반환 → 레이어에서 제거
-	//}
 
 }
 

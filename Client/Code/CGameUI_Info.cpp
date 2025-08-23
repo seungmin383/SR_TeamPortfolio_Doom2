@@ -116,9 +116,31 @@ void CGameUI_Info::Render_GameObject(const _float& fTimeDelta)
 	// 전역 플래그를 보고 키 보유 상태를 HUD에 표시
 	if (Engine::CManagement::GetInstance()->Is_KeyOwned())
 	{
-		_vec2 pos = { WINCX * 0.5f - 120.f, -WINCY * 0.5f + 40.f }; // 우상단 근처
-		Engine::CFontManager::GetInstance()->Render_Font(
-			L"KeyFont", L"KEY", &pos, D3DXCOLOR(1.f, 1.f, 0.f, 1.f));
+		if (m_pKeyTextureCom) {
+			// 우상단에 32x32 아이콘 표시 (필요시 크기/좌표 튜닝)
+			_vec3 kScale = { 32.f, 32.f, 1.f };
+			_vec3 kPos = { (WINCX * 0.5f - 400.f), -WINCY * 0.5f + 48.f, 0.f };
+			m_pTransformCom->Set_Pos(kPos.x, kPos.y, 0.f);
+			m_pTransformCom->Set_Scale(kScale);
+			m_pTransformCom->Update_Component(0.f);
+			_matrix matWorld = *m_pTransformCom->Get_World();
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+			m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+			m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+			m_pKeyTextureCom->Set_Texture();
+			m_pBufferCom->Render_Buffer();
+
+		}
+		else {
+			// (대체) 폰트 텍스트로라도 노출
+			_vec2 pos = { WINCX * 0.5f - 120.f, -WINCY * 0.5f + 40.f };
+			Engine::CFontManager::GetInstance()->Render_Font(
+				L"KeyFont", L"KEY", &pos, D3DXCOLOR(1.f, 1.f, 0.f, 1.f));
+		}
+
 	}
 
 	Render_Number(m_pCamera->Get_Hp(), -450.f, -WINCY * 0.5f + vScale.y + 60.f, 30.f, 30.f / (15.f / 16.f));

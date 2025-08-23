@@ -49,6 +49,7 @@
 #include "CBarrelExplosive.h"
 #include "CDoor.h"
 #include "CDoorWithKey.h"
+#include "CKey.h"
 #include "CSwitch_Button.h"
 
 CMainApp::CMainApp()
@@ -192,7 +193,10 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 		return E_FAIL;
 
 	// 키로 동작하는 문
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::DOOR, CDoorWithKey::Create(m_pGraphicDev))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::DOORKEY, CDoorWithKey::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::KEY, CKey::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	// 스위치

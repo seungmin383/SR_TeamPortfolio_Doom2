@@ -108,7 +108,7 @@ void CAmmo_Shell::OnCollisionEnter(CCollider* _pOther)
 	const bool allowed =
 		(layer & COL_PLAYER);
 
-	if (allowed) return;
+	if (!allowed) return;
 	else {
 		// 무기 매니저로 탄약 지급
 		if (m_pWeaponManager) {

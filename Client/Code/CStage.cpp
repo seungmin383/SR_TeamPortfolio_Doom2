@@ -33,11 +33,12 @@
 
 #include "CBarrelExplosive.h"
 #include "CDoor.h"
+#include "CDoorWithKey.h"
 #include "CSwitch_Button.h"
 
 #include "CPistol.h"
 #include "CWeapon_Shotgun.h"
-#include "CWeapon_Rocket.h"
+#include "CWeapon_ChainGun.h"
 #include "CWeapon_Rocket.h"
 #include "CWeapon_BFG.h"
 
@@ -251,6 +252,15 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
 		return E_FAIL;
 
+	// 키
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::KEY);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
+		return E_FAIL;
+
 	// 아머(대)
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_ARMOR_BIG);
 
@@ -368,12 +378,12 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	// 키로 동작하는 문 제작
 	Engine::CGameObject* pDoorObj5 = CPrototypeManager::GetInstance()
-		->Clone_ObjPrototype(OBJPROTOTYPE::DOOR);
+		->Clone_ObjPrototype(OBJPROTOTYPE::DOORKEY);
 	if (nullptr == pDoorObj5) return E_FAIL;
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pDoorObj5))) return E_FAIL;
-	dynamic_cast<CDoor*>(pDoorObj5)->Set_LinkId(L"B");
+	dynamic_cast<CDoorWithKey*>(pDoorObj5)->Set_LinkId(L"B");
 
-	// 문 #2는 왼쪽으로 분리
+	// 문 #3는 오른쪽으로 분리
 	Engine::CTransform* tr5 = GetTransformPtr(pDoorObj5);
 	if (tr5) tr5->Set_Pos(20.f, 2.f, 30.f);
 
