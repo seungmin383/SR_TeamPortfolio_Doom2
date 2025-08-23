@@ -97,7 +97,7 @@ void CAmmo_Clip::OnCollisionEnter(CCollider* _pOther)
 	// 누가 부딪혔는지: 플레이어/카메라
 	const auto layer = _pOther->Get_ColLayer();
 	const bool allowed =
-		(layer & COL_PLAYERCAMERA);
+		(layer & COL_PLAYER);
 
 	if (!allowed) return;
 	else {
