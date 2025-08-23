@@ -103,7 +103,7 @@ void CDoor::OnCollisionEnter(CCollider* _pOther)
 		const auto layer = _pOther->Get_ColLayer();
 		const bool allowed = layer & (COL_PLAYER);
 		// 플레이어랑만 처리
-		if (!allowed) {
+		if (allowed) {
 			OpenDoor();
 		}
 	}	

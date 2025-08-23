@@ -91,7 +91,7 @@ void CWeapon_Rocket::OnCollisionEnter(CCollider* _pOther)
 	const auto layer = _pOther->Get_ColLayer();
 	const bool allowed =
 		(layer & COL_PLAYER);
-	if (allowed)
+	if (!allowed)
 		return;
 	else {
 		// to-do) 무기매니저로 캐스팅해서 얻기

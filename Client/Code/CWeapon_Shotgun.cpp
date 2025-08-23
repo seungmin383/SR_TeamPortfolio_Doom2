@@ -90,7 +90,7 @@ void CWeapon_Shotgun::OnCollisionEnter(CCollider* _pOther)
 	if (m_bPicked || !_pOther) return;
 
 	const auto layer = _pOther->Get_ColLayer();
-	if ((layer & (COL_PLAYER)) == 1)
+	if ((layer & (COL_PLAYER)) == 0)
 		return;
 	else
 	{

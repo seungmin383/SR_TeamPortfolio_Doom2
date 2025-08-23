@@ -45,9 +45,12 @@
 #include "CWeapon_ChainGun.h"
 #include "CWeapon_Rocket.h"
 #include "CWeapon_BFG.h"
+#include "CRocketBullet.h"
 
 #include "CBarrelExplosive.h"
 #include "CDoor.h"
+#include "CDoorWithKey.h"
+#include "CKey.h"
 #include "CSwitch_Button.h"
 
 CMainApp::CMainApp()
@@ -190,6 +193,13 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::DOOR, CDoor::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	// 키로 동작하는 문
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::DOORKEY, CDoorWithKey::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::KEY, CKey::Create(m_pGraphicDev))))
+		return E_FAIL;
+
 	// 스위치
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR, CSwitch_Button::Create(m_pGraphicDev))))
 		return E_FAIL;
@@ -209,8 +219,13 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	// BFG
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::WEAPON_BFG, CWeapon_BFG::Create(m_pGraphicDev))))
 		return E_FAIL;
+
 	// 임프총알
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP_BULLET, CImpBullet::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 로켓 총알
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::PLAYER_ROCKET_BULLET, CRocketBullet::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 

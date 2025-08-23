@@ -22,6 +22,7 @@ public:
 
 private:
 	bool m_bPicked = false;
+	_int m_iFrame_Key = 0;
 
 private:
 	HRESULT Add_Component();

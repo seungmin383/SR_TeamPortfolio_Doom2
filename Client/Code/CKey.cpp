@@ -24,7 +24,7 @@ HRESULT CKey::Ready_GameObject()
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Pos(3.f, 0.f, 7.f);
+	m_pTransformCom->Set_Pos(40.f, 0.f, 40.f);
 	m_pTransformCom->Set_Scale(_vec3(1.f, 1.f, 1.f));
 
 	m_pColliderCom->Ready_CCollider(
@@ -45,6 +45,10 @@ _int CKey::Update_GameObject(const _float& fTimeDelta)
 	CGameObject::Update_GameObject(fTimeDelta);
 	Set_OnTerrain();
 	Bill_Board();
+
+	m_iFrame_Key++;
+	if (m_iFrame_Key >= 2)
+		m_iFrame_Key = 0;
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -68,7 +72,7 @@ void CKey::Render_GameObject(const _float& fTimeDelta)
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
-	m_pTextureCom->Set_Texture();
+	m_pTextureCom->Set_Texture(m_iFrame_Key);
 	m_pBufferCom->Render_Buffer();
 
 	//충돌체
@@ -87,14 +91,17 @@ void CKey::OnCollisionEnter(CCollider* _pOther)
 
 	if (m_bPicked || !_pOther) return;
 
-	auto* who = _pOther->Get_Owner();
-	if (auto* pCam = dynamic_cast<CDynamicCamera*>(who)) {
-		// 1) HP 증가
-		//pCam->AddHP(m_iHeal); // CDynamicCamera에 AddHP(int) 추가
+	const auto layer = _pOther->Get_ColLayer();
+	const bool allowed =
+		(layer & COL_PLAYER);
 
-		// 2) 더이상 충돌하지 않게 막기
-		m_bPicked = true;
-	}
+	if (allowed == 0) return;
+	m_bPicked = true;
+	// 저역 키 보유 플래그 세팅 + 콜라이더 비활성
+	CManagement::GetInstance()->Set_KeyOwned(true);
+	if (m_pColliderCom)
+		m_pColliderCom->Set_Active(false);
+	OutputDebugStringA("[Key] picked, flag set\n");
 }
 
 void CKey::OnCollisionExit(CCollider* _pOther)

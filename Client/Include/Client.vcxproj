@@ -183,6 +183,7 @@
     <ClInclude Include="..\Header\CBfg.h" />
     <ClInclude Include="..\Header\CChaingun.h" />
     <ClInclude Include="..\Header\CDoor.h" />
+    <ClInclude Include="..\Header\CDoorWithKey.h" />
     <ClInclude Include="..\Header\CDynamicCamera.h" />
     <ClInclude Include="..\Header\CGameUI.h" />
     <ClInclude Include="..\Header\CGameUI_Face.h" />
@@ -202,6 +203,7 @@
     <ClInclude Include="..\Header\CPistol.h" />
     <ClInclude Include="..\Header\CPlayerWeapon.h" />
     <ClInclude Include="..\Header\CRocket.h" />
+    <ClInclude Include="..\Header\CRocketBullet.h" />
     <ClInclude Include="..\Header\CShotgun.h" />
     <ClInclude Include="..\Header\CShotgunGuy.h" />
     <ClInclude Include="..\Header\CSkyBox.h" />
@@ -242,6 +244,7 @@
     <ClCompile Include="..\Code\CBfg.cpp" />
     <ClCompile Include="..\Code\CChaingun.cpp" />
     <ClCompile Include="..\Code\CDoor.cpp" />
+    <ClCompile Include="..\Code\CDoorWithKey.cpp" />
     <ClCompile Include="..\Code\CDynamicCamera.cpp" />
     <ClCompile Include="..\Code\CGameUI.cpp" />
     <ClCompile Include="..\Code\CGameUI_Face.cpp" />
@@ -261,6 +264,7 @@
     <ClCompile Include="..\Code\CPistol.cpp" />
     <ClCompile Include="..\Code\CPlayerWeapon.cpp" />
     <ClCompile Include="..\Code\CRocket.cpp" />
+    <ClCompile Include="..\Code\CRocketBullet.cpp" />
     <ClCompile Include="..\Code\CShotgun.cpp" />
     <ClCompile Include="..\Code\CShotgunGuy.cpp" />
     <ClCompile Include="..\Code\CSkyBox.cpp" />

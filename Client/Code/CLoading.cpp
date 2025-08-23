@@ -90,6 +90,13 @@ _uint CLoading::Loading_ForStage()
 
 #pragma endregion
 
+#pragma region PLAYER_BULLET
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_RocketBullet", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Effect/RocketBullet/ROCKET%d.png", TEX_NORMAL, 9))))
+		return E_FAIL;
+
+#pragma endregion
+
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_PlayerUI", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/PLAYERUI.png", TEX_NORMAL))))
 		return E_FAIL;
@@ -109,6 +116,13 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_FaceUI5", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STFEVL%d.png", TEX_NORMAL, 5))))
 		return E_FAIL;
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_FaceUI6", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STFDEAD0.png", TEX_NORMAL))))
+		return E_FAIL;
+
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Key", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/BKEYA%d.png", TEX_NORMAL, 2))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_UI_Key", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/STKEYS0.png", TEX_NORMAL))))
 		return E_FAIL;
 
 
