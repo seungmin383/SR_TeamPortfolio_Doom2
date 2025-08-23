@@ -103,6 +103,22 @@ void CRocketBullet::Render_GameObject(const _float& fTimeDelta)
     m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }
 
+void CRocketBullet::OnCollision(CCollider* _pOther)
+{
+}
+
+void CRocketBullet::OnCollisionEnter(CCollider* _pOther)
+{
+    if (_pOther->Get_ColMask() == (COL_ENEMY | COL_WALL | COL_TERRAIN))
+    {
+        m_eState = BULLET_STATE::HIT;
+    }
+}
+
+void CRocketBullet::OnCollisionExit(CCollider* _pOther)
+{
+}
+
 HRESULT CRocketBullet::Add_Component()
 {
     // 부모에서 Buffer, Transform, Collider, Animation 컴포넌트 추가 후 ID_DYNAMIC에 삽입
