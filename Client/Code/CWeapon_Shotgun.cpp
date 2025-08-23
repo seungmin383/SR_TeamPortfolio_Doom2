@@ -92,7 +92,7 @@ void CWeapon_Shotgun::OnCollisionEnter(CCollider* _pOther)
 	const auto layer = _pOther->Get_ColLayer();
 
 	// 1) 플레이어/카메라와의 충돌만 허용
-	if ((layer & (COL_PLAYER | COL_PLAYERCAMERA)) == 0)
+	if ((layer & (COL_PLAYER)))
 		return;
 
 	m_bPicked = true;

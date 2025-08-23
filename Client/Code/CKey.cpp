@@ -87,13 +87,18 @@ void CKey::OnCollisionEnter(CCollider* _pOther)
 
 	if (m_bPicked || !_pOther) return;
 
-	auto* who = _pOther->Get_Owner();
-	if (auto* pCam = dynamic_cast<CDynamicCamera*>(who)) {
-		// 1) HP 증가
-		//pCam->AddHP(m_iHeal); // CDynamicCamera에 AddHP(int) 추가
+	const auto layer = _pOther->Get_ColLayer();
+	const bool allowed =
+		(layer & COL_PLAYER);
 
-		// 2) 더이상 충돌하지 않게 막기
+	if (allowed) return;
+	else {
 		m_bPicked = true;
+		// 저역 키 보유 플래그 세팅 + 콜라이더 비활성
+		CManagement::GetInstance()->Set_KeyOwned(true);
+		if (m_pColliderCom)
+			m_pColliderCom->Set_Active(false);
+		OutputDebugStringA("[Key] picked, flag set\n");
 	}
 }
 

@@ -321,6 +321,9 @@
     <ClInclude Include="..\Header\CKey.h">
       <Filter>02. GameObject\06. Object\FieldObject</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CDoorWithKey.h">
+      <Filter>02. GameObject\06. Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -490,6 +493,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CImpBullet.cpp">
       <Filter>02. GameObject\02. Monster\CMonsterBullet\CImpBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CDoorWithKey.cpp">
+      <Filter>02. GameObject\06. Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

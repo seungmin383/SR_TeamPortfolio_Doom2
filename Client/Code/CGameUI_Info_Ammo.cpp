@@ -111,8 +111,6 @@ void CGameUI_Info_Ammo::Render_GameObject(const _float& fTimeDelta)
 	const int cell = m_pWeaponManager ? m_pWeaponManager->Get_Ammo(AMMO_TYPE::CELL) : 0;
 	const int cellMax = m_pWeaponManager ? m_pWeaponManager->Get_MaxAmmo(AMMO_TYPE::CELL) : 0;
 
-	const int ammo = 100; // 플레이어가 들고있는 총을 기준으로
-
 	Render_Number(clip, 560.f, -WINCY * 0.5f + vScale.y + 98.f, 10.f, 8.f / (4.f / 6.f));
 	Render_Number(clipMax, 680.f, -WINCY * 0.5f + vScale.y + 98.f, 10.f, 8.f / (4.f / 6.f));
 
@@ -125,7 +123,6 @@ void CGameUI_Info_Ammo::Render_GameObject(const _float& fTimeDelta)
 	Render_Number(cell, 560.f, -WINCY * 0.5f + vScale.y + 20.f, 10.f, 8.f / (4.f / 6.f));
 	Render_Number(cellMax, 680.f, -WINCY * 0.5f + vScale.y + 20.f, 10.f, 8.f / (4.f / 6.f));
 
-	Render_CurAmmo(ammo, -700.f, -WINCY * 0.5f + vScale.y + 80.f, 30.f, 30.f);
 
 	// 5. 렌더링이 끝난 후, 백업해두었던 원래의 View, Projection 행렬로 복원합니다.                                           
 	// 이렇게 해야 다른 3D 오브젝트들이 정상적으로 렌더링됩니다.                                                              
@@ -231,40 +228,6 @@ void CGameUI_Info_Ammo::Render_Number(int number, float baseX, float baseY, floa
 
 		// 텍스처 지정 (0~9)
 		m_pTextureCom->Set_Texture(digits[i]);
-		m_pBufferCom->Render_Buffer();
-	}
-}
-
-void CGameUI_Info_Ammo::Render_CurAmmo(int number, float baseX, float baseY, float scaleX, float scaleY)
-{
-	// 숫자를 100, 10, 1의 자리로 분리
-	int digits[3] = {
-		number / 100,
-		(number % 100) / 10,
-		number % 10
-	};
-
-	for (int i = 0; i < 3; ++i)
-	{
-		float digitWidth = 50.f;  // 텍스처 한 칸 폭
-		float spacing = 0.3f;      // 자리 간의 여백(픽셀)
-		float x = baseX + i * (digitWidth + spacing);	// 각 자리 위치를 계산 (자릿수 만큼 오른쪽으로 이동)
-		float y = baseY;
-
-		// 위치/스케일 갱신 (매번!)
-		m_pTransformCom->Set_Pos(x, y, 0.f);
-		m_pTransformCom->Set_Scale({ scaleX, scaleY, 1.f });
-
-		// Set_Pos, Set_Scale 등으로 지정한 값을 실제 월드 행렬로 계산하여 적용한다.
-		// 이 호출이 없으면 위치/크기 변경이 렌더에 반영되지 않음!
-		m_pTransformCom->Update_Component(0.f);
-
-		// 월드 행렬 갱신
-		_matrix matWorld = *m_pTransformCom->Get_World();
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
-
-		// 텍스처 지정 (0~9)
-		m_pTextureCom2->Set_Texture(digits[i]);
 		m_pBufferCom->Render_Buffer();
 	}
 }

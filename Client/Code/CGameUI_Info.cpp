@@ -2,6 +2,7 @@
 #include "CGameUI_Info.h"
 #include "CManagement.h"
 #include "CRenderer.h"
+#include "CFontManager.h"
 
 CGameUI_Info::CGameUI_Info(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev), m_pCamera(nullptr), m_iNum(0)
@@ -45,6 +46,10 @@ HRESULT CGameUI_Info::Ready_GameObject()
 	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 	m_pTransformCom->Set_Scale(vScale);
 
+	// 키 표시용 폰트 준비 (필요 시 이름/크기 조정)
+	Engine::CFontManager::GetInstance()->Ready_Font(
+		m_pGraphicDev, L"KeyFont", L"Arial", 16, 24, 700
+	);
 	return S_OK;
 }
 
@@ -107,6 +112,14 @@ void CGameUI_Info::Render_GameObject(const _float& fTimeDelta)
 	vScale.z = 1.f;
 
 	vPos = { -300.f, -WINCY * 0.5f + vScale.y + 15.f, 0.f };
+
+	// 전역 플래그를 보고 키 보유 상태를 HUD에 표시
+	if (Engine::CManagement::GetInstance()->Is_KeyOwned())
+	{
+		_vec2 pos = { WINCX * 0.5f - 120.f, -WINCY * 0.5f + 40.f }; // 우상단 근처
+		Engine::CFontManager::GetInstance()->Render_Font(
+			L"KeyFont", L"KEY", &pos, D3DXCOLOR(1.f, 1.f, 0.f, 1.f));
+	}
 
 	Render_Number(m_pCamera->Get_Hp(), -450.f, -WINCY * 0.5f + vScale.y + 60.f, 30.f, 30.f / (15.f / 16.f));
 	Render_Number(m_pCamera->Get_Armor(), 150.f, -WINCY * 0.5f + vScale.y + 60.f, 30.f, 30.f / (15.f / 16.f));
@@ -194,6 +207,13 @@ HRESULT CGameUI_Info::Add_Component()
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
 
+	pComponent = m_pKeyTextureCom = dynamic_cast<Engine::CTexture*>
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_UI_Key"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_KeyTexture", pComponent });
+
 	// Calculator
 	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
 		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Calculator"));
@@ -201,13 +221,6 @@ HRESULT CGameUI_Info::Add_Component()
 		return E_FAIL;
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Calculator", pComponent });
-
-	/*pComponent = m_pColliderCom = dynamic_cast<Engine::CCollider*>
-	(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Collider"));
-if (nullptr == pComponent)
-	return E_FAIL;
-
-m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });*/
 
 	return S_OK;
 }

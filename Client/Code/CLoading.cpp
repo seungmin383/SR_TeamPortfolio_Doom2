@@ -112,6 +112,13 @@ _uint CLoading::Loading_ForStage()
 		return E_FAIL;
 
 
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Key", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/BKEYA%d.png", TEX_NORMAL, 2))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_UI_Key", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/STKEYS0.png", TEX_NORMAL))))
+		return E_FAIL;
+
+
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Number", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STTNUM%d.png", TEX_NORMAL, 10))))
 		return E_FAIL;
 
