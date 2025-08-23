@@ -3,6 +3,7 @@
 #include "CPrototypeManager.h"
 #include "CDynamicCamera.h"
 #include "CWeaponManager.h"
+#include "CGameUI_Face.h"
 
 class CWeaponManager;
 

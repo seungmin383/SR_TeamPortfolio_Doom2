@@ -27,8 +27,8 @@ HRESULT CWeapon_Rocket::Ready_GameObject()
 
 	m_bPicked = false;
 
-	m_pTransformCom->Set_Pos(29.f, 0.f, 10.f);
-	m_pTransformCom->Set_Scale(_vec3(1.f, 1.f, 1.f));
+	m_pTransformCom->Set_Pos(39.f, 0.f, 30.f);
+	m_pTransformCom->Set_Scale(_vec3(1.f, 0.5f, 1.f));
 
 	m_pWeaponManager = CWeaponManager::GetInstance();
 
@@ -38,7 +38,7 @@ HRESULT CWeapon_Rocket::Ready_GameObject()
 		_vec3(1.f, 1.f, 1.f),  // 아이템 박스 크기 예시
 		_vec3(0, 0.4f, 0),        // 약간 위로
 		COL_ITEM,               // 너희 COLLAYERID에서 아이템 레이어
-		COL_PLAYER | COL_PLAYERCAMERA       // (마스크를 쓴다면) 플레이어와만 맞게
+		COL_PLAYER       // (마스크를 쓴다면) 플레이어와만 맞게
 	);
 	m_pColliderCom->Set_Active(true);
 
@@ -89,21 +89,24 @@ void CWeapon_Rocket::OnCollisionEnter(CCollider* _pOther)
 	if (m_bPicked || !_pOther) return;
 
 	const auto layer = _pOther->Get_ColLayer();
-	if (!(layer & (COL_PLAYER | COL_PLAYERCAMERA)))
+	const bool allowed =
+		(layer & COL_PLAYER);
+	if (!allowed)
 		return;
-
-	// to-do) 무기매니저로 캐스팅해서 얻기
-	if (m_pWeaponManager) {
-		m_pWeaponManager->Add_Weapon(WEAPON_ID::ROCKET, (CWeapon*)this);
-	}
-	else
-	{
-		m_pWeaponManager->Add_Ammo(AMMO_TYPE::ROCKET, 5);
-	}
-	// 월드의 픽업 오브젝트는 제거
-	m_bPicked = true;
-	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
-	// Update_GameObject()에서 m_bPicked이면 -1 반환 → 레이어가 안전 삭제
+	else {
+		// to-do) 무기매니저로 캐스팅해서 얻기
+		if (m_pWeaponManager) {
+			m_pWeaponManager->Add_Weapon(WEAPON_ID::ROCKET, (CWeapon*)this);
+		}
+		else
+		{
+			m_pWeaponManager->Add_Ammo(AMMO_TYPE::ROCKET, 5);
+		}
+		// 월드의 픽업 오브젝트는 제거
+		m_bPicked = true;
+		if (m_pColliderCom) m_pColliderCom->Set_Active(false);
+		// Update_GameObject()에서 m_bPicked이면 -1 반환 → 레이어가 안전 삭제
+	}	
 }
 
 void CWeapon_Rocket::OnCollisionExit(CCollider* _pOther)
@@ -131,7 +134,7 @@ HRESULT CWeapon_Rocket::Add_Component()
 
 	//Texture
 	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>
-		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Rocket"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Rocket_Lanuncher"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 

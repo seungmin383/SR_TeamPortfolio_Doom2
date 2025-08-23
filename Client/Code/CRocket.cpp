@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CRocket.h"
 #include "CWeaponManager.h"
+#include "CRocketBullet.h"
+#include "CManagement.h"
 
 CRocket::CRocket()
 {
@@ -31,6 +33,14 @@ _bool CRocket::Fire()
 	{
 		m_eCurState = WEAPON_STATE::SHOT;
 		m_fElapsedTime = m_fFireDelay;
+
+
+		CGameObject* pPlayer = CManagement::GetInstance()->Get_Player();
+		_vec3 vPlayerPos;
+		pPlayer->Get_Transform()->Get_Pos(&vPlayerPos);
+
+		// 로켓 투사체 발사
+		CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::PLAYER_ROCKET_BULLET, OBJID::OBJ_BULLET, vPlayerPos, pPlayer);
 		return true;
 	}
 

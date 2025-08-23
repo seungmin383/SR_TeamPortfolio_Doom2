@@ -60,7 +60,7 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	_vec3 vScale{ 1.f, 1.f, 1.f };
 	_vec3 vOffset{ 0.f, 0.f, 0.f };
 
-	m_pColliderCom->Ready_CCollider(this, m_vEye, vScale, vOffset, COL_PLAYERCAMERA,
+	m_pColliderCom->Ready_CCollider(this, m_vEye, vScale, vOffset, COL_PLAYER,
 		COL_ENEMY | COL_OBJECT | COL_TERRAIN | COL_WALL | COL_ITEM);
 
 	CWeapon* pPistol = CPistol::Create();

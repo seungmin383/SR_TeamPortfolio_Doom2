@@ -43,7 +43,7 @@ HRESULT CDoor::Ready_GameObject()
 			_vec3(0, 0.4f, 0),      // 약간 위로
 			COL_OBJECT,             // 내 레이어
 			// 공격으로 인정할 대상 레이어(레이 사격 포함)
-			COL_PLAYERCAMERA
+			COL_PLAYER
 		);
 		m_pColliderCom->Set_Active(true);
 	}
@@ -103,7 +103,7 @@ void CDoor::OnCollisionEnter(CCollider* _pOther)
 		const auto layer = _pOther->Get_ColLayer();
 
 		// 플레이어랑만 처리
-		if (layer & (COL_PLAYERCAMERA)) {
+		if (layer & (COL_PLAYER)) {
 			OpenDoor();
 		}
 	}	

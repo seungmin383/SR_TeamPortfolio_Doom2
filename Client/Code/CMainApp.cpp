@@ -24,10 +24,10 @@
 
 #include "CDynamicCamera.h"
 #include "CZombieMan.h"
-#include"CArchVile.h"
+#include "CArchVile.h"
 #include "CImp.h"
 #include "CPinky.h"
-#include"CSpiderMastermind.h"
+#include "CSpiderMastermind.h"
 #include "CShotgunGuy.h"
 #include "CImpBullet.h"
 #include "CArchvileBullet.h"
@@ -40,11 +40,18 @@
 #include "CAmmo_Clip.h"
 #include "CAmmo_Shell.h"
 #include "CAmmo_Rocket.h"
+#include "CAmmo_Cell.h"
 
 #include "CWeapon_Shotgun.h"
+#include "CWeapon_ChainGun.h"
+#include "CWeapon_Rocket.h"
+#include "CWeapon_BFG.h"
+#include "CRocketBullet.h"
 
 #include "CBarrelExplosive.h"
 #include "CDoor.h"
+#include "CDoorWithKey.h"
+#include "CKey.h"
 #include "CSwitch_Button.h"
 
 CMainApp::CMainApp()
@@ -82,7 +89,6 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 
 void CMainApp::LateUpdate_MainApp(const float& fTimeDelta)
 {
-	CWeaponManager::GetInstance()->Update_Weapon(fTimeDelta);
 	m_pManagementClass->LateUpdate_Scene(fTimeDelta);
 }
 
@@ -176,12 +182,23 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_ROCKET, CAmmo_Rocket::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	// BFG 탄약
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_CELL, CAmmo_Cell::Create(m_pGraphicDev))))
+		return E_FAIL;
+
 	// 폭발통
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL, CBarrelExplosive::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	// 문
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::DOOR, CDoor::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 키로 동작하는 문
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::DOORKEY, CDoorWithKey::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::KEY, CKey::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	// 스위치
@@ -192,12 +209,28 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::WEAPON_SHOTGUN, CWeapon_Shotgun::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	// 체인건
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::WEAPON_CHAINGUN, CWeapon_ChainGun::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 로켓
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::WEAPON_ROCKET, CWeapon_Rocket::Create(m_pGraphicDev))))
+		return E_FAIL;
+	
+	// BFG
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::WEAPON_BFG, CWeapon_BFG::Create(m_pGraphicDev))))
+		return E_FAIL;
+
 	// 임프총알
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP_BULLET, CImpBullet::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	// 아크바일 총알
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE_BULLET, CArchvileBullet::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 로켓 총알
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::PLAYER_ROCKET_BULLET, CRocketBullet::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 
@@ -263,7 +296,6 @@ void CMainApp::Free()
 	CTimerManager::GetInstance()->DestroyInstance();
 	CFrameManager::GetInstance()->DestroyInstance();
 	CDInputManager::GetInstance()->DestroyInstance();
-	CWeaponManager::GetInstance()->DestroyInstance();
 
 	m_pManagementClass->DestroyInstance();
 	m_pDeviceClass->DestroyInstance();

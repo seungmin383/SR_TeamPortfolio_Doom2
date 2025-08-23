@@ -45,12 +45,19 @@ public:
     void        LateUpdate_Scene(const _float& fTimeDelta);
     void        Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev, const _float& fTimeDelta);
 
+    // 임시로 키 상호작용을 위한 코드 추가(08/23 김홍인)
+    _bool        Is_KeyOwned() const { return m_bHasKey; }
+    void         Set_KeyOwned(_bool b) { m_bHasKey = b; }
+
 private:
     CScene*                 m_pScene;
     CScene*                 m_pArrScene[(_uint)SCENEID::SCENE_END];
     SCENEID                 m_eCurSceneId;
 
     CGameObject*            m_pPlayer;
+
+    // 임시로 키 상호작용ㅇ르 위한 변수 추가(08/23 김홍인)
+    _bool                   m_bHasKey = false;
 
 public:
     virtual     void        Free();

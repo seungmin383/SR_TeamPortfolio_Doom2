@@ -16,6 +16,8 @@ CWeaponManager::CWeaponManager() :
 
 	m_mapAmmo.emplace(AMMO_TYPE::CLIP, 40);
 	m_mapAmmo.emplace(AMMO_TYPE::SHELL, 50);
+	m_mapAmmo.emplace(AMMO_TYPE::ROCKET, 50);
+	m_mapAmmo.emplace(AMMO_TYPE::CELL, 50);
 }
 
 CWeaponManager::~CWeaponManager()

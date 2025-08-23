@@ -35,6 +35,7 @@ private:
 private:
 	Engine::CRectTex* m_pBufferCom;
 	Engine::CTexture* m_pTextureCom;
+	Engine::CTexture* m_pKeyTextureCom;
 	Engine::CCalculator* m_pCalculatorCom;
 
 private:

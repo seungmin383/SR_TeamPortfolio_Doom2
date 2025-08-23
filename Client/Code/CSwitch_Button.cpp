@@ -35,7 +35,7 @@ HRESULT CSwitch_Button::Ready_GameObject()
 		_vec3(1.f, 1.f, 1.f),  // 아이템 박스 크기 예시
 		_vec3(0, 0.4f, 0),        // 약간 위로
 		COL_ITEM,               // 너희 COLLAYERID에서 아이템 레이어
-		COL_PLAYERCAMERA       // (마스크를 쓴다면) 플레이어와만 맞게
+		COL_PLAYER       // (마스크를 쓴다면) 플레이어와만 맞게
 	);
 	m_pColliderCom->Set_Active(true);
 
@@ -95,13 +95,13 @@ void CSwitch_Button::OnCollisionEnter(CCollider* _pOther)
 	if (m_state == State::Idle && (m_pObjTarget != nullptr || m_target != nullptr || !m_targets.empty()))
 	{
 		const auto layer = _pOther->Get_ColLayer();
-
-		// 플레이어랑만 처리
-		if (layer & (COL_PLAYERCAMERA)) {
-			m_bPressed = true;
-			SetSwitchOn();
-			m_state = State::Dead;
+		const bool allowed = layer & (COL_PLAYER);
+		if (!allowed) {
+			return;
 		}
+		m_bPressed = true;
+		SetSwitchOn();
+		m_state = State::Dead;
 	}
 }
 
