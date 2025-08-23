@@ -64,8 +64,8 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 		return E_FAIL;
 
 	// Collider Default Settings
-	_vec3 vScale{ 1.f, 2.f, 1.f };
-	_vec3 vOffset{ 0.f, 0.f, 0.f };
+	_vec3 vScale{ 1.f, 3.f, 1.f };
+	_vec3 vOffset{ 0.f, -1.5f, 0.f };
 
 	m_pColliderCom->Ready_CCollider(this, m_vEye, vScale, vOffset, COL_PLAYER,
 		COL_ENEMY | COL_OBJECT | COL_TERRAIN | COL_WALL | COL_ITEM);
@@ -136,6 +136,8 @@ void CDynamicCamera::Render_GameObject(const _float& fTimeDelta)
 
 void CDynamicCamera::OnCollision(CCollider* _pOther)
 {
+	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
+
 	if (_pOther->Get_ColLayer() == COL_ENEMY && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
 	{
 		_vec3 curPos;
@@ -154,6 +156,8 @@ void CDynamicCamera::OnCollision(CCollider* _pOther)
 
 void CDynamicCamera::OnCollisionEnter(CCollider* _pOther)
 {
+	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
+
 	if (_pOther->Get_ColLayer() == COL_ENEMY && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
 	{
 		_vec3 curPos;
@@ -165,6 +169,7 @@ void CDynamicCamera::OnCollisionEnter(CCollider* _pOther)
 
 		m_vAt.x += (-m_vDist.x);
 		m_vAt.z += (-m_vDist.z);
+
 
 		m_vDist = _vec3(0.f, 0.f, 0.f);
 	}
