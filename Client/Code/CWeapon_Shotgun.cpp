@@ -92,29 +92,27 @@ void CWeapon_Shotgun::OnCollisionEnter(CCollider* _pOther)
 	const auto layer = _pOther->Get_ColLayer();
 	if ((layer & (COL_PLAYER)) == 0)
 		return;
-	else
-	{
-		m_bPicked = true;
 
-		// 얼굴 UI에 '획득' 표정 3초
-		const auto uiList = CManagement::GetInstance()->Get_ObjectGroup(LAYERID::LAYER_UI, OBJID::OBJ_UI);
-		for (auto* ui : uiList) {
-			if (auto* face = dynamic_cast<CGameUI_Face*>(ui)) {
-				face->Set_EvilFace(3.f);
-				break;
-			}
-		}
+	m_bPicked = true;
 
-		if (auto* wm = CWeaponManager::GetInstance()) {
-			wm->Add_Weapon(WEAPON_ID::SHOTGUN, (CWeapon*)this);
-			wm->Change_Weapon(WEAPON_ID::SHOTGUN);
+	// 얼굴 UI에 '획득' 표정 3초
+	const auto uiList = CManagement::GetInstance()->Get_ObjectGroup(LAYERID::LAYER_UI, OBJID::OBJ_UI);
+	for (auto* ui : uiList) {
+		if (auto* face = dynamic_cast<CGameUI_Face*>(ui)) {
+			face->Set_EvilFace(3.f);
+			break;
 		}
-		else {
-			wm->Add_Ammo(AMMO_TYPE::SHELL, 8);
-		}
-		if (m_pColliderCom) m_pColliderCom->Set_Active(false);
-		// Update_GameObject()에서 m_bPicked면 -1 반환 → 레이어에서 제거
 	}
+
+	if (auto* wm = CWeaponManager::GetInstance()) {
+		wm->Add_Weapon(WEAPON_ID::SHOTGUN, (CWeapon*)this);
+		wm->Change_Weapon(WEAPON_ID::SHOTGUN);
+	}
+	else {
+		wm->Add_Ammo(AMMO_TYPE::SHELL, 8);
+	}
+	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
+	// Update_GameObject()에서 m_bPicked면 -1 반환 → 레이어에서 제거
 
 }
 
