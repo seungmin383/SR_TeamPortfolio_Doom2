@@ -118,7 +118,7 @@ HRESULT CSpiderMastermind::Ready_GameObject()
 	m_fSightDistance = 50.f;
 
 	m_fAtkSpeed = 4.f;
-	m_iHp = 100;
+	m_iGameHp = 100;
 	m_iAtkDmg = 3;
 
 	m_fAtkDelay = 0.f;

@@ -127,6 +127,8 @@ protected:
     _float m_fTargetAngle = 0.f;
     _float m_fCurAngle = 1.f;
 
+    CGameObject* m_pAttackTarget = nullptr; // nullptr ÀÌ¸י Player
+
 public:
 
 

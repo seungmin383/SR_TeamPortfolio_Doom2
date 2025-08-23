@@ -36,7 +36,7 @@ HRESULT CImpBullet::Ready_GameObject()
 	m_pTransformCom->Get_Pos(&vPos);
 	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.f, 0.f),
 		COLLAYERID::COL_BULLET,
-		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT );
+		COLLAYERID::COL_PLAYERCAMERA | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT | COLLAYERID::COL_ENEMY );
 
 	if (m_pOwner != nullptr)
 	{
@@ -55,7 +55,7 @@ HRESULT CImpBullet::Ready_GameObject()
 		2,
 		1,
 		0,
-		1,
+		0,
 		0.15f,
 		true,
 		false
@@ -82,24 +82,28 @@ _int CImpBullet::Update_GameObject(const _float& fTimeDelta)
 {
 	if (GetAsyncKeyState('H'))
 		m_bDead = TRUE;
+
+	if (m_bDead)
+		isDead = TRUE;
+
 	Check_Anim_Is_Finish();
+	if (isDead && isFinAnim)
+	{
+		m_bDead = FALSE;
+		isDead = FALSE;
+		return -1;
+	}
 
 	CBullet::Update_GameObject(fTimeDelta);
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 	if(!m_bDead)
 		Linear_Movement(fTimeDelta);
 
-	m_pColliderCom->Late_Update();
 	Bill_Board();
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
 	cout << "¾Æ" << endl;
  
-	if (m_bDead && isFinAnim)
-	{
-		m_bDead = FALSE;
-		return -1;
-	}
 
 	return 0;
 }
@@ -108,10 +112,12 @@ void CImpBullet::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	CBullet::LateUpdate_GameObject(fTimeDelta);
 
-	if(m_bDead)
+	if(isDead)
 		m_pAnimCom->Play_Animation(1, 0, fTimeDelta, 0);
 	else
 		m_pAnimCom->Play_Animation(0, 0, fTimeDelta, 0);
+
+	m_pColliderCom->Late_Update();
 }
 
 void CImpBullet::Render_GameObject(const _float& fTimeDelta)
@@ -120,12 +126,14 @@ void CImpBullet::Render_GameObject(const _float& fTimeDelta)
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());	
-	CBullet::Render_GameObject(fTimeDelta);
 
-	if(m_bDead)
+	if(isDead)
 		m_pTextureCom->Set_Texture(1);
 	else
 		m_pTextureCom->Set_Texture(0);
+
+	CBullet::Render_GameObject(fTimeDelta);
+
 
 	m_pBufferCom->Render_Buffer();
 

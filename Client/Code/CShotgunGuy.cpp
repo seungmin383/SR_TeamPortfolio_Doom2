@@ -112,7 +112,7 @@ HRESULT CShotgunGuy::Ready_GameObject()
 	m_fSightDistance = 50.f;
 
 	m_fAtkSpeed = 4.f;
-	m_iHp = 20;
+	m_iGameHp = 20;
 	m_iAtkDmg = 30;
 
 	m_fAtkDelay = 0.f;

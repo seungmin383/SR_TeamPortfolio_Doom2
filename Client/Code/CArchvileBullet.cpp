@@ -52,26 +52,12 @@ HRESULT CArchvileBullet::Ready_GameObject()
 		0,
 		m_pTextureCom,
 		m_pBufferCom,
-		2,
-		1,
+		17,
+		16,
 		0,
-		1,
-		0.15f,
+		16,
+		0.2f,
 		true,
-		false
-	);
-
-	//ÅÍÁú ¶§
-	m_pAnimCom->Add_Animation(
-		1,
-		m_pTextureCom,
-		m_pBufferCom,
-		3,
-		2,
-		0,
-		2,
-		0.15f,
-		false,
 		false
 	);
 
@@ -86,7 +72,7 @@ _int CArchvileBullet::Update_GameObject(const _float& fTimeDelta)
 
 	CBullet::Update_GameObject(fTimeDelta);
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
-	Linear_Movement(fTimeDelta);
+//	LockOn_Movement(fTimeDelta, m_pTarget);
 	m_pColliderCom->Late_Update();
 	Bill_Board();
 	_vec3 vPos;

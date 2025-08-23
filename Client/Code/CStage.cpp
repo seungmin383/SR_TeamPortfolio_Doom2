@@ -66,6 +66,8 @@ HRESULT CStage::Ready_Scene()
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_ITEM);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYERCAMERA, OBJID::OBJ_ENEMY);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYERCAMERA, OBJID::OBJ_ITEM);
+	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYERCAMERA, OBJID::OBJ_BULLET);
+	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_ENEMY, OBJID::OBJ_BULLET);
 
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYERCAMERA, OBJID::OBJ_OBJECT);
 
@@ -214,23 +216,23 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
 		return E_FAIL;
 
-	//임프 불렛
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP_BULLET, pImp);
+	////임프 불렛
+	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP_BULLET, pImp);
 
-	if (nullptr == pGameObject)
-		return E_FAIL;
+	//if (nullptr == pGameObject)
+	//	return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_BULLET, pGameObject)))
-		return E_FAIL;
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_BULLET, pGameObject)))
+	//	return E_FAIL;
 
-	//아크바일 불렛
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE_BULLET, pArchvile);
+	////아크바일 불렛
+	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE_BULLET, pArchvile);
 
-	if (nullptr == pGameObject)
-		return E_FAIL;
+	//if (nullptr == pGameObject)
+	//	return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_BULLET, pGameObject)))
-		return E_FAIL;
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_BULLET, pGameObject)))
+	//	return E_FAIL;
 
 	// 체력(소)
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_HELTH_SMALL);

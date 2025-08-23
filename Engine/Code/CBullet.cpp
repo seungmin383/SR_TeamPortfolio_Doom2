@@ -1,4 +1,5 @@
 #include "CBullet.h"
+#include"CManagement.h"
 
 CBullet::CBullet(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CGameObject(pGraphicDev)
@@ -81,11 +82,19 @@ void CBullet::Bill_Board()
 
 void CBullet::OnCollision(CCollider* _pOther)
 {
+	if (_pOther->Get_Owner() == m_pOwner)
+		return;
+
 	m_bDead = TRUE;
 }
 
 void CBullet::OnCollisionEnter(CCollider* _pOther)
 {
+	if (_pOther->Get_Owner() == m_pOwner)
+		return;
+
+	_pOther->Get_Owner()->Take_Dmg(m_iDmg);
+
 	m_bDead = TRUE;
 }
 

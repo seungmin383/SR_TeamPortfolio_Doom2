@@ -20,6 +20,7 @@ public:
 private:
     _uint Enter_Func_Cnt = 0;
     _bool isFinAnim = FALSE;
+    _bool isDead = FALSE;
 
 private:
     HRESULT     Add_Component()override;
