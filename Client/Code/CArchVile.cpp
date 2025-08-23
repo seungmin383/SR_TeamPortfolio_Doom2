@@ -5,6 +5,7 @@
 #include "CManagement.h"
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
+#include "CBullet.h"
 
 CArchVile::CArchVile(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonsterBase(pGraphicDev)
@@ -167,6 +168,26 @@ void CArchVile::Set_OnTerrain()
 	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
 
 	m_pTransformCom->Set_Pos(pos.x, height + 2.f, pos.z);
+}
+
+void CArchVile::Attack(const _float fTimeDelta)
+{
+	m_isShoot = TRUE;
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	CGameObject* tmp = nullptr;
+
+	if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_ARCHVILE_BULLET, OBJID::OBJ_BULLET, vPos, this, tmp)))
+	{
+		int a = 0;
+	}
+	if (tmp == nullptr)
+		return;
+
+	tmp->Set_Dead(FALSE);
+	tmp->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+	dynamic_cast<CBullet*>(tmp)->Set_InitDir(m_vMoveLook);
+
 }
 
 HRESULT CArchVile::Add_Component()

@@ -130,7 +130,9 @@ protected:
     CGameObject* m_pAttackTarget = nullptr; // nullptr ÀÌ¸י Player
 
 public:
+    CGameObject* Get_AttackTarget() const { return m_pAttackTarget; }
 
+    void Set_AttackTarget(CGameObject* pTarget) { m_pAttackTarget = pTarget; }
 
 protected:
     virtual void Free();

@@ -20,6 +20,7 @@ public:
 private:
     _uint Enter_Func_Cnt = 0;
     _bool isFinAnim = FALSE;
+    CGameObject* m_pPlayer = nullptr;
 
 private:
     HRESULT     Add_Component()override;
