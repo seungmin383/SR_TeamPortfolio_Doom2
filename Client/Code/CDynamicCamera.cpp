@@ -113,11 +113,6 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 	Key_Input(fTimeDelta);
 	Mouse_Input();
 
-	wchar_t buf[64];
-	swprintf(buf, 64, L"x : %f, y : %f, z : %f\n", m_vDist.x, m_vDist.y, m_vDist.z);
-	OutputDebugString(buf);
-
-
 	m_pColliderCom->Late_Update();
 
 	if (false == m_bFix)
@@ -347,8 +342,8 @@ void CDynamicCamera::Mouse_Input()
 	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB) & 0x80)
 	{
 		_bool bFireCheck = CWeaponManager::GetInstance()->Fire_Weapon();
-
-		if (bFireCheck)
+		
+		if (bFireCheck && CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponID() != WEAPON_ID::ROCKET)
 			m_pCalculatorCom->Picking_GameObject(g_hWnd);
 	}
 

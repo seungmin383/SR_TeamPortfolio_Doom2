@@ -40,9 +40,6 @@
     <Filter Include="01. Scene\02. Loading">
       <UniqueIdentifier>{7fa19a23-f56b-4824-a674-007a9ca73472}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\04. DynamicCamera">
-      <UniqueIdentifier>{88c98e0f-d473-4fd4-ab15-eef9186a8849}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\05. SkyBox">
       <UniqueIdentifier>{2c07fdd8-a438-4f26-b0dd-85abdd389786}</UniqueIdentifier>
     </Filter>
@@ -145,6 +142,18 @@
     <Filter Include="02. GameObject\02. Monster\CMonsterBullet\CImpBullet">
       <UniqueIdentifier>{de7ec3bb-98ca-4015-b99c-13c3ebba9d3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Player\01. PlayerWeapon">
+      <UniqueIdentifier>{16c85d99-63d5-4658-874d-6499db748acd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Player\00. PlayerCamera">
+      <UniqueIdentifier>{bcb8b8c1-9541-48f5-a417-8d0433704be9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\03. Rocket\00. RocketBullet">
+      <UniqueIdentifier>{8b4efacd-7f6d-4ba4-a9af-7882936a1ffc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\04. BFG\01. BFGBullet">
+      <UniqueIdentifier>{7c517f02-e6f6-4f4a-b871-f51eaf25049c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -183,14 +192,8 @@
     <ClInclude Include="..\Header\CLoading.h">
       <Filter>01. Scene\02. Loading</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\CDynamicCamera.h">
-      <Filter>02. GameObject\04. DynamicCamera</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\CSkyBox.h">
       <Filter>02. GameObject\05. SkyBox</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\CPlayerWeapon.h">
-      <Filter>02. GameObject\01. Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CMonsterBase.h">
       <Filter>02. GameObject\02. Monster\CMonsterBase</Filter>
@@ -321,6 +324,15 @@
     <ClInclude Include="..\Header\CKey.h">
       <Filter>02. GameObject\06. Object\FieldObject</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CDynamicCamera.h">
+      <Filter>02. GameObject\01. Player\00. PlayerCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CPlayerWeapon.h">
+      <Filter>02. GameObject\01. Player\01. PlayerWeapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CRocketBullet.h">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\03. Rocket\00. RocketBullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -350,14 +362,8 @@
     <ClCompile Include="..\Code\CLoading.cpp">
       <Filter>01. Scene\02. Loading</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\CDynamicCamera.cpp">
-      <Filter>02. GameObject\04. DynamicCamera</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\CSkyBox.cpp">
       <Filter>02. GameObject\05. SkyBox</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\CPlayerWeapon.cpp">
-      <Filter>02. GameObject\01. Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CMonsterBase.cpp">
       <Filter>02. GameObject\02. Monster\CMonsterBase</Filter>
@@ -490,6 +496,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\CImpBullet.cpp">
       <Filter>02. GameObject\02. Monster\CMonsterBullet\CImpBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CDynamicCamera.cpp">
+      <Filter>02. GameObject\01. Player\00. PlayerCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CPlayerWeapon.cpp">
+      <Filter>02. GameObject\01. Player\01. PlayerWeapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CRocketBullet.cpp">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\03. Rocket\00. RocketBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

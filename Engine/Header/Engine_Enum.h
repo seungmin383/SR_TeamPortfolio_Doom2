@@ -22,6 +22,7 @@ namespace Engine
 	enum class WEAPON_ID { PISTOL, SHOTGUN, CHAINGUN, ROCKET, BFG, ID_END };
 	enum class WEAPON_STATE	{ IDLE = 0, SHOT = 5, SWAP = 10, STATE_END };
 	enum class AMMO_TYPE { CLIP, SHELL, ROCKET,	CELL, AMMO_END };
+	enum class BULLET_STATE { IDLE, HIT };
 
 	enum { MONSTERTYPE_ZOMBIEMAN, MONSTERTYPE_END };
 

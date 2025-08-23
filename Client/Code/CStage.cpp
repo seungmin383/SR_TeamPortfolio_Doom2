@@ -38,7 +38,6 @@
 #include "CPistol.h"
 #include "CWeapon_Shotgun.h"
 #include "CWeapon_Rocket.h"
-#include "CWeapon_Rocket.h"
 #include "CWeapon_BFG.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -221,6 +220,15 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	//임프 불렛
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP_BULLET);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_BULLET, pGameObject)))
+		return E_FAIL;
+
+	//로켓 불렛
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::PLAYER_ROCKET_BULLET);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
