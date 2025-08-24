@@ -37,6 +37,7 @@ HRESULT CPrototypeManager::Ready_ObjPrototype(OBJPROTOTYPE eObjId, CGameObject* 
 	if (nullptr != pInstance)
 		return E_FAIL;
 
+	pComponent->Set_Prototype(eObjId);
 	m_mapObjPrototype.insert({ eObjId, pComponent });
 
 	return S_OK;

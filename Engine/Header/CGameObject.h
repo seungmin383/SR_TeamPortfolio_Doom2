@@ -27,7 +27,11 @@ public:
     void   Set_Speed(_float _Speed) { m_fSpeed = _Speed; }
 
     _int Get_GameHp()const { return m_iGameHp; };
-    void Set_GameHp(_int _Hp) { m_iGameHp = _Hp; };
+    void Set_GameHp(_int _Hp) { m_iGameHp = _Hp; }
+
+    OBJPROTOTYPE    Get_Prototype() { return m_eProtoType; }
+    void            Set_Prototype(OBJPROTOTYPE eType) { m_eProtoType = eType; }
+
     _int Take_Dmg(_int _Dmg) { _int  tmp = (m_iGameHp - _Dmg); m_iGameHp = tmp;     return  tmp; };
 
     virtual void			            OnCollision(CCollider* _pOther) {};
@@ -49,10 +53,11 @@ protected:
 
     CCollider*                              m_pColliderCom; // 콜라이더(충돌체)
     CTransform*                             m_pTransformCom;
-
+    
+    OBJPROTOTYPE                            m_eProtoType;
     _float                                  m_fSpeed;
-    bool                                    m_bDead = FALSE;
-    _int m_iGameHp = 0;
+    _bool                                   m_bDead = FALSE;
+    _int                                    m_iGameHp = 0;
 private:
     CComponent* Find_Component(COMPONENTID eID, const _tchar* pComponentTag);
 
