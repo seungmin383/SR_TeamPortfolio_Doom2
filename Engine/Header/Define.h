@@ -51,9 +51,9 @@ enum class OBJPROTOTYPE
 	TERRAIN = 1,
 	TERRAINSECTOR,
 	WALL,
-	DOOR,
-	DOORKEY,
-	KEY,
+	DOOR,										// πÆ
+	DOORKEY,									// ø≠ºË∞° « ø‰«— πÆ
+	KEY,										// ø≠ºË
 	SHIFT_CUBE,
 	ITEM_HELTH_SMALL,
 	ITEM_HELTH_BIG,
