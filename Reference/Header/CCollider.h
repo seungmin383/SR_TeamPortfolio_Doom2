@@ -50,6 +50,7 @@ public:
 	CGameObject*		Get_Owner() const { return m_pOwner; }
 
 	const _vec3			Get_Scale() const { return m_vScale; }
+	void				Set_Scale(_vec3 vScale) { m_vScale = vScale; }
 
 	const _vec3			Get_FinalPos() const { return m_vFinalPos; }
 
