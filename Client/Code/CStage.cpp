@@ -520,13 +520,15 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 		return E_FAIL;
 
 	// Face
-	pGameObject = CGameUI_Face::Create(m_pGraphicDev);
+	auto* pFace = CGameUI_Face::Create(m_pGraphicDev);
 
-	if (nullptr == pGameObject)
+	if (nullptr == pFace)
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pFace)))
 		return E_FAIL;
+
+	CManagement::GetInstance()->Set_FaceUI(pFace);
 
 	// Info
 	// (1) UI Info 객체 생성
