@@ -4,6 +4,7 @@
 #include "CManagement.h"
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
+#include "CStage.h"
 
 
 CSwitch_Button::CSwitch_Button(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -92,13 +93,9 @@ void CSwitch_Button::OnCollisionEnter(CCollider* _pOther)
 {
 	if (!_pOther) return;
 
-	if (m_state == State::Idle && (m_pObjTarget != nullptr || m_target != nullptr || !m_targets.empty()))
+	if (m_state == State::Idle &&
+		(m_linkId == L"EXIT" || m_pObjTarget != nullptr || m_target != nullptr || !m_targets.empty()))
 	{
-		const auto layer = _pOther->Get_ColLayer();
-		const bool allowed = layer & (COL_PLAYER);
-		if (!allowed) {
-			return;
-		}
 		m_bPressed = true;
 		SetSwitchOn();
 		m_state = State::Dead;
@@ -214,6 +211,12 @@ void CSwitch_Button::SetSwitchOn()
 	else {
 		CDoor* one = m_target ? m_target : m_pObjTarget;  // 1:1
 		if (one) one->OpenDoor();
+	}
+
+	if (m_linkId == L"EXIT") {
+		if (auto* st = dynamic_cast<CStage*>(CManagement::GetInstance()->Get_Scene())) {
+			st->EnterResultMode();
+		}
 	}
 }
 

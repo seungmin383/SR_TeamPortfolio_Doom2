@@ -43,6 +43,9 @@
 #include "CWeapon_Rocket.h"
 #include "CWeapon_BFG.h"
 
+#include "CStatsManager.h"
+#include "CUI_StageClear.h"
+
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -65,7 +68,7 @@ HRESULT CStage::Ready_Scene()
 
 	if (FAILED(Ready_UI_Layer(LAYERID::LAYER_UI)))
 		return E_FAIL;
-	
+
 
 	if (FAILED(Ready_Light()))
 		return E_FAIL;
@@ -76,12 +79,33 @@ HRESULT CStage::Ready_Scene()
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_ENEMY, OBJID::OBJ_BULLET);
 
 
-	
+
 	return S_OK;
 }
 
 _int CStage::Update_Scene(const _float& fTimeDelta)
 {
+	CStatsManager::I().Tick(fTimeDelta);
+
+	if (m_isResultMode)
+	{
+		// 0초로 업데이트: 위치/애니메이션은 그대로, 하지만 렌더 큐엔 올라감
+		auto upd0 = [&](LAYERID id) {
+			auto it = m_mapLayer.find(id);
+			if (it != m_mapLayer.end()) it->second->Update_Layer(0.f);
+			};
+
+		upd0(LAYERID::LAYER_CAMERA);       // 뷰/프로젝션 유지
+		upd0(LAYERID::LAYER_ENVIRONMENT);  // 스카이박스/지형 등
+		upd0(LAYERID::LAYER_GAMELOGIC);    // 적/오브젝트 등(정지된 상태로 그리기)
+
+		// UI는 정상 시간으로
+		if (auto it = m_mapLayer.find(LAYERID::LAYER_UI); it != m_mapLayer.end())
+			it->second->Update_Layer(fTimeDelta);
+
+		return 0;
+	}
+
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_T) & 0x80)
@@ -442,6 +466,20 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 		tr4->Set_Pos(5.f, 0.f, 18.f);   // 기준 위치
 	}
 
+	// 탈출 스위치
+	Engine::CGameObject* pSwitchObj3 = CPrototypeManager::GetInstance()
+		->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
+	if (nullptr == pSwitchObj3) return E_FAIL;
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj3))) return E_FAIL;
+
+	auto* sw3 = dynamic_cast<CSwitch_Button*> (pSwitchObj3);
+	sw3->Set_LinkId(L"EXIT");
+
+	Engine::CTransform* tr6 = GetTransformPtr(pSwitchObj3);
+	if (tr6) {
+		tr6->Set_Pos(25.f, 0.f, 18.f);   // 기준 위치
+	}
+
 	// 샷건 오브젝트
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::WEAPON_SHOTGUN);
 
@@ -481,6 +519,33 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
 	ConnectDoorSwitchByLinkId();
+
+	// 합계 초기화
+	CStatsManager::I().ResetTotals();
+	CStatsManager::I().ResetRuntime();
+
+	// 2) 레이어 찾기 (게임 오브젝트가 들어있는 레이어 ID로 교체)
+	auto it = m_mapLayer.find(LAYERID::LAYER_GAMELOGIC);
+	if (it != m_mapLayer.end()) {
+		Engine::CLayer* L = it->second;
+
+		// 3) 몬스터/아이템은 그룹 크기로 바로 집계
+		const auto& monsters = L->Get_ObjectGroup(OBJID::OBJ_ENEMY);
+		CStatsManager::I().Totals_AddEnemy(static_cast<int>(monsters.size()));
+
+		const auto& items = L->Get_ObjectGroup(OBJID::OBJ_ITEM);
+		CStatsManager::I().Totals_AddItem(static_cast<int>(items.size()));
+
+		// 4) 시크릿은 트리거 그룹을 훑어서 조건에 맞는 것만 카운트
+		//int secretCnt = 0;
+		//for (auto* obj : L->Get_ObjectGroup(OBJID::OBJ_TRIGGER)) {
+		//	// 프로젝트 기준에 맞춰 판정(클래스/태그/프로토타입 등)
+		//	if (dynamic_cast<CSecretTrigger*>(obj)) ++secretCnt;
+		//	// 또는 태그 사용:
+		//	// if (obj && obj->HasTag(L"SECRET")) ++secretCnt;
+		//}
+		//CStatsManager::I().Totals_AddSecret(secretCnt);
+	}
 
 
 	return S_OK;
@@ -540,7 +605,7 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 	const auto& cameraObjects = Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYER);
 	if (cameraObjects.empty())
 		return E_FAIL;
-	
+
 	auto* pCameraObject = dynamic_cast<CDynamicCamera*>(cameraObjects.back());
 	if (pCameraObject == nullptr)
 		return E_FAIL;
@@ -734,6 +799,21 @@ void CStage::ConnectDoorSwitchByLinkId()
 				}
 				if (bestDoor) sw->Set_Target(bestDoor);
 			}
+		}
+	}
+}
+
+void CStage::EnterResultMode()
+{
+	if (m_isResultMode) return;
+	m_isResultMode = true;
+
+	// 결과 UI를 UI 레이어에 추가
+	auto it = m_mapLayer.find(LAYERID::LAYER_UI);
+	if (it != m_mapLayer.end()) {
+		Engine::CLayer* uiLayer = it->second;
+		if (auto* ui = CUI_StageClear::Create(m_pGraphicDev)) {
+			uiLayer->Add_GameObject(OBJID::OBJ_UI, ui);
 		}
 	}
 }

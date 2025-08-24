@@ -211,11 +211,13 @@
     <ClInclude Include="..\Header\CSpiderMastermind.h" />
     <ClInclude Include="..\Header\CStage.h" />
     <ClInclude Include="..\Header\CStage3.h" />
+    <ClInclude Include="..\Header\CStatsManager.h" />
     <ClInclude Include="..\Header\CSwitch_Button.h" />
     <ClInclude Include="..\Header\CTerrain.h" />
     <ClInclude Include="..\Header\CLogo.h" />
     <ClInclude Include="..\Header\CMainApp.h" />
     <ClInclude Include="..\Header\CMonster.h" />
+    <ClInclude Include="..\Header\CUI_StageClear.h" />
     <ClInclude Include="..\Header\CWeapon_BFG.h" />
     <ClInclude Include="..\Header\CWeapon_ChainGun.h" />
     <ClInclude Include="..\Header\CWeapon_Rocket.h" />
@@ -274,11 +276,13 @@
     <ClCompile Include="..\Code\CSpiderMastermind.cpp" />
     <ClCompile Include="..\Code\CStage.cpp" />
     <ClCompile Include="..\Code\CStage3.cpp" />
+    <ClCompile Include="..\Code\CStatsManager.cpp" />
     <ClCompile Include="..\Code\CSwitch_Button.cpp" />
     <ClCompile Include="..\Code\CTerrain.cpp" />
     <ClCompile Include="..\Code\CLogo.cpp" />
     <ClCompile Include="..\Code\CMainApp.cpp" />
     <ClCompile Include="..\Code\CMonster.cpp" />
+    <ClCompile Include="..\Code\CUI_StageClear.cpp" />
     <ClCompile Include="..\Code\CWeapon_BFG.cpp" />
     <ClCompile Include="..\Code\CWeapon_ChainGun.cpp" />
     <ClCompile Include="..\Code\CWeapon_Rocket.cpp" />

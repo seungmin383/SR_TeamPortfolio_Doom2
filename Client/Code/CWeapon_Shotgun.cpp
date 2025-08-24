@@ -7,6 +7,7 @@
 #include "CWeaponManager.h"
 #include "CGameUI_Face.h"
 #include "FaceUIRegistry.h"
+#include "CStatsManager.h"
 
 CWeapon_Shotgun::CWeapon_Shotgun(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -125,6 +126,7 @@ void CWeapon_Shotgun::OnCollisionEnter(CCollider* _pOther)
 	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
 	// Update_GameObject()에서 m_bPicked면 -1 반환 → 레이어에서 제거
 
+	CStatsManager::I().OnItemPicked();
 }
 
 void CWeapon_Shotgun::OnCollisionExit(CCollider* _pOther)

@@ -160,6 +160,9 @@
     <Filter Include="02. GameObject\09. UI\UIRegistry">
       <UniqueIdentifier>{a1a2816f-9076-4b54-92d6-f6d0fa796c49}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Manager\03. StatsManager">
+      <UniqueIdentifier>{dfa1612c-4353-4ea3-b2ea-cdc37517a8af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -348,6 +351,12 @@
     <ClInclude Include="..\Header\FaceUIRegistry.h">
       <Filter>02. GameObject\09. UI\UIRegistry</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CStatsManager.h">
+      <Filter>03. Manager\03. StatsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CUI_StageClear.h">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -529,6 +538,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\FaceUIRegistry.cpp">
       <Filter>02. GameObject\09. UI\UIRegistry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CStatsManager.cpp">
+      <Filter>03. Manager\03. StatsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CUI_StageClear.cpp">
+      <Filter>02. GameObject\09. UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

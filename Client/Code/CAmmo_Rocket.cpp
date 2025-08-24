@@ -5,6 +5,7 @@
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
 #include "CWeaponManager.h"
+#include "CStatsManager.h"
 
 CAmmo_Rocket::CAmmo_Rocket(LPDIRECT3DDEVICE9 pGraphicDev)
     : CGameObject(pGraphicDev), m_iRocket(0), m_iFrame_Rocket(0), m_pWeaponManager(nullptr)
@@ -108,6 +109,8 @@ void CAmmo_Rocket::OnCollisionEnter(CCollider* _pOther)
 		// 아이템 비활성화(충돌/업데이트에서 제거)
 		m_bPicked = true;
 		if (m_pColliderCom) m_pColliderCom->Set_Active(false);
+
+		CStatsManager::I().OnItemPicked();
 	}
 	
 }

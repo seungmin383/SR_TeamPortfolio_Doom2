@@ -4,6 +4,7 @@
 #include "CManagement.h"
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
+#include "CStatsManager.h"
 
 CHealth_Small::CHealth_Small(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev), m_iHeal(0), m_iFrame(0)
@@ -100,6 +101,8 @@ void CHealth_Small::OnCollisionEnter(CCollider* _pOther)
 
 		// 2) 더이상 충돌하지 않게 막기
 		m_bPicked = true;
+
+		CStatsManager::I().OnItemPicked();
 	}
 }
 

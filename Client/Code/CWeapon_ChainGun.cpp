@@ -7,6 +7,7 @@
 #include "CWeaponManager.h"
 #include "CGameUI_Face.h"
 #include "FaceUIRegistry.h"
+#include "CStatsManager.h"
 
 CWeapon_ChainGun::CWeapon_ChainGun(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -126,6 +127,7 @@ void CWeapon_ChainGun::OnCollisionEnter(CCollider* _pOther)
 	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
 	// Update_GameObject()에서 m_bPicked이면 -1 반환 → 레이어가 안전 삭제
 
+	CStatsManager::I().OnItemPicked();
 }
 
 void CWeapon_ChainGun::OnCollisionExit(CCollider* _pOther)
