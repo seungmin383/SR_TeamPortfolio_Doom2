@@ -342,6 +342,10 @@ void CControlPanel::TerrainController()
 		D3DXMatrixIdentity(&a);
 		D3DXMatrixRotationX(&a, D3DXToRadian(90));
 
+		vecDegree.x += 90.f;
+		if (fabsf(vecDegree.x) >= 360.f)
+			vecDegree.x = fabsf(vecDegree.x) - 360.f;
+
 		for (size_t i = 0; i < tCachingControlInfo.vertices.size(); i++)
 			D3DXVec3TransformNormal(&tCachingControlInfo.vertices[i], &tCachingControlInfo.vertices[i], &a);
 
@@ -354,6 +358,10 @@ void CControlPanel::TerrainController()
 		D3DXMATRIX a;
 		D3DXMatrixIdentity(&a);
 		D3DXMatrixRotationY(&a, D3DXToRadian(90));
+
+		vecDegree.y += 90.f;
+		if (fabsf(vecDegree.y) >= 360.f)
+			vecDegree.y = fabsf(vecDegree.y) - 360.f;
 
 		for (size_t i = 0; i < tCachingControlInfo.vertices.size(); i++)
 			D3DXVec3TransformNormal(&tCachingControlInfo.vertices[i], &tCachingControlInfo.vertices[i], &a);
@@ -368,6 +376,10 @@ void CControlPanel::TerrainController()
 		D3DXMatrixIdentity(&a);
 		D3DXMatrixRotationZ(&a, D3DXToRadian(90));
 
+		vecDegree.z += 90.f;
+		if (fabsf(vecDegree.z) >= 360.f)
+			vecDegree.z = fabsf(vecDegree.z) - 360.f;
+
 		for (size_t i = 0; i < tCachingControlInfo.vertices.size(); i++)
 			D3DXVec3TransformNormal(&tCachingControlInfo.vertices[i], &tCachingControlInfo.vertices[i], &a);
 
@@ -375,6 +387,30 @@ void CControlPanel::TerrainController()
 	}
 	ImGui::SameLine();
 	ImGui::NewLine();
+
+	if (ImGui::Button("roll++"))
+		Rotate(_vec3(1.f, 0.f, 0.f));
+	ImGui::SameLine();
+	if (ImGui::Button("roll--"))
+		Rotate(_vec3(-1.f, 0.f, 0.f));
+	ImGui::SameLine();
+	if (ImGui::Button("pitch++"))
+		Rotate(_vec3(0.f, 1.f, 0.f));
+	ImGui::SameLine();
+	if (ImGui::Button("pitch--"))
+		Rotate(_vec3(0.f, -1.f, 0.f));
+	ImGui::SameLine();
+	if (ImGui::Button("yaw++"))
+		Rotate(_vec3(0.f, 0.f, 1.f));
+	ImGui::SameLine();
+	if (ImGui::Button("yaw--"))
+		Rotate(_vec3(0.f, 0.f, -1.f));
+	ImGui::SameLine();
+	ImGui::NewLine();
+
+	ImGui::BeginDisabled(true);
+	if (ImGui::InputFloat3("rotation x y z", vecDegree));
+	ImGui::EndDisabled();
 
 	curTileIdx = ModifyChildWindow();
 
@@ -455,13 +491,29 @@ void CControlPanel::TerrainController()
 			Apply();
 	}
 
-	if (ImGui::InputInt("tile interval", &tCachingControlInfo.vertexInterval))
-		Apply();
+	if (ImGui::InputFloat("tile interval", &tCachingControlInfo.vertexInterval, 0.1f, 1.0f, "%.1f"))
+	{
+		tCachingControlInfo.vertices.clear();
 
-	//TODO
-	//버텍스 선택, 선택한 버택스 값
-	if (ImGui::DragFloat3("Input vertex pos", vecCachingVtx))
-		tCachingControlInfo.vertices[tCachingControlInfo.vertexIdx] = vecCachingVtx;
+		DWORD dwIndex = 0;
+		_int cnt = tCachingControlInfo.vertexZCnt * tCachingControlInfo.vertexXCnt;
+		for (size_t i = 0; i < tCachingControlInfo.vertexZCnt; i++)
+		{
+			for (size_t j = 0; j < tCachingControlInfo.vertexXCnt; j++)
+			{
+				dwIndex = tCachingControlInfo.vertexXCnt * i + j;
+
+				tCachingControlInfo.vertices.push_back({ (_float)j * tCachingControlInfo.vertexInterval
+													, 0.f,
+													(_float)i * tCachingControlInfo.vertexInterval });
+			}
+		}
+
+		tCachingControlInfo.vertices.shrink_to_fit();
+
+		if (isModifing)
+			Apply();
+	}
 
 	//TODO
 	//타일 선택, 선택한 타일 값
@@ -545,6 +597,8 @@ void CControlPanel::SetDefault()
 	tCachingControlInfo.terrainIdx = 0;
 	//tCachingControlInfo.pos = _vec3(0.f, 0.f, 0.f);
 
+	vecDegree = _vec3(0.f, 0.f, 0.f);
+
 	DWORD dwIndex = 0;
 	_int cnt = tCachingControlInfo.vertexZCnt * tCachingControlInfo.vertexXCnt;
 	for (size_t i = 0; i < tCachingControlInfo.vertexZCnt; i++)
@@ -575,7 +629,7 @@ void CControlPanel::Apply()
 		vecSector[tCachingControlInfo.terrainIdx]->Mod_BufferCom(
 			tCachingControlInfo.vertexXCnt,
 			tCachingControlInfo.vertexZCnt,
-			tCachingControlInfo.vertexInterval,
+			1.f,//tCachingControlInfo.vertexInterval,
 			tCachingControlInfo.vertices);
 
 		vecSector[tCachingControlInfo.terrainIdx]->Get_Transform()->Set_Pos(tCachingControlInfo.pos.x, tCachingControlInfo.pos.y, tCachingControlInfo.pos.z);
@@ -593,7 +647,7 @@ void CControlPanel::Apply()
 		//오브젝트 생성
 		auto pObj = CObjectFactory::GetInstance()->Create_Terrain(tCachingControlInfo.vertexXCnt,
 			tCachingControlInfo.vertexZCnt,
-			tCachingControlInfo.vertexInterval,
+			1.f,//tCachingControlInfo.vertexInterval,
 			tCachingControlInfo.vertices,
 			(_tchar*)tCachingControlInfo.currentTextureTag.filename().wstring().c_str(),
 			tCachingControlInfo.pos);
@@ -660,7 +714,7 @@ void CControlPanel::LoadTerrain(int sceneNumber)
 		//오브젝트 생성
 		auto pObj = CObjectFactory::GetInstance()->Load_Terrain(tCachingControlInfo.vertexXCnt,
 			tCachingControlInfo.vertexZCnt,
-			tCachingControlInfo.vertexInterval,
+			tCachingControlInfo.vertexInterval,//1.f,//tCachingControlInfo.vertexInterval,
 			tCachingControlInfo.vertices,
 			tCachingControlInfo.currentTextureTag,
 			tCachingControlInfo.pos);
@@ -823,6 +877,40 @@ void CControlPanel::InputMouse_Object()
 			vecItemInfos.push_back(tObjectinfo);
 		}
 	}
+}
+
+void CControlPanel::Rotate(_vec3 degree)
+{
+	vecDegree += degree;
+
+	if (fabsf(vecDegree.x) >= 360.f)
+		vecDegree.x = fabsf(vecDegree.x) - 360.f;
+	if (fabsf(vecDegree.y) >= 360.f)
+		vecDegree.y = fabsf(vecDegree.y) - 360.f;
+	if (fabsf(vecDegree.z) >= 360.f)
+		vecDegree.z = fabsf(vecDegree.z) - 360.f;
+
+	D3DXMATRIX axis;
+	D3DXMatrixIdentity(&axis);
+
+	D3DXMATRIX x;
+	D3DXMatrixIdentity(&x);
+	D3DXMatrixRotationX(&x, D3DXToRadian(degree.x));
+
+	D3DXMATRIX y;
+	D3DXMatrixIdentity(&y);
+	D3DXMatrixRotationY(&y, D3DXToRadian(degree.y));
+
+	D3DXMATRIX z;
+	D3DXMatrixIdentity(&z);
+	D3DXMatrixRotationZ(&z, D3DXToRadian(degree.z));
+
+	axis = x * y * z;
+
+	for (size_t i = 0; i < tCachingControlInfo.vertices.size(); i++)
+		D3DXVec3TransformNormal(&tCachingControlInfo.vertices[i], &tCachingControlInfo.vertices[i], &axis);
+
+	Apply();
 }
 
 void CControlPanel::Free()
