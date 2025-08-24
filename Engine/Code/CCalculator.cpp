@@ -314,7 +314,7 @@ _bool CCalculator::Picking_GameObject(HWND hWnd)
 	return false;
 }
 
-_bool CCalculator::Picking_MapTool(HWND hWnd, CTerrainTexSector* pTerrainSectorBufferCom, CTransform* pTerrainTransformCom, _vec3& targetPos)
+_bool CCalculator::Picking_MapTool(HWND hWnd, CTerrainTexSector* pTerrainSectorBufferCom, CTransform* pTerrainTransformCom, _vec3& targetPos, _float& dist)
 {
 	POINT ptMouse{};
 
@@ -346,11 +346,14 @@ _bool CCalculator::Picking_MapTool(HWND hWnd, CTerrainTexSector* pTerrainSectorB
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
 	D3DXMatrixInverse(&matView, 0, &matView);
 
+	D3DXVec3TransformCoord(&vMousePos, &vMousePos, &matView);
+
 	_vec3 vRayPos{ 0.f, 0.f, 0.f };
+	pTerrainTransformCom->Get_Pos(&vRayPos);
 	_vec3 vRayDir = vMousePos - vRayPos;
 
-	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
-	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
+	//D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
+	//D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
 
 	_float fU(0.f), fV(0.f), fDist(0.f);
 	_ulong dwVtxIdx[3]{};
@@ -375,7 +378,7 @@ _bool CCalculator::Picking_MapTool(HWND hWnd, CTerrainTexSector* pTerrainSectorB
 			if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
 				&pTerrainVtxPos[dwVtxIdx[0]],
 				&pTerrainVtxPos[dwVtxIdx[2]],
-				&vRayPos, &vRayDir, &fU, &fV, &fDist))
+				&vRayPos, &vRayDir, &fU, &fV, &dist))
 			{
 				return true;
 			}
@@ -388,7 +391,7 @@ _bool CCalculator::Picking_MapTool(HWND hWnd, CTerrainTexSector* pTerrainSectorB
 			if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[2]],
 				&pTerrainVtxPos[dwVtxIdx[1]],
 				&pTerrainVtxPos[dwVtxIdx[0]],
-				&vRayPos, &vRayDir, &fU, &fV, &fDist))
+				&vRayPos, &vRayDir, &fU, &fV, &dist))
 			{
 				return true;
 			}
@@ -461,7 +464,6 @@ _bool CCalculator::Picking_TerrainSearch(HWND hWnd, CTerrainTexSector* pTerrainS
 				&pTerrainVtxPos[dwVtxIdx[2]],
 				&vRayPos, &vRayDir, &fU, &fV, &fDist))
 			{
-				targetPos = pTerrainVtxPos[dwVtxIdx[1]] + (fU * (pTerrainVtxPos[dwVtxIdx[0]] - pTerrainVtxPos[dwVtxIdx[1]])) + (fV * (pTerrainVtxPos[dwVtxIdx[2]] - pTerrainVtxPos[dwVtxIdx[1]]));
 				return true;
 			}
 
@@ -475,7 +477,6 @@ _bool CCalculator::Picking_TerrainSearch(HWND hWnd, CTerrainTexSector* pTerrainS
 				&pTerrainVtxPos[dwVtxIdx[0]],
 				&vRayPos, &vRayDir, &fU, &fV, &fDist))
 			{
-				targetPos = pTerrainVtxPos[dwVtxIdx[1]] + (fU * (pTerrainVtxPos[dwVtxIdx[0]] - pTerrainVtxPos[dwVtxIdx[1]])) + (fV * (pTerrainVtxPos[dwVtxIdx[2]] - pTerrainVtxPos[dwVtxIdx[1]]));
 				return true;
 			}
 		}

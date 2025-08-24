@@ -4,6 +4,7 @@
 #include "CPrototypeManager.h"
 #include "CDInputManager.h"
 #include "CManagement.h"
+#include "CDynamicCamera.h"
 
 CControlPanel::CControlPanel()
 	: m_pGraphicDev(nullptr),
@@ -208,6 +209,8 @@ _uint CControlPanel::ModifyChildWindow()
 	ImGui::BeginChild("Modify item select", ImVec2(0.f, 130.f));
 
 	static int tile_selected_idx = 0;
+
+	tile_selected_idx = tCachingControlInfo.terrainIdx;
 
 	static bool tile_highlight = false;
 	int tile_highlighted_idx = -1;
@@ -645,7 +648,8 @@ void CControlPanel::Apply()
 		isModifing = true;
 
 		//오브젝트 생성
-		auto pObj = CObjectFactory::GetInstance()->Create_Terrain(tCachingControlInfo.vertexXCnt,
+		auto pObj = CObjectFactory::GetInstance()->Create_Terrain(vecSector.size(),
+			tCachingControlInfo.vertexXCnt,
 			tCachingControlInfo.vertexZCnt,
 			1.f,//tCachingControlInfo.vertexInterval,
 			tCachingControlInfo.vertices,
@@ -712,7 +716,8 @@ void CControlPanel::LoadTerrain(int sceneNumber)
 		tCachingControlInfo.vertices = m.vertices;
 
 		//오브젝트 생성
-		auto pObj = CObjectFactory::GetInstance()->Load_Terrain(tCachingControlInfo.vertexXCnt,
+		auto pObj = CObjectFactory::GetInstance()->Load_Terrain(vecSector.size(),
+			tCachingControlInfo.vertexXCnt,
 			tCachingControlInfo.vertexZCnt,
 			tCachingControlInfo.vertexInterval,//1.f,//tCachingControlInfo.vertexInterval,
 			tCachingControlInfo.vertices,
@@ -750,13 +755,13 @@ void CControlPanel::SaveItem(fs::path path, string filename)
 void CControlPanel::LoadItem(int sceneNumber)
 {
 	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem(sceneNumber);;
-	
+
 	for (auto item : loadData)
 		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, item.position);
 
 	for (auto item : loadData)
 		vecItemInfos.push_back(item);
-	
+
 	CFileManager::GetInstance()->MoveDir(prevPath);
 }
 
@@ -773,15 +778,15 @@ void CControlPanel::SetObjInfo()
 	auto config = CFileManager::GetInstance()->GetConfig();
 
 	objPrototypeTags = config.ObjPrototypeTags;
-	typeTags = new char*[objPrototypeTags.size()];
+	typeTags = new char* [objPrototypeTags.size()];
 	for (size_t i = 0; i < objPrototypeTags.size(); i++)
 	{
 		typeTags[i] = new char[objPrototypeTags[i].tag.size() + 1];
 		strcpy_s(typeTags[i], (rsize_t)((objPrototypeTags[i].tag.size() + 1) * sizeof(char)), objPrototypeTags[i].tag.c_str());
 	}
-		
+
 	objIdTags = config.ObjIdTags;
-	idTags = new char*[objIdTags.size()];
+	idTags = new char* [objIdTags.size()];
 	for (size_t i = 0; i < objIdTags.size(); i++)
 	{
 		idTags[i] = new char[objIdTags[i].tag.size() + 1];
@@ -812,6 +817,11 @@ void CControlPanel::InputMouse_Terrain()
 
 	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB))
 	{
+		_float nearest(99999.f);
+
+		CDynamicCamera* player = dynamic_cast<CDynamicCamera*>(CManagement::GetInstance()->Get_Player());
+		auto playerTransform = player->Get_Transform();
+
 		for (auto item : vecSector)
 		{
 			auto pTerrainBuf = item->Get_BufferCom();
@@ -824,38 +834,28 @@ void CControlPanel::InputMouse_Terrain()
 			if (pTerrainTransform == nullptr)
 				return;
 
-			if (m_pCalculatorCom->Picking_MapTool(g_hWnd, pTerrainBuf, pTerrainTransform, tCachingControlInfo.pos))
+			_float dist;
+			if (m_pCalculatorCom->Picking_MapTool(g_hWnd, pTerrainBuf, playerTransform, tCachingControlInfo.pos, dist))
 			{
-				tCachingControlInfo = tControlInfo[]
-			}
-		}
-
-
-		auto* pTerrainBuf = static_cast<CTerrainTexSector*>(
-			CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
-
-		if (pTerrainBuf == nullptr)
-			return;
-
-		auto* pTerrainTransform = static_cast<CTransform*>(
-			CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Transform"));
-
-		if (pTerrainBuf == nullptr)
-			return;
-
-		if (m_pCalculatorCom->Picking_MapTool(g_hWnd, pTerrainBuf, pTerrainTransform, tCachingControlInfo.pos))
-		{
-			if (curTex == nullptr)
-			{
-				GetSelectTexture();
-				if (tCachingControlInfo.currentTextureTag != L"")
+				if (nearest >= dist)
 				{
-					string curDir = CFileManager::GetInstance()->GetCurrentDir().filename().string();
-					curTex = CTextureManager::GetInstance()->GetTexture(curDir, tCachingControlInfo.currentTextureTag);
+					nearest = dist;
+					tCachingControlInfo = tControlInfo[item->Get_Index()];
+					curTex = vecSector[tCachingControlInfo.terrainIdx]->Get_TextureCom();
 				}
 			}
-			Apply();
 		}
+
+		//if (curTex == nullptr)
+		//{
+		//	GetSelectTexture();
+		//	if (tCachingControlInfo.currentTextureTag != L"")
+		//	{
+		//		string curDir = CFileManager::GetInstance()->GetCurrentDir().filename().string();
+		//		curTex = CTextureManager::GetInstance()->GetTexture(curDir, tCachingControlInfo.currentTextureTag);
+		//	}
+		//}
+		//Apply();
 	}
 }
 
@@ -889,7 +889,8 @@ void CControlPanel::InputMouse_Object()
 		if (pTerrainBuf == nullptr)
 			return;
 
-		if (m_pCalculatorCom->Picking_MapTool(g_hWnd, pTerrainBuf, pTerrainTransform, tObjectinfo.position))
+		_float dist;
+		if (m_pCalculatorCom->Picking_MapTool(g_hWnd, pTerrainBuf, pTerrainTransform, tObjectinfo.position, dist))
 		{
 			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)tObjectinfo.type1, (OBJID)tObjectinfo.type2, tObjectinfo.position);
 
@@ -940,7 +941,7 @@ void CControlPanel::Free()
 			Safe_Delete(typeTags[i]);
 		Safe_Delete_Array(typeTags);
 	}
-	
+
 	if (idTags != nullptr)
 	{
 		for (size_t i = 0; i < objIdTags.size(); i++)

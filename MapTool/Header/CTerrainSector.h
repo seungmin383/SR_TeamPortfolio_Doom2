@@ -16,6 +16,9 @@ public:
     virtual     void            LateUpdate_GameObject(const _float& fTimeDelta);
     virtual     void            Render_GameObject(const _float& fTimeDelta);
 
+    void                        Set_Index(_int idx) { m_iIdx = idx; }
+    _int                        Get_Index() { return m_iIdx; }
+
     Engine::CTerrainTexSector* Get_BufferCom() { return m_pBufferCom; }
     void        Set_BufferCom(Engine::CTerrainTexSector* pBuffer);
     void        Mod_BufferCom(const _ulong& dwCntX,
@@ -24,6 +27,7 @@ public:
         vector<_vec3> vertices);
 
     void        Set_TextureCom(Engine::CTexture* pTexture);
+    CTexture*   Get_TextureCom() { return m_pTextureCom; }
 
 private:
     HRESULT     Add_Component();
@@ -34,6 +38,8 @@ private:
     Engine::CTerrainTexSector* m_pBufferCom;
     Engine::CTexture* m_pTextureCom;
     Engine::CMaterial* m_pMaterialCom;
+
+    _int m_iIdx;
 
 public:
     static CTerrainSector* Create(LPDIRECT3DDEVICE9 pGraphicDev);

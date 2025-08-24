@@ -28,7 +28,9 @@ public:
                                     CTransform* pTerrainTransformCom);
 
     _bool           Picking_GameObject(HWND hWnd);
-    _bool           Picking_MapTool(HWND hWnd, CTerrainTexSector* pTerrainSectorBufferCom, CTransform* pTerrainTransformCom, _vec3& targetPos);
+    _bool           Picking_MapTool(HWND hWnd, CTerrainTexSector* pTerrainSectorBufferCom, CTransform* pTerrainTransformCom, _vec3& targetPos, _float& dist);
+
+    _bool          Picking_TerrainSearch(HWND hWnd, CTerrainTexSector* pTerrainSectorBufferCom);
     
 public:
     static CCalculator*     Create(LPDIRECT3DDEVICE9 pGraphicDev);
