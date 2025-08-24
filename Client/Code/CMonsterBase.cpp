@@ -55,6 +55,9 @@ _int CMonsterBase::Update_GameObject(const _float& fTimeDelta)
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 	CGameObject::Update_GameObject(fTimeDelta);
 
+	if (m_isGibbingDead || m_isNormalDead)
+		return -1;
+
 	return 0;
  }
 

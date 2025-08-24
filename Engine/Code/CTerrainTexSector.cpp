@@ -143,7 +143,7 @@ CTerrainTexSector* CTerrainTexSector::Create(LPDIRECT3DDEVICE9 pGraphicDev,
 	vector<_vec3> vertices,
 	const _ulong& dwCntX,
 	const _ulong& dwCntZ,
-	const _ulong& dwVtxItv)
+	const _float& dwVtxItv)
 {
 	CTerrainTexSector* pTerrainTex = new CTerrainTexSector(pGraphicDev);
 
@@ -157,7 +157,7 @@ CTerrainTexSector* CTerrainTexSector::Create(LPDIRECT3DDEVICE9 pGraphicDev,
 	return pTerrainTex;
 }
 
-CTerrainTexSector* CTerrainTexSector::Create_Default(LPDIRECT3DDEVICE9 pGraphicDev, const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv)
+CTerrainTexSector* CTerrainTexSector::Create_Default(LPDIRECT3DDEVICE9 pGraphicDev, const _ulong& dwCntX, const _ulong& dwCntZ, const _float& dwVtxItv)
 {
 	CTerrainTexSector* pTerrainTex = new CTerrainTexSector(pGraphicDev);
 
@@ -171,7 +171,7 @@ CTerrainTexSector* CTerrainTexSector::Create_Default(LPDIRECT3DDEVICE9 pGraphicD
 	return pTerrainTex;
 }
 
-HRESULT CTerrainTexSector::Ready_Buffer_Default(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv)
+HRESULT CTerrainTexSector::Ready_Buffer_Default(const _ulong& dwCntX, const _ulong& dwCntZ, const _float& dwVtxItv)
 {
 	m_dwVtxSize = sizeof(VTXTEX);
 	m_dwVtxCnt = dwCntX * dwCntZ;

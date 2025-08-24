@@ -37,7 +37,7 @@ class CControlPanel :
         _int vertexZCnt = 2;
         _int vertexYCnt = 0;
         
-        _int vertexInterval = 1.f;
+        _float vertexInterval = 1.f;
 
         _int terrainIdx = 0;
         fs::path currentTextureTag = "";
@@ -94,6 +94,8 @@ public:
     void                            InputMouse_Terrain();
     void                            InputMouse_Object();
 
+    void                            Rotate(_vec3 degree);
+
 private:
     LPDIRECT3DDEVICE9               m_pGraphicDev;
     
@@ -103,7 +105,7 @@ private:
     //지형 관련 멤버변수
     vector<currentControlInfo>      tControlInfo;
     currentControlInfo              tCachingControlInfo;
-    _vec3                           vecCachingVtx = _vec3(0.f, 0.f, 0.f);
+    _vec3                           vecDegree = _vec3(0.f, 0.f, 0.f);
     CTexture*                       curTex;
     _uint                           curTileIdx;
 
