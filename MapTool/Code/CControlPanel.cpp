@@ -491,7 +491,7 @@ void CControlPanel::TerrainController()
 			Apply();
 	}
 
-	if (ImGui::InputInt("tile interval", &tCachingControlInfo.vertexInterval))
+	if (ImGui::InputFloat("tile interval", &tCachingControlInfo.vertexInterval, 0.1f, 1.0f, "%.1f"))
 	{
 		tCachingControlInfo.vertices.clear();
 
@@ -629,7 +629,7 @@ void CControlPanel::Apply()
 		vecSector[tCachingControlInfo.terrainIdx]->Mod_BufferCom(
 			tCachingControlInfo.vertexXCnt,
 			tCachingControlInfo.vertexZCnt,
-			tCachingControlInfo.vertexInterval,
+			1.f,//tCachingControlInfo.vertexInterval,
 			tCachingControlInfo.vertices);
 
 		vecSector[tCachingControlInfo.terrainIdx]->Get_Transform()->Set_Pos(tCachingControlInfo.pos.x, tCachingControlInfo.pos.y, tCachingControlInfo.pos.z);
@@ -647,7 +647,7 @@ void CControlPanel::Apply()
 		//오브젝트 생성
 		auto pObj = CObjectFactory::GetInstance()->Create_Terrain(tCachingControlInfo.vertexXCnt,
 			tCachingControlInfo.vertexZCnt,
-			tCachingControlInfo.vertexInterval,
+			1.f,//tCachingControlInfo.vertexInterval,
 			tCachingControlInfo.vertices,
 			(_tchar*)tCachingControlInfo.currentTextureTag.filename().wstring().c_str(),
 			tCachingControlInfo.pos);
@@ -714,7 +714,7 @@ void CControlPanel::LoadTerrain(int sceneNumber)
 		//오브젝트 생성
 		auto pObj = CObjectFactory::GetInstance()->Load_Terrain(tCachingControlInfo.vertexXCnt,
 			tCachingControlInfo.vertexZCnt,
-			tCachingControlInfo.vertexInterval,
+			tCachingControlInfo.vertexInterval,//1.f,//tCachingControlInfo.vertexInterval,
 			tCachingControlInfo.vertices,
 			tCachingControlInfo.currentTextureTag,
 			tCachingControlInfo.pos);
