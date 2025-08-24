@@ -348,8 +348,14 @@ void CDynamicCamera::Mouse_Input()
 	{
 		_bool bFireCheck = CWeaponManager::GetInstance()->Fire_Weapon();
 		
-		if (bFireCheck && CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponID() != WEAPON_ID::ROCKET)
+		if (bFireCheck)
+		{
+			if (CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponID() != WEAPON_ID::ROCKET ||
+				CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponID() != WEAPON_ID::BFG)
+				return; 
+
 			m_pCalculatorCom->Picking_GameObject(g_hWnd);
+		}
 	}
 
 	m_bTrigger = false;
