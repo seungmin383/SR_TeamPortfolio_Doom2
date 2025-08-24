@@ -23,6 +23,7 @@
 #include "CGameUI_Info.h"
 #include "CGameUI_Info_Ammo.h"
 #include "CGameUI_Info_WeaponNum.h"
+#include "FaceUIRegistry.h"
 #include "CHealth_Small.h"
 #include "CHealth_Big.h"
 #include "CArmor_Small.h"
@@ -520,15 +521,14 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 		return E_FAIL;
 
 	// Face
-	auto* pFace = CGameUI_Face::Create(m_pGraphicDev);
-
-	if (nullptr == pFace)
-		return E_FAIL;
+	CGameUI_Face* pFace = CGameUI_Face::Create(m_pGraphicDev);
+	if (!pFace) return E_FAIL;
 
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pFace)))
 		return E_FAIL;
 
-	CManagement::GetInstance()->Set_FaceUI(pFace);
+	// ★ 전역 보관소에 등록
+	Client::g_FaceUI = pFace;
 
 	// Info
 	// (1) UI Info 객체 생성

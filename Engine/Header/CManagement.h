@@ -4,8 +4,6 @@
 
 BEGIN(Engine)
 
-class CGameUI_Face;
-
 class ENGINE_DLL CManagement :
     public CBase
 {
@@ -51,10 +49,6 @@ public:
     _bool        Is_KeyOwned() const { return m_bHasKey; }
     void         Set_KeyOwned(_bool b) { m_bHasKey = b; }
 
-    // 무기 획득 시 얼굴 변화는 효과를 주기위해 추가(08/24 김홍인)
-    void        Set_FaceUI(CGameUI_Face* p) { m_pFaceUI = p; }
-    CGameUI_Face* Get_FaceUI() const { return m_pFaceUI; }
-
 private:
     CScene*                 m_pScene;
     CScene*                 m_pArrScene[(_uint)SCENEID::SCENE_END];
@@ -64,9 +58,6 @@ private:
 
     // 임시로 키 상호작용을 위한 변수 추가(08/23 김홍인)
     _bool                   m_bHasKey = false;
-
-    // 무기 획득 시 얼굴 변화는 효과를 주기위해 추가(08/24 김홍인)
-    CGameUI_Face* m_pFaceUI = nullptr;
 
 public:
     virtual     void        Free();

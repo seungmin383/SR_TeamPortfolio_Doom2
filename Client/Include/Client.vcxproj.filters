@@ -157,6 +157,9 @@
     <Filter Include="02. GameObject\02. Monster\CMonsterBullet\CArchvileBullet">
       <UniqueIdentifier>{1cbf5616-febe-4514-8ae4-cff8b435c829}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\09. UI\UIRegistry">
+      <UniqueIdentifier>{a1a2816f-9076-4b54-92d6-f6d0fa796c49}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -329,7 +332,7 @@
     </ClInclude>
     <ClInclude Include="..\Header\CDoorWithKey.h">
       <Filter>02. GameObject\06. Object</Filter>
-   </ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Header\CDynamicCamera.h">
       <Filter>02. GameObject\01. Player\00. PlayerCamera</Filter>
     </ClInclude>
@@ -341,6 +344,9 @@
     </ClInclude>
     <ClInclude Include="..\Header\CArchvileBullet.h">
       <Filter>02. GameObject\02. Monster\CMonsterBullet\CArchvileBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FaceUIRegistry.h">
+      <Filter>02. GameObject\09. UI\UIRegistry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -520,6 +526,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CArchvileBullet.cpp">
       <Filter>02. GameObject\02. Monster\CMonsterBullet\CArchvileBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FaceUIRegistry.cpp">
+      <Filter>02. GameObject\09. UI\UIRegistry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
