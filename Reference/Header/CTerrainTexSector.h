@@ -27,16 +27,16 @@ public:
         vector<_vec3> vertices,
         const _ulong& dwCntX = VTXCNTX,
         const _ulong& dwCntZ = VTXCNTZ,
-        const _ulong& dwVtxItv = VTXITV);
+        const _float& dwVtxItv = VTXITV);
 
     static CTerrainTexSector* Create_Default(LPDIRECT3DDEVICE9 pGraphicDev,
         const _ulong& dwCntX = VTXCNTX,
         const _ulong& dwCntZ = VTXCNTZ,
-        const _ulong& dwVtxItv = VTXITV);
+        const _float& dwVtxItv = VTXITV);
 
     HRESULT Ready_Buffer_Default(const _ulong& dwCntX,
         const _ulong& dwCntZ,
-        const _ulong& dwVtxItv);
+        const _float& dwVtxItv);
 
 public:
     const _vec3* Get_VtxPos() { return m_pPos; }
@@ -49,7 +49,7 @@ private:
 
     _ulong m_VtxCntX;
     _ulong m_VtxCntZ;
-    _ulong m_VtxItv;
+    _float m_VtxItv;
 
 public:
     virtual void    Free();

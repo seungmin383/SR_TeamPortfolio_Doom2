@@ -46,7 +46,7 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	m_iGameHp = 83;
 	m_iArmor = 45;
 
-	m_fSpeed = 10.f;
+	m_fSpeed = 40.f;
 
 	m_bDead = false;
 
@@ -86,7 +86,7 @@ _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 	_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
 	
 	Update_State();
-	Set_OnTerrain();
+	//Set_OnTerrain();
 
 	return iExit;
 }
@@ -161,9 +161,11 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		_vec3	vLength = *D3DXVec3Normalize(&vLook, &vLook) * fTimeDelta * m_fSpeed;
 
 		m_vEye.x += vLength.x;
+		m_vEye.y += vLength.y;
 		m_vEye.z += vLength.z;
 
 		m_vAt.x += vLength.x;
+		m_vAt.y += vLength.y;
 		m_vAt.z += vLength.z;
 	}
 
@@ -175,9 +177,11 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		_vec3	vLength = *D3DXVec3Normalize(&vLook, &vLook) * fTimeDelta * m_fSpeed;
 
 		m_vEye.x -= vLength.x;
+		m_vEye.y -= vLength.y;
 		m_vEye.z -= vLength.z;
 
 		m_vAt.x -= vLength.x;
+		m_vAt.y -= vLength.y;
 		m_vAt.z -= vLength.z;
 	}
 
@@ -189,9 +193,11 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		_vec3	vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
 
 		m_vEye.x += vLength.x;
+		m_vEye.y += vLength.y;
 		m_vEye.z += vLength.z;
 
 		m_vAt.x += vLength.x;
+		m_vAt.y += vLength.y;
 		m_vAt.z += vLength.z;
 	}
 
@@ -203,9 +209,11 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		_vec3	vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
 
 		m_vEye.x -= vLength.x;
+		m_vEye.y -= vLength.y;
 		m_vEye.z -= vLength.z;
 
 		m_vAt.x -= vLength.x;
+		m_vAt.y -= vLength.y;
 		m_vAt.z -= vLength.z;
 	}
 
