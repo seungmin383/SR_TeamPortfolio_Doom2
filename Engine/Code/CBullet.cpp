@@ -1,4 +1,5 @@
 #include "CBullet.h"
+#include"CManagement.h"
 
 CBullet::CBullet(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CGameObject(pGraphicDev)
@@ -6,7 +7,7 @@ CBullet::CBullet(LPDIRECT3DDEVICE9 pGraphicDev)
 }
 
 CBullet::CBullet(const CBullet& rhs)
-	:CGameObject(rhs)
+	:CGameObject(rhs), m_pOwner(rhs.m_pOwner)
 {
 }
 
@@ -42,9 +43,14 @@ void CBullet::Linear_Movement(const _float& fTimeDelta)
 	m_pTransformCom->Move_Pos(&m_vInitDir, m_fSpeed, fTimeDelta);
 }
 
-void CBullet::LockOn_Movement(const _float& fTimeDelta, _vec3 _TargetPos)
+void CBullet::LockOn_Movement(const _float& fTimeDelta, _vec3 _TargetPos, _vec3 _TargetLook, _int _Offset)
 {
-	m_pTransformCom->Set_Pos(_TargetPos.x, _TargetPos.y, _TargetPos.z);
+	D3DXVec3Normalize(&_TargetLook, &_TargetLook);
+
+	m_pTransformCom->Set_Pos(
+		_TargetPos.x +_TargetLook.x * _Offset, 
+		_TargetPos.y + _TargetLook.y * _Offset,
+		_TargetPos.z + _TargetLook.z * _Offset);
 }
 
 void CBullet::Bill_Board()
@@ -77,12 +83,24 @@ void CBullet::Bill_Board()
 
 }
 
+
+
 void CBullet::OnCollision(CCollider* _pOther)
 {
+	if (_pOther->Get_Owner() == m_pOwner)
+		return;
+
+	//m_bDead = TRUE;
 }
 
 void CBullet::OnCollisionEnter(CCollider* _pOther)
 {
+	if (_pOther->Get_Owner() == m_pOwner)
+		return;
+
+	_pOther->Get_Owner()->Take_Dmg(m_iDmg);
+
+	//m_bDead = TRUE;
 }
 
 void CBullet::OnCollisionExit(CCollider* _pOther)

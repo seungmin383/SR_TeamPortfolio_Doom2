@@ -3,7 +3,6 @@
 
 class CImpBullet : public CBullet
 {
-    //±âº» ÃÑ ½î´Â ¸ó½ºÅÍ
 private:
     explicit CImpBullet(LPDIRECT3DDEVICE9 pGraphicDev);
     explicit CImpBullet(const CImpBullet& rhs);
@@ -17,6 +16,12 @@ public:
 
 #pragma endregion
 
+    virtual void Check_Anim_Is_Finish();
+private:
+    _uint Enter_Func_Cnt = 0;
+    _bool isFinAnim = FALSE;
+    _bool isDead = FALSE;
+
 private:
     HRESULT     Add_Component()override;
 
@@ -24,6 +29,7 @@ public:
     static CImpBullet* Create(LPDIRECT3DDEVICE9 pGraphicDev);
     virtual CImpBullet* Clone() override;
     virtual CImpBullet* Clone(CGameObject* _Owner)override;
+
 
 
 private:

@@ -25,7 +25,7 @@ public:
     const vector<CGameObject*> Get_TotalGameObject(OBJID eObjId);
 
     HRESULT     Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, _int iCnt = 1);
-    HRESULT     Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, CGameObject* _Owner);
+    HRESULT     Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, CGameObject* _Owner, CGameObject*& _Bullet);
 
 public:
     virtual         HRESULT     Ready_Scene();

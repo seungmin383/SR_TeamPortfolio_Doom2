@@ -5,7 +5,8 @@ CGameObject::CGameObject(LPDIRECT3DDEVICE9 pGraphicDev)
 	m_pColliderCom(nullptr),
 	m_pTransformCom(nullptr),
 	m_fSpeed(3.f),
-	m_bDead(false)
+	m_bDead(false),
+	m_iGameHp(0)
 {
 	m_pGraphicDev->AddRef();
 }
@@ -15,7 +16,8 @@ CGameObject::CGameObject(const CGameObject& rhs)
 	m_pColliderCom(rhs.m_pColliderCom),
 	m_pTransformCom(rhs.m_pTransformCom),
 	m_fSpeed(rhs.m_fSpeed),
-	m_bDead(rhs.m_bDead)
+	m_bDead(rhs.m_bDead),
+	m_iGameHp(rhs.m_iGameHp)
 {
 	m_pGraphicDev->AddRef();
 }

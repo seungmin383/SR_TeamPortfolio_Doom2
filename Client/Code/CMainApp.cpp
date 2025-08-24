@@ -30,6 +30,7 @@
 #include "CSpiderMastermind.h"
 #include "CShotgunGuy.h"
 #include "CImpBullet.h"
+#include "CArchvileBullet.h"
 
 #include "CPlayerWeapon.h"
 #include "CHealth_Small.h"
@@ -222,6 +223,10 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 
 	// 임프총알
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP_BULLET, CImpBullet::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 아크바일 총알
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE_BULLET, CArchvileBullet::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	// 로켓 총알

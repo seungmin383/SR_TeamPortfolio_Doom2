@@ -95,7 +95,7 @@ void CMonsterBase::OnCollisionEnter(CCollider* _pOther)
 	{
 		m_isRecognize_Player = TRUE;
 		m_isHit = TRUE;
-		m_iHp -= CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponDamage();
+		m_iGameHp -= CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponDamage();
 	}
 }
 
@@ -301,10 +301,10 @@ _bool CMonsterBase::Check_Target()
 
 _bool CMonsterBase::Check_Dead()
 {
-	if (m_iHp <= 0)
+	if (m_iGameHp <= 0)
 	{
 
-		if (m_iHp <= -30)
+		if (m_iGameHp <= -30)
 		{
 			m_isGibbingDead = TRUE;
 			m_isNormalDead = FALSE;
