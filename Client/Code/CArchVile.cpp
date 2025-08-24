@@ -61,7 +61,7 @@ HRESULT CArchVile::Ready_GameObject()
 		1,
 		0,
 		12,
-		0.1f,
+		0.15f,
 		true,
 		false
 	);

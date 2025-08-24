@@ -89,7 +89,7 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Imp_Bullet_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Effect/ImpBullet/BulletState%d.png", TEX_NORMAL, 2))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Archvile_Bullet_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Effect/ArchvileBullet/BulletState%d.png", TEX_NORMAL))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Archvile_Bullet_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Effect/ArchvileBullet/BulletState%d.png", TEX_NORMAL, 2))))
 		return E_FAIL;
 
 #pragma endregion
