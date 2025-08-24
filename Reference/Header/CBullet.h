@@ -16,7 +16,8 @@ public:
 	virtual     void                 Render_GameObject(const _float& fTimeDelta)override;
 
 	virtual void Linear_Movement(const _float& fTimeDelta);
-	virtual void LockOn_Movement(const _float& fTimeDelta, _vec3 _TargetPos);
+	//_TargetLook -> 타겟의 눈앞에 유지시키려고 //Offset -> 얼마나 띄울지
+	virtual void LockOn_Movement(const _float& fTimeDelta, _vec3 _TargetPos, _vec3 _TargetLook, _int _Offset);
 
 	virtual void Bill_Board();
 

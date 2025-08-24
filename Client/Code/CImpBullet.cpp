@@ -55,7 +55,7 @@ HRESULT CImpBullet::Ready_GameObject()
 		2,
 		1,
 		0,
-		0,
+		1,
 		0.15f,
 		true,
 		false
@@ -67,7 +67,7 @@ HRESULT CImpBullet::Ready_GameObject()
 		m_pTextureCom,
 		m_pBufferCom,
 		3,
-		2,
+		1,
 		0,
 		2,
 		0.15f,
