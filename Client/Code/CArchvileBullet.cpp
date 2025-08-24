@@ -23,10 +23,10 @@ CArchvileBullet::~CArchvileBullet()
 
 HRESULT CArchvileBullet::Ready_GameObject()
 {
-	AllocConsole();
+	//AllocConsole();
 
-	FILE* fp;
-	freopen_s(&fp, "CONOUT$", "w", stdout);
+	//FILE* fp;
+	//freopen_s(&fp, "CONOUT$", "w", stdout);
 
 	if (FAILED(Add_Component()))
 	{
@@ -51,7 +51,7 @@ HRESULT CArchvileBullet::Ready_GameObject()
 		m_iDmg = dynamic_cast<CMonsterBase*>(m_pOwner)->GetAtkDmg();
 	}
 
-	//³¯¶ó°¥ ¶§
+	//ë‚ ë¼ê°ˆ ë•Œ
 	m_pAnimCom->Add_Animation(
 		0,
 		m_pTextureCom,
@@ -64,7 +64,7 @@ HRESULT CArchvileBullet::Ready_GameObject()
 		false,
 		false
 	);
-	//³¡³µÀ» ‹š
+	//ëë‚¬ì„ ë–„
 	m_pAnimCom->Add_Animation(
 		1,
 		m_pTextureCom,
@@ -92,7 +92,7 @@ _int CArchvileBullet::Update_GameObject(const _float& fTimeDelta)
 	{
 		if (!m_isEverEndAinm)
 		{
-			if (dynamic_cast<CMonsterBase*>(m_pOwner)->Get_AttackTarget() == nullptr) //ÇÃ·¹ÀÌ¾î
+			if (dynamic_cast<CMonsterBase*>(m_pOwner)->Get_AttackTarget() == nullptr) //í”Œë ˆì´ì–´
 			{
 				_vec3 vPlayerPos;
 				m_pPlayer->Get_Transform()->Get_Pos(&vPlayerPos);
@@ -164,7 +164,7 @@ void CArchvileBullet::Render_GameObject(const _float& fTimeDelta)
 
 	m_pBufferCom->Render_Buffer();
 
-	//Ãæµ¹Ã¼
+	//ì¶©ëŒì²´
 	m_pColliderCom->Render(g_colRend);
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
@@ -173,15 +173,15 @@ void CArchvileBullet::Render_GameObject(const _float& fTimeDelta)
 
 void CArchvileBullet::Check_Anim_Is_Finish()
 {
-	if (Enter_Func_Cnt == 0)									//ÀÌ ÇÔ¼ö¿¡ Ã³À½ ÀÔÀåÇß´Ù¸é
+	if (Enter_Func_Cnt == 0)									//ì´ í•¨ìˆ˜ì— ì²˜ìŒ ì…ì¥í–ˆë‹¤ë©´
 	{
-		Enter_Func_Cnt++;										//Ä«¿îÆ®¸¸ ¿Ã¸®°í return 
+		Enter_Func_Cnt++;										//ì¹´ìš´íŠ¸ë§Œ ì˜¬ë¦¬ê³  return 
 		isFinAnim = FALSE;
 		return;
 	}
 	else
 	{
-		if (m_pAnimCom->Get_isFinAct())			//¾Ö´Ï¸ŞÀÌ¼ÇÀÌ ³¡³µ´Ù¸é
+		if (m_pAnimCom->Get_isFinAct())			//ì• ë‹ˆë©”ì´ì…˜ì´ ëë‚¬ë‹¤ë©´
 		{
 			Enter_Func_Cnt = 0;
 			isFinAnim = TRUE;
