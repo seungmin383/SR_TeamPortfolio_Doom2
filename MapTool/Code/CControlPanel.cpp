@@ -585,7 +585,7 @@ void CControlPanel::GetSelectTexture()
 
 void CControlPanel::SetDefault()
 {
-	tCachingControlInfo.info = TILEINFO::FLOOR;
+	tCachingControlInfo.info = TILEINFO::TERRAIN;
 	tCachingControlInfo.tileColCnt = 1;
 	tCachingControlInfo.tileRowCnt = 1;
 	tCachingControlInfo.vertexIdx = 0;
@@ -812,6 +812,25 @@ void CControlPanel::InputMouse_Terrain()
 
 	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB))
 	{
+		for (auto item : vecSector)
+		{
+			auto pTerrainBuf = item->Get_BufferCom();
+
+			if (pTerrainBuf == nullptr)
+				return;
+
+			auto pTerrainTransform = item->Get_Transform();
+
+			if (pTerrainTransform == nullptr)
+				return;
+
+			if (m_pCalculatorCom->Picking_MapTool(g_hWnd, pTerrainBuf, pTerrainTransform, tCachingControlInfo.pos))
+			{
+				tCachingControlInfo = tControlInfo[]
+			}
+		}
+
+
 		auto* pTerrainBuf = static_cast<CTerrainTexSector*>(
 			CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
 

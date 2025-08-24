@@ -105,8 +105,6 @@ void CStage::Render_Scene(const _float& fTimeDelta)
 
 HRESULT CStage::Load_PreSet()
 {
-	CObjectFactory::GetInstance()->Create_Terrain_Default(VTXCNTX, VTXCNTZ, VTXITV, (_tchar*)L"Proto_TerrainTexture");
-
 	TerrainModels tm = CFileManager::GetInstance()->LoadTerrain((_uint)SCENEID::STAGE1);
 
 	for (auto m : tm.model)
@@ -134,14 +132,6 @@ HRESULT CStage::Ready_Environment_Layer(LAYERID _eLayerId)
 		return E_FAIL;
 
 	Engine::CGameObject* pGameObject = nullptr;
-
-	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::TERRAIN);
-
-	//if (nullptr == pGameObject)
-	//	return E_FAIL;
-
-	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_TERRAIN, pGameObject)))
-	//	return E_FAIL;
 
 	pGameObject = CSkyBox::Create(m_pGraphicDev);
 
@@ -601,7 +591,7 @@ HRESULT CStage::Ready_Camera_Layer(LAYERID _eLayerId)
 
 	CManagement* pManagement = CManagement::GetInstance();
 
-	_vec3	vEye{ 0.f, 0.f, 0.f };
+	_vec3	vEye{ 65.f, 0.f, 5.f };
 	_vec3	vAt{ 0.f, 0.f, 1.f };
 	_vec3	vUp{ 0.f , 1.f, 0.f };
 

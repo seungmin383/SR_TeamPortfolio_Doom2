@@ -303,6 +303,12 @@
     <ClInclude Include="StageSet.h">
       <Filter>DataModel</Filter>
     </ClInclude>
+    <ClInclude Include="TerrainModelsMod.h">
+      <Filter>DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainModelMod.h">
+      <Filter>DataModel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\CGraphicDev.cpp">

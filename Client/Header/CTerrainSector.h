@@ -16,6 +16,7 @@ public:
     virtual     void            LateUpdate_GameObject(const _float& fTimeDelta);
     virtual     void            Render_GameObject(const _float& fTimeDelta);
 
+    Engine::CTerrainTexSector* Get_BufferCom() { return m_pBufferCom; }
     void        Set_BufferCom(Engine::CTerrainTexSector* pBuffer);
     void        Mod_BufferCom(const _ulong& dwCntX,
         const _ulong& dwCntZ,
