@@ -5,14 +5,17 @@
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
 #include "CWeaponManager.h"
+#include "CGameUI_Face.h"
+#include "FaceUIRegistry.h"
+#include "CStatsManager.h"
 
 CWeapon_BFG::CWeapon_BFG(LPDIRECT3DDEVICE9 pGraphicDev)
-    : CGameObject(pGraphicDev)
+	: CGameObject(pGraphicDev)
 {
 }
 
 CWeapon_BFG::CWeapon_BFG(const CGameObject& rhs)
-    : CGameObject(rhs)
+	: CGameObject(rhs)
 {
 }
 
@@ -89,24 +92,41 @@ void CWeapon_BFG::OnCollisionEnter(CCollider* _pOther)
 	if (m_bPicked || !_pOther) return;
 
 	const auto layer = _pOther->Get_ColLayer();
-	const bool allowed =
-		(layer & COL_PLAYER);
-	if (!allowed)
+	if ((layer & (COL_PLAYER)) == 0)
 		return;
+
+	// 플레이어 판정
+	_bool isPlayer = true;
+	if (auto* owner = _pOther->Get_Owner()) {
+
+	}
+	if (!isPlayer) return;
+
+	m_bPicked = true;
+
+	// 얼굴 애니메이션
+	if (Client::g_FaceUI) {
+		Client::g_FaceUI->Set_EvilFace(3.f);
+	}
 	else {
-		// to-do) 무기매니저로 캐스팅해서 얻기
-		if (m_pWeaponManager) {
-			m_pWeaponManager->Add_Weapon(WEAPON_ID::BFG, (CWeapon*)this);
-		}
-		else
-		{
-			m_pWeaponManager->Add_Ammo(AMMO_TYPE::CELL, 5);
-		}
-		// 월드의 픽업 오브젝트는 제거
-		m_bPicked = true;
-		if (m_pColliderCom) m_pColliderCom->Set_Active(false);
-		// Update_GameObject()에서 m_bPicked이면 -1 반환 → 레이어가 안전 삭제
-	}	
+		OutputDebugStringA("[BFG] g_FaceUI is null. CStage에서 등록됐는지 확인\n");
+	}
+
+	// to-do) 무기매니저로 캐스팅해서 얻기
+	if (m_pWeaponManager) {
+		m_pWeaponManager->Add_Weapon(WEAPON_ID::BFG, (CWeapon*)this);
+		m_pWeaponManager->Change_Weapon(WEAPON_ID::BFG);
+		m_pWeaponManager->Add_Ammo(AMMO_TYPE::CELL, 5);
+	}
+	else
+	{
+		OutputDebugStringA("[BFG] WeaponManager is null\n");
+	}
+
+	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
+	// Update_GameObject()에서 m_bPicked이면 -1 반환 → 레이어가 안전 삭제
+
+	CStatsManager::I().OnItemPicked();
 }
 
 void CWeapon_BFG::OnCollisionExit(CCollider* _pOther)

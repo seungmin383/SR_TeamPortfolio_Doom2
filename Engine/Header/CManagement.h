@@ -56,7 +56,7 @@ private:
 
     CGameObject*            m_pPlayer;
 
-    // 임시로 키 상호작용ㅇ르 위한 변수 추가(08/23 김홍인)
+    // 임시로 키 상호작용을 위한 변수 추가(08/23 김홍인)
     _bool                   m_bHasKey = false;
 
 public:

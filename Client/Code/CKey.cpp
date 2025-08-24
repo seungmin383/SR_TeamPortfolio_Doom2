@@ -4,6 +4,7 @@
 #include "CManagement.h"
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
+#include "CStatsManager.h"
 
 CKey::CKey(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -102,6 +103,8 @@ void CKey::OnCollisionEnter(CCollider* _pOther)
 	if (m_pColliderCom)
 		m_pColliderCom->Set_Active(false);
 	OutputDebugStringA("[Key] picked, flag set\n");
+
+	CStatsManager::I().OnItemPicked();
 }
 
 void CKey::OnCollisionExit(CCollider* _pOther)

@@ -17,10 +17,14 @@ public:
 #pragma endregion
 
     virtual void Check_Anim_Is_Finish();
+    //몬스터 공격이 끝나고 
+    virtual void Calc_Time_EndAttack(const _float& fTimeDelta);
 private:
     _uint Enter_Func_Cnt = 0;
     _bool isFinAnim = FALSE;
     CGameObject* m_pPlayer = nullptr;
+    _float m_fTimer = 0.f;
+    _bool m_isEverEndAinm = FALSE;
 
 private:
     HRESULT     Add_Component()override;

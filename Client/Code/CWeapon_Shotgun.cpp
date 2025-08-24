@@ -6,6 +6,8 @@
 #include "CTimerManager.h"
 #include "CWeaponManager.h"
 #include "CGameUI_Face.h"
+#include "FaceUIRegistry.h"
+#include "CStatsManager.h"
 
 CWeapon_Shotgun::CWeapon_Shotgun(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -89,33 +91,42 @@ void CWeapon_Shotgun::OnCollisionEnter(CCollider* _pOther)
 	OutputDebugStringA("[WS] OnCollisionEnter\n");
 	if (m_bPicked || !_pOther) return;
 
+	// 상대 레이어가 플레이어인지 확인
 	const auto layer = _pOther->Get_ColLayer();
 	if ((layer & (COL_PLAYER)) == 0)
 		return;
-	else
-	{
-		m_bPicked = true;
 
-		// 얼굴 UI에 '획득' 표정 3초
-		const auto uiList = CManagement::GetInstance()->Get_ObjectGroup(LAYERID::LAYER_UI, OBJID::OBJ_UI);
-		for (auto* ui : uiList) {
-			if (auto* face = dynamic_cast<CGameUI_Face*>(ui)) {
-				face->Set_EvilFace(3.f);
-				break;
-			}
-		}
+	// 플레이어 판정
+	_bool isPlayer = true;
+	if (auto* owner = _pOther->Get_Owner()) {
+		
+	}
+	if (!isPlayer) return;
 
-		if (auto* wm = CWeaponManager::GetInstance()) {
-			wm->Add_Weapon(WEAPON_ID::SHOTGUN, (CWeapon*)this);
-			wm->Change_Weapon(WEAPON_ID::SHOTGUN);
-		}
-		else {
-			wm->Add_Ammo(AMMO_TYPE::SHELL, 8);
-		}
-		if (m_pColliderCom) m_pColliderCom->Set_Active(false);
-		// Update_GameObject()에서 m_bPicked면 -1 반환 → 레이어에서 제거
+	m_bPicked = true;
+
+	// 얼굴 애니메이션
+	if (Client::g_FaceUI) {
+		Client::g_FaceUI->Set_EvilFace(3.f);
+	}
+	else {
+		OutputDebugStringA("[WS] g_FaceUI is null. CStage에서 등록됐는지 확인\n");
 	}
 
+
+	if (auto* wm = CWeaponManager::GetInstance()) {
+		wm->Add_Weapon(WEAPON_ID::SHOTGUN, (CWeapon*)this);
+		wm->Change_Weapon(WEAPON_ID::SHOTGUN);
+		wm->Add_Ammo(AMMO_TYPE::SHELL, 8);
+	}
+	else {
+		OutputDebugStringA("[WS] WeaponManager is null\n");
+	}
+
+	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
+	// Update_GameObject()에서 m_bPicked면 -1 반환 → 레이어에서 제거
+
+	CStatsManager::I().OnItemPicked();
 }
 
 void CWeapon_Shotgun::OnCollisionExit(CCollider* _pOther)

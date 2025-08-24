@@ -125,6 +125,12 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CFontManager::GetInstance()->Ready_Font(m_pGraphicDev, L"Font_Jinji", L"±Ã¼­", 20, 10, FW_THIN)))
 		return E_FAIL;
 
+	if (FAILED(CFontManager::GetInstance()->Ready_Font(m_pGraphicDev, L"ResultTitle", L"Arial", 28, 32, 900)))
+		return E_FAIL;
+
+	if (FAILED(CFontManager::GetInstance()->Ready_Font(m_pGraphicDev, L"ResultBody", L"Arial", 18, 24, 700)))
+		return E_FAIL;
+
 	if (FAILED(CDInputManager::GetInstance()->Ready_InputDev(g_hInst, g_hWnd)))
 		return E_FAIL;
 

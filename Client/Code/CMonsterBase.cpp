@@ -7,8 +7,7 @@
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
 #include <iostream>
-#include "CCollisionManager.h"
-#include "CTimerManager.h"
+#include "CStatsManager.h"
 
 
 CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -54,6 +53,9 @@ _int CMonsterBase::Update_GameObject(const _float& fTimeDelta)
 	Thinker(fTimeDelta);
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 	CGameObject::Update_GameObject(fTimeDelta);
+
+	if (m_isGibbingDead || m_isNormalDead)
+		return -1;
 
 	return 0;
  }
@@ -308,10 +310,25 @@ _bool CMonsterBase::Check_Dead()
 		{
 			m_isGibbingDead = TRUE;
 			m_isNormalDead = FALSE;
+
+			// Å³ Áý°è(08/24 ±èÈ«ÀÎ)
+			if (!m_bCountedDeath) 
+			{
+				m_bCountedDeath = true;
+				CStatsManager::I().OnEnemyKilled();
+			}
+
 			return	TRUE;
 		}
 		m_isGibbingDead = FALSE;
 		m_isNormalDead = TRUE;
+
+		// Å³ Áý°è
+		if (!m_bCountedDeath)
+		{
+			m_bCountedDeath = true;
+			CStatsManager::I().OnEnemyKilled();
+		}
 
 		Drop_Item();
 		return TRUE;

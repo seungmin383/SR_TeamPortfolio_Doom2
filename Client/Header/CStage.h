@@ -29,6 +29,8 @@ public:
     static CStage* Standby(LPDIRECT3DDEVICE9 pGraphicDev);
     virtual CStage* Create() override;
 
+    void EnterResultMode();
+
 private:
     void ConnectDoorSwitchByLinkId();
 
@@ -44,6 +46,8 @@ private:
         }
         return tr;
     }
+
+    bool m_isResultMode = false;
 
 protected:
     virtual void        Free();

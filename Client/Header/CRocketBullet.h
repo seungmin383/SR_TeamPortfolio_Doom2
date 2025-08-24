@@ -14,6 +14,11 @@ public:
 	virtual     void            LateUpdate_GameObject(const _float& fTimeDelta) override;
 	virtual     void            Render_GameObject(const _float& fTimeDelta) override;
 
+public:
+	void            OnCollision(CCollider* _pOther) override;
+	void            OnCollisionEnter(CCollider* _pOther) override;
+	void            OnCollisionExit(CCollider* _pOther) override;
+
 private:
 	HRESULT		Add_Component() override;
 	void	    Ready_Animation();

@@ -139,7 +139,12 @@ void CGameUI_Face::Render_GameObject(const _float& fTimeDelta)
 
 	// 4-3) EVIL 오버레이 (픽업 효과) — 가장 도드라지는 컷으로 고정
 	if (m_bIsEvil && m_pTextureCom5) {
-		m_pTextureCom5->Set_Texture(4);      // ← 0~4 중 가장 강한 컷
+		const int hp = m_pCamera->Get_Hp();
+		if (hp >= 80)           m_pTextureCom5->Set_Texture(0);
+		else if (hp >= 60)      m_pTextureCom5->Set_Texture(1);
+		else if (hp >= 40)      m_pTextureCom5->Set_Texture(2);
+		else if (hp >= 20)      m_pTextureCom5->Set_Texture(3);
+		else                    m_pTextureCom5->Set_Texture(4);
 		m_pBufferCom->Render_Buffer();
 		 OutputDebugStringA("[FACE] EVIL overlay draw\n"); // 필요시 켜서 확인
 	}

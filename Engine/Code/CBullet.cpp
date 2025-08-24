@@ -49,7 +49,7 @@ void CBullet::LockOn_Movement(const _float& fTimeDelta, _vec3 _TargetPos, _vec3 
 
 	m_pTransformCom->Set_Pos(
 		_TargetPos.x +_TargetLook.x * _Offset, 
-		_TargetPos.y + _TargetLook.y * _Offset,
+		_TargetPos.y,
 		_TargetPos.z + _TargetLook.z * _Offset);
 }
 

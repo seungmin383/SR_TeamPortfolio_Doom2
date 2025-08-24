@@ -5,6 +5,7 @@
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
 #include "CWeaponManager.h"
+#include "CStatsManager.h"
 
 CAmmo_Clip::CAmmo_Clip(LPDIRECT3DDEVICE9 pGraphicDev)
     : CGameObject(pGraphicDev), m_iClip(0), m_iFrame_Clip(0), m_pWeaponManager(nullptr)
@@ -109,11 +110,9 @@ void CAmmo_Clip::OnCollisionEnter(CCollider* _pOther)
 		// 아이템 비활성화(충돌/업데이트에서 제거)
 		m_bPicked = true;
 		if (m_pColliderCom) m_pColliderCom->Set_Active(false);
-	}
 
-	//// 아이템 비활성화(충돌/업데이트에서 제거)
-	//m_bPicked = true;
-	//if (m_pColliderCom) m_pColliderCom->Set_Active(false);
+		CStatsManager::I().OnItemPicked();
+	}
 }
 
 void CAmmo_Clip::OnCollisionExit(CCollider* _pOther)
