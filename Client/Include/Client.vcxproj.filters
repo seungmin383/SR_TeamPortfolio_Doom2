@@ -357,6 +357,9 @@
     <ClInclude Include="..\Header\CUI_StageClear.h">
       <Filter>02. GameObject\09. UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CBfgBullet.h">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\04. BFG\01. BFGBullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -544,6 +547,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CUI_StageClear.cpp">
       <Filter>02. GameObject\09. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CBfgBullet.cpp">
+      <Filter>03. Manager\00. WeaponManager\00. Weapon\04. BFG\01. BFGBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
