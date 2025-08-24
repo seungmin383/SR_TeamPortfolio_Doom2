@@ -14,7 +14,7 @@ _long CDynamicCamera::s_lMouseMoveX = 0L;
 CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCamera(pGraphicDev),
 	m_bFix(false), m_bCheck(false), m_bTrigger(false),
-	m_iHp(0), m_iArmor(0),
+	m_iGameHp(0), m_iArmor(0),
 	m_fSpeed(0.f),
 	m_eState(IDLE)
 {
@@ -43,7 +43,7 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	m_fFar = fFar;
 
 	// Player Default Settings
-	m_iHp = 83;
+	m_iGameHp = 83;
 	m_iArmor = 45;
 
 	m_fSpeed = 10.f;
@@ -332,15 +332,15 @@ void CDynamicCamera::Set_OnTerrain()
 
 void CDynamicCamera::Update_State()
 {
-	if (m_iHp >= 80)
+	if (m_iGameHp >= 80)
 		m_eState = IDLE;
-	else if (m_iHp <= 79 && m_iHp >= 60)
+	else if (m_iGameHp <= 79 && m_iGameHp >= 60)
 		m_eState = HURT1;
-	else if (m_iHp <= 59 && m_iHp >= 40)
+	else if (m_iGameHp <= 59 && m_iGameHp >= 40)
 		m_eState = HURT2;
-	else if (m_iHp <= 39 && m_iHp >= 20)
+	else if (m_iGameHp <= 39 && m_iGameHp >= 20)
 		m_eState = HURT3;
-	else if (m_iHp <= 19 && m_iHp >= 1)
+	else if (m_iGameHp <= 19 && m_iGameHp >= 1)
 		m_eState = HURT4;
 	else
 	{

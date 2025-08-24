@@ -37,8 +37,8 @@ public:
     _bool           Get_Trigger() { return m_bTrigger; }
     void            Set_Trigger(_bool bTrigger) { m_bTrigger = bTrigger; }
 
-    _int            Get_Hp() { return m_iHp; }
-    void            Set_Hp(_int i) { m_iHp = i; }
+    _int            Get_Hp() { return m_iGameHp; }
+    void            Set_Hp(_int i) { m_iGameHp = i; }
 
     _int            Get_Armor() { return m_iArmor; }
     void            Set_Armor(_int i) { m_iArmor = i; }
@@ -51,9 +51,9 @@ public:
     // 08-15 - 최대 수치 넘어가지 않게 수정
     void AddHP(_int heal) 
     { 
-        m_iHp += heal;
-        if (m_iHp >= m_iMax)
-            m_iHp = m_iMax;
+        m_iGameHp += heal;
+        if (m_iGameHp >= m_iMax)
+            m_iGameHp = m_iMax;
     }
 
     void AddArmor(_int armor) 
@@ -65,10 +65,10 @@ public:
 
     void Take_Damage(_int iDamage) 
     { 
-        if (m_iHp <= 0)
-            m_iHp = 0;
+        if (m_iGameHp <= 0)
+            m_iGameHp = 0;
         else 
-            m_iHp -= iDamage;
+            m_iGameHp -= iDamage;
     }
 
 private:
@@ -90,7 +90,7 @@ public:
 private:
     PLAYER_STATE m_eState;
 
-    _int        m_iHp;
+    _int        m_iGameHp;
     _int        m_iArmor;
     _int        m_iMax = 200;       // 체력과 아머에 사용할 최대 수치
     

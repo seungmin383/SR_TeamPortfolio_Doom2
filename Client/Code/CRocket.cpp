@@ -39,8 +39,9 @@ _bool CRocket::Fire()
 		_vec3 vPlayerPos;
 		pPlayer->Get_Transform()->Get_Pos(&vPlayerPos);
 
+		CGameObject* tmp = nullptr;
 		// 로켓 투사체 발사
-		CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::PLAYER_ROCKET_BULLET, OBJID::OBJ_BULLET, vPlayerPos, pPlayer);
+		CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::PLAYER_ROCKET_BULLET, OBJID::OBJ_BULLET, vPlayerPos, pPlayer, tmp);
 		return true;
 	}
 

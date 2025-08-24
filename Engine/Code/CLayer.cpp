@@ -104,7 +104,7 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 	return S_OK;
 }
 
-HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, CGameObject* _Owner)
+HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, CGameObject* _Owner, CGameObject*& _Bullet)
 {
 	CGameObject* pGameObject = nullptr;
 
@@ -115,6 +115,8 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 		for (size_t i = 0; i < 1; i++)
 		{
 			pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(eObjPrototype, _Owner);
+
+			_Bullet = pGameObject;
 
 			if (nullptr == pGameObject)
 				return E_FAIL;
@@ -133,6 +135,8 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 			{
 				pGameObject = m_vecObjectPool[(_uint)eObjId].back();
 				m_vecObjectPool[(_uint)eObjId].pop_back();
+
+				_Bullet = pGameObject;
 
 				m_vecObject[(UINT)eObjId].push_back(pGameObject);
 			}
@@ -153,6 +157,8 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 			for (size_t i = 0; i < additionalCnt; i++)
 			{
 				pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(eObjPrototype, _Owner);
+				
+				_Bullet = pGameObject;
 
 				if (nullptr == pGameObject)
 					return E_FAIL;
