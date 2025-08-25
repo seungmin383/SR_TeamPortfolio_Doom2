@@ -7,7 +7,7 @@
 #include "CTimerManager.h"
 #include "CBullet.h"
 #include <random>
-
+#include "CLayer.h"
 #include"CTerrainSector.h"
 CSpiderMastermind::CSpiderMastermind(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonsterBase(pGraphicDev)
@@ -25,11 +25,11 @@ CSpiderMastermind::~CSpiderMastermind()
 
 HRESULT CSpiderMastermind::Ready_GameObject()
 {
-	//AllocConsole();
+	AllocConsole();
 
-	//FILE* fp;
-	//freopen_s(&fp, "CONOUT$", "w", stdout);
-	//freopen_s(&fp, "CONOUT$", "w", stderr);
+	FILE* fp;
+	freopen_s(&fp, "CONOUT$", "w", stdout);
+	freopen_s(&fp, "CONOUT$", "w", stderr);
 
 
 	if (FAILED(Add_Component()))
@@ -206,7 +206,6 @@ void CSpiderMastermind::Set_OnTerrain()
 void CSpiderMastermind::Attack(const _float fTimeDelta)
 {
 	Fire(fTimeDelta);
-
 	switch (m_PattenArr[m_AtkCnt])
 	{
 	case 0:
@@ -261,10 +260,43 @@ void CSpiderMastermind::Fire(const _float fTimeDelta)
 
 void CSpiderMastermind::Pattern1(const _float fTimeDelta)
 {
+	m_isShoot = TRUE;
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	CGameObject* tmp = nullptr;
+
+	if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_BOSS_BULLET, OBJID::OBJ_BULLET, vPos, this, tmp)))
+	{
+		int a = 0;
+	}
+	if (tmp == nullptr)
+		return;
+
+	tmp->Set_Dead(FALSE);
+	tmp->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z); 
+
+	_vec3 vPlayerPos;
+	CManagement::GetInstance()->Get_Player()->Get_Transform()->Get_Pos(&vPlayerPos);
+	_vec3 dir = vPlayerPos - vPos;
+	D3DXVec3Normalize(&dir, &dir);
+
+	dynamic_cast<CBullet*>(tmp)->Set_InitDir(dir);
+
+
 }
 
 void CSpiderMastermind::Pattern2(const _float fTimeDelta)
 {
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	vPos.x += 5;
+	(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_IMP, OBJID::OBJ_ENEMY, vPos, 1));
+
+	vPos.x -= 10;
+	(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_IMP, OBJID::OBJ_ENEMY, vPos, 1));
+	//auto layerMap = CManagement::GetInstance()->Get_Scene()->Get_Layer();
+
+	
 }
 
 void CSpiderMastermind::Pattern3(const _float fTimeDelta)

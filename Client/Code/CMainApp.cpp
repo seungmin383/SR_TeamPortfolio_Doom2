@@ -33,6 +33,7 @@
 #include "CImpBullet.h"
 #include "CArchvileBullet.h"
 #include "CZombiemanBullet.h"
+#include"CBossBullet.h"
 
 #include "CPlayerWeapon.h"
 #include "CHealth_Small.h"
@@ -243,6 +244,10 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 
 	// 아크바일 총알
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE_BULLET, CArchvileBullet::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 보스 총알
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_BOSS_BULLET, CBossBullet::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	// 일반 총알

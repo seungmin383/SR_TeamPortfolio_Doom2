@@ -58,7 +58,7 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 
 			pGameObject->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
 			//스테이지에서 사라진 오브젝트는 별도 처리로 다시 오브젝트 풀로 돌아온다
-			m_vecObject[(UINT)eObjId].push_back(pGameObject);
+			m_vecPendingObject[(UINT)eObjId].push_back(pGameObject);		//여기에 임시 저장해두고
 		}
 	}
 	else
@@ -69,7 +69,7 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 			for (size_t i = 0; i < iCnt; i++)
 			{
 				pGameObject = m_vecObjectPool[(_uint)eObjId].back();
-				m_vecObjectPool[(_uint)eObjId].pop_back();
+				m_vecPendingObject[(_uint)eObjId].pop_back();
 
 				m_vecObject[(UINT)eObjId].push_back(pGameObject);
 			}
@@ -83,7 +83,7 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 				pGameObject = m_vecObjectPool[(_uint)eObjId].back();
 				m_vecObjectPool[(_uint)eObjId].pop_back();
 
-				m_vecObject[(UINT)eObjId].push_back(pGameObject);
+				m_vecPendingObject[(UINT)eObjId].push_back(pGameObject);
 			}
 
 			//횟수만큼 추가
@@ -96,13 +96,13 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 
 				pGameObject->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
 				//스테이지에서 사라진 오브젝트는 별도 처리로 다시 오브젝트 풀로 돌아온다
-				m_vecObject[(UINT)eObjId].push_back(pGameObject);
+				m_vecPendingObject[(UINT)eObjId].push_back(pGameObject);
 			}
 		}
 	}
 
 	return S_OK;
-}
+ }
 
 HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, CGameObject* _Owner, CGameObject*& _Bullet)
 {
@@ -121,7 +121,7 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 
 		pGameObject->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
 		//스테이지에서 사라진 오브젝트는 별도 처리로 다시 오브젝트 풀로 돌아온다
-		m_vecObject[(UINT)eObjId].push_back(pGameObject);
+		m_vecPendingObject[(UINT)eObjId].push_back(pGameObject);
 	}
 	else
 	{
@@ -133,7 +133,7 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 
 			_Bullet = pGameObject;
 
-			m_vecObject[(UINT)eObjId].push_back(pGameObject);
+			m_vecPendingObject[(UINT)eObjId].push_back(pGameObject);
 		}
 		else if (m_mapObjectPool[eObjPrototype].capacity() < 1)
 		{
@@ -142,7 +142,7 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 			pGameObject = m_mapObjectPool[eObjPrototype].back();
 			m_mapObjectPool[eObjPrototype].pop_back();
 
-			m_vecObject[(UINT)eObjId].push_back(pGameObject);
+			m_vecPendingObject[(UINT)eObjId].push_back(pGameObject);
 
 			//횟수만큼 추가
 			for (size_t i = 0; i < additionalCnt; i++)
@@ -156,7 +156,7 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 
 				pGameObject->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
 				//스테이지에서 사라진 오브젝트는 별도 처리로 다시 오브젝트 풀로 돌아온다
-				m_vecObject[(UINT)eObjId].push_back(pGameObject);
+				m_vecPendingObject[(UINT)eObjId].push_back(pGameObject);
 			}
 		}
 	}
@@ -188,7 +188,7 @@ _int CLayer::Update_Layer(const _float& fTimeDelta)
 	{
 		for (auto iter = m_vecObject[i].begin(); iter != m_vecObject[i].end(); )
 		{
-			iResult = (*iter)->Update_GameObject(fTimeDelta);
+			iResult = (*iter)->Update_GameObject(fTimeDelta); //여기서 생성하고 m_vecObject여기에 푸쉬백 해줌
 
 			if (iResult & 0x80000000)
 			{
@@ -198,11 +198,31 @@ _int CLayer::Update_Layer(const _float& fTimeDelta)
 				return iResult;
 			}
 
-			++iter;
+			++iter;																			// 저기 푸쉬백 해줘서 iter가 무효화 되서 여기 ++ 할때 터지는 상황이였어요
+		}
+
+		//업데이트 다 돌고나면 m_vecObject여기에 m_vecPendingObject를 추가해주는 식으로 고쳤더니 
+
+		if (!m_vecPendingObject[i].empty())//그래서 m_vecPendingObject 이 벡터 하나 더 만들어서
+		{
+			for (auto iter = m_vecPendingObject[i].begin(); iter != m_vecPendingObject[i].end(); iter++)
+			{
+				m_vecObject[i].push_back(*iter);
+			}
+			//이거 다요?
+			//아마 렉 엄청 걸릴거에요
+			//그건 모르겠는데 처음에 이거 안지우니까 매 프레임 계속 추가해줘서 렉걸리는듯요
+
+			for (auto iter = m_vecPendingObject[i].begin(); iter != m_vecPendingObject[i].end(); )
+			{
+				iter = m_vecPendingObject[i].erase(iter);
+			}
+			m_vecPendingObject[i].clear();
 		}
 	}
 
 	return iResult;
+
 }
 
 void CLayer::LateUpdate_Layer(const _float& fTimeDelta)

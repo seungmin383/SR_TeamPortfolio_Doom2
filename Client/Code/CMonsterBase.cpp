@@ -45,6 +45,8 @@ HRESULT         CMonsterBase::Ready_GameObject()
 	freopen_s(&fp, "CONOUT$", "w", stdout);
 	freopen_s(&fp, "CONOUT$", "w", stderr);*/
 
+//	Add_Component();
+
 	m_iPreHp = m_iGameHp;
 
 	return S_OK;
