@@ -211,7 +211,6 @@ void CBarrelExplosive::OnCollisionEnter(CCollider* _pOther)
         return;
     }
 
-    // 그 외(COL_PLAYERCAMERA/플레이어 몸통/기타 충돌)는 피해 없음
     return;
 }
 
