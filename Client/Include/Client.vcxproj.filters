@@ -136,26 +136,11 @@
     <Filter Include="01. Scene\04. Stage3">
       <UniqueIdentifier>{f6e86f27-c2ca-4c27-9cdc-22a83d8f86f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\02. Monster\CMonsterBullet">
-      <UniqueIdentifier>{c875faed-af74-4cea-8bba-b45f5eeed4f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\02. Monster\CMonsterBullet\CImpBullet">
-      <UniqueIdentifier>{de7ec3bb-98ca-4015-b99c-13c3ebba9d3a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. Player\01. PlayerWeapon">
       <UniqueIdentifier>{16c85d99-63d5-4658-874d-6499db748acd}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\01. Player\00. PlayerCamera">
       <UniqueIdentifier>{bcb8b8c1-9541-48f5-a417-8d0433704be9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\03. Rocket\00. RocketBullet">
-      <UniqueIdentifier>{8b4efacd-7f6d-4ba4-a9af-7882936a1ffc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\04. BFG\01. BFGBullet">
-      <UniqueIdentifier>{7c517f02-e6f6-4f4a-b871-f51eaf25049c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\02. Monster\CMonsterBullet\CArchvileBullet">
-      <UniqueIdentifier>{1cbf5616-febe-4514-8ae4-cff8b435c829}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\09. UI\UIRegistry">
       <UniqueIdentifier>{a1a2816f-9076-4b54-92d6-f6d0fa796c49}</UniqueIdentifier>
@@ -163,13 +148,34 @@
     <Filter Include="03. Manager\03. StatsManager">
       <UniqueIdentifier>{dfa1612c-4353-4ea3-b2ea-cdc37517a8af}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\01. Shotgun\00. ShotgunBullet">
-      <UniqueIdentifier>{d26bc851-ceb1-4cc9-9e71-981a680d6dbc}</UniqueIdentifier>
+    <Filter Include="02. GameObject\07. Bullet">
+      <UniqueIdentifier>{61b30e84-f2c9-48f5-8c60-ca3a4b46fffa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\02. Monster\CMonsterBullet\CZombiemanBullet">
+    <Filter Include="02. GameObject\07. Bullet\00. PlayerBullet">
+      <UniqueIdentifier>{206ef2bb-0d7d-4d07-9c11-43e35d3e1dda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\07. Bullet\01. MonsterBullet">
+      <UniqueIdentifier>{c875faed-af74-4cea-8bba-b45f5eeed4f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\07. Bullet\01. MonsterBullet\CImpBullet">
+      <UniqueIdentifier>{de7ec3bb-98ca-4015-b99c-13c3ebba9d3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\07. Bullet\01. MonsterBullet\CArchvileBullet">
+      <UniqueIdentifier>{1cbf5616-febe-4514-8ae4-cff8b435c829}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\07. Bullet\01. MonsterBullet\CZombiemanBullet">
       <UniqueIdentifier>{1e2dc9f0-f878-4ab9-b021-875175b0b37f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\02. Chaingun\00. ChaingunBullet">
+    <Filter Include="02. GameObject\07. Bullet\00. PlayerBullet\00. RocketBullet">
+      <UniqueIdentifier>{8b4efacd-7f6d-4ba4-a9af-7882936a1ffc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\07. Bullet\00. PlayerBullet\01. ShotgunBullet">
+      <UniqueIdentifier>{d26bc851-ceb1-4cc9-9e71-981a680d6dbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\07. Bullet\00. PlayerBullet\03. BFGBullet">
+      <UniqueIdentifier>{7c517f02-e6f6-4f4a-b871-f51eaf25049c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\07. Bullet\00. PlayerBullet\02. ChaingunBullet">
       <UniqueIdentifier>{1b18bf63-e4a7-4006-bc8c-0d237c6b1476}</UniqueIdentifier>
 </Filter>
     <Filter Include="01. Scene\05. MainMenu">
@@ -337,7 +343,7 @@
       <Filter>01. Scene\04. Stage3</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CImpBullet.h">
-      <Filter>02. GameObject\02. Monster\CMonsterBullet\CImpBullet</Filter>
+      <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CImpBullet</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CAmmo_Cell.h">
       <Filter>02. GameObject\06. Object\DropItem\Ammo</Filter>
@@ -355,10 +361,10 @@
       <Filter>02. GameObject\01. Player\01. PlayerWeapon</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CRocketBullet.h">
-      <Filter>03. Manager\00. WeaponManager\00. Weapon\03. Rocket\00. RocketBullet</Filter>
+      <Filter>02. GameObject\07. Bullet\00. PlayerBullet\00. RocketBullet</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CArchvileBullet.h">
-      <Filter>02. GameObject\02. Monster\CMonsterBullet\CArchvileBullet</Filter>
+      <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CArchvileBullet</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\FaceUIRegistry.h">
       <Filter>02. GameObject\09. UI\UIRegistry</Filter>
@@ -370,19 +376,22 @@
       <Filter>02. GameObject\09. UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CBfgBullet.h">
-      <Filter>03. Manager\00. WeaponManager\00. Weapon\04. BFG\01. BFGBullet</Filter>
+      <Filter>02. GameObject\07. Bullet\00. PlayerBullet\03. BFGBullet</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CZombiemanBullet.h">
-      <Filter>02. GameObject\02. Monster\CMonsterBullet\CZombiemanBullet</Filter>
+      <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CZombiemanBullet</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CShotgunBullet.h">
-      <Filter>03. Manager\00. WeaponManager\00. Weapon\01. Shotgun\00. ShotgunBullet</Filter>
+      <Filter>02. GameObject\07. Bullet\00. PlayerBullet\01. ShotgunBullet</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CChaingunBullet.h">
       <Filter>03. Manager\00. WeaponManager\00. Weapon\02. Chaingun\00. ChaingunBullet</Filter>
+    </ClInclude>
 </ClInclude>
     <ClInclude Include="..\Header\CMainMenu.h">
       <Filter>01. Scene\05. MainMenu</Filter>
+    </ClInclude>
+      <Filter>02. GameObject\07. Bullet\00. PlayerBullet\02. ChaingunBullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -546,7 +555,7 @@
       <Filter>02. GameObject\06. Object\FieldObject</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CImpBullet.cpp">
-      <Filter>02. GameObject\02. Monster\CMonsterBullet\CImpBullet</Filter>
+      <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CImpBullet</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CDoorWithKey.cpp">
       <Filter>02. GameObject\06. Object</Filter>
@@ -558,10 +567,10 @@
       <Filter>02. GameObject\01. Player\01. PlayerWeapon</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CRocketBullet.cpp">
-      <Filter>03. Manager\00. WeaponManager\00. Weapon\03. Rocket\00. RocketBullet</Filter>
+      <Filter>02. GameObject\07. Bullet\00. PlayerBullet\00. RocketBullet</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CArchvileBullet.cpp">
-      <Filter>02. GameObject\02. Monster\CMonsterBullet\CArchvileBullet</Filter>
+      <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CArchvileBullet</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\FaceUIRegistry.cpp">
       <Filter>02. GameObject\09. UI\UIRegistry</Filter>
@@ -573,16 +582,16 @@
       <Filter>02. GameObject\09. UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CBfgBullet.cpp">
-      <Filter>03. Manager\00. WeaponManager\00. Weapon\04. BFG\01. BFGBullet</Filter>
+      <Filter>02. GameObject\07. Bullet\00. PlayerBullet\03. BFGBullet</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CZombiemanBullet.cpp">
-      <Filter>02. GameObject\02. Monster\CMonsterBullet\CZombiemanBullet</Filter>
+      <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CZombiemanBullet</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CShotgunBullet.cpp">
-      <Filter>03. Manager\00. WeaponManager\00. Weapon\01. Shotgun\00. ShotgunBullet</Filter>
+      <Filter>02. GameObject\07. Bullet\00. PlayerBullet\01. ShotgunBullet</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CChaingunBullet.cpp">
-      <Filter>03. Manager\00. WeaponManager\00. Weapon\02. Chaingun\00. ChaingunBullet</Filter>
+      <Filter>02. GameObject\07. Bullet\00. PlayerBullet\02. ChaingunBullet</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CMainMenu.cpp">
       <Filter>01. Scene\05. MainMenu</Filter>
