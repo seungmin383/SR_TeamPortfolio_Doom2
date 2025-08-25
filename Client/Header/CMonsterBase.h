@@ -135,6 +135,9 @@ protected:
     CGameObject* m_pAttackTarget = nullptr; // nullptr 이면 Player
 
     _int m_iPreHp = m_iGameHp;
+
+    // --- 드랍 1회만 실행되도록 하는 가드 ---
+    _bool m_bDropDone = false;
 public:
     CGameObject* Get_AttackTarget() const { return m_pAttackTarget; }
 

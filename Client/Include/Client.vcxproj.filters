@@ -178,6 +178,9 @@
     <Filter Include="02. GameObject\07. Bullet\00. PlayerBullet\02. ChaingunBullet">
       <UniqueIdentifier>{1b18bf63-e4a7-4006-bc8c-0d237c6b1476}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Scene\05. MainMenu">
+      <UniqueIdentifier>{a7e073fa-b91c-4722-9035-151ed4813f06}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -384,6 +387,9 @@
     <ClInclude Include="..\Header\CChaingunBullet.h">
       <Filter>02. GameObject\07. Bullet\00. PlayerBullet\02. ChaingunBullet</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CMainMenu.h">
+      <Filter>01. Scene\05. MainMenu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -583,6 +589,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CChaingunBullet.cpp">
       <Filter>02. GameObject\07. Bullet\00. PlayerBullet\02. ChaingunBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CMainMenu.cpp">
+      <Filter>01. Scene\05. MainMenu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
