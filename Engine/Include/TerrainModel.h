@@ -7,7 +7,7 @@ struct TerrainModel
 	int idx;
 	int vertexCountX;
 	int vertexCountZ;
-	int vertexInterval;
+	float vertexInterval;
 
 	_vec3 pos;
 	vector<_vec3> vertices;

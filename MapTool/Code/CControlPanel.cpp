@@ -453,9 +453,9 @@ void CControlPanel::TerrainController()
 			{
 				dwIndex = tCachingControlInfo.vertexXCnt * i + j;
 
-				tCachingControlInfo.vertices.push_back({ (_float)j * tCachingControlInfo.vertexInterval
+				tCachingControlInfo.vertices.push_back({ (_float)j
 													, 0.f,
-													(_float)i * tCachingControlInfo.vertexInterval });
+													(_float)i});
 			}
 		}
 
@@ -482,9 +482,9 @@ void CControlPanel::TerrainController()
 			{
 				dwIndex = tCachingControlInfo.vertexXCnt * i + j;
 
-				tCachingControlInfo.vertices.push_back({ (_float)j * tCachingControlInfo.vertexInterval
+				tCachingControlInfo.vertices.push_back({ (_float)j
 													, 0.f,
-													(_float)i * tCachingControlInfo.vertexInterval });
+													(_float)i});
 			}
 		}
 
@@ -506,9 +506,9 @@ void CControlPanel::TerrainController()
 			{
 				dwIndex = tCachingControlInfo.vertexXCnt * i + j;
 
-				tCachingControlInfo.vertices.push_back({ (_float)j * tCachingControlInfo.vertexInterval
+				tCachingControlInfo.vertices.push_back({ (_float)j
 													, 0.f,
-													(_float)i * tCachingControlInfo.vertexInterval });
+													(_float)i});
 			}
 		}
 
@@ -632,7 +632,7 @@ void CControlPanel::Apply()
 		vecSector[tCachingControlInfo.terrainIdx]->Mod_BufferCom(
 			tCachingControlInfo.vertexXCnt,
 			tCachingControlInfo.vertexZCnt,
-			1.f,//tCachingControlInfo.vertexInterval,
+			tCachingControlInfo.vertexInterval,
 			tCachingControlInfo.vertices);
 
 		vecSector[tCachingControlInfo.terrainIdx]->Get_Transform()->Set_Pos(tCachingControlInfo.pos.x, tCachingControlInfo.pos.y, tCachingControlInfo.pos.z);
@@ -651,7 +651,7 @@ void CControlPanel::Apply()
 		auto pObj = CObjectFactory::GetInstance()->Create_Terrain(vecSector.size(),
 			tCachingControlInfo.vertexXCnt,
 			tCachingControlInfo.vertexZCnt,
-			1.f,//tCachingControlInfo.vertexInterval,
+			tCachingControlInfo.vertexInterval,
 			tCachingControlInfo.vertices,
 			(_tchar*)tCachingControlInfo.currentTextureTag.filename().wstring().c_str(),
 			tCachingControlInfo.pos);
@@ -667,7 +667,6 @@ void CControlPanel::Apply()
 void CControlPanel::SaveTerrain(fs::path path, string filename)
 {
 	Apply();
-	SetDefault();
 
 	vecTerrainInfos.clear();
 	vecTerrainInfos.shrink_to_fit();
@@ -693,6 +692,8 @@ void CControlPanel::SaveTerrain(fs::path path, string filename)
 	CFileManager::GetInstance()->SaveTerrain(path, filename, vecTerrainInfos);
 
 	CFileManager::GetInstance()->MoveDir(prevPath);
+	
+	SetDefault();
 }
 
 void CControlPanel::LoadTerrain(int sceneNumber)
@@ -719,7 +720,7 @@ void CControlPanel::LoadTerrain(int sceneNumber)
 		auto pObj = CObjectFactory::GetInstance()->Load_Terrain(vecSector.size(),
 			tCachingControlInfo.vertexXCnt,
 			tCachingControlInfo.vertexZCnt,
-			tCachingControlInfo.vertexInterval,//1.f,//tCachingControlInfo.vertexInterval,
+			tCachingControlInfo.vertexInterval,//tCachingControlInfo.vertexInterval,//1.f
 			tCachingControlInfo.vertices,
 			tCachingControlInfo.currentTextureTag,
 			tCachingControlInfo.pos);
@@ -835,13 +836,16 @@ void CControlPanel::InputMouse_Terrain()
 				return;
 
 			_float dist;
-			if (m_pCalculatorCom->Picking_MapTool(g_hWnd, pTerrainBuf, playerTransform, tCachingControlInfo.pos, dist))
+			if (m_pCalculatorCom->Picking_MapTool(g_hWnd, pTerrainBuf, pTerrainTransform, tCachingControlInfo.pos, dist))
 			{
 				if (nearest >= dist)
 				{
 					nearest = dist;
 					tCachingControlInfo = tControlInfo[item->Get_Index()];
 					curTex = vecSector[tCachingControlInfo.terrainIdx]->Get_TextureCom();
+
+					applied = true;
+					isModifing = true;
 				}
 			}
 		}

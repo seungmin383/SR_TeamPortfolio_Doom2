@@ -11,6 +11,7 @@
 #include "CTimerManager.h"
 #include "CRocket.h"
 #include "CBfg.h"
+#include "CTerrainSector.h"
 
 // Initialize static variable
 _long CDynamicCamera::s_lMouseMoveX = 0L;
@@ -413,18 +414,37 @@ void CDynamicCamera::Mouse_Fix()
 
 void CDynamicCamera::Set_OnTerrain()
 {
-	// 지형의 버텍스 정보를 가져온다
-	Engine::CTerrainTexSector* pTerrainBufferCom =
-		static_cast<CTerrainTexSector*>
-		(CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
+	//// 지형의 버텍스 정보를 가져온다
+	//Engine::CTerrainTexSector* pTerrainBufferCom =
+	//	static_cast<CTerrainTexSector*>
+	//	(CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
 
-	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&m_vEye, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
-	
-	// 카메라의 높이 (m_vEye.y)가 변화할 때 마다 바라보는 목표(m_vAt.y)도 바뀌어야한다.
-	// 카메라의 높이 변화량을 계산해서 변화량을 m_vEye, m_vAt 모두 더해줘야 시점이 유지된다.
-	_float deltaHeight = (height + 3.f) - m_vEye.y;
-	m_vEye.y += deltaHeight;
-	m_vAt.y += deltaHeight;
+	//_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&m_vEye, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
+	//
+	//// 카메라의 높이 (m_vEye.y)가 변화할 때 마다 바라보는 목표(m_vAt.y)도 바뀌어야한다.
+	//// 카메라의 높이 변화량을 계산해서 변화량을 m_vEye, m_vAt 모두 더해줘야 시점이 유지된다.
+	//_float deltaHeight = (height + 3.f) - m_vEye.y;
+	//m_vEye.y += deltaHeight;
+	//m_vAt.y += deltaHeight;
+
+	//TODO:로딩 시 지형정보 들고있게 수정
+	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
+	{
+		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
+		auto bufferCom = dterrain->Get_BufferCom();
+		auto transformCom = dterrain->Get_Transform();
+
+		_vec3 onPosition{ 0.f, 0.f, 0.f };
+		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition))
+		{
+			_float deltaHeight = (onPosition.y + 3.f) - m_vEye.y;
+			m_vEye.y += deltaHeight;
+			m_vAt.y += deltaHeight;
+
+			break;
+		}
+	}
+
 }
 
 void CDynamicCamera::Update_State()

@@ -22,6 +22,15 @@ public:
                                             const _ulong& dwCntX,
                                             const _ulong& dwCntZ,
                                             const _ulong& dwVtxItv = VTXITV);
+    _float          Compute_HeightOnTerrain(_vec3 pPos,
+                                            _ulong dwIndex,
+                                            const _vec3* pTerrainVtxPos,
+                                            _ulong dwCntX,
+                                            _ulong dwCntZ,
+                                            _ulong dwVtxItv,
+                                            _bool RightUp);
+
+    _bool           RayScan_OnTerrain(CTerrainTexSector* pTerrainSectorBufferCom, CTransform* pTerrainTransformCom, _vec3* targetPos);
 
     _vec3           Picking_OnTerrain(HWND hWnd,
                                     CTerrainTex* pTerrainBufferCom,
@@ -30,7 +39,7 @@ public:
     _bool           Picking_GameObject(HWND hWnd);
     _bool           Picking_MapTool(HWND hWnd, CTerrainTexSector* pTerrainSectorBufferCom, CTransform* pTerrainTransformCom, _vec3& targetPos, _float& dist);
 
-    _bool          Picking_TerrainSearch(HWND hWnd, CTerrainTexSector* pTerrainSectorBufferCom);
+    _bool           Picking_TerrainSearch(HWND hWnd, CTerrainTexSector* pTerrainSectorBufferCom);
     
 public:
     static CCalculator*     Create(LPDIRECT3DDEVICE9 pGraphicDev);

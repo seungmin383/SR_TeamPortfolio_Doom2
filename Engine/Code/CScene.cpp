@@ -69,6 +69,20 @@ const vector<CGameObject*> CScene::Get_TotalGameObject(OBJID eObjId)
 	return result;
 }
 
+vector<CGameObject*> CScene::Get_Terrain()
+{
+	auto layer = m_mapLayer.find(LAYERID::LAYER_ENVIRONMENT);
+	
+	return (*layer).second->Get_ObjectGroup(OBJID::OBJ_TERRAIN);
+}
+
+vector<CGameObject*> CScene::Get_Wall()
+{
+	auto layer = m_mapLayer.find(LAYERID::LAYER_ENVIRONMENT);
+
+	return (*layer).second->Get_ObjectGroup(OBJID::OBJ_WALL);
+}
+
 HRESULT CScene::Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, _int iCnt)
 {
 	auto iter = m_mapLayer.find(LAYERID::LAYER_GAMELOGIC);
