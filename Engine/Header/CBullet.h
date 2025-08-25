@@ -42,6 +42,8 @@ protected:
 	CGameObject* m_pOwner = nullptr;			//총알의 주인
 	_vec3 m_vInitDir;							//발사할 때 총알의 방향
 
+	_float m_fTimer = 0.f;
+
 public:
 	virtual HRESULT     Add_Component();
 

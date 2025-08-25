@@ -36,6 +36,7 @@ public:
         virtual _bool Check_Target();                                                           //시야에 플레이어가 있는지 확인하는 함수
         virtual _bool Check_Shooting_Sound();                                                           //시야에 플레이어가 있는지 확인하는 함수
         virtual void Check_Hit(const _float& fTimeDelta);                                                                //맞았는가?
+        virtual void Calc_Hp();
         virtual _bool Check_Attack(const _float& fTimeDelta);
 
     virtual void  Action(const _float& fTimeDelta, _int _Thought);          //행동하는 함수
@@ -133,6 +134,7 @@ protected:
 
     CGameObject* m_pAttackTarget = nullptr; // nullptr 이면 Player
 
+    _int m_iPreHp = m_iGameHp;
 public:
     CGameObject* Get_AttackTarget() const { return m_pAttackTarget; }
 

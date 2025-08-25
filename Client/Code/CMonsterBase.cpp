@@ -45,6 +45,8 @@ HRESULT         CMonsterBase::Ready_GameObject()
 	freopen_s(&fp, "CONOUT$", "w", stdout);
 	freopen_s(&fp, "CONOUT$", "w", stderr);*/
 
+	m_iPreHp = m_iGameHp;
+
 	return S_OK;
  }
 
@@ -70,7 +72,6 @@ void                 CMonsterBase::LateUpdate_GameObject(const _float& fTimeDelt
 
 void                 CMonsterBase::Render_GameObject(const _float& fTimeDelta)
 {
-
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
@@ -93,12 +94,6 @@ void CMonsterBase::OnCollisionEnter(CCollider* _pOther)
 {
 	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
 
-	if (m_pColliderCom->Is_RayHit())
-	{
-		m_isRecognize_Player = TRUE;
-		m_isHit = TRUE;
-		m_iGameHp -= CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponDamage();
-	}
 }
 
 void CMonsterBase::OnCollisionExit(CCollider* _pOther)
@@ -185,6 +180,7 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 {
 	m_isDead						= Check_Dead();
 	//m_isHit							= Check_Hit();
+	Calc_Hp();
 	Check_Hit(fTimeDelta);
 	m_isDetected_Player = Check_Shooting_Sound();
 	m_isDetect_Player		= Check_Target();
@@ -431,6 +427,7 @@ _bool CMonsterBase::Check_Dead()
 		if (!m_bCountedDeath)
 		{
 			m_bCountedDeath = true;
+
 			CStatsManager::I().OnEnemyKilled();
 		}
 
@@ -459,6 +456,17 @@ void CMonsterBase::Check_Hit(const _float& fTimeDelta)
 			m_HitEnterCnt++;
 		}
 	}
+}
+
+void CMonsterBase::Calc_Hp()
+{
+	if (m_iGameHp != m_iPreHp)
+	{
+		m_isHit = TRUE;
+		m_iPreHp = m_iGameHp;
+	}
+
+	return;
 }
 
 _bool CMonsterBase::Check_Attack(const _float& fTimeDelta)

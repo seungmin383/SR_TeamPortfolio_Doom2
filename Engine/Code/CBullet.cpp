@@ -24,6 +24,13 @@ HRESULT CBullet::Ready_GameObject()
 
 _int CBullet::Update_GameObject(const _float& fTimeDelta)
 {
+	m_fTimer += fTimeDelta;
+	if (m_fTimer > 5.f)
+	{
+		m_fTimer = 0.f;
+		return -1;
+	}
+
 	CGameObject::Update_GameObject(fTimeDelta);
 	return 0;
 }

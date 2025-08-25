@@ -94,7 +94,9 @@ _int CImpBullet::Update_GameObject(const _float& fTimeDelta)
 		return -1;
 	}
 
-	CBullet::Update_GameObject(fTimeDelta);
+	if (CBullet::Update_GameObject(fTimeDelta) == -1)
+		return -1;
+
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 	if(!m_bDead)
 		Linear_Movement(fTimeDelta);
