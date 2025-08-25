@@ -34,7 +34,6 @@ _bool CRocket::Fire()
 		m_eCurState = WEAPON_STATE::SHOT;
 		m_fElapsedTime = m_fFireDelay;
 
-
 		CGameObject* pPlayer = CManagement::GetInstance()->Get_Player();
 		_vec3 vPlayerPos;
 		pPlayer->Get_Transform()->Get_Pos(&vPlayerPos);

@@ -39,7 +39,7 @@ HRESULT CRocketBullet::Ready_GameObject()
 	_vec3 vOffset = { 0.f, 0.f ,0.f };
 
 	m_pColliderCom->Ready_CCollider(this, vPos, vColliderScale, vOffset, COLLAYERID::COL_BULLET,
-		COLLAYERID::COL_ENEMY | COLLAYERID::COL_WALL | COLLAYERID::COL_TERRAIN | COLLAYERID::COL_OBJECT);
+		COLLAYERID::COL_ENEMY | COLLAYERID::COL_WALL | COLLAYERID::COL_TERRAIN);
 
 	// Animation Setting
 	Ready_Animation();
@@ -110,7 +110,6 @@ void CRocketBullet::OnCollision(CCollider* _pOther)
 {
 	if (_pOther->Get_ColLayer() == COLLAYERID::COL_ENEMY)
 		_pOther->Get_Owner()->Take_Dmg(m_iDmg);
-
 }
 
 void CRocketBullet::OnCollisionEnter(CCollider* _pOther)
@@ -135,7 +134,6 @@ void CRocketBullet::OnCollisionEnter(CCollider* _pOther)
 	default:
 		break;
 	}
-
 
 	// 충돌 후에는 텍스쳐와 콜라이더 스케일을 크게 만든다.
 	_vec3 vAfterScale = { 2.f, 2.f, 2.f };
@@ -167,6 +165,8 @@ HRESULT CRocketBullet::Add_Component()
 		return E_FAIL;
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
+
+	return S_OK;
 }
 
 void CRocketBullet::Ready_Animation()
