@@ -32,8 +32,17 @@ public:
 
 	_float	Get_SwapTime() { return m_fSwapTimer; }
 
-	_int	Get_Ammo(AMMO_TYPE eType) { return m_mapAmmo[eType]; }
-	_int	Get_MaxAmmo(AMMO_TYPE eType) { return m_mapMaxAmmo[eType]; }		// 혹시 몰라서 추가(김홍인)
+	//_int	Get_Ammo(AMMO_TYPE eType) { return m_mapAmmo[eType]; }
+	// 수정(안전): 읽기 전용 조회 - 삽입/수정 없음
+	_int Get_Ammo(AMMO_TYPE eType) const noexcept {
+		auto it = m_mapAmmo.find(eType);
+		return (it != m_mapAmmo.end()) ? it->second : 0;
+	}
+	//_int	Get_MaxAmmo(AMMO_TYPE eType) { return m_mapMaxAmmo[eType]; }		// 혹시 몰라서 추가(김홍인)
+	_int Get_MaxAmmo(AMMO_TYPE eType) const noexcept {
+		auto it = m_mapMaxAmmo.find(eType);
+		return (it != m_mapMaxAmmo.end()) ? it->second : 200;
+	}
 
 public:
 	void Add_Weapon(WEAPON_ID eID, CWeapon* pWeapon);					// 무기 추가 함수
@@ -42,10 +51,15 @@ public:
 	_bool Consume_Ammo(AMMO_TYPE eAmmoType);							// 총알 소모 함수
 	_bool Fire_Weapon();												// 무기 발사 함수
 
+	void ResetOnSceneChange();											// 씬 전환시 무기 초기화 함수(08/25 김홍인)
+	void DestroyAllWeapons();											// 무기 파괴 함수
+	void InitDefaultAmmo();
 private:
 	map<WEAPON_ID, CWeapon*> m_mapWeapon;			// 무기 담긴 컨테이너
 	map<AMMO_TYPE, _int> m_mapAmmo;		// 총알 담긴 컨테이너
 	map<AMMO_TYPE, _int> m_mapMaxAmmo;		// 무기별 최대 총알 개수 담긴 컨테이너
+
+	//map<WEAPON_ID, unique_ptr<CWeapon>> m_weapons;
 
 	CWeapon* m_pCurWeapon;		// 현재 무기
 	CWeapon* m_pPrevWeapon;		// 이전 무기

@@ -2,6 +2,7 @@
 #include "CMainApp.h"
 
 #include "CLogo.h"
+#include "CMainMenu.h"
 #include "CStage.h"
 #include "CStage2.h"
 #include "CStage3.h"
@@ -261,9 +262,6 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 		return E_FAIL;
 
 
-
-
-
 	//텍스처 필터
 	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
@@ -281,6 +279,7 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 HRESULT CMainApp::Ready_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	m_pManagementClass->Add_Scene(SCENEID::LOGO, new CLogo(pGraphicDev));
+	m_pManagementClass->Add_Scene(SCENEID::MAINMENU, new CMainMenu(pGraphicDev));
 	m_pManagementClass->Add_Scene(SCENEID::STAGE1, new CStage(pGraphicDev));
 	m_pManagementClass->Add_Scene(SCENEID::STAGE2, new CStage2(pGraphicDev));
 	m_pManagementClass->Add_Scene(SCENEID::STAGE3, new CStage3(pGraphicDev));

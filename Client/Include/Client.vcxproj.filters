@@ -171,6 +171,9 @@
     </Filter>
     <Filter Include="03. Manager\00. WeaponManager\00. Weapon\02. Chaingun\00. ChaingunBullet">
       <UniqueIdentifier>{1b18bf63-e4a7-4006-bc8c-0d237c6b1476}</UniqueIdentifier>
+</Filter>
+    <Filter Include="01. Scene\05. MainMenu">
+      <UniqueIdentifier>{80026c67-1433-4da8-b98e-7c368eb49c8f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -377,6 +380,9 @@
     </ClInclude>
     <ClInclude Include="..\Header\CChaingunBullet.h">
       <Filter>03. Manager\00. WeaponManager\00. Weapon\02. Chaingun\00. ChaingunBullet</Filter>
+</ClInclude>
+    <ClInclude Include="..\Header\CMainMenu.h">
+      <Filter>01. Scene\05. MainMenu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -577,6 +583,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CChaingunBullet.cpp">
       <Filter>03. Manager\00. WeaponManager\00. Weapon\02. Chaingun\00. ChaingunBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CMainMenu.cpp">
+      <Filter>01. Scene\05. MainMenu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

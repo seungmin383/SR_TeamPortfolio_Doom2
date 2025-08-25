@@ -1,5 +1,6 @@
 #pragma once
 #include "CScene.h"
+#include "CMainMenu.h"
 #include "CLoading.h"
 
 class CLogo :
