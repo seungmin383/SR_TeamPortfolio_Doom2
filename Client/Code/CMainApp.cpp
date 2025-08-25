@@ -2,6 +2,7 @@
 #include "CMainApp.h"
 
 #include "CLogo.h"
+#include "CMainMenu.h"
 #include "CStage.h"
 #include "CStage2.h"
 #include "CStage3.h"
@@ -31,6 +32,7 @@
 #include "CShotgunGuy.h"
 #include "CImpBullet.h"
 #include "CArchvileBullet.h"
+#include "CZombiemanBullet.h"
 
 #include "CPlayerWeapon.h"
 #include "CHealth_Small.h"
@@ -46,6 +48,9 @@
 #include "CWeapon_ChainGun.h"
 #include "CWeapon_Rocket.h"
 #include "CWeapon_BFG.h"
+
+#include "CChaingunBullet.h"
+#include "CShotgunBullet.h"
 #include "CRocketBullet.h"
 #include "CBfgBullet.h"
 
@@ -232,20 +237,29 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP_BULLET, CImpBullet::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	// Á»ºñ¸Ç ÃÑ¾Ë
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ZOMBIEMAN_BULLET, CZombiemanBullet::Create(m_pGraphicDev))))
+		return E_FAIL;
+
 	// ¾ÆÅ©¹ÙÀÏ ÃÑ¾Ë
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE_BULLET, CArchvileBullet::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// ÀÏ¹Ý ÃÑ¾Ë
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::PLAYER_NORMAL_BULLET, CChaingunBullet::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// ¼¦°Ç ÃÑ¾Ë
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::PLAYER_SHOTGUN_BULLET, CShotgunBullet::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	// ·ÎÄÏ ÃÑ¾Ë
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::PLAYER_ROCKET_BULLET, CRocketBullet::Create(m_pGraphicDev))))
 		return E_FAIL;
 
-	// ·ÎÄÏ ÃÑ¾Ë
+	// BFG ÃÑ¾Ë
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::PLAYER_BFG_BULLET, CBfgBullet::Create(m_pGraphicDev))))
 		return E_FAIL;
-
-
-
 
 
 	//ÅØ½ºÃ³ ÇÊÅÍ
@@ -265,6 +279,7 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 HRESULT CMainApp::Ready_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	m_pManagementClass->Add_Scene(SCENEID::LOGO, new CLogo(pGraphicDev));
+	m_pManagementClass->Add_Scene(SCENEID::MAINMENU, new CMainMenu(pGraphicDev));
 	m_pManagementClass->Add_Scene(SCENEID::STAGE1, new CStage(pGraphicDev));
 	m_pManagementClass->Add_Scene(SCENEID::STAGE2, new CStage2(pGraphicDev));
 	m_pManagementClass->Add_Scene(SCENEID::STAGE3, new CStage3(pGraphicDev));

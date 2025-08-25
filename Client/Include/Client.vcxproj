@@ -184,6 +184,7 @@
     <ClInclude Include="..\Header\CBfg.h" />
     <ClInclude Include="..\Header\CBfgBullet.h" />
     <ClInclude Include="..\Header\CChaingun.h" />
+    <ClInclude Include="..\Header\CChaingunBullet.h" />
     <ClInclude Include="..\Header\CDoor.h" />
     <ClInclude Include="..\Header\CDoorWithKey.h" />
     <ClInclude Include="..\Header\CDynamicCamera.h" />
@@ -199,6 +200,7 @@
     <ClInclude Include="..\Header\CImpBullet.h" />
     <ClInclude Include="..\Header\CKey.h" />
     <ClInclude Include="..\Header\CLoading.h" />
+    <ClInclude Include="..\Header\CMainMenu.h" />
     <ClInclude Include="..\Header\CMonsterBase.h" />
     <ClInclude Include="..\Header\CObjectFactory.h" />
     <ClInclude Include="..\Header\CPinky.h" />
@@ -207,6 +209,7 @@
     <ClInclude Include="..\Header\CRocket.h" />
     <ClInclude Include="..\Header\CRocketBullet.h" />
     <ClInclude Include="..\Header\CShotgun.h" />
+    <ClInclude Include="..\Header\CShotgunBullet.h" />
     <ClInclude Include="..\Header\CShotgunGuy.h" />
     <ClInclude Include="..\Header\CSkyBox.h" />
     <ClInclude Include="..\Header\CSpiderMastermind.h" />
@@ -229,6 +232,7 @@
     <ClInclude Include="..\Header\CWeaponManager.h" />
     <ClInclude Include="..\Header\CZombieMan.h" />
     <ClInclude Include="..\Header\CStage2.h" />
+    <ClInclude Include="..\Header\CZombiemanBullet.h" />
     <ClInclude Include="..\Header\FaceUIRegistry.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
@@ -250,6 +254,7 @@
     <ClCompile Include="..\Code\CBfg.cpp" />
     <ClCompile Include="..\Code\CBfgBullet.cpp" />
     <ClCompile Include="..\Code\CChaingun.cpp" />
+    <ClCompile Include="..\Code\CChaingunBullet.cpp" />
     <ClCompile Include="..\Code\CDoor.cpp" />
     <ClCompile Include="..\Code\CDoorWithKey.cpp" />
     <ClCompile Include="..\Code\CDynamicCamera.cpp" />
@@ -265,6 +270,7 @@
     <ClCompile Include="..\Code\CKey.cpp" />
     <ClCompile Include="..\Code\CImpBullet.cpp" />
     <ClCompile Include="..\Code\CLoading.cpp" />
+    <ClCompile Include="..\Code\CMainMenu.cpp" />
     <ClCompile Include="..\Code\CMonsterBase.cpp" />
     <ClCompile Include="..\Code\CObjectFactory.cpp" />
     <ClCompile Include="..\Code\CPinky.cpp" />
@@ -273,6 +279,7 @@
     <ClCompile Include="..\Code\CRocket.cpp" />
     <ClCompile Include="..\Code\CRocketBullet.cpp" />
     <ClCompile Include="..\Code\CShotgun.cpp" />
+    <ClCompile Include="..\Code\CShotgunBullet.cpp" />
     <ClCompile Include="..\Code\CShotgunGuy.cpp" />
     <ClCompile Include="..\Code\CSkyBox.cpp" />
     <ClCompile Include="..\Code\CSpiderMastermind.cpp" />
@@ -295,6 +302,7 @@
     <ClCompile Include="..\Code\CWeaponManager.cpp" />
     <ClCompile Include="..\Code\CZombieMan.cpp" />
     <ClCompile Include="..\Code\CStage2.cpp" />
+    <ClCompile Include="..\Code\CZombiemanBullet.cpp" />
     <ClCompile Include="..\Code\FaceUIRegistry.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="pch.cpp">

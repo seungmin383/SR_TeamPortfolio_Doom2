@@ -5,6 +5,7 @@
 #include "CManagement.h"
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
+#include "CBullet.h"
 
 CShotgunGuy::CShotgunGuy(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonsterBase(pGraphicDev)
@@ -113,7 +114,7 @@ HRESULT CShotgunGuy::Ready_GameObject()
 
 	m_fAtkSpeed = 4.f;
 	m_iGameHp = 20;
-	m_iAtkDmg = 30;
+	m_iAtkDmg = 3;
 
 	m_fAtkDelay = 0.f;
 	m_fMoveDelay = 0.f;
@@ -148,6 +149,65 @@ void CShotgunGuy::LateUpdate_GameObject(const _float& fTimeDelta)
 void CShotgunGuy::Render_GameObject(const _float& fTimeDelta)
 {
 	CMonsterBase::Render_GameObject(fTimeDelta);
+}
+
+void CShotgunGuy::Attack(const _float fTimeDelta)
+{
+	m_isShoot = TRUE;
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	CGameObject* tmp = nullptr;
+
+	for (int i = 0; i < 5; i++)
+	{
+		if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_ZOMBIEMAN_BULLET, OBJID::OBJ_BULLET, vPos, this, tmp)))
+		{
+			int a = 0;
+		}
+
+		if (tmp == nullptr)
+			return;
+
+		tmp->Set_Dead(FALSE);
+		tmp->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+		_float aa = 0;
+
+		switch (i)
+		{
+		case 0:
+			aa = -0.1f;
+			break;
+		case 1:
+			aa = -0.05f;
+			break;
+		case 2:
+			aa = -0.f;
+			break;
+		case 3:
+			aa = 0.05f;
+			break;
+		case 4:
+			aa = 0.1f;
+			break;
+
+		}
+		_vec3	 tmpAng = m_vMoveLook;
+		_matrix rotmat;
+		D3DXMatrixIdentity(&rotmat);
+		D3DXMatrixRotationY(&rotmat, aa);
+		D3DXVec3TransformNormal(&tmpAng, &tmpAng, &rotmat);
+
+		dynamic_cast<CBullet*>(tmp)->Set_InitDir(tmpAng);
+	}
+}
+
+void CShotgunGuy::Drop_Item()
+{
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+
+	CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::WEAPON_SHOTGUN, OBJID::OBJ_ITEM, vPos, 1);
+	
 }
 
 

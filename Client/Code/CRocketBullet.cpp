@@ -69,7 +69,9 @@ _int CRocketBullet::Update_GameObject(const _float& fTimeDelta)
 	m_pTransformCom->Get_Pos(&vPos);
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
-	CBullet::Update_GameObject(fTimeDelta);
+	if (CBullet::Update_GameObject(fTimeDelta) == -1)
+		return -1;
+
 	m_iAnimState = Calc_AnimState_byPlayer(m_vInitDir, vPos);
 
 	Linear_Movement(fTimeDelta);

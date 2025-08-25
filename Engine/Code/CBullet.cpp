@@ -24,6 +24,13 @@ HRESULT CBullet::Ready_GameObject()
 
 _int CBullet::Update_GameObject(const _float& fTimeDelta)
 {
+	m_fTimer += fTimeDelta;
+	if (m_fTimer > 5.f)
+	{
+		m_fTimer = 0.f;
+		return -1;
+	}
+
 	CGameObject::Update_GameObject(fTimeDelta);
 	return 0;
 }
@@ -90,7 +97,7 @@ void CBullet::OnCollision(CCollider* _pOther)
 	if (_pOther->Get_Owner() == m_pOwner)
 		return;
 
-	//m_bDead = TRUE;
+	m_bDead = TRUE;
 }
 
 void CBullet::OnCollisionEnter(CCollider* _pOther)
@@ -100,7 +107,7 @@ void CBullet::OnCollisionEnter(CCollider* _pOther)
 
 	_pOther->Get_Owner()->Take_Dmg(m_iDmg);
 
-	//m_bDead = TRUE;
+	m_bDead = TRUE;
 }
 
 void CBullet::OnCollisionExit(CCollider* _pOther)

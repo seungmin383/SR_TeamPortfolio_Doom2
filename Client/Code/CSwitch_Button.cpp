@@ -212,7 +212,7 @@ void CSwitch_Button::SetSwitchOn()
 		if (one) one->OpenDoor();
 	}
 
-	if (m_linkId == L"EXIT") {
+	if (m_linkId == L"EXIT") {								// 스테이지 끝
 		if (auto* st = dynamic_cast<CStage*>(CManagement::GetInstance()->Get_Scene())) {
 			st->EnterResultMode();
 		}

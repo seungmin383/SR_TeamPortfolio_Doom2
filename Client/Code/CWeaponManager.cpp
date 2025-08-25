@@ -15,9 +15,6 @@ CWeaponManager::CWeaponManager() :
 	m_mapMaxAmmo.emplace(AMMO_TYPE::CELL, 600);
 
 	m_mapAmmo.emplace(AMMO_TYPE::CLIP, 40);
-	m_mapAmmo.emplace(AMMO_TYPE::SHELL, 50);
-	m_mapAmmo.emplace(AMMO_TYPE::ROCKET, 50);
-	m_mapAmmo.emplace(AMMO_TYPE::CELL, 50);
 }
 
 CWeaponManager::~CWeaponManager()
@@ -73,8 +70,8 @@ void CWeaponManager::Change_Weapon(WEAPON_ID eID)
 		return;
 
 	// 무기의 상태가 사격, 교체 상태면 리턴
-	if (iter->second->Get_WeaponState() == WEAPON_STATE::SHOT ||
-		iter->second->Get_WeaponState() == WEAPON_STATE::SWAP)
+	if (m_pCurWeapon->Get_WeaponState() == WEAPON_STATE::SHOT ||
+		m_pCurWeapon->Get_WeaponState() == WEAPON_STATE::SWAP)
 		return;
 
 	// 무기를 교체 상태로 변경 후 교체 예정인 ID를 저장
@@ -125,6 +122,24 @@ bool CWeaponManager::Fire_Weapon()
 	}
 
 	return false;
+}
+
+void CWeaponManager::ResetOnSceneChange()
+{
+	//m_pCurWeapon = nullptr;       // 현재 무기 포인터 무효화
+	//m_mapWeapon.clear();                // 인벤토리 컨테이너 비우기(벡터/맵 등 실제 멤버명에 맞게)
+	// 필요하다면 탄약/상태도 초기화
+}
+
+
+void CWeaponManager::InitDefaultAmmo()
+{
+	m_mapAmmo.clear();
+	// 키를 미리 만들어 두면 HUD에서 find 실패 → 0 반환 루트가 더 단순해짐
+	m_mapAmmo.emplace(AMMO_TYPE::SHELL, 0);
+	m_mapAmmo.emplace(AMMO_TYPE::ROCKET, 0);
+	m_mapAmmo.emplace(AMMO_TYPE::CLIP, 50);
+	m_mapAmmo.emplace(AMMO_TYPE::CELL, 0);
 }
 
 void CWeaponManager::Free()
