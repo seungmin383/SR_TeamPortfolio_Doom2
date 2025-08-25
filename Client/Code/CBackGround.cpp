@@ -79,7 +79,7 @@ HRESULT CBackGround::Add_Component()
 	if (nullptr == pComponent)
 		return E_FAIL;
 
-	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
+	m_mapComponent[ID_STATIC].insert({ L"Com_Texture2", pComponent });
 
 	return S_OK;
 }

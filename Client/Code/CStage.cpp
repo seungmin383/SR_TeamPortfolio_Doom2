@@ -492,6 +492,23 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 		tr6->Set_Pos(25.f, 0.f, 18.f);   // 기준 위치
 	}
 
+	/*vector<_vec3> ShotgunPos = {
+		_vec3(26.f, 0.f, 10.f),
+		_vec3(32.f, 0.f, 10.f),
+	};
+	for (const auto& p : ShotgunPos) {
+		auto* pShotgun = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::WEAPON_SHOTGUN);
+		if (!pShotgun) return E_FAIL;
+
+		if (auto* tr = dynamic_cast<Engine::CTransform*>(pShotgun->Get_Component(Engine::ID_DYNAMIC, L"Com_Transform")))
+		{
+			tr->Set_Pos(p.x, p.y, p.z);
+		}
+
+		if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pShotgun)))
+			return E_FAIL;
+	}*/
+
 	// 샷건 오브젝트
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::WEAPON_SHOTGUN);
 

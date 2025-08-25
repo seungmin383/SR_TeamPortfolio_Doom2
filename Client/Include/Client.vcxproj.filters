@@ -166,6 +166,9 @@
     <Filter Include="03. Manager\00. WeaponManager\00. Weapon\01. Shotgun\00. ShotgunBullet">
       <UniqueIdentifier>{d26bc851-ceb1-4cc9-9e71-981a680d6dbc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Scene\05. MainMenu">
+      <UniqueIdentifier>{80026c67-1433-4da8-b98e-7c368eb49c8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -363,6 +366,9 @@
     <ClInclude Include="..\Header\CBfgBullet.h">
       <Filter>03. Manager\00. WeaponManager\00. Weapon\04. BFG\01. BFGBullet</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CMainMenu.h">
+      <Filter>01. Scene\05. MainMenu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -553,6 +559,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CBfgBullet.cpp">
       <Filter>03. Manager\00. WeaponManager\00. Weapon\04. BFG\01. BFGBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CMainMenu.cpp">
+      <Filter>01. Scene\05. MainMenu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

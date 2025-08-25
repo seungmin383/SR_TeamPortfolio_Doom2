@@ -1,7 +1,6 @@
 #pragma once
 #include "CGameObject.h"
 #include "CPrototypeManager.h"
-#include "CMainMenu.h"
 
 class CBackGround :
     public CGameObject
