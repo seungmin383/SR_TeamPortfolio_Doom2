@@ -15,9 +15,6 @@ CWeaponManager::CWeaponManager() :
 	m_mapMaxAmmo.emplace(AMMO_TYPE::CELL, 600);
 
 	m_mapAmmo.emplace(AMMO_TYPE::CLIP, 40);
-	m_mapAmmo.emplace(AMMO_TYPE::SHELL, 50);
-	m_mapAmmo.emplace(AMMO_TYPE::ROCKET, 50);
-	m_mapAmmo.emplace(AMMO_TYPE::CELL, 50);
 }
 
 CWeaponManager::~CWeaponManager()
@@ -27,10 +24,6 @@ CWeaponManager::~CWeaponManager()
 
 void CWeaponManager::Update_Weapon(const _float& fTimeDelta)
 {
-	wchar_t buf[64];
-	swprintf(buf, 64, L"State : %d\n", m_pCurWeapon->Get_WeaponState());
-	OutputDebugString(buf);
-
 	if (m_pCurWeapon != nullptr)
 	{
 		m_pCurWeapon->Update_GameObject(fTimeDelta);

@@ -8,6 +8,7 @@
 #include "CGameUI_Face.h"
 #include "FaceUIRegistry.h"
 #include "CStatsManager.h"
+#include "CShotgun.h"
 
 CWeapon_Shotgun::CWeapon_Shotgun(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -40,7 +41,7 @@ HRESULT CWeapon_Shotgun::Ready_GameObject()
 		_vec3(0, 0, 0),           // 초기 위치(Transform가 실제로 잡아줌)
 		_vec3(1.f, 1.f, 1.f),  // 아이템 박스 크기 예시
 		_vec3(0, 0.4f, 0),        // 약간 위로
-		COL_ITEM,               // 너희 COLLAYERID에서 아이템 레이어
+		COL_WEAPON,               // 너희 COLLAYERID에서 아이템 레이어
 		COL_PLAYER     // (마스크를 쓴다면) 플레이어와만 맞게
 	);
 	m_pColliderCom->Set_Active(true);
@@ -113,15 +114,17 @@ void CWeapon_Shotgun::OnCollisionEnter(CCollider* _pOther)
 		OutputDebugStringA("[WS] g_FaceUI is null. CStage에서 등록됐는지 확인\n");
 	}
 
+	CWeaponManager* pWeaponManager = CWeaponManager::GetInstance();
+	if (pWeaponManager->Get_Weapon(WEAPON_ID::SHOTGUN) == nullptr)
+	{
+		CWeapon* pShotgun = CShotgun::Create();
+		pWeaponManager->Add_Weapon(WEAPON_ID::SHOTGUN, pShotgun);
+		pWeaponManager->Change_Weapon(WEAPON_ID::SHOTGUN);
+		pWeaponManager->Add_Ammo(AMMO_TYPE::SHELL, 8);
+	}
+	else
+		pWeaponManager->Add_Ammo(AMMO_TYPE::SHELL, 8);
 
-	if (auto* wm = CWeaponManager::GetInstance()) {
-		wm->Add_Weapon(WEAPON_ID::SHOTGUN, (CWeapon*)this);
-		wm->Change_Weapon(WEAPON_ID::SHOTGUN);
-		wm->Add_Ammo(AMMO_TYPE::SHELL, 8);
-	}
-	else {
-		OutputDebugStringA("[WS] WeaponManager is null\n");
-	}
 
 	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
 	// Update_GameObject()에서 m_bPicked면 -1 반환 → 레이어에서 제거

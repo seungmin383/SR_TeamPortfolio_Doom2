@@ -23,7 +23,10 @@ public:
 	virtual     void			OnCollisionEnter(CCollider* _pOther) override;
 	virtual     void			OnCollisionExit(CCollider* _pOther) override;
 
+	WEAPON_ID	Get_WeaponID() { return m_eWeaponID; }
+
 private:
+	WEAPON_ID	m_eWeaponID = WEAPON_ID::BFG;
 	bool m_bPicked = false;
 
 private:
