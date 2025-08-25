@@ -90,7 +90,7 @@ void CBullet::OnCollision(CCollider* _pOther)
 	if (_pOther->Get_Owner() == m_pOwner)
 		return;
 
-	//m_bDead = TRUE;
+	m_bDead = TRUE;
 }
 
 void CBullet::OnCollisionEnter(CCollider* _pOther)
@@ -100,7 +100,7 @@ void CBullet::OnCollisionEnter(CCollider* _pOther)
 
 	_pOther->Get_Owner()->Take_Dmg(m_iDmg);
 
-	//m_bDead = TRUE;
+	m_bDead = TRUE;
 }
 
 void CBullet::OnCollisionExit(CCollider* _pOther)

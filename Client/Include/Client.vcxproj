@@ -228,6 +228,7 @@
     <ClInclude Include="..\Header\CWeaponManager.h" />
     <ClInclude Include="..\Header\CZombieMan.h" />
     <ClInclude Include="..\Header\CStage2.h" />
+    <ClInclude Include="..\Header\CZombiemanBullet.h" />
     <ClInclude Include="..\Header\FaceUIRegistry.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
@@ -293,6 +294,7 @@
     <ClCompile Include="..\Code\CWeaponManager.cpp" />
     <ClCompile Include="..\Code\CZombieMan.cpp" />
     <ClCompile Include="..\Code\CStage2.cpp" />
+    <ClCompile Include="..\Code\CZombiemanBullet.cpp" />
     <ClCompile Include="..\Code\FaceUIRegistry.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="pch.cpp">

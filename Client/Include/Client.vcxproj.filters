@@ -163,6 +163,9 @@
     <Filter Include="03. Manager\03. StatsManager">
       <UniqueIdentifier>{dfa1612c-4353-4ea3-b2ea-cdc37517a8af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\02. Monster\CMonsterBullet\CZombiemanBullet">
+      <UniqueIdentifier>{1e2dc9f0-f878-4ab9-b021-875175b0b37f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -357,6 +360,9 @@
     <ClInclude Include="..\Header\CUI_StageClear.h">
       <Filter>02. GameObject\09. UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CZombiemanBullet.h">
+      <Filter>02. GameObject\02. Monster\CMonsterBullet\CZombiemanBullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -544,6 +550,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CUI_StageClear.cpp">
       <Filter>02. GameObject\09. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CZombiemanBullet.cpp">
+      <Filter>02. GameObject\02. Monster\CMonsterBullet\CZombiemanBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

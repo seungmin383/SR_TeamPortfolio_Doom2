@@ -20,6 +20,7 @@ public:
     virtual     void			OnCollisionEnter(CCollider* _pOther) override;
     virtual     void			OnCollisionExit(CCollider* _pOther) override;*/
 
+    virtual void         Attack(const _float fTimeDelta)override;
 #pragma endregion
 
 private:

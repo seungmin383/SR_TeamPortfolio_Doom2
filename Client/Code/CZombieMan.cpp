@@ -5,6 +5,7 @@
 #include "CManagement.h"
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
+#include "CBullet.h"
 
 CZombieMan::CZombieMan(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonsterBase(pGraphicDev)
@@ -175,6 +176,28 @@ void CZombieMan::Render_GameObject(const _float& fTimeDelta)
 //void CZombieMan::OnCollisionExit(CCollider* _pOther)		//콜라이더 끼리 충돌이 끝났을 때
 //{
 //}
+
+void CZombieMan::Attack(const _float fTimeDelta)
+{
+	m_isShoot = TRUE;
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	CGameObject* tmp = nullptr;
+
+	if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_ZOMBIEMAN_BULLET, OBJID::OBJ_BULLET, vPos, this, tmp)))
+	{
+		int a = 0;
+	}
+
+	if (tmp == nullptr)
+		return;
+
+	tmp->Set_Dead(FALSE);
+	tmp->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+	dynamic_cast<CBullet*>(tmp)->Set_InitDir(m_vMoveLook);
+
+
+}
 
 HRESULT CZombieMan::Add_Component()
 {

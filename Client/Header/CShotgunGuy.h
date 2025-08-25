@@ -16,7 +16,7 @@ public:
     virtual     void            LateUpdate_GameObject(const _float& fTimeDelta);
     virtual     void            Render_GameObject(const _float& fTimeDelta);
 
-
+    virtual void         Attack(const _float fTimeDelta)override;
 #pragma endregion
 
 private:
