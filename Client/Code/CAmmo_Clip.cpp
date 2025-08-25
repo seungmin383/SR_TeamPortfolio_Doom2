@@ -8,12 +8,12 @@
 #include "CStatsManager.h"
 
 CAmmo_Clip::CAmmo_Clip(LPDIRECT3DDEVICE9 pGraphicDev)
-    : CGameObject(pGraphicDev), m_iClip(0), m_iFrame_Clip(0), m_pWeaponManager(nullptr)
+	: CGameObject(pGraphicDev), m_iClip(0), m_iFrame_Clip(0), m_pWeaponManager(nullptr)
 {
 }
 
 CAmmo_Clip::CAmmo_Clip(const CGameObject& rhs)
-    : CGameObject(rhs)
+	: CGameObject(rhs)
 {
 }
 
@@ -54,10 +54,16 @@ _int CAmmo_Clip::Update_GameObject(const _float& fTimeDelta)
 	Set_OnTerrain();
 	Bill_Board();
 
-	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
+	// 픽업 후에는 렌더 그룹 등록 금지
+	if (!m_bPicked) {
+		CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 
-	if (m_bPicked)
-		return -1; // 엔진 상수에 맞춰 사용
+	}
+	else {
+		// 엔진에서 -1 리턴으로 객체 제거를 처리한다면 그대로 두고,
+		// 아래 OnCollisionEnter에서 Set_Dead()도 같이 호출해 안전하게 제거
+		return -1;
+	}
 
 	return 0;
 }
@@ -65,12 +71,15 @@ _int CAmmo_Clip::Update_GameObject(const _float& fTimeDelta)
 void CAmmo_Clip::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
-	if (m_pColliderCom)
+	if (m_pColliderCom && !m_bPicked)
 		m_pColliderCom->Late_Update(); // 중요
 }
 
 void CAmmo_Clip::Render_GameObject(const _float& fTimeDelta)
 {
+	if (m_bPicked)
+		return;
+
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
@@ -95,24 +104,22 @@ void CAmmo_Clip::OnCollisionEnter(CCollider* _pOther)
 
 	if (m_bPicked || !_pOther) return;
 
-	// 누가 부딪혔는지: 플레이어/카메라
-	const auto layer = _pOther->Get_ColLayer();
-	const bool allowed =
-		(layer & COL_PLAYER);
+	if ((_pOther->Get_ColLayer() & COL_PLAYER) == 0) return;
+	auto* owner = _pOther->Get_Owner();
+	if (!owner || !dynamic_cast<CDynamicCamera*>(owner)) return; // 실제 플레이어 타입으로
 
-	if (!allowed) return;
-	else {
-		// 무기 매니저로 탄약 지급
-		if (m_pWeaponManager) {
-			m_pWeaponManager->Add_Ammo(AMMO_TYPE::CLIP, m_iClip);
-		}
+	m_bPicked = true;
 
-		// 아이템 비활성화(충돌/업데이트에서 제거)
-		m_bPicked = true;
-		if (m_pColliderCom) m_pColliderCom->Set_Active(false);
-
-		CStatsManager::I().OnItemPicked();
+	if (m_pColliderCom) {
+		m_pColliderCom->Set_ColLayer((COLLAYERID)0);
+		m_pColliderCom->Set_Active(false);
 	}
+
+	CWeaponManager::GetInstance()->Add_Ammo(AMMO_TYPE::CLIP, 10);
+
+	Set_Dead(true);
+
+	CStatsManager::I().OnItemPicked();
 }
 
 void CAmmo_Clip::OnCollisionExit(CCollider* _pOther)
