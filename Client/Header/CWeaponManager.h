@@ -51,7 +51,7 @@ private:
 	map<AMMO_TYPE, _int> m_mapAmmo;		// 총알 담긴 컨테이너
 	map<AMMO_TYPE, _int> m_mapMaxAmmo;		// 무기별 최대 총알 개수 담긴 컨테이너
 
-	map<WEAPON_ID, unique_ptr<CWeapon>> m_weapons;
+	//map<WEAPON_ID, unique_ptr<CWeapon>> m_weapons;
 
 	CWeapon* m_pCurWeapon;		// 현재 무기
 	CWeapon* m_pPrevWeapon;		// 이전 무기
