@@ -59,6 +59,7 @@ HRESULT CCollider::Ready_CCollider(CGameObject* _pObj, _vec3 _vPos, _vec3 _vScal
 void CCollider::Late_Update()
 {
 	m_pOwner->Get_Transform()->Get_Pos(&m_vPos);
+	m_vScaleHalf = m_vScale * 0.5f;
 	m_vFinalPos = m_vPos + m_vOffsetPos;
 
 	Update_Box();

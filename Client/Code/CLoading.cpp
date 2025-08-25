@@ -99,6 +99,9 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_RocketBullet", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Effect/RocketBullet/ROCKET%d.png", TEX_NORMAL, 9))))
 		return E_FAIL;
 
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_BfgBullet", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Effect/BFGBullet/BFGBULLET%d.png", TEX_NORMAL, 2))))
+		return E_FAIL;
+
 #pragma endregion
 
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "CBullet.h"
 
-class CRocketBullet :  public CBullet
+class CRocketBullet : public CBullet
 {
 private:
 	explicit CRocketBullet(LPDIRECT3DDEVICE9 pGraphicDev);
@@ -35,6 +35,4 @@ public:
 private:
 	BULLET_STATE m_eState;
 	_int m_iAnimState;
-
 };
-

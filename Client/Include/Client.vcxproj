@@ -182,6 +182,7 @@
     <ClInclude Include="..\Header\CBackGround.h" />
     <ClInclude Include="..\Header\CBarrelExplosive.h" />
     <ClInclude Include="..\Header\CBfg.h" />
+    <ClInclude Include="..\Header\CBfgBullet.h" />
     <ClInclude Include="..\Header\CChaingun.h" />
     <ClInclude Include="..\Header\CDoor.h" />
     <ClInclude Include="..\Header\CDoorWithKey.h" />
@@ -247,6 +248,7 @@
     <ClCompile Include="..\Code\CBackGround.cpp" />
     <ClCompile Include="..\Code\CBarrelExplosive.cpp" />
     <ClCompile Include="..\Code\CBfg.cpp" />
+    <ClCompile Include="..\Code\CBfgBullet.cpp" />
     <ClCompile Include="..\Code\CChaingun.cpp" />
     <ClCompile Include="..\Code\CDoor.cpp" />
     <ClCompile Include="..\Code\CDoorWithKey.cpp" />

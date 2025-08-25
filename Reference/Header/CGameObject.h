@@ -32,6 +32,9 @@ public:
     OBJPROTOTYPE    Get_Prototype() { return m_eProtoType; }
     void            Set_Prototype(OBJPROTOTYPE eType) { m_eProtoType = eType; }
 
+    const _uint Get_Dmg() const { return m_iDmg; };
+    void Set_Dmg(_uint _D) { m_iDmg = _D; };
+
     _int Take_Dmg(_int _Dmg) { _int  tmp = (m_iGameHp - _Dmg); m_iGameHp = tmp;     return  tmp; };
 
     virtual void			            OnCollision(CCollider* _pOther) {};
@@ -51,12 +54,14 @@ protected:
     map<const _tchar*, CComponent*>         m_mapComponent[ID_END];
     LPDIRECT3DDEVICE9                       m_pGraphicDev;
 
-    CCollider*                              m_pColliderCom; // 콜라이더(충돌체)
+    CCollider*                              m_pColliderCom;     // 콜라이더(충돌체)
     CTransform*                             m_pTransformCom;
     
     OBJPROTOTYPE                            m_eProtoType;
     _float                                  m_fSpeed;
     _bool                                   m_bDead = FALSE;
+
+    _uint                                   m_iDmg = 0;			//총알 데미지
     _int                                    m_iGameHp = 0;
 private:
     CComponent* Find_Component(COMPONENTID eID, const _tchar* pComponentTag);
