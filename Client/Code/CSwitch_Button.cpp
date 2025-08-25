@@ -87,19 +87,18 @@ void CSwitch_Button::Render_GameObject(const _float& fTimeDelta)
 
 void CSwitch_Button::OnCollision(CCollider* _pOther)
 {
-}
-
-void CSwitch_Button::OnCollisionEnter(CCollider* _pOther)
-{
-	if (!_pOther) return;
-
-	if (m_state == State::Idle &&
-		(m_linkId == L"EXIT" || m_pObjTarget != nullptr || m_target != nullptr || !m_targets.empty()))
+	_bool bIsTrigger = static_cast<CDynamicCamera*>(_pOther->Get_Owner())->Get_Trigger();
+	if (_pOther->Get_ColLayer() == COLLAYERID::COL_PLAYER && bIsTrigger)
 	{
 		m_bPressed = true;
 		SetSwitchOn();
 		m_state = State::Dead;
 	}
+}
+
+void CSwitch_Button::OnCollisionEnter(CCollider* _pOther)
+{
+	if (!_pOther) return;
 }
 
 void CSwitch_Button::OnCollisionExit(CCollider* _pOther)
