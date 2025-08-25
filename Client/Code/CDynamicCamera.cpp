@@ -417,23 +417,28 @@ void CDynamicCamera::Set_OnTerrain()
 
 	// 소재혁 지형 변경 2025-08-26
 	// TODO:로딩 시 지형정보 들고있게 수정
+	// TODO:최적화
+	_float highest(-999.f);
+	_vec3 onPosition{ 0.f, 0.f, 0.f };
 	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
 	{
 		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
 		auto bufferCom = dterrain->Get_BufferCom();
 		auto transformCom = dterrain->Get_Transform();
 
-		_vec3 onPosition{ 0.f, 0.f, 0.f };
 		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition))
 		{
-			_float deltaHeight = (onPosition.y + 3.f) - m_vEye.y;
-			m_vEye.y += deltaHeight;
-			m_vAt.y += deltaHeight;
-
-			break;
+			if (highest < onPosition.y)
+				highest = onPosition.y;
 		}
 	}
 
+	if (highest == -999.f)
+		highest = 0.f;
+
+	_float deltaHeight = (highest + 3.f) - m_vEye.y;
+	m_vEye.y += deltaHeight;
+	m_vAt.y += deltaHeight;
 }
 
 void CDynamicCamera::Update_State()
