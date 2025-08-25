@@ -129,8 +129,8 @@ bool CWeaponManager::Fire_Weapon()
 
 void CWeaponManager::ResetOnSceneChange()
 {
-	m_pCurWeapon = nullptr;       // 현재 무기 포인터 무효화
-	m_mapWeapon.clear();                // 인벤토리 컨테이너 비우기(벡터/맵 등 실제 멤버명에 맞게)
+	//m_pCurWeapon = nullptr;       // 현재 무기 포인터 무효화
+	//m_mapWeapon.clear();                // 인벤토리 컨테이너 비우기(벡터/맵 등 실제 멤버명에 맞게)
 	// 필요하다면 탄약/상태도 초기화
 }
 

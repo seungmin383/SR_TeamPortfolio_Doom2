@@ -240,12 +240,9 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::PLAYER_ROCKET_BULLET, CRocketBullet::Create(m_pGraphicDev))))
 		return E_FAIL;
 
-	// 로켓 총알
+	// BFG 총알
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::PLAYER_BFG_BULLET, CBfgBullet::Create(m_pGraphicDev))))
 		return E_FAIL;
-
-
-
 
 
 	//텍스처 필터
