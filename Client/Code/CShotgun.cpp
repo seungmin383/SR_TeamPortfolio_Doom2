@@ -18,7 +18,7 @@ HRESULT CShotgun::Ready_GameObject()
 	m_eWeaponID = WEAPON_ID::SHOTGUN;
 	m_eCurState = WEAPON_STATE::IDLE;
 	m_eAmmoType = AMMO_TYPE::SHELL;
-	m_fFireDelay = 1.f;
+	m_fFireDelay = 0.8f;
 	m_fElapsedTime = 0.f;
 
 	return S_OK;

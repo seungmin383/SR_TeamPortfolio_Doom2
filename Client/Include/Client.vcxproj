@@ -184,6 +184,7 @@
     <ClInclude Include="..\Header\CBfg.h" />
     <ClInclude Include="..\Header\CBfgBullet.h" />
     <ClInclude Include="..\Header\CChaingun.h" />
+    <ClInclude Include="..\Header\CChaingunBullet.h" />
     <ClInclude Include="..\Header\CDoor.h" />
     <ClInclude Include="..\Header\CDoorWithKey.h" />
     <ClInclude Include="..\Header\CDynamicCamera.h" />
@@ -252,6 +253,7 @@
     <ClCompile Include="..\Code\CBfg.cpp" />
     <ClCompile Include="..\Code\CBfgBullet.cpp" />
     <ClCompile Include="..\Code\CChaingun.cpp" />
+    <ClCompile Include="..\Code\CChaingunBullet.cpp" />
     <ClCompile Include="..\Code\CDoor.cpp" />
     <ClCompile Include="..\Code\CDoorWithKey.cpp" />
     <ClCompile Include="..\Code\CDynamicCamera.cpp" />

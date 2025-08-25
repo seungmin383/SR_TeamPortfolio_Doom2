@@ -47,6 +47,8 @@
 #include "CWeapon_ChainGun.h"
 #include "CWeapon_Rocket.h"
 #include "CWeapon_BFG.h"
+
+#include "CChaingunBullet.h"
 #include "CShotgunBullet.h"
 #include "CRocketBullet.h"
 #include "CBfgBullet.h"
@@ -240,6 +242,10 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 
 	// ¾ÆÅ©¹ÙÀÏ ÃÑ¾Ë
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE_BULLET, CArchvileBullet::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// ÀÏ¹Ý ÃÑ¾Ë
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::PLAYER_NORMAL_BULLET, CChaingunBullet::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	// ¼¦°Ç ÃÑ¾Ë

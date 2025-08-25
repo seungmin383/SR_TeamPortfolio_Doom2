@@ -46,7 +46,7 @@ HRESULT CShotgunBullet::Ready_GameObject()
 		m_bDead = false;
 		m_iDmg = 10;
 
-		_vec3 vScale = { 0.1f, 0.1f, 0.1f };
+		_vec3 vScale = { 0.025f, 0.025f, 0.025f };
 		m_pTransformCom->Set_Scale(vScale);
 	}
 
@@ -65,6 +65,7 @@ _int CShotgunBullet::Update_GameObject(const _float& fTimeDelta)
 	CBullet::Update_GameObject(fTimeDelta);
 
 	Linear_Movement(fTimeDelta);
+	Bill_Board();
 
 	return 0;
 }
@@ -136,7 +137,7 @@ HRESULT CShotgunBullet::Add_Component()
 	CComponent* pComponent = nullptr;
 
 	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>
-		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Zombieman_Bullet_Texture"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_NormalBullet"));
 
 	if (pComponent == nullptr)
 		return E_FAIL;
