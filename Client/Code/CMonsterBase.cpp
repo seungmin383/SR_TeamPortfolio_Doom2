@@ -178,13 +178,13 @@ void CMonsterBase::Thinker(const _float& fTimeDelta)
 
 _int CMonsterBase::Perception(const _float& fTimeDelta)
 {
-	m_isDead						= Check_Dead();
+	m_isDead							= Check_Dead();
 	//m_isHit							= Check_Hit();
 	Calc_Hp();
 	Check_Hit(fTimeDelta);
-	m_isDetected_Player = Check_Shooting_Sound();
-	m_isDetect_Player		= Check_Target();
-	m_isAtk						= Check_Attack(fTimeDelta);
+	m_isDetected_Player		= Check_Shooting_Sound();
+	m_isDetect_Player			= Check_Target();
+	m_isAtk							= Check_Attack(fTimeDelta);
 
 	if (!m_isRecognize_Player && m_isDetect_Player)
 		m_isRecognize_Player = TRUE;
@@ -515,6 +515,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 	{
 		//죽었을 때 
 	case AI_DEAD:
+		m_isFirstEnt = FALSE;
 		if (m_isGibbingDead)
 		{
 			m_eCurAnimState = m_iGibDeadPlus;
@@ -531,6 +532,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 
 		//맞았을 때
 	case AI_HIT:
+		m_isFirstEnt = FALSE;
 		if (!m_isPinky)
 			m_eCurAnimState += 16;
 		m_eAnim_Type = HIT;
@@ -550,6 +552,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 
 		//플레이어를 발견했을 때
 	case AI_CHASE:
+		m_isFirstEnt = FALSE;
 		m_fChaseDelay += fTimeDelta;
 		if (m_eCurAnimState != m_ePreAnimState)
 			m_eAnim_Type = MOVE;
@@ -565,6 +568,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 
 		//아이들 상태
 	case AI_MOVE:
+		m_isFirstEnt = FALSE;
 		if(m_eCurAnimState != m_ePreAnimState)
 			m_eAnim_Type = MOVE;
 
@@ -618,6 +622,15 @@ void CMonsterBase::Movement(const _float fTimeDelta)
 
 void CMonsterBase::Attack(const _float fTimeDelta)
 {
+	if (!m_isFirstEnt)
+	{
+		m_AtkCnt++;
+		if (m_AtkCnt > 7)
+			m_AtkCnt = 0;
+
+		m_isFirstEnt = TRUE;
+
+	}
 }
 
 _vec3 CMonsterBase::Get_PlayerPos()

@@ -5,6 +5,8 @@
 #include "CManagement.h"
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
+#include "CBullet.h"
+#include <random>
 
 CSpiderMastermind::CSpiderMastermind(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonsterBase(pGraphicDev)
@@ -128,6 +130,12 @@ HRESULT CSpiderMastermind::Ready_GameObject()
 	m_iGibDeadPlus = 24;
 	m_iNorDeadPlus = 25;
 
+	std::mt19937 rng{ std::random_device{}() };
+	std::uniform_int_distribution<uint16_t> dist(0, 0xFFFF);
+	m_iPattern = dist(rng);
+
+	Calc_Pattern();
+
 	_vec3 vSize{ 10.f, 10.f, 10.f };
 	m_pTransformCom->Set_Scale(vSize);
 	//초기 룩으로 세팅해주고
@@ -185,6 +193,78 @@ void CSpiderMastermind::Set_OnTerrain()
 	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
 
 	m_pTransformCom->Set_Pos(pos.x, height + 10.f, pos.z);
+}
+
+void CSpiderMastermind::Attack(const _float fTimeDelta)
+{
+	Fire(fTimeDelta);
+
+	switch (m_PattenArr[m_AtkCnt])
+	{
+	case 0:
+		Pattern1(fTimeDelta);
+		break;
+	case 1:
+		Pattern2(fTimeDelta);
+		break;
+	case 2:
+		Pattern3(fTimeDelta);
+		break;
+	case 3:
+		Pattern4(fTimeDelta);
+		break;
+	}
+}
+
+void CSpiderMastermind::Calc_Pattern()
+{
+	for (int i = 0; i < 8; i++)
+		m_PattenArr[i] = (m_iPattern >> (i * 2)) & 0x3;
+}
+
+void CSpiderMastermind::Fire(const _float fTimeDelta)
+{
+	m_isShoot = TRUE;
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	CGameObject* tmp = nullptr;
+	for(int i = 0; i< 3; i++)
+	{
+		vPos.z -= i;
+		if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_ZOMBIEMAN_BULLET, OBJID::OBJ_BULLET, vPos, this, tmp)))
+		{
+			int a = 0;
+		}
+
+		if (tmp == nullptr)
+			return;
+
+		tmp->Set_Dead(FALSE);
+		tmp->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+		_vec3 vPlayerPos;
+		CManagement::GetInstance()->Get_Player()->Get_Transform()->Get_Pos(&vPlayerPos);
+		_vec3 dir = vPlayerPos - vPos;
+		D3DXVec3Normalize(&dir, &dir);
+
+		dynamic_cast<CBullet*>(tmp)->Set_InitDir(dir);
+	}
+
+}
+
+void CSpiderMastermind::Pattern1(const _float fTimeDelta)
+{
+}
+
+void CSpiderMastermind::Pattern2(const _float fTimeDelta)
+{
+}
+
+void CSpiderMastermind::Pattern3(const _float fTimeDelta)
+{
+}
+
+void CSpiderMastermind::Pattern4(const _float fTimeDelta)
+{
 }
 
 

@@ -135,6 +135,12 @@ protected:
     CGameObject* m_pAttackTarget = nullptr; // nullptr 이면 Player
 
     _int m_iPreHp = m_iGameHp;
+
+    //보스 패턴용 변수
+    _int m_AtkCnt = 0;
+    _bool m_isFirstEnt = FALSE;
+
+
 public:
     CGameObject* Get_AttackTarget() const { return m_pAttackTarget; }
 
