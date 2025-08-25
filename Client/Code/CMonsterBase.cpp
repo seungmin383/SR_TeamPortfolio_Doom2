@@ -186,6 +186,7 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 	m_isDead						= Check_Dead();
 	//m_isHit							= Check_Hit();
 	Check_Hit(fTimeDelta);
+	m_isDetected_Player = Check_Shooting_Sound();
 	m_isDetect_Player		= Check_Target();
 	m_isAtk						= Check_Attack(fTimeDelta);
 
@@ -299,6 +300,109 @@ _bool CMonsterBase::Check_Target()
 		float sightSq = m_fSightDistance * m_fSightDistance;
 
 		return (fDot >= 0.f) && (distSq <= sightSq);
+}
+
+_bool CMonsterBase::Check_Shooting_Sound()
+{
+	_vec3 vPos;																									//내 위치
+	m_pTransformCom->Get_Pos(&vPos);
+
+	_vec3 vUp{ 0.f, 1.f, 0.f };																				//업 벡터(룩이랑 외적용)
+
+	_vec3 vLB;																									//왼쪽 아래 경계점
+	_vec3 vRB;																									//오른쪽 아래 경계점
+
+	m_vMoveLook.y = 0;																					//y고정
+
+	_vec3 vLF = m_vMoveLook;																			//왼쪽 위 경계점
+	_vec3 vRF = m_vMoveLook;																		//오른쪽 위 경계점
+
+	_matrix RotMat;																							//벡터 회전용 매트릭스
+	D3DXMatrixIdentity(&RotMat);																	//초기화
+
+	//LF, RF
+	D3DXMatrixRotationY(&RotMat, D3DXToRadian(-45.f));							//왼쪽으로 45도 각도 -> LF
+	D3DXVec3Normalize(&vLF, &vLF);																//정규화
+	D3DXVec3TransformCoord(&vLF, &vLF, &RotMat);									//방향성 정해주기
+
+	D3DXMatrixIdentity(&RotMat);																	//사용한 매트릭스 초기화
+
+	D3DXMatrixRotationY(&RotMat, D3DXToRadian(45.f));								//왼쪽으로 45도 각도 -> RF
+	D3DXVec3Normalize(&vRF, &vRF);																//정규화
+	D3DXVec3TransformCoord(&vRF, &vRF, &RotMat);									//방향성 정해주기
+
+	vLF *= m_fSightDistance;																				//범위 지정해주기
+	vRF *= m_fSightDistance;																			//
+
+	//LB, RB
+	D3DXMatrixRotationY(&RotMat, D3DXToRadian(-135.f));							//왼쪽으로 45도 각도 -> LF
+	D3DXVec3Normalize(&vLF, &vLF);																//정규화
+	D3DXVec3TransformCoord(&vLF, &vLF, &RotMat);									//방향성 정해주기
+
+	D3DXMatrixIdentity(&RotMat);																	//사용한 매트릭스 초기화
+
+	D3DXMatrixRotationY(&RotMat, D3DXToRadian(135.f));							//왼쪽으로 45도 각도 -> RF
+	D3DXVec3Normalize(&vRF, &vRF);																//정규화
+	D3DXVec3TransformCoord(&vRF, &vRF, &RotMat);									//방향성 정해주기
+
+	vLF *= m_fSightDistance;																				//범위 지정해주기
+	vRF *= m_fSightDistance;																			//
+	//
+
+	//Debug_Rectangle(																						//시야 범위 시각화
+	//	vPos + vLF,
+	//	vPos + vRF,
+	//	vPos + vRB,
+	//	vPos + vLB
+	//);
+
+	// 플레이어가 범위에 있는가
+	_vec3 vPlayerPos;																							//플레이어 위치
+	_matrix ViewMat;																							//카메라 월드 행렬 구하기 위한
+
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &ViewMat);						//뷰 스페이스 행렬 가져오기
+
+	D3DXMatrixInverse(&ViewMat, NULL, &ViewMat);									//카메라의 월드 행렬
+
+	vPlayerPos.x = ViewMat._41;																		//카메라 = 플레이어
+	vPlayerPos.y = ViewMat._42;
+	vPlayerPos.z = ViewMat._43;
+
+	_vec3 vToPlayer = vPlayerPos - vPos;															//내가 플레이어를 바라보는
+	vToPlayer.y = 0.f;
+	_vec3 vDistanceToPlayer = vToPlayer;															// 스칼라 저장
+
+	D3DXVec3Normalize(&vToPlayer, &vToPlayer);											//정규화
+
+	_vec3 vLook = m_vMoveLook;
+	vLook.y = 0.f;
+	D3DXVec3Normalize(&vLook, &vLook);
+
+
+	float distSq = D3DXVec3LengthSq(&vDistanceToPlayer);
+	float sightSq = m_fSightDistance * m_fSightDistance;
+
+	if (distSq <= sightSq)
+	{
+		if (CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponState() == WEAPON_STATE::SHOT)
+		{
+			_matrix	player;
+			D3DXMatrixIdentity(&player);
+			m_pGraphicDev->GetTransform(D3DTS_VIEW, &player);
+			_vec3 PlayerPos;
+			PlayerPos.x = player._41;
+			PlayerPos.y = player._42;
+			PlayerPos.z = player._43;
+			_vec3 vPos;
+			m_pTransformCom->Get_Pos(&vPos);
+			_vec3 look = vPlayerPos - vPos;
+			D3DXVec3Normalize(&look, &look);
+			m_vMoveLook = look;
+			return true;
+		}
+		else
+			return false;
+	}
 }
 
 _bool CMonsterBase::Check_Dead()
