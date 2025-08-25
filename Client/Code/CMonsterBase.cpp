@@ -837,8 +837,6 @@ void CMonsterBase::Bill_Board()
 
 void CMonsterBase::Drop_Item()
 {
-	_vec3 vPos;													//아이템 드롭 위치
-	m_pTransformCom->Get_Pos(&vPos);
 
 }
 

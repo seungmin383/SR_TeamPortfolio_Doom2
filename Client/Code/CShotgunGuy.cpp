@@ -189,6 +189,7 @@ void CShotgunGuy::Attack(const _float fTimeDelta)
 		case 4:
 			aa = 0.1f;
 			break;
+
 		}
 		_vec3	 tmpAng = m_vMoveLook;
 		_matrix rotmat;
@@ -198,6 +199,15 @@ void CShotgunGuy::Attack(const _float fTimeDelta)
 
 		dynamic_cast<CBullet*>(tmp)->Set_InitDir(tmpAng);
 	}
+}
+
+void CShotgunGuy::Drop_Item()
+{
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+
+	CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::WEAPON_SHOTGUN, OBJID::OBJ_ITEM, vPos, 1);
+	
 }
 
 

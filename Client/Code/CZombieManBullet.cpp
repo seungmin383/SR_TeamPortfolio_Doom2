@@ -42,9 +42,10 @@ HRESULT CZombiemanBullet::Ready_GameObject()
 	{
 		m_vInitDir = dynamic_cast<CMonsterBase*>(m_pOwner)->Get_MoveLook();
 		D3DXVec3Normalize(&m_vInitDir, &m_vInitDir);
-		m_fSpeed = 1000.f;
+		m_fSpeed = 100.f;
 		m_bDead = FALSE;
 		m_iDmg = dynamic_cast<CMonsterBase*>(m_pOwner)->GetAtkDmg();
+		m_pTransformCom->Set_Scale(_vec3{ 0.05f, 0.05f, 0.05f });
 	}
 
 	return S_OK;

@@ -21,9 +21,12 @@ public:
     virtual     void			OnCollisionExit(CCollider* _pOther) override;*/
 
     virtual void         Attack(const _float fTimeDelta)override;
+    void Drop_Item()override;
+
 #pragma endregion
 
 private:
+
     HRESULT     Add_Component()override;
 
 public:
