@@ -24,6 +24,9 @@ public:
     const vector<CGameObject*> Get_TotalGameObject();
     const vector<CGameObject*> Get_TotalGameObject(OBJID eObjId);
 
+    vector<CGameObject*> Get_Terrain();
+    vector<CGameObject*> Get_Wall();
+
     HRESULT     Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, _int iCnt = 1);
     HRESULT     Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, CGameObject* _Owner, CGameObject*& _Bullet);
 
