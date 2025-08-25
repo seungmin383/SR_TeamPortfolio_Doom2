@@ -98,12 +98,12 @@ _bool CCalculator::RayScan_OnTerrain(CTerrainTexSector* pTerrainSectorBufferCom,
 	_vec3 vRayDir{ 0.f, -1.f, 0.f };
 
 	//월드 -> 로컬
-	_matrix matWorld;
+	_matrix matWorld, matInvWorld;
 	pTerrainTransformCom->Get_World(&matWorld);
-	D3DXMatrixInverse(&matWorld, 0, &matWorld);
+	D3DXMatrixInverse(&matInvWorld, 0, &matWorld);
 
-	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matWorld);
-	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matWorld);
+	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matInvWorld);
+	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matInvWorld);
 
 	_float fU(0.f), fV(0.f), fDist(0.f);
 	_ulong dwVtxIdx[3]{};
@@ -113,9 +113,9 @@ _bool CCalculator::RayScan_OnTerrain(CTerrainTexSector* pTerrainSectorBufferCom,
 	_ulong vtxCntZ = pTerrainSectorBufferCom->Get_VtxCntZ();
 	_ulong vtxItv = pTerrainSectorBufferCom->Get_VtxItv();
 
-	for (_ulong i = 0; i < vtxCntZ; i++)
+	for (_ulong i = 0; i < vtxCntZ - 1; i++)
 	{
-		for (_ulong j = 0; j < vtxCntX; j++)
+		for (_ulong j = 0; j < vtxCntX - 1; j++)
 		{
 			_ulong dwIndex = i * vtxCntX + j;
 
@@ -130,25 +130,14 @@ _bool CCalculator::RayScan_OnTerrain(CTerrainTexSector* pTerrainSectorBufferCom,
 				&pTerrainVtxPos[dwVtxIdx[2]],
 				&vRayPos, &vRayDir, &fU, &fV, &fDist))
 			{
-				//*targetPos = pTerrainVtxPos[dwVtxIdx[1]] + (fU * (pTerrainVtxPos[dwVtxIdx[0]] - pTerrainVtxPos[dwVtxIdx[1]])) + (fV * (pTerrainVtxPos[dwVtxIdx[2]] - pTerrainVtxPos[dwVtxIdx[1]]));
-				auto a = pTerrainVtxPos[dwVtxIdx[1]] + (fU * (pTerrainVtxPos[dwVtxIdx[0]] - pTerrainVtxPos[dwVtxIdx[1]])) + (fV * (pTerrainVtxPos[dwVtxIdx[2]] - pTerrainVtxPos[dwVtxIdx[1]]));
-
-				if (isnan(a.y))
-				{
-					int b = 1;
-				}
-
-				*targetPos = _vec3(pTerrainVtxPos[dwVtxIdx[1]].x + fU * (pTerrainVtxPos[dwVtxIdx[0]].x - pTerrainVtxPos[dwVtxIdx[1]].x),
-					0.f,//(pTerrainVtxPos[dwVtxIdx[1]].y + pTerrainVtxPos[dwVtxIdx[0]].y + pTerrainVtxPos[dwVtxIdx[2]].y) / 3.f,
-					pTerrainVtxPos[dwVtxIdx[1]].z + fV * (pTerrainVtxPos[dwVtxIdx[2]].z - pTerrainVtxPos[dwVtxIdx[0]].z));
-				/*auto y = Compute_HeightOnTerrain(vRayPos, dwIndex, pTerrainVtxPos, vtxCntX, vtxCntZ, vtxItv, true);
-				*targetPos = _vec3(0.f, y, 0.f);*/
+				*targetPos = pTerrainVtxPos[dwVtxIdx[1]] + (fU * (pTerrainVtxPos[dwVtxIdx[0]] - pTerrainVtxPos[dwVtxIdx[1]])) + (fV * (pTerrainVtxPos[dwVtxIdx[2]] - pTerrainVtxPos[dwVtxIdx[1]]));
+				D3DXVec3TransformCoord(targetPos, targetPos, &matWorld);
 
 				return true;
 			}
 
 			//왼쪽 아래
-			dwVtxIdx[0] = dwIndex + vtxCntZ;
+			dwVtxIdx[0] = dwIndex + vtxCntX;
 			dwVtxIdx[1] = dwIndex + 1;
 			dwVtxIdx[2] = dwIndex;
 
@@ -157,20 +146,8 @@ _bool CCalculator::RayScan_OnTerrain(CTerrainTexSector* pTerrainSectorBufferCom,
 				&pTerrainVtxPos[dwVtxIdx[0]],
 				&vRayPos, &vRayDir, &fU, &fV, &fDist))
 			{
-				//*targetPos = pTerrainVtxPos[dwVtxIdx[1]] + (fU * (pTerrainVtxPos[dwVtxIdx[0]] - pTerrainVtxPos[dwVtxIdx[1]])) + (fV * (pTerrainVtxPos[dwVtxIdx[2]] - pTerrainVtxPos[dwVtxIdx[1]]));
-				auto a = pTerrainVtxPos[dwVtxIdx[1]] + (fU * (pTerrainVtxPos[dwVtxIdx[0]] - pTerrainVtxPos[dwVtxIdx[1]])) + (fV * (pTerrainVtxPos[dwVtxIdx[2]] - pTerrainVtxPos[dwVtxIdx[1]]));
-
-				if (isnan(a.y))
-				{
-					int b = 1;
-				}
-
-				*targetPos = _vec3(pTerrainVtxPos[dwVtxIdx[2]].x + fU * (pTerrainVtxPos[dwVtxIdx[1]].x - pTerrainVtxPos[dwVtxIdx[2]].x),
-					0.f,//(pTerrainVtxPos[dwVtxIdx[1]].y + pTerrainVtxPos[dwVtxIdx[0]].y + pTerrainVtxPos[dwVtxIdx[2]].y) / 3.f,
-					pTerrainVtxPos[dwVtxIdx[2]].z + fV * (pTerrainVtxPos[dwVtxIdx[0]].z - pTerrainVtxPos[dwVtxIdx[2]].z));
-				
-				/*auto y = Compute_HeightOnTerrain(vRayPos, dwIndex, pTerrainVtxPos, vtxCntX, vtxCntZ, vtxItv, false);
-				*targetPos = _vec3(0.f, y, 0.f);*/
+				*targetPos = pTerrainVtxPos[dwVtxIdx[1]] + (fU * (pTerrainVtxPos[dwVtxIdx[0]] - pTerrainVtxPos[dwVtxIdx[1]])) + (fV * (pTerrainVtxPos[dwVtxIdx[2]] - pTerrainVtxPos[dwVtxIdx[1]]));
+				D3DXVec3TransformCoord(targetPos, targetPos, &matWorld);
 
 				return true;
 			}

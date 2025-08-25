@@ -415,7 +415,8 @@ void CDynamicCamera::Set_OnTerrain()
 	//m_vEye.y += deltaHeight;
 	//m_vAt.y += deltaHeight;
 
-	//TODO:로딩 시 지형정보 들고있게 수정
+	// 소재혁 지형 변경 2025-08-26
+	// TODO:로딩 시 지형정보 들고있게 수정
 	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
 	{
 		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
