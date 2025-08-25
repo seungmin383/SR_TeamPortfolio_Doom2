@@ -105,7 +105,6 @@ _int CBossBullet::Update_GameObject(const _float& fTimeDelta)
 	Bill_Board();
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
-	cout << "¾Æ" << endl;
 
 
 	return 0;

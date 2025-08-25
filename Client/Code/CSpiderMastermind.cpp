@@ -137,6 +137,10 @@ HRESULT CSpiderMastermind::Ready_GameObject()
 
 	Calc_Pattern();
 
+	for (int i = 0; i < 8; i++)
+	{
+		cout << m_PattenArr[i] << endl;
+	}
 	_vec3 vSize{ 10.f, 10.f, 10.f };
 	m_pTransformCom->Set_Scale(vSize);
 	//초기 룩으로 세팅해주고
@@ -205,6 +209,7 @@ void CSpiderMastermind::Set_OnTerrain()
 
 void CSpiderMastermind::Attack(const _float fTimeDelta)
 {
+	CMonsterBase::Attack(fTimeDelta);
 	Fire(fTimeDelta);
 	switch (m_PattenArr[m_AtkCnt])
 	{
