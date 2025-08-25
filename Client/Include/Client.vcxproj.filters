@@ -163,6 +163,9 @@
     <Filter Include="03. Manager\03. StatsManager">
       <UniqueIdentifier>{dfa1612c-4353-4ea3-b2ea-cdc37517a8af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\01. Shotgun\00. ShotgunBullet">
+      <UniqueIdentifier>{d26bc851-ceb1-4cc9-9e71-981a680d6dbc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
