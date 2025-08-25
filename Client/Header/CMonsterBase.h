@@ -141,6 +141,9 @@ protected:
     _bool m_isFirstEnt = FALSE;
 
 
+
+    // --- 드랍 1회만 실행되도록 하는 가드 ---
+    _bool m_bDropDone = false;
 public:
     CGameObject* Get_AttackTarget() const { return m_pAttackTarget; }
 

@@ -49,6 +49,14 @@ _int CPlayerWeapon::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
 
+	// 씬 전환 시 nullptr되는거 때문에 추가(08/25 김홍인)
+	auto* wm = CWeaponManager::GetInstance();
+	auto* cur = wm ? wm->Get_CurWeapon() : nullptr;
+	if (!cur) {
+		// 현재 장착 무기가 없으면 그 프레임은 건너뜀(모델 숨김 등)
+		return 0;
+	}
+
 	m_eCurWeaponId = CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponID();
 	m_eWeaponState = CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponState();
 

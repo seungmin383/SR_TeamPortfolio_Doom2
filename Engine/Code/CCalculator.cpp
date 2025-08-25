@@ -58,6 +58,107 @@ _float CCalculator::Compute_HeightOnTerrain(const _vec3* pPos,
 	return (-plane.a * pPos->x - plane.c * pPos->z - plane.d) / plane.b;
 }
 
+_float CCalculator::Compute_HeightOnTerrain(_vec3 pPos,
+	_ulong dwIndex,
+	const _vec3* pTerrainVtxPos,
+	_ulong dwCntX,
+	_ulong dwCntZ,
+	_ulong dwVtxItv,
+	_bool RightUp)
+{
+	D3DXPLANE plane;
+
+	//우 상단
+	if (RightUp)
+	{
+		D3DXPlaneFromPoints(&plane,
+			&pTerrainVtxPos[dwIndex + dwCntX],
+			&pTerrainVtxPos[dwIndex + dwCntX + 1],
+			&pTerrainVtxPos[dwIndex + 1]);
+	}
+	//좌 하단
+	else
+	{
+		D3DXPlaneFromPoints(&plane,
+			&pTerrainVtxPos[dwIndex + dwCntX],
+			&pTerrainVtxPos[dwIndex + 1],
+			&pTerrainVtxPos[dwIndex]);
+	}
+
+	// ax + by + cz + d = 0
+	// by = -ax - cz - d
+	// y = (-ax - cz - d) / b
+	return (-plane.a * pPos.x - plane.c * pPos.z - plane.d) / plane.b;
+}
+
+_bool CCalculator::RayScan_OnTerrain(CTerrainTexSector* pTerrainSectorBufferCom, CTransform* pTerrainTransformCom, _vec3* targetPos)
+{
+	_vec3 vRayPos{ 0.f, 0.f, 0.f };
+	CManagement::GetInstance()->Get_Player()->Get_Transform()->Get_Pos(&vRayPos);
+	_vec3 vRayDir{ 0.f, -1.f, 0.f };
+
+	//월드 -> 로컬
+	_matrix matWorld, matInvWorld;
+	pTerrainTransformCom->Get_World(&matWorld);
+	D3DXMatrixInverse(&matInvWorld, 0, &matWorld);
+
+	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matInvWorld);
+	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matInvWorld);
+
+	_float fU(0.f), fV(0.f), fDist(0.f);
+	_ulong dwVtxIdx[3]{};
+
+	const _vec3* pTerrainVtxPos = pTerrainSectorBufferCom->Get_VtxPos();
+	_ulong vtxCntX = pTerrainSectorBufferCom->Get_VtxCntX();
+	_ulong vtxCntZ = pTerrainSectorBufferCom->Get_VtxCntZ();
+	_ulong vtxItv = pTerrainSectorBufferCom->Get_VtxItv();
+
+	for (_ulong i = 0; i < vtxCntZ - 1; i++)
+	{
+		for (_ulong j = 0; j < vtxCntX - 1; j++)
+		{
+			_ulong dwIndex = i * vtxCntX + j;
+
+			//오른쪽 위
+			dwVtxIdx[0] = dwIndex + vtxCntX;
+			dwVtxIdx[1] = dwIndex + vtxCntX + 1;
+			dwVtxIdx[2] = dwIndex + 1;
+
+			//V1 + U(V2 - V1) + V(V3 - V1)
+			if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
+				&pTerrainVtxPos[dwVtxIdx[0]],
+				&pTerrainVtxPos[dwVtxIdx[2]],
+				&vRayPos, &vRayDir, &fU, &fV, &fDist))
+			{
+				*targetPos = pTerrainVtxPos[dwVtxIdx[1]] + (fU * (pTerrainVtxPos[dwVtxIdx[0]] - pTerrainVtxPos[dwVtxIdx[1]])) + (fV * (pTerrainVtxPos[dwVtxIdx[2]] - pTerrainVtxPos[dwVtxIdx[1]]));
+				D3DXVec3TransformCoord(targetPos, targetPos, &matWorld);
+
+				return true;
+			}
+
+			//왼쪽 아래
+			dwVtxIdx[0] = dwIndex + vtxCntX;
+			dwVtxIdx[1] = dwIndex + 1;
+			dwVtxIdx[2] = dwIndex;
+
+			if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[2]],
+				&pTerrainVtxPos[dwVtxIdx[1]],
+				&pTerrainVtxPos[dwVtxIdx[0]],
+				&vRayPos, &vRayDir, &fU, &fV, &fDist))
+			{
+				*targetPos = pTerrainVtxPos[dwVtxIdx[1]] + (fU * (pTerrainVtxPos[dwVtxIdx[0]] - pTerrainVtxPos[dwVtxIdx[1]])) + (fV * (pTerrainVtxPos[dwVtxIdx[2]] - pTerrainVtxPos[dwVtxIdx[1]]));
+				D3DXVec3TransformCoord(targetPos, targetPos, &matWorld);
+
+				return true;
+			}
+		}
+	}
+
+	*targetPos = _vec3(0.f, 0.f, 0.f);
+
+	return false;
+}
+
 _vec3 CCalculator::Picking_OnTerrain(HWND hWnd, CTerrainTex* pTerrainBufferCom, CTransform* pTerrainTransformCom)
 {
 	POINT ptMouse{};
@@ -314,7 +415,99 @@ _bool CCalculator::Picking_GameObject(HWND hWnd)
 	return false;
 }
 
-_bool CCalculator::Picking_MapTool(HWND hWnd, CTerrainTexSector* pTerrainSectorBufferCom, CTransform* pTerrainTransformCom, _vec3& targetPos)
+_bool CCalculator::Picking_MapTool(HWND hWnd, CTerrainTexSector* pTerrainSectorBufferCom, CTransform* pTerrainTransformCom, _vec3& targetPos, _float& dist)
+{
+	POINT ptMouse{};
+
+	GetCursorPos(&ptMouse);
+	ScreenToClient(hWnd, &ptMouse);
+
+	_vec2 rayScale = { 0.5f, 0.5f };
+
+	// 뷰포트 -> 투영
+	_vec3 vMousePos;
+
+	D3DVIEWPORT9 viewPort;
+	ZeroMemory(&viewPort, sizeof(D3DVIEWPORT9));
+
+	m_pGraphicDev->GetViewport(&viewPort);
+
+	vMousePos.x = ptMouse.x / (viewPort.Width * 0.5f) - 1.f;
+	vMousePos.y = ptMouse.y / -(viewPort.Height * 0.5f) + 1.f;
+	vMousePos.z = 0.f;
+
+	//투영 -> 뷰스페이스
+	D3DXMATRIX matProj;
+	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
+	D3DXMatrixInverse(&matProj, 0, &matProj);
+	D3DXVec3TransformCoord(&vMousePos, &vMousePos, &matProj);
+
+	//뷰스페이스 -> 월드
+	D3DXMATRIX matView;
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixInverse(&matView, 0, &matView);
+
+	_vec3 vRayPos{ 0.f, 0.f, 0.f };
+	_vec3 vRayDir = vMousePos - vRayPos;
+
+	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
+	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
+
+	//월드 -> 로컬
+	_matrix matWorld;
+	pTerrainTransformCom->Get_World(&matWorld);
+	D3DXMatrixInverse(&matWorld, 0, &matWorld);
+
+	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matWorld);
+	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matWorld);
+
+	_float fU(0.f), fV(0.f), fDist(0.f);
+	_ulong dwVtxIdx[3]{};
+
+	const _vec3* pTerrainVtxPos = pTerrainSectorBufferCom->Get_VtxPos();
+	_ulong vtxCntX = pTerrainSectorBufferCom->Get_VtxCntX();
+	_ulong vtxCntZ = pTerrainSectorBufferCom->Get_VtxCntZ();
+	_ulong vtxItv = pTerrainSectorBufferCom->Get_VtxItv();
+
+	for (_ulong i = 0; i < vtxCntZ; i++)
+	{
+		for (_ulong j = 0; j < vtxCntX; j++)
+		{
+			_ulong dwIndex = i * vtxCntX + j;
+
+			//오른쪽 위
+			dwVtxIdx[0] = dwIndex + vtxCntX;
+			dwVtxIdx[1] = dwIndex + vtxCntX + 1;
+			dwVtxIdx[2] = dwIndex + 1;
+
+			//V1 + U(V2 - V1) + V(V3 - V1)
+			if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
+				&pTerrainVtxPos[dwVtxIdx[0]],
+				&pTerrainVtxPos[dwVtxIdx[2]],
+				&vRayPos, &vRayDir, &fU, &fV, &dist))
+			{
+				return true;
+			}
+
+			//왼쪽 아래
+			dwVtxIdx[0] = dwIndex + vtxCntZ;
+			dwVtxIdx[1] = dwIndex + 1;
+			dwVtxIdx[2] = dwIndex;
+
+			if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[2]],
+				&pTerrainVtxPos[dwVtxIdx[1]],
+				&pTerrainVtxPos[dwVtxIdx[0]],
+				&vRayPos, &vRayDir, &fU, &fV, &dist))
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+_bool CCalculator::Picking_TerrainSearch(HWND hWnd, CTerrainTexSector* pTerrainSectorBufferCom)
 {
 	POINT ptMouse{};
 
@@ -377,7 +570,6 @@ _bool CCalculator::Picking_MapTool(HWND hWnd, CTerrainTexSector* pTerrainSectorB
 				&pTerrainVtxPos[dwVtxIdx[2]],
 				&vRayPos, &vRayDir, &fU, &fV, &fDist))
 			{
-				targetPos = pTerrainVtxPos[dwVtxIdx[1]] + (fU * (pTerrainVtxPos[dwVtxIdx[0]] - pTerrainVtxPos[dwVtxIdx[1]])) + (fV * (pTerrainVtxPos[dwVtxIdx[2]] - pTerrainVtxPos[dwVtxIdx[1]]));
 				return true;
 			}
 
@@ -391,7 +583,6 @@ _bool CCalculator::Picking_MapTool(HWND hWnd, CTerrainTexSector* pTerrainSectorB
 				&pTerrainVtxPos[dwVtxIdx[0]],
 				&vRayPos, &vRayDir, &fU, &fV, &fDist))
 			{
-				targetPos = pTerrainVtxPos[dwVtxIdx[1]] + (fU * (pTerrainVtxPos[dwVtxIdx[0]] - pTerrainVtxPos[dwVtxIdx[1]])) + (fV * (pTerrainVtxPos[dwVtxIdx[2]] - pTerrainVtxPos[dwVtxIdx[1]]));
 				return true;
 			}
 		}

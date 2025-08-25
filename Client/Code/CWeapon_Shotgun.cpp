@@ -8,6 +8,7 @@
 #include "CGameUI_Face.h"
 #include "FaceUIRegistry.h"
 #include "CStatsManager.h"
+#include "CShotgun.h"
 
 CWeapon_Shotgun::CWeapon_Shotgun(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -40,7 +41,7 @@ HRESULT CWeapon_Shotgun::Ready_GameObject()
 		_vec3(0, 0, 0),           // 초기 위치(Transform가 실제로 잡아줌)
 		_vec3(1.f, 1.f, 1.f),  // 아이템 박스 크기 예시
 		_vec3(0, 0.4f, 0),        // 약간 위로
-		COL_ITEM,               // 너희 COLLAYERID에서 아이템 레이어
+		COL_WEAPON,               // 너희 COLLAYERID에서 아이템 레이어
 		COL_PLAYER     // (마스크를 쓴다면) 플레이어와만 맞게
 	);
 	m_pColliderCom->Set_Active(true);
@@ -54,10 +55,16 @@ _int CWeapon_Shotgun::Update_GameObject(const _float& fTimeDelta)
 	Set_OnTerrain();
 	Bill_Board();
 
-	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
+	// 픽업 후에는 렌더 그룹 등록 금지
+	if (!m_bPicked) {
+		CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 
-	if (m_bPicked)
-		return -1; // 엔진 상수에 맞춰 사용
+	}
+	else {
+		// 엔진에서 -1 리턴으로 객체 제거를 처리한다면 그대로 두고,
+		// 아래 OnCollisionEnter에서 Set_Dead()도 같이 호출해 안전하게 제거
+		return -1;
+	}
 
 	return 0;
 }
@@ -65,12 +72,15 @@ _int CWeapon_Shotgun::Update_GameObject(const _float& fTimeDelta)
 void CWeapon_Shotgun::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
-	if (m_pColliderCom)
+	if (m_pColliderCom && !m_bPicked)
 		m_pColliderCom->Late_Update();
 }
 
 void CWeapon_Shotgun::Render_GameObject(const _float& fTimeDelta)
 {
+	if (m_bPicked)
+		return;
+
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
@@ -96,11 +106,11 @@ void CWeapon_Shotgun::OnCollisionEnter(CCollider* _pOther)
 	if ((layer & (COL_PLAYER)) == 0)
 		return;
 
-	// 플레이어 판정
-	_bool isPlayer = true;
-	if (auto* owner = _pOther->Get_Owner()) {
-		
-	}
+	// 플레이어 판정 제대로: Collider의 Owner 기준
+	auto* owner = _pOther->Get_Owner();
+	if (!owner) return;
+	// 네 프로젝트에서 실제 플레이어 타입으로 바꾸기: CDynamicCamera 또는 CPlayer
+	bool isPlayer = (dynamic_cast<CDynamicCamera*>(owner) != nullptr);
 	if (!isPlayer) return;
 
 	m_bPicked = true;
@@ -113,19 +123,27 @@ void CWeapon_Shotgun::OnCollisionEnter(CCollider* _pOther)
 		OutputDebugStringA("[WS] g_FaceUI is null. CStage에서 등록됐는지 확인\n");
 	}
 
-
-	if (auto* wm = CWeaponManager::GetInstance()) {
-		wm->Add_Weapon(WEAPON_ID::SHOTGUN, (CWeapon*)this);
-		wm->Change_Weapon(WEAPON_ID::SHOTGUN);
-		wm->Add_Ammo(AMMO_TYPE::SHELL, 8);
+	CWeaponManager* pWeaponManager = CWeaponManager::GetInstance();
+	if (pWeaponManager->Get_Weapon(WEAPON_ID::SHOTGUN) == nullptr)
+	{
+		CWeapon* pShotgun = CShotgun::Create();
+		pWeaponManager->Add_Weapon(WEAPON_ID::SHOTGUN, pShotgun);
+		pWeaponManager->Change_Weapon(WEAPON_ID::SHOTGUN);
+		pWeaponManager->Add_Ammo(AMMO_TYPE::SHELL, 8);
 	}
-	else {
-		OutputDebugStringA("[WS] WeaponManager is null\n");
-	}
+	else
+		pWeaponManager->Add_Ammo(AMMO_TYPE::SHELL, 8);
 
-	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
+
+	if (m_pColliderCom)
+	{
+		m_pColliderCom->Set_ColLayer((COLLAYERID)0);			// 충돌 레이어를 NONE으로
+		m_pColliderCom->Set_Active(false);
+	}
 	// Update_GameObject()에서 m_bPicked면 -1 반환 → 레이어에서 제거
 
+	Set_Dead(true);
+	
 	CStatsManager::I().OnItemPicked();
 }
 

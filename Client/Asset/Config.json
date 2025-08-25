@@ -25,18 +25,24 @@
     },
     {
       "StageNumber": 2,
+      "terrainFileName": "",
+      "ObjectFileName": "",
+      "MonsterFileName": ""
+    },
+        {
+      "StageNumber": 3,
       "terrainFileName": "terrain1.json",
       "ObjectFileName": "object1.json",
       "MonsterFileName": "monster1.json"
     },
     {
-      "StageNumber": 3,
+      "StageNumber": 4,
       "terrainFileName": "terrain2.json",
       "ObjectFileName": "object2.json",
       "MonsterFileName": "monster2.json"
     },
     {
-      "StageNumber": 4,
+      "StageNumber": 5,
       "terrainFileName": "terrain3.json",
       "ObjectFileName": "object3.json",
       "MonsterFileName": "monster3.json"

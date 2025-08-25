@@ -24,10 +24,10 @@
 class CControlPanel :
     public CBase
 {
-    enum class TILEINFO { FLOOR, WALL, CEIL };
+    enum class TILEINFO { TERRAIN, WALL, CEIL };
     struct currentControlInfo
     {
-        TILEINFO info = TILEINFO::FLOOR;
+        TILEINFO info = TILEINFO::TERRAIN;
         _int tileColCnt = 1;
         _int tileRowCnt = 1;
 
@@ -107,7 +107,7 @@ private:
     currentControlInfo              tCachingControlInfo;
     _vec3                           vecDegree = _vec3(0.f, 0.f, 0.f);
     CTexture*                       curTex;
-    _uint                           curTileIdx;
+    _int                            curTileIdx;
 
     vector<TerrainModel>            vecTerrainInfos;
 

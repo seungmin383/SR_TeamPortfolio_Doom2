@@ -62,7 +62,8 @@ _int CShotgunBullet::Update_GameObject(const _float& fTimeDelta)
 	m_pTransformCom->Get_Pos(&vPos);
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
-	CBullet::Update_GameObject(fTimeDelta);
+	if (-1 == CBullet::Update_GameObject(fTimeDelta))
+		return -1;
 
 	Linear_Movement(fTimeDelta);
 	Bill_Board();

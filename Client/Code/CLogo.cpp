@@ -41,7 +41,7 @@ _int CLogo::Update_Scene(const _float& fTimeDelta)
 	{
 		if (GetAsyncKeyState(VK_RETURN))
 		{
-			CManagement::GetInstance()->Change_Scene(SCENEID::STAGE1);
+			CManagement::GetInstance()->Change_Scene(SCENEID::MAINMENU);
 		}
 	}
 
@@ -88,6 +88,9 @@ HRESULT CLogo::Ready_Prototype()
 		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_LogoTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Title/M_DOOM.png", TEX_NORMAL))))
+		return E_FAIL;
+	
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_BackGroundTexture", Engine::CTexture::Create(m_pGraphicDev,	L"../Resource/Texture/DoomTex/TITLEPIC.png", TEX_NORMAL))))
 		return E_FAIL;
 
 	return S_OK;

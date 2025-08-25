@@ -75,7 +75,9 @@ _int CUI_StageClear::Update_GameObject(const _float& fTimeDelta)
             if (dynamic_cast<CStage2*>(cur))      next = SCENEID::STAGE3;
             else if (dynamic_cast<CStage3*>(cur)) next = SCENEID::LOGO; // 끝나면 로고로
 
-            mg->Change_Scene(next);
+            if (auto* st = dynamic_cast<CStage*>(cur)) {
+                st->RequestNextScene(next);  // 즉시 전환 금지! 예약만
+            }
         }
         break;
     }

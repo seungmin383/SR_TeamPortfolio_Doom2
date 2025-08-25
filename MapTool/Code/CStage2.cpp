@@ -94,7 +94,8 @@ HRESULT CStage2::Load_PreSet()
 
 	for (auto m : tm.model)
 	{
-		auto pObj = CObjectFactory::GetInstance()->Load_Terrain(m.vertexCountX,
+		auto pObj = CObjectFactory::GetInstance()->Load_Terrain(m.idx,
+			m.vertexCountX,
 			m.vertexCountZ,
 			m.vertexInterval,
 			m.vertices,

@@ -29,7 +29,14 @@ public:
     static CStage* Standby(LPDIRECT3DDEVICE9 pGraphicDev);
     virtual CStage* Create() override;
 
+    // 결과창 띄우는 함수
     void EnterResultMode();
+
+    // 다음 씬으로 넘기는 함수 
+    void RequestNextScene(SCENEID id);
+
+    bool IsTransitioning() const noexcept { return m_pendingNext != SCENEID::SCENE_END; }
+    bool IsResultMode() const noexcept { return m_isResultMode; } // 이미 있다면 그대로 사용
 
 private:
     void ConnectDoorSwitchByLinkId();
@@ -47,7 +54,11 @@ private:
         return tr;
     }
 
+    // 결과창 띄우기 위한 bool 변수
     bool m_isResultMode = false;
+
+    // 다음 씬의 아이디
+    SCENEID m_pendingNext = SCENEID::SCENE_END;
 
 protected:
     virtual void        Free();
