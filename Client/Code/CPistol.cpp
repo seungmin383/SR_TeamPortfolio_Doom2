@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CPistol.h"
 #include "CWeaponManager.h"
+#include "CManagement.h"
 
 CPistol::CPistol()
 {
@@ -15,7 +16,6 @@ HRESULT CPistol::Ready_GameObject()
 	m_eWeaponID = WEAPON_ID::PISTOL;
 	m_eCurState = WEAPON_STATE::IDLE;
 	m_eAmmoType = AMMO_TYPE::CLIP;
-	m_iDamage = 10;
 	m_fFireDelay = 0.5f;
 	m_fElapsedTime = 0.f;
 
@@ -31,6 +31,15 @@ _bool CPistol::Fire()
 	{
 		m_eCurState = WEAPON_STATE::SHOT;
 		m_fElapsedTime = m_fFireDelay;
+
+		CGameObject* pPlayer = CManagement::GetInstance()->Get_Player();
+		_vec3 vPlayerPos;
+		pPlayer->Get_Transform()->Get_Pos(&vPlayerPos);
+
+		CGameObject* tmp = nullptr;
+		// 로켓 투사체 발사
+		CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::PLAYER_NORMAL_BULLET, OBJID::OBJ_BULLET, vPlayerPos, pPlayer, tmp);
+
 		return true;
 	}
 

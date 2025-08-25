@@ -27,6 +27,10 @@ CWeaponManager::~CWeaponManager()
 
 void CWeaponManager::Update_Weapon(const _float& fTimeDelta)
 {
+	wchar_t buf[64];
+	swprintf(buf, 64, L"State : %d\n", m_pCurWeapon->Get_WeaponState());
+	OutputDebugString(buf);
+
 	if (m_pCurWeapon != nullptr)
 	{
 		m_pCurWeapon->Update_GameObject(fTimeDelta);
@@ -73,8 +77,8 @@ void CWeaponManager::Change_Weapon(WEAPON_ID eID)
 		return;
 
 	// 무기의 상태가 사격, 교체 상태면 리턴
-	if (iter->second->Get_WeaponState() == WEAPON_STATE::SHOT ||
-		iter->second->Get_WeaponState() == WEAPON_STATE::SWAP)
+	if (m_pCurWeapon->Get_WeaponState() == WEAPON_STATE::SHOT ||
+		m_pCurWeapon->Get_WeaponState() == WEAPON_STATE::SWAP)
 		return;
 
 	// 무기를 교체 상태로 변경 후 교체 예정인 ID를 저장

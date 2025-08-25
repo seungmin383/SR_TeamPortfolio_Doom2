@@ -109,7 +109,7 @@ void CPlayerWeapon::Ready_Animation()
 	// Shotgun Animation
 	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::SHOTGUN, m_pTextureCom, m_pBufferCom, 8, 1, 0, 0, 0.f, true);
 	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::SHOTGUN + (_uint)WEAPON_STATE::SWAP, m_pTextureCom, m_pBufferCom, 8, 1, 0, 0, 0.2f, true);
-	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::SHOTGUN + (_uint)WEAPON_STATE::SHOT, m_pTextureCom, m_pBufferCom, 8, 1, 0, 7, 0.11643f, true);
+	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::SHOTGUN + (_uint)WEAPON_STATE::SHOT, m_pTextureCom, m_pBufferCom, 8, 1, 0, 7, 0.1f, true);
 
 	// Chaingun Animation
 	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::CHAINGUN, m_pTextureCom, m_pBufferCom, 3, 1, 0, 0, 0.f, true);
