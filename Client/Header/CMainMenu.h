@@ -18,13 +18,17 @@ public:
 private:
     HRESULT         Ready_Environment_Layer(LAYERID _eLayerId);
     HRESULT         Ready_GameLogic_Layer(LAYERID _eLayerId) { return 0; }
-    HRESULT         Ready_UI_Layer(LAYERID _eLayerId) { return 0; }
+    HRESULT         Ready_UI_Layer(LAYERID _eLayerId);
 
 private:
     HRESULT         Ready_Prototype();
 
 private:
     CLoading* m_pLoading;
+
+    CBackGround* m_pBackground;
+
+    _int m_iFrame;
 
 public:
     static CMainMenu* Standby(LPDIRECT3DDEVICE9 pGraphicDev);

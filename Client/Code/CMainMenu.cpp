@@ -9,7 +9,7 @@
 #include "CFontManager.h"
 
 CMainMenu::CMainMenu(LPDIRECT3DDEVICE9 pGraphicDev)
-    : Engine::CScene(pGraphicDev), m_pLoading(nullptr)
+	: Engine::CScene(pGraphicDev), m_pLoading(nullptr), m_iFrame(1)
 {
 }
 
@@ -25,10 +25,15 @@ HRESULT CMainMenu::Ready_Scene()
 	if (FAILED(Ready_Environment_Layer(LAYERID::LAYER_ENVIRONMENT)))
 		return E_FAIL;
 
+	if (FAILED(Ready_UI_Layer(LAYERID::LAYER_UI)))
+		return E_FAIL;
+
 	m_pLoading = CLoading::Create(m_pGraphicDev, CLoading::LOADING_STAGE);
 
 	if (nullptr == m_pLoading)
 		return E_FAIL;
+
+	m_pBackground->Set_IsMainMenu(true);
 
 	return S_OK;
 }
@@ -43,6 +48,12 @@ _int CMainMenu::Update_Scene(const _float& fTimeDelta)
 		{
 			CManagement::GetInstance()->Change_Scene(SCENEID::LOADING);
 		}
+	}
+
+	m_iFrame += fTimeDelta;
+	if (m_iFrame >= 2)
+	{
+		m_iFrame = 1;
 	}
 
 	return iExit;
@@ -82,12 +93,32 @@ HRESULT CMainMenu::Ready_Environment_Layer(LAYERID _eLayerId)
 	return S_OK;
 }
 
+HRESULT CMainMenu::Ready_UI_Layer(LAYERID _eLayerId)
+{
+	Engine::CLayer* pLayer = CLayer::Create();
+	if (pLayer == nullptr)
+		return E_FAIL;
+
+	Engine::CGameObject* pGameObject = nullptr;
+
+
+	m_mapLayer.insert({ _eLayerId, pLayer });
+
+	return S_OK;
+}
+
 HRESULT CMainMenu::Ready_Prototype()
 {
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_RectTex", Engine::CRectTex::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_LogoTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Title/M_DOOM.png", TEX_NORMAL))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_BackGroundTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/TITLEPIC.png", TEX_NORMAL))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Highlight_Skull", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/M_SKULL%d.png", TEX_NORMAL, 2))))
 		return E_FAIL;
 
 	return S_OK;

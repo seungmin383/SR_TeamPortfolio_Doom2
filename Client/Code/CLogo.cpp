@@ -41,7 +41,7 @@ _int CLogo::Update_Scene(const _float& fTimeDelta)
 	{
 		if (GetAsyncKeyState(VK_RETURN))
 		{
-			CManagement::GetInstance()->Change_Scene(SCENEID::MAINMENU);
+			CManagement::GetInstance()->Change_Scene(SCENEID::STAGE1);
 		}
 	}
 
