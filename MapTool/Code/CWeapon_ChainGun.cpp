@@ -48,7 +48,7 @@ HRESULT CWeapon_ChainGun::Ready_GameObject()
 _int CWeapon_ChainGun::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
-	Set_OnTerrain();
+	//Set_OnTerrain();
 	Bill_Board();
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);

@@ -5,6 +5,7 @@
 #include "Engine_Enum.h"
 #include "CWeaponManager.h"
 #include <iostream>
+#include "CTerrainSector.h"
 
 
 CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -391,7 +392,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			m_eAnim_Type = NOR_DEATH;
 		}
 		m_pColliderCom->Set_Active(false);
-		cout << "AI_DEAD" << endl;
+		//cout << "AI_DEAD" << endl;
 		break;
 
 		//맞았을 때
@@ -399,7 +400,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 		if (!m_isPinky)
 			m_eCurAnimState += 16;
 		m_eAnim_Type = HIT;
-		cout << "AI_HIT" << endl;
+		//cout << "AI_HIT" << endl;
 		break;
 
 		//공격할 때
@@ -407,7 +408,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			m_eCurAnimState += 8;
 		m_eAnim_Type = ATK;
 		//Monster_Fire();
-		cout << "AI_ATTACK" << endl;
+		//cout << "AI_ATTACK" << endl;
 		break;
 
 		//플레이어를 발견했을 때
@@ -422,7 +423,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			m_fChaseDelay = 0.f;
 		}
 		Movement(fTimeDelta);
-		cout << "AI_CHASE" << endl;
+		//cout << "AI_CHASE" << endl;
 		break;
 
 		//아이들 상태
@@ -436,7 +437,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			Movement(fTimeDelta);
 		}
 
-		cout << "AI_MOVE" << endl;
+		//cout << "AI_MOVE" << endl;
 		break;
 	}
 
@@ -464,13 +465,25 @@ void CMonsterBase::Set_OnTerrain()
 	_vec3 pos;
 	m_pTransformCom->Get_Pos(&pos);
 
-	Engine::CTerrainTexSector* pTerrainBufferCom =
-		static_cast<CTerrainTexSector*>
-		(CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
+	_float highest(-999.f);
+	_vec3 onPosition{ 0.f, 0.f, 0.f };
+	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
+	{
+		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
+		auto bufferCom = dterrain->Get_BufferCom();
+		auto transformCom = dterrain->Get_Transform();
 
-	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
+		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
+		{
+			if (highest < onPosition.y)
+				highest = onPosition.y;
+		}
+	}
 
-	m_pTransformCom->Set_Pos(pos.x, height + 1.f, pos.z);
+	if (highest == -999.f)
+		highest = 0.f;
+
+	m_pTransformCom->Set_Pos(pos.x, highest + 1.f, pos.z);
 }
 
 void CMonsterBase::Movement(const _float fTimeDelta)

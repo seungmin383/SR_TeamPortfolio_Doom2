@@ -47,7 +47,7 @@ HRESULT CArmor_Big::Ready_GameObject()
 _int CArmor_Big::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
-	Set_OnTerrain();
+	//Set_OnTerrain();
 	Bill_Board();
 
 	m_iFrame_Armor++;

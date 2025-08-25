@@ -73,40 +73,74 @@
     },
     {
       "value": 5,
-      "tag": "SHIFT_CUBE"
+      "tag": "DOORKEY"
     },
     {
       "value": 6,
-      "tag": "ITEM_HELTH_SMALL"
+      "tag": "KEY"
     },
     {
       "value": 7,
-      "tag": "ITEM_HELTH_BIG"
+      "tag": "SHIFT_CUBE"
     },
     {
       "value": 8,
-      "tag": "ITEM_ARMOR_SMALL"
+      "tag": "ITEM_HELTH_SMALL"
     },
     {
       "value": 9,
-      "tag": "ITEM_ARMOR_BIG"
+      "tag": "ITEM_HELTH_BIG"
     },
     {
       "value": 10,
-      "tag": "ITEM_CLIP"
+      "tag": "ITEM_ARMOR_SMALL"
     },
     {
       "value": 11,
-      "tag": "ITEM_SHELL"
+      "tag": "ITEM_ARMOR_BIG"
     },
     {
       "value": 12,
-      "tag": "OBJ_BARREL"
+      "tag": "ITEM_CLIP"
     },
     {
       "value": 13,
+      "tag": "ITEM_SHELL"
+    },
+    {
+      "value": 14,
+      "tag": "ITEM_ROCKET"
+    },
+    {
+      "value": 15,
+      "tag": "ITEM_CELL"
+    },
+    {
+      "value": 16,
+      "tag": "OBJ_BARREL"
+    },
+    {
+      "value": 17,
+      "tag": "WEAPON_SHOTGUN"
+    },
+    {
+      "value": 18,
+      "tag": "WEAPON_CHAINGUN"
+    },
+    {
+      "value": 19,
+      "tag": "WEAPON_ROCKET"
+    },
+    {
+      "value": 20,
+      "tag": "WEAPON_BFG"
+    },
+    {
+      "value": 21,
       "tag": "BUTTON_DOOR"
     },
+
+
 
     {
       "value": 51,
@@ -139,14 +173,6 @@
     },
     {
       "value": 62,
-      "tag": "DYNAMICCAMERA"
-    },
-    {
-      "value": 63,
-      "tag": "PLAYERCAMERA"
-    },
-    {
-      "value": 64,
       "tag": "WEAPON"
     },
 
@@ -206,63 +232,58 @@
       "value": 4,
       "tag": "OBJ_WALL"
     },
-
     {
       "value": 5,
+      "tag": "OBJ_CEIL"
+    },
+
+    {
+      "value": 6,
       "tag": "OBJ_ATTACK"
     },
     {
-      "value": 6,
+      "value": 7,
       "tag": "OBJ_BULLET"
     },
     {
-      "value": 7,
+      "value": 8,
       "tag": "OBJ_RAY"
     },
 
     {
-      "value": 8,
+      "value": 9,
       "tag": "OBJ_ITEM"
     },
     {
-      "value": 9,
+      "value": 10,
       "tag": "OBJ_BUTTON"
     },
 
     {
-      "value": 10,
+      "value": 111,
       "tag": "OBJ_EXPLOSION"
     },
     {
-      "value": 11,
+      "value": 12,
       "tag": "OBJ_FOG"
     },
 
     {
-      "value": 12,
+      "value": 13,
       "tag": "OBJ_UI"
     },
 
     {
-      "value": 13,
-      "tag": "OBJ_DYNAMICCAMERA"
-    },
-    {
       "value": 14,
-      "tag": "OBJ_PLAYERCAMERA"
-    },
-
-    {
-      "value": 15,
       "tag": "OBJ_WEAPON"
     },
 
     {
-      "value": 16,
+      "value": 15,
       "tag": "OBJ_BACKGROUND"
     },
     {
-      "value": 17,
+      "value": 16,
       "tag": "OBJ_SKYBOX"
     }
   ]

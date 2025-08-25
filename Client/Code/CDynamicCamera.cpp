@@ -426,7 +426,7 @@ void CDynamicCamera::Set_OnTerrain()
 		auto bufferCom = dterrain->Get_BufferCom();
 		auto transformCom = dterrain->Get_Transform();
 
-		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition))
+		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &m_vEye))
 		{
 			if (highest < onPosition.y)
 				highest = onPosition.y;

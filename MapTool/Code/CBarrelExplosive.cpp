@@ -73,7 +73,7 @@ HRESULT CBarrelExplosive::Ready_GameObject()
 _int CBarrelExplosive::Update_GameObject(const float& fTimeDelta)
 {
     CGameObject::Update_GameObject(fTimeDelta);
-    Set_OnTerrain();
+    //Set_OnTerrain();
     Bill_Board();
 
     // 1, 속도 통합(수평만)

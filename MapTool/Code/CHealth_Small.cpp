@@ -47,7 +47,7 @@ HRESULT CHealth_Small::Ready_GameObject()
 _int CHealth_Small::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
-	Set_OnTerrain();
+	//Set_OnTerrain();
 	Bill_Board();
 
 	m_iFrame++;
