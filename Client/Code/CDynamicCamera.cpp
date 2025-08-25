@@ -351,13 +351,13 @@ void CDynamicCamera::Mouse_Input()
 		if (bFireCheck)
 		{
 			if (CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponID() == WEAPON_ID::ROCKET ||
-				CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponID() == WEAPON_ID::BFG)
+				CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponID() == WEAPON_ID::BFG ||
+				CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponID() == WEAPON_ID::SHOTGUN)
 				return; 
 
 			m_pCalculatorCom->Picking_GameObject(g_hWnd);
 		}
 	}
-
 	m_bTrigger = false;
 
 	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_RB) & 0x80)

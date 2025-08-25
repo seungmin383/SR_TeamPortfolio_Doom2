@@ -207,6 +207,7 @@
     <ClInclude Include="..\Header\CRocket.h" />
     <ClInclude Include="..\Header\CRocketBullet.h" />
     <ClInclude Include="..\Header\CShotgun.h" />
+    <ClInclude Include="..\Header\CShotgunBullet.h" />
     <ClInclude Include="..\Header\CShotgunGuy.h" />
     <ClInclude Include="..\Header\CSkyBox.h" />
     <ClInclude Include="..\Header\CSpiderMastermind.h" />
@@ -274,6 +275,7 @@
     <ClCompile Include="..\Code\CRocket.cpp" />
     <ClCompile Include="..\Code\CRocketBullet.cpp" />
     <ClCompile Include="..\Code\CShotgun.cpp" />
+    <ClCompile Include="..\Code\CShotgunBullet.cpp" />
     <ClCompile Include="..\Code\CShotgunGuy.cpp" />
     <ClCompile Include="..\Code\CSkyBox.cpp" />
     <ClCompile Include="..\Code\CSpiderMastermind.cpp" />

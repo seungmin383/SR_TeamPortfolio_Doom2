@@ -17,7 +17,7 @@ _int CWeapon::Update_GameObject(const _float& fTimeDelta)
 	if (m_fElapsedTime >= 0.f)
 		m_fElapsedTime -= fTimeDelta;
 
-	if (m_eCurState == WEAPON_STATE::SHOT && m_fElapsedTime <= 0.f)
+	if (m_eCurState == WEAPON_STATE::SHOT && m_fElapsedTime < 0.f)
 		m_eCurState = WEAPON_STATE::IDLE;
 
 	return 0;
