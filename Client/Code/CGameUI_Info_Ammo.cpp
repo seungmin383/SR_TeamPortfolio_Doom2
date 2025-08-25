@@ -3,6 +3,8 @@
 #include "CManagement.h"
 #include "CRenderer.h"
 #include "CWeaponManager.h"
+#include "CStage.h"
+#include "CStage2.h"
 
 CGameUI_Info_Ammo::CGameUI_Info_Ammo(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev), m_pWeaponManager(nullptr)
@@ -102,14 +104,33 @@ void CGameUI_Info_Ammo::Render_GameObject(const _float& fTimeDelta)
 
 	vPos = { -300.f, -WINCY * 0.5f + vScale.y + 15.f, 0.f };
 
-	const int clip = m_pWeaponManager ? m_pWeaponManager->Get_Ammo(AMMO_TYPE::CLIP) : 0;
-	const int clipMax = m_pWeaponManager ? m_pWeaponManager->Get_MaxAmmo(AMMO_TYPE::CLIP) : 0;
-	const int shell = m_pWeaponManager ? m_pWeaponManager->Get_Ammo(AMMO_TYPE::SHELL) : 0;
-	const int shellMax = m_pWeaponManager ? m_pWeaponManager->Get_MaxAmmo(AMMO_TYPE::SHELL) : 0;
-	const int rocket = m_pWeaponManager ? m_pWeaponManager->Get_Ammo(AMMO_TYPE::ROCKET) : 0;
-	const int rocketMax = m_pWeaponManager ? m_pWeaponManager->Get_MaxAmmo(AMMO_TYPE::ROCKET) : 0;
-	const int cell = m_pWeaponManager ? m_pWeaponManager->Get_Ammo(AMMO_TYPE::CELL) : 0;
-	const int cellMax = m_pWeaponManager ? m_pWeaponManager->Get_MaxAmmo(AMMO_TYPE::CELL) : 0;
+	// 씬 전환 중 또는 결과 모드에서는 HUD 비활성
+	if (auto* st = dynamic_cast<CStage*>(CManagement::GetInstance()->Get_Scene())) {
+		if (st->IsResultMode() || st->IsTransitioning())
+			return;
+	}
+
+	auto* wm = CWeaponManager::GetInstance();
+	if (!wm) return;
+
+	int shell = wm->Get_Ammo(AMMO_TYPE::SHELL);
+	int rocket = wm->Get_Ammo(AMMO_TYPE::ROCKET);
+	int clip = wm->Get_Ammo(AMMO_TYPE::CLIP);
+	int cell = wm->Get_Ammo(AMMO_TYPE::CELL);
+
+	int shellMax = wm->Get_MaxAmmo(AMMO_TYPE::SHELL);
+	int rocketMax = wm->Get_MaxAmmo(AMMO_TYPE::ROCKET);
+	int clipMax = wm->Get_MaxAmmo(AMMO_TYPE::CLIP);
+	int cellMax = wm->Get_MaxAmmo(AMMO_TYPE::CELL);
+
+	//const int clip = m_pWeaponManager ? m_pWeaponManager->Get_Ammo(AMMO_TYPE::CLIP) : 0;
+	//const int clipMax = m_pWeaponManager ? m_pWeaponManager->Get_MaxAmmo(AMMO_TYPE::CLIP) : 0;
+	//const int shell = m_pWeaponManager ? m_pWeaponManager->Get_Ammo(AMMO_TYPE::SHELL) : 0;
+	//const int shellMax = m_pWeaponManager ? m_pWeaponManager->Get_MaxAmmo(AMMO_TYPE::SHELL) : 0;
+	//const int rocket = m_pWeaponManager ? m_pWeaponManager->Get_Ammo(AMMO_TYPE::ROCKET) : 0;
+	//const int rocketMax = m_pWeaponManager ? m_pWeaponManager->Get_MaxAmmo(AMMO_TYPE::ROCKET) : 0;
+	//const int cell = m_pWeaponManager ? m_pWeaponManager->Get_Ammo(AMMO_TYPE::CELL) : 0;
+	//const int cellMax = m_pWeaponManager ? m_pWeaponManager->Get_MaxAmmo(AMMO_TYPE::CELL) : 0;
 
 	Render_Number(clip, 560.f, -WINCY * 0.5f + vScale.y + 98.f, 10.f, 8.f / (4.f / 6.f));
 	Render_Number(clipMax, 680.f, -WINCY * 0.5f + vScale.y + 98.f, 10.f, 8.f / (4.f / 6.f));

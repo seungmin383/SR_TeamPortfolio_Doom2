@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CStage2.h"
 
 #include "CSkyBox.h"
@@ -8,6 +8,7 @@
 #include "CPlayerWeapon.h"
 #include "CManagement.h"
 #include "CWeaponManager.h"
+#include "CWeapon.h"
 #include "CDInputManager.h"
 
 #include "CObjectFactory.h"
@@ -141,6 +142,34 @@ HRESULT CStage2::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
+	if (auto* wm = CWeaponManager::GetInstance()) {
+		wm->InitDefaultAmmo(); // { S H E L L :0, R O C K E T:0, ... } ë“± í‚¤ë“¤ì„ ë¯¸ë¦¬ ì¶”ê°€
+		// ê¸°ë³¸ ë¬´ê¸° ì¥ì°©
+		if (!wm->Get_CurWeapon()) {
+			// 1) ë¬´ê¸° ì˜¤ë¸Œì íŠ¸ë¥¼ í´ë¡ 
+			Engine::CGameObject* obj =
+				CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::WEAPON_PISTOL); // ì¡´ì¬í•˜ëŠ” ê°’ ì‚¬ìš©
+
+			if (obj) {
+				// 2) ë¬´ê¸° íƒ€ì…ìœ¼ë¡œ ë‹¤ìš´ìºìŠ¤íŠ¸(ì•ˆì „í•˜ê²Œ)
+				CWeapon* weapon = dynamic_cast<CWeapon*>(obj);
+				if (weapon) {
+					// 3) ë ˆì´ì–´ì— ë“±ë¡(ì—…ë°ì´íŠ¸/ë Œë”ê°€ ëŒë„ë¡) â€” í”„ë¡œì íŠ¸ OBJIDì— ë§ê²Œ
+					if (auto it = m_mapLayer.find(LAYERID::LAYER_GAMELOGIC); it != m_mapLayer.end()) {
+						it->second->Add_GameObject(OBJID::OBJ_WEAPON, (CGameObject*)weapon);
+					}
+					// 4) ë¬´ê¸° ë§¤ë‹ˆì €ì— ì¸ë²¤í† ë¦¬/ì¥ì°©
+					wm->Add_Weapon(WEAPON_ID::PISTOL, weapon);
+					wm->Change_Weapon(WEAPON_ID::PISTOL);
+				}
+				else {
+					// ìºìŠ¤íŒ… ì‹¤íŒ¨ì‹œ ë©”ëª¨ë¦¬ ì •ë¦¬(í”„ë¡œì íŠ¸ ê·œì•½ì— ë§ê²Œ Free/Release)
+					obj->Release();
+				}
+			}
+		}
+	}
+
 	return S_OK;
 }
 
@@ -158,7 +187,7 @@ HRESULT CStage2::Ready_UI_Layer(LAYERID _eLayerId)
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_WEAPON, pGameObject)))				// ÀÏ´Ü OBJ_WEAPONÀÌ¶ó´Â enum °ªÀÌ ÀÖ¾î¼­ OBJ_UI->OBJ_WEAPONÀ¸·Î ±³Ã¼(08/05)
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_WEAPON, pGameObject)))				// ì¼ë‹¨ OBJ_WEAPONì´ë¼ëŠ” enum ê°’ì´ ìˆì–´ì„œ OBJ_UI->OBJ_WEAPONìœ¼ë¡œ êµì²´(08/05)
 		return E_FAIL;
 
 	// UI
@@ -188,12 +217,12 @@ HRESULT CStage2::Ready_UI_Layer(LAYERID _eLayerId)
 		return E_FAIL;
 
 	// Info
-	// (1) UI Info °´Ã¼ »ı¼º
+	// (1) UI Info ê°ì²´ ìƒì„±
 	pGameObject = CGameUI_Info::Create(m_pGraphicDev);
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	// (2) Camera °´Ã¼ Æ÷ÀÎÅÍ¸¦ ¾ò¾î¼­
+	// (2) Camera ê°ì²´ í¬ì¸í„°ë¥¼ ì–»ì–´ì„œ
 	const auto& cameraObjects = Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYER);
 	if (cameraObjects.empty())
 		return E_FAIL;
@@ -202,33 +231,33 @@ HRESULT CStage2::Ready_UI_Layer(LAYERID _eLayerId)
 	if (pCameraObject == nullptr)
 		return E_FAIL;
 
-	// (3) UI Info¿¡ Camera Æ÷ÀÎÅÍ¸¦ ¿¬°á
+	// (3) UI Infoì— Camera í¬ì¸í„°ë¥¼ ì—°ê²°
 	static_cast<CGameUI_Info*>(pGameObject)->Set_Camera(pCameraObject);
 
-	// (4) UI Info¸¦ UI ·¹ÀÌ¾î¿¡ µî·Ï
+	// (4) UI Infoë¥¼ UI ë ˆì´ì–´ì— ë“±ë¡
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
 		return E_FAIL;
 
 	// Ammo
-	// (1) UI Info °´Ã¼ »ı¼º
+	// (1) UI Info ê°ì²´ ìƒì„±
 	pGameObject = CGameUI_Info_Ammo::Create(m_pGraphicDev);
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	// (2) WeaponManager Æ÷ÀÎÅÍ ¿¬°á
+	// (2) WeaponManager í¬ì¸í„° ì—°ê²°
 	static_cast<CGameUI_Info_Ammo*>(pGameObject)->Set_WeaponManager(CWeaponManager::GetInstance());
 
-	// (3) UI Info¸¦ UI ·¹ÀÌ¾î¿¡ µî·Ï
+	// (3) UI Infoë¥¼ UI ë ˆì´ì–´ì— ë“±ë¡
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
 		return E_FAIL;
 
 	// WeaponNumber
-		// (1) UI Info °´Ã¼ »ı¼º
+		// (1) UI Info ê°ì²´ ìƒì„±
 	pGameObject = CGameUI_Info_WeaponNum::Create(m_pGraphicDev);
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	// (2) Camera °´Ã¼ Æ÷ÀÎÅÍ¸¦ ¾ò¾î¼­
+	// (2) Camera ê°ì²´ í¬ì¸í„°ë¥¼ ì–»ì–´ì„œ
 	const auto& cameraObjects3 = Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYER);
 	if (cameraObjects3.empty())
 		return E_FAIL;
@@ -237,10 +266,10 @@ HRESULT CStage2::Ready_UI_Layer(LAYERID _eLayerId)
 	if (pCameraObject3 == nullptr)
 		return E_FAIL;
 
-	// (3) UI Info¿¡ Camera Æ÷ÀÎÅÍ¸¦ ¿¬°á
+	// (3) UI Infoì— Camera í¬ì¸í„°ë¥¼ ì—°ê²°
 	static_cast<CGameUI_Info_WeaponNum*>(pGameObject)->Set_Camera(pCameraObject3);
 
-	// (4) UI Info¸¦ UI ·¹ÀÌ¾î¿¡ µî·Ï
+	// (4) UI Infoë¥¼ UI ë ˆì´ì–´ì— ë“±ë¡
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
 		return E_FAIL;
 

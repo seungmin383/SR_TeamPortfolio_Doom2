@@ -85,6 +85,7 @@ HRESULT CStage::Ready_Scene()
 
 _int CStage::Update_Scene(const _float& fTimeDelta)
 {
+	// 경과 시간
 	CStatsManager::I().Tick(fTimeDelta);
 
 	if (m_isResultMode)
@@ -102,6 +103,15 @@ _int CStage::Update_Scene(const _float& fTimeDelta)
 		// UI는 정상 시간으로
 		if (auto it = m_mapLayer.find(LAYERID::LAYER_UI); it != m_mapLayer.end())
 			it->second->Update_Layer(fTimeDelta);
+
+		// 레이어 업데이트가 모두 끝난 뒤에만 씬 전환
+		if (m_pendingNext != SCENEID::SCENE_END) {
+			if (auto* wm = CWeaponManager::GetInstance()) {
+				wm->ResetOnSceneChange();   // 무기 포인터 초기화
+			}
+			CManagement::GetInstance()->Change_Scene(m_pendingNext);
+			m_pendingNext = SCENEID::SCENE_END;
+		}
 
 		return 0;
 	}
@@ -816,6 +826,11 @@ void CStage::EnterResultMode()
 			uiLayer->Add_GameObject(OBJID::OBJ_UI, ui);
 		}
 	}
+}
+
+void CStage::RequestNextScene(SCENEID id)
+{
+	m_pendingNext = id; // 호출만 하고, 실제 전환은 Update_Scene의 끝에서!
 }
 
 void CStage::Free()
