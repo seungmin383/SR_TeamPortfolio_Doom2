@@ -8,6 +8,7 @@
 #include "CGameUI_Face.h"
 #include "FaceUIRegistry.h"
 #include "CStatsManager.h"
+#include "CRocket.h"
 
 CWeapon_Rocket::CWeapon_Rocket(LPDIRECT3DDEVICE9 pGraphicDev)
     : CGameObject(pGraphicDev)
@@ -40,7 +41,7 @@ HRESULT CWeapon_Rocket::Ready_GameObject()
 		_vec3(0, 0, 0),           // 초기 위치(Transform가 실제로 잡아줌)
 		_vec3(1.f, 1.f, 1.f),  // 아이템 박스 크기 예시
 		_vec3(0, 0.7f, 0),        // 약간 위로
-		COL_ITEM,               // 너희 COLLAYERID에서 아이템 레이어
+		COL_WEAPON,               // 너희 COLLAYERID에서 아이템 레이어
 		COL_PLAYER       // (마스크를 쓴다면) 플레이어와만 맞게
 	);
 	m_pColliderCom->Set_Active(true);
@@ -112,16 +113,18 @@ void CWeapon_Rocket::OnCollisionEnter(CCollider* _pOther)
 		OutputDebugStringA("[WR] g_FaceUI is null. CStage에서 등록됐는지 확인\n");
 	}
 
-	// to-do) 무기매니저로 캐스팅해서 얻기
-	if (auto* wm = CWeaponManager::GetInstance()) {
-		wm->Add_Weapon(WEAPON_ID::ROCKET, (CWeapon*)this);
-		wm->Change_Weapon(WEAPON_ID::ROCKET);
-		wm->Add_Ammo(AMMO_TYPE::ROCKET, 5);
+	CWeaponManager* pWeaponManager = CWeaponManager::GetInstance();
+	if (pWeaponManager->Get_Weapon(WEAPON_ID::ROCKET) == nullptr)
+	{
+		CWeapon* pRocket = CRocket::Create();
+		pWeaponManager->Add_Weapon(WEAPON_ID::ROCKET, pRocket);
+		pWeaponManager->Change_Weapon(WEAPON_ID::ROCKET);
+		pWeaponManager->Add_Ammo(AMMO_TYPE::ROCKET, 99999);
 	}
 	else
-	{
-		OutputDebugStringA("[WR] WeaponManager is null\n");
-	}
+		pWeaponManager->Add_Ammo(AMMO_TYPE::ROCKET, 5);
+
+
 	// 월드의 픽업 오브젝트는 제거
 
 	if (m_pColliderCom) m_pColliderCom->Set_Active(false);

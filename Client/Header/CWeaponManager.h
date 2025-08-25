@@ -15,7 +15,15 @@ public:
 	void Update_Weapon(const _float& fTimeDelta);
 
 public:
-	CWeapon* Get_Weapon(WEAPON_ID eID) { return m_mapWeapon[eID]; }		// 특정 무기 가져오는 함수
+	// 특정 무기 가져오는 함수
+	CWeapon* Get_Weapon(WEAPON_ID eID)
+	{ 
+		auto iter = m_mapWeapon.find(eID);
+		if (iter != m_mapWeapon.end())
+			return m_mapWeapon[eID];
+		else
+			return nullptr;
+	}		
 
 	CWeapon* Get_CurWeapon() { return m_pCurWeapon; }						// 현재 무기 가져오는 함수
 	void Set_CurWeapon(WEAPON_ID eID) {	m_pCurWeapon = m_mapWeapon[eID]; }	// 현재 무기 설정하는 함수

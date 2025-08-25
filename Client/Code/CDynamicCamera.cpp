@@ -18,7 +18,7 @@ _long CDynamicCamera::s_lMouseMoveX = 0L;
 CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCamera(pGraphicDev),
 	m_bFix(false), m_bCheck(false), m_bTrigger(false), m_bIsMoving(false),
-	 m_iArmor(0),
+	m_iArmor(0),
 	m_fSpeed(0.f), m_fAngle(0.f), m_fAngleSpeed(0.f),
 	m_eState(IDLE)
 {
@@ -68,28 +68,28 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	_vec3 vOffset{ 0.f, -1.5f, 0.f };
 
 	m_pColliderCom->Ready_CCollider(this, m_vEye, vScale, vOffset, COL_PLAYER,
-		COL_ENEMY | COL_OBJECT | COL_TERRAIN | COL_WALL | COL_ITEM);
+		COL_ENEMY | COL_OBJECT | COL_TERRAIN | COL_WALL | COL_ITEM | COL_WEAPON);
 
 	CWeapon* pPistol = CPistol::Create();
 	if (pPistol != nullptr)
 		CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::PISTOL, pPistol);
 
 	// 테스트용 무기 추가 나중에 삭제 해야됌
-	CWeapon* pShotgun = CShotgun::Create();
-	if (pShotgun != nullptr)
-		CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::SHOTGUN, pShotgun);
+	//CWeapon* pShotgun = CShotgun::Create();
+	//if (pShotgun != nullptr)
+	//	CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::SHOTGUN, pShotgun);
 
-	CWeapon* pChaingun = CChaingun::Create();
-	if (pChaingun != nullptr)
-		CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::CHAINGUN, pChaingun);
+	//CWeapon* pChaingun = CChaingun::Create();
+	//if (pChaingun != nullptr)
+	//	CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::CHAINGUN, pChaingun);
 
-	CWeapon* pRocket = CRocket::Create();
-	if (pRocket != nullptr)
-		CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::ROCKET, pRocket);
+	//CWeapon* pRocket = CRocket::Create();
+	//if (pRocket != nullptr)
+	//	CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::ROCKET, pRocket);
 
-	CWeapon* pBfg = CBfg::Create();
-	if (pBfg != nullptr)
-		CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::BFG, pBfg);
+	//CWeapon* pBfg = CBfg::Create();
+	//if (pBfg != nullptr)
+	//	CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::BFG, pBfg);
 
 	CWeaponManager::GetInstance()->Set_CurWeapon(WEAPON_ID::PISTOL);
 
@@ -287,6 +287,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		m_bIsMoving = true;
 	}
 
+	// 움직이고 있다면 카메라 흔들림 효과 적용
 	if (m_bIsMoving)
 		Camera_Bobbing(fTimeDelta);
 
@@ -316,7 +317,6 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::BFG);
 	}
 
-
 	//m_pTransformCom 업데이트 //collider 동기화 용
 	m_pTransformCom->Set_Pos(m_vEye.x, m_vEye.y, m_vEye.z);
 
@@ -329,7 +329,6 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		if (m_bFix)
 			m_bFix = false;
-
 		else
 			m_bFix = true;
 	}
@@ -345,19 +344,8 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 void CDynamicCamera::Mouse_Input()
 {
 	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB) & 0x80)
-	{
 		_bool bFireCheck = CWeaponManager::GetInstance()->Fire_Weapon();
-		
-		//if (bFireCheck)
-		//{
-		//	if (CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponID() == WEAPON_ID::ROCKET ||
-		//		CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponID() == WEAPON_ID::BFG ||
-		//		CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponID() == WEAPON_ID::SHOTGUN)
-		//		return; 
 
-		//	m_pCalculatorCom->Picking_GameObject(g_hWnd);
-		//}
-	}
 	m_bTrigger = false;
 
 	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_RB) & 0x80)
@@ -419,7 +407,7 @@ void CDynamicCamera::Set_OnTerrain()
 		(CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
 
 	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&m_vEye, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
-	
+
 	// 카메라의 높이 (m_vEye.y)가 변화할 때 마다 바라보는 목표(m_vAt.y)도 바뀌어야한다.
 	// 카메라의 높이 변화량을 계산해서 변화량을 m_vEye, m_vAt 모두 더해줘야 시점이 유지된다.
 	_float deltaHeight = (height + 3.f) - m_vEye.y;
