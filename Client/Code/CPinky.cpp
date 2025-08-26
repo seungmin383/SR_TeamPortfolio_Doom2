@@ -129,6 +129,7 @@ HRESULT CPinky::Ready_GameObject()
 	m_iGibDeadPlus = 16;
 	m_iNorDeadPlus = 16;
 
+	m_fSpeed = 10.f;
 	_vec3 vSize{ 2.f, 2.f, 2.f };
 	m_pTransformCom->Set_Scale(vSize);
 	m_iHeight = 2;

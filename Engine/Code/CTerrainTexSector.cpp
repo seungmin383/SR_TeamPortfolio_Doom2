@@ -278,4 +278,5 @@ void CTerrainTexSector::Free()
 	}
 
 	CVIBuffer::Free();
+
 }

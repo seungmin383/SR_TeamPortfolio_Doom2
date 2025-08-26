@@ -157,6 +157,7 @@ void CImp::Attack(const _float fTimeDelta)
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
 	CGameObject* tmp = nullptr;
+	vPos.y += 1;
 
 	if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_IMP_BULLET, OBJID::OBJ_BULLET, vPos, this, tmp)))
 	{

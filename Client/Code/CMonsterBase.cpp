@@ -67,6 +67,7 @@ _int CMonsterBase::Update_GameObject(const _float& fTimeDelta)
 void                 CMonsterBase::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
+	cout << "몬스터 애니메이션 스테이트:" << m_eAnim_Type << endl;
 	m_pAnimCom->Play_Animation(m_eAnim_Type, 0, fTimeDelta, m_eCurAnimState);
 	m_pColliderCom->Late_Update();
 
@@ -533,7 +534,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			m_eAnim_Type = NOR_DEATH;
 		}
 		m_pColliderCom->Set_Active(false);
-		cout << "AI_DEAD" << endl;
+	//	cout << "AI_DEAD" << endl;
 		break;
 
 		//맞았을 때
@@ -542,7 +543,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 		if (!m_isPinky)
 			m_eCurAnimState += 16;
 		m_eAnim_Type = HIT;
-		cout << "AI_HIT" << endl;
+	//	cout << "AI_HIT" << endl;
 		break;
 
 		//공격할 때
@@ -553,7 +554,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 		if (!m_isShoot)
 			Attack(fTimeDelta);
 
-		cout << "AI_ATTACK" << endl;
+	//	cout << "AI_ATTACK" << endl;
 		break;
 
 		//플레이어를 발견했을 때
@@ -569,7 +570,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			m_fChaseDelay = 0.f;
 		}
 		Movement(fTimeDelta);
-		cout << "AI_CHASE" << endl;
+//		cout << "AI_CHASE" << endl;
 		break;
 
 		//아이들 상태
@@ -584,7 +585,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			Movement(fTimeDelta);
 		}
 
-		cout << "AI_MOVE" << endl;
+//		cout << "AI_MOVE" << endl;
 		break;
 	}
 

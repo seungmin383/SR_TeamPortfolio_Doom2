@@ -135,5 +135,7 @@ void CVIBuffer::Free()
 	Safe_Release(m_pIB);
 
 	CComponent::Free();
+
+
 }
 				

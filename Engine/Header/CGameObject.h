@@ -63,6 +63,8 @@ protected:
 
     _uint                                   m_iDmg = 0;			//총알 데미지
     _int                                    m_iGameHp = 0;
+	_int                                    m_iMaxHp = m_iGameHp;
+
 private:
     CComponent* Find_Component(COMPONENTID eID, const _tchar* pComponentTag);
 
