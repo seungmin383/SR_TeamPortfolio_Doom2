@@ -78,6 +78,7 @@ HRESULT CStage::Ready_Scene()
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_BULLET);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_BUTTON);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_OBJECT);
+	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_BULLET, OBJID::OBJ_OBJECT);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_ENEMY, OBJID::OBJ_BULLET);
 
 
