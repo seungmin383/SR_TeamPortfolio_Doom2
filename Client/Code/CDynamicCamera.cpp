@@ -87,6 +87,10 @@ _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 {
 	_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
 	
+	// 일시 정지 기능 추가
+	if (CManagement::GetInstance()->Is_Paused())
+		return 0;
+
 	Update_State();
 
 	return iExit;

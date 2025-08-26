@@ -45,13 +45,24 @@ public:
     void        LateUpdate_Scene(const _float& fTimeDelta);
     void        Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev, const _float& fTimeDelta);
 
-    // 임시로 키 상호작용을 위한 코드 추가(08/23 김홍인)
+    // 키 상호작용을 위한 코드 추가(08/23 김홍인)
     _bool        Is_KeyOwned() const { return m_bHasKey; }
     void         Set_KeyOwned(_bool b) { m_bHasKey = b; }
 
     // MainMenu 종료시 오류 나는 것 방지용(08/26 김홍인)
     void  RequestQuit() { m_quit = true; }
     bool  QuitRequested() const { return m_quit; }
+
+    // 일시 정지 기능을 위한 함수
+    _bool   Is_Paused() const { return m_bPaused; }
+    void    Set_Paused(_bool b) {
+        m_bPaused = b;
+        m_timeScale = m_bPaused ? 0.f : 1.f;
+    }
+    void    Toggle_Pause() { Set_Paused(!m_bPaused); }
+
+    // Δt 스케일 (정지: 0, 평상: 1)
+    _float  ScaleDelta(const _float& fTimeDelta) const { return fTimeDelta * m_timeScale; }
 
 private:
     CScene*                 m_pScene;
@@ -60,9 +71,13 @@ private:
 
     CGameObject*            m_pPlayer;
 
-    // 임시로 키 상호작용을 위한 변수 추가(08/23 김홍인)
+    // 키 상호작용을 위한 변수 추가(08/23 김홍인)
     _bool                   m_bHasKey = false;
     _bool                   m_quit = false;
+
+    // 일시정지 기능을 위한 변수(08/27 김홍인)
+    _bool                   m_bPaused = false;
+    _float                  m_timeScale = 1.f;
 public:
     virtual     void        Free();
 };

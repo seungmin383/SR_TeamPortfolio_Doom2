@@ -86,13 +86,24 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 {
 	CDInputManager::GetInstance()->Update_InputDev();
 
-	m_pManagementClass->Update_Scene(fTimeDelta);
+	//m_pManagementClass->Update_Scene(fTimeDelta);
 
 	if (GetAsyncKeyState('C'))
 		g_colRend = !g_colRend;
 
 	// p 키 눌렀을 때 일시정지
-	//if (GetAsyncKeyState('P'))
+	// 1) 일시정지 토글
+	if (GetAsyncKeyState('P'))
+	{
+		CManagement::GetInstance()->Toggle_Pause();
+	}
+
+	// 2) Δt 스케일 (Paused면 0)
+	const float dt = CManagement::GetInstance()->ScaleDelta(fTimeDelta);
+
+	// 3) 씬 업데이트
+	if (m_pManagementClass->Update_Scene(dt) < 0)
+		return -1;
 		
 
 	return 0;
@@ -100,7 +111,9 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 
 void CMainApp::LateUpdate_MainApp(const float& fTimeDelta)
 {
-	m_pManagementClass->LateUpdate_Scene(fTimeDelta);
+	const float dt = CManagement::GetInstance()->ScaleDelta(fTimeDelta);
+	m_pManagementClass->LateUpdate_Scene(dt);
+	/*m_pManagementClass->LateUpdate_Scene(fTimeDelta);*/
 }
 
 void CMainApp::Render_MainApp(const float& fTimeDelta)
