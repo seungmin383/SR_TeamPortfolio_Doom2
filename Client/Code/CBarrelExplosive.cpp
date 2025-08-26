@@ -251,7 +251,7 @@ void CBarrelExplosive::ApplyExplosionDamage()
 	// 내 위치
 	_vec3 myPos; m_pTransformCom->Get_Pos(&myPos);
 
-	const float R = 4.0f;        // 폭발 반경(필요시 4~6 사이로 조정)
+	const float R = 25.f;        // 폭발 반경
 	const float R2 = R * R;
 
 	Engine::CScene* pScene = Engine::CManagement::GetInstance()->Get_Scene();
@@ -269,17 +269,22 @@ void CBarrelExplosive::ApplyExplosionDamage()
 
 			_vec3 pos; tr->Get_Pos(&pos);
 			_vec3 d = pos - myPos;
+			d.y = 0.f;			// XZ 평면 거리로 통일
 			_float dist2 = D3DXVec3LengthSq(&d);
 			if (dist2 <= R2)
 			{
-				if (auto* pMonster = dynamic_cast<CMonsterBase*>(obj))
-				{
-					_float dist = sqrtf(dist2);
+				_float dist = sqrtf(dist2);
 
-					// 거리에 따라 데미지 감쇠
-					_float t = max(0.f, 1.f - dist / R);	// 0 ~ 1
-					_int damage = max(1, int(100.f * t));	// 최대 데미지 100
+				// 거리에 따라 데미지 감쇠
+				_float t = max(0.f, 1.f - dist / R);	// 0 ~ 1
+				_int damage = max(1, int(100.f * t));	// 최대 데미지 100
+				if (auto* pMonster = dynamic_cast<CMonsterBase*>(obj))
+				{					
 					pMonster->Take_Dmg(damage);
+
+					char buf[128];
+					sprintf_s(buf, "[Barrel] Monster hit dmg=%d dist=%.2f\n", damage, dist);
+					OutputDebugStringA(buf);
 				}
 			}
 		}
@@ -295,7 +300,8 @@ void CBarrelExplosive::ApplyExplosionDamage()
 			if (pPlTr)
 			{
 				_vec3 pPos; pPlTr->Get_Pos(&pPos);
-				_vec3 d = pPos - myPos; d.y = 0.f;
+				_vec3 d = pPos - myPos;
+				d.y = 0.f;		// XZ 평면 거리로 통일
 
 				float dist2 = D3DXVec3LengthSq(&d);
 				if (dist2 <= R2)
@@ -309,6 +315,12 @@ void CBarrelExplosive::ApplyExplosionDamage()
 					if (auto* cam = dynamic_cast<CDynamicCamera*>(pPlayer))
 					{
 						cam->Take_Damage(dmg);              // 실제 플레이어 데미지
+
+
+
+						char buf[128];
+						sprintf_s(buf, "[Barrel] Player hit dmg=%d dist=%.2f\n", dmg, dist);
+						OutputDebugStringA(buf);
 					}
 				}
 			}
@@ -331,6 +343,8 @@ void CBarrelExplosive::ApplyExplosionDamage()
 
 			_vec3 pos; tr->Get_Pos(&pos);
 			_vec3 d = pos - myPos;
+			d.y = 0.f; // XZ 평면 거리로 통일
+
 			float dist2 = D3DXVec3LengthSq(&d);
 			if (dist2 > R2) continue;
 
