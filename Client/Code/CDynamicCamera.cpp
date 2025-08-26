@@ -21,7 +21,8 @@ CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	m_bFix(false), m_bCheck(false), m_bTrigger(false), m_bIsMoving(false),
 	m_iArmor(0),
 	m_fSpeed(0.f), m_fAngle(0.f), m_fAngleSpeed(0.f),
-	m_eState(IDLE)
+	m_eState(IDLE),
+	m_vDist(_vec3(0.f, 0.f, 0.f))
 {
 }
 
