@@ -169,7 +169,7 @@ void CArchVile::Set_OnTerrain()
 		auto transformCom = dterrain->Get_Transform();
 
 		_vec3 onPosition{ 0.f, 0.f, 0.f };
-		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition))
+		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
 		{
 
 			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 2, pos.z);
