@@ -111,6 +111,7 @@ void CShotgunBullet::OnCollisionEnter(CCollider* _pOther)
 		m_fSpeed = 0.f;
 		break;
 
+	case COLLAYERID::COL_OBJECT:
 	case COLLAYERID::COL_ENEMY:
 		m_fSpeed = 0.f;
 		_pOther->Get_Owner()->Take_Dmg(m_iDmg);
