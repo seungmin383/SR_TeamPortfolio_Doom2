@@ -104,8 +104,8 @@ void CMainMenu::Render_Scene(const _float& fTimeDelta)
 
 		m_rcStart.left = 0.f;
 		m_rcStart.top = 0.f;
-		m_rcStart.right = 260.f;
-		m_rcStart.bottom = 60.f;
+		m_rcStart.right = 200.f;
+		m_rcStart.bottom = 40.f;
 
 		D3DXVECTOR3 center(60.0f, 7.5f, 0.0f); // 텍스처 중심
 		D3DXVECTOR3 position(logoX, logoY, 0.0f); // 화면상 위치
