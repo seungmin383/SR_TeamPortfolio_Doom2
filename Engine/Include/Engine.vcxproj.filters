@@ -303,10 +303,10 @@
     <ClInclude Include="StageSet.h">
       <Filter>DataModel</Filter>
     </ClInclude>
-    <ClInclude Include="TerrainModelsMod.h">
+    <ClInclude Include="TerrainModelMod.h">
       <Filter>DataModel</Filter>
     </ClInclude>
-    <ClInclude Include="TerrainModelMod.h">
+    <ClInclude Include="TerrainModelsMod.h">
       <Filter>DataModel</Filter>
     </ClInclude>
   </ItemGroup>

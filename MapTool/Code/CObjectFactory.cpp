@@ -91,8 +91,6 @@ CGameObject* CObjectFactory::Mod_Terrain(_int idx, const _ulong& dwCntX, const _
 
 CGameObject* CObjectFactory::Load_Terrain(_int idx, const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv, vector<_vec3> vertices, fs::path texPath, _vec3 pos, OBJID eObjId)
 {
-	auto sectorBuffer = Engine::CTerrainTexSector::Create(m_pGraphicDev, vertices, dwCntX, dwCntZ, dwVtxItv);
-	
 	CTexture* tempTex = CTexture::Create(m_pGraphicDev, texPath.wstring().c_str(), TEX_NORMAL);
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(texPath.filename().wstring().c_str(), tempTex)))
 		Safe_Release(tempTex);
@@ -101,7 +99,7 @@ CGameObject* CObjectFactory::Load_Terrain(_int idx, const _ulong& dwCntX, const 
 
 	auto terrainSector = dynamic_cast<CTerrainSector*>(CPrototypeManager::GetInstance()->GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::TERRAINSECTOR));
 
-	terrainSector->Set_BufferCom(sectorBuffer);
+	terrainSector->Set_BufferCom(Engine::CTerrainTexSector::Create(m_pGraphicDev, vertices, dwCntX, dwCntZ, dwVtxItv));
 	terrainSector->Set_TextureCom(dynamic_cast<CTexture*>(texture));
 	terrainSector->Set_Index(idx);
 

@@ -6,6 +6,7 @@
 #include "CManagement.h"
 #include "CDynamicCamera.h"
 
+
 CControlPanel::CControlPanel()
 	: m_pGraphicDev(nullptr),
 	textureExpr(nullptr),
@@ -456,6 +457,22 @@ void CControlPanel::TerrainController()
 
 	curTileIdx = ModifyChildWindow();
 
+	ImGui::Checkbox("EnablePick", &EnablePick);
+
+	static int terraintype_current = 0;
+
+	if (!tControlInfo.empty())
+		terraintype_current = (int)tControlInfo[tCachingControlInfo.terrainIdx].info;
+	else
+		terraintype_current = (int)tCachingControlInfo.info;
+	if (ImGui::Combo("terraintype", &terraintype_current, terrainTags, 3))
+	{
+		tCachingControlInfo.info = (TILEINFO)terraintype_current;
+		if (!tControlInfo.empty())
+			tControlInfo[tCachingControlInfo.terrainIdx].info = (TILEINFO)terraintype_current;
+	}
+		
+
 	if (curTex != nullptr)
 	{
 		auto texRef = (IDirect3DTexture9*)curTex->GetTextureHandle();
@@ -718,6 +735,7 @@ void CControlPanel::SaveTerrain(fs::path path, string filename)
 	{
 		TerrainModel model;
 		model.idx = terraininfo.terrainIdx;
+		model.type = (int)terraininfo.info;
 		model.pos = terraininfo.pos;
 		model.strTextureTag = fs::relative(terraininfo.currentTextureTag, basePath).relative_path().generic_string();
 		model.vertexCountX = terraininfo.vertexXCnt;
@@ -844,6 +862,12 @@ void CControlPanel::SetObjInfo()
 		idTags[i] = new char[objIdTags[i].tag.size() + 1];
 		strcpy_s(idTags[i], (rsize_t)((objIdTags[i].tag.size() + 1) * sizeof(char)), objIdTags[i].tag.c_str());
 	}
+
+	//터레인타입 꼽사리
+
+	terrainTags[0] = "Terrain";
+	terrainTags[1] = "Wall";
+	terrainTags[2] = "Ceil";
 }
 
 void CControlPanel::SetLoadSceneTag()
@@ -883,8 +907,9 @@ void CControlPanel::InputMouse_Terrain()
 			if (pTerrainTransform == nullptr)
 				return;
 
+			_vec3 pos;
 			_float dist;
-			if (m_pCalculatorCom->Picking_MapTool(g_hWnd, pTerrainBuf, pTerrainTransform, &tCachingControlInfo.pos, &dist))
+			if (m_pCalculatorCom->Picking_MapTool(g_hWnd, pTerrainBuf, pTerrainTransform, &pos, &dist))
 			{
 				if (nearest >= dist)
 				{

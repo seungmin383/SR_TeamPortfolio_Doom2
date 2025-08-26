@@ -134,6 +134,8 @@ private:
     vector<GameObjectType>          objIdTags;
     char**                          idTags;
 
+    const char*                     terrainTags[3];
+
     char**                          loadSceneTags;
 
     string                          filename;
