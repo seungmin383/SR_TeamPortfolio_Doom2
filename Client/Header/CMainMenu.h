@@ -49,8 +49,6 @@ private:
     int           m_focus = 0;    // 키보드 포커스(기본 START)
     bool          m_prevLDown = false;
 
-    _int m_iFrame = 1;
-
     _float m_inputLock = 0.2f;
 
     struct KeyPrev {

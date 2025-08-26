@@ -57,7 +57,7 @@ _int CUI_StageClear::Update_GameObject(const _float& fTimeDelta)
         const float nps = 60.f;   // 초당 증가량
         m_k = min(cur.kills, m_k + (int)(nps * fTimeDelta));
         m_i = min(cur.items, m_i + (int)(nps * fTimeDelta));
-        m_s = min(cur.secrets, m_s + (int)(nps * fTimeDelta));
+        //m_s = min(cur.secrets, m_s + (int)(nps * fTimeDelta));
         m_time = min(cur.timeSec, m_time + 120.f * fTimeDelta);
 
         const bool done = (m_k == cur.kills) && (m_i == cur.items) && (m_s == cur.secrets)
@@ -113,8 +113,8 @@ void CUI_StageClear::Render_GameObject(const _float& dt)
     swprintf(line, 128, L"ITEMS    %d/%d  %d%%", m_i, cur.totalItems, pct(m_i, cur.totalItems));
     draw(L"ResultBody", line, 40.f, 120.f, D3DXCOLOR(1, 1, 1, 1));
 
-    swprintf(line, 128, L"SECRETS  %d/%d  %d%%", m_s, cur.totalSecrets, pct(m_s, cur.totalSecrets));
-    draw(L"ResultBody", line, 40.f, 150.f, D3DXCOLOR(1, 1, 1, 1));
+   /* swprintf(line, 128, L"SECRETS  %d/%d  %d%%", m_s, cur.totalSecrets, pct(m_s, cur.totalSecrets));
+    draw(L"ResultBody", line, 40.f, 150.f, D3DXCOLOR(1, 1, 1, 1));*/
 
     swprintf(line, 128, L"TIME     %.1fs", m_time);
     draw(L"ResultBody", line, 40.f, 180.f, D3DXCOLOR(0.9f, 0.9f, 0.9f, 1));

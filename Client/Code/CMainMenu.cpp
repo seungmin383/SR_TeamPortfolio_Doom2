@@ -10,7 +10,7 @@
 
 
 CMainMenu::CMainMenu(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CScene(pGraphicDev), m_pLoading(nullptr), m_iFrame(1)
+	: Engine::CScene(pGraphicDev), m_pLoading(nullptr)
 {
 }
 
@@ -51,15 +51,11 @@ _int CMainMenu::Update_Scene(const _float& fTimeDelta)
 
 	// 마우스가 버튼 위에 있으면 포커스를 동기화(자연스러운 UX)
 	if (m_hover != -1) m_focus = m_hover;
+	
+	// m_hover == 0 이면 메뉴 왼쪽에 해골 이미지 출력
 
 	// 클릭 처리(마우스)
 	HandleClick();
-
-	m_iFrame += fTimeDelta;
-	if (m_iFrame >= 2)
-	{
-		m_iFrame = 1;
-	}
 
 	return iExit;
 }
@@ -113,7 +109,7 @@ void CMainMenu::Render_Scene(const _float& fTimeDelta)
 		D3DXMATRIX T; D3DXMatrixTranslation(&T, logoX, logoY, 0.f);
 		m_pUISprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
 		m_pUISprite->SetTransform(&T);
-		m_pUISprite->Draw(m_pLogoTex, &m_rcStart, nullptr, nullptr, 0xFFFFFFFF);
+		m_pUISprite->Draw(m_pLogoTex, nullptr, nullptr, nullptr, 0xFFFFFFFF);
 		m_pUISprite->End();
 	}
 
@@ -124,7 +120,7 @@ void CMainMenu::Render_Scene(const _float& fTimeDelta)
 
 		m_rcExit.left = 0.f;
 		m_rcExit.top = 0.f;
-		m_rcExit.right = 200.f;
+		m_rcExit.right = 260.f;
 		m_rcExit.bottom = 40.f;
 
 		D3DXVECTOR3 center(58.0f, 8.5f, 0.0f); // 텍스처 중심
@@ -133,10 +129,14 @@ void CMainMenu::Render_Scene(const _float& fTimeDelta)
 		D3DXMATRIX T; D3DXMatrixTranslation(&T, logoX, logoY, 0.f);
 		m_pUISprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
 		m_pUISprite->SetTransform(&T);
-		m_pUISprite->Draw(m_pExitTex, &m_rcExit, nullptr, nullptr, 0xFFFFFFFF);
+		m_pUISprite->Draw(m_pExitTex, nullptr, nullptr, nullptr, 0xFFFFFFFF);
 		m_pUISprite->End();
 	}
 
+	if (m_hover == 0)
+	{
+
+	}
 	// ===== 3) 버튼 텍스트(START / EXIT) =====
 	const float yStart = yCenter - 30.f;
 	const float yExit = yCenter + 30.f;
