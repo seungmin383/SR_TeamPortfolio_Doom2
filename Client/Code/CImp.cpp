@@ -30,7 +30,7 @@ HRESULT CImp::Ready_GameObject()
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Pos(50.f, 10.f, 10.f);
+	m_pTransformCom->Set_Pos(52.f, 0.f, 10.f);
 
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);

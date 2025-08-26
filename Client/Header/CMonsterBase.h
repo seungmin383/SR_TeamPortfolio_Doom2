@@ -136,6 +136,12 @@ protected:
 
     _int m_iPreHp = m_iGameHp;
 
+    //보스 패턴용 변수
+    _int m_AtkCnt = 0;
+    _bool m_isFirstEnt = FALSE;
+
+
+
     // --- 드랍 1회만 실행되도록 하는 가드 ---
     _bool m_bDropDone = false;
 public:
