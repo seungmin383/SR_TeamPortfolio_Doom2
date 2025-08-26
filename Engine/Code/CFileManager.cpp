@@ -211,6 +211,49 @@ vector<GameObjectSpawnInfo> CFileManager::LoadItem(_int stageNumber)
 	return s.objects;
 }
 
+void CFileManager::SaveMonster(fs::path path, string filename, vector<GameObjectSpawnInfo> datas)
+{
+	MoveProjectDir();
+
+	SceneSpawnInfo dataSet;
+	dataSet.objects = datas;
+
+	auto a = path.string() + "/" + filename;
+
+	ofstream write(path.string() + "/" + filename);
+
+	json j = dataSet;
+	write << j.dump(4);
+
+	write.close();
+}
+
+vector<GameObjectSpawnInfo> CFileManager::LoadMonster(_int stageNumber)
+{
+	MoveProjectDir();
+
+	SceneSpawnInfo s;
+
+	vector<StageSet>::iterator stage = find_if(m_tConfig.StageSettings.begin(), m_tConfig.StageSettings.end(), [&stageNumber](StageSet item) {return item.StageNumber == stageNumber; });
+
+	fs::path p(m_tConfig.MonsterSpawnSavePath + "/" + (*stage).MonsterFileName);
+
+	if (!fs::exists(p))
+	{
+		MSG_BOX("not found monster save");
+		return s.objects;
+	}
+
+	ifstream read(p);
+	json j = json::parse(read);
+
+	s = j.get<SceneSpawnInfo>();
+
+	read.close();
+
+	return s.objects;
+}
+
 void CFileManager::Free()
 {
 }

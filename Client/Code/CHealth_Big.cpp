@@ -155,31 +155,23 @@ HRESULT CHealth_Big::Add_Component()
 
 void CHealth_Big::Set_OnTerrain()
 {
-	_vec3 pos; m_pTransformCom->Get_Pos(&pos);
-
-	_float highest(-999.f);
-	_vec3 onPosition{ 0.f, 0.f, 0.f };
-	_vec3 m_vEye{ 65.f, 0, 5.f };
-	_vec3 m_vAt{ 0.f, 0.f, 1.f };
 	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
 	{
+		_vec3 pos;
+		m_pTransformCom->Get_Pos(&pos);
+
 		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
 		auto bufferCom = dterrain->Get_BufferCom();
 		auto transformCom = dterrain->Get_Transform();
 
+		_vec3 onPosition{ 0.f, 0.f, 0.f };
 		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
 		{
-			if (highest < onPosition.y)
-				highest = onPosition.y;
+
+			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 1, pos.z);
+			break;
 		}
 	}
-
-	if (highest == -999.f)
-		highest = 0.f;
-
-	_float deltaHeight = (highest + 4.f) - m_vEye.y;
-	m_vEye.y += deltaHeight;
-	m_vAt.y += deltaHeight;
 }
 
 void CHealth_Big::Bill_Board()

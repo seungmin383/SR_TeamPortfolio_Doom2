@@ -44,6 +44,9 @@ public:
     void                              SaveItem(fs::path path, string filename, vector<GameObjectSpawnInfo> datas);
     vector<GameObjectSpawnInfo>       LoadItem(_int stageNumber);
 
+    void                              SaveMonster(fs::path path, string filename, vector<GameObjectSpawnInfo> datas);
+    vector<GameObjectSpawnInfo>       LoadMonster(_int stageNumber);
+
 private:
 
 private:
