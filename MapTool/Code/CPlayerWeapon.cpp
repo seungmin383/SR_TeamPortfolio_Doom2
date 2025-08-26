@@ -30,7 +30,7 @@ HRESULT CPlayerWeapon::Ready_GameObject()
 		return E_FAIL;
 
 	m_bBobForward = true;
-	m_fBobSpeed = 5.f;
+	m_fBobSpeed = 3.5f;
 	m_fBobAngle = 0.f;
 	m_vScale = { 300.f, 300.f, 1.f };
 	m_vPos = { 0.f, -WINCY * 0.5f + m_vScale.y , 1.f };
@@ -48,6 +48,14 @@ HRESULT CPlayerWeapon::Ready_GameObject()
 _int CPlayerWeapon::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
+
+	// 씬 전환 시 nullptr되는거 때문에 추가(08/25 김홍인)
+	auto* wm = CWeaponManager::GetInstance();
+	auto* cur = wm ? wm->Get_CurWeapon() : nullptr;
+	if (!cur) {
+		// 현재 장착 무기가 없으면 그 프레임은 건너뜀(모델 숨김 등)
+		return 0;
+	}
 
 	m_eCurWeaponId = CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponID();
 	m_eWeaponState = CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponState();
@@ -109,12 +117,22 @@ void CPlayerWeapon::Ready_Animation()
 	// Shotgun Animation
 	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::SHOTGUN, m_pTextureCom, m_pBufferCom, 8, 1, 0, 0, 0.f, true);
 	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::SHOTGUN + (_uint)WEAPON_STATE::SWAP, m_pTextureCom, m_pBufferCom, 8, 1, 0, 0, 0.2f, true);
-	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::SHOTGUN + (_uint)WEAPON_STATE::SHOT, m_pTextureCom, m_pBufferCom, 8, 1, 0, 7, 0.11643f, true);
+	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::SHOTGUN + (_uint)WEAPON_STATE::SHOT, m_pTextureCom, m_pBufferCom, 8, 1, 0, 7, 0.1f, true);
 
 	// Chaingun Animation
 	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::CHAINGUN, m_pTextureCom, m_pBufferCom, 3, 1, 0, 0, 0.f, true);
 	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::CHAINGUN + (_uint)WEAPON_STATE::SWAP, m_pTextureCom, m_pBufferCom, 3, 1, 0, 0, 0.1f, true);
 	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::CHAINGUN + (_uint)WEAPON_STATE::SHOT, m_pTextureCom, m_pBufferCom, 3, 1, 1, 2, 0.057f, true);
+
+	// Rocket Animation
+	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::ROCKET, m_pTextureCom, m_pBufferCom, 6, 1, 0, 0, 0.f, true);
+	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::ROCKET + (_uint)WEAPON_STATE::SWAP, m_pTextureCom, m_pBufferCom, 6, 1, 0, 0, 0.1f, true);
+	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::ROCKET + (_uint)WEAPON_STATE::SHOT, m_pTextureCom, m_pBufferCom, 6, 1, 1, 5, 0.15f, false);
+
+	// BFG9000 Animation
+	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::BFG, m_pTextureCom, m_pBufferCom, 3, 1, 0, 0, 0.f, true);
+	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::BFG + (_uint)WEAPON_STATE::SWAP, m_pTextureCom, m_pBufferCom, 3, 1, 0, 0, 0.1f, true);
+	m_pAnimatorCom->Add_Animation((_uint)WEAPON_ID::BFG + (_uint)WEAPON_STATE::SHOT, m_pTextureCom, m_pBufferCom, 3, 1, 1, 2, 0.57f, true);
 }
 
 HRESULT CPlayerWeapon::Add_Component()
@@ -215,7 +233,7 @@ void CPlayerWeapon::Weapon_Bobbing(bool bIsMoving, const _float& fTimeDelta)
 		}
 
 		// 위에서 구한 각도를 이용하여 수직, 수평 이동량을 구한다.
-		_float fVerticalBob = sinf(m_fBobAngle) * 5.f;
+		_float fVerticalBob = sinf(m_fBobAngle) * 2.5f;
 		_float fHorizontalBob = m_vPos.y - cosf(m_fBobAngle) * 25.f;
 
 		m_vBobPos.x += fVerticalBob;
@@ -226,7 +244,7 @@ void CPlayerWeapon::Weapon_Bobbing(bool bIsMoving, const _float& fTimeDelta)
 	else
 	{
 		// 이동을 멈춘다면 선형 보간을 하여 처음 위치로 초기화
-		D3DXVec3Lerp(&m_vBobPos, &m_vBobPos, &m_vPos, 10.f * fTimeDelta);
+		D3DXVec3Lerp(&m_vBobPos, &m_vBobPos, &m_vPos, 7.f * fTimeDelta);
 		m_pTransformCom->Set_Pos(m_vBobPos.x, m_vBobPos.y, m_vBobPos.z);
 		m_fBobAngle = 0.f;
 	}

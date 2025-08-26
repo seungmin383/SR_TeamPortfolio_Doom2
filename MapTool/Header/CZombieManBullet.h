@@ -1,21 +1,40 @@
 #pragma once
-#include "CBulletBase.h"
+#include "CBullet.h"
 
-class CZombieManBullet :public CBulletBase
+class CZombiemanBullet : public CBullet
 {
-protected:
-    explicit CZombieManBullet(LPDIRECT3DDEVICE9 pGraphicDev);
-    explicit CZombieManBullet(const CZombieManBullet& rhs);
-    virtual ~CZombieManBullet();
-
-
-    virtual  HRESULT Ready_GameObject(_vec3 vDir, MONSTER_BULLET_TYPE eBulletType, _vec3 vPos)override;
-    virtual  _int   Update_GameObject(const _float& fTimeDelta)override;
+private:
+    explicit CZombiemanBullet(LPDIRECT3DDEVICE9 pGraphicDev);
+    explicit CZombiemanBullet(const CZombiemanBullet& rhs);
+    virtual ~CZombiemanBullet();
 
 public:
-    virtual void Create(_vec3 vDir, MONSTER_BULLET_TYPE eBulletType, _vec3 vPos)override;
+    virtual     HRESULT         Ready_GameObject()override;
+    virtual     _int            Update_GameObject(const _float& fTimeDelta)override;
+    virtual     void            LateUpdate_GameObject(const _float& fTimeDelta)override;
+    virtual     void            Render_GameObject(const _float& fTimeDelta)override;
 
-protected:
-    virtual void Free()override;
+#pragma endregion
+
+private:
+    _bool isDead = FALSE;
+
+private:
+    HRESULT     Add_Component()override;
+
+public:
+    static CZombiemanBullet* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+
+    virtual CZombiemanBullet* Clone() override;
+    virtual CZombiemanBullet* Clone(CGameObject* _Owner)override;
+
+
+
+private:
+
+
+private:
+    virtual void        Free()override;
+
 };
 

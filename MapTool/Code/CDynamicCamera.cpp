@@ -7,15 +7,20 @@
 #include "CPistol.h"
 #include "CShotgun.h"
 #include "CChaingun.h"
+#include "CCollisionManager.h"
+#include "CTimerManager.h"
+#include "CRocket.h"
+#include "CBfg.h"
+#include "CTerrainSector.h"
 
 // Initialize static variable
 _long CDynamicCamera::s_lMouseMoveX = 0L;
 
 CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCamera(pGraphicDev),
-	m_bFix(false), m_bCheck(false), m_bTrigger(false),
-	m_iGameHp(0), m_iArmor(0),
-	m_fSpeed(0.f),
+	m_bFix(false), m_bCheck(false), m_bTrigger(false), m_bIsMoving(false),
+	m_iArmor(0),
+	m_fSpeed(0.f), m_fAngle(0.f), m_fAngleSpeed(0.f),
 	m_eState(IDLE)
 {
 }
@@ -46,9 +51,12 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	m_iGameHp = 83;
 	m_iArmor = 45;
 
-	m_fSpeed = 40.f;
+	m_fSpeed = 20.f;
+	m_fAngle = 0.f;
+	m_fAngleSpeed = 10.f;
 
 	m_bDead = false;
+	m_bIsMoving = false;
 
 	if (FAILED(Engine::CCamera::Ready_GameObject()))
 		return E_FAIL;
@@ -57,24 +65,32 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 		return E_FAIL;
 
 	// Collider Default Settings
-	_vec3 vScale{ 1.f, 1.f, 1.f };
-	_vec3 vOffset{ 0.f, 0.f, 0.f };
+	_vec3 vScale{ 1.f, 3.f, 1.f };
+	_vec3 vOffset{ 0.f, -1.5f, 0.f };
 
 	m_pColliderCom->Ready_CCollider(this, m_vEye, vScale, vOffset, COL_PLAYER,
-		COL_ENEMY | COL_OBJECT | COL_TERRAIN | COL_WALL | COL_ITEM);
+		COL_ENEMY | COL_OBJECT | COL_TERRAIN | COL_WALL | COL_ITEM | COL_WEAPON);
 
 	CWeapon* pPistol = CPistol::Create();
 	if (pPistol != nullptr)
 		CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::PISTOL, pPistol);
 
 	// 테스트용 무기 추가 나중에 삭제 해야됌
-	CWeapon* pShotgun = CShotgun::Create();
-	if (pShotgun != nullptr)
-		CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::SHOTGUN, pShotgun);
+	//CWeapon* pShotgun = CShotgun::Create();
+	//if (pShotgun != nullptr)
+	//	CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::SHOTGUN, pShotgun);
 
-	CWeapon* pChaingun = CChaingun::Create();
-	if (pChaingun != nullptr)
-		CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::CHAINGUN, pChaingun);
+	//CWeapon* pChaingun = CChaingun::Create();
+	//if (pChaingun != nullptr)
+	//	CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::CHAINGUN, pChaingun);
+
+	//CWeapon* pRocket = CRocket::Create();
+	//if (pRocket != nullptr)
+	//	CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::ROCKET, pRocket);
+
+	//CWeapon* pBfg = CBfg::Create();
+	//if (pBfg != nullptr)
+	//	CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::BFG, pBfg);
 
 	CWeaponManager::GetInstance()->Set_CurWeapon(WEAPON_ID::PISTOL);
 
@@ -114,6 +130,51 @@ void CDynamicCamera::Render_GameObject(const _float& fTimeDelta)
 	m_pColliderCom->Render(g_colRend);
 }
 
+void CDynamicCamera::OnCollision(CCollider* _pOther)
+{
+	if (_pOther->Get_ColLayer() == COL_ENEMY && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
+	{
+		CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
+
+		_vec3 curPos;
+		m_pTransformCom->Get_Pos(&curPos);
+		m_pTransformCom->Set_Pos(curPos.x + (-m_vDist.x), curPos.y, curPos.z + (-m_vDist.z));
+
+		m_vEye.x += (-m_vDist.x);
+		m_vEye.z += (-m_vDist.z);
+
+		m_vAt.x += (-m_vDist.x);
+		m_vAt.z += (-m_vDist.z);
+
+		m_vDist = _vec3(0.f, 0.f, 0.f);
+	}
+}
+
+void CDynamicCamera::OnCollisionEnter(CCollider* _pOther)
+{
+	if (_pOther->Get_ColLayer() == COL_ENEMY && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
+	{
+		CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
+
+		_vec3 curPos;
+		m_pTransformCom->Get_Pos(&curPos);
+		m_pTransformCom->Set_Pos(curPos.x + (-m_vDist.x), curPos.y, curPos.z + (-m_vDist.z));
+
+		m_vEye.x += (-m_vDist.x);
+		m_vEye.z += (-m_vDist.z);
+
+		m_vAt.x += (-m_vDist.x);
+		m_vAt.z += (-m_vDist.z);
+
+
+		m_vDist = _vec3(0.f, 0.f, 0.f);
+	}
+}
+
+void CDynamicCamera::OnCollisionExit(CCollider* _pOther)
+{
+}
+
 HRESULT CDynamicCamera::Add_Component()
 {
 	CComponent* pComponent = NULL;
@@ -150,6 +211,8 @@ HRESULT CDynamicCamera::Add_Component()
 
 void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 {
+	m_bIsMoving = false;
+
 	_matrix	matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, 0, &m_matView);
 
@@ -160,6 +223,8 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		_vec3	vLength = *D3DXVec3Normalize(&vLook, &vLook) * fTimeDelta * m_fSpeed;
 
+		m_vDist = vLength;
+
 		m_vEye.x += vLength.x;
 		m_vEye.y += vLength.y;
 		m_vEye.z += vLength.z;
@@ -167,6 +232,8 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		m_vAt.x += vLength.x;
 		m_vAt.y += vLength.y;
 		m_vAt.z += vLength.z;
+	
+		m_bIsMoving = true;
 	}
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_S) & 0x80)
@@ -176,6 +243,8 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		_vec3	vLength = *D3DXVec3Normalize(&vLook, &vLook) * fTimeDelta * m_fSpeed;
 
+		m_vDist = -vLength;
+
 		m_vEye.x -= vLength.x;
 		m_vEye.y -= vLength.y;
 		m_vEye.z -= vLength.z;
@@ -183,6 +252,8 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		m_vAt.x -= vLength.x;
 		m_vAt.y -= vLength.y;
 		m_vAt.z -= vLength.z;
+
+		m_bIsMoving = true;
 	}
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_D) & 0x80)
@@ -192,6 +263,8 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		_vec3	vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
 
+		m_vDist = vLength;
+
 		m_vEye.x += vLength.x;
 		m_vEye.y += vLength.y;
 		m_vEye.z += vLength.z;
@@ -199,6 +272,8 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		m_vAt.x += vLength.x;
 		m_vAt.y += vLength.y;
 		m_vAt.z += vLength.z;
+
+		m_bIsMoving = true;
 	}
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_A) & 0x80)
@@ -208,6 +283,8 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		_vec3	vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
 
+		m_vDist = -vLength;
+
 		m_vEye.x -= vLength.x;
 		m_vEye.y -= vLength.y;
 		m_vEye.z -= vLength.z;
@@ -215,7 +292,13 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		m_vAt.x -= vLength.x;
 		m_vAt.y -= vLength.y;
 		m_vAt.z -= vLength.z;
+
+		m_bIsMoving = true;
 	}
+
+	// 움직이고 있다면 카메라 흔들림 효과 적용
+	if (m_bIsMoving)
+		//Camera_Bobbing(fTimeDelta);
 
 	// 무기 교체 관련 키 입력
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_1) & 0x80)
@@ -233,6 +316,15 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::CHAINGUN);
 	}
 
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_4) & 0x80)
+	{
+		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::ROCKET);
+	}
+
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_5) & 0x80)
+	{
+		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::BFG);
+	}
 
 	//m_pTransformCom 업데이트 //collider 동기화 용
 	m_pTransformCom->Set_Pos(m_vEye.x, m_vEye.y, m_vEye.z);
@@ -246,7 +338,6 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		if (m_bFix)
 			m_bFix = false;
-
 		else
 			m_bFix = true;
 	}
@@ -262,12 +353,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 void CDynamicCamera::Mouse_Input()
 {
 	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB) & 0x80)
-	{
 		_bool bFireCheck = CWeaponManager::GetInstance()->Fire_Weapon();
-
-		if (bFireCheck)
-			m_pCalculatorCom->Picking_GameObject(g_hWnd);
-	}
 
 	m_bTrigger = false;
 
@@ -324,16 +410,41 @@ void CDynamicCamera::Mouse_Fix()
 
 void CDynamicCamera::Set_OnTerrain()
 {
-	// 지형의 버텍스 정보를 가져온다
-	Engine::CTerrainTexSector* pTerrainBufferCom =
-		static_cast<CTerrainTexSector*>
-		(CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
+	//// 지형의 버텍스 정보를 가져온다
+	//Engine::CTerrainTexSector* pTerrainBufferCom =
+	//	static_cast<CTerrainTexSector*>
+	//	(CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
 
-	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&m_vEye, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
-	
-	// 카메라의 높이 (m_vEye.y)가 변화할 때 마다 바라보는 목표(m_vAt.y)도 바뀌어야한다.
-	// 카메라의 높이 변화량을 계산해서 변화량을 m_vEye, m_vAt 모두 더해줘야 시점이 유지된다.
-	_float deltaHeight = (height + 2.f) - m_vEye.y;
+	//_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&m_vEye, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
+	//
+	//// 카메라의 높이 (m_vEye.y)가 변화할 때 마다 바라보는 목표(m_vAt.y)도 바뀌어야한다.
+	//// 카메라의 높이 변화량을 계산해서 변화량을 m_vEye, m_vAt 모두 더해줘야 시점이 유지된다.
+	//_float deltaHeight = (height + 3.f) - m_vEye.y;
+	//m_vEye.y += deltaHeight;
+	//m_vAt.y += deltaHeight;
+
+	// 소재혁 지형 변경 2025-08-26
+	// TODO:로딩 시 지형정보 들고있게 수정
+	// TODO:최적화
+	_float highest(-999.f);
+	_vec3 onPosition{ 0.f, 0.f, 0.f };
+	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
+	{
+		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
+		auto bufferCom = dterrain->Get_BufferCom();
+		auto transformCom = dterrain->Get_Transform();
+
+		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &m_vEye))
+		{
+			if (highest < onPosition.y)
+				highest = onPosition.y;
+		}
+	}
+
+	if (highest == -999.f)
+		highest = 0.f;
+
+	_float deltaHeight = (highest + 3.f) - m_vEye.y;
 	m_vEye.y += deltaHeight;
 	m_vAt.y += deltaHeight;
 }
@@ -355,6 +466,15 @@ void CDynamicCamera::Update_State()
 		m_eState = DEAD;
 		m_bDead = true;
 	}
+}
+
+void CDynamicCamera::Camera_Bobbing(const _float& fTimeDelta)
+{
+	// 카메라 위, 아래 효과
+	m_fAngle += m_fAngleSpeed * fTimeDelta;
+	_float fBobAngle = sinf(m_fAngle) * 0.2f;
+	m_vEye.y += fBobAngle;
+	m_vAt.y += fBobAngle;
 }
 
 CDynamicCamera* CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)

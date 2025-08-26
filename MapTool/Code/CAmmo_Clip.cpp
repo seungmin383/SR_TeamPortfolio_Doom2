@@ -5,14 +5,16 @@
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
 #include "CWeaponManager.h"
+#include "CStatsManager.h"
+#include "CTerrainSector.h"
 
 CAmmo_Clip::CAmmo_Clip(LPDIRECT3DDEVICE9 pGraphicDev)
-    : CGameObject(pGraphicDev), m_iClip(0), m_iFrame_Clip(0), m_pWeaponManager(nullptr)
+	: CGameObject(pGraphicDev), m_iClip(0), m_iFrame_Clip(0), m_pWeaponManager(nullptr)
 {
 }
 
 CAmmo_Clip::CAmmo_Clip(const CGameObject& rhs)
-    : CGameObject(rhs)
+	: CGameObject(rhs)
 {
 }
 
@@ -40,7 +42,7 @@ HRESULT CAmmo_Clip::Ready_GameObject()
 		_vec3(1.f, 1.f, 1.f),  // 아이템 박스 크기 예시
 		_vec3(0, 0.4f, 0),        // 약간 위로
 		COL_ITEM,               // 너희 COLLAYERID에서 아이템 레이어
-		COL_PLAYER      // (마스크를 쓴다면) 플레이어와만 맞게
+		COL_PLAYER       // (마스크를 쓴다면) 플레이어와만 맞게
 	);
 	m_pColliderCom->Set_Active(true);
 
@@ -50,13 +52,19 @@ HRESULT CAmmo_Clip::Ready_GameObject()
 _int CAmmo_Clip::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
-	//Set_OnTerrain();
+	Set_OnTerrain();
 	Bill_Board();
 
-	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
+	// 픽업 후에는 렌더 그룹 등록 금지
+	if (!m_bPicked) {
+		CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 
-	if (m_bPicked)
-		return -1; // 엔진 상수에 맞춰 사용
+	}
+	else {
+		// 엔진에서 -1 리턴으로 객체 제거를 처리한다면 그대로 두고,
+		// 아래 OnCollisionEnter에서 Set_Dead()도 같이 호출해 안전하게 제거
+		return -1;
+	}
 
 	return 0;
 }
@@ -64,12 +72,15 @@ _int CAmmo_Clip::Update_GameObject(const _float& fTimeDelta)
 void CAmmo_Clip::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
-	if (m_pColliderCom)
+	if (m_pColliderCom && !m_bPicked)
 		m_pColliderCom->Late_Update(); // 중요
 }
 
 void CAmmo_Clip::Render_GameObject(const _float& fTimeDelta)
 {
+	if (m_bPicked)
+		return;
+
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
@@ -94,26 +105,22 @@ void CAmmo_Clip::OnCollisionEnter(CCollider* _pOther)
 
 	if (m_bPicked || !_pOther) return;
 
-	// 누가 부딪혔는지: 플레이어/카메라
-	const auto layer = _pOther->Get_ColLayer();
-	const bool allowed =
-		(layer & COL_PLAYER);
+	if ((_pOther->Get_ColLayer() & COL_PLAYER) == 0) return;
+	auto* owner = _pOther->Get_Owner();
+	if (!owner || !dynamic_cast<CDynamicCamera*>(owner)) return; // 실제 플레이어 타입으로
 
-	if (!allowed) return;
-	else {
-		// 무기 매니저로 탄약 지급
-		if (m_pWeaponManager) {
-			m_pWeaponManager->Add_Ammo(AMMO_TYPE::CLIP, m_iClip);
-		}
+	m_bPicked = true;
 
-		// 아이템 비활성화(충돌/업데이트에서 제거)
-		m_bPicked = true;
-		if (m_pColliderCom) m_pColliderCom->Set_Active(false);
+	if (m_pColliderCom) {
+		m_pColliderCom->Set_ColLayer((COLLAYERID)0);
+		m_pColliderCom->Set_Active(false);
 	}
 
-	// 아이템 비활성화(충돌/업데이트에서 제거)
-	m_bPicked = true;
-	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
+	CWeaponManager::GetInstance()->Add_Ammo(AMMO_TYPE::CLIP, 10);
+
+	Set_Dead(true);
+
+	CStatsManager::I().OnItemPicked();
 }
 
 void CAmmo_Clip::OnCollisionExit(CCollider* _pOther)
@@ -168,23 +175,47 @@ HRESULT CAmmo_Clip::Add_Component()
 
 void CAmmo_Clip::Set_OnTerrain()
 {
-	if (!m_pTransformCom || !m_pCalculatorCom) return;
+	//if (!m_pTransformCom || !m_pCalculatorCom) return;
 
-	auto* pTerrainBuf = static_cast<CTerrainTexSector*>(
-		CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
-	if (!pTerrainBuf) return;
+	//auto* pTerrainBuf = static_cast<CTerrainTexSector*>(
+	//	CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
+	//if (!pTerrainBuf) return;
 
 	_vec3 pos; m_pTransformCom->Get_Pos(&pos);
 
-	// 그리드 경계(0..(VTXCNT-1)*VTXITV) 밖이면 보정 건너뜀 (혹은 clamp)
-	const float maxX = (VTXCNTX - 1) * VTXITV - 1e-3f;
-	const float maxZ = (VTXCNTZ - 1) * VTXITV - 1e-3f;
-	if (pos.x < 0.f || pos.z < 0.f || pos.x > maxX || pos.z > maxZ) return;
+	//// 그리드 경계(0..(VTXCNT-1)*VTXITV) 밖이면 보정 건너뜀 (혹은 clamp)
+	//const float maxX = (VTXCNTX - 1) * VTXITV - 1e-3f;
+	//const float maxZ = (VTXCNTZ - 1) * VTXITV - 1e-3f;
+	//if (pos.x < 0.f || pos.z < 0.f || pos.x > maxX || pos.z > maxZ) return;
 
-	float h = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBuf->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
+	//float h = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBuf->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
 
-	// 살짝 띄워서 지면 간섭 방지
-	m_pTransformCom->Set_Pos(pos.x, h + 1.f, pos.z);
+	//// 살짝 띄워서 지면 간섭 방지
+	//m_pTransformCom->Set_Pos(pos.x, h + 1.f, pos.z);
+
+	_float highest(-999.f);
+	_vec3 onPosition{ 0.f, 0.f, 0.f };
+	_vec3 m_vEye{ 65.f, 0, 5.f };
+	_vec3 m_vAt{ 0.f, 0.f, 1.f };
+	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
+	{
+		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
+		auto bufferCom = dterrain->Get_BufferCom();
+		auto transformCom = dterrain->Get_Transform();
+
+		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
+		{
+			if (highest < onPosition.y)
+				highest = onPosition.y;
+		}
+	}
+
+	if (highest == -999.f)
+		highest = 0.f;
+
+	_float deltaHeight = (highest + 3.f) - m_vEye.y;
+	m_vEye.y += deltaHeight;
+	m_vAt.y += deltaHeight;
 }
 
 void CAmmo_Clip::Bill_Board()

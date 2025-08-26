@@ -2,6 +2,7 @@
 #include "CMainApp.h"
 
 #include "CLogo.h"
+#include "CMainMenu.h"
 #include "CStage.h"
 #include "CStage2.h"
 #include "CStage3.h"
@@ -24,11 +25,14 @@
 
 #include "CDynamicCamera.h"
 #include "CZombieMan.h"
-#include"CArchVile.h"
+#include "CArchVile.h"
 #include "CImp.h"
 #include "CPinky.h"
-#include"CSpiderMastermind.h"
+#include "CSpiderMastermind.h"
 #include "CShotgunGuy.h"
+#include "CImpBullet.h"
+#include "CArchvileBullet.h"
+#include "CZombiemanBullet.h"
 
 #include "CPlayerWeapon.h"
 #include "CHealth_Small.h"
@@ -38,11 +42,22 @@
 #include "CAmmo_Clip.h"
 #include "CAmmo_Shell.h"
 #include "CAmmo_Rocket.h"
+#include "CAmmo_Cell.h"
 
 #include "CWeapon_Shotgun.h"
+#include "CWeapon_ChainGun.h"
+#include "CWeapon_Rocket.h"
+#include "CWeapon_BFG.h"
+
+#include "CChaingunBullet.h"
+#include "CShotgunBullet.h"
+#include "CRocketBullet.h"
+#include "CBfgBullet.h"
 
 #include "CBarrelExplosive.h"
 #include "CDoor.h"
+#include "CDoorWithKey.h"
+#include "CKey.h"
 #include "CSwitch_Button.h"
 
 CMainApp::CMainApp()
@@ -81,7 +96,6 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 
 void CMainApp::LateUpdate_MainApp(const float& fTimeDelta)
 {
-	CWeaponManager::GetInstance()->Update_Weapon(fTimeDelta);
 	m_pManagementClass->LateUpdate_Scene(fTimeDelta);
 }
 
@@ -100,6 +114,8 @@ void CMainApp::Render_MainApp(const float& fTimeDelta)
 
 HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 {
+	srand(time(NULL));
+
 	if (FAILED(CGraphicDev::GetInstance()->Ready_GraphicDev(g_hWnd,
 		MODE_WIN, WINCX, WINCY, &m_pDeviceClass)))
 	{
@@ -119,6 +135,11 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Calculator", Engine::CCalculator::Create(m_pGraphicDev))))
+
+	if (FAILED(CFontManager::GetInstance()->Ready_Font(m_pGraphicDev, L"ResultTitle", L"Arial", 28, 32, 900)))
+		return E_FAIL;
+
+	if (FAILED(CFontManager::GetInstance()->Ready_Font(m_pGraphicDev, L"ResultBody", L"Arial", 18, 24, 700)))
 		return E_FAIL;
 
 	if (FAILED(CDInputManager::GetInstance()->Ready_InputDev(g_hInst, g_hWnd)))
@@ -178,12 +199,23 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_ROCKET, CAmmo_Rocket::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	// BFG Åº¾à
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_CELL, CAmmo_Cell::Create(m_pGraphicDev))))
+		return E_FAIL;
+
 	// Æø¹ßÅë
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL, CBarrelExplosive::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	// ¹®
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::DOOR, CDoor::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// Å°·Î µ¿ÀÛÇÏ´Â ¹®
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::DOORKEY, CDoorWithKey::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::KEY, CKey::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	// ½ºÀ§Ä¡
@@ -193,6 +225,47 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	// ¼¦°Ç
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::WEAPON_SHOTGUN, CWeapon_Shotgun::Create(m_pGraphicDev))))
 		return E_FAIL;
+
+	// Ã¼ÀÎ°Ç
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::WEAPON_CHAINGUN, CWeapon_ChainGun::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// ·ÎÄÏ
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::WEAPON_ROCKET, CWeapon_Rocket::Create(m_pGraphicDev))))
+		return E_FAIL;
+	
+	// BFG
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::WEAPON_BFG, CWeapon_BFG::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// ÀÓÇÁÃÑ¾Ë
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP_BULLET, CImpBullet::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// Á»ºñ¸Ç ÃÑ¾Ë
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ZOMBIEMAN_BULLET, CZombiemanBullet::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// ¾ÆÅ©¹ÙÀÏ ÃÑ¾Ë
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE_BULLET, CArchvileBullet::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// ÀÏ¹Ý ÃÑ¾Ë
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::PLAYER_NORMAL_BULLET, CChaingunBullet::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// ¼¦°Ç ÃÑ¾Ë
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::PLAYER_SHOTGUN_BULLET, CShotgunBullet::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// ·ÎÄÏ ÃÑ¾Ë
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::PLAYER_ROCKET_BULLET, CRocketBullet::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// BFG ÃÑ¾Ë
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::PLAYER_BFG_BULLET, CBfgBullet::Create(m_pGraphicDev))))
+		return E_FAIL;
+
 
 	//ÅØ½ºÃ³ ÇÊÅÍ
 	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
@@ -212,6 +285,7 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 HRESULT CMainApp::Ready_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	m_pManagementClass->Add_Scene(SCENEID::LOGO, new CLogo(pGraphicDev));
+	m_pManagementClass->Add_Scene(SCENEID::MAINMENU, new CMainMenu(pGraphicDev));
 	m_pManagementClass->Add_Scene(SCENEID::STAGE1, new CStage(pGraphicDev));
 	m_pManagementClass->Add_Scene(SCENEID::STAGE2, new CStage2(pGraphicDev));
 	m_pManagementClass->Add_Scene(SCENEID::STAGE3, new CStage3(pGraphicDev));
@@ -256,7 +330,6 @@ void CMainApp::Free()
 	CTimerManager::GetInstance()->DestroyInstance();
 	CFrameManager::GetInstance()->DestroyInstance();
 	CDInputManager::GetInstance()->DestroyInstance();
-	CWeaponManager::GetInstance()->DestroyInstance();
 
 	m_pManagementClass->DestroyInstance();
 	m_pDeviceClass->DestroyInstance();

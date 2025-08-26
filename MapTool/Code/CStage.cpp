@@ -23,17 +23,28 @@
 #include "CGameUI_Info.h"
 #include "CGameUI_Info_Ammo.h"
 #include "CGameUI_Info_WeaponNum.h"
+#include "FaceUIRegistry.h"
 #include "CHealth_Small.h"
+#include "CHealth_Big.h"
 #include "CArmor_Small.h"
 #include "CArmor_Big.h"
 #include "CAmmo_Clip.h"
 #include "CAmmo_Shell.h"
+#include "CAmmo_Rocket.h"
 
 #include "CBarrelExplosive.h"
 #include "CDoor.h"
+#include "CDoorWithKey.h"
 #include "CSwitch_Button.h"
 
 #include "CPistol.h"
+#include "CWeapon_Shotgun.h"
+#include "CWeapon_ChainGun.h"
+#include "CWeapon_Rocket.h"
+#include "CWeapon_BFG.h"
+
+#include "CStatsManager.h"
+#include "CUI_StageClear.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -57,21 +68,56 @@ HRESULT CStage::Ready_Scene()
 
 	if (FAILED(Ready_UI_Layer(LAYERID::LAYER_UI)))
 		return E_FAIL;
-	
+
 
 	if (FAILED(Ready_Light()))
 		return E_FAIL;
 
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_ENEMY);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_ITEM);
+	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_BULLET);
+	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_BUTTON);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_OBJECT);
-	
+	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_ENEMY, OBJID::OBJ_BULLET);
+
+
+
 	return S_OK;
 }
 
 _int CStage::Update_Scene(const _float& fTimeDelta)
 {
-	CColliderManager::GetInstance()->Update();
+	// 경과 시간
+	CStatsManager::I().Tick(fTimeDelta);
+
+	if (m_isResultMode)
+	{
+		// 0초로 업데이트: 위치/애니메이션은 그대로, 하지만 렌더 큐엔 올라감
+		auto upd0 = [&](LAYERID id) {
+			auto it = m_mapLayer.find(id);
+			if (it != m_mapLayer.end()) it->second->Update_Layer(0.f);
+			};
+
+		upd0(LAYERID::LAYER_CAMERA);       // 뷰/프로젝션 유지
+		upd0(LAYERID::LAYER_ENVIRONMENT);  // 스카이박스/지형 등
+		upd0(LAYERID::LAYER_GAMELOGIC);    // 적/오브젝트 등(정지된 상태로 그리기)
+
+		// UI는 정상 시간으로
+		if (auto it = m_mapLayer.find(LAYERID::LAYER_UI); it != m_mapLayer.end())
+			it->second->Update_Layer(fTimeDelta);
+
+		// 레이어 업데이트가 모두 끝난 뒤에만 씬 전환
+		if (m_pendingNext != SCENEID::SCENE_END) {
+			if (auto* wm = CWeaponManager::GetInstance()) {
+				wm->ResetOnSceneChange();   // 무기 포인터 초기화(초기화 하면 메모리 누수 남)
+			}
+			CManagement::GetInstance()->Change_Scene(m_pendingNext);
+			m_pendingNext = SCENEID::SCENE_END;
+		}
+
+		return 0;
+	}
+
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
 
 	//if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_T) & 0x80)
@@ -85,7 +131,9 @@ _int CStage::Update_Scene(const _float& fTimeDelta)
 void CStage::LateUpdate_Scene(const _float& fTimeDelta)
 {
 	Engine::CScene::LateUpdate_Scene(fTimeDelta);
+	CWeaponManager::GetInstance()->Update_Weapon(fTimeDelta);
 
+	CColliderManager::GetInstance()->Update();
 }
 
 void CStage::Render_Scene(const _float& fTimeDelta)
@@ -94,7 +142,23 @@ void CStage::Render_Scene(const _float& fTimeDelta)
 
 HRESULT CStage::Load_PreSet()
 {
-	//CObjectFactory::GetInstance()->Create_Terrain_Default(VTXCNTX, VTXCNTZ, VTXITV, (_tchar*)L"Proto_TerrainTexture");
+	//TerrainModels tm = CFileManager::GetInstance()->LoadTerrain((_uint)SCENEID::STAGE1);
+
+	//for (auto m : tm.model)
+	//{
+	//	auto pObj = CObjectFactory::GetInstance()->Load_Terrain(m.idx,
+	//		m.vertexCountX,
+	//		m.vertexCountZ,
+	//		m.vertexInterval,
+	//		m.vertices,
+	//		m.strTextureTag,
+	//		m.pos);
+	//}
+
+	//vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem((_uint)SCENEID::STAGE1);;
+
+	//for (auto item : loadData)
+	//	CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, item.position);
 
 	return S_OK;
 }
@@ -126,8 +190,6 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (nullptr == pLayer)
 		return E_FAIL;
 
-	Engine::CGameObject* pGameObject = nullptr;
-
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
 	return S_OK;
@@ -147,7 +209,7 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_WEAPON, pGameObject)))				// 일단 OBJ_WEAPON이라는 enum 값이 있어서 OBJ_UI->OBJ_WEAPON으로 교체(08/05)
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))				// 일단 OBJ_WEAPON이라는 enum 값이 있어서 OBJ_UI->OBJ_WEAPON으로 교체(08/05)
 		return E_FAIL;
 
 	// UI
@@ -168,13 +230,14 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 		return E_FAIL;
 
 	// Face
-	pGameObject = CGameUI_Face::Create(m_pGraphicDev);
+	CGameUI_Face* pFace = CGameUI_Face::Create(m_pGraphicDev);
+	if (!pFace) return E_FAIL;
 
-	if (nullptr == pGameObject)
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pFace)))
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
-		return E_FAIL;
+	// ★ 전역 보관소에 등록
+	Client::g_FaceUI = pFace;
 
 	// Info
 	// (1) UI Info 객체 생성
@@ -186,7 +249,7 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 	const auto& cameraObjects = Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYER);
 	if (cameraObjects.empty())
 		return E_FAIL;
-	
+
 	auto* pCameraObject = dynamic_cast<CDynamicCamera*>(cameraObjects.back());
 	if (pCameraObject == nullptr)
 		return E_FAIL;
@@ -249,8 +312,8 @@ HRESULT CStage::Ready_Camera_Layer(LAYERID _eLayerId)
 
 	CManagement* pManagement = CManagement::GetInstance();
 
-	_vec3	vEye{ 0.f, 0.f, 0.f };
-	_vec3	vAt{ 0.f, 2.f, 1.f };
+	_vec3	vEye{ 65.f, 0.f, 5.f };
+	_vec3	vAt{ 0.f, 0.f, 1.f };
 	_vec3	vUp{ 0.f , 1.f, 0.f };
 
 	pGameObject = CDynamicCamera::Create(m_pGraphicDev, &vEye, &vAt, &vUp);
@@ -384,7 +447,28 @@ void CStage::ConnectDoorSwitchByLinkId()
 	}
 }
 
+void CStage::EnterResultMode()
+{
+	if (m_isResultMode) return;
+	m_isResultMode = true;
+
+	// 결과 UI를 UI 레이어에 추가
+	auto it = m_mapLayer.find(LAYERID::LAYER_UI);
+	if (it != m_mapLayer.end()) {
+		Engine::CLayer* uiLayer = it->second;
+		if (auto* ui = CUI_StageClear::Create(m_pGraphicDev)) {
+			uiLayer->Add_GameObject(OBJID::OBJ_UI, ui);
+		}
+	}
+}
+
+void CStage::RequestNextScene(SCENEID id)
+{
+	m_pendingNext = id; // 호출만 하고, 실제 전환은 Update_Scene의 끝에서!
+}
+
 void CStage::Free()
 {
 	Engine::CScene::Free();
+	CWeaponManager::GetInstance()->DestroyInstance();
 }

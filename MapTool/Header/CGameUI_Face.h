@@ -20,6 +20,8 @@ public:
 	virtual     void			OnCollisionEnter(CCollider* _pOther) override;
 	virtual     void			OnCollisionExit(CCollider* _pOther) override;
 
+	void Set_EvilFace(const _float& fTime);
+
 private:
 	HRESULT Add_Component();
 
@@ -28,13 +30,20 @@ private:
 
 	CDynamicCamera* m_pCamera;
 
+	// 얼굴 상태 변경을 위한 변수
+	_bool m_bIsEvil;
+	_float m_fEvilTime;
+
 private:
 	Engine::CRectTex* m_pBufferCom;
-	Engine::CTexture* m_pTextureCom;
-	Engine::CTexture* m_pTextureCom1;
-	Engine::CTexture* m_pTextureCom2;
-	Engine::CTexture* m_pTextureCom3;
-	Engine::CTexture* m_pTextureCom4;
+	Engine::CTexture* m_pTextureCom;				// 체력 80퍼 이상
+	Engine::CTexture* m_pTextureCom1;				// 체력 80퍼 미만
+	Engine::CTexture* m_pTextureCom2;				// 체력 60퍼 미만
+	Engine::CTexture* m_pTextureCom3;				// 체력 40퍼 미만
+	Engine::CTexture* m_pTextureCom4;				// 체력 20퍼 미만
+	Engine::CTexture* m_pTextureCom5;				// 무기 획득
+	Engine::CTexture* m_pTextureCom6;				// 죽음
+
 	Engine::CCalculator* m_pCalculatorCom;
 
 public:

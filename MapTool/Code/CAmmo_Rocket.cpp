@@ -5,6 +5,8 @@
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
 #include "CWeaponManager.h"
+#include "CStatsManager.h"
+#include "CTerrainSector.h"
 
 CAmmo_Rocket::CAmmo_Rocket(LPDIRECT3DDEVICE9 pGraphicDev)
     : CGameObject(pGraphicDev), m_iRocket(0), m_iFrame_Rocket(0), m_pWeaponManager(nullptr)
@@ -40,7 +42,7 @@ HRESULT CAmmo_Rocket::Ready_GameObject()
 		_vec3(1.f, 1.f, 1.f),  // 아이템 박스 크기 예시
 		_vec3(0, 0.4f, 0),        // 약간 위로
 		COL_ITEM,               // 너희 COLLAYERID에서 아이템 레이어
-		COL_PLAYER | COL_PLAYER       // (마스크를 쓴다면) 플레이어와만 맞게
+		COL_PLAYER       // (마스크를 쓴다면) 플레이어와만 맞게
 	);
 	m_pColliderCom->Set_Active(true);
 
@@ -50,7 +52,7 @@ HRESULT CAmmo_Rocket::Ready_GameObject()
 _int CAmmo_Rocket::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
-	//Set_OnTerrain();
+	Set_OnTerrain();
 	Bill_Board();
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
@@ -99,15 +101,19 @@ void CAmmo_Rocket::OnCollisionEnter(CCollider* _pOther)
 		(layer & COL_PLAYER);
 
 	if (!allowed) return;
+	else {
+		// 무기 매니저로 탄약 지급
+		if (m_pWeaponManager) {
+			m_pWeaponManager->Add_Ammo(AMMO_TYPE::ROCKET, m_iRocket);
+		}
 
-	// 무기 매니저로 탄약 지급
-	if (m_pWeaponManager) {
-		m_pWeaponManager->Add_Ammo(AMMO_TYPE::ROCKET, m_iRocket);
+		// 아이템 비활성화(충돌/업데이트에서 제거)
+		m_bPicked = true;
+		if (m_pColliderCom) m_pColliderCom->Set_Active(false);
+
+		CStatsManager::I().OnItemPicked();
 	}
-
-	// 아이템 비활성화(충돌/업데이트에서 제거)
-	m_bPicked = true;
-	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
+	
 }
 
 void CAmmo_Rocket::OnCollisionExit(CCollider* _pOther)
@@ -163,23 +169,47 @@ HRESULT CAmmo_Rocket::Add_Component()
 void CAmmo_Rocket::Set_OnTerrain()
 {
 
-	if (!m_pTransformCom || !m_pCalculatorCom) return;
+	//if (!m_pTransformCom || !m_pCalculatorCom) return;
 
-	auto* pTerrainBuf = static_cast<CTerrainTexSector*>(
-		CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
-	if (!pTerrainBuf) return;
+	//auto* pTerrainBuf = static_cast<CTerrainTexSector*>(
+	//	CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
+	//if (!pTerrainBuf) return;
 
 	_vec3 pos; m_pTransformCom->Get_Pos(&pos);
 
-	// 그리드 경계(0..(VTXCNT-1)*VTXITV) 밖이면 보정 건너뜀 (혹은 clamp)
-	const float maxX = (VTXCNTX - 1) * VTXITV - 1e-3f;
-	const float maxZ = (VTXCNTZ - 1) * VTXITV - 1e-3f;
-	if (pos.x < 0.f || pos.z < 0.f || pos.x > maxX || pos.z > maxZ) return;
+	//// 그리드 경계(0..(VTXCNT-1)*VTXITV) 밖이면 보정 건너뜀 (혹은 clamp)
+	//const float maxX = (VTXCNTX - 1) * VTXITV - 1e-3f;
+	//const float maxZ = (VTXCNTZ - 1) * VTXITV - 1e-3f;
+	//if (pos.x < 0.f || pos.z < 0.f || pos.x > maxX || pos.z > maxZ) return;
 
-	float h = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBuf->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
+	//float h = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBuf->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
 
-	// 살짝 띄워서 지면 간섭 방지
-	m_pTransformCom->Set_Pos(pos.x, h + 0.7f, pos.z);
+	//// 살짝 띄워서 지면 간섭 방지
+	//m_pTransformCom->Set_Pos(pos.x, h + 0.7f, pos.z);
+
+	_float highest(-999.f);
+	_vec3 onPosition{ 0.f, 0.f, 0.f };
+	_vec3 m_vEye{ 65.f, 0, 5.f };
+	_vec3 m_vAt{ 0.f, 0.f, 1.f };
+	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
+	{
+		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
+		auto bufferCom = dterrain->Get_BufferCom();
+		auto transformCom = dterrain->Get_Transform();
+
+		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
+		{
+			if (highest < onPosition.y)
+				highest = onPosition.y;
+		}
+	}
+
+	if (highest == -999.f)
+		highest = 0.f;
+
+	_float deltaHeight = (highest + 3.f) - m_vEye.y;
+	m_vEye.y += deltaHeight;
+	m_vAt.y += deltaHeight;
 }
 
 void CAmmo_Rocket::Bill_Board()

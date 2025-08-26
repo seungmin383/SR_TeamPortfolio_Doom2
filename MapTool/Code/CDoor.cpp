@@ -5,6 +5,7 @@
 #include "CManagement.h"
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
+#include "CTerrainSector.h"
 
 CDoor::CDoor(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -29,7 +30,7 @@ HRESULT CDoor::Ready_GameObject()
 	m_fTimer = 0.f;
 
 	m_pTransformCom->Set_Pos(20.f, 2.f, 25.f);
-	m_pTransformCom->Set_Scale(_vec3(2.f, 2.f, 1.f));
+	m_pTransformCom->Set_Scale(_vec3(2.f, 2.f, 2.f));
 
 	m_pTransformCom->Get_Pos(&m_vOriginPos);
 
@@ -101,9 +102,9 @@ void CDoor::OnCollisionEnter(CCollider* _pOther)
 	if (m_state == State::Idle)
 	{
 		const auto layer = _pOther->Get_ColLayer();
-
+		const bool allowed = layer & (COL_PLAYER);
 		// 플레이어랑만 처리
-		if (layer & (COL_PLAYER)) {
+		if (allowed) {
 			OpenDoor();
 		}
 	}	
@@ -169,23 +170,31 @@ HRESULT CDoor::Add_Component()
 
 void CDoor::Set_OnTerrain()
 {
-	if (!m_pTransformCom || !m_pCalculatorCom) return;
-
-	auto* pTerrainBuf = static_cast<CTerrainTex*>(
-		CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
-	if (!pTerrainBuf) return;
-
 	_vec3 pos; m_pTransformCom->Get_Pos(&pos);
 
-	// 그리드 경계(0..(VTXCNT-1)*VTXITV) 밖이면 보정 건너뜀 (혹은 clamp)
-	const float maxX = (VTXCNTX - 1) * VTXITV - 1e-3f;
-	const float maxZ = (VTXCNTZ - 1) * VTXITV - 1e-3f;
-	if (pos.x < 0.f || pos.z < 0.f || pos.x > maxX || pos.z > maxZ) return;
+	_float highest(-999.f);
+	_vec3 onPosition{ 0.f, 0.f, 0.f };
+	_vec3 m_vEye{ 65.f, 0, 5.f };
+	_vec3 m_vAt{ 0.f, 0.f, 1.f };
+	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
+	{
+		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
+		auto bufferCom = dterrain->Get_BufferCom();
+		auto transformCom = dterrain->Get_Transform();
 
-	float h = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBuf->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
+		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
+		{
+			if (highest < onPosition.y)
+				highest = onPosition.y;
+		}
+	}
 
-	// 살짝 띄워서 지면 간섭 방지
-	m_pTransformCom->Set_Pos(pos.x, h + 1.f, pos.z);
+	if (highest == -999.f)
+		highest = 0.f;
+
+	_float deltaHeight = (highest + 3.f) - m_vEye.y;
+	m_vEye.y += deltaHeight;
+	m_vAt.y += deltaHeight;
 }
 
 void CDoor::Bill_Board()

@@ -46,6 +46,11 @@ public:
     _int            Get_MaxNum() { return m_iMax; }
 
 public:
+    void            OnCollision(CCollider* _pOther) override;
+    void            OnCollisionEnter(CCollider* _pOther) override;
+    void            OnCollisionExit(CCollider* _pOther) override;
+
+public:
     // 08-12 - 최대 체력 넘어가면 안되는 코드 제작(200은 최대 Armor랑 최대 Hp, 최대 Clip수로 일단은 제한)
     // 08-13 - 최대 수치 관련 로직 수정
     // 08-15 - 최대 수치 넘어가지 않게 수정
@@ -79,6 +84,7 @@ private:
     void        Mouse_Fix();
     void        Set_OnTerrain(); 
     void        Update_State();          // 플레이어의 State 설정해주는 함수
+    void        Camera_Bobbing(const _float& fTimeDelta);
 
 private:
     Engine::CCalculator*    m_pCalculatorCom;
@@ -90,15 +96,19 @@ public:
 private:
     PLAYER_STATE m_eState;
 
-    _int        m_iGameHp;
     _int        m_iArmor;
     _int        m_iMax = 200;       // 체력과 아머에 사용할 최대 수치
     
     _float      m_fSpeed;
+    _float      m_fAngle;           // 카메라 흔들림에 적용할 각도
+    _float      m_fAngleSpeed;      // 각도에 더해줄 변수
+
     _bool       m_bFix;
     _bool       m_bCheck;
     _bool       m_bTrigger;     // 문 열기, 스위치 누르기 등 체크용 변수
+    _bool       m_bIsMoving;
 
+    _vec3       m_vDist; //이동거리
 public:
     static CDynamicCamera* Create(LPDIRECT3DDEVICE9 pGraphicDev,
         const _vec3* pEye,

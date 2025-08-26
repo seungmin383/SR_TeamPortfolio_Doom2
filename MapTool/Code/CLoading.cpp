@@ -58,7 +58,7 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_SkyBoxTexture", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/SkyBox/burger%d.dds", TEX_CUBE, 4))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_PlayerWeaponTexture", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Player/GUN%d.png", TEX_NORMAL, 3))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_PlayerWeaponTexture", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Player/GUN%d.png", TEX_NORMAL, 5))))
 		return E_FAIL;
 
 #pragma region MONSTER_ANIM
@@ -79,6 +79,7 @@ _uint CLoading::Loading_ForStage()
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_ShotgunGuy_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Monster/ShotgunGuy/MonsterState%d.png", TEX_NORMAL, 26))))
 		return E_FAIL;
+
 #pragma endregion
 #pragma region MONSTER_BULLET
 
@@ -86,6 +87,25 @@ _uint CLoading::Loading_ForStage()
 	//	return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Imp_Bullet_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Effect/ImpBullet/BulletState%d.png", TEX_NORMAL, 2))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Archvile_Bullet_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Effect/ArchvileBullet/BulletState%d.png", TEX_NORMAL, 2))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Zombieman_Bullet_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Effect/ZombiemanBullet/BulletState%d.png", TEX_NORMAL, 2))))
+		return E_FAIL;
+
+#pragma endregion
+
+#pragma region PLAYER_BULLET
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_RocketBullet", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Effect/RocketBullet/ROCKET%d.png", TEX_NORMAL, 9))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_BfgBullet", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Effect/BFGBullet/BFGBULLET%d.png", TEX_NORMAL, 2))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_NormalBullet", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Effect/NormalBullet/STKEYS4.png", TEX_NORMAL, 1))))
 		return E_FAIL;
 
 #pragma endregion
@@ -106,6 +126,18 @@ _uint CLoading::Loading_ForStage()
 		return E_FAIL;
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_FaceUI4", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/STFST4%d.png", TEX_NORMAL, 3))))
 		return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_FaceUI5", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/STFEVL%d.png", TEX_NORMAL, 5))))
+		return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_FaceUI6", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/STFDEAD0.png", TEX_NORMAL))))
+		return E_FAIL;
+
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Key", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Object/BKEYA%d.png", TEX_NORMAL, 2))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_UI_Key", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Object/STKEYS0.png", TEX_NORMAL))))
+		return E_FAIL;
+
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Number", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/STTNUM%d.png", TEX_NORMAL, 10))))
 		return E_FAIL;
@@ -137,6 +169,9 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Rocket", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Object/ROCKA0.png", TEX_NORMAL))))
 		return E_FAIL;
 
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Cell", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Object/CELLA0.png", TEX_NORMAL))))
+		return E_FAIL;
+
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Barrel", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Object/BAR1A%d.png", TEX_NORMAL, 2))))
 		return E_FAIL;
 
@@ -155,11 +190,15 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Shotgun", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Object/SHOTA0.png", TEX_NORMAL))))
 		return E_FAIL;
 
-	//if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_ChainGun", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/MGUNA0.png", TEX_NORMAL))))
-	//	return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_ChainGun", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Object/MGUNA0.png", TEX_NORMAL))))
+		return E_FAIL;
 
-	//if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Rocket", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/LAUNA0.png", TEX_NORMAL))))
-	//	return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Rocket_Lanuncher", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Object/LAUNA0.png", TEX_NORMAL))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_BFG", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Object/BFUGA0.png", TEX_NORMAL))))
+		return E_FAIL;
+	
 
 	lstrcpy(m_szLoading, L"Etc Component Loading.....................");
 
