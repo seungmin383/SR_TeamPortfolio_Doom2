@@ -91,6 +91,10 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 	if (GetAsyncKeyState('C'))
 		g_colRend = !g_colRend;
 
+	// p 키 눌렀을 때 일시정지
+	//if (GetAsyncKeyState('P'))
+		
+
 	return 0;
 }
 
