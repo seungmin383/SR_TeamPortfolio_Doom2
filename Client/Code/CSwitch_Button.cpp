@@ -5,7 +5,7 @@
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
 #include "CStage.h"
-
+#include "CTerrainSector.h"
 
 CSwitch_Button::CSwitch_Button(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev), m_pObjTarget(nullptr)
@@ -161,23 +161,47 @@ HRESULT CSwitch_Button::Add_Component()
 
 void CSwitch_Button::Set_OnTerrain()
 {
-	if (!m_pTransformCom || !m_pCalculatorCom) return;
+	//if (!m_pTransformCom || !m_pCalculatorCom) return;
 
-	auto* pTerrainBuf = static_cast<CTerrainTexSector*>(
-		CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
-	if (!pTerrainBuf) return;
+	//auto* pTerrainBuf = static_cast<CTerrainTexSector*>(
+	//	CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
+	//if (!pTerrainBuf) return;
 
-	_vec3 pos; m_pTransformCom->Get_Pos(&pos);
+	//_vec3 pos; m_pTransformCom->Get_Pos(&pos);
 
-	// 그리드 경계(0..(VTXCNT-1)*VTXITV) 밖이면 보정 건너뜀 (혹은 clamp)
-	const float maxX = (VTXCNTX - 1) * VTXITV - 1e-3f;
-	const float maxZ = (VTXCNTZ - 1) * VTXITV - 1e-3f;
-	if (pos.x < 0.f || pos.z < 0.f || pos.x > maxX || pos.z > maxZ) return;
+	//// 그리드 경계(0..(VTXCNT-1)*VTXITV) 밖이면 보정 건너뜀 (혹은 clamp)
+	//const float maxX = (VTXCNTX - 1) * VTXITV - 1e-3f;
+	//const float maxZ = (VTXCNTZ - 1) * VTXITV - 1e-3f;
+	//if (pos.x < 0.f || pos.z < 0.f || pos.x > maxX || pos.z > maxZ) return;
 
-	float h = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBuf->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
+	//float h = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBuf->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
 
-	// 살짝 띄워서 지면 간섭 방지
-	m_pTransformCom->Set_Pos(pos.x, h + 0.7f, pos.z);
+	//// 살짝 띄워서 지면 간섭 방지
+	//m_pTransformCom->Set_Pos(pos.x, h + 0.7f, pos.z);
+
+	_float highest(-999.f);
+	_vec3 onPosition{ 0.f, 0.f, 0.f };
+	_vec3 m_vEye{ 65.f, 0, 5.f };
+	_vec3 m_vAt{ 0.f, 0.f, 1.f };
+	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
+	{
+		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
+		auto bufferCom = dterrain->Get_BufferCom();
+		auto transformCom = dterrain->Get_Transform();
+
+		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition))
+		{
+			if (highest < onPosition.y)
+				highest = onPosition.y;
+		}
+	}
+
+	if (highest == -999.f)
+		highest = 0.f;
+
+	_float deltaHeight = (highest + 3.f) - m_vEye.y;
+	m_vEye.y += deltaHeight;
+	m_vAt.y += deltaHeight;
 }
 
 void CSwitch_Button::Bill_Board()

@@ -35,7 +35,7 @@ HRESULT CChaingunBullet::Ready_GameObject()
 	_vec3 vOffset = { 0.f, 0.f ,0.f };
 
 	m_pColliderCom->Ready_CCollider(this, vPos, vColliderScale, vOffset, COLLAYERID::COL_BULLET,
-		COLLAYERID::COL_ENEMY | COLLAYERID::COL_WALL | COLLAYERID::COL_TERRAIN);
+		COLLAYERID::COL_ENEMY | COLLAYERID::COL_WALL | COLLAYERID::COL_TERRAIN | COLLAYERID::COL_OBJECT);
 
 	if (m_pOwner)
 	{
@@ -114,6 +114,10 @@ void CChaingunBullet::OnCollisionEnter(CCollider* _pOther)
 	case COLLAYERID::COL_ENEMY:
 		m_fSpeed = 0.f;
 		_pOther->Get_Owner()->Take_Dmg(m_iDmg);
+		break;
+
+	case COLLAYERID::COL_OBJECT:
+		m_fSpeed = 0.f;
 		break;
 
 	default:

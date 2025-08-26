@@ -49,6 +49,10 @@ public:
     _bool        Is_KeyOwned() const { return m_bHasKey; }
     void         Set_KeyOwned(_bool b) { m_bHasKey = b; }
 
+    // MainMenu 종료시 오류 나는 것 방지용(08/26 김홍인)
+    void  RequestQuit() { m_quit = true; }
+    bool  QuitRequested() const { return m_quit; }
+
 private:
     CScene*                 m_pScene;
     CScene*                 m_pArrScene[(_uint)SCENEID::SCENE_END];
@@ -58,7 +62,7 @@ private:
 
     // 임시로 키 상호작용을 위한 변수 추가(08/23 김홍인)
     _bool                   m_bHasKey = false;
-
+    _bool                   m_quit = false;
 public:
     virtual     void        Free();
 };

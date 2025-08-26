@@ -51,9 +51,14 @@ private:
 
     _int m_iFrame = 1;
 
+    _float m_inputLock = 0.2f;
+
     struct KeyPrev {
         bool up = false, down = false, w = false, s = false, enter = false, esc = false;
     } m_keyPrev;
+
+    LPD3DXSPRITE        m_pUISprite = nullptr;
+    LPDIRECT3DTEXTURE9  m_pLogoTex = nullptr;
 
 private:
     virtual void  Free() override;

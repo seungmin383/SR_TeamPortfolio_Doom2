@@ -43,9 +43,9 @@ void CBackGround::Render_GameObject(const _float& fTimeDelta)
 {
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	
-	if (m_bIsMainMenu)
+	if (m_bIsMainMenu) 
 		m_pMainTextureCom->Set_Texture();
-	else
+	else                
 	{
 		m_pTextureCom->Set_Texture();
 	}
@@ -79,7 +79,7 @@ HRESULT CBackGround::Add_Component()
 	if (nullptr == pComponent)
 		return E_FAIL;
 
-	m_mapComponent[ID_STATIC].insert({ L"Com_Texture2", pComponent });
+	m_mapComponent[ID_STATIC].insert({ L"Com_MainMenuBackgroundTexture", pComponent });
 
 	return S_OK;
 }
