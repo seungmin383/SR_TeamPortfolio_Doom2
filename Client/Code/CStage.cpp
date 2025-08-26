@@ -482,6 +482,7 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 		tr6->Set_Pos(25.f, 0.f, 18.f);   // 기준 위치
 	}
 
+	// 샷건 여러개 생성 테스트
 	/*vector<_vec3> ShotgunPos = {
 		_vec3(26.f, 0.f, 10.f),
 		_vec3(32.f, 0.f, 10.f),
