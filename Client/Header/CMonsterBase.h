@@ -135,6 +135,7 @@ protected:
     CGameObject* m_pAttackTarget = nullptr; // nullptr 이면 Player
 
     _int m_iPreHp = m_iGameHp;
+    _int m_iHeight = 1;
 
     //보스 패턴용 변수
     _int m_AtkCnt = 0;

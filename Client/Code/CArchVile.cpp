@@ -131,6 +131,7 @@ HRESULT CArchVile::Ready_GameObject()
 
 	_vec3 vSize{ 2.f, 2.f, 2.f };
 	m_pTransformCom->Set_Scale(vSize);
+	m_iHeight = 2;
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 #pragma endregion
@@ -157,26 +158,7 @@ void CArchVile::Render_GameObject(const _float& fTimeDelta)
 	CMonsterBase::Render_GameObject(fTimeDelta);
 }
 
-void CArchVile::Set_OnTerrain()
-{
-	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
-	{
-		_vec3 pos;
-		m_pTransformCom->Get_Pos(&pos);
 
-		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
-		auto bufferCom = dterrain->Get_BufferCom();
-		auto transformCom = dterrain->Get_Transform();
-
-		_vec3 onPosition{ 0.f, 0.f, 0.f };
-		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
-		{
-
-			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 2, pos.z);
-			break;
-		}
-	}
-}
 
 void CArchVile::Attack(const _float fTimeDelta)
 {

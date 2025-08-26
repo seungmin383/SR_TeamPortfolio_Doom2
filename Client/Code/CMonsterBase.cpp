@@ -622,7 +622,7 @@ void CMonsterBase::Set_OnTerrain()
 		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
 		{
 
-			m_pTransformCom->Set_Pos(pos.x, onPosition.y+1, pos.z);
+			m_pTransformCom->Set_Pos(pos.x, onPosition.y+ m_iHeight, pos.z);
 			break;
 		}
 	}

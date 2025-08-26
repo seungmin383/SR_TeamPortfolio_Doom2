@@ -131,6 +131,8 @@ HRESULT CPinky::Ready_GameObject()
 
 	_vec3 vSize{ 2.f, 2.f, 2.f };
 	m_pTransformCom->Set_Scale(vSize);
+	m_iHeight = 2;
+
 	m_isHit = FALSE;
 	m_isPinky = TRUE;
 	//초기 룩으로 세팅해주고
@@ -158,27 +160,6 @@ void CPinky::Render_GameObject(const _float& fTimeDelta)
 {
 	//cout << "핑키 애니메이션 스테이트:" << m_eCurAnimState << endl;
 	CMonsterBase::Render_GameObject(fTimeDelta);
-}
-
-void CPinky::Set_OnTerrain()
-{
-	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
-	{
-		_vec3 pos;
-		m_pTransformCom->Get_Pos(&pos);
-
-		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
-		auto bufferCom = dterrain->Get_BufferCom();
-		auto transformCom = dterrain->Get_Transform();
-
-		_vec3 onPosition{ 0.f, 0.f, 0.f };
-		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
-		{
-
-			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 2, pos.z);
-			break;
-		}
-	}
 }
 
 HRESULT CPinky::Add_Component()

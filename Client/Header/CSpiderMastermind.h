@@ -15,7 +15,6 @@ public:
     virtual     void            LateUpdate_GameObject(const _float& fTimeDelta);
     virtual     void            Render_GameObject(const _float& fTimeDelta);
 
-    void Set_OnTerrain()override;
 
     virtual void         Attack(const _float fTimeDelta)override;
     
