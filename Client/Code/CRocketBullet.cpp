@@ -49,9 +49,9 @@ HRESULT CRocketBullet::Ready_GameObject()
 		CDynamicCamera* pPlayer = dynamic_cast<CDynamicCamera*>(CManagement::GetInstance()->Get_Player());
 		m_vInitDir = pPlayer->Get_At() - pPlayer->Get_Pos();
 		D3DXVec3Normalize(&m_vInitDir, &m_vInitDir);
-		m_fSpeed = 30.f;
+		m_fSpeed = 50.f;
 		m_bDead = false;
-		m_iDmg = 160;
+		m_iDmg = 100;
 
 		_vec3 vScale = { 0.25f, 0.25f, 0.25f };
 		m_pTransformCom->Set_Scale(vScale);
@@ -89,6 +89,7 @@ void CRocketBullet::LateUpdate_GameObject(const _float& fTimeDelta)
 	{
 		m_iAnimState = 8;
 		m_pAnimCom->Play_Animation((_uint)BULLET_STATE::HIT, 0, fTimeDelta);
+		m_bDead = true;
 	}
 }
 
@@ -110,8 +111,6 @@ void CRocketBullet::Render_GameObject(const _float& fTimeDelta)
 
 void CRocketBullet::OnCollision(CCollider* _pOther)
 {
-	if (_pOther->Get_ColLayer() == COLLAYERID::COL_ENEMY)
-		_pOther->Get_Owner()->Take_Dmg(m_iDmg);
 }
 
 void CRocketBullet::OnCollisionEnter(CCollider* _pOther)
@@ -127,6 +126,7 @@ void CRocketBullet::OnCollisionEnter(CCollider* _pOther)
 		m_eState = BULLET_STATE::HIT;
 		break;
 
+	case COLLAYERID::COL_OBJECT:
 	case COLLAYERID::COL_ENEMY:
 		m_fSpeed = 0.f;
 		m_eState = BULLET_STATE::HIT;
@@ -139,9 +139,9 @@ void CRocketBullet::OnCollisionEnter(CCollider* _pOther)
 
 	// 충돌 후에는 텍스쳐와 콜라이더 스케일을 크게 만든다.
 	_vec3 vAfterScale = { 2.f, 2.f, 2.f };
+	m_pTransformCom->Set_Scale(vAfterScale);
 	_vec3 vAfterScale1 = { 6.f, 6.f, 6.f };
 	m_pColliderCom->Set_Scale(vAfterScale1);
-	m_pTransformCom->Set_Scale(vAfterScale);
 }
 
 void CRocketBullet::OnCollisionExit(CCollider* _pOther)

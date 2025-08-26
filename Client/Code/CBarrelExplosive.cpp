@@ -40,7 +40,7 @@ HRESULT CBarrelExplosive::Ready_GameObject()
 	m_fuseTime = 0.f;
 
 	m_pTransformCom->Set_Pos(20.f, 0.f, 25.f);
-	m_pTransformCom->Set_Scale(_vec3(1.f, 1.f, 1.f));
+	m_pTransformCom->Set_Scale(_vec3(1.f, 1.5f, 1.f));
 
 	// Collider 세팅
 	if (m_pColliderCom)
@@ -48,8 +48,8 @@ HRESULT CBarrelExplosive::Ready_GameObject()
 		m_pColliderCom->Ready_CCollider(
 			this,
 			_vec3(0, 0, 0),         // 초기 위치(Transform가 실제로 잡아줌)
-			_vec3(1.f, 1.f, 1.f),   // 박스 크기
-			_vec3(0, 0.4f, 0),      // 약간 위로
+			_vec3(2.f, 3.f, 2.f),   // 박스 크기
+			_vec3(0.f, 0.f, 0.f),      // 약간 위로
 			COL_OBJECT,             // 내 레이어
 			// 공격으로 인정할 대상 레이어(레이 사격 포함)
 			COL_BULLET | COL_ATTACK | COL_EXPLOSION | COL_PLAYER
@@ -106,7 +106,7 @@ _int CBarrelExplosive::Update_GameObject(const float& fTimeDelta)
 	if (m_state == State::Exploding)
 	{
 		m_animAcc += fTimeDelta;
-		const float frameTime = 0.06f;
+		const float frameTime = 0.2f;
 		if (m_animAcc >= frameTime) {
 			m_animAcc = 0.f;
 
@@ -436,11 +436,12 @@ void CBarrelExplosive::Set_OnTerrain()
 		auto bufferCom = dterrain->Get_BufferCom();
 		auto transformCom = dterrain->Get_Transform();
 
+		_float fScaleY = m_pTransformCom->Get_Scale()->y;
+
 		_vec3 onPosition{ 0.f, 0.f, 0.f };
 		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
 		{
-
-			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 1, pos.z);
+			m_pTransformCom->Set_Pos(pos.x, onPosition.y + fScaleY, pos.z);
 			break;
 		}
 	}
