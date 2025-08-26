@@ -30,14 +30,14 @@ public:
                                             _ulong dwVtxItv,
                                             _bool RightUp);
 
-    _bool           RayScan_OnTerrain(CTerrainTexSector* pTerrainSectorBufferCom, CTransform* pTerrainTransformCom, _vec3* targetPos);
+    _bool           RayScan_OnTerrain(CTerrainTexSector* pTerrainSectorBufferCom, CTransform* pTerrainTransformCom, _vec3* targetPos, _vec3* objPos);
 
     _vec3           Picking_OnTerrain(HWND hWnd,
                                     CTerrainTex* pTerrainBufferCom,
                                     CTransform* pTerrainTransformCom);
 
     _bool           Picking_GameObject(HWND hWnd);
-    _bool           Picking_MapTool(HWND hWnd, CTerrainTexSector* pTerrainSectorBufferCom, CTransform* pTerrainTransformCom, _vec3& targetPos, _float& dist);
+    _bool           Picking_MapTool(HWND hWnd, CTerrainTexSector* pTerrainSectorBufferCom, CTransform* pTerrainTransformCom, _vec3* targetPos, _float* dist);
 
     _bool           Picking_TerrainSearch(HWND hWnd, CTerrainTexSector* pTerrainSectorBufferCom);
     

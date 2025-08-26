@@ -155,6 +155,8 @@ HRESULT CHealth_Big::Add_Component()
 
 void CHealth_Big::Set_OnTerrain()
 {
+	_vec3 pos; m_pTransformCom->Get_Pos(&pos);
+
 	_float highest(-999.f);
 	_vec3 onPosition{ 0.f, 0.f, 0.f };
 	_vec3 m_vEye{ 65.f, 0, 5.f };
@@ -165,7 +167,7 @@ void CHealth_Big::Set_OnTerrain()
 		auto bufferCom = dterrain->Get_BufferCom();
 		auto transformCom = dterrain->Get_Transform();
 
-		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition))
+		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
 		{
 			if (highest < onPosition.y)
 				highest = onPosition.y;

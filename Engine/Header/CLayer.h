@@ -33,6 +33,7 @@ private:
     vector<CGameObject*>                m_vecObject[(_uint)OBJID::OBJ_END];
     vector<CGameObject*>                m_vecObjectPool[(_uint)OBJID::OBJ_END];
     map<OBJPROTOTYPE, vector<CGameObject*>>     m_mapObjectPool;
+    vector<CGameObject*> m_vecPendingObject[(_uint)OBJID::OBJ_END];
 
 public:
     static CLayer* Create();

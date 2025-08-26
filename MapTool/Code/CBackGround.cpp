@@ -42,8 +42,14 @@ void CBackGround::LateUpdate_GameObject(const _float& fTimeDelta)
 void CBackGround::Render_GameObject(const _float& fTimeDelta)
 {
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
-	m_pTextureCom->Set_Texture();
+	
+	if (m_bIsMainMenu) 
+		m_pMainTextureCom->Set_Texture();
+	else                
+	{
+		m_pTextureCom->Set_Texture();
+	}
+	
 	m_pBufferCom->Render_Buffer();
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
@@ -67,6 +73,13 @@ HRESULT CBackGround::Add_Component()
 		return E_FAIL;
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
+
+	pComponent = m_pMainTextureCom = dynamic_cast<Engine::CTexture*>
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_BackGroundTexture"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_MainMenuBackgroundTexture", pComponent });
 
 	return S_OK;
 }

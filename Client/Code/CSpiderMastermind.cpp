@@ -5,7 +5,10 @@
 #include "CManagement.h"
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
-
+#include "CBullet.h"
+#include <random>
+#include "CLayer.h"
+#include"CTerrainSector.h"
 CSpiderMastermind::CSpiderMastermind(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonsterBase(pGraphicDev)
 {
@@ -22,11 +25,11 @@ CSpiderMastermind::~CSpiderMastermind()
 
 HRESULT CSpiderMastermind::Ready_GameObject()
 {
-	//AllocConsole();
+	AllocConsole();
 
-	//FILE* fp;
-	//freopen_s(&fp, "CONOUT$", "w", stdout);
-	//freopen_s(&fp, "CONOUT$", "w", stderr);
+	FILE* fp;
+	freopen_s(&fp, "CONOUT$", "w", stdout);
+	freopen_s(&fp, "CONOUT$", "w", stderr);
 
 
 	if (FAILED(Add_Component()))
@@ -128,6 +131,16 @@ HRESULT CSpiderMastermind::Ready_GameObject()
 	m_iGibDeadPlus = 24;
 	m_iNorDeadPlus = 25;
 
+	std::mt19937 rng{ std::random_device{}() };
+	std::uniform_int_distribution<uint16_t> dist(0, 0xFFFF);
+	m_iPattern = dist(rng);
+
+	Calc_Pattern();
+
+	for (int i = 0; i < 8; i++)
+	{
+		cout << m_PattenArr[i] << endl;
+	}
 	_vec3 vSize{ 10.f, 10.f, 10.f };
 	m_pTransformCom->Set_Scale(vSize);
 	//초기 룩으로 세팅해주고
@@ -175,16 +188,128 @@ HRESULT CSpiderMastermind::Add_Component()
 
 void CSpiderMastermind::Set_OnTerrain()
 {
-	_vec3 pos;
-	m_pTransformCom->Get_Pos(&pos);
+	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
+	{
+		_vec3 pos;
+		m_pTransformCom->Get_Pos(&pos);
 
-	Engine::CTerrainTexSector* pTerrainBufferCom =
-		static_cast<CTerrainTexSector*>
-		(CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
+		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
+		auto bufferCom = dterrain->Get_BufferCom();
+		auto transformCom = dterrain->Get_Transform();
 
-	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
+		_vec3 onPosition{ 0.f, 0.f, 0.f };
+		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition))
+		{
 
-	m_pTransformCom->Set_Pos(pos.x, height + 10.f, pos.z);
+			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 10, pos.z);
+			break;
+		}
+	}
+}
+
+void CSpiderMastermind::Attack(const _float fTimeDelta)
+{
+	CMonsterBase::Attack(fTimeDelta);
+	Fire(fTimeDelta);
+	switch (m_PattenArr[m_AtkCnt])
+	{
+	case 0:
+		Pattern1(fTimeDelta);
+		break;
+	case 1:
+		Pattern2(fTimeDelta);
+		break;
+	case 2:
+		Pattern3(fTimeDelta);
+		break;
+	case 3:
+		Pattern4(fTimeDelta);
+		break;
+	}
+}
+
+void CSpiderMastermind::Calc_Pattern()
+{
+	for (int i = 0; i < 8; i++)
+		m_PattenArr[i] = (m_iPattern >> (i * 2)) & 0x3;
+}
+
+void CSpiderMastermind::Fire(const _float fTimeDelta)
+{
+	m_isShoot = TRUE;
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	CGameObject* tmp = nullptr;
+	for(int i = 0; i< 3; i++)
+	{
+		vPos.z -= i;
+		if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_ZOMBIEMAN_BULLET, OBJID::OBJ_BULLET, vPos, this, tmp)))
+		{
+			int a = 0;
+		}
+
+		if (tmp == nullptr)
+			return;
+
+		tmp->Set_Dead(FALSE);
+		tmp->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+		_vec3 vPlayerPos;
+		CManagement::GetInstance()->Get_Player()->Get_Transform()->Get_Pos(&vPlayerPos);
+		_vec3 dir = vPlayerPos - vPos;
+		D3DXVec3Normalize(&dir, &dir);
+
+		dynamic_cast<CBullet*>(tmp)->Set_InitDir(dir);
+	}
+
+}
+
+void CSpiderMastermind::Pattern1(const _float fTimeDelta)
+{
+	m_isShoot = TRUE;
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	CGameObject* tmp = nullptr;
+
+	if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_BOSS_BULLET, OBJID::OBJ_BULLET, vPos, this, tmp)))
+	{
+		int a = 0;
+	}
+	if (tmp == nullptr)
+		return;
+
+	tmp->Set_Dead(FALSE);
+	tmp->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z); 
+
+	_vec3 vPlayerPos;
+	CManagement::GetInstance()->Get_Player()->Get_Transform()->Get_Pos(&vPlayerPos);
+	_vec3 dir = vPlayerPos - vPos;
+	D3DXVec3Normalize(&dir, &dir);
+
+	dynamic_cast<CBullet*>(tmp)->Set_InitDir(dir);
+
+
+}
+
+void CSpiderMastermind::Pattern2(const _float fTimeDelta)
+{
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	vPos.x += 5;
+	(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_IMP, OBJID::OBJ_ENEMY, vPos, 1));
+
+	vPos.x -= 10;
+	(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_IMP, OBJID::OBJ_ENEMY, vPos, 1));
+	//auto layerMap = CManagement::GetInstance()->Get_Scene()->Get_Layer();
+
+	
+}
+
+void CSpiderMastermind::Pattern3(const _float fTimeDelta)
+{
+}
+
+void CSpiderMastermind::Pattern4(const _float fTimeDelta)
+{
 }
 
 

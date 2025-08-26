@@ -165,7 +165,7 @@ void CHealth_Small::Set_OnTerrain()
 //		CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
 //	if (!pTerrainBuf) return;
 //
-//	_vec3 pos; m_pTransformCom->Get_Pos(&pos);
+	_vec3 pos; m_pTransformCom->Get_Pos(&pos);
 //
 //	// 그리드 경계(0..(VTXCNT-1)*VTXITV) 밖이면 보정 건너뜀 (혹은 clamp)
 //	const float maxX = (VTXCNTX - 1) * VTXITV - 1e-3f;
@@ -187,7 +187,7 @@ void CHealth_Small::Set_OnTerrain()
 		auto bufferCom = dterrain->Get_BufferCom();
 		auto transformCom = dterrain->Get_Transform();
 
-		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition))
+		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
 		{
 			if (highest < onPosition.y)
 				highest = onPosition.y;

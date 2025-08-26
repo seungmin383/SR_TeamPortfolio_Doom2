@@ -86,13 +86,14 @@ public:
     void                            LoadItem(int sceneNumber);
 
     void                            SaveMonster(fs::path path, string filename);
-    void                            LoadMonster();
+    void                            LoadMonster(int sceneNumber);
 
     void                            SetObjInfo();
     void                            SetLoadSceneTag();
 
     void                            InputMouse_Terrain();
     void                            InputMouse_Object();
+    void                            InputMouse_Monster();
 
     void                            Rotate(_vec3 degree);
 

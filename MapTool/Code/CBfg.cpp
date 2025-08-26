@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CBfg.h"
 #include "CWeaponManager.h"
+#include "CBfgBullet.h"
+#include "CManagement.h"
 
 CBfg::CBfg()
 {
@@ -15,8 +17,8 @@ HRESULT CBfg::Ready_GameObject()
 	m_eWeaponID = WEAPON_ID::BFG;
 	m_eCurState = WEAPON_STATE::IDLE;
 	m_eAmmoType = AMMO_TYPE::CELL;
-	m_iDamage = 160;
-	m_fFireDelay = 1.06f;
+	m_iDamage = 800;
+	m_fFireDelay = 1.14f;
 	m_fElapsedTime = 0.f;
 
 	return S_OK;
@@ -31,6 +33,15 @@ _bool CBfg::Fire()
 	{
 		m_eCurState = WEAPON_STATE::SHOT;
 		m_fElapsedTime = m_fFireDelay;
+
+		CGameObject* pPlayer = CManagement::GetInstance()->Get_Player();
+		_vec3 vPlayerPos;
+		pPlayer->Get_Transform()->Get_Pos(&vPlayerPos);
+
+		CGameObject* tmp = nullptr;
+		// 로켓 투사체 발사
+		CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::PLAYER_BFG_BULLET, OBJID::OBJ_BULLET, vPlayerPos, pPlayer, tmp);
+
 		return true;
 	}
 

@@ -4,7 +4,10 @@
 #include "CRenderer.h"
 #include "Engine_Enum.h"
 #include "CWeaponManager.h"
+#include "CCollisionManager.h"
+#include "CTimerManager.h"
 #include <iostream>
+#include "CStatsManager.h"
 
 
 CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -42,6 +45,8 @@ HRESULT         CMonsterBase::Ready_GameObject()
 	freopen_s(&fp, "CONOUT$", "w", stdout);
 	freopen_s(&fp, "CONOUT$", "w", stderr);*/
 
+	m_iPreHp = m_iGameHp;
+
 	return S_OK;
  }
 
@@ -50,6 +55,9 @@ _int CMonsterBase::Update_GameObject(const _float& fTimeDelta)
 	Thinker(fTimeDelta);
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 	CGameObject::Update_GameObject(fTimeDelta);
+
+	if (m_isGibbingDead || m_isNormalDead)
+		return -1;
 
 	return 0;
  }
@@ -64,7 +72,6 @@ void                 CMonsterBase::LateUpdate_GameObject(const _float& fTimeDelt
 
 void                 CMonsterBase::Render_GameObject(const _float& fTimeDelta)
 {
-
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
@@ -80,17 +87,13 @@ void                 CMonsterBase::Render_GameObject(const _float& fTimeDelta)
 
 void CMonsterBase::OnCollision(CCollider* _pOther)
 {
+	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
 }
 
 void CMonsterBase::OnCollisionEnter(CCollider* _pOther)
 {
-	// 모든 몬스터들이 콜라이더 충돌이 아니라 Ray로 충돌했을경우
-	if (m_pColliderCom->Is_RayHit())
-	{
-		m_isRecognize_Player = TRUE;
-		m_isHit = TRUE;
-		m_iGameHp -= CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponDamage();
-	}
+	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
+
 }
 
 void CMonsterBase::OnCollisionExit(CCollider* _pOther)
@@ -177,7 +180,9 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 {
 	m_isDead						= Check_Dead();
 	//m_isHit							= Check_Hit();
+	Calc_Hp();
 	Check_Hit(fTimeDelta);
+	m_isDetected_Player = Check_Shooting_Sound();
 	m_isDetect_Player		= Check_Target();
 	m_isAtk						= Check_Attack(fTimeDelta);
 
@@ -293,6 +298,109 @@ _bool CMonsterBase::Check_Target()
 		return (fDot >= 0.f) && (distSq <= sightSq);
 }
 
+_bool CMonsterBase::Check_Shooting_Sound()
+{
+	_vec3 vPos;																									//내 위치
+	m_pTransformCom->Get_Pos(&vPos);
+
+	_vec3 vUp{ 0.f, 1.f, 0.f };																				//업 벡터(룩이랑 외적용)
+
+	_vec3 vLB;																									//왼쪽 아래 경계점
+	_vec3 vRB;																									//오른쪽 아래 경계점
+
+	m_vMoveLook.y = 0;																					//y고정
+
+	_vec3 vLF = m_vMoveLook;																			//왼쪽 위 경계점
+	_vec3 vRF = m_vMoveLook;																		//오른쪽 위 경계점
+
+	_matrix RotMat;																							//벡터 회전용 매트릭스
+	D3DXMatrixIdentity(&RotMat);																	//초기화
+
+	//LF, RF
+	D3DXMatrixRotationY(&RotMat, D3DXToRadian(-45.f));							//왼쪽으로 45도 각도 -> LF
+	D3DXVec3Normalize(&vLF, &vLF);																//정규화
+	D3DXVec3TransformCoord(&vLF, &vLF, &RotMat);									//방향성 정해주기
+
+	D3DXMatrixIdentity(&RotMat);																	//사용한 매트릭스 초기화
+
+	D3DXMatrixRotationY(&RotMat, D3DXToRadian(45.f));								//왼쪽으로 45도 각도 -> RF
+	D3DXVec3Normalize(&vRF, &vRF);																//정규화
+	D3DXVec3TransformCoord(&vRF, &vRF, &RotMat);									//방향성 정해주기
+
+	vLF *= m_fSightDistance;																				//범위 지정해주기
+	vRF *= m_fSightDistance;																			//
+
+	//LB, RB
+	D3DXMatrixRotationY(&RotMat, D3DXToRadian(-135.f));							//왼쪽으로 45도 각도 -> LF
+	D3DXVec3Normalize(&vLF, &vLF);																//정규화
+	D3DXVec3TransformCoord(&vLF, &vLF, &RotMat);									//방향성 정해주기
+
+	D3DXMatrixIdentity(&RotMat);																	//사용한 매트릭스 초기화
+
+	D3DXMatrixRotationY(&RotMat, D3DXToRadian(135.f));							//왼쪽으로 45도 각도 -> RF
+	D3DXVec3Normalize(&vRF, &vRF);																//정규화
+	D3DXVec3TransformCoord(&vRF, &vRF, &RotMat);									//방향성 정해주기
+
+	vLF *= m_fSightDistance;																				//범위 지정해주기
+	vRF *= m_fSightDistance;																			//
+	//
+
+	//Debug_Rectangle(																						//시야 범위 시각화
+	//	vPos + vLF,
+	//	vPos + vRF,
+	//	vPos + vRB,
+	//	vPos + vLB
+	//);
+
+	// 플레이어가 범위에 있는가
+	_vec3 vPlayerPos;																							//플레이어 위치
+	_matrix ViewMat;																							//카메라 월드 행렬 구하기 위한
+
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &ViewMat);						//뷰 스페이스 행렬 가져오기
+
+	D3DXMatrixInverse(&ViewMat, NULL, &ViewMat);									//카메라의 월드 행렬
+
+	vPlayerPos.x = ViewMat._41;																		//카메라 = 플레이어
+	vPlayerPos.y = ViewMat._42;
+	vPlayerPos.z = ViewMat._43;
+
+	_vec3 vToPlayer = vPlayerPos - vPos;															//내가 플레이어를 바라보는
+	vToPlayer.y = 0.f;
+	_vec3 vDistanceToPlayer = vToPlayer;															// 스칼라 저장
+
+	D3DXVec3Normalize(&vToPlayer, &vToPlayer);											//정규화
+
+	_vec3 vLook = m_vMoveLook;
+	vLook.y = 0.f;
+	D3DXVec3Normalize(&vLook, &vLook);
+
+
+	float distSq = D3DXVec3LengthSq(&vDistanceToPlayer);
+	float sightSq = m_fSightDistance * m_fSightDistance;
+
+	if (distSq <= sightSq)
+	{
+		if (CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponState() == WEAPON_STATE::SHOT)
+		{
+			_matrix	player;
+			D3DXMatrixIdentity(&player);
+			m_pGraphicDev->GetTransform(D3DTS_VIEW, &player);
+			_vec3 PlayerPos;
+			PlayerPos.x = player._41;
+			PlayerPos.y = player._42;
+			PlayerPos.z = player._43;
+			_vec3 vPos;
+			m_pTransformCom->Get_Pos(&vPos);
+			_vec3 look = vPlayerPos - vPos;
+			D3DXVec3Normalize(&look, &look);
+			m_vMoveLook = look;
+			return true;
+		}
+		else
+			return false;
+	}
+}
+
 _bool CMonsterBase::Check_Dead()
 {
 	if (m_iGameHp <= 0)
@@ -302,12 +410,32 @@ _bool CMonsterBase::Check_Dead()
 		{
 			m_isGibbingDead = TRUE;
 			m_isNormalDead = FALSE;
+
+			// 킬 집계(08/24 김홍인)
+			if (!m_bCountedDeath) 
+			{
+				m_bCountedDeath = true;
+				CStatsManager::I().OnEnemyKilled();
+			}
+
 			return	TRUE;
 		}
 		m_isGibbingDead = FALSE;
 		m_isNormalDead = TRUE;
 
-		Drop_Item();
+		// 킬 집계
+		if (!m_bCountedDeath)
+		{
+			m_bCountedDeath = true;
+
+			CStatsManager::I().OnEnemyKilled();
+		}
+
+		//Drop_Item();
+		if (!m_bDropDone) {				// (08/25 수정 - 김홍인)
+			Drop_Item();
+			m_bDropDone = true;
+		}
 		return TRUE;
 	}
 	return FALSE;
@@ -334,6 +462,17 @@ void CMonsterBase::Check_Hit(const _float& fTimeDelta)
 	}
 }
 
+void CMonsterBase::Calc_Hp()
+{
+	if (m_iGameHp != m_iPreHp)
+	{
+		m_isHit = TRUE;
+		m_iPreHp = m_iGameHp;
+	}
+
+	return;
+}
+
 _bool CMonsterBase::Check_Attack(const _float& fTimeDelta)
 {
 	m_fAtkDelay += fTimeDelta;
@@ -352,6 +491,7 @@ _bool CMonsterBase::Check_Attack(const _float& fTimeDelta)
 				m_AtkEnterCnt = 0;
 				m_fAtkDelay = 0.f;
 				m_isDetected_Player = FALSE;
+				m_isShoot = FALSE;
 				return FALSE;
 			}
 			else
@@ -364,7 +504,6 @@ _bool CMonsterBase::Check_Attack(const _float& fTimeDelta)
 	else
 		return FALSE;
 }
-
 
 #pragma endregion
 
@@ -391,7 +530,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			m_eAnim_Type = NOR_DEATH;
 		}
 		m_pColliderCom->Set_Active(false);
-		cout << "AI_DEAD" << endl;
+		//cout << "AI_DEAD" << endl;
 		break;
 
 		//맞았을 때
@@ -399,15 +538,18 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 		if (!m_isPinky)
 			m_eCurAnimState += 16;
 		m_eAnim_Type = HIT;
-		cout << "AI_HIT" << endl;
+		//cout << "AI_HIT" << endl;
 		break;
 
 		//공격할 때
 	case AI_ATTACK:
 			m_eCurAnimState += 8;
 		m_eAnim_Type = ATK;
-		//Monster_Fire();
-		cout << "AI_ATTACK" << endl;
+
+		if (!m_isShoot)
+			Attack(fTimeDelta);
+
+		//cout << "AI_ATTACK" << endl;
 		break;
 
 		//플레이어를 발견했을 때
@@ -422,7 +564,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			m_fChaseDelay = 0.f;
 		}
 		Movement(fTimeDelta);
-		cout << "AI_CHASE" << endl;
+		//cout << "AI_CHASE" << endl;
 		break;
 
 		//아이들 상태
@@ -436,7 +578,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			Movement(fTimeDelta);
 		}
 
-		cout << "AI_MOVE" << endl;
+		//cout << "AI_MOVE" << endl;
 		break;
 	}
 
@@ -707,8 +849,6 @@ void CMonsterBase::Bill_Board()
 
 void CMonsterBase::Drop_Item()
 {
-	_vec3 vPos;													//아이템 드롭 위치
-	m_pTransformCom->Get_Pos(&vPos);
 
 }
 

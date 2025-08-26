@@ -27,7 +27,7 @@ HRESULT CShotgunGuy::Ready_GameObject()
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Pos(65.f, 0.f, 10.f);
+	m_pTransformCom->Set_Pos(52.f, 0.f, 10.f);
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
 	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.5f, 0.f),

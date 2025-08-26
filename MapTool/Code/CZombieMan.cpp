@@ -5,6 +5,7 @@
 #include "CManagement.h"
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
+#include "CBullet.h"
 
 CZombieMan::CZombieMan(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonsterBase(pGraphicDev)
@@ -32,7 +33,7 @@ HRESULT CZombieMan::Ready_GameObject()
 
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
-	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.f, 0.f),
+	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, -0.5f, 0.f),
 		COLLAYERID::COL_ENEMY,
 		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT | COLLAYERID::COL_ENEMY);
 
@@ -112,7 +113,7 @@ HRESULT CZombieMan::Ready_GameObject()
 
 #pragma region VARIABLE_SETTING
 	m_fSightAngle =D3DXToRadian( 80.f);
-	m_fSightDistance		= 5.f;
+	m_fSightDistance		= 15.f;
 
 	m_fAtkSpeed			= 4.f;
 	m_iGameHp						= 20;
@@ -158,23 +159,54 @@ void CZombieMan::Render_GameObject(const _float& fTimeDelta)
 	CMonsterBase::Render_GameObject(fTimeDelta);
 }
 
-//void CZombieMan::OnCollision(CCollider* _pOther)
+//void CZombieMan::OnCollision(CCollider* _pOther)	//콜라이더 끼리 충돌하고 잇을 때
 //{
-//    //CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
+//	//CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
 //
-//    auto a = _pOther->Get_ID();
+//	auto a = _pOther->Get_ID();
 //
-//    cout << a << endl;
+//	cout << a << endl;
 //
 //}
 //
-//void CZombieMan::OnCollisionEnter(CCollider* _pOther)
+//void CZombieMan::OnCollisionEnter(CCollider* _pOther)	//콜라이더 끼리 충돌을 시작했을 때
 //{
 //}
 //
-//void CZombieMan::OnCollisionExit(CCollider* _pOther)
+//void CZombieMan::OnCollisionExit(CCollider* _pOther)		//콜라이더 끼리 충돌이 끝났을 때
 //{
 //}
+
+void CZombieMan::Attack(const _float fTimeDelta)
+{
+	m_isShoot = TRUE;
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	CGameObject* tmp = nullptr;
+
+	if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_ZOMBIEMAN_BULLET, OBJID::OBJ_BULLET, vPos, this, tmp)))
+	{
+		int a = 0;
+	}
+
+	if (tmp == nullptr)
+		return;
+
+	tmp->Set_Dead(FALSE);
+	tmp->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+	dynamic_cast<CBullet*>(tmp)->Set_InitDir(m_vMoveLook);
+
+
+}
+
+void CZombieMan::Drop_Item()
+{
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+
+	CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ITEM_CLIP, OBJID::OBJ_ITEM, vPos, 1);
+}
+
 
 HRESULT CZombieMan::Add_Component()
 {

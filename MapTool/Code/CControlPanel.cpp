@@ -142,11 +142,44 @@ _bool CControlPanel::ControlPanelWindow(const _float& timeDelta)
 	}
 	//아이템 저장 끝
 
+	//몬스터 저장 모달
 	ImGui::SameLine();
 	if (ImGui::Button("Save monster"))
 	{
+		prevPath = CFileManager::GetInstance()->GetCurrentDir();
 
+		//SaveModal();
+		ImGui::OpenPopup("Save monster?");
 	}
+
+	if (ImGui::BeginPopupModal("Save monster?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+		ImGui::Text("check save type and file name");
+		ImGui::Separator();
+
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+		ImGui::PopStyleVar();
+
+		fs::path selecteddir = SaveExplorer();
+
+		ImGui::InputText("file name", &filename);
+
+		if (ImGui::Button("OK", ImVec2(120, 0)))
+		{
+			if (!filename.empty())
+			{
+				SaveMonster(selecteddir, filename);
+				ImGui::CloseCurrentPopup();
+				filename.clear();
+			}
+		}
+
+		ImGui::SetItemDefaultFocus();
+		ImGui::SameLine();
+		if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+		ImGui::EndPopup();
+	}
+	//아이템 저장 끝
 
 	if (ImGui::Button("Load terrain"))
 	{
@@ -169,7 +202,9 @@ _bool CControlPanel::ControlPanelWindow(const _float& timeDelta)
 	ImGui::SameLine();
 	if (ImGui::Button("Load monster"))
 	{
+		prevPath = CFileManager::GetInstance()->GetCurrentDir();
 
+		LoadMonster(load_current);
 	}
 
 	ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
@@ -193,9 +228,13 @@ _bool CControlPanel::ControlPanelWindow(const _float& timeDelta)
 
 			ImGui::EndTabItem();
 		}
-		if (ImGui::BeginTabItem("Temp"))
+		if (ImGui::BeginTabItem("Monster"))
 		{
-			ImGui::Text("This is the Temp tab!\nblah blah blah blah blah");
+			ImGui::Text("This is the Monster tab!");
+
+			ObjectController();
+			InputMouse_Monster();
+
 			ImGui::EndTabItem();
 		}
 		ImGui::EndTabBar();
@@ -455,7 +494,7 @@ void CControlPanel::TerrainController()
 
 				tCachingControlInfo.vertices.push_back({ (_float)j
 													, 0.f,
-													(_float)i});
+													(_float)i });
 			}
 		}
 
@@ -484,7 +523,7 @@ void CControlPanel::TerrainController()
 
 				tCachingControlInfo.vertices.push_back({ (_float)j
 													, 0.f,
-													(_float)i});
+													(_float)i });
 			}
 		}
 
@@ -508,7 +547,7 @@ void CControlPanel::TerrainController()
 
 				tCachingControlInfo.vertices.push_back({ (_float)j
 													, 0.f,
-													(_float)i});
+													(_float)i });
 			}
 		}
 
@@ -692,7 +731,7 @@ void CControlPanel::SaveTerrain(fs::path path, string filename)
 	CFileManager::GetInstance()->SaveTerrain(path, filename, vecTerrainInfos);
 
 	CFileManager::GetInstance()->MoveDir(prevPath);
-	
+
 	SetDefault();
 }
 
@@ -768,10 +807,22 @@ void CControlPanel::LoadItem(int sceneNumber)
 
 void CControlPanel::SaveMonster(fs::path path, string filename)
 {
+	CFileManager::GetInstance()->SaveItem(path, filename, vecMonsterInfos);
+
+	CFileManager::GetInstance()->MoveDir(prevPath);
 }
 
-void CControlPanel::LoadMonster()
+void CControlPanel::LoadMonster(int sceneNumber)
 {
+	//vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadMonster(sceneNumber);;
+
+	//for (auto monster : loadData)
+	//	CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
+
+	//for (auto monster : loadData)
+	//	vecMonsterInfos.push_back(monster);
+
+	//CFileManager::GetInstance()->MoveDir(prevPath);
 }
 
 void CControlPanel::SetObjInfo()
@@ -820,9 +871,6 @@ void CControlPanel::InputMouse_Terrain()
 	{
 		_float nearest(99999.f);
 
-		CDynamicCamera* player = dynamic_cast<CDynamicCamera*>(CManagement::GetInstance()->Get_Player());
-		auto playerTransform = player->Get_Transform();
-
 		for (auto item : vecSector)
 		{
 			auto pTerrainBuf = item->Get_BufferCom();
@@ -836,7 +884,7 @@ void CControlPanel::InputMouse_Terrain()
 				return;
 
 			_float dist;
-			if (m_pCalculatorCom->Picking_MapTool(g_hWnd, pTerrainBuf, pTerrainTransform, tCachingControlInfo.pos, dist))
+			if (m_pCalculatorCom->Picking_MapTool(g_hWnd, pTerrainBuf, pTerrainTransform, &tCachingControlInfo.pos, &dist))
 			{
 				if (nearest >= dist)
 				{
@@ -849,17 +897,6 @@ void CControlPanel::InputMouse_Terrain()
 				}
 			}
 		}
-
-		//if (curTex == nullptr)
-		//{
-		//	GetSelectTexture();
-		//	if (tCachingControlInfo.currentTextureTag != L"")
-		//	{
-		//		string curDir = CFileManager::GetInstance()->GetCurrentDir().filename().string();
-		//		curTex = CTextureManager::GetInstance()->GetTexture(curDir, tCachingControlInfo.currentTextureTag);
-		//	}
-		//}
-		//Apply();
 	}
 }
 
@@ -881,25 +918,91 @@ void CControlPanel::InputMouse_Object()
 		if (tObjectinfo.type2 == 0)
 			return;
 
-		auto* pTerrainBuf = static_cast<CTerrainTexSector*>(
-			CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
+		_float nearest(99999.f);
 
-		if (pTerrainBuf == nullptr)
-			return;
-
-		auto* pTerrainTransform = static_cast<CTransform*>(
-			CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Transform"));
-
-		if (pTerrainBuf == nullptr)
-			return;
-
-		_float dist;
-		if (m_pCalculatorCom->Picking_MapTool(g_hWnd, pTerrainBuf, pTerrainTransform, tObjectinfo.position, dist))
+		for (auto item : vecSector)
 		{
-			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)tObjectinfo.type1, (OBJID)tObjectinfo.type2, tObjectinfo.position);
+			auto pTerrainBuf = item->Get_BufferCom();
 
-			vecItemInfos.push_back(tObjectinfo);
+			if (pTerrainBuf == nullptr)
+				return;
+
+			auto pTerrainTransform = item->Get_Transform();
+
+			if (pTerrainTransform == nullptr)
+				return;
+
+			_float dist;
+			_vec3 pos;
+			if (m_pCalculatorCom->Picking_MapTool(g_hWnd, pTerrainBuf, pTerrainTransform, &pos, &dist))
+			{
+				if (nearest >= dist)
+				{
+					nearest = dist;
+					tObjectinfo.position = pos;
+				}
+			}
 		}
+
+		if (nearest == 99999.f)
+			return;
+
+		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)tObjectinfo.type1, (OBJID)tObjectinfo.type2, tObjectinfo.position);
+
+		vecItemInfos.push_back(tObjectinfo);
+	}
+}
+
+void CControlPanel::InputMouse_Monster()
+{
+	if (!EnablePick)
+		return;
+
+	if (pickingtime < pickingdelay)
+		return;
+	else
+		pickingtime = 0.f;
+
+	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB))
+	{
+		if (tObjectinfo.type1 == 0)
+			return;
+
+		if (tObjectinfo.type2 == 0)
+			return;
+
+		_float nearest(99999.f);
+
+		for (auto item : vecSector)
+		{
+			auto pTerrainBuf = item->Get_BufferCom();
+
+			if (pTerrainBuf == nullptr)
+				return;
+
+			auto pTerrainTransform = item->Get_Transform();
+
+			if (pTerrainTransform == nullptr)
+				return;
+
+			_float dist;
+			_vec3 pos;
+			if (m_pCalculatorCom->Picking_MapTool(g_hWnd, pTerrainBuf, pTerrainTransform, &pos, &dist))
+			{
+				if (nearest >= dist)
+				{
+					nearest = dist;
+					tObjectinfo.position = pos;
+				}
+			}
+		}	
+
+		if (nearest == 99999.f)
+			return;
+
+		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)tObjectinfo.type1, (OBJID)tObjectinfo.type2, tObjectinfo.position);
+
+		vecMonsterInfos.push_back(tObjectinfo);
 	}
 }
 

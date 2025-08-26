@@ -34,7 +34,9 @@ public:
     virtual _int Perception(const _float& fTimeDelta);                               //인지하는 함수 -> 몬스터가 어떤 행동을 할지 상태를 지정해주는 함수
         virtual _bool Check_Dead();                                                             // 죽었는가?
         virtual _bool Check_Target();                                                           //시야에 플레이어가 있는지 확인하는 함수
+        virtual _bool Check_Shooting_Sound();                                                           //시야에 플레이어가 있는지 확인하는 함수
         virtual void Check_Hit(const _float& fTimeDelta);                                                                //맞았는가?
+        virtual void Calc_Hp();
         virtual _bool Check_Attack(const _float& fTimeDelta);
 
     virtual void  Action(const _float& fTimeDelta, _int _Thought);          //행동하는 함수
@@ -64,6 +66,9 @@ public:
 
    //Setting Function
    virtual HRESULT     Add_Component();
+
+public:
+    const _vec3 Get_MoveLook()const { return m_vMoveLook; };
 
 protected:
     Engine::CCalculator*            m_pCalculatorCom;
@@ -108,6 +113,9 @@ protected:
     _bool m_isNormalDead = false;                  //그냥 죽었는가?
     _bool m_isGibbingDead = false;                 //폭사했는가?
 
+    // 적 처리 카운트 플래그 추가(08/24 김홍인)
+    _bool m_bCountedDeath = false;
+
     //Decision Variable
 
     //기능 Function Variable
@@ -117,14 +125,23 @@ protected:
     _uint m_iNorDeadPlus = 0;
 
     _bool m_isPinky = FALSE;
+    _bool m_isShoot = FALSE;
 
     OBJPROTOTYPE m_iMonsterType = OBJPROTOTYPE::OBJPROTOTYPE_END;
 
     _float m_fTargetAngle = 0.f;
     _float m_fCurAngle = 1.f;
 
-public:
+    CGameObject* m_pAttackTarget = nullptr; // nullptr 이면 Player
 
+    _int m_iPreHp = m_iGameHp;
+
+    // --- 드랍 1회만 실행되도록 하는 가드 ---
+    _bool m_bDropDone = false;
+public:
+    CGameObject* Get_AttackTarget() const { return m_pAttackTarget; }
+
+    void Set_AttackTarget(CGameObject* pTarget) { m_pAttackTarget = pTarget; }
 
 protected:
     virtual void Free();

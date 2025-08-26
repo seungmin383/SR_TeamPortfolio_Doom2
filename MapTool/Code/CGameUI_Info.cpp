@@ -2,6 +2,7 @@
 #include "CGameUI_Info.h"
 #include "CManagement.h"
 #include "CRenderer.h"
+#include "CFontManager.h"
 
 CGameUI_Info::CGameUI_Info(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev), m_pCamera(nullptr), m_iNum(0)
@@ -45,6 +46,10 @@ HRESULT CGameUI_Info::Ready_GameObject()
 	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 	m_pTransformCom->Set_Scale(vScale);
 
+	// 키 표시용 폰트 준비 (필요 시 이름/크기 조정)
+	Engine::CFontManager::GetInstance()->Ready_Font(
+		m_pGraphicDev, L"KeyFont", L"Arial", 16, 24, 700
+	);
 	return S_OK;
 }
 
@@ -108,6 +113,36 @@ void CGameUI_Info::Render_GameObject(const _float& fTimeDelta)
 
 	vPos = { -300.f, -WINCY * 0.5f + vScale.y + 15.f, 0.f };
 
+	// 전역 플래그를 보고 키 보유 상태를 HUD에 표시
+	if (Engine::CManagement::GetInstance()->Is_KeyOwned())
+	{
+		if (m_pKeyTextureCom) {
+			// 우상단에 32x32 아이콘 표시 (필요시 크기/좌표 튜닝)
+			_vec3 kScale = { 16.f, 16.f, 1.f };
+			_vec3 kPos = { (WINCX * 0.5f - 400.f), -WINCY * 0.5f + 28.f, 0.f };
+			m_pTransformCom->Set_Pos(kPos.x, kPos.y, 0.f);
+			m_pTransformCom->Set_Scale(kScale);
+			m_pTransformCom->Update_Component(0.f);
+			_matrix matWorld = *m_pTransformCom->Get_World();
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
+
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+			m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+			m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+			m_pKeyTextureCom->Set_Texture();
+			m_pBufferCom->Render_Buffer();
+
+		}
+		else {
+			// (대체) 폰트 텍스트로라도 노출
+			_vec2 pos = { WINCX * 0.5f - 120.f, -WINCY * 0.5f + 40.f };
+			Engine::CFontManager::GetInstance()->Render_Font(
+				L"KeyFont", L"KEY", &pos, D3DXCOLOR(1.f, 1.f, 0.f, 1.f));
+		}
+
+	}
+
 	Render_Number(m_pCamera->Get_Hp(), -450.f, -WINCY * 0.5f + vScale.y + 60.f, 30.f, 30.f / (15.f / 16.f));
 	Render_Number(m_pCamera->Get_Armor(), 150.f, -WINCY * 0.5f + vScale.y + 60.f, 30.f, 30.f / (15.f / 16.f));
 
@@ -119,24 +154,6 @@ void CGameUI_Info::Render_GameObject(const _float& fTimeDelta)
 	// 6. 렌더링 상태를 원래대로 복원합니다.                                                                                  
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-
-	
-
-	//_tchar szHp[128] = L"";
-	//_tchar szArmor[128] = L"";
-	////_tchar szClip[128] = L"";
-
-	//swprintf_s(szHp, L"%d", m_pCamera->Get_Hp());
-	//swprintf_s(szArmor, L"%d", m_pCamera->Get_Armor());
-	////swprintf_s(szClip, L"%d", m_pCamera->Get_Clip());
-
-	//_vec2 vPos1{ 380.f, 800.f };
-	//_vec2 vPos2{ 1000.f, 800.f };
-	////_vec2 vPos3{ 1470.f, 776.f };
-
-	//CFontManager::GetInstance()->Render_Font(L"Font_Default", szHp, &vPos1, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
-	//CFontManager::GetInstance()->Render_Font(L"Font_Default", szArmor, &vPos2, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
-	////CFontManager::GetInstance()->Render_Font(L"Font_Default", szClip, &vPos3, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 }
 
 void CGameUI_Info::Render_Number(int number, float baseX, float baseY, float scaleX, float scaleY)
@@ -212,6 +229,13 @@ HRESULT CGameUI_Info::Add_Component()
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
 
+	pComponent = m_pKeyTextureCom = dynamic_cast<Engine::CTexture*>
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_UI_Key"));
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_mapComponent[ID_STATIC].insert({ L"Com_KeyTexture", pComponent });
+
 	// Calculator
 	pComponent = m_pCalculatorCom = dynamic_cast<Engine::CCalculator*>
 		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Calculator"));
@@ -219,13 +243,6 @@ HRESULT CGameUI_Info::Add_Component()
 		return E_FAIL;
 
 	m_mapComponent[ID_STATIC].insert({ L"Com_Calculator", pComponent });
-
-	/*pComponent = m_pColliderCom = dynamic_cast<Engine::CCollider*>
-	(CPrototypeManager::GetInstance()->Clone_Prototype(L"Proto_Collider"));
-if (nullptr == pComponent)
-	return E_FAIL;
-
-m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });*/
 
 	return S_OK;
 }

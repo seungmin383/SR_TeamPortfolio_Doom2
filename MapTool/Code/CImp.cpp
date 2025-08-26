@@ -5,6 +5,7 @@
 #include "CManagement.h"
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
+#include "CBullet.h"
 
 
 CImp::CImp(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -26,14 +27,6 @@ HRESULT CImp::Ready_GameObject()
 	//m_iMonsterType = OBJPROTOTYPE::ENEMY_IMP;
 	CMonsterBase::Ready_GameObject();
 
-	
-	/*();*/
-
-	FILE* fp;
-	freopen_s(&fp, "CONOUT$", "w", stdout);
-	freopen_s(&fp, "CONOUT$", "w", stderr);
-
-
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
@@ -41,9 +34,9 @@ HRESULT CImp::Ready_GameObject()
 
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
-	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.f, 0.f),
+	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.5f, 0.f),
 		COLLAYERID::COL_ENEMY,
-		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT);
+		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT | COL_BULLET);
 
 #pragma region ANIM_SETTING
 
@@ -155,8 +148,28 @@ void CImp::LateUpdate_GameObject(const _float& fTimeDelta)
 
 void CImp::Render_GameObject(const _float& fTimeDelta)
 {
-	cout << "임프 애니메이션 스테이트:" << m_eCurAnimState << endl;
 	CMonsterBase::Render_GameObject(fTimeDelta);
+}
+
+void CImp::Attack(const _float fTimeDelta)
+{
+	m_isShoot = TRUE;
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	CGameObject* tmp = nullptr;
+
+	if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_IMP_BULLET, OBJID::OBJ_BULLET, vPos, this, tmp)))
+	{
+		int a = 0;
+	}
+	if (tmp == nullptr)
+		return;
+
+	tmp->Set_Dead(FALSE);
+	tmp->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+	dynamic_cast<CBullet*>(tmp)->Set_InitDir(m_vMoveLook);
+
+
 }
 
 HRESULT CImp::Add_Component()
