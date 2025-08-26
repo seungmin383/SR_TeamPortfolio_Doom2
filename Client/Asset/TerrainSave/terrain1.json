@@ -45068,10 +45068,10 @@
                 "z": 87.99998474121094
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
-            "type": 0,
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 7,
-            "vertexInterval": 0.0,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -45153,10 +45153,10 @@
                 "z": 88.29998779296875
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
-            "type": 0,
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 6,
-            "vertexInterval": 0.0,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -45228,10 +45228,10 @@
                 "z": 88.59999084472656
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
-            "type": 0,
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 5,
-            "vertexInterval": 0.0,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -45293,7 +45293,7 @@
                 "z": 88.89999389648438
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
-            "type": 0,
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 4,
             "vertexInterval": 1.0,
@@ -45348,7 +45348,7 @@
                 "z": 89.19999694824219
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
-            "type": 0,
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 3,
             "vertexInterval": 1.0,
@@ -45393,7 +45393,7 @@
                 "z": 89.5
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
-            "type": 0,
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
             "vertexInterval": 1.0,
@@ -45428,7 +45428,7 @@
                 "z": 89.5
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
-            "type": 0,
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
             "vertexInterval": 1.0,
@@ -45463,7 +45463,7 @@
                 "z": 89.19999694824219
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
-            "type": 0,
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 3,
             "vertexInterval": 1.0,
@@ -45508,7 +45508,7 @@
                 "z": 88.89999389648438
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
-            "type": 0,
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 4,
             "vertexInterval": 1.0,
@@ -45563,7 +45563,7 @@
                 "z": 88.59999084472656
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
-            "type": 0,
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 5,
             "vertexInterval": 1.0,
@@ -45628,7 +45628,7 @@
                 "z": 88.29998779296875
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
-            "type": 0,
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 6,
             "vertexInterval": 1.0,
