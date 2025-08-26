@@ -126,6 +126,7 @@ bool CWeaponManager::Fire_Weapon()
 
 void CWeaponManager::ResetOnSceneChange()
 {
+	// 현재 이 코드로 Reset을 하면 누수가 발생(?)
 	//m_pCurWeapon = nullptr;       // 현재 무기 포인터 무효화
 	//m_mapWeapon.clear();                // 인벤토리 컨테이너 비우기(벡터/맵 등 실제 멤버명에 맞게)
 	// 필요하다면 탄약/상태도 초기화

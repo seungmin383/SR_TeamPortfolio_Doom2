@@ -193,7 +193,6 @@ void CBarrelExplosive::OnCollisionEnter(CCollider* _pOther)
 
 	const auto layer = _pOther->Get_ColLayer();
 
-	// 레이의 발사 주체: 플레이어 카메라의 콜라이더만 인정
 	if (layer & COL_BULLET)
 	{
 		sprintf_s(buf, "[Barrel] OnCollisionEnter layer=0x%08X\n",
