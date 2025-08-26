@@ -34,8 +34,6 @@ HRESULT CMainMenu::Ready_Scene()
 
 _int CMainMenu::Update_Scene(const _float& fTimeDelta)
 {
-	m_inputLock = max(0.f, m_inputLock - fTimeDelta);
-
 	_int iExit = CScene::Update_Scene(fTimeDelta);
 
 	UpdateHitRects();
@@ -51,7 +49,7 @@ _int CMainMenu::Update_Scene(const _float& fTimeDelta)
 
 	// 마우스가 버튼 위에 있으면 포커스를 동기화(자연스러운 UX)
 	if (m_hover != -1) m_focus = m_hover;
-	
+
 	// m_hover == 0 이면 메뉴 왼쪽에 해골 이미지 출력
 
 	// 클릭 처리(마우스)
@@ -181,10 +179,10 @@ void CMainMenu::UpdateHitRects()
 void CMainMenu::HandleClick(_float fTimeDelta)
 {
 	// 호버 업데이트
-	const POINT pt = GetMouseClientPos();
-	m_hover = -1;
-	if (PtInRect(&m_rcStart, pt)) m_hover = 0;
-	else if (PtInRect(&m_rcExit, pt)) m_hover = 1;
+	//const POINT pt = GetMouseClientPos();
+	//m_hover = -1;
+	//if (PtInRect(&m_rcStart, pt)) m_hover = 0;
+	//else if (PtInRect(&m_rcExit, pt)) m_hover = 1;
 
 	// 왼클릭 엣지 감지
 	const bool lDown = IsLButtonDown();
@@ -197,23 +195,31 @@ void CMainMenu::HandleClick(_float fTimeDelta)
 
 void CMainMenu::HandleKeyboard(_float fTimeDelta)
 {
-	// 간단한 디바운스
-	m_inputLock = max(0.f, m_inputLock - fTimeDelta);
-	auto pressOnce = [&](int vk)->bool {
-		if (GetAsyncKeyState(vk) & 0x8000) {
-			if (m_inputLock <= 0.f) { m_inputLock = 0.15f; return true; }
-		}
-		return false;
-		};
+	const bool upNow = (GetAsyncKeyState(VK_UP) & 0x8000) != 0;
+	const bool downNow = (GetAsyncKeyState(VK_DOWN) & 0x8000) != 0;
+	const bool wNow = (GetAsyncKeyState('W') & 0x8000) != 0;
+	const bool sNow = (GetAsyncKeyState('S') & 0x8000) != 0;
+	const bool enterNow = (GetAsyncKeyState(VK_RETURN) & 0x8000) != 0;
+	const bool spaceNow = (GetAsyncKeyState(VK_SPACE) & 0x8000) != 0;
+	const bool escNow = (GetAsyncKeyState(VK_ESCAPE) & 0x8000) != 0;
 
-	// ↑ / ↓ 로 포커스 이동
-	if (pressOnce(VK_UP)) { m_focus = (m_focus + 1 + 1) % 2; PlaySfx_Move(); }   // 0/1 전환
-	if (pressOnce(VK_DOWN)) { m_focus = (m_focus + 1) % 2;     PlaySfx_Move(); }
+	// "눌리는 순간"만 1회 반응
+	const bool firedUp = (!m_keyPrev.up && upNow) || (!m_keyPrev.w && wNow);
+	const bool firedDown = (!m_keyPrev.down && downNow) || (!m_keyPrev.s && sNow);
+	const bool firedEnter = (!m_keyPrev.enter && enterNow) || (!m_keyPrev.space && spaceNow);
 
-	// Enter/Space 로 확정
-	if (pressOnce(VK_RETURN) || pressOnce(VK_SPACE)) {
-		ActivateFocused();
-	}
+	// 상태 저장
+	m_keyPrev.up = upNow;
+	m_keyPrev.down = downNow;
+	m_keyPrev.w = wNow;
+	m_keyPrev.s = sNow;
+	m_keyPrev.enter = enterNow;
+	m_keyPrev.space = spaceNow;
+	m_keyPrev.esc = escNow;
+
+	if (firedUp) { m_focus = (m_focus + 1 + 1) % 2; PlaySfx_Move(); } // 0/1 토글
+	if (firedDown) { m_focus = (m_focus + 1) % 2;     PlaySfx_Move(); }
+	if (firedEnter) { ActivateFocused(); }
 }
 
 void CMainMenu::ActivateFocused()

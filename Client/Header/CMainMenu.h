@@ -60,7 +60,7 @@ private:
     D3DXVECTOR2         m_sizeSkull = { 0.f, 0.f };
 
     struct KeyPrev {
-        bool up = false, down = false, w = false, s = false, enter = false, esc = false;
+        bool up = false, down = false, w = false, s = false, enter = false, space = false, esc = false;
     } m_keyPrev;
 
     LPD3DXSPRITE        m_pUISprite = nullptr;
