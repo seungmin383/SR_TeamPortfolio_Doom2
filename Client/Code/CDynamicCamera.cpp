@@ -20,9 +20,9 @@ CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCamera(pGraphicDev),
 	m_bFix(false), m_bCheck(false), m_bTrigger(false), m_bIsMoving(false), m_bIsGrounded(false),
 	m_iArmor(0),
-	m_fSpeed(0.f), m_fAngle(0.f), m_fAngleSpeed(0.f),
+	m_fSpeed(0.f), m_fAngle(0.f), m_fAngleSpeed(0.f), m_fFallSpeed(0.f), m_fDist(0.f),
 	m_eState(IDLE),
-	m_vDist(_vec3(0.f, 0.f, 0.f))
+	m_vMoveDist(_vec3(0.f, 0.f, 0.f))
 {
 }
 
@@ -53,6 +53,8 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	m_iArmor = 45;
 
 	m_fSpeed = 20.f;
+	m_fSpeed = 30.f;
+	m_fFallSpeed = 5.f;
 	m_fAngle = 0.f;
 	m_fAngleSpeed = 10.f;
 
@@ -97,6 +99,7 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 
 	Key_Input(fTimeDelta);
 	Mouse_Input();
+	Apply_Gravity(fTimeDelta);
 
 	m_pColliderCom->Late_Update();
 
@@ -105,6 +108,11 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 		Mouse_Move();
 		Mouse_Fix();
 	}
+
+	wchar_t buf[64];
+	swprintf(buf, 64, L"Pos Y : %f, velocity Y : %f\n", m_vEye.y, m_vVelocity.y);
+	OutputDebugString(buf);
+
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_NONALPHA, this);
 }
@@ -122,15 +130,15 @@ void CDynamicCamera::OnCollision(CCollider* _pOther)
 
 		_vec3 curPos;
 		m_pTransformCom->Get_Pos(&curPos);
-		m_pTransformCom->Set_Pos(curPos.x + (-m_vDist.x), curPos.y, curPos.z + (-m_vDist.z));
+		m_pTransformCom->Set_Pos(curPos.x + (-m_vMoveDist.x), curPos.y, curPos.z + (-m_vMoveDist.z));
 
-		m_vEye.x += (-m_vDist.x);
-		m_vEye.z += (-m_vDist.z);
+		m_vEye.x += (-m_vMoveDist.x);
+		m_vEye.z += (-m_vMoveDist.z);
 
-		m_vAt.x += (-m_vDist.x);
-		m_vAt.z += (-m_vDist.z);
+		m_vAt.x += (-m_vMoveDist.x);
+		m_vAt.z += (-m_vMoveDist.z);
 
-		m_vDist = _vec3(0.f, 0.f, 0.f);
+		m_vMoveDist = _vec3(0.f, 0.f, 0.f);
 	}
 }
 
@@ -142,16 +150,16 @@ void CDynamicCamera::OnCollisionEnter(CCollider* _pOther)
 
 		_vec3 curPos;
 		m_pTransformCom->Get_Pos(&curPos);
-		m_pTransformCom->Set_Pos(curPos.x + (-m_vDist.x), curPos.y, curPos.z + (-m_vDist.z));
+		m_pTransformCom->Set_Pos(curPos.x + (-m_vMoveDist.x), curPos.y, curPos.z + (-m_vMoveDist.z));
 
-		m_vEye.x += (-m_vDist.x);
-		m_vEye.z += (-m_vDist.z);
+		m_vEye.x += (-m_vMoveDist.x);
+		m_vEye.z += (-m_vMoveDist.z);
 
-		m_vAt.x += (-m_vDist.x);
-		m_vAt.z += (-m_vDist.z);
+		m_vAt.x += (-m_vMoveDist.x);
+		m_vAt.z += (-m_vMoveDist.z);
 
 
-		m_vDist = _vec3(0.f, 0.f, 0.f);
+		m_vMoveDist = _vec3(0.f, 0.f, 0.f);
 	}
 }
 
@@ -187,10 +195,7 @@ HRESULT CDynamicCamera::Add_Component()
 
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
 
-	OutputDebugStringA("[Stage] add OBJ_PLAYERCAMERA: DynamicCamera\n");
-
 	return S_OK;
-
 }
 
 void CDynamicCamera::Key_Input(const _float& fTimeDelta)
@@ -207,7 +212,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		_vec3	vLength = *D3DXVec3Normalize(&vLook, &vLook) * fTimeDelta * m_fSpeed;
 
-		m_vDist = vLength;
+		m_vMoveDist = vLength;
 
 		m_vEye.x += vLength.x;
 		m_vEye.z += vLength.z;
@@ -225,7 +230,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		_vec3	vLength = *D3DXVec3Normalize(&vLook, &vLook) * fTimeDelta * m_fSpeed;
 
-		m_vDist = -vLength;
+		m_vMoveDist = -vLength;
 
 		m_vEye.x -= vLength.x;
 		m_vEye.z -= vLength.z;
@@ -243,7 +248,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		_vec3	vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
 
-		m_vDist = vLength;
+		m_vMoveDist = vLength;
 
 		m_vEye.x += vLength.x;
 		m_vEye.z += vLength.z;
@@ -261,7 +266,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		_vec3	vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
 
-		m_vDist = -vLength;
+		m_vMoveDist = -vLength;
 
 		m_vEye.x -= vLength.x;
 		m_vEye.z -= vLength.z;
@@ -401,6 +406,8 @@ void CDynamicCamera::Set_OnTerrain()
 		{
 			if (highest < onPosition.y)
 				highest = onPosition.y;
+
+			m_bIsGrounded = true;
 		}
 	}
 
@@ -416,6 +423,9 @@ void CDynamicCamera::Set_OnTerrain()
 
 void CDynamicCamera::Update_State()
 {
+	if (m_fDist > 3.f)
+		m_bIsGrounded = false;
+
 	if (m_iGameHp >= 80)
 		m_eState = IDLE;
 	else if (m_iGameHp <= 79 && m_iGameHp >= 60)
@@ -440,6 +450,22 @@ void CDynamicCamera::Camera_Bobbing(const _float& fTimeDelta)
 	_float fBobAngle = sinf(m_fAngle) * 0.2f;
 	m_vEye.y += fBobAngle;
 	m_vAt.y += fBobAngle;
+}
+
+void CDynamicCamera::Apply_Gravity(const _float& fTimeDelta)
+{
+	if (!m_bIsGrounded)
+	{
+		m_vVelocity.y += m_fFallSpeed * GRAVITY * fTimeDelta;
+		m_vEye.y -= m_vVelocity.y;
+		m_vAt.y -= m_vVelocity.y;
+	}
+	else
+		m_vVelocity.y = 0.f;
+
+	if (m_vVelocity.y >= 200.f)
+		m_vVelocity.y = 200.f;
+
 }
 
 CDynamicCamera* CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)
