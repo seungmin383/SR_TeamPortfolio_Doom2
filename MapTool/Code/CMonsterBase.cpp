@@ -193,6 +193,7 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 	if (m_isAtk && m_isDetect_Player)
 		m_isDetected_Player = TRUE;
 
+	int a = 0;
 
 	//ав╬З╢баЖ
 	if (m_isDead)
