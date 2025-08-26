@@ -807,22 +807,22 @@ void CControlPanel::LoadItem(int sceneNumber)
 
 void CControlPanel::SaveMonster(fs::path path, string filename)
 {
-	CFileManager::GetInstance()->SaveItem(path, filename, vecMonsterInfos);
+	CFileManager::GetInstance()->SaveMonster(path, filename, vecMonsterInfos);
 
 	CFileManager::GetInstance()->MoveDir(prevPath);
 }
 
 void CControlPanel::LoadMonster(int sceneNumber)
 {
-	//vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadMonster(sceneNumber);;
+	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadMonster(sceneNumber);;
 
-	//for (auto monster : loadData)
-	//	CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
+	for (auto monster : loadData)
+		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
 
-	//for (auto monster : loadData)
-	//	vecMonsterInfos.push_back(monster);
+	for (auto monster : loadData)
+		vecMonsterInfos.push_back(monster);
 
-	//CFileManager::GetInstance()->MoveDir(prevPath);
+	CFileManager::GetInstance()->MoveDir(prevPath);
 }
 
 void CControlPanel::SetObjInfo()
