@@ -25,11 +25,11 @@ CSpiderMastermind::~CSpiderMastermind()
 
 HRESULT CSpiderMastermind::Ready_GameObject()
 {
-	AllocConsole();
+	//AllocConsole();
 
-	FILE* fp;
-	freopen_s(&fp, "CONOUT$", "w", stdout);
-	freopen_s(&fp, "CONOUT$", "w", stderr);
+	//FILE* fp;
+	//freopen_s(&fp, "CONOUT$", "w", stdout);
+	//freopen_s(&fp, "CONOUT$", "w", stderr);
 
 
 	if (FAILED(Add_Component()))
@@ -220,10 +220,10 @@ void CSpiderMastermind::Attack(const _float fTimeDelta)
 		Pattern2(fTimeDelta);
 		break;
 	case 2:
-		Pattern3(fTimeDelta);
+		Pattern1(fTimeDelta);
 		break;
 	case 3:
-		Pattern4(fTimeDelta);
+		Pattern2(fTimeDelta);
 		break;
 	}
 }

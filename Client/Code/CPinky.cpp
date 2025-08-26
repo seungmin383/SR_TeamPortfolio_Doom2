@@ -99,6 +99,19 @@ HRESULT CPinky::Ready_GameObject()
 		false
 	);
 
+	//피격
+	m_pAnimCom->Add_Animation(
+		HIT,
+		m_pTextureCom,
+		m_pBufferCom,
+		4,
+		1,
+		0,
+		3,
+		0.2f,
+		true,
+		false
+	);
 #pragma endregion
 
 #pragma region VARIABLE_SETTING
@@ -106,7 +119,7 @@ HRESULT CPinky::Ready_GameObject()
 	m_fSightDistance = 50.f;
 
 	m_fAtkSpeed = 4.f;
-	m_iGameHp = 10;
+	m_iGameHp = 100;
 	m_iAtkDmg = 3;
 
 	m_fAtkDelay = 0.f;
@@ -118,7 +131,7 @@ HRESULT CPinky::Ready_GameObject()
 
 	_vec3 vSize{ 2.f, 2.f, 2.f };
 	m_pTransformCom->Set_Scale(vSize);
-
+	m_isHit = FALSE;
 	m_isPinky = TRUE;
 	//초기 룩으로 세팅해주고
 	m_pTransformCom->Get_Info(INFO_LOOK, &m_vMoveLook);
