@@ -3,8 +3,11 @@
 #include "CBackGround.h"
 #include "CManagement.h"
 #include "CFontManager.h"
+#include "CTextureManager.h"
 #include "CLayer.h"
 #include "Define.h"
+
+
 
 CMainMenu::CMainMenu(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev), m_pLoading(nullptr), m_iFrame(1)
@@ -118,10 +121,10 @@ void CMainMenu::Render_Scene(const _float& fTimeDelta)
 	fm->Render_Font(L"ResultTitle", L"EXIT", &posExit, colExit);
 
 	// 조작 힌트(옵션)
-	_vec2 hintPos{ cx - 220.f, (float)rc.bottom - 60.f };
-	fm->Render_Font(L"ResultTitle",
-		L"↑/↓ 또는 W/S : 이동   Enter : 선택   Esc : 종료",
-		&hintPos, D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.f));
+	//_vec2 hintPos{ cx - 220.f, (float)rc.bottom - 60.f };
+	//fm->Render_Font(L"ResultTitle",
+	//	L"↑/↓ 또는 W/S : 이동   Enter : 선택   Esc : 종료",
+	//	&hintPos, D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.f));
 
 	// ===== 4) 렌더상태 복원 =====
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, oldAlpha);
@@ -193,7 +196,8 @@ void CMainMenu::HandleClick()
 
 	POINT pt = GetMouseClientPos();
 	if (PtInRect(&m_rcStart, pt)) { m_focus = 0; PlaySfx_Select(); CManagement::GetInstance()->Change_Scene(SCENEID::STAGE1); }
-	else if (PtInRect(&m_rcExit, pt)) { m_focus = 1; PlaySfx_Select(); PostQuitMessage(0); }
+	else if (PtInRect(&m_rcExit, pt)) { m_focus = 1; PlaySfx_Select(); CManagement::GetInstance()->RequestQuit();
+	}
 }
 
 void CMainMenu::HandleKeyboard()
@@ -207,7 +211,7 @@ void CMainMenu::HandleKeyboard()
 	const bool wNow = now('W');
 	const bool sNow = now('S');
 	const bool enterNow = now(VK_RETURN);
-	const bool escNow = now(VK_ESCAPE);
+	const bool escNow = now('P');
 
 	const bool upEdge = upNow && !m_keyPrev.up;    m_keyPrev.up = upNow;
 	const bool downEdge = downNow && !m_keyPrev.down;  m_keyPrev.down = downNow;
@@ -220,7 +224,8 @@ void CMainMenu::HandleKeyboard()
 	if (upEdge || wEdge) { m_focus = (m_focus - 1 + count) % count; PlaySfx_Move(); }
 	if (downEdge || sEdge) { m_focus = (m_focus + 1) % count;         PlaySfx_Move(); }
 	if (enterEdge) { PlaySfx_Select(); ActivateFocused(); }
-	if (escEdge) { PostQuitMessage(0); }
+	if (escEdge) { CManagement::GetInstance()->RequestQuit();
+	}
 }
 
 void CMainMenu::ActivateFocused()
@@ -289,7 +294,7 @@ HRESULT CMainMenu::Ready_Prototype()
 
 CMainMenu* CMainMenu::Standby(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-    return new CMainMenu(pGraphicDev);
+	return new CMainMenu(pGraphicDev);
 }
 
 CMainMenu* CMainMenu::Create()

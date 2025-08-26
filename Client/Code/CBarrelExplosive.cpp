@@ -4,6 +4,7 @@
 #include "CManagement.h"
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
+#include "CMonsterBase.h"
 #include "CTerrainSector.h"
 
 CBarrelExplosive::CBarrelExplosive(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -183,9 +184,9 @@ void CBarrelExplosive::OnCollisionEnter(CCollider* _pOther)
 
 	if (!_pOther) return;
 
-	sprintf_s(buf, "[Barrel] OnCollisionEnter layer=0x%08X\n",
-		(unsigned)_pOther->Get_ColLayer());
-	OutputDebugStringA(buf);
+	//sprintf_s(buf, "[Barrel] OnCollisionEnter layer=0x%08X\n",
+	//	(unsigned)_pOther->Get_ColLayer());
+	//OutputDebugStringA(buf);
 
 	// 폭발 중에는 추가 히트 무시
 	if (m_state != State::Idle) return;
@@ -257,7 +258,7 @@ void CBarrelExplosive::ApplyExplosionDamage()
 	Engine::CScene* pScene = Engine::CManagement::GetInstance()->Get_Scene();
 	if (!pScene) return;
 
-	// 1) 몬스터에 피해 (기존 로직 그대로)
+	// 1) 몬스터에 피해
 	{
 		const auto& monsters = pScene->Get_TotalGameObject(OBJID::OBJ_ENEMY);
 		for (auto* obj : monsters)
@@ -269,10 +270,18 @@ void CBarrelExplosive::ApplyExplosionDamage()
 
 			_vec3 pos; tr->Get_Pos(&pos);
 			_vec3 d = pos - myPos;
-			if (D3DXVec3LengthSq(&d) <= R2)
+			_float dist2 = D3DXVec3LengthSq(&d);
+			if (dist2 <= R2)
 			{
-				// TODO: 실제 데미지 인터페이스 연결
-				// 예) if (auto* ch = dynamic_cast<Engine::CCharacter*>(obj)) ch->ReceiveDamage(60, this);
+				if (auto* pMonster = dynamic_cast<CMonsterBase*>(obj))
+				{
+					_float dist = sqrtf(dist2);
+
+					// 거리에 따라 데미지 감쇠
+					_float t = max(0.f, 1.f - dist / R);	// 0 ~ 1
+					_int damage = max(1, int(100.f * t));	// 최대 데미지 100
+					pMonster->Take_Dmg(damage);
+				}
 			}
 		}
 	}

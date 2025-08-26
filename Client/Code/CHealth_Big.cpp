@@ -175,7 +175,7 @@ void CHealth_Big::Set_OnTerrain()
 	if (highest == -999.f)
 		highest = 0.f;
 
-	_float deltaHeight = (highest + 3.f) - m_vEye.y;
+	_float deltaHeight = (highest + 4.f) - m_vEye.y;
 	m_vEye.y += deltaHeight;
 	m_vAt.y += deltaHeight;
 }
