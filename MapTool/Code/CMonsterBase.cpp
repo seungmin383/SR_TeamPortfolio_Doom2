@@ -6,6 +6,7 @@
 #include "CWeaponManager.h"
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
+#include "CTerrainSector.h"
 #include <iostream>
 #include "CStatsManager.h"
 
@@ -604,16 +605,23 @@ void CMonsterBase::Monster_Fire()
 
 void CMonsterBase::Set_OnTerrain()
 {
-	_vec3 pos;
-	m_pTransformCom->Get_Pos(&pos);
+	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
+	{
+		_vec3 pos;
+		m_pTransformCom->Get_Pos(&pos);
 
-	Engine::CTerrainTexSector* pTerrainBufferCom =
-		static_cast<CTerrainTexSector*>
-		(CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
+		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
+		auto bufferCom = dterrain->Get_BufferCom();
+		auto transformCom = dterrain->Get_Transform();
 
-	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
+		_vec3 onPosition{ 0.f, 0.f, 0.f };
+		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
+		{
 
-	m_pTransformCom->Set_Pos(pos.x, height + 1.f, pos.z);
+			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 1, pos.z);
+			break;
+		}
+	}
 }
 
 void CMonsterBase::Movement(const _float fTimeDelta)

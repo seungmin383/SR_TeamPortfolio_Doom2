@@ -23,11 +23,11 @@ CPinky::~CPinky()
 
 HRESULT CPinky::Ready_GameObject()
 {
-	AllocConsole();
+	//AllocConsole();
 
-	FILE* fp;
-	freopen_s(&fp, "CONOUT$", "w", stdout);
-	freopen_s(&fp, "CONOUT$", "w", stderr);
+	//FILE* fp;
+	//freopen_s(&fp, "CONOUT$", "w", stdout);
+	//freopen_s(&fp, "CONOUT$", "w", stderr);
 
 
 	if (FAILED(Add_Component()))
