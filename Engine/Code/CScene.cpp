@@ -83,6 +83,13 @@ vector<CGameObject*> CScene::Get_Wall()
 	return (*layer).second->Get_ObjectGroup(OBJID::OBJ_WALL);
 }
 
+vector<CGameObject*> CScene::Get_Ceil()
+{
+	auto layer = m_mapLayer.find(LAYERID::LAYER_ENVIRONMENT);
+
+	return (*layer).second->Get_ObjectGroup(OBJID::OBJ_CEIL);
+}
+
 HRESULT CScene::Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, _int iCnt)
 {
 	auto iter = m_mapLayer.find(LAYERID::LAYER_GAMELOGIC);

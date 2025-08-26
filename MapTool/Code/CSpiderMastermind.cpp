@@ -175,16 +175,11 @@ HRESULT CSpiderMastermind::Add_Component()
 
 void CSpiderMastermind::Set_OnTerrain()
 {
+	__super::Set_OnTerrain();
 	_vec3 pos;
 	m_pTransformCom->Get_Pos(&pos);
 
-	Engine::CTerrainTexSector* pTerrainBufferCom =
-		static_cast<CTerrainTexSector*>
-		(CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
-
-	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
-
-	m_pTransformCom->Set_Pos(pos.x, height + 10.f, pos.z);
+	m_pTransformCom->Set_Pos(pos.x, pos.y + 10.f, pos.z);
 }
 
 

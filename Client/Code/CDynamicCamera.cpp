@@ -403,19 +403,6 @@ void CDynamicCamera::Mouse_Fix()
 
 void CDynamicCamera::Set_OnTerrain()
 {
-	//// 지형의 버텍스 정보를 가져온다
-	//Engine::CTerrainTexSector* pTerrainBufferCom =
-	//	static_cast<CTerrainTexSector*>
-	//	(CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
-
-	//_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&m_vEye, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
-	//
-	//// 카메라의 높이 (m_vEye.y)가 변화할 때 마다 바라보는 목표(m_vAt.y)도 바뀌어야한다.
-	//// 카메라의 높이 변화량을 계산해서 변화량을 m_vEye, m_vAt 모두 더해줘야 시점이 유지된다.
-	//_float deltaHeight = (height + 3.f) - m_vEye.y;
-	//m_vEye.y += deltaHeight;
-	//m_vAt.y += deltaHeight;
-
 	// 소재혁 지형 변경 2025-08-26
 	// TODO:로딩 시 지형정보 들고있게 수정
 	// TODO:최적화

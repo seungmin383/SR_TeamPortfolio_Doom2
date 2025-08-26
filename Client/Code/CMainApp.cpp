@@ -327,6 +327,7 @@ void CMainApp::Free()
 	CTimerManager::GetInstance()->DestroyInstance();
 	CFrameManager::GetInstance()->DestroyInstance();
 	CDInputManager::GetInstance()->DestroyInstance();
+	CWeaponManager::GetInstance()->DestroyInstance();
 
 	m_pManagementClass->DestroyInstance();
 	m_pDeviceClass->DestroyInstance();

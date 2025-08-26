@@ -148,16 +148,11 @@ void CPinky::Render_GameObject(const _float& fTimeDelta)
 
 void CPinky::Set_OnTerrain()
 {
+	__super::Set_OnTerrain();
 	_vec3 pos;
 	m_pTransformCom->Get_Pos(&pos);
 
-	Engine::CTerrainTexSector* pTerrainBufferCom =
-		static_cast<CTerrainTexSector*>
-		(CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
-
-	_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
-
-	m_pTransformCom->Set_Pos(pos.x, height + 2.f, pos.z);
+	m_pTransformCom->Set_Pos(pos.x, pos.y + 2.f, pos.z);
 }
 
 HRESULT CPinky::Add_Component()

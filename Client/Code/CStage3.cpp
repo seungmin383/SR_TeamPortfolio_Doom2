@@ -83,27 +83,44 @@ void CStage3::Render_Scene(const _float& fTimeDelta)
 HRESULT CStage3::Load_PreSet()
 {
 	//지형 설치
-	TerrainModels tm = CFileManager::GetInstance()->LoadTerrain((_uint)SCENEID::STAGE2);
-
+	TerrainModels tm = CFileManager::GetInstance()->LoadTerrain((_uint)SCENEID::STAGE3);
+	OBJID objid;
 	for (auto m : tm.model)
 	{
+		switch (m.type)
+		{
+		case 0:
+			objid = OBJID::OBJ_TERRAIN;
+			break;
+		case 1:
+			objid = OBJID::OBJ_WALL;
+			break;
+		case 2:
+			objid = OBJID::OBJ_CEIL;
+			break;
+		default:
+			objid = OBJID::OBJ_TERRAIN;
+			break;
+		}
+
 		auto pObj = CObjectFactory::GetInstance()->Load_Terrain(m.idx,
 			m.vertexCountX,
 			m.vertexCountZ,
 			m.vertexInterval,
 			m.vertices,
 			m.strTextureTag,
-			m.pos);
+			m.pos,
+			objid);
 	}
 
 	//오브젝트 설치
-	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem((_uint)SCENEID::STAGE1);;
+	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem((_uint)SCENEID::STAGE3);;
 
 	for (auto item : loadData)
 		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, item.position);
 
 	//몬스터 설치
-	vector<GameObjectSpawnInfo> loadMonsterData = CFileManager::GetInstance()->LoadMonster((_uint)SCENEID::STAGE1);;
+	vector<GameObjectSpawnInfo> loadMonsterData = CFileManager::GetInstance()->LoadMonster((_uint)SCENEID::STAGE3);;
 
 	for (auto monster : loadMonsterData)
 		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);

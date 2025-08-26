@@ -144,16 +144,33 @@ HRESULT CStage::Load_PreSet()
 {
 	//지형 설치
 	TerrainModels tm = CFileManager::GetInstance()->LoadTerrain((_uint)SCENEID::STAGE1);
-
+	OBJID objid;
 	for (auto m : tm.model)
 	{
+		switch (m.type)
+		{
+		case 0:
+			objid = OBJID::OBJ_TERRAIN;
+			break;
+		case 1:
+			objid = OBJID::OBJ_WALL;
+			break;
+		case 2:
+			objid = OBJID::OBJ_CEIL;
+			break;
+		default:
+			objid = OBJID::OBJ_TERRAIN;
+			break;
+		}
+
 		auto pObj = CObjectFactory::GetInstance()->Load_Terrain(m.idx,
 			m.vertexCountX,
 			m.vertexCountZ,
 			m.vertexInterval,
 			m.vertices,
 			m.strTextureTag,
-			m.pos);
+			m.pos,
+			objid);
 	}
 
 	//오브젝트 설치
@@ -855,5 +872,4 @@ void CStage::RequestNextScene(SCENEID id)
 void CStage::Free()
 {
 	Engine::CScene::Free();
-	CWeaponManager::GetInstance()->DestroyInstance();
 }
