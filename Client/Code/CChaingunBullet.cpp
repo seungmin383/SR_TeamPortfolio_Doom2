@@ -31,7 +31,7 @@ HRESULT CChaingunBullet::Ready_GameObject()
 	m_pTransformCom->Get_Pos(&vPos);
 
 	// Collider Settings
-	_vec3 vColliderScale = { 0.1f, 0.1f, 0.1f };
+	_vec3 vColliderScale = { 0.15f, 0.15f, 0.15f };
 	_vec3 vOffset = { 0.f, 0.f ,0.f };
 
 	m_pColliderCom->Ready_CCollider(this, vPos, vColliderScale, vOffset, COLLAYERID::COL_BULLET,
@@ -46,7 +46,7 @@ HRESULT CChaingunBullet::Ready_GameObject()
 		m_bDead = false;
 		m_iDmg = 10;
 
-		_vec3 vScale = { 0.025f, 0.025f, 0.025f };
+		_vec3 vScale = { 0.03f, 0.03f, 0.03f };
 		m_pTransformCom->Set_Scale(vScale);
 	}
 
