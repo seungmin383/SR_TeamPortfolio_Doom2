@@ -18,9 +18,9 @@ _long CDynamicCamera::s_lMouseMoveX = 0L;
 
 CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCamera(pGraphicDev),
-	m_bFix(false), m_bCheck(false), m_bTrigger(false), m_bIsMoving(false), m_bIsGrounded(false),
+	m_bFix(false), m_bCheck(false), m_bTrigger(false), m_bIsMoving(false), m_bIsGrounded(true), m_bIsJumping(false),
 	m_iArmor(0),
-	m_fSpeed(0.f), m_fAngle(0.f), m_fAngleSpeed(0.f), m_fFallSpeed(0.f), m_fDist(0.f),
+	m_fSpeed(0.f), m_fAngle(0.f), m_fAngleSpeed(0.f), m_fFallSpeed(0.f), m_fDist(0.f), m_fJumpForce(0.f),
 	m_eState(IDLE),
 	m_vMoveDist(_vec3(0.f, 0.f, 0.f))
 {
@@ -53,8 +53,8 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	m_iArmor = 45;
 
 	m_fSpeed = 20.f;
-	m_fSpeed = 30.f;
-	m_fFallSpeed = 5.f;
+	m_fFallSpeed = 1.25f;
+	m_fJumpForce = 0.45f;
 	m_fAngle = 0.f;
 	m_fAngleSpeed = 10.f;
 
@@ -88,7 +88,6 @@ _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 	_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
 	
 	Update_State();
-	Set_OnTerrain();
 
 	return iExit;
 }
@@ -96,23 +95,22 @@ _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	Engine::CCamera::LateUpdate_GameObject(fTimeDelta);
-
+	
+	Apply_Gravity(fTimeDelta);
+	Set_OnTerrain();
 	Key_Input(fTimeDelta);
 	Mouse_Input();
-	Apply_Gravity(fTimeDelta);
 
+	// ì½œë¼ì´ë”ì™€ ìœ„ì¹˜ë¥¼ ì˜®ê²¨ì£¼ëŠ” ë¶€ë¶„
 	m_pColliderCom->Late_Update();
+	m_pTransformCom->Set_Pos(m_vEye.x, m_vEye.y, m_vEye.z);
 
+	// ë§ˆìš°ìŠ¤ ë¶€ë¶„
 	if (false == m_bFix)
 	{
 		Mouse_Move();
 		Mouse_Fix();
 	}
-
-	wchar_t buf[64];
-	swprintf(buf, 64, L"Pos Y : %f, velocity Y : %f\n", m_vEye.y, m_vVelocity.y);
-	OutputDebugString(buf);
-
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_NONALPHA, this);
 }
@@ -204,6 +202,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 	_matrix	matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, 0, &m_matView);
+#pragma region Moving Part
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_W) & 0x80)
 	{
@@ -277,11 +276,25 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		m_bIsMoving = true;
 	}
 
-	// ¿òÁ÷ÀÌ°í ÀÖ´Ù¸é Ä«¸Þ¶ó Èçµé¸² È¿°ú Àû¿ë
+#pragma endregion
+
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_SPACE) & 0x80)
+	{
+		if (m_bIsGrounded)
+		{
+			m_bIsJumping = true;
+			m_bIsGrounded = false;
+			m_vVelocity.y -= m_fJumpForce;
+		}
+		else
+			return;
+	}
+
+	// ì›€ì§ì´ê³  ìžˆë‹¤ë©´ ì¹´ë©”ë¼ í”ë“¤ë¦¼ íš¨ê³¼ ì ìš©
 	if (m_bIsMoving)
 		Camera_Bobbing(fTimeDelta);
 
-	// ¹«±â ±³Ã¼ °ü·Ã Å° ÀÔ·Â
+#pragma region	Weapon Change Part
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_1) & 0x80)
 	{
 		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::PISTOL);
@@ -306,10 +319,9 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 	{
 		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::BFG);
 	}
+#pragma endregion
 
-	//m_pTransformCom ¾÷µ¥ÀÌÆ® //collider µ¿±âÈ­ ¿ë
-	m_pTransformCom->Set_Pos(m_vEye.x, m_vEye.y, m_vEye.z);
-
+#pragma region Mouse Fix Part
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_TAB) & 0x80)
 	{
 		if (m_bCheck)
@@ -329,6 +341,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 	if (false == m_bFix)
 		return;
+#pragma endregion
 }
 
 void CDynamicCamera::Mouse_Input()
@@ -365,7 +378,7 @@ void CDynamicCamera::Mouse_Move()
 		m_vAt = m_vEye + vLook;
 	}
 
-	// ¸¶¿ì½º xÃà ÀÌµ¿ °ªÀ» ÀúÀå.(¸Å ÇÁ·¹ÀÓ¸¶´Ù ÃÖ½Å ¸¶¿ì½º ÀÌµ¿ °ªÀ» ¾îµð¼­µç È®ÀÎ °¡´É)
+	// ë§ˆìš°ìŠ¤ xì¶• ì´ë™ ê°’ì„ ì €ìž¥.(ë§¤ í”„ë ˆìž„ë§ˆë‹¤ ìµœì‹  ë§ˆìš°ìŠ¤ ì´ë™ ê°’ì„ ì–´ë””ì„œë“  í™•ì¸ ê°€ëŠ¥)
 	s_lMouseMoveX = CDInputManager::GetInstance()->Get_DIMouseMove(DIMS_X);
 	if (s_lMouseMoveX)
 	{
@@ -391,11 +404,13 @@ void CDynamicCamera::Mouse_Fix()
 
 void CDynamicCamera::Set_OnTerrain()
 {
-	// ¼ÒÀçÇõ ÁöÇü º¯°æ 2025-08-26
-	// TODO:·Îµù ½Ã ÁöÇüÁ¤º¸ µé°íÀÖ°Ô ¼öÁ¤
-	// TODO:ÃÖÀûÈ­
-	_float highest(-999.f);
+	// ì†Œìž¬í˜ ì§€í˜• ë³€ê²½ 2025-08-26
+	// TODO:ë¡œë”© ì‹œ ì§€í˜•ì •ë³´ ë“¤ê³ ìžˆê²Œ ìˆ˜ì •
+	// TODO:ìµœì í™”
+	_float fHighest(-999.f);
 	_vec3 onPosition{ 0.f, 0.f, 0.f };
+
+	// í”Œë ˆì´ì–´ ë°”ë¡œ ì•„ëž˜ì˜ Terrain ì¤‘ ê°€ìž¥ ë†’ì€ Terrainì˜ ë†’ì´ë¥¼ ë°˜í™˜ --> ë³µì¸µì¼ ë•Œ ê³„ì‚°í•  ìˆ˜ ìžˆì–´ì•¼í•˜ë¯€ë¡œ
 	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
 	{
 		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
@@ -404,28 +419,45 @@ void CDynamicCamera::Set_OnTerrain()
 
 		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &m_vEye))
 		{
-			if (highest < onPosition.y)
-				highest = onPosition.y;
-
-			m_bIsGrounded = true;
+			if (fHighest < onPosition.y)
+				fHighest = onPosition.y;
 		}
 	}
 
-	m_fDist = m_vEye.y - onPosition.y;
+	// ì˜ˆì™¸ì²˜ë¦¬ìš© ì½”ë“œ : ë³€ìˆ˜ê°€ ë°”ë€Œì§€ ì•Šì•˜ë‹¤ëŠ”ê±´ ë°”ë¡œ ì•„ëž˜ ì§€í˜•ì´ ì—†ì—ˆë‹¤ëŠ” ëœ»
+	if (fHighest == -999.f)
+		fHighest = 0.f;
 
-	if (highest == -999.f)
-		highest = 0.f;
+	if (!m_bIsJumping)
+	{
+		m_bIsGrounded = true;
+		_float deltaHeight = (fHighest + 3.f) - m_vEye.y;
+		m_vEye.y += deltaHeight;
+		m_vAt.y += deltaHeight;
+	}
 
-	_float deltaHeight = (highest + 3.f) - m_vEye.y;
-	m_vEye.y += deltaHeight;
-	m_vAt.y += deltaHeight;
+	// ì í”„ ì¤‘ ì¼ë•Œ ì°©ì§€ ë¡œì§
+	if (m_bIsJumping && (m_vEye.y - 3.f) <= fHighest)
+	{
+		m_bIsJumping = false;
+
+		_float deltaHeight = (fHighest + 3.f) - m_vEye.y;
+		m_vEye.y += deltaHeight;
+		m_vAt.y += deltaHeight;
+
+		m_vVelocity.y = 0.f;
+		m_bIsGrounded = true;
+	}
+
+	wchar_t buf[64];
+	swprintf(buf, 64, L"fHighest : %f, eye : %f\n", fHighest, m_vEye.y);
+	OutputDebugString(buf);
+
+
 }
 
 void CDynamicCamera::Update_State()
 {
-	if (m_fDist > 3.f)
-		m_bIsGrounded = false;
-
 	if (m_iGameHp >= 80)
 		m_eState = IDLE;
 	else if (m_iGameHp <= 79 && m_iGameHp >= 60)
@@ -445,7 +477,10 @@ void CDynamicCamera::Update_State()
 
 void CDynamicCamera::Camera_Bobbing(const _float& fTimeDelta)
 {
-	// Ä«¸Þ¶ó À§, ¾Æ·¡ È¿°ú
+	// ì¹´ë©”ë¼ ìœ„, ì•„ëž˜ íš¨ê³¼
+	if (!m_bIsGrounded)
+		return;
+
 	m_fAngle += m_fAngleSpeed * fTimeDelta;
 	_float fBobAngle = sinf(m_fAngle) * 0.2f;
 	m_vEye.y += fBobAngle;
@@ -456,7 +491,7 @@ void CDynamicCamera::Apply_Gravity(const _float& fTimeDelta)
 {
 	if (!m_bIsGrounded)
 	{
-		m_vVelocity.y += m_fFallSpeed * GRAVITY * fTimeDelta;
+		m_vVelocity.y += m_fFallSpeed * fTimeDelta;
 		m_vEye.y -= m_vVelocity.y;
 		m_vAt.y -= m_vVelocity.y;
 	}
@@ -465,7 +500,6 @@ void CDynamicCamera::Apply_Gravity(const _float& fTimeDelta)
 
 	if (m_vVelocity.y >= 200.f)
 		m_vVelocity.y = 200.f;
-
 }
 
 CDynamicCamera* CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)

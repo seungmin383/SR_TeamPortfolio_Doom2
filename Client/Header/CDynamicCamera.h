@@ -102,11 +102,13 @@ private:
 
 	_float      m_fSpeed;
 	_float      m_fFallSpeed;		// 추락 시 속도
+	_float		m_fJumpForce;		// 점프 시 가해주는 힘
 	_float      m_fAngle;           // 카메라 흔들림에 적용할 각도
 	_float      m_fAngleSpeed;      // 각도에 더해줄 변수
 	_float      m_fDist;            // 땅에서부터 거리
 
 	_bool       m_bIsGrounded;
+	_bool		m_bIsJumping;
 	_bool       m_bFix;
 	_bool       m_bCheck;
 	_bool       m_bTrigger;     // 문 열기, 스위치 누르기 등 체크용 변수
