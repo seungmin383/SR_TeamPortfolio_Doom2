@@ -7,6 +7,7 @@
 #include "CMainApp.h"
 #include "CTimerManager.h"
 #include "CFrameManager.h"
+#include "CManagement.h"
 
 #define MAX_LOADSTRING 100
 
@@ -93,6 +94,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                 pMainApp->Update_MainApp(fTimer_60);
                 pMainApp->LateUpdate_MainApp(fTimer_60);
                 pMainApp->Render_MainApp(fTimer_60);
+
+                if (Engine::CManagement::GetInstance()->QuitRequested()) {
+                    msg.message = WM_QUIT; // PostQuitMessage(0) 안 쓰고 깔끔히 루프 탈출
+                    break;
+                }
             }
         }
     }

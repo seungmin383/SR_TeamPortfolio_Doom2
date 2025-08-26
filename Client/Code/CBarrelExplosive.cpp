@@ -4,6 +4,8 @@
 #include "CManagement.h"
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
+#include "CMonsterBase.h"
+#include "CTerrainSector.h"
 
 CBarrelExplosive::CBarrelExplosive(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev), m_iHP(0), m_iFrame_Barrel(0)
@@ -182,18 +184,20 @@ void CBarrelExplosive::OnCollisionEnter(CCollider* _pOther)
 
 	if (!_pOther) return;
 
-	sprintf_s(buf, "[Barrel] OnCollisionEnter layer=0x%08X\n",
-		(unsigned)_pOther->Get_ColLayer());
-	OutputDebugStringA(buf);
+	//sprintf_s(buf, "[Barrel] OnCollisionEnter layer=0x%08X\n",
+	//	(unsigned)_pOther->Get_ColLayer());
+	//OutputDebugStringA(buf);
 
 	// 폭발 중에는 추가 히트 무시
 	if (m_state != State::Idle) return;
 
 	const auto layer = _pOther->Get_ColLayer();
 
-	// 레이의 발사 주체: 플레이어 카메라의 콜라이더만 인정
 	if (layer & COL_BULLET)
 	{
+		sprintf_s(buf, "[Barrel] OnCollisionEnter layer=0x%08X\n",
+			(unsigned)_pOther->Get_ColLayer());
+		OutputDebugStringA(buf);
 		TakeDamage(10);
 	}
 	return;
@@ -253,7 +257,7 @@ void CBarrelExplosive::ApplyExplosionDamage()
 	Engine::CScene* pScene = Engine::CManagement::GetInstance()->Get_Scene();
 	if (!pScene) return;
 
-	// 1) 몬스터에 피해 (기존 로직 그대로)
+	// 1) 몬스터에 피해
 	{
 		const auto& monsters = pScene->Get_TotalGameObject(OBJID::OBJ_ENEMY);
 		for (auto* obj : monsters)
@@ -265,10 +269,18 @@ void CBarrelExplosive::ApplyExplosionDamage()
 
 			_vec3 pos; tr->Get_Pos(&pos);
 			_vec3 d = pos - myPos;
-			if (D3DXVec3LengthSq(&d) <= R2)
+			_float dist2 = D3DXVec3LengthSq(&d);
+			if (dist2 <= R2)
 			{
-				// TODO: 실제 데미지 인터페이스 연결
-				// 예) if (auto* ch = dynamic_cast<Engine::CCharacter*>(obj)) ch->ReceiveDamage(60, this);
+				if (auto* pMonster = dynamic_cast<CMonsterBase*>(obj))
+				{
+					_float dist = sqrtf(dist2);
+
+					// 거리에 따라 데미지 감쇠
+					_float t = max(0.f, 1.f - dist / R);	// 0 ~ 1
+					_int damage = max(1, int(100.f * t));	// 최대 데미지 100
+					pMonster->Take_Dmg(damage);
+				}
 			}
 		}
 	}
@@ -415,23 +427,47 @@ HRESULT CBarrelExplosive::Add_Component()
 
 void CBarrelExplosive::Set_OnTerrain()
 {
-	if (!m_pTransformCom || !m_pCalculatorCom) return;
+	//if (!m_pTransformCom || !m_pCalculatorCom) return;
 
-	auto* pTerrainBuf = static_cast<CTerrainTexSector*>(
-		CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
-	if (!pTerrainBuf) return;
+	//auto* pTerrainBuf = static_cast<CTerrainTexSector*>(
+	//	CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
+	//if (!pTerrainBuf) return;
 
-	_vec3 pos; m_pTransformCom->Get_Pos(&pos);
+	//_vec3 pos; m_pTransformCom->Get_Pos(&pos);
 
-	// 그리드 경계(0..(VTXCNT-1)*VTXITV) 밖이면 보정 건너뜀 (혹은 clamp)
-	const float maxX = (VTXCNTX - 1) * VTXITV - 1e-3f;
-	const float maxZ = (VTXCNTZ - 1) * VTXITV - 1e-3f;
-	if (pos.x < 0.f || pos.z < 0.f || pos.x > maxX || pos.z > maxZ) return;
+	//// 그리드 경계(0..(VTXCNT-1)*VTXITV) 밖이면 보정 건너뜀 (혹은 clamp)
+	//const float maxX = (VTXCNTX - 1) * VTXITV - 1e-3f;
+	//const float maxZ = (VTXCNTZ - 1) * VTXITV - 1e-3f;
+	//if (pos.x < 0.f || pos.z < 0.f || pos.x > maxX || pos.z > maxZ) return;
 
-	float h = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBuf->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
+	//float h = m_pCalculatorCom->Compute_HeightOnTerrain(&pos, pTerrainBuf->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
 
-	// 살짝 띄워서 지면 간섭 방지
-	m_pTransformCom->Set_Pos(pos.x, h + 0.7f, pos.z);
+	//// 살짝 띄워서 지면 간섭 방지
+	//m_pTransformCom->Set_Pos(pos.x, h + 0.7f, pos.z);
+
+	_float highest(-999.f);
+	_vec3 onPosition{ 0.f, 0.f, 0.f };
+	_vec3 m_vEye{ 65.f, 0, 5.f };
+	_vec3 m_vAt{0.f, 0.f, 1.f};
+	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
+	{
+		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
+		auto bufferCom = dterrain->Get_BufferCom();
+		auto transformCom = dterrain->Get_Transform();
+
+		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition))
+		{
+			if (highest < onPosition.y)
+				highest = onPosition.y;
+		}
+	}
+
+	if (highest == -999.f)
+		highest = 0.f;
+
+	_float deltaHeight = (highest + 3.f) - m_vEye.y;
+	m_vEye.y += deltaHeight;
+	m_vAt.y += deltaHeight;
 }
 
 void CBarrelExplosive::Bill_Board()
