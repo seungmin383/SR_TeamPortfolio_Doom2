@@ -31,8 +31,11 @@ HRESULT CArchVile::Ready_GameObject()
 		return E_FAIL;
 
 	_vec3 vPos;
+	_vec3 vScale = { 3.f, 3.f, 3.f };
+
+	m_pTransformCom->Set_Scale(vScale);
 	m_pTransformCom->Get_Pos(&vPos);
-	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(2.f, 2.f, 2.f), _vec3(0.f, -1.f, 0.f),
+	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(2.f, 3.f, 2.f), _vec3(0.f, 0.f, 0.f),
 		COLLAYERID::COL_ENEMY,
 		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT);
 
@@ -129,9 +132,6 @@ HRESULT CArchVile::Ready_GameObject()
 
 	m_pTransformCom->Set_Pos(52.f, 10.f, 10.f);
 
-	_vec3 vSize{ 2.f, 2.f, 2.f };
-	m_pTransformCom->Set_Scale(vSize);
-
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 #pragma endregion
 
@@ -157,26 +157,26 @@ void CArchVile::Render_GameObject(const _float& fTimeDelta)
 	CMonsterBase::Render_GameObject(fTimeDelta);
 }
 
-void CArchVile::Set_OnTerrain()
-{
-	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
-	{
-		_vec3 pos;
-		m_pTransformCom->Get_Pos(&pos);
-
-		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
-		auto bufferCom = dterrain->Get_BufferCom();
-		auto transformCom = dterrain->Get_Transform();
-
-		_vec3 onPosition{ 0.f, 0.f, 0.f };
-		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
-		{
-
-			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 2, pos.z);
-			break;
-		}
-	}
-}
+//void CArchVile::Set_OnTerrain()
+//{
+//	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
+//	{
+//		_vec3 pos;
+//		m_pTransformCom->Get_Pos(&pos);
+//
+//		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
+//		auto bufferCom = dterrain->Get_BufferCom();
+//		auto transformCom = dterrain->Get_Transform();
+//
+//		_vec3 onPosition{ 0.f, 0.f, 0.f };
+//		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
+//		{
+//
+//			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 2, pos.z);
+//			break;
+//		}
+//	}
+//}
 
 void CArchVile::Attack(const _float fTimeDelta)
 {
