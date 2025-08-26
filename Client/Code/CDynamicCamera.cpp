@@ -448,12 +448,6 @@ void CDynamicCamera::Set_OnTerrain()
 		m_vVelocity.y = 0.f;
 		m_bIsGrounded = true;
 	}
-
-	wchar_t buf[64];
-	swprintf(buf, 64, L"fHighest : %f, eye : %f\n", fHighest, m_vEye.y);
-	OutputDebugString(buf);
-
-
 }
 
 void CDynamicCamera::Update_State()

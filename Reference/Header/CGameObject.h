@@ -3,8 +3,6 @@
 #include "CComponent.h"
 #include "CTransform.h"
 
-#define         GRAVITY 9.8f
-
 BEGIN(Engine)
 
 class CCollider;
