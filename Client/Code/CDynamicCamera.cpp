@@ -18,8 +18,8 @@ _long CDynamicCamera::s_lMouseMoveX = 0L;
 
 CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCamera(pGraphicDev),
-	m_bFix(false), m_bCheck(false), m_bTrigger(false), m_bIsMoving(false), m_bIsGrounded(true), m_bIsJumping(false),
-	m_iArmor(0),
+	m_bFix(false), m_bCheck(false), m_bTrigger(false), m_bIsMoving(false), m_bIsGrounded(true), m_bIsJumping(false), m_bIsDoubleJump(false),
+	m_iArmor(0), m_iJumpCnt(0),
 	m_fSpeed(0.f), m_fAngle(0.f), m_fAngleSpeed(0.f), m_fFallSpeed(0.f), m_fDist(0.f), m_fJumpForce(0.f),
 	m_eState(IDLE),
 	m_vMoveDist(_vec3(0.f, 0.f, 0.f))
@@ -205,7 +205,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 #pragma region Moving Part
 
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_W) & 0x80)
+	if (CDInputManager::GetInstance()->Get_KeyHold(DIK_W))
 	{
 		_vec3	vLook;
 		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
@@ -223,7 +223,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		m_bIsMoving = true;
 	}
 
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_S) & 0x80)
+	if (CDInputManager::GetInstance()->Get_KeyHold(DIK_S))
 	{
 		_vec3	vLook;
 		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
@@ -241,7 +241,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		m_bIsMoving = true;
 	}
 
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_D) & 0x80)
+	if (CDInputManager::GetInstance()->Get_KeyHold(DIK_D))
 	{
 		_vec3	vRight;
 		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
@@ -259,7 +259,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		m_bIsMoving = true;
 	}
 
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_A) & 0x80)
+	if (CDInputManager::GetInstance()->Get_KeyHold(DIK_A))
 	{
 		_vec3	vRight;
 		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
@@ -283,15 +283,22 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 #pragma endregion
 
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_SPACE) & 0x80)
+	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_SPACE))
 	{
-		if (m_bIsGrounded)
+		if (m_bIsGrounded && m_iJumpCnt == 0)
 		{
+			m_iJumpCnt++;
 			m_bIsJumping = true;
 			m_bIsGrounded = false;
 			m_vVelocity.y -= m_fJumpForce;
 		}
-		else
+		else if (!m_bIsGrounded && m_iJumpCnt == 1)
+		{ 
+			m_iJumpCnt++;
+			m_vVelocity.y = 0.f;
+			m_vVelocity.y -= m_fJumpForce;
+		}
+		else if (m_iJumpCnt >= 2)
 			return;
 	}
 
@@ -442,6 +449,7 @@ void CDynamicCamera::Set_OnTerrain()
 			_float deltaHeight = (fHighest + 3.f) - m_vEye.y;
 			m_vEye.y += deltaHeight;
 			m_vAt.y += deltaHeight;
+			m_iJumpCnt = 0;
 		}
 	}
 
@@ -456,6 +464,7 @@ void CDynamicCamera::Set_OnTerrain()
 
 		m_vVelocity.y = 0.f;
 		m_bIsGrounded = true;
+		m_iJumpCnt = 0;
 	}
 }
 
