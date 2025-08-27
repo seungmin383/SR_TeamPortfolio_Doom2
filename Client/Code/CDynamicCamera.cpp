@@ -215,7 +215,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		_vec3	vRight, vLength;
 		memcpy(&vRight, &matCamWorld.m[2][0], sizeof(_vec3));
 
-		// 대쉬 트리거 및 방향 구하기
+		// 대쉬 트리거
 		if (CDInputManager::GetInstance()->Get_KeyDown(DIK_LSHIFT))
 		{
 			if (m_bIsDashing)
@@ -245,7 +245,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		_vec3	vRight, vLength;
 		memcpy(&vRight, &matCamWorld.m[2][0], sizeof(_vec3));
 
-		// 대쉬 트리거 및 방향 구하기
+		// 대쉬 트리거
 		if (CDInputManager::GetInstance()->Get_KeyDown(DIK_LSHIFT))
 		{
 			if (m_bIsDashing)
@@ -275,7 +275,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		_vec3	vRight, vLength;
 		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
 
-		// 대쉬 트리거 및 방향 구하기
+		// 대쉬 트리거
 		if (CDInputManager::GetInstance()->Get_KeyDown(DIK_LSHIFT))
 		{
 			if (m_bIsDashing)
@@ -305,7 +305,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		_vec3	vRight, vLength;
 		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
 
-		// 대쉬 트리거 및 방향 구하기
+		// 대쉬 트리거
 		if (CDInputManager::GetInstance()->Get_KeyDown(DIK_LSHIFT))
 		{
 			if (m_bIsDashing)
