@@ -6,6 +6,7 @@
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
 #include "CTerrainSector.h"
+#include "CArchVileBullet.h"
 
 CPinky::CPinky(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonsterBase(pGraphicDev)
@@ -124,7 +125,7 @@ HRESULT CPinky::Ready_GameObject()
 
 	m_fAtkSpeed = 4.f;
 	m_iGameHp = 150;
-	m_iAtkDmg = 3;
+	m_iAtkDmg = 10;
 
 	m_fAtkDelay = 0.f;
 	m_fMoveDelay = 0.f;
@@ -163,6 +164,28 @@ void CPinky::Render_GameObject(const _float& fTimeDelta)
 {
 	//cout << "핑키 애니메이션 스테이트:" << m_eCurAnimState << endl;
 	CMonsterBase::Render_GameObject(fTimeDelta);
+}
+
+void CPinky::Attack(const _float fTimeDelta)
+{
+
+	m_isShoot = TRUE;
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	CGameObject* tmp = nullptr;
+
+	if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_PIKNY_BULLET, OBJID::OBJ_BULLET, vPos, this, tmp)))
+	{
+		int a = 0;
+	}
+	if (tmp == nullptr)
+		return;
+
+	tmp->Set_Dead(FALSE);
+	tmp->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+	
+	dynamic_cast<CBullet*>(tmp)->Set_InitDir(m_vMoveLook);
+
 }
 
 HRESULT CPinky::Add_Component()
