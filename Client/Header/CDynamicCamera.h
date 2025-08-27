@@ -105,7 +105,6 @@ private:
 	_float      m_fSpeed;
 	_float      m_fFallSpeed;		// 추락 시 속도
 	_float		m_fJumpForce;		// 점프 시 가해주는 힘
-	_float		m_fDashForce;		// 대쉬 시 가해주는 힘
 	_float		m_fDashTime;		// 대쉬 시간
 	_float      m_fAngle;           // 카메라 흔들림에 적용할 각도
 	_float      m_fAngleSpeed;      // 각도에 더해줄 변수
@@ -121,9 +120,6 @@ private:
 
 	_vec3       m_vMoveDist;		// 이동거리
 	_vec3		m_vVelocity;		// 가속도
-	_vec3		m_vDashStartPos;	// 대쉬 시작 위치
-	_vec3		m_vDashEndPos;		// 대쉬 도착 위치
-	_vec3		m_vDashDir;			// 대쉬 방향
 
 public:
 	static CDynamicCamera* Create(LPDIRECT3DDEVICE9 pGraphicDev,

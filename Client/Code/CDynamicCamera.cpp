@@ -20,7 +20,7 @@ CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCamera(pGraphicDev),
 	m_bFix(false), m_bCheck(false), m_bTrigger(false), m_bIsMoving(false), m_bIsGrounded(true), m_bIsJumping(false), m_bIsDashing(false),
 	m_iArmor(0), m_iJumpCnt(0),
-	m_fSpeed(0.f), m_fAngle(0.f), m_fAngleSpeed(0.f), m_fFallSpeed(0.f), m_fDist(0.f), m_fJumpForce(0.f), m_fDashForce(0.f), m_fDashTime(0.f),
+	m_fSpeed(0.f), m_fAngle(0.f), m_fAngleSpeed(0.f), m_fFallSpeed(0.f), m_fDist(0.f), m_fJumpForce(0.f), m_fDashTime(0.f),
 	m_eState(IDLE),
 	m_vMoveDist(_vec3(0.f, 0.f, 0.f))
 {
@@ -55,7 +55,6 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	m_fSpeed = 30.f;
 	m_fFallSpeed = 1.25f;
 	m_fJumpForce = 0.45f;
-	m_fDashForce = 20.f;
 	m_fAngle = 0.f;
 	m_fAngleSpeed = 10.f;
 
@@ -110,7 +109,6 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 	wchar_t buf[64];
 	swprintf(buf, 64, L"Dashing : %d\n", m_bIsDashing);
 	OutputDebugString(buf);
-
 
 	// 마우스 부분
 	if (false == m_bFix)
