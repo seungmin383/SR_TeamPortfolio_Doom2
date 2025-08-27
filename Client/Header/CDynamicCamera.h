@@ -28,6 +28,7 @@ public:
 
 public:
     _vec3           Get_Pos()   { return m_vEye; }
+	 void            Set_Pos(_vec3 vPos) { m_vEye = vPos; }
     _vec3           Get_At()    { return m_vAt; }
     _vec3           Get_Up()    { return m_vUp; }
 

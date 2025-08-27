@@ -55,6 +55,7 @@ HRESULT         CMonsterBase::Ready_GameObject()
 _int CMonsterBase::Update_GameObject(const _float& fTimeDelta)
 {
 	Thinker(fTimeDelta);
+
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 	CGameObject::Update_GameObject(fTimeDelta);
 
@@ -67,7 +68,6 @@ _int CMonsterBase::Update_GameObject(const _float& fTimeDelta)
 void                 CMonsterBase::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
-	cout << "몬스터 애니메이션 스테이트:" << m_eAnim_Type << endl;
 	m_pAnimCom->Play_Animation(m_eAnim_Type, 0, fTimeDelta, m_eCurAnimState);
 	m_pColliderCom->Late_Update();
 
@@ -196,6 +196,7 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 		m_isDetected_Player = TRUE;
 
 
+
 	//죽었는지
 	if (m_isDead)
 		return AI_DEAD;
@@ -210,7 +211,11 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 	
 	//플레이어를 발견하고 따라가는지
 	else if (m_isDetect_Player)
+	{
+		if (m_isBoss)
+			return AI_MOVE;
 		return AI_CHASE;
+	}
 
 	else//그냥 랜덤 이동할지
 		return AI_MOVE;
@@ -518,6 +523,8 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 
 	m_eCurAnimState = Calc_AnimState_byPlayer(m_vMoveLook, vPos);
 
+	int tmpAnimType = m_eAnim_Type;
+
 	switch (_Thought)
 	{
 		//죽었을 때 
@@ -554,7 +561,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 		if (!m_isShoot)
 			Attack(fTimeDelta);
 
-	//	cout << "AI_ATTACK" << endl;
+		//cout << "AI_ATTACK" << endl;
 		break;
 
 		//플레이어를 발견했을 때
@@ -570,7 +577,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			m_fChaseDelay = 0.f;
 		}
 		Movement(fTimeDelta);
-//		cout << "AI_CHASE" << endl;
+		//cout << "AI_CHASE" << endl;
 		break;
 
 		//아이들 상태
@@ -585,9 +592,13 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			Movement(fTimeDelta);
 		}
 
-//		cout << "AI_MOVE" << endl;
+		//cout << "AI_MOVE" << endl;
 		break;
 	}
+
+
+	if(tmpAnimType == NANRI)
+		m_eAnim_Type = NANRI;
 
 	m_ePreAnimState = m_eCurAnimState;
 }

@@ -9,8 +9,9 @@
 #include <random>
 #include "CLayer.h"
 #include"CTerrainSector.h"
+#include "CDynamicCamera.h"
 
-#define SPEED 10.f
+#define SPEED 3.f
 CSpiderMastermind::CSpiderMastermind(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonsterBase(pGraphicDev)
 {
@@ -135,7 +136,7 @@ HRESULT CSpiderMastermind::Ready_GameObject()
 	m_fSightDistance = 50.f;
 
 	m_fAtkSpeed = 4.f;
-	m_iGameHp = 100;
+	m_iGameHp = 3000;
 	m_iMaxHp = m_iGameHp;
 	m_iAtkDmg = 3;
 
@@ -146,10 +147,11 @@ HRESULT CSpiderMastermind::Ready_GameObject()
 	m_iGibDeadPlus = 24;
 	m_iNorDeadPlus = 25;
 	m_fSpeed = SPEED;
-
+	m_isBoss = FALSE;
 	std::mt19937 rng{ std::random_device{}() };
 	std::uniform_int_distribution<uint16_t> dist(0, 0xFFFF);
 	m_iPattern = dist(rng);
+	m_iPattern = 34952;
 
 	Calc_Pattern();
 
@@ -171,25 +173,47 @@ HRESULT CSpiderMastermind::Ready_GameObject()
 _int CSpiderMastermind::Update_GameObject(const _float& fTimeDelta)
 {
 	Check_Anim_Fin(fTimeDelta);
+	Pattern_Timer(fTimeDelta);		//패턴 시간 누적
+	if (m_isAwake)
+	{
+		Reset_State();
+		Awake_Pattern(m_PattenArr[m_iEnt_Pattern_Number]);
+		//Awake_Pattern(3); 
+		m_isAwake = FALSE;
+	}
+	Update_Pattern(fTimeDelta, m_PattenArr[m_iEnt_Pattern_Number]);
+	//Update_Pattern(fTimeDelta, 3);
 
 //	cout << "스파이더 마스터마인드 픎레이어 발견 : " << m_isDetect_Player << endl;
-	CMonsterBase::Update_GameObject(fTimeDelta);
+	if(!m_isPattern3On)
+		CMonsterBase::Update_GameObject(fTimeDelta);
+	else
+	{
+		_vec3 vPos;
+		m_pTransformCom->Get_Pos(&vPos);
+
+		CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
+		CGameObject::Update_GameObject(fTimeDelta);
+
+		m_eCurAnimState = Calc_AnimState_byPlayer(m_vMoveLook, vPos);
+		Movement(fTimeDelta);
+	}
+
 	Bill_Board();
 	Set_OnTerrain();
 
-	Pattern_Timer(fTimeDelta);		//패턴 시간 누적
 
-	if (m_isAwake)
-	{
-		//Awake_Pattern(m_PattenArr[m_iEnt_Pattern_Number]);
-		Awake_Pattern(1);
-		m_isAwake = FALSE;
-	}
+	//if(m_isPattern3On)
+	//	cout << "TRUE" << endl;
+	//else
+	//	cout << "FALSE" << endl;
 
-	//Update_Pattern(fTimeDelta, m_PattenArr[m_iEnt_Pattern_Number]);
+
+	//Update_Pattern(fTimeDelta, 2);
 
 	return 0;
 }
+
 
 void CSpiderMastermind::LateUpdate_GameObject(const _float& fTimeDelta)
 {
@@ -219,6 +243,16 @@ void CSpiderMastermind::Awake_Pattern(_int _Pattern)
 		break;
 	}
 	m_isAwake = FALSE;
+}
+
+void CSpiderMastermind::Reset_State()
+{
+	m_fSpeed = SPEED;					//속도를 원래대로 돌리고
+	m_iTmp_Anim_Type = MOVE;	//애니메이션을 MOVE로 바꾸고
+	m_eAnim_Type = MOVE;
+	m_isPattern3On = FALSE;
+
+	m_pColliderCom->Set_Active(true);
 }
 
 void CSpiderMastermind::Update_Pattern(const _float& fTimeDelta, _int _Pattern)
@@ -320,6 +354,7 @@ void CSpiderMastermind::Fire(const _float fTimeDelta)
 
 void CSpiderMastermind::Reset_Pattern1(const _float fTimeDelta)
 {
+
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
 
@@ -404,7 +439,6 @@ void CSpiderMastermind::Reset_Pattern1(const _float fTimeDelta)
 
 void CSpiderMastermind::Reset_Pattern2(const _float fTimeDelta)
 {
-
 	if (m_iGameHp > m_iMaxHp / 2) //1페이즈
 	{
 		_vec3 vPos;
@@ -444,6 +478,18 @@ void CSpiderMastermind::Reset_Pattern2(const _float fTimeDelta)
 
 void CSpiderMastermind::Reset_Pattern3(const _float fTimeDelta)
 {
+	m_fSpeed = SPEED * 3;
+	m_isPattern3On = TRUE;
+	CManagement::GetInstance()->Get_Player()->Get_Transform()->Get_Pos(&m_vTargetPos);
+
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	_vec3 dir = m_vTargetPos - vPos;
+	D3DXVec3Normalize(&dir, &dir);
+
+	m_pColliderCom->Set_Active(false);
+
+	m_vTargetDir = dir;
 }
 
 void CSpiderMastermind::Reset_Pattern4(const _float fTimeDelta)
@@ -460,17 +506,30 @@ void CSpiderMastermind::Pattern2(const _float fTimeDelta)
 
 void CSpiderMastermind::Pattern3(const _float fTimeDelta)
 {
-	_vec3 vPlayerPos;
-	CManagement::GetInstance()->Get_Player()->Get_Transform()->Get_Pos(&vPlayerPos);
-	_vec3 vPos;
-	m_pTransformCom->Get_Pos(&vPos);
-	_vec3 dir = vPlayerPos - vPos;
-	D3DXVec3Normalize(&dir, &dir);
-	m_vPatternLook = dir;
+	//만약 애니타입이 NANRI가 아니고 애니메이션이 끝났다면
+	if(m_eAnim_Type != NANRI && m_pAnimCom->Get_isFinAct())
+		m_iTmp_Anim_Type = NANRI;
+
+	//애니 타입을 NANRI로 바꾸기
+	if(m_iTmp_Anim_Type == NANRI)
+		m_eAnim_Type = NANRI;
+
+	m_vMoveLook = m_vTargetDir;
 }
 
 void CSpiderMastermind::Pattern4(const _float fTimeDelta)
 {
+	_vec3 vPlayerPos;
+	//CManagement::GetInstance()->Get_Player()->Get_Transform()->Get_Pos(&vPlayerPos);
+	vPlayerPos  = static_cast<CDynamicCamera*>(CManagement::GetInstance()->Get_Player())->Get_Pos();
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	_vec3 dir = vPos - vPlayerPos;
+	D3DXVec3Normalize(&dir, &dir);
+	//CManagement::GetInstance()->Get_Player()->Get_Transform()->Move_Pos(&dir,5.f, fTimeDelta );
+	vPlayerPos += dir * 5.f * fTimeDelta;
+
+	static_cast<CDynamicCamera*>(CManagement::GetInstance()->Get_Player())->Set_Pos(vPlayerPos);
 }
 
 void CSpiderMastermind::Pattern_Timer(const _float fTimeDelta)

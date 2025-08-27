@@ -115,6 +115,8 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 	Key_Input(fTimeDelta);
 	Mouse_Input();
 
+	m_pTransformCom->Set_Pos(m_vEye.x, m_vEye.y, m_vEye.z);
+
 	m_pColliderCom->Late_Update();
 
 	if (false == m_bFix)
@@ -320,7 +322,6 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 	}
 
 	//m_pTransformCom 업데이트 //collider 동기화 용
-	m_pTransformCom->Set_Pos(m_vEye.x, m_vEye.y, m_vEye.z);
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_TAB) & 0x80)
 	{

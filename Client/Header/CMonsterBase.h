@@ -7,6 +7,7 @@
 #define ANIM_NDEAD 2
 #define ANIM_GDEAD 3
 #define ANIM_HIT 4
+#define ANIM_NANRI 5
 
 class CMonsterBase :public CCharacter
 {
@@ -125,6 +126,7 @@ protected:
     _uint m_iNorDeadPlus = 0;
 
     _bool m_isPinky = FALSE;
+	_bool m_isBoss = FALSE;
     _bool m_isShoot = FALSE;
 
     OBJPROTOTYPE m_iMonsterType = OBJPROTOTYPE::OBJPROTOTYPE_END;
@@ -140,7 +142,7 @@ protected:
     //보스 패턴용 변수
     _int m_AtkCnt = 0;
     _bool m_isFirstEnt = FALSE;
-
+	_bool m_isPattern3On = FALSE; //하 후회와 눈물 몬스터는 이렇게 만드는게 아니엿구나
 
 
     // --- 드랍 1회만 실행되도록 하는 가드 ---
