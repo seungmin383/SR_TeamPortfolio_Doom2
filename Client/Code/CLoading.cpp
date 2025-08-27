@@ -138,6 +138,14 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_UI_Key", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/STKEYS0.png", TEX_NORMAL))))
 		return E_FAIL;
 
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Kills", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/WIOSTK.png", TEX_NORMAL))))
+		return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Items", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/WIOSTI.png", TEX_NORMAL))))
+		return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Clear", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/WIF.png", TEX_NORMAL))))
+		return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Times", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/WITIME.png", TEX_NORMAL))))
+		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Number", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STTNUM%d.png", TEX_NORMAL, 10))))
 		return E_FAIL;
