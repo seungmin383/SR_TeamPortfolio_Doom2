@@ -156,11 +156,11 @@ HRESULT CPinkyBullet::Add_Component()
 	CComponent* pComponent = NULL;
 	//texture
 	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>
-		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Zombieman_Bullet_Texture"));
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Pinky_Bullet_Texture"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
-	m_mapComponent[ID_STATIC].insert({ L"Com_Texture1", pComponent });
+	m_mapComponent[ID_STATIC].insert({ L"Com_Texture", pComponent });
 	return S_OK;
 }
 

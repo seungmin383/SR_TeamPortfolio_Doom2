@@ -95,6 +95,8 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Boss_Bullet_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Effect/BossBullet/BulletState%d.png", TEX_NORMAL, 2))))
 		return E_FAIL;
 
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Pinky_Bullet_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Effect/PinkyBullet/BulletState%d.png", TEX_NORMAL))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region PLAYER_BULLET
