@@ -83,7 +83,7 @@ _uint CLoading::Loading_ForStage()
 #pragma endregion
 #pragma region MONSTER_BULLET
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_ZombiemanBullet_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Effect/ZombiemanBullet/BulletState%d.png", TEX_NORMAL))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Zombieman_Bullet_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Effect/ZombiemanBullet/BulletState%d.png", TEX_NORMAL))))
 		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Imp_Bullet_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Effect/ImpBullet/BulletState%d.png", TEX_NORMAL, 2))))

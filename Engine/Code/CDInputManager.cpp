@@ -5,6 +5,7 @@ IMPLEMENT_SINGLETON(CDInputManager)
 CDInputManager::CDInputManager(void)
 {
 	ZeroMemory(m_byKeyState, sizeof(m_byKeyState));
+	ZeroMemory(m_byOldKeyState, sizeof(m_byOldKeyState));
 }
 
 CDInputManager::~CDInputManager(void)
@@ -56,6 +57,10 @@ HRESULT CDInputManager::Ready_InputDev(HINSTANCE hInst, HWND hWnd)
 
 void CDInputManager::Update_InputDev(void)
 {
+	// 직전의 상태로 복사
+	memcpy(m_byOldKeyState, m_byKeyState, sizeof(m_byKeyState));
+
+	// 현재 상태 가져오기
 	m_pKeyBoard->GetDeviceState(256, m_byKeyState);
 	m_pMouse->GetDeviceState(sizeof(m_tMouseState), &m_tMouseState);
 }

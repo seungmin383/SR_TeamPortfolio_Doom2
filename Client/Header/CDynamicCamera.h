@@ -28,6 +28,7 @@ public:
 
 public:
 	_vec3           Get_Pos() { return m_vEye; }
+	void            Set_Pos(_vec3 vPos) { m_vEye = vPos; }
 	_vec3           Get_At() { return m_vAt; }
 	_vec3           Get_Up() { return m_vUp; }
 
@@ -99,6 +100,7 @@ private:
 
 	_int        m_iArmor;
 	_int        m_iMax = 200;       // 체력과 아머에 사용할 최대 수치
+	_int		m_iJumpCnt;			// 점프 횟수
 
 	_float      m_fSpeed;
 	_float      m_fFallSpeed;		// 추락 시 속도
@@ -109,6 +111,7 @@ private:
 
 	_bool       m_bIsGrounded;
 	_bool		m_bIsJumping;
+	_bool		m_bIsDoubleJump;
 	_bool       m_bFix;
 	_bool       m_bCheck;
 	_bool       m_bTrigger;     // 문 열기, 스위치 누르기 등 체크용 변수

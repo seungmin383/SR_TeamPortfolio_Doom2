@@ -17,7 +17,6 @@ public:
     virtual     void            Render_GameObject(const _float& fTimeDelta);
 
 #pragma endregion
-    //void Set_OnTerrain()override;
 private:
     HRESULT     Add_Component()override;
 

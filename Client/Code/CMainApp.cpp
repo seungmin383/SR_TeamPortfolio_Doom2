@@ -88,7 +88,7 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 
 	m_pManagementClass->Update_Scene(fTimeDelta);
 
-	if (GetAsyncKeyState('C'))
+	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_C))
 		g_colRend = !g_colRend;
 
 	// p 키 눌렀을 때 일시정지
