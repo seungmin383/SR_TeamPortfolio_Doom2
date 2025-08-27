@@ -118,9 +118,10 @@ HRESULT CArchVile::Ready_GameObject()
 	m_fSightDistance = 50.f;
 
 	m_fAtkSpeed = 4.f;
-	m_iGameHp = 70;
+	m_iGameHp = 700;
 	m_iAtkDmg = 30;
 
+	m_fSpeed = 12.f;
 	m_fAtkDelay = 0.f;
 	m_fMoveDelay = 0.f;
 	m_fAtkDelay = 0.f;
@@ -157,26 +158,7 @@ void CArchVile::Render_GameObject(const _float& fTimeDelta)
 	CMonsterBase::Render_GameObject(fTimeDelta);
 }
 
-//void CArchVile::Set_OnTerrain()
-//{
-//	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
-//	{
-//		_vec3 pos;
-//		m_pTransformCom->Get_Pos(&pos);
-//
-//		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
-//		auto bufferCom = dterrain->Get_BufferCom();
-//		auto transformCom = dterrain->Get_Transform();
-//
-//		_vec3 onPosition{ 0.f, 0.f, 0.f };
-//		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
-//		{
-//
-//			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 2, pos.z);
-//			break;
-//		}
-//	}
-//}
+
 
 void CArchVile::Attack(const _float fTimeDelta)
 {

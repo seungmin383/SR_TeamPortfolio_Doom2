@@ -6,6 +6,7 @@
 #include "CStage.h"
 #include "CStage2.h"
 #include "CStage3.h"
+#include "CStageTest.h"
 
 #include "CTimerManager.h"
 #include "CFrameManager.h"
@@ -88,7 +89,7 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 
 	m_pManagementClass->Update_Scene(fTimeDelta);
 
-	if (GetAsyncKeyState('C'))
+	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_C))
 		g_colRend = !g_colRend;
 
 	// p 키 눌렀을 때 일시정지
@@ -292,6 +293,7 @@ HRESULT CMainApp::Ready_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 	m_pManagementClass->Add_Scene(SCENEID::STAGE1, new CStage(pGraphicDev));
 	m_pManagementClass->Add_Scene(SCENEID::STAGE2, new CStage2(pGraphicDev));
 	m_pManagementClass->Add_Scene(SCENEID::STAGE3, new CStage3(pGraphicDev));
+	m_pManagementClass->Add_Scene(SCENEID::TEST, new CStageTest(pGraphicDev));
 
 	if (FAILED(m_pManagementClass->Change_Scene(SCENEID::LOGO)))
 	{

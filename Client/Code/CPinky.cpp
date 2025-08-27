@@ -120,10 +120,10 @@ HRESULT CPinky::Ready_GameObject()
 
 #pragma region VARIABLE_SETTING
 	m_fSightAngle = D3DXToRadian(80.f);
-	m_fSightDistance = 50.f;
+	m_fSightDistance = 30.f;
 
 	m_fAtkSpeed = 4.f;
-	m_iGameHp = 100;
+	m_iGameHp = 150;
 	m_iAtkDmg = 3;
 
 	m_fAtkDelay = 0.f;
@@ -133,6 +133,10 @@ HRESULT CPinky::Ready_GameObject()
 	m_iGibDeadPlus = 16;
 	m_iNorDeadPlus = 16;
 
+	m_fSpeed = 10.f;
+
+
+	m_isHit = FALSE;
 	m_isPinky = TRUE;
 	//초기 룩으로 세팅해주고
 	m_pTransformCom->Get_Info(INFO_LOOK, &m_vMoveLook);
@@ -160,27 +164,6 @@ void CPinky::Render_GameObject(const _float& fTimeDelta)
 	//cout << "핑키 애니메이션 스테이트:" << m_eCurAnimState << endl;
 	CMonsterBase::Render_GameObject(fTimeDelta);
 }
-
-//void CPinky::Set_OnTerrain()
-//{
-//	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
-//	{
-//		_vec3 pos;
-//		m_pTransformCom->Get_Pos(&pos);
-//
-//		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
-//		auto bufferCom = dterrain->Get_BufferCom();
-//		auto transformCom = dterrain->Get_Transform();
-//
-//		_vec3 onPosition{ 0.f, 0.f, 0.f };
-//		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
-//		{
-//
-//			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 2, pos.z);
-//			break;
-//		}
-//	}
-//}
 
 HRESULT CPinky::Add_Component()
 {

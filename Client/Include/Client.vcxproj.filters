@@ -184,6 +184,9 @@
     <Filter Include="02. GameObject\07. Bullet\01. MonsterBullet\CBossBullet">
       <UniqueIdentifier>{8f510942-9fa1-46bb-bd34-8271d1afdbbe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Scene\05. StageTest">
+      <UniqueIdentifier>{3c6b1b3a-c332-4a38-af40-bf6518714130}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -396,6 +399,9 @@
     <ClInclude Include="..\Header\CBossBullet.h">
       <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CBossBullet</Filter>
     </ClInclude>
+    <ClInclude Include="CStageTest.h">
+      <Filter>01. Scene\05. StageTest</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -601,6 +607,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CBossBullet.cpp">
       <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CBossBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="CStageTest.cpp">
+      <Filter>01. Scene\05. StageTest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

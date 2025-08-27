@@ -25,7 +25,7 @@ void CTextureManager::BulkLoadTexture(LPDIRECT3DDEVICE9 pGraphicDev, string str)
 	auto pm = CPrototypeManager::GetInstance();
 	for (auto item : list)
 	{
-		if (item.extension().string() != ".png")
+		if (item.extension().string() != ".png" && item.extension().string() != ".PNG")
 			continue;
 
 		auto fileName = item.filename().wstring();

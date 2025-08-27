@@ -53,7 +53,7 @@ HRESULT CRocketBullet::Ready_GameObject()
 		m_bDead = false;
 		m_iDmg = 100;
 
-		_vec3 vScale = { 0.25f, 0.25f, 0.25f };
+		_vec3 vScale = { 0.35f, 0.35f, 0.35f };
 		m_pTransformCom->Set_Scale(vScale);
 	}
 
