@@ -116,7 +116,7 @@ HRESULT CZombieMan::Ready_GameObject()
 
 #pragma region VARIABLE_SETTING
 	m_fSightAngle =D3DXToRadian( 80.f);
-	m_fSightDistance		= 15.f;
+	m_fSightDistance		= 30.f;
 
 	m_fAtkSpeed			= 4.f;
 	m_iGameHp						= 20;

@@ -118,9 +118,10 @@ HRESULT CArchVile::Ready_GameObject()
 	m_fSightDistance = 50.f;
 
 	m_fAtkSpeed = 4.f;
-	m_iGameHp = 70;
+	m_iGameHp = 700;
 	m_iAtkDmg = 30;
 
+	m_fSpeed = 12.f;
 	m_fAtkDelay = 0.f;
 	m_fMoveDelay = 0.f;
 	m_fAtkDelay = 0.f;

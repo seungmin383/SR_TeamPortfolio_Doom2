@@ -120,10 +120,10 @@ HRESULT CPinky::Ready_GameObject()
 
 #pragma region VARIABLE_SETTING
 	m_fSightAngle = D3DXToRadian(80.f);
-	m_fSightDistance = 50.f;
+	m_fSightDistance = 30.f;
 
 	m_fAtkSpeed = 4.f;
-	m_iGameHp = 100;
+	m_iGameHp = 150;
 	m_iAtkDmg = 3;
 
 	m_fAtkDelay = 0.f;

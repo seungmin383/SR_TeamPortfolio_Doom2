@@ -151,8 +151,6 @@ HRESULT CSpiderMastermind::Ready_GameObject()
 	std::mt19937 rng{ std::random_device{}() };
 	std::uniform_int_distribution<uint16_t> dist(0, 0xFFFF);
 	m_iPattern = dist(rng);
-	m_iPattern = 34952;
-
 	Calc_Pattern();
 
 	for (int i = 0; i < 8; i++)
@@ -293,27 +291,8 @@ HRESULT CSpiderMastermind::Add_Component()
 
 void CSpiderMastermind::Attack(const _float fTimeDelta)
 {
-	//CMonsterBase::Attack(fTimeDelta);
-	//Fire(fTimeDelta);
-	//switch (m_PattenArr[m_AtkCnt])
-	//{
-	//case 0:
-	//	m_isPattern3On = TRUE;
-	////	Pattern1(fTimeDelta);
-	//	break;
-	//case 1:
-	//	m_isPattern3On = TRUE;
-	////	Pattern2(fTimeDelta);
-	//	break;
-	//case 2:
-	//	m_isPattern3On = TRUE;
-	//	break;
-	//case 3:
-	//	m_isPattern3On = TRUE;
-	////	Pattern4(fTimeDelta);
-	//	break;
-	//}
-
+	CMonsterBase::Attack(fTimeDelta);
+	Fire(fTimeDelta);
 
 }
 
