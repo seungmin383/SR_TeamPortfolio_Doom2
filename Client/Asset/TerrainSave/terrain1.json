@@ -8,9 +8,10 @@
                 "z": 0.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/FLOOR4_8.png",
+            "type": 0,
             "vertexCountX": 26,
             "vertexCountZ": 36,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4702,9 +4703,10 @@
                 "z": 0.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Door/DOOR2_1.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 6,
+            "vertexInterval": 6.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4736,9 +4738,10 @@
                 "z": 0.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/MWALL3_1.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 6,
+            "vertexInterval": 6.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4770,9 +4773,10 @@
                 "z": 0.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/MWALL3_1.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 6,
+            "vertexInterval": 6.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4804,9 +4808,10 @@
                 "z": 0.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W28_5.png",
+            "type": 1,
             "vertexCountX": 7,
             "vertexCountZ": 16,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -5378,9 +5383,10 @@
                 "z": 0.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W28_5.png",
+            "type": 1,
             "vertexCountX": 7,
             "vertexCountZ": 16,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -5952,9 +5958,10 @@
                 "z": 15.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W28_5.png",
+            "type": 1,
             "vertexCountX": 7,
             "vertexCountZ": 16,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -6526,9 +6533,10 @@
                 "z": 15.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W28_5.png",
+            "type": 1,
             "vertexCountX": 7,
             "vertexCountZ": 16,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -7100,9 +7108,10 @@
                 "z": 30.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W28_5.png",
+            "type": 1,
             "vertexCountX": 7,
             "vertexCountZ": 16,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -7674,9 +7683,10 @@
                 "z": 37.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W28_5.png",
+            "type": 1,
             "vertexCountX": 7,
             "vertexCountZ": 18,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -8318,9 +8328,10 @@
                 "z": 37.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W28_5.png",
+            "type": 1,
             "vertexCountX": 7,
             "vertexCountZ": 16,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -8892,9 +8903,10 @@
                 "z": 37.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W28_5.png",
+            "type": 1,
             "vertexCountX": 7,
             "vertexCountZ": 16,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -9466,9 +9478,10 @@
                 "z": 37.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W28_5.png",
+            "type": 1,
             "vertexCountX": 7,
             "vertexCountZ": 6,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -9690,9 +9703,10 @@
                 "z": 15.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W28_5.png",
+            "type": 1,
             "vertexCountX": 7,
             "vertexCountZ": 16,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -10264,9 +10278,10 @@
                 "z": 15.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W28_5.png",
+            "type": 1,
             "vertexCountX": 7,
             "vertexCountZ": 16,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -10838,9 +10853,10 @@
                 "z": 30.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W28_5.png",
+            "type": 1,
             "vertexCountX": 7,
             "vertexCountZ": 16,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -11412,9 +11428,10 @@
                 "z": 37.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W28_5.png",
+            "type": 1,
             "vertexCountX": 7,
             "vertexCountZ": 18,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -12056,9 +12073,10 @@
                 "z": 37.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W28_5.png",
+            "type": 1,
             "vertexCountX": 7,
             "vertexCountZ": 16,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -12630,9 +12648,10 @@
                 "z": 37.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W28_5.png",
+            "type": 1,
             "vertexCountX": 7,
             "vertexCountZ": 16,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -13204,9 +13223,10 @@
                 "z": 37.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W28_5.png",
+            "type": 0,
             "vertexCountX": 7,
             "vertexCountZ": 6,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -13428,9 +13448,10 @@
                 "z": 37.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W28_5.png",
+            "type": 1,
             "vertexCountX": 7,
             "vertexCountZ": 16,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -14002,9 +14023,10 @@
                 "z": 37.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W28_5.png",
+            "type": 1,
             "vertexCountX": 7,
             "vertexCountZ": 16,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -14576,9 +14598,10 @@
                 "z": 35.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/FLOOR4_8.png",
+            "type": 0,
             "vertexCountX": 16,
             "vertexCountZ": 18,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -16030,9 +16053,10 @@
                 "z": 15.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/FLOOR4_8.png",
+            "type": 0,
             "vertexCountX": 12,
             "vertexCountZ": 16,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -17004,9 +17028,10 @@
                 "z": 15.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/FLOOR4_8.png",
+            "type": 0,
             "vertexCountX": 13,
             "vertexCountZ": 16,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -18058,9 +18083,10 @@
                 "z": 30.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/FLOOR4_8.png",
+            "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 23,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19337,9 +19363,10 @@
                 "z": 30.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/FLOOR4_8.png",
+            "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 23,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20616,9 +20643,10 @@
                 "z": 30.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/FLOOR4_8.png",
+            "type": 0,
             "vertexCountX": 17,
             "vertexCountZ": 8,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -21310,9 +21338,10 @@
                 "z": 30.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/FLOOR4_8.png",
+            "type": 0,
             "vertexCountX": 18,
             "vertexCountZ": 8,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -22044,9 +22073,10 @@
                 "z": 35.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Env/NUKAGE3.png",
+            "type": 0,
             "vertexCountX": 6,
             "vertexCountZ": 3,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -22148,9 +22178,10 @@
                 "z": 35.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Env/NUKAGE3.png",
+            "type": 0,
             "vertexCountX": 6,
             "vertexCountZ": 3,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -22248,13 +22279,14 @@
             "idx": 31,
             "pos": {
                 "x": 40.0,
-                "y": 0.0,
+                "y": 0.009999999776482582,
                 "z": 52.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/FLOOR5_1.png",
+            "type": 0,
             "vertexCountX": 46,
             "vertexCountZ": 11,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -24796,9 +24828,10 @@
                 "z": 62.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/FLOOR5_1.png",
+            "type": 0,
             "vertexCountX": 9,
             "vertexCountZ": 16,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -25526,13 +25559,14 @@
             "idx": 33,
             "pos": {
                 "x": 68.0,
-                "y": 0.0,
+                "y": 0.009999999776482582,
                 "z": 68.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/FLOOR5_1.png",
+            "type": 0,
             "vertexCountX": 9,
             "vertexCountZ": 16,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -26264,9 +26298,10 @@
                 "z": 78.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/FLOOR5_1.png",
+            "type": 0,
             "vertexCountX": 9,
             "vertexCountZ": 16,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -26994,13 +27029,14 @@
             "idx": 35,
             "pos": {
                 "x": 62.0,
-                "y": 0.0,
+                "y": 0.019999999552965164,
                 "z": 85.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/FLOOR5_1.png",
+            "type": 0,
             "vertexCountX": 12,
             "vertexCountZ": 26,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -28572,9 +28608,10 @@
                 "z": 85.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/FLOOR5_1.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -28606,9 +28643,10 @@
                 "z": 85.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/FLOOR5_1.png",
+            "type": 0,
             "vertexCountX": 10,
             "vertexCountZ": 26,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -29916,13 +29954,14 @@
             "idx": 38,
             "pos": {
                 "x": 79.35678100585938,
-                "y": 0.0,
+                "y": 0.029999999329447746,
                 "z": 91.4000015258789
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/FLOOR5_1.png",
+            "type": 0,
             "vertexCountX": 12,
             "vertexCountZ": 25,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -31430,13 +31469,14 @@
             "idx": 39,
             "pos": {
                 "x": 55.0,
-                "y": 0.0,
+                "y": 0.009999999776482582,
                 "z": 92.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/FLOOR5_1.png",
+            "type": 0,
             "vertexCountX": 12,
             "vertexCountZ": 26,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -33008,9 +33048,10 @@
                 "z": 62.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Env/NUKAGE1.png",
+            "type": 0,
             "vertexCountX": 46,
             "vertexCountZ": 24,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -38542,9 +38583,10 @@
                 "z": 62.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/WALL57_2.png",
+            "type": 1,
             "vertexCountX": 24,
             "vertexCountZ": 2,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -38796,9 +38838,10 @@
                 "z": 62.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/WALL57_2.png",
+            "type": 1,
             "vertexCountX": 24,
             "vertexCountZ": 2,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -39050,9 +39093,10 @@
                 "z": 62.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/WALL57_1.png",
+            "type": 1,
             "vertexCountX": 3,
             "vertexCountZ": 2,
-            "vertexInterval": 16,
+            "vertexInterval": 16.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -39094,9 +39138,10 @@
                 "z": 62.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/WALL57_1.png",
+            "type": 1,
             "vertexCountX": 3,
             "vertexCountZ": 2,
-            "vertexInterval": 16,
+            "vertexInterval": 16.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -39138,9 +39183,10 @@
                 "z": 12.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT5.png",
+            "type": 0,
             "vertexCountX": 7,
             "vertexCountZ": 26,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -40062,9 +40108,10 @@
                 "z": 37.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT5_4.png",
+            "type": 1,
             "vertexCountX": 7,
             "vertexCountZ": 3,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -40181,9 +40228,10 @@
                 "z": 37.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT5_4.png",
+            "type": 1,
             "vertexCountX": 26,
             "vertexCountZ": 3,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -40585,9 +40633,10 @@
                 "z": 12.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT5_4.png",
+            "type": 1,
             "vertexCountX": 3,
             "vertexCountZ": 19,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -40884,9 +40933,10 @@
                 "z": 12.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT5_4.png",
+            "type": 1,
             "vertexCountX": 7,
             "vertexCountZ": 3,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -41003,9 +41053,10 @@
                 "z": 37.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W31_1.png",
+            "type": 1,
             "vertexCountX": 7,
             "vertexCountZ": 3,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -41122,9 +41173,10 @@
                 "z": 37.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W31_1.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -41156,9 +41208,10 @@
                 "z": 12.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W31_1.png",
+            "type": 1,
             "vertexCountX": 3,
             "vertexCountZ": 28,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -41590,9 +41643,10 @@
                 "z": 10.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W31_1.png",
+            "type": 1,
             "vertexCountX": 11,
             "vertexCountZ": 3,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -41769,9 +41823,10 @@
                 "z": 12.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W31_1.png",
+            "type": 1,
             "vertexCountX": 3,
             "vertexCountZ": 19,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -42068,9 +42123,10 @@
                 "z": 10.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W111_3.png",
+            "type": 1,
             "vertexCountX": 3,
             "vertexCountZ": 21,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -42397,9 +42453,10 @@
                 "z": 85.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/WALL57_1.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 25,
+            "vertexInterval": 25.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -42431,9 +42488,10 @@
                 "z": 85.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/WALL57_1.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 25,
+            "vertexInterval": 25.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -42465,9 +42523,10 @@
                 "z": 52.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W28_5.png",
+            "type": 1,
             "vertexCountX": 6,
             "vertexCountZ": 7,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -42689,9 +42748,10 @@
                 "z": 52.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W28_5.png",
+            "type": 1,
             "vertexCountX": 6,
             "vertexCountZ": 7,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -42913,9 +42973,10 @@
                 "z": 52.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W28_5.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -42947,9 +43008,10 @@
                 "z": 85.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/MWALL2_1.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 9,
+            "vertexInterval": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -42981,9 +43043,10 @@
                 "z": 91.25
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/MWALL2_1.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 9,
+            "vertexInterval": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -43015,9 +43078,10 @@
                 "z": 94.19999694824219
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/MWALL2_1.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 9,
+            "vertexInterval": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -43049,9 +43113,10 @@
                 "z": 102.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/MWALL2_1.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 9,
+            "vertexInterval": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -43083,9 +43148,10 @@
                 "z": 108.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/MWALL2_1.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 9,
+            "vertexInterval": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -43117,9 +43183,10 @@
                 "z": 108.01000213623047
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/MWALL2_1.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 9,
+            "vertexInterval": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -43151,9 +43218,10 @@
                 "z": 108.01000213623047
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/MWALL2_1.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 9,
+            "vertexInterval": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -43185,9 +43253,10 @@
                 "z": 92.69999694824219
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/MWALL2_1.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 9,
+            "vertexInterval": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -43219,9 +43288,10 @@
                 "z": 91.55000305175781
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/MWALL2_1.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 9,
+            "vertexInterval": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -43253,9 +43323,10 @@
                 "z": 91.5999984741211
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/MWALL2_1.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 9,
+            "vertexInterval": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -43287,9 +43358,10 @@
                 "z": 90.98999786376953
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/MWALL2_1.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 9,
+            "vertexInterval": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -43321,9 +43393,10 @@
                 "z": 91.5999984741211
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/MWALL2_1.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 9,
+            "vertexInterval": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -43355,9 +43428,10 @@
                 "z": 87.98999786376953
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Step/STEP09.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -43479,9 +43553,10 @@
                 "z": 88.30000305175781
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Step/STEP09.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -43603,9 +43678,10 @@
                 "z": 88.30000305175781
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Step/STEP09.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -43727,9 +43803,10 @@
                 "z": 88.60000610351563
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Step/STEP09.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -43851,9 +43928,10 @@
                 "z": 88.60000610351563
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Step/STEP09.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -43975,9 +44053,10 @@
                 "z": 88.90000915527344
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Step/STEP09.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -44099,9 +44178,10 @@
                 "z": 88.90000915527344
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Step/STEP09.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -44223,9 +44303,10 @@
                 "z": 89.20001220703125
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Step/STEP09.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -44347,9 +44428,10 @@
                 "z": 89.20001220703125
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Step/STEP09.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -44471,9 +44553,10 @@
                 "z": 89.50001525878906
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Step/STEP09.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -44595,9 +44678,10 @@
                 "z": 89.50001525878906
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Step/STEP09.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -44719,9 +44803,10 @@
                 "z": 89.80001831054688
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Step/STEP09.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -44843,9 +44928,10 @@
                 "z": 92.80001831054688
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_1.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -44877,9 +44963,10 @@
                 "z": 92.80001831054688
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_2.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -44911,9 +44998,10 @@
                 "z": 91.30001831054688
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_3.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -44945,9 +45033,10 @@
                 "z": 91.30001831054688
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_4.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -44979,9 +45068,10 @@
                 "z": 87.99998474121094
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 7,
-            "vertexInterval": 0,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -45063,9 +45153,10 @@
                 "z": 88.29998779296875
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 6,
-            "vertexInterval": 0,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -45137,9 +45228,10 @@
                 "z": 88.59999084472656
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 5,
-            "vertexInterval": 0,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -45201,9 +45293,10 @@
                 "z": 88.89999389648438
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 4,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -45255,9 +45348,10 @@
                 "z": 89.19999694824219
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 3,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -45299,9 +45393,10 @@
                 "z": 89.5
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -45333,9 +45428,10 @@
                 "z": 89.5
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -45367,9 +45463,10 @@
                 "z": 89.19999694824219
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 3,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -45411,9 +45508,10 @@
                 "z": 88.89999389648438
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 4,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -45465,9 +45563,10 @@
                 "z": 88.59999084472656
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 5,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -45529,9 +45628,10 @@
                 "z": 88.29998779296875
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 6,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -45603,9 +45703,10 @@
                 "z": 87.99998474121094
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_5.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 7,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -45687,9 +45788,10 @@
                 "z": 89.79998779296875
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_6.png",
+            "type": 1,
             "vertexCountX": 3,
             "vertexCountZ": 4,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -45761,9 +45863,10 @@
                 "z": 89.79998779296875
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_6.png",
+            "type": 1,
             "vertexCountX": 3,
             "vertexCountZ": 4,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -45835,9 +45938,10 @@
                 "z": 92.79998779296875
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_6.png",
+            "type": 1,
             "vertexCountX": 3,
             "vertexCountZ": 4,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -45909,9 +46013,10 @@
                 "z": 92.79998779296875
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Floor/DEM1_6.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -45943,9 +46048,10 @@
                 "z": 51.79998779296875
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT3.png",
+            "type": 0,
             "vertexCountX": 21,
             "vertexCountZ": 11,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -47112,9 +47218,10 @@
                 "z": 40.099998474121094
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT3.png",
+            "type": 0,
             "vertexCountX": 15,
             "vertexCountZ": 11,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -47951,9 +48058,10 @@
                 "z": 57.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT3.png",
+            "type": 0,
             "vertexCountX": 16,
             "vertexCountZ": 15,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -49165,9 +49273,10 @@
                 "z": 30.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT14.png",
+            "type": 0,
             "vertexCountX": 8,
             "vertexCountZ": 8,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -49499,9 +49608,10 @@
                 "z": 30.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Deco/TOMW2_1.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 7,
+            "vertexInterval": 7.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -49533,9 +49643,10 @@
                 "z": 37.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Deco/TOMW2_2.png",
+            "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 7,
+            "vertexInterval": 7.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -49567,9 +49678,10 @@
                 "z": 37.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Deco/TOMW2_2.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -49601,9 +49713,10 @@
                 "z": 30.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT3.png",
+            "type": 0,
             "vertexCountX": 12,
             "vertexCountZ": 12,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -50335,9 +50448,10 @@
                 "z": 41.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT3.png",
+            "type": 0,
             "vertexCountX": 12,
             "vertexCountZ": 7,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -50769,9 +50883,10 @@
                 "z": 15.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT2.png",
+            "type": 0,
             "vertexCountX": 21,
             "vertexCountZ": 48,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -55823,9 +55938,10 @@
                 "z": 15.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT2.png",
+            "type": 0,
             "vertexCountX": 21,
             "vertexCountZ": 48,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -60877,9 +60993,10 @@
                 "z": 0.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT2.png",
+            "type": 0,
             "vertexCountX": 19,
             "vertexCountZ": 16,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -62411,9 +62528,10 @@
                 "z": 30.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT2.png",
+            "type": 0,
             "vertexCountX": 9,
             "vertexCountZ": 33,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -63910,9 +64028,10 @@
                 "z": 30.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT2.png",
+            "type": 0,
             "vertexCountX": 16,
             "vertexCountZ": 8,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -64564,9 +64683,10 @@
                 "z": 30.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT2.png",
+            "type": 0,
             "vertexCountX": 16,
             "vertexCountZ": 8,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -65218,9 +65338,10 @@
                 "z": 62.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/WALL57_1.png",
+            "type": 0,
             "vertexCountX": 4,
             "vertexCountZ": 2,
-            "vertexInterval": 15,
+            "vertexInterval": 15.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -65272,9 +65393,10 @@
                 "z": 62.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Ceil/CEIL4_3.png",
+            "type": 0,
             "vertexCountX": 47,
             "vertexCountZ": 24,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -70926,9 +71048,10 @@
                 "z": 62.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Ceil/CEIL4_3.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -70960,9 +71083,10 @@
                 "z": 62.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/LightTile/FLAMP.png",
+            "type": 1,
             "vertexCountX": 16,
             "vertexCountZ": 7,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -71534,9 +71658,10 @@
                 "z": 52.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/LightTile/FLAMP.png",
+            "type": 1,
             "vertexCountX": 16,
             "vertexCountZ": 7,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -72108,9 +72233,10 @@
                 "z": 46.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/LightTile/FLAMP.png",
+            "type": 1,
             "vertexCountX": 11,
             "vertexCountZ": 7,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -72507,9 +72633,10 @@
                 "z": 52.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/LightTile/FLAMP.png",
+            "type": 1,
             "vertexCountX": 16,
             "vertexCountZ": 7,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -73081,9 +73208,10 @@
                 "z": 47.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/LightTile/FLAMP.png",
+            "type": 1,
             "vertexCountX": 7,
             "vertexCountZ": 10,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -73445,9 +73573,10 @@
                 "z": 48.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/LightTile/FLAMP.png",
+            "type": 1,
             "vertexCountX": 8,
             "vertexCountZ": 15,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -74059,9 +74188,10 @@
                 "z": 46.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/LightTile/FLAMP.png",
+            "type": 1,
             "vertexCountX": 10,
             "vertexCountZ": 12,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -74673,9 +74803,10 @@
                 "z": 41.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Deco/COMP03_2.png",
+            "type": 1,
             "vertexCountX": 8,
             "vertexCountZ": 8,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -75007,9 +75138,10 @@
                 "z": 30.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Deco/COMP03_2.png",
+            "type": 1,
             "vertexCountX": 8,
             "vertexCountZ": 12,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -75501,9 +75633,10 @@
                 "z": 30.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Deco/COMP03_2.png",
+            "type": 1,
             "vertexCountX": 12,
             "vertexCountZ": 8,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -75995,9 +76128,10 @@
                 "z": 30.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Deco/COMP03_2.png",
+            "type": 0,
             "vertexCountX": 8,
             "vertexCountZ": 8,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -76329,9 +76463,10 @@
                 "z": 30.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Ceil/CEIL3_6.png",
+            "type": 0,
             "vertexCountX": 12,
             "vertexCountZ": 12,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -77063,9 +77198,10 @@
                 "z": 41.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Ceil/CEIL3_6.png",
+            "type": 2,
             "vertexCountX": 5,
             "vertexCountZ": 18,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -77527,9 +77663,10 @@
                 "z": 46.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Ceil/CEIL3_6.png",
+            "type": 2,
             "vertexCountX": 11,
             "vertexCountZ": 18,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -78531,9 +78668,10 @@
                 "z": 52.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Ceil/CEIL3_6.png",
+            "type": 0,
             "vertexCountX": 13,
             "vertexCountZ": 11,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -79260,9 +79398,10 @@
                 "z": 46.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Ceil/CEIL3_6.png",
+            "type": 1,
             "vertexCountX": 6,
             "vertexCountZ": 10,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -79574,9 +79713,10 @@
                 "z": 46.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Ceil/CEIL3_6.png",
+            "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 1,
+            "vertexInterval": 1.0,
             "vertices": [
                 {
                     "x": 0.0,

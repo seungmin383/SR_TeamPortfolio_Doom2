@@ -630,11 +630,13 @@ void CMonsterBase::Set_OnTerrain()
 		auto bufferCom = dterrain->Get_BufferCom();
 		auto transformCom = dterrain->Get_Transform();
 
+		_float vScaleY = m_pTransformCom->Get_Scale()->y;
+
 		_vec3 onPosition{ 0.f, 0.f, 0.f };
 		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
 		{
 
-			m_pTransformCom->Set_Pos(pos.x, onPosition.y+ m_iHeight, pos.z);
+			m_pTransformCom->Set_Pos(pos.x, onPosition.y + vScaleY, pos.z);
 			break;
 		}
 	}

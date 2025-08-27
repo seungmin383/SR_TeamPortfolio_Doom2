@@ -3,6 +3,7 @@
 #include "CWeaponManager.h"
 #include "CBfgBullet.h"
 #include "CManagement.h"
+#include "CDynamicCamera.h"
 
 CBfg::CBfg()
 {
@@ -34,9 +35,17 @@ _bool CBfg::Fire()
 		m_eCurState = WEAPON_STATE::SHOT;
 		m_fElapsedTime = m_fFireDelay;
 
+		// 투사체 위치 조정하는 부분
 		CGameObject* pPlayer = CManagement::GetInstance()->Get_Player();
 		_vec3 vPlayerPos;
-		pPlayer->Get_Transform()->Get_Pos(&vPlayerPos);
+		_vec3 vPlayerDir, vPlayerAt;
+
+		vPlayerPos = static_cast<CDynamicCamera*>(pPlayer)->Get_Pos();
+		vPlayerAt = static_cast<CDynamicCamera*>(pPlayer)->Get_At();
+		vPlayerDir = vPlayerAt - vPlayerPos;
+		D3DXVec3Normalize(&vPlayerDir, &vPlayerDir);
+
+		vPlayerPos += vPlayerDir * 5.f;
 
 		CGameObject* tmp = nullptr;
 		// 로켓 투사체 발사

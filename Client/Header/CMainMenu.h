@@ -59,6 +59,8 @@ private:
 
     LPD3DXSPRITE        m_pUISprite = nullptr;
     LPDIRECT3DTEXTURE9  m_pLogoTex = nullptr;
+    LPDIRECT3DTEXTURE9  m_pExitTex = nullptr;
+    LPDIRECT3DTEXTURE9  m_pHoverTex = nullptr;
 
 private:
     virtual void  Free() override;

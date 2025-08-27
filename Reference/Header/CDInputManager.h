@@ -30,6 +30,21 @@ public:
 		return *(((_long*)&m_tMouseState) + eMouseState);
 	}
 
+	_bool	Get_KeyDown(_byte dwKey)
+	{
+		return (m_byKeyState[dwKey] & 0x80) && !(m_byOldKeyState[dwKey] & 0x80);	
+	}
+
+	_bool	Get_KeyUp(_byte dwKey)
+	{
+		return (!m_byKeyState[dwKey] & 0x80) && (m_byOldKeyState[dwKey] & 0x80);
+	}
+
+	_bool	Get_KeyHold(_byte dwKey)
+	{
+		return (m_byKeyState[dwKey] & 0x80) && (m_byOldKeyState[dwKey] & 0x80);
+	}
+
 public:
 	HRESULT Ready_InputDev(HINSTANCE hInst, HWND hWnd);
 	void	Update_InputDev(void);
@@ -43,6 +58,7 @@ private:
 
 private:
 	_byte					m_byKeyState[256];		// 키보드에 있는 모든 키값을 저장하기 위한 변수
+	_byte					m_byOldKeyState[256];
 	DIMOUSESTATE			m_tMouseState;
 
 public:

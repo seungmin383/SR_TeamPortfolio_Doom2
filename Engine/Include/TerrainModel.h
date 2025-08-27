@@ -5,6 +5,7 @@
 struct TerrainModel
 {
 	int idx;
+	int type;
 	int vertexCountX;
 	int vertexCountZ;
 	float vertexInterval;
@@ -17,6 +18,7 @@ struct TerrainModel
 inline void to_json(json& j, const TerrainModel& t)
 {
 	j["idx"] = t.idx;
+	j["type"] = t.type;
 	j["vertexCountX"] = t.vertexCountX;
 	j["vertexCountZ"] = t.vertexCountZ;
 	j["vertexInterval"] = t.vertexInterval;
@@ -29,6 +31,7 @@ inline void to_json(json& j, const TerrainModel& t)
 inline void from_json(const json& j, TerrainModel& t)
 {
 	j.at("idx").get_to(t.idx);
+	j.at("type").get_to(t.type);
 	j.at("vertexCountX").get_to(t.vertexCountX);
 	j.at("vertexCountZ").get_to(t.vertexCountZ);
 	j.at("vertexInterval").get_to(t.vertexInterval);

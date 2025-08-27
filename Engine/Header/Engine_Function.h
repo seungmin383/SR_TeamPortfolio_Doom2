@@ -37,7 +37,7 @@ namespace Engine
 		{
 			dwRefCnt = pInstance->Release();
 
-			if (0 == dwRefCnt)
+			if (0 == dwRefCnt)	
 				pInstance = NULL;
 		}
 

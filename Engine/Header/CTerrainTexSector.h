@@ -15,7 +15,7 @@ private:
 public:
     virtual HRESULT Ready_Buffer(const _ulong& dwCntX,
         const _ulong& dwCntZ,
-        const _ulong& dwVtxItv,
+        const _float& dwVtxItv,
         vector<_vec3> vertices);
     virtual void    Render_Buffer();
     virtual void    Set_UVCoord(const _uint& _iCurFrame, const _float& _fU, const _uint& _iCurState, const _float& _fV, _bool isReverse) override {};
