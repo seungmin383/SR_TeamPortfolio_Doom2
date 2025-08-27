@@ -202,6 +202,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 	_matrix	matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, 0, &m_matView);
+
 #pragma region Moving Part
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_W) & 0x80)
@@ -276,6 +277,10 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		m_bIsMoving = true;
 	}
 
+	// 움직이고 있다면 카메라 흔들림 효과 적용
+	if (m_bIsMoving)
+		Camera_Bobbing(fTimeDelta);
+
 #pragma endregion
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_SPACE) & 0x80)
@@ -289,10 +294,6 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		else
 			return;
 	}
-
-	// 움직이고 있다면 카메라 흔들림 효과 적용
-	if (m_bIsMoving)
-		Camera_Bobbing(fTimeDelta);
 
 #pragma region	Weapon Change Part
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_1) & 0x80)
@@ -428,12 +429,20 @@ void CDynamicCamera::Set_OnTerrain()
 	if (fHighest == -999.f)
 		fHighest = 0.f;
 
+	// 점프 중 이지 않을 때
 	if (!m_bIsJumping)
 	{
-		m_bIsGrounded = true;
-		_float deltaHeight = (fHighest + 3.f) - m_vEye.y;
-		m_vEye.y += deltaHeight;
-		m_vAt.y += deltaHeight;
+		if (m_vEye.y - fHighest >= 3.2f)
+		{
+			m_bIsGrounded = false;
+		}
+		else
+		{
+			m_bIsGrounded = true;
+			_float deltaHeight = (fHighest + 3.f) - m_vEye.y;
+			m_vEye.y += deltaHeight;
+			m_vAt.y += deltaHeight;
+		}
 	}
 
 	// 점프 중 일때 착지 로직
