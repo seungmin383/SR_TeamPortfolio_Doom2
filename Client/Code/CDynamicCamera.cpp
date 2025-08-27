@@ -101,11 +101,10 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 	Key_Input(fTimeDelta);
 	Mouse_Input();
 
-	// 콜라이더와 위치를 옮겨주는 부분
 	m_pColliderCom->Late_Update();
 	m_pTransformCom->Set_Pos(m_vEye.x, m_vEye.y, m_vEye.z);
 
-	// 마우스 부분
+	// 마우??부�?
 	if (false == m_bFix)
 	{
 		Mouse_Move();
@@ -277,7 +276,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		m_bIsMoving = true;
 	}
 
-	// 움직이고 있다면 카메라 흔들림 효과 적용
+	// ?�직이�??�다�?카메???�들�??�과 ?�용
 	if (m_bIsMoving)
 		Camera_Bobbing(fTimeDelta);
 
@@ -328,6 +327,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::BFG);
 	}
 #pragma endregion
+
 
 #pragma region Mouse Fix Part
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_TAB) & 0x80)
@@ -386,7 +386,7 @@ void CDynamicCamera::Mouse_Move()
 		m_vAt = m_vEye + vLook;
 	}
 
-	// 마우스 x축 이동 값을 저장.(매 프레임마다 최신 마우스 이동 값을 어디서든 확인 가능)
+	// 마우??x�??�동 값을 ?�??(�??�레?�마??최신 마우???�동 값을 ?�디?�든 ?�인 가??
 	s_lMouseMoveX = CDInputManager::GetInstance()->Get_DIMouseMove(DIMS_X);
 	if (s_lMouseMoveX)
 	{
@@ -412,13 +412,13 @@ void CDynamicCamera::Mouse_Fix()
 
 void CDynamicCamera::Set_OnTerrain()
 {
-	// 소재혁 지형 변경 2025-08-26
-	// TODO:로딩 시 지형정보 들고있게 수정
-	// TODO:최적화
+	// ?�재??지??변�?2025-08-26
+	// TODO:로딩 ??지?�정�??�고?�게 ?�정
+	// TODO:최적??
 	_float fHighest(-999.f);
 	_vec3 onPosition{ 0.f, 0.f, 0.f };
 
-	// 플레이어 바로 아래의 Terrain 중 가장 높은 Terrain의 높이를 반환 --> 복층일 때 계산할 수 있어야하므로
+	// ?�레?�어 바로 ?�래??Terrain �?가???��? Terrain???�이�?반환 --> 복층????계산?????�어?�하므�?
 	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
 	{
 		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
@@ -432,11 +432,11 @@ void CDynamicCamera::Set_OnTerrain()
 		}
 	}
 
-	// 예외처리용 코드 : 변수가 바뀌지 않았다는건 바로 아래 지형이 없었다는 뜻
+	// ?�외처리??코드 : 변?��? 바뀌�? ?�았?�는�?바로 ?�래 지?�이 ?�었?�는 ??
 	if (fHighest == -999.f)
 		fHighest = 0.f;
 
-	// 점프 중 이지 않을 때
+	// ?�프 �??��? ?�을 ??
 	if (!m_bIsJumping)
 	{
 		if (m_vEye.y - fHighest >= 3.2f)
@@ -453,7 +453,7 @@ void CDynamicCamera::Set_OnTerrain()
 		}
 	}
 
-	// 점프 중 일때 착지 로직
+	// ?�프 �??�때 착�? 로직
 	if (m_bIsJumping && (m_vEye.y - 3.f) <= fHighest)
 	{
 		m_bIsJumping = false;
@@ -489,7 +489,7 @@ void CDynamicCamera::Update_State()
 
 void CDynamicCamera::Camera_Bobbing(const _float& fTimeDelta)
 {
-	// 카메라 위, 아래 효과
+	// 카메???? ?�래 ?�과
 	if (!m_bIsGrounded)
 		return;
 

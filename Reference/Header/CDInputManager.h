@@ -30,19 +30,19 @@ public:
 		return *(((_long*)&m_tMouseState) + eMouseState);
 	}
 
-	_bool	Get_KeyDown(_byte dwKey)
+	_bool	Get_KeyDown(_ubyte dwKey)
 	{
 		return (m_byKeyState[dwKey] & 0x80) && !(m_byOldKeyState[dwKey] & 0x80);	
 	}
 
-	_bool	Get_KeyUp(_byte dwKey)
+	_bool	Get_KeyUp(_ubyte dwKey)
 	{
 		return (!m_byKeyState[dwKey] & 0x80) && (m_byOldKeyState[dwKey] & 0x80);
 	}
 
-	_bool	Get_KeyHold(_byte dwKey)
+	_bool	Get_KeyHold(_ubyte dwKey)
 	{
-		return (m_byKeyState[dwKey] & 0x80) && (m_byOldKeyState[dwKey] & 0x80);
+		return (m_byKeyState[dwKey] & 0x80);
 	}
 
 public:
