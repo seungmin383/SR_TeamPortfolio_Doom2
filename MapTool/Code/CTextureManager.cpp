@@ -25,7 +25,7 @@ void CTextureManager::BulkLoadTexture(LPDIRECT3DDEVICE9 pGraphicDev, string str)
 	auto pm = CPrototypeManager::GetInstance();
 	for (auto item : list)
 	{
-		if (item.extension().string() != ".png")
+		if (item.extension().string() != ".png" && item.extension().string() != ".PNG")
 			continue;
 
 		auto fileName = item.filename().wstring();
@@ -78,6 +78,10 @@ CTextureManager::terrainDir CTextureManager::StringConversion(string str)
 		return CTextureManager::terrainDir::SWITCH;
 	else if (str == "Wall")
 		return CTextureManager::terrainDir::WALL;
+	else if (str == "Constructure")
+		return CTextureManager::terrainDir::CONSTRUCTURE;
+	else if (str == "Etc")
+		return CTextureManager::terrainDir::ETC;
 	else
 		return CTextureManager::terrainDir::ETC;
 }

@@ -29,7 +29,7 @@
       "ObjectFileName": "",
       "MonsterFileName": ""
     },
-        {
+    {
       "StageNumber": 3,
       "terrainFileName": "terrain1.json",
       "ObjectFileName": "object1.json",
@@ -46,6 +46,12 @@
       "terrainFileName": "terrain3.json",
       "ObjectFileName": "object3.json",
       "MonsterFileName": "monster3.json"
+    },
+    {
+      "StageNumber": 6,
+      "terrainFileName": "terrainlast.json",
+      "ObjectFileName": "object4.json",
+      "MonsterFileName": "monster4.json"
     }
   ],
 
