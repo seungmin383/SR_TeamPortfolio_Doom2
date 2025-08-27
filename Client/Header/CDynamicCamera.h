@@ -82,6 +82,7 @@ private:
 	void        Mouse_Input();
 	void        Mouse_Move();
 	void        Mouse_Fix();
+	void		Check_Dash(const _float& fTimeDelta);
 	void        Set_OnTerrain();
 	void        Update_State();          // 플레이어의 State 설정해주는 함수
 	void        Camera_Bobbing(const _float& fTimeDelta);
@@ -104,20 +105,25 @@ private:
 	_float      m_fSpeed;
 	_float      m_fFallSpeed;		// 추락 시 속도
 	_float		m_fJumpForce;		// 점프 시 가해주는 힘
+	_float		m_fDashForce;		// 대쉬 시 가해주는 힘
+	_float		m_fDashTime;		// 대쉬 시간
 	_float      m_fAngle;           // 카메라 흔들림에 적용할 각도
 	_float      m_fAngleSpeed;      // 각도에 더해줄 변수
 	_float      m_fDist;            // 땅에서부터 거리
 
-	_bool       m_bIsGrounded;
-	_bool		m_bIsJumping;
-	_bool		m_bIsDoubleJump;
+	_bool       m_bIsGrounded;		// 땅에 있나
+	_bool		m_bIsJumping;		// 점프 중 인가
+	_bool		m_bIsDashing;		// 대쉬 중 인가
 	_bool       m_bFix;
 	_bool       m_bCheck;
-	_bool       m_bTrigger;     // 문 열기, 스위치 누르기 등 체크용 변수
+	_bool       m_bTrigger;			// 문 열기, 스위치 누르기 등 체크용 변수
 	_bool       m_bIsMoving;
 
-	_vec3       m_vMoveDist;	// 이동거리
-	_vec3		m_vVelocity;	// 가속도
+	_vec3       m_vMoveDist;		// 이동거리
+	_vec3		m_vVelocity;		// 가속도
+	_vec3		m_vDashStartPos;	// 대쉬 시작 위치
+	_vec3		m_vDashEndPos;		// 대쉬 도착 위치
+	_vec3		m_vDashDir;			// 대쉬 방향
 
 public:
 	static CDynamicCamera* Create(LPDIRECT3DDEVICE9 pGraphicDev,

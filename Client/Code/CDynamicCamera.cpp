@@ -18,9 +18,9 @@ _long CDynamicCamera::s_lMouseMoveX = 0L;
 
 CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCamera(pGraphicDev),
-	m_bFix(false), m_bCheck(false), m_bTrigger(false), m_bIsMoving(false), m_bIsGrounded(true), m_bIsJumping(false), m_bIsDoubleJump(false),
+	m_bFix(false), m_bCheck(false), m_bTrigger(false), m_bIsMoving(false), m_bIsGrounded(true), m_bIsJumping(false), m_bIsDashing(false),
 	m_iArmor(0), m_iJumpCnt(0),
-	m_fSpeed(0.f), m_fAngle(0.f), m_fAngleSpeed(0.f), m_fFallSpeed(0.f), m_fDist(0.f), m_fJumpForce(0.f),
+	m_fSpeed(0.f), m_fAngle(0.f), m_fAngleSpeed(0.f), m_fFallSpeed(0.f), m_fDist(0.f), m_fJumpForce(0.f), m_fDashForce(0.f), m_fDashTime(0.f),
 	m_eState(IDLE),
 	m_vMoveDist(_vec3(0.f, 0.f, 0.f))
 {
@@ -52,9 +52,10 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	m_iGameHp = 83;
 	m_iArmor = 45;
 
-	m_fSpeed = 20.f;
+	m_fSpeed = 30.f;
 	m_fFallSpeed = 1.25f;
 	m_fJumpForce = 0.45f;
+	m_fDashForce = 20.f;
 	m_fAngle = 0.f;
 	m_fAngleSpeed = 10.f;
 
@@ -100,10 +101,16 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 	Set_OnTerrain();
 	Key_Input(fTimeDelta);
 	Mouse_Input();
+	Check_Dash(fTimeDelta);
 
 	// 콜라이더와 위치를 옮겨주는 부분
 	m_pColliderCom->Late_Update();
 	m_pTransformCom->Set_Pos(m_vEye.x, m_vEye.y, m_vEye.z);
+
+	wchar_t buf[64];
+	swprintf(buf, 64, L"Dashing : %d\n", m_bIsDashing);
+	OutputDebugString(buf);
+
 
 	// 마우스 부분
 	if (false == m_bFix)
@@ -207,10 +214,22 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 	if (CDInputManager::GetInstance()->Get_KeyHold(DIK_W))
 	{
-		_vec3	vLook;
-		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
+		_vec3	vRight, vLength;
+		memcpy(&vRight, &matCamWorld.m[2][0], sizeof(_vec3));
 
-		_vec3	vLength = *D3DXVec3Normalize(&vLook, &vLook) * fTimeDelta * m_fSpeed;
+		// 대쉬 트리거 및 방향 구하기
+		if (CDInputManager::GetInstance()->Get_KeyDown(DIK_LSHIFT))
+		{
+			if (m_bIsDashing)
+				return;
+			else
+			{
+				m_bIsDashing = true;
+				m_fDashTime = 0.f;
+			}
+		}
+
+		vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
 
 		m_vMoveDist = vLength;
 
@@ -225,10 +244,22 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 	if (CDInputManager::GetInstance()->Get_KeyHold(DIK_S))
 	{
-		_vec3	vLook;
-		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
+		_vec3	vRight, vLength;
+		memcpy(&vRight, &matCamWorld.m[2][0], sizeof(_vec3));
 
-		_vec3	vLength = *D3DXVec3Normalize(&vLook, &vLook) * fTimeDelta * m_fSpeed;
+		// 대쉬 트리거 및 방향 구하기
+		if (CDInputManager::GetInstance()->Get_KeyDown(DIK_LSHIFT))
+		{
+			if (m_bIsDashing)
+				return;
+			else
+			{
+				m_bIsDashing = true;
+				m_fDashTime = 0.f;
+			}
+		}
+
+		vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
 
 		m_vMoveDist = -vLength;
 
@@ -243,10 +274,22 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 	if (CDInputManager::GetInstance()->Get_KeyHold(DIK_D))
 	{
-		_vec3	vRight;
+		_vec3	vRight, vLength;
 		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
 
-		_vec3	vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
+		// 대쉬 트리거 및 방향 구하기
+		if (CDInputManager::GetInstance()->Get_KeyDown(DIK_LSHIFT))
+		{
+			if (m_bIsDashing)
+				return;
+			else
+			{
+				m_bIsDashing = true;
+				m_fDashTime = 0.f;
+			}
+		}
+
+		vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
 
 		m_vMoveDist = vLength;
 
@@ -261,10 +304,22 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 	if (CDInputManager::GetInstance()->Get_KeyHold(DIK_A))
 	{
-		_vec3	vRight;
+		_vec3	vRight, vLength;
 		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
 
-		_vec3	vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
+		// 대쉬 트리거 및 방향 구하기
+		if (CDInputManager::GetInstance()->Get_KeyDown(DIK_LSHIFT))
+		{
+			if (m_bIsDashing)
+				return;
+			else
+			{
+				m_bIsDashing = true;
+				m_fDashTime = 0.f;
+			}
+		}
+
+		vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
 
 		m_vMoveDist = -vLength;
 
@@ -283,6 +338,8 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 #pragma endregion
 
+#pragma region Jump Part
+
 	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_SPACE))
 	{
 		if (m_bIsGrounded && m_iJumpCnt == 0)
@@ -293,7 +350,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 			m_vVelocity.y -= m_fJumpForce;
 		}
 		else if (!m_bIsGrounded && m_iJumpCnt == 1)
-		{ 
+		{
 			m_iJumpCnt++;
 			m_vVelocity.y = 0.f;
 			m_vVelocity.y -= m_fJumpForce;
@@ -302,35 +359,37 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 			return;
 	}
 
+#pragma endregion
+
 #pragma region	Weapon Change Part
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_1) & 0x80)
+	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_1))
 	{
 		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::PISTOL);
 	}
 
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_2) & 0x80)
+	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_2))
 	{
 		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::SHOTGUN);
 	}
 
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_3) & 0x80)
+	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_3))
 	{
 		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::CHAINGUN);
 	}
 
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_4) & 0x80)
+	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_4))
 	{
 		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::ROCKET);
 	}
 
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_5) & 0x80)
+	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_5))
 	{
 		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::BFG);
 	}
 #pragma endregion
 
 #pragma region Mouse Fix Part
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_TAB) & 0x80)
+	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_TAB))
 	{
 		if (m_bCheck)
 			return;
@@ -408,6 +467,21 @@ void CDynamicCamera::Mouse_Fix()
 
 	ClientToScreen(g_hWnd, &ptMouse);
 	SetCursorPos(ptMouse.x, ptMouse.y);
+}
+
+void CDynamicCamera::Check_Dash(const _float& fTimeDelta)
+{
+	if (m_bIsDashing)
+	{
+		m_fDashTime += fTimeDelta;
+		m_fSpeed *= 1.5f;
+
+		if (m_fDashTime >= 0.1f)
+			m_fSpeed = 30.f;
+		
+		if (m_fDashTime >= 0.5f)
+			m_bIsDashing = false;
+	}
 }
 
 void CDynamicCamera::Set_OnTerrain()
