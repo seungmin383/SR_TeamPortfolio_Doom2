@@ -236,6 +236,7 @@
     <ClInclude Include="..\Header\CZombiemanBullet.h" />
     <ClInclude Include="..\Header\FaceUIRegistry.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="CStageTest.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
@@ -307,6 +308,7 @@
     <ClCompile Include="..\Code\CZombiemanBullet.cpp" />
     <ClCompile Include="..\Code\FaceUIRegistry.cpp" />
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="CStageTest.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -276,7 +276,9 @@ void CLayer::DeleteAll()
 
 	for (UINT i = 0; i < (UINT)OBJID::OBJ_END; ++i)
 	{
-		if (curSceneId != SCENEID::STAGE3
+		//if (curSceneId != SCENEID::STAGE3
+		//	&& i == (_uint)OBJID::OBJ_PLAYER)
+		if (curSceneId != SCENEID::TEST
 			&& i == (_uint)OBJID::OBJ_PLAYER)
 			continue;
 
