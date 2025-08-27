@@ -65,6 +65,9 @@ _int CRocketBullet::Update_GameObject(const _float& fTimeDelta)
 	if (m_bDead && m_pAnimCom->Get_isFinAct())
 		return -1;
 
+	if (CManagement::GetInstance()->Is_Paused())			// 여기서 일시 정지를 하면 멈추긴 하는데, Texture가 안보임
+		return 0;
+
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
 
