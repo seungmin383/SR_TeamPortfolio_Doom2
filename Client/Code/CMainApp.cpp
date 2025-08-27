@@ -34,6 +34,7 @@
 #include "CArchvileBullet.h"
 #include "CZombiemanBullet.h"
 #include"CBossBullet.h"
+#include "CPinkyBullet.h"
 
 #include "CPlayerWeapon.h"
 #include "CHealth_Small.h"
@@ -248,6 +249,10 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 
 	// ¾ÆÅ©¹ÙÀÏ ÃÑ¾Ë
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE_BULLET, CArchvileBullet::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// ¾ÆÅ©¹ÙÀÏ ÃÑ¾Ë
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_PIKNY_BULLET, CPinkyBullet::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	// º¸½º ÃÑ¾Ë

@@ -184,6 +184,9 @@
     <Filter Include="02. GameObject\07. Bullet\01. MonsterBullet\CBossBullet">
       <UniqueIdentifier>{8f510942-9fa1-46bb-bd34-8271d1afdbbe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\07. Bullet\01. MonsterBullet\CPinkyBullet">
+      <UniqueIdentifier>{0173e239-2361-4fee-b867-d2ace2e1706d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -396,6 +399,9 @@
     <ClInclude Include="..\Header\CBossBullet.h">
       <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CBossBullet</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CPinkyBullet.h">
+      <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CPinkyBullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -601,6 +607,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CBossBullet.cpp">
       <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CBossBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CPinkyBullet.cpp">
+      <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CPinkyBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
