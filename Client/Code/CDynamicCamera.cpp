@@ -105,11 +105,15 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 	m_pColliderCom->Late_Update();
 	m_pTransformCom->Set_Pos(m_vEye.x, m_vEye.y, m_vEye.z);
 
+<<<<<<< HEAD
+	// ë§ˆìš°??ë¶€ë¶?
+=======
 	wchar_t buf[64];
 	swprintf(buf, 64, L"Dashing : %d\n", m_bIsDashing);
 	OutputDebugString(buf);
 
-	// ¸¶¿ì½º ºÎºĞ
+	// ë§ˆìš°??ë¶€ë¶?
+>>>>>>> ChoongHo
 	if (false == m_bFix)
 	{
 		Mouse_Move();
@@ -329,7 +333,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		m_bIsMoving = true;
 	}
 
-	// ¿òÁ÷ÀÌ°í ÀÖ´Ù¸é Ä«¸Ş¶ó Èçµé¸² È¿°ú Àû¿ë
+	// ?€ì§ì´ê³??ˆë‹¤ë©?ì¹´ë©”???”ë“¤ë¦??¨ê³¼ ?ìš©
 	if (m_bIsMoving)
 		Camera_Bobbing(fTimeDelta);
 
@@ -443,7 +447,7 @@ void CDynamicCamera::Mouse_Move()
 		m_vAt = m_vEye + vLook;
 	}
 
-	// ¸¶¿ì½º xÃà ÀÌµ¿ °ªÀ» ÀúÀå.(¸Å ÇÁ·¹ÀÓ¸¶´Ù ÃÖ½Å ¸¶¿ì½º ÀÌµ¿ °ªÀ» ¾îµğ¼­µç È®ÀÎ °¡´É)
+	// ë§ˆìš°??xì¶??´ë™ ê°’ì„ ?€??(ë§??„ë ˆ?„ë§ˆ??ìµœì‹  ë§ˆìš°???´ë™ ê°’ì„ ?´ë””?œë“  ?•ì¸ ê°€??
 	s_lMouseMoveX = CDInputManager::GetInstance()->Get_DIMouseMove(DIMS_X);
 	if (s_lMouseMoveX)
 	{
@@ -484,13 +488,13 @@ void CDynamicCamera::Check_Dash(const _float& fTimeDelta)
 
 void CDynamicCamera::Set_OnTerrain()
 {
-	// ¼ÒÀçÇõ ÁöÇü º¯°æ 2025-08-26
-	// TODO:·Îµù ½Ã ÁöÇüÁ¤º¸ µé°íÀÖ°Ô ¼öÁ¤
-	// TODO:ÃÖÀûÈ­
+	// ?Œì¬??ì§€??ë³€ê²?2025-08-26
+	// TODO:ë¡œë”© ??ì§€?•ì •ë³??¤ê³ ?ˆê²Œ ?˜ì •
+	// TODO:ìµœì ??
 	_float fHighest(-999.f);
 	_vec3 onPosition{ 0.f, 0.f, 0.f };
 
-	// ÇÃ·¹ÀÌ¾î ¹Ù·Î ¾Æ·¡ÀÇ Terrain Áß °¡Àå ³ôÀº TerrainÀÇ ³ôÀÌ¸¦ ¹İÈ¯ --> º¹ÃşÀÏ ¶§ °è»êÇÒ ¼ö ÀÖ¾î¾ßÇÏ¹Ç·Î
+	// ?Œë ˆ?´ì–´ ë°”ë¡œ ?„ë˜??Terrain ì¤?ê°€???’ì? Terrain???’ì´ë¥?ë°˜í™˜ --> ë³µì¸µ????ê³„ì‚°?????ˆì–´?¼í•˜ë¯€ë¡?
 	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
 	{
 		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
@@ -504,11 +508,11 @@ void CDynamicCamera::Set_OnTerrain()
 		}
 	}
 
-	// ¿¹¿ÜÃ³¸®¿ë ÄÚµå : º¯¼ö°¡ ¹Ù²îÁö ¾Ê¾Ò´Ù´Â°Ç ¹Ù·Î ¾Æ·¡ ÁöÇüÀÌ ¾ø¾ú´Ù´Â ¶æ
+	// ?ˆì™¸ì²˜ë¦¬??ì½”ë“œ : ë³€?˜ê? ë°”ë€Œì? ?Šì•˜?¤ëŠ”ê±?ë°”ë¡œ ?„ë˜ ì§€?•ì´ ?†ì—ˆ?¤ëŠ” ??
 	if (fHighest == -999.f)
 		fHighest = 0.f;
 
-	// Á¡ÇÁ Áß ÀÌÁö ¾ÊÀ» ¶§
+	// ?í”„ ì¤??´ì? ?Šì„ ??
 	if (!m_bIsJumping)
 	{
 		if (m_vEye.y - fHighest >= 3.2f)
@@ -525,7 +529,7 @@ void CDynamicCamera::Set_OnTerrain()
 		}
 	}
 
-	// Á¡ÇÁ Áß ÀÏ¶§ ÂøÁö ·ÎÁ÷
+	// ?í”„ ì¤??¼ë•Œ ì°©ì? ë¡œì§
 	if (m_bIsJumping && (m_vEye.y - 3.f) <= fHighest)
 	{
 		m_bIsJumping = false;
@@ -561,7 +565,7 @@ void CDynamicCamera::Update_State()
 
 void CDynamicCamera::Camera_Bobbing(const _float& fTimeDelta)
 {
-	// Ä«¸Ş¶ó À§, ¾Æ·¡ È¿°ú
+	// ì¹´ë©”???? ?„ë˜ ?¨ê³¼
 	if (!m_bIsGrounded)
 		return;
 
