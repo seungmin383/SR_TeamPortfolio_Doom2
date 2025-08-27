@@ -88,6 +88,7 @@ _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 	_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
 	
 	Update_State();
+	Check_Death();
 
 	return iExit;
 }
@@ -413,6 +414,9 @@ void CDynamicCamera::Mouse_Input()
 
 void CDynamicCamera::Mouse_Move()
 {
+	if (m_bDead)
+		return;
+
 	_matrix	matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, 0, &m_matView);
 
@@ -432,7 +436,6 @@ void CDynamicCamera::Mouse_Move()
 		m_vAt = m_vEye + vLook;
 	}
 
-	// ë§ˆìš°??xì¶??´ë™ ê°’ì„ ?€??(ë§??„ë ˆ?„ë§ˆ??ìµœì‹  ë§ˆìš°???´ë™ ê°’ì„ ?´ë””?œë“  ?•ì¸ ê°€??
 	s_lMouseMoveX = CDInputManager::GetInstance()->Get_DIMouseMove(DIMS_X);
 	if (s_lMouseMoveX)
 	{
@@ -520,6 +523,13 @@ void CDynamicCamera::Set_OnTerrain()
 		m_bIsGrounded = true;
 		m_iJumpCnt = 0;
 	}
+
+	if (m_eState == DEAD)
+	{
+		_float deltaHeight = (fHighest + 0.5f) - m_vEye.y;
+		m_vEye.y += deltaHeight;
+		m_vAt.y += deltaHeight;
+	}
 }
 
 void CDynamicCamera::Update_State()
@@ -565,6 +575,13 @@ void CDynamicCamera::Apply_Gravity(const _float& fTimeDelta)
 
 	if (m_vVelocity.y >= 200.f)
 		m_vVelocity.y = 200.f;
+}
+
+void CDynamicCamera::Check_Death()
+{
+	if (m_eState == DEAD)
+	{
+	}
 }
 
 CDynamicCamera* CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)
