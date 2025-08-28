@@ -104,6 +104,100 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 	return S_OK;
  }
 
+HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, _int iCnt, const std::wstring& linkId)
+{
+	CGameObject* pGameObject = nullptr;
+	const unsigned key = (unsigned)eObjId;
+
+	// 오브젝트 풀이 비어있으면
+	if (m_vecObjectPool[key].empty())
+	{
+		// 횟수만큼 추가
+		for (size_t i = 0; i < (size_t)iCnt; i++)
+		{
+			pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(eObjPrototype);
+			if (nullptr == pGameObject)
+				return E_FAIL;
+
+			pGameObject->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+
+			// ★ 기존과 동일: pending에 보관
+			m_vecPendingObject[key].push_back(pGameObject);
+
+			// ★ 추가: 태그 “기록”만 (적용은 나중에 Client에서)
+			m_mapInteractiveTags[key].push_back({ pGameObject, linkId });
+		}
+	}
+	else
+	{
+		// 기존 코드 흐름과 동일 (capacity 분기 포함)
+		if (m_vecObjectPool[key].capacity() >= (size_t)iCnt)
+		{
+			for (size_t i = 0; i < (size_t)iCnt; i++)
+			{
+				pGameObject = m_vecObjectPool[key].back();
+				m_vecPendingObject[key].pop_back();
+
+				// 위치 세팅
+				pGameObject->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+
+				// 실행 컨테이너로 이동
+				m_vecObject[key].push_back(pGameObject);
+
+				// ★ 태그 기록
+				m_mapInteractiveTags[key].push_back({ pGameObject, linkId });
+			}
+		}
+		else if (m_vecObjectPool[key].capacity() < (size_t)iCnt)
+		{
+			_int additionalCnt = iCnt - (_int)m_vecObjectPool[key].capacity();
+
+			for (size_t i = 0; i < (size_t)iCnt; i++)
+			{
+				pGameObject = m_vecObjectPool[key].back();
+				m_vecObjectPool[key].pop_back();
+
+				pGameObject->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+
+				m_vecPendingObject[key].push_back(pGameObject);
+
+				// ★ 태그 기록
+				m_mapInteractiveTags[key].push_back({ pGameObject, linkId });
+			}
+
+			// 횟수만큼 추가
+			for (size_t i = 0; i < (size_t)additionalCnt; i++)
+			{
+				pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(eObjPrototype);
+				if (nullptr == pGameObject)
+					return E_FAIL;
+
+				pGameObject->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+				m_vecPendingObject[key].push_back(pGameObject);
+
+				// ★ 태그 기록
+				m_mapInteractiveTags[key].push_back({ pGameObject, linkId });
+			}
+		}
+	}
+
+	return S_OK;
+}
+
+void CLayer::PopInteractiveTags(OBJID eObjId, std::vector<SInteractiveTag>& outList)
+{
+	const unsigned key = (unsigned)eObjId;
+	auto it = m_mapInteractiveTags.find(key);
+	if (it == m_mapInteractiveTags.end()) return;
+
+	// outList로 이동하고 내부는 비움
+	auto& vec = it->second;
+	outList.insert(outList.end(),
+		std::make_move_iterator(vec.begin()),
+		std::make_move_iterator(vec.end()));
+	vec.clear();
+}
+
 HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, CGameObject* _Owner, CGameObject*& _Bullet)
 {
 	CGameObject* pGameObject = nullptr;

@@ -58,7 +58,7 @@ void CSwitch_Button::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 	if (m_pColliderCom)
-		m_pColliderCom->Late_Update(); // ★ 중요
+		m_pColliderCom->Late_Update(); // 중요
 }
 
 void CSwitch_Button::Render_GameObject(const _float& fTimeDelta)

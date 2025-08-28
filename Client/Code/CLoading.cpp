@@ -182,6 +182,9 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Cell", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/CELLA0.png", TEX_NORMAL))))
 		return E_FAIL;
 
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Suit", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/SUITA0.png", TEX_NORMAL))))
+		return E_FAIL;
+
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Barrel", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/BAR1A%d.png", TEX_NORMAL, 2))))
 		return E_FAIL;
 

@@ -21,6 +21,15 @@ public:
     
     //TODO: 스테이지에 등장시킬 오브젝트의 초기 값 전달 방법 구상
     HRESULT     SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, _int iCnt = 1);
+
+    // 링크 값으로 스테이지에 등장(08/28 김홍인)
+    HRESULT SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, _int iCnt,
+        const std::wstring& linkId);
+
+    // 기록된 태그 목록을 꺼내는 함수(꺼내면 내부는 비움: move out)(08/28 김홍인)
+    struct SInteractiveTag { Engine::CGameObject* obj; std::wstring linkId; };
+    void PopInteractiveTags(OBJID eObjId, std::vector<SInteractiveTag>& outList);
+
     HRESULT     SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, CGameObject* _Owner, CGameObject*& _Bullet);
     //TODO: m_vecObject를 순회하면서 회수할 오브젝트를 식별하고 회수
     HRESULT     SetOff_GameLogicObject(_int eObjId, CGameObject* pObj);
@@ -34,6 +43,9 @@ private:
     vector<CGameObject*>                m_vecObjectPool[(_uint)OBJID::OBJ_END];
     map<OBJPROTOTYPE, vector<CGameObject*>>     m_mapObjectPool;
     vector<CGameObject*> m_vecPendingObject[(_uint)OBJID::OBJ_END];
+
+    // eObjId별로 (obj*, linkId) 기록(08/28 김홍인)
+    std::unordered_map<unsigned, std::vector<SInteractiveTag>> m_mapInteractiveTags;
 
 public:
     static CLayer* Create();

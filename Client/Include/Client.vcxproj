@@ -218,6 +218,7 @@
     <ClInclude Include="..\Header\CStage.h" />
     <ClInclude Include="..\Header\CStage3.h" />
     <ClInclude Include="..\Header\CStatsManager.h" />
+    <ClInclude Include="..\Header\CSuits.h" />
     <ClInclude Include="..\Header\CSwitch_Button.h" />
     <ClInclude Include="..\Header\CTerrain.h" />
     <ClInclude Include="..\Header\CLogo.h" />
@@ -290,6 +291,7 @@
     <ClCompile Include="..\Code\CStage.cpp" />
     <ClCompile Include="..\Code\CStage3.cpp" />
     <ClCompile Include="..\Code\CStatsManager.cpp" />
+    <ClCompile Include="..\Code\CSuits.cpp" />
     <ClCompile Include="..\Code\CSwitch_Button.cpp" />
     <ClCompile Include="..\Code\CTerrain.cpp" />
     <ClCompile Include="..\Code\CLogo.cpp" />

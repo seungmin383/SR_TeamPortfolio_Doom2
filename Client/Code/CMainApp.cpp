@@ -61,6 +61,7 @@
 #include "CDoorWithKey.h"
 #include "CKey.h"
 #include "CSwitch_Button.h"
+#include "CSuits.h"
 
 CMainApp::CMainApp()
 	: m_pGraphicDev(nullptr),
@@ -217,6 +218,10 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_CELL, CAmmo_Cell::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	// 슈트
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_SUIT, CSuits::Create(m_pGraphicDev))))
+		return E_FAIL;
+
 	// 폭발통
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL, CBarrelExplosive::Create(m_pGraphicDev))))
 		return E_FAIL;
@@ -336,38 +341,38 @@ CMainApp* CMainApp::Create()
 void CMainApp::Free()
 {
 	// 1) 게임 콘텐츠(씬/오브젝트/컴포넌트)부터 모두 정리
-	if (m_pManagementClass)
-	{
-		m_pManagementClass->DestroyInstance(); // 내부에서 Scene/Layer/Object 해제
-		m_pManagementClass = nullptr;
-	}
+	//if (m_pManagementClass)
+	//{
+	//	m_pManagementClass->DestroyInstance(); // 내부에서 Scene/Layer/Object 해제
+	//	m_pManagementClass = nullptr;
+	//}
 
-	// 2) 디바이스에 의존하는 매니저들 정리 (렌더/폰트/텍스처 등)
-	CWeaponManager::GetInstance()->DestroyInstance();
-	CObjectFactory::GetInstance()->DestroyInstance();
-	CFileManager::GetInstance()->DestroyInstance();
-	CLightManager::GetInstance()->DestroyInstance();
-	CFontManager::GetInstance()->DestroyInstance();
-	CRenderer::GetInstance()->DestroyInstance();
-	CPrototypeManager::GetInstance()->DestroyInstance();
-	CTimerManager::GetInstance()->DestroyInstance();
-	CFrameManager::GetInstance()->DestroyInstance();
-	CDInputManager::GetInstance()->DestroyInstance();
-	CTextureManager::GetInstance()->DestroyInstance();
+	//// 2) 디바이스에 의존하는 매니저들 정리 (렌더/폰트/텍스처 등)
+	//CWeaponManager::GetInstance()->DestroyInstance();
+	//CObjectFactory::GetInstance()->DestroyInstance();
+	//CFileManager::GetInstance()->DestroyInstance();
+	//CLightManager::GetInstance()->DestroyInstance();
+	//CFontManager::GetInstance()->DestroyInstance();
+	//CRenderer::GetInstance()->DestroyInstance();
+	//CPrototypeManager::GetInstance()->DestroyInstance();
+	//CTimerManager::GetInstance()->DestroyInstance();
+	//CFrameManager::GetInstance()->DestroyInstance();
+	//CDInputManager::GetInstance()->DestroyInstance();
+	//CTextureManager::GetInstance()->DestroyInstance();
 
-	// 3) 로컬로 AddRef 해둔 디바이스 포인터 해제
-	Engine::Safe_Release(m_pGraphicDev); // LPDIRECT3DDEVICE9
-	m_pGraphicDev = nullptr;
+	//// 3) 로컬로 AddRef 해둔 디바이스 포인터 해제
+	//Engine::Safe_Release(m_pGraphicDev); // LPDIRECT3DDEVICE9
+	//m_pGraphicDev = nullptr;
 
-	// 4) 디바이스/SDK를 보유한 싱글톤을 '마지막'에 파괴
-	//    싱글톤은 DestroyInstance만 호출 (Safe_Release 금지)
-	if (m_pDeviceClass)
-	{
-		m_pDeviceClass->DestroyInstance(); // 내부에서 m_pGraphicDev/m_pSDK Release
-		m_pDeviceClass = nullptr;
-	}
+	//// 4) 디바이스/SDK를 보유한 싱글톤을 '마지막'에 파괴
+	////    싱글톤은 DestroyInstance만 호출 (Safe_Release 금지)
+	//if (m_pDeviceClass)
+	//{
+	//	m_pDeviceClass->DestroyInstance(); // 내부에서 m_pGraphicDev/m_pSDK Release
+	//	m_pDeviceClass = nullptr;
+	//}
 
-	/*Engine::Safe_Release(m_pDeviceClass);
+	Engine::Safe_Release(m_pDeviceClass);
 	Engine::Safe_Release(m_pGraphicDev);				
 	
 	CTextureManager::GetInstance()->DestroyInstance();
@@ -384,7 +389,7 @@ void CMainApp::Free()
 	CWeaponManager::GetInstance()->DestroyInstance();
 
 	m_pManagementClass->DestroyInstance();
-	m_pDeviceClass->DestroyInstance();*/
+	m_pDeviceClass->DestroyInstance();
 
 
 	// 변경 이유(08/28 김홍인)

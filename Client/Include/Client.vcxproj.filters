@@ -402,6 +402,9 @@
     <ClInclude Include="..\Header\CPinkyBullet.h">
       <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CPinkyBullet</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CSuits.h">
+      <Filter>02. GameObject\06. Object\FieldObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -610,6 +613,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CPinkyBullet.cpp">
       <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CPinkyBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CSuits.cpp">
+      <Filter>02. GameObject\06. Object\FieldObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

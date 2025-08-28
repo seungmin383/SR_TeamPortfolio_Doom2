@@ -383,6 +383,15 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
 		return E_FAIL;
 
+	// 슈트
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_SUIT);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
+		return E_FAIL;
+
 	// 폭발통
 	// 1개만 소환
 	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL);
