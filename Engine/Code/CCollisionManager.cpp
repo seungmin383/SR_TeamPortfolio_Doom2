@@ -262,16 +262,17 @@ bool CCollisionManager::Check_Mask(CCollider* _Dst, CCollider* _Src)
 	return ((_Dst->Get_ColLayer() & _Src->Get_ColMask()) != 0 && (_Src->Get_ColLayer() & _Dst->Get_ColMask()) != 0);
 }
 
-CGameObject* CCollisionManager::Raycast(const _vec3& vRayPos, const _vec3& vRayDir, _vec3& vHitPos, _float fMaxDist, CGameObject* pOut)
+CGameObject* CCollisionManager::Raycast(const _vec3& vRayPos, const _vec3& vRayDir, _vec3& vHitPos, _float fMaxDist)
 {
+	CGameObject* pClosestObj = nullptr;
 	_float fU(0.f), fV(0.f), fDist(0.f), fClosestDist(0.f);
 	_ulong dwVtxIdx[3]{};
 	const _vec3* objectColliderBox;
 
-	auto layers = CManagement::GetInstance()->Get_Scene()->Get_Layer();
-
 	// Initialize closest distance to input distance
 	fClosestDist = fMaxDist;
+
+	auto layers = CManagement::GetInstance()->Get_Scene()->Get_Layer();
 
 	for (auto& pair : layers)
 	{
@@ -309,7 +310,7 @@ CGameObject* CCollisionManager::Raycast(const _vec3& vRayPos, const _vec3& vRayD
 					if (fClosestDist >= fDist)
 					{
 						fClosestDist = fDist;
-						pOut = object;
+						pClosestObj = object;
 					}
 				}
 
@@ -328,7 +329,7 @@ CGameObject* CCollisionManager::Raycast(const _vec3& vRayPos, const _vec3& vRayD
 					if (fClosestDist >= fDist)
 					{
 						fClosestDist = fDist;
-						pOut = object;
+						pClosestObj = object;
 					}
 				}
 
@@ -350,7 +351,7 @@ CGameObject* CCollisionManager::Raycast(const _vec3& vRayPos, const _vec3& vRayD
 					if (fClosestDist >= fDist)
 					{
 						fClosestDist = fDist;
-						pOut = object;
+						pClosestObj = object;
 					}
 				}
 
@@ -369,7 +370,7 @@ CGameObject* CCollisionManager::Raycast(const _vec3& vRayPos, const _vec3& vRayD
 					if (fClosestDist >= fDist)
 					{
 						fClosestDist = fDist;
-						pOut = object;
+						pClosestObj = object;
 					}
 				}
 
@@ -390,7 +391,7 @@ CGameObject* CCollisionManager::Raycast(const _vec3& vRayPos, const _vec3& vRayD
 					if (fClosestDist >= fDist)
 					{
 						fClosestDist = fDist;
-						pOut = object;
+						pClosestObj = object;
 					}
 				}
 
@@ -409,19 +410,19 @@ CGameObject* CCollisionManager::Raycast(const _vec3& vRayPos, const _vec3& vRayD
 					if (fClosestDist >= fDist)
 					{
 						fClosestDist = fDist;
-						pOut = object;
+						pClosestObj = object;
 					}
 				}
 			}
 		}
 
-		if (pOut != nullptr)
+		if (pClosestObj != nullptr)
 		{
 			// Calculate hit position
 			vHitPos = vRayPos + (vRayDir * fClosestDist);
 		}
 	}
-	return pOut;
+	return pClosestObj;
 }
 
 void CCollisionManager::Free()

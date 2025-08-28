@@ -38,8 +38,7 @@ public:
     /// <param name="vHitPos">Ray & Collider's hit position</param>
     /// <param name="fDist">Moving distance of current frame</param>
     /// <param name="pOut">Return Collider's owner GameObject</param>
-    /// <returns></returns>
-    static CGameObject* Raycast(const _vec3& vRayPos, const _vec3& vRayDir, _vec3& vHitPos, _float fMaxDist, CGameObject* pOut);
+    static CGameObject* Raycast(const _vec3& vRayPos, const _vec3& vRayDir, _vec3& vHitPos, _float fMaxDist);
 
 private:
     virtual void        Free();
