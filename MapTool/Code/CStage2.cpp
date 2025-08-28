@@ -99,7 +99,9 @@ HRESULT CStage2::Load_PreSet()
 		auto pObj = CObjectFactory::GetInstance()->Load_Terrain(m.idx,
 			m.vertexCountX,
 			m.vertexCountZ,
-			m.vertexInterval,
+			m.vertexIntervalX,
+			m.vertexIntervalZ,
+			m.vertexIntervalY,
 			m.vertices,
 			m.strTextureTag,
 			m.pos);

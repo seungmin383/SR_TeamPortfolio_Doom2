@@ -8,10 +8,12 @@
                 "z": 0.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Env/BLOOD3.png",
-            "type": 0,
+            "type": 2,
             "vertexCountX": 4,
             "vertexCountZ": 6,
-            "vertexInterval": 43.0,
+            "vertexIntervalX": 43.0,
+            "vertexIntervalY": 43.0,
+            "vertexIntervalZ": 43.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -146,7 +148,9 @@
             "type": 0,
             "vertexCountX": 12,
             "vertexCountZ": 4,
-            "vertexInterval": 5.0,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -401,7 +405,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 6,
-            "vertexInterval": 5.0,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -506,7 +512,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 6,
-            "vertexInterval": 5.0,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -611,7 +619,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 1.0,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -646,7 +656,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 11,
-            "vertexInterval": 5.0,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -826,7 +838,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 11,
-            "vertexInterval": 5.0,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -1006,7 +1020,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 11,
-            "vertexInterval": 5.0,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -1186,7 +1202,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 11,
-            "vertexInterval": 5.0,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -1366,7 +1384,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 6,
-            "vertexInterval": 5.0,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -1471,7 +1491,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 6,
-            "vertexInterval": 5.0,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -1576,7 +1598,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 6,
-            "vertexInterval": 5.0,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -1681,7 +1705,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 6,
-            "vertexInterval": 5.0,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -1786,7 +1812,9 @@
             "type": 0,
             "vertexCountX": 12,
             "vertexCountZ": 4,
-            "vertexInterval": 5.0,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -2041,7 +2069,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 6,
-            "vertexInterval": 5.0,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -2146,7 +2176,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 6,
-            "vertexInterval": 5.0,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -2251,7 +2283,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -2260,108 +2294,108 @@
                 },
                 {
                     "x": 1.0,
-                    "y": -1.7484555314695172e-07,
-                    "z": -5.34991904835129e-14
+                    "y": 0.0,
+                    "z": 0.0
                 },
                 {
                     "x": 2.0,
-                    "y": -3.4969110629390343e-07,
-                    "z": -1.069983809670258e-13
+                    "y": 0.0,
+                    "z": 0.0
                 },
                 {
                     "x": 3.0,
-                    "y": -5.245366310191457e-07,
-                    "z": -1.6049756467427512e-13
+                    "y": 0.0,
+                    "z": 0.0
                 },
                 {
                     "x": 4.0,
-                    "y": -6.993822125878069e-07,
-                    "z": -2.139967619340516e-13
+                    "y": 0.0,
+                    "z": 0.0
                 },
                 {
                     "x": 5.0,
-                    "y": -8.74227794156468e-07,
-                    "z": -2.674959862988824e-13
+                    "y": 0.0,
+                    "z": 0.0
                 },
                 {
                     "x": 6.0,
-                    "y": -1.0490732620382914e-06,
-                    "z": -3.2099512934855023e-13
+                    "y": 0.0,
+                    "z": 0.0
                 },
                 {
                     "x": 7.0,
-                    "y": -1.2239188436069526e-06,
-                    "z": -3.74494353713381e-13
+                    "y": 0.0,
+                    "z": 0.0
                 },
                 {
                     "x": 8.0,
-                    "y": -1.3987644251756137e-06,
-                    "z": -4.279935238681032e-13
+                    "y": 0.0,
+                    "z": 0.0
                 },
                 {
                     "x": 9.0,
-                    "y": -1.5736100067442749e-06,
-                    "z": -4.814927753379883e-13
+                    "y": 0.0,
+                    "z": 0.0
                 },
                 {
                     "x": 10.0,
-                    "y": -1.748455588312936e-06,
-                    "z": -5.349919725977648e-13
+                    "y": 0.0,
+                    "z": 0.0
                 },
                 {
-                    "x": 1.7484555314695172e-07,
+                    "x": 0.0,
                     "y": 1.0,
-                    "z": 3.059797393234476e-07
+                    "z": 1.3113415775478643e-07
                 },
                 {
                     "x": 1.0,
-                    "y": 0.9999997615814209,
-                    "z": 3.0597962563660985e-07
+                    "y": 1.0,
+                    "z": 1.3113415775478643e-07
                 },
                 {
                     "x": 2.0,
-                    "y": 0.9999997615814209,
-                    "z": 3.0597962563660985e-07
+                    "y": 1.0,
+                    "z": 1.3113415775478643e-07
                 },
                 {
                     "x": 3.0,
-                    "y": 0.9999995231628418,
-                    "z": 3.05979568793191e-07
+                    "y": 1.0,
+                    "z": 1.3113415775478643e-07
                 },
                 {
                     "x": 4.0,
-                    "y": 0.9999992847442627,
-                    "z": 3.0597951194977213e-07
+                    "y": 1.0,
+                    "z": 1.3113415775478643e-07
                 },
                 {
                     "x": 5.0,
-                    "y": 0.9999990463256836,
-                    "z": 3.059793982629344e-07
+                    "y": 1.0,
+                    "z": 1.3113415775478643e-07
                 },
                 {
                     "x": 6.0,
-                    "y": 0.9999990463256836,
-                    "z": 3.059793982629344e-07
+                    "y": 1.0,
+                    "z": 1.3113415775478643e-07
                 },
                 {
                     "x": 7.0,
-                    "y": 0.9999988079071045,
-                    "z": 3.0597934141951555e-07
+                    "y": 1.0,
+                    "z": 1.3113415775478643e-07
                 },
                 {
                     "x": 8.0,
-                    "y": 0.9999985694885254,
-                    "z": 3.0597925615438726e-07
+                    "y": 1.0,
+                    "z": 1.3113415775478643e-07
                 },
                 {
                     "x": 9.0,
-                    "y": 0.9999983310699463,
-                    "z": 3.059791993109684e-07
+                    "y": 1.0,
+                    "z": 1.3113415775478643e-07
                 },
                 {
                     "x": 10.0,
-                    "y": 0.9999983310699463,
-                    "z": 3.059791993109684e-07
+                    "y": 1.0,
+                    "z": 1.3113415775478643e-07
                 }
             ]
         },
@@ -2376,7 +2410,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -2501,7 +2537,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -2626,7 +2664,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -2751,7 +2791,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -2876,7 +2918,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -3001,7 +3045,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -3126,7 +3172,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -3251,7 +3299,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -3376,7 +3426,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -3501,7 +3553,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -3626,7 +3680,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -3751,7 +3807,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -3876,7 +3934,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4001,7 +4061,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4126,7 +4188,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4251,7 +4315,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4376,7 +4442,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4501,7 +4569,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4626,7 +4696,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4751,7 +4823,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4876,7 +4950,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -5001,7 +5077,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -5126,7 +5204,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -5251,7 +5331,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -5376,7 +5458,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -5501,7 +5585,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -5626,7 +5712,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -5751,7 +5839,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -5876,7 +5966,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -6001,7 +6093,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -6126,7 +6220,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -6251,7 +6347,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -6376,7 +6474,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -6501,7 +6601,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -6626,7 +6728,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -6751,7 +6855,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -6876,7 +6982,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -7001,7 +7109,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -7126,7 +7236,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -7251,7 +7363,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -7376,7 +7490,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -7501,7 +7617,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -7626,7 +7744,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -7751,7 +7871,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -7876,7 +7998,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -8001,7 +8125,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -8126,7 +8252,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -8251,7 +8379,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -8376,7 +8506,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -8501,7 +8633,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -8626,7 +8760,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -8751,7 +8887,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -8876,7 +9014,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -9001,7 +9141,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -9126,7 +9268,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -9251,7 +9395,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -9376,7 +9522,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -9501,7 +9649,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -9626,7 +9776,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -9751,7 +9903,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -9876,7 +10030,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -10001,7 +10157,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -10126,7 +10284,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -10251,7 +10411,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -10376,7 +10538,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -10501,7 +10665,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -10626,7 +10792,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -10751,7 +10919,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -10876,7 +11046,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -11001,7 +11173,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -11126,7 +11300,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -11251,7 +11427,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -11376,7 +11554,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -11501,7 +11681,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -11626,7 +11808,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -11751,7 +11935,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -11876,7 +12062,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -12001,7 +12189,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -12126,7 +12316,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -12251,7 +12443,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -12376,7 +12570,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -12501,7 +12697,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -12626,7 +12824,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -12751,7 +12951,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -12876,7 +13078,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -13001,7 +13205,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -13126,7 +13332,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -13251,7 +13459,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -13376,7 +13586,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -13501,7 +13713,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 1.0,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -13536,7 +13750,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -13661,7 +13877,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -13786,7 +14004,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -13911,7 +14131,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -14036,7 +14258,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -14161,7 +14385,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -14286,7 +14512,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -14411,7 +14639,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -14536,7 +14766,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -14661,7 +14893,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -14786,7 +15020,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -14911,7 +15147,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -15036,7 +15274,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -15161,7 +15401,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -15286,7 +15528,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -15411,7 +15655,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -15536,7 +15782,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -15661,7 +15909,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -15786,7 +16036,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -15911,7 +16163,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -16036,7 +16290,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -16161,7 +16417,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -16286,7 +16544,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -16411,7 +16671,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -16536,7 +16798,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -16661,7 +16925,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -16786,7 +17052,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -16911,7 +17179,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -17036,7 +17306,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -17161,7 +17433,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexInterval": 0.49999991059303284,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -17286,7 +17560,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexInterval": 1.0,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -17321,7 +17597,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 11,
-            "vertexInterval": 5.0,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -17501,7 +17779,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 11,
-            "vertexInterval": 5.0,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -17681,7 +17961,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 4,
-            "vertexInterval": 1.0,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -17916,7 +18198,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 4,
-            "vertexInterval": 1.0,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -18137,6 +18421,2606 @@
                     "x": 10.0,
                     "y": 0.0,
                     "z": 3.0
+                }
+            ]
+        },
+        {
+            "idx": 142,
+            "pos": {
+                "x": 46.0,
+                "y": 6.0,
+                "z": 70.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Announce/KakaoTalk_20250827_155824768.png",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 1.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -1.0,
+                    "y": 1.7484555314695172e-07,
+                    "z": -8.74227694680485e-08
+                },
+                {
+                    "x": -1.7484555314695172e-07,
+                    "y": -1.0,
+                    "z": 4.3711402497592644e-08
+                },
+                {
+                    "x": -1.0,
+                    "y": -0.9999997615814209,
+                    "z": -4.371138118131057e-08
+                }
+            ]
+        },
+        {
+            "idx": 143,
+            "pos": {
+                "x": 100.0,
+                "y": 51.0,
+                "z": 70.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/a10381.PNG",
+            "type": 1,
+            "vertexCountX": 6,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 15.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -2.622683723529917e-07,
+                    "y": 4.371138118131057e-08,
+                    "z": 1.0
+                },
+                {
+                    "x": -5.245367447059834e-07,
+                    "y": 8.742276236262114e-08,
+                    "z": 2.0
+                },
+                {
+                    "x": -7.868050033721374e-07,
+                    "y": 1.3113415775478643e-07,
+                    "z": 3.0
+                },
+                {
+                    "x": -1.0490734894119669e-06,
+                    "y": 1.7484552472524229e-07,
+                    "z": 4.0
+                },
+                {
+                    "x": -1.3113417480781209e-06,
+                    "y": 2.1855697696082643e-07,
+                    "z": 5.0
+                },
+                {
+                    "x": 1.3113415775478643e-07,
+                    "y": -1.0,
+                    "z": 4.371138118131057e-08
+                },
+                {
+                    "x": -1.3113418617649586e-07,
+                    "y": -0.9999999403953552,
+                    "z": 0.9999998807907104
+                },
+                {
+                    "x": -3.934025016860687e-07,
+                    "y": -0.9999999403953552,
+                    "z": 2.0
+                },
+                {
+                    "x": -6.556707603522227e-07,
+                    "y": -0.9999998807907104,
+                    "z": 3.0
+                },
+                {
+                    "x": -9.179392463920522e-07,
+                    "y": -0.9999998211860657,
+                    "z": 4.0
+                },
+                {
+                    "x": -1.1802075050582062e-06,
+                    "y": -0.9999997615814209,
+                    "z": 5.0
+                }
+            ]
+        },
+        {
+            "idx": 144,
+            "pos": {
+                "x": 25.0,
+                "y": 51.01000213623047,
+                "z": 70.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/a10381.PNG",
+            "type": 1,
+            "vertexCountX": 6,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 15.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -2.6226828708786343e-07,
+                    "y": 4.371138118131057e-08,
+                    "z": 1.0
+                },
+                {
+                    "x": -5.245365741757269e-07,
+                    "y": 8.742276236262114e-08,
+                    "z": 2.0
+                },
+                {
+                    "x": -7.86804775998462e-07,
+                    "y": 1.3113415775478643e-07,
+                    "z": 3.0
+                },
+                {
+                    "x": -1.0490731483514537e-06,
+                    "y": 1.7484552472524229e-07,
+                    "z": 4.0
+                },
+                {
+                    "x": -1.3113414070176077e-06,
+                    "y": 2.1855697696082643e-07,
+                    "z": 5.0
+                },
+                {
+                    "x": -3.05979767745157e-07,
+                    "y": -1.0,
+                    "z": 4.371129591618228e-08
+                },
+                {
+                    "x": -5.68248026411311e-07,
+                    "y": -0.9999999403953552,
+                    "z": 0.9999997615814209
+                },
+                {
+                    "x": -8.305163987643027e-07,
+                    "y": -0.9999999403953552,
+                    "z": 2.0
+                },
+                {
+                    "x": -1.0927844869002001e-06,
+                    "y": -0.9999998807907104,
+                    "z": 3.0
+                },
+                {
+                    "x": -1.3550528592531919e-06,
+                    "y": -0.9999998211860657,
+                    "z": 4.0
+                },
+                {
+                    "x": -1.6173210042325081e-06,
+                    "y": -0.9999997615814209,
+                    "z": 5.0
+                }
+            ]
+        },
+        {
+            "idx": 145,
+            "pos": {
+                "x": 100.0,
+                "y": 51.0,
+                "z": 70.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/a10381.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 5.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -1.0,
+                    "y": 0.0,
+                    "z": 8.742277657347586e-08
+                },
+                {
+                    "x": 1.910685592219647e-14,
+                    "y": -1.0,
+                    "z": 2.18556948539117e-07
+                },
+                {
+                    "x": -1.0,
+                    "y": -1.0,
+                    "z": 3.059797393234476e-07
+                }
+            ]
+        },
+        {
+            "idx": 146,
+            "pos": {
+                "x": 35.0,
+                "y": 51.0,
+                "z": 70.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/a10381.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 5.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -1.0,
+                    "y": 0.0,
+                    "z": 8.742277657347586e-08
+                },
+                {
+                    "x": 3.82137093032941e-15,
+                    "y": -1.0,
+                    "z": 4.371138828673793e-08
+                },
+                {
+                    "x": -1.0,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                }
+            ]
+        },
+        {
+            "idx": 147,
+            "pos": {
+                "x": 35.0,
+                "y": 51.0,
+                "z": 145.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/a10381.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 5.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -1.0,
+                    "y": -4.371139823433623e-07,
+                    "z": -3.49691077872194e-07
+                },
+                {
+                    "x": 4.371137833913963e-07,
+                    "y": -1.0,
+                    "z": 6.556708740390604e-07
+                },
+                {
+                    "x": -0.9999994039535522,
+                    "y": -1.0,
+                    "z": 3.0597982458857587e-07
+                }
+            ]
+        },
+        {
+            "idx": 148,
+            "pos": {
+                "x": 100.0,
+                "y": 51.0,
+                "z": 145.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/a10381.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 5.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -1.0,
+                    "y": -2.622683439312823e-07,
+                    "z": -1.7484555314695172e-07
+                },
+                {
+                    "x": 2.6226828708786343e-07,
+                    "y": -1.0,
+                    "z": 3.059797393234476e-07
+                },
+                {
+                    "x": -0.9999996423721313,
+                    "y": -1.0,
+                    "z": 1.3113422880906e-07
+                }
+            ]
+        },
+        {
+            "idx": 149,
+            "pos": {
+                "x": 25.0,
+                "y": 51.0,
+                "z": 70.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/a10358.PNG",
+            "type": 2,
+            "vertexCountX": 4,
+            "vertexCountZ": 4,
+            "vertexIntervalX": 25.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 25.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 2.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 3.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 1.0
+                },
+                {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 1.0
+                },
+                {
+                    "x": 2.0,
+                    "y": 0.0,
+                    "z": 1.0
+                },
+                {
+                    "x": 3.0,
+                    "y": 0.0,
+                    "z": 1.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 2.0
+                },
+                {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 2.0
+                },
+                {
+                    "x": 2.0,
+                    "y": 0.0,
+                    "z": 2.0
+                },
+                {
+                    "x": 3.0,
+                    "y": 0.0,
+                    "z": 2.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 3.0
+                },
+                {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 3.0
+                },
+                {
+                    "x": 2.0,
+                    "y": 0.0,
+                    "z": 3.0
+                },
+                {
+                    "x": 3.0,
+                    "y": 0.0,
+                    "z": 3.0
+                }
+            ]
+        },
+        {
+            "idx": 150,
+            "pos": {
+                "x": 45.0,
+                "y": 8.5,
+                "z": 81.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/a10333.PNG",
+            "type": 1,
+            "vertexCountX": 6,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 2.5,
+            "vertexIntervalZ": 10.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -5.732056183735878e-15,
+                    "y": 1.3113415775478643e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": -1.1464112367471756e-14,
+                    "y": 2.6226831550957286e-07,
+                    "z": 2.0
+                },
+                {
+                    "x": -1.719616812769116e-14,
+                    "y": 3.934024732643593e-07,
+                    "z": 3.0
+                },
+                {
+                    "x": -2.2928224734943513e-14,
+                    "y": 5.245366310191457e-07,
+                    "z": 4.0
+                },
+                {
+                    "x": -2.8660284730327654e-14,
+                    "y": 6.556708740390604e-07,
+                    "z": 5.0
+                },
+                {
+                    "x": 4.371138828673793e-08,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": 4.371138118131057e-08,
+                    "y": -0.9999998211860657,
+                    "z": 1.0
+                },
+                {
+                    "x": 4.371138118131057e-08,
+                    "y": -0.9999998211860657,
+                    "z": 2.0
+                },
+                {
+                    "x": 4.3711374075883214e-08,
+                    "y": -0.9999996423721313,
+                    "z": 3.0
+                },
+                {
+                    "x": 4.371136341774218e-08,
+                    "y": -0.999999463558197,
+                    "z": 4.0
+                },
+                {
+                    "x": 4.371135631231482e-08,
+                    "y": -0.9999992847442627,
+                    "z": 5.0
+                }
+            ]
+        },
+        {
+            "idx": 151,
+            "pos": {
+                "x": 80.0,
+                "y": 8.5,
+                "z": 81.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/a10333.PNG",
+            "type": 1,
+            "vertexCountX": 6,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 2.5,
+            "vertexIntervalZ": 10.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -5.732056183735878e-15,
+                    "y": 1.3113415775478643e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": -1.1464112367471756e-14,
+                    "y": 2.6226831550957286e-07,
+                    "z": 2.0
+                },
+                {
+                    "x": -1.719616812769116e-14,
+                    "y": 3.934024732643593e-07,
+                    "z": 3.0
+                },
+                {
+                    "x": -2.2928224734943513e-14,
+                    "y": 5.245366310191457e-07,
+                    "z": 4.0
+                },
+                {
+                    "x": -2.8660284730327654e-14,
+                    "y": 6.556708740390604e-07,
+                    "z": 5.0
+                },
+                {
+                    "x": 4.371138828673793e-08,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": 4.371138118131057e-08,
+                    "y": -0.9999998211860657,
+                    "z": 1.0
+                },
+                {
+                    "x": 4.371138118131057e-08,
+                    "y": -0.9999998211860657,
+                    "z": 2.0
+                },
+                {
+                    "x": 4.3711374075883214e-08,
+                    "y": -0.9999996423721313,
+                    "z": 3.0
+                },
+                {
+                    "x": 4.371136341774218e-08,
+                    "y": -0.999999463558197,
+                    "z": 4.0
+                },
+                {
+                    "x": 4.371135631231482e-08,
+                    "y": -0.9999992847442627,
+                    "z": 5.0
+                }
+            ]
+        },
+        {
+            "idx": 152,
+            "pos": {
+                "x": 90.0,
+                "y": 8.5,
+                "z": 81.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/a10333.PNG",
+            "type": 1,
+            "vertexCountX": 6,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 2.5,
+            "vertexIntervalZ": 10.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -5.732056183735878e-15,
+                    "y": 1.3113415775478643e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": -1.1464112367471756e-14,
+                    "y": 2.6226831550957286e-07,
+                    "z": 2.0
+                },
+                {
+                    "x": -1.719616812769116e-14,
+                    "y": 3.934024732643593e-07,
+                    "z": 3.0
+                },
+                {
+                    "x": -2.2928224734943513e-14,
+                    "y": 5.245366310191457e-07,
+                    "z": 4.0
+                },
+                {
+                    "x": -2.8660284730327654e-14,
+                    "y": 6.556708740390604e-07,
+                    "z": 5.0
+                },
+                {
+                    "x": 2.18556948539117e-07,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": 2.1855693432826229e-07,
+                    "y": -0.9999998211860657,
+                    "z": 1.0
+                },
+                {
+                    "x": 2.1855693432826229e-07,
+                    "y": -0.9999998211860657,
+                    "z": 2.0
+                },
+                {
+                    "x": 2.1855692011740757e-07,
+                    "y": -0.9999996423721313,
+                    "z": 3.0
+                },
+                {
+                    "x": 2.1855692011740757e-07,
+                    "y": -0.999999463558197,
+                    "z": 4.0
+                },
+                {
+                    "x": 2.1855690590655286e-07,
+                    "y": -0.9999992847442627,
+                    "z": 5.0
+                }
+            ]
+        },
+        {
+            "idx": 153,
+            "pos": {
+                "x": 35.0,
+                "y": 8.5,
+                "z": 81.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/a10333.PNG",
+            "type": 1,
+            "vertexCountX": 6,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 2.5,
+            "vertexIntervalZ": 10.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -5.732056183735878e-15,
+                    "y": 1.3113415775478643e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": -1.1464112367471756e-14,
+                    "y": 2.6226831550957286e-07,
+                    "z": 2.0
+                },
+                {
+                    "x": -1.719616812769116e-14,
+                    "y": 3.934024732643593e-07,
+                    "z": 3.0
+                },
+                {
+                    "x": -2.2928224734943513e-14,
+                    "y": 5.245366310191457e-07,
+                    "z": 4.0
+                },
+                {
+                    "x": -2.8660284730327654e-14,
+                    "y": 6.556708740390604e-07,
+                    "z": 5.0
+                },
+                {
+                    "x": 2.18556948539117e-07,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": 2.1855693432826229e-07,
+                    "y": -0.9999998211860657,
+                    "z": 1.0
+                },
+                {
+                    "x": 2.1855693432826229e-07,
+                    "y": -0.9999998211860657,
+                    "z": 2.0
+                },
+                {
+                    "x": 2.1855692011740757e-07,
+                    "y": -0.9999996423721313,
+                    "z": 3.0
+                },
+                {
+                    "x": 2.1855692011740757e-07,
+                    "y": -0.999999463558197,
+                    "z": 4.0
+                },
+                {
+                    "x": 2.1855690590655286e-07,
+                    "y": -0.9999992847442627,
+                    "z": 5.0
+                }
+            ]
+        },
+        {
+            "idx": 154,
+            "pos": {
+                "x": 45.0,
+                "y": 8.5,
+                "z": 131.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/a10337.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 2.5,
+            "vertexIntervalZ": 4.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -5.732056183735878e-15,
+                    "y": 1.3113415775478643e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": 4.371138828673793e-08,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": 4.371138118131057e-08,
+                    "y": -0.9999998211860657,
+                    "z": 1.0
+                }
+            ]
+        },
+        {
+            "idx": 155,
+            "pos": {
+                "x": 35.0,
+                "y": 8.5,
+                "z": 131.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/a10337.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 2.5,
+            "vertexIntervalZ": 4.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -1.7484555314695172e-07,
+                    "y": 1.3113411512222228e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": 2.18556948539117e-07,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": 4.371138828673793e-08,
+                    "y": -0.9999998211860657,
+                    "z": 1.0
+                }
+            ]
+        },
+        {
+            "idx": 156,
+            "pos": {
+                "x": 80.0,
+                "y": 8.5,
+                "z": 131.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/a10337.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 2.5,
+            "vertexIntervalZ": 4.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -5.732056183735878e-15,
+                    "y": 1.3113415775478643e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": 2.18556948539117e-07,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": 2.1855693432826229e-07,
+                    "y": -0.9999998211860657,
+                    "z": 1.0
+                }
+            ]
+        },
+        {
+            "idx": 157,
+            "pos": {
+                "x": 90.0,
+                "y": 8.5,
+                "z": 131.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/a10337.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 2.5,
+            "vertexIntervalZ": 4.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -5.732056183735878e-15,
+                    "y": 1.3113415775478643e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": 4.371138828673793e-08,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": 4.371138118131057e-08,
+                    "y": -0.9999998211860657,
+                    "z": 1.0
+                }
+            ]
+        },
+        {
+            "idx": 158,
+            "pos": {
+                "x": 80.0,
+                "y": 8.5,
+                "z": 71.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/a6599.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 7.5,
+            "vertexIntervalZ": 10.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -3.4969113471561286e-07,
+                    "y": 1.3113408670051285e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": 2.18556948539117e-07,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": -1.3113417196564114e-07,
+                    "y": -0.9999998211860657,
+                    "z": 1.0
+                }
+            ]
+        },
+        {
+            "idx": 159,
+            "pos": {
+                "x": 85.0,
+                "y": 8.5,
+                "z": 71.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/a6599.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 7.5,
+            "vertexIntervalZ": 10.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -1.7484556735780643e-07,
+                    "y": 3.059797393234476e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": 2.1855689169569814e-07,
+                    "y": -1.0,
+                    "z": 3.0597979616686644e-07
+                },
+                {
+                    "x": 4.371136341774218e-08,
+                    "y": -0.9999995827674866,
+                    "z": 1.0
+                }
+            ]
+        },
+        {
+            "idx": 160,
+            "pos": {
+                "x": 45.0,
+                "y": 8.5,
+                "z": 71.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/a6599.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 7.5,
+            "vertexIntervalZ": 10.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -5.732056183735878e-15,
+                    "y": 1.3113415775478643e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": 4.371138828673793e-08,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": 4.371138118131057e-08,
+                    "y": -0.9999998211860657,
+                    "z": 1.0
+                }
+            ]
+        },
+        {
+            "idx": 161,
+            "pos": {
+                "x": 40.0,
+                "y": 8.5,
+                "z": 71.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/a6599.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 7.5,
+            "vertexIntervalZ": 10.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -5.732056183735878e-15,
+                    "y": 1.3113415775478643e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": 4.371138828673793e-08,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": 4.371138118131057e-08,
+                    "y": -0.9999998211860657,
+                    "z": 1.0
+                }
+            ]
+        },
+        {
+            "idx": 162,
+            "pos": {
+                "x": 45.0,
+                "y": 6.5,
+                "z": 145.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/a6599.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.5,
+            "vertexIntervalZ": 10.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -4.371138828673793e-08,
+                    "y": 1.3113417196564114e-07,
+                    "z": -1.0
+                },
+                {
+                    "x": -2.622683439312823e-07,
+                    "y": -1.0,
+                    "z": -1.3113415775478643e-07
+                },
+                {
+                    "x": -3.059797393234476e-07,
+                    "y": -0.9999998211860657,
+                    "z": -1.0
+                }
+            ]
+        },
+        {
+            "idx": 163,
+            "pos": {
+                "x": 40.0,
+                "y": 6.5,
+                "z": 145.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/a6599.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.5,
+            "vertexIntervalZ": 10.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -5.732056607252352e-15,
+                    "y": 4.371138828673793e-08,
+                    "z": -1.0
+                },
+                {
+                    "x": 1.3113415775478643e-07,
+                    "y": -1.0,
+                    "z": -4.371138828673793e-08
+                },
+                {
+                    "x": 1.3113415775478643e-07,
+                    "y": -0.9999999403953552,
+                    "z": -1.0
+                }
+            ]
+        },
+        {
+            "idx": 164,
+            "pos": {
+                "x": 80.0,
+                "y": 6.5,
+                "z": 145.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/a6599.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.5,
+            "vertexIntervalZ": 10.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -1.7484559577951586e-07,
+                    "y": 2.1855690590655286e-07,
+                    "z": -1.0
+                },
+                {
+                    "x": 1.3113415775478643e-07,
+                    "y": -1.0,
+                    "z": -2.18556948539117e-07
+                },
+                {
+                    "x": -4.371143802472943e-08,
+                    "y": -0.9999997019767761,
+                    "z": -1.0
+                }
+            ]
+        },
+        {
+            "idx": 165,
+            "pos": {
+                "x": 85.0,
+                "y": 6.5,
+                "z": 145.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/a6599.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.5,
+            "vertexIntervalZ": 10.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -1.3113415775478643e-07,
+                    "y": -3.439233625538232e-14,
+                    "z": -1.0
+                },
+                {
+                    "x": 3.9340253010777815e-07,
+                    "y": -1.0,
+                    "z": -1.7196178292086528e-14
+                },
+                {
+                    "x": 2.622683439312823e-07,
+                    "y": -1.0,
+                    "z": -1.0
+                }
+            ]
+        },
+        {
+            "idx": 166,
+            "pos": {
+                "x": 35.0,
+                "y": 51.0,
+                "z": 30.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/a10381.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 40.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -5.732056183735878e-15,
+                    "y": 1.3113415775478643e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": 4.371138828673793e-08,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": 4.371138118131057e-08,
+                    "y": -0.9999998211860657,
+                    "z": 1.0
+                }
+            ]
+        },
+        {
+            "idx": 167,
+            "pos": {
+                "x": 90.0,
+                "y": 51.0,
+                "z": 30.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/a10381.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 4.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 40.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -5.732056183735878e-15,
+                    "y": 1.3113415775478643e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": 4.371138828673793e-08,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": 4.371138118131057e-08,
+                    "y": -0.9999998211860657,
+                    "z": 1.0
+                }
+            ]
+        },
+        {
+            "idx": 168,
+            "pos": {
+                "x": 90.0,
+                "y": 51.0,
+                "z": 30.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/a10381.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 5.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -1.0,
+                    "y": 0.0,
+                    "z": 8.742277657347586e-08
+                },
+                {
+                    "x": 1.910685592219647e-14,
+                    "y": -1.0,
+                    "z": 2.18556948539117e-07
+                },
+                {
+                    "x": -1.0,
+                    "y": -1.0,
+                    "z": 3.059797393234476e-07
+                }
+            ]
+        },
+        {
+            "idx": 169,
+            "pos": {
+                "x": 45.0,
+                "y": 51.0,
+                "z": 30.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/a10381.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 5.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -1.0,
+                    "y": 0.0,
+                    "z": 8.742277657347586e-08
+                },
+                {
+                    "x": 1.910685592219647e-14,
+                    "y": -1.0,
+                    "z": 2.18556948539117e-07
+                },
+                {
+                    "x": -1.0,
+                    "y": -1.0,
+                    "z": 3.059797393234476e-07
+                }
+            ]
+        },
+        {
+            "idx": 170,
+            "pos": {
+                "x": 80.0,
+                "y": 26.0,
+                "z": 55.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/a9247.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 35.0,
+            "vertexIntervalY": 25.0,
+            "vertexIntervalZ": 1.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -1.0,
+                    "y": -8.742277657347586e-08,
+                    "z": 0.0
+                },
+                {
+                    "x": 8.742277657347586e-08,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": -0.9999998807907104,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                }
+            ]
+        },
+        {
+            "idx": 171,
+            "pos": {
+                "x": 80.0,
+                "y": 51.0,
+                "z": 55.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/a9246.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 35.0,
+            "vertexIntervalY": 25.0,
+            "vertexIntervalZ": 1.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -1.0,
+                    "y": 0.0,
+                    "z": 8.742277657347586e-08
+                },
+                {
+                    "x": 3.82137093032941e-15,
+                    "y": -1.0,
+                    "z": 4.371138828673793e-08
+                },
+                {
+                    "x": -1.0,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                }
+            ]
+        },
+        {
+            "idx": 172,
+            "pos": {
+                "x": 80.0,
+                "y": 26.0,
+                "z": 30.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/a9247.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 25.0,
+            "vertexIntervalZ": 25.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -1.7484555314695172e-07,
+                    "y": 1.31134129333077e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": 1.31134129333077e-07,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": -4.3711370523169535e-08,
+                    "y": -0.9999998211860657,
+                    "z": 0.9999998807907104
+                }
+            ]
+        },
+        {
+            "idx": 173,
+            "pos": {
+                "x": 80.0,
+                "y": 51.0,
+                "z": 30.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/a9246.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 25.0,
+            "vertexIntervalZ": 25.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 4.776713895845823e-14,
+                    "y": 1.3113415775478643e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": -2.18556948539117e-07,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": -2.185568632739887e-07,
+                    "y": -0.9999998211860657,
+                    "z": 0.9999998807907104
+                }
+            ]
+        },
+        {
+            "idx": 174,
+            "pos": {
+                "x": 45.0,
+                "y": 26.0,
+                "z": 30.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/a9247.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 25.0,
+            "vertexIntervalZ": 25.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -5.732056183735878e-15,
+                    "y": 1.3113415775478643e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": 2.18556948539117e-07,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": 2.1855693432826229e-07,
+                    "y": -0.9999998211860657,
+                    "z": 1.0
+                }
+            ]
+        },
+        {
+            "idx": 175,
+            "pos": {
+                "x": 45.0,
+                "y": 51.0,
+                "z": 30.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/a9246.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 25.0,
+            "vertexIntervalZ": 25.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -1.7484555314695172e-07,
+                    "y": 1.3113414354393171e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": 4.371138828673793e-08,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": -1.3113417196564114e-07,
+                    "y": -0.9999998211860657,
+                    "z": 1.0
+                }
+            ]
+        },
+        {
+            "idx": 176,
+            "pos": {
+                "x": 45.0,
+                "y": 1.0,
+                "z": 160.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/HELL8_3.png",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 1.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 1.0,
+                    "y": 1.3113415775478643e-07,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": -1.3113418617649586e-07,
+                    "y": 1.0,
+                    "z": 3.059797393234476e-07
+                },
+                {
+                    "x": 0.9999998211860657,
+                    "y": 1.0,
+                    "z": 4.3711392549994343e-07
+                }
+            ]
+        },
+        {
+            "idx": 177,
+            "pos": {
+                "x": 75.0,
+                "y": 1.0,
+                "z": 160.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/HELL6_1.png",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 1.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 1.0,
+                    "y": 1.3113417196564114e-07,
+                    "z": -4.371138828673793e-08
+                },
+                {
+                    "x": -1.3113415775478643e-07,
+                    "y": 1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": 0.9999998211860657,
+                    "y": 1.0,
+                    "z": 8.742277657347586e-08
+                }
+            ]
+        },
+        {
+            "idx": 178,
+            "pos": {
+                "x": 75.0,
+                "y": 51.0,
+                "z": 160.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/HELL5_2.png",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 25.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 1.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -1.0,
+                    "y": 8.742275525719378e-08,
+                    "z": 1.7484555314695172e-07
+                },
+                {
+                    "x": -8.742277657347586e-08,
+                    "y": -1.0,
+                    "z": -1.3113415775478643e-07
+                },
+                {
+                    "x": -1.0,
+                    "y": -0.9999998807907104,
+                    "z": 4.371140605030632e-08
+                }
+            ]
+        },
+        {
+            "idx": 179,
+            "pos": {
+                "x": 80.0,
+                "y": 1.0,
+                "z": 185.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/HELL6_3.png",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 1.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 1.0,
+                    "y": -1.7484551051438757e-07,
+                    "z": -1.7484559577951586e-07
+                },
+                {
+                    "x": 1.7484555314695172e-07,
+                    "y": 1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": 1.0,
+                    "y": 0.9999997615814209,
+                    "z": -4.371141315573368e-08
+                }
+            ]
+        },
+        {
+            "idx": 180,
+            "pos": {
+                "x": 35.0,
+                "y": 1.0,
+                "z": 185.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/HELL6_3.png",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 1.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.3113415775478643e-07
+                }
+            ]
+        },
+        {
+            "idx": 181,
+            "pos": {
+                "x": 45.0,
+                "y": 1.0,
+                "z": 160.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/HELL6_3.png",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 25.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -4.371138828673793e-08,
+                    "y": 1.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 1.0
+                },
+                {
+                    "x": -4.371138828673793e-08,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            ]
+        },
+        {
+            "idx": 182,
+            "pos": {
+                "x": 80.0,
+                "y": 1.0,
+                "z": 160.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/HELL6_3.png",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 25.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -4.371138828673793e-08,
+                    "y": 1.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 1.7484555314695172e-07,
+                    "y": 7.64274186065882e-15,
+                    "z": 1.0
+                },
+                {
+                    "x": 1.3113415775478643e-07,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            ]
+        },
+        {
+            "idx": 183,
+            "pos": {
+                "x": 90.0,
+                "y": 1.0,
+                "z": 145.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/HELL6_3.png",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 40.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -4.371138828673793e-08,
+                    "y": 1.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 1.0
+                },
+                {
+                    "x": -4.371138828673793e-08,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            ]
+        },
+        {
+            "idx": 184,
+            "pos": {
+                "x": 35.0,
+                "y": 1.0,
+                "z": 145.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/HELL6_3.png",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 40.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -4.371138828673793e-08,
+                    "y": 1.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 1.0
+                },
+                {
+                    "x": -4.371138828673793e-08,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            ]
+        },
+        {
+            "idx": 185,
+            "pos": {
+                "x": 35.0,
+                "y": 51.0,
+                "z": 145.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/HELL6_3.png",
+            "type": 2,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 55.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 50.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 1.0
+                },
+                {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 1.0
+                }
+            ]
+        },
+        {
+            "idx": 186,
+            "pos": {
+                "x": 72.0,
+                "y": 29.0,
+                "z": 137.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/train/a8082.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 20.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 20.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -1.0,
+                    "y": -8.742279788975793e-08,
+                    "z": -1.7484555314695172e-07
+                },
+                {
+                    "x": 8.742277657347586e-08,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": -0.9999998807907104,
+                    "y": -1.0,
+                    "z": -4.371138118131057e-08
+                }
+            ]
+        },
+        {
+            "idx": 187,
+            "pos": {
+                "x": 72.0,
+                "y": 29.0,
+                "z": 117.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/train/a8079.PNG",
+            "type": 0,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 20.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 20.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -1.311342145982053e-07,
+                    "y": -2.6226831550957286e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": -2.1855699117168115e-07,
+                    "y": -1.0,
+                    "z": -2.622683439312823e-07
+                },
+                {
+                    "x": -3.496911631373223e-07,
+                    "y": -1.0,
+                    "z": 0.9999995231628418
+                }
+            ]
+        },
+        {
+            "idx": 188,
+            "pos": {
+                "x": 52.0,
+                "y": 29.0,
+                "z": 117.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/train/a8079.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 20.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 20.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 1.3113415775478643e-07,
+                    "y": 1.7484555314695172e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": 2.1855699117168115e-07,
+                    "y": -1.0,
+                    "z": 1.7484551051438757e-07
+                },
+                {
+                    "x": 3.4969113471561286e-07,
+                    "y": -0.9999997615814209,
+                    "z": 1.0
+                }
+            ]
+        },
+        {
+            "idx": 189,
+            "pos": {
+                "x": 52.0,
+                "y": 29.0,
+                "z": 97.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/train/a8078.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 20.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 20.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -1.7484555314695172e-07,
+                    "y": -4.371138828673793e-08,
+                    "z": 1.0
+                },
+                {
+                    "x": -4.371140960302e-08,
+                    "y": -1.0,
+                    "z": -4.3711402497592644e-08
+                },
+                {
+                    "x": -2.1855692011740757e-07,
+                    "y": -1.0,
+                    "z": 0.9999998807907104
+                }
+            ]
+        },
+        {
+            "idx": 190,
+            "pos": {
+                "x": 72.0,
+                "y": 29.0,
+                "z": 97.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/train/a8078.PNG",
+            "type": 0,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 20.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 20.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -5.732056183735878e-15,
+                    "y": 1.3113415775478643e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": 4.371138828673793e-08,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": 4.371138118131057e-08,
+                    "y": -0.9999998211860657,
+                    "z": 1.0
+                }
+            ]
+        },
+        {
+            "idx": 191,
+            "pos": {
+                "x": 72.0,
+                "y": 29.0,
+                "z": 57.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/train/a8080.PNG",
+            "type": 0,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 40.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -4.371138828673793e-08,
+                    "y": -4.3711395392165286e-08,
+                    "z": 1.0
+                },
+                {
+                    "x": 1.7484555314695172e-07,
+                    "y": -1.0,
+                    "z": -4.371138828673793e-08
+                },
+                {
+                    "x": 1.3113415775478643e-07,
+                    "y": -1.0,
+                    "z": 0.9999999403953552
+                }
+            ]
+        },
+        {
+            "idx": 192,
+            "pos": {
+                "x": 52.0,
+                "y": 29.0,
+                "z": 87.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/train/a8076.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 10.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -4.371138828673793e-08,
+                    "y": -4.3711395392165286e-08,
+                    "z": 1.0
+                },
+                {
+                    "x": 1.7484555314695172e-07,
+                    "y": -1.0,
+                    "z": -4.371138828673793e-08
+                },
+                {
+                    "x": 1.3113415775478643e-07,
+                    "y": -1.0,
+                    "z": 0.9999999403953552
+                }
+            ]
+        },
+        {
+            "idx": 193,
+            "pos": {
+                "x": 52.0,
+                "y": 29.0,
+                "z": 77.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/train/a8077.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 10.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -5.732056183735878e-15,
+                    "y": 1.3113415775478643e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": 2.18556948539117e-07,
+                    "y": -1.0,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": 2.1855693432826229e-07,
+                    "y": -0.9999998211860657,
+                    "z": 1.0
+                }
+            ]
+        },
+        {
+            "idx": 194,
+            "pos": {
+                "x": 52.0,
+                "y": 29.0,
+                "z": 57.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/train/a8079.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 20.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -4.371138828673793e-08,
+                    "y": -2.18556948539117e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": 1.7484555314695172e-07,
+                    "y": -1.0,
+                    "z": -2.18556948539117e-07
+                },
+                {
+                    "x": 1.3113415775478643e-07,
+                    "y": -1.0,
+                    "z": 0.9999997019767761
+                }
+            ]
+        },
+        {
+            "idx": 195,
+            "pos": {
+                "x": 52.0,
+                "y": 29.0,
+                "z": 57.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/train/a8081.PNG",
+            "type": 0,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 20.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 1.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 0.0,
+                    "y": -1.0,
+                    "z": -4.371138828673793e-08
+                },
+                {
+                    "x": 1.0,
+                    "y": -1.0,
+                    "z": -4.371138828673793e-08
+                }
+            ]
+        },
+        {
+            "idx": 196,
+            "pos": {
+                "x": 52.0,
+                "y": 7.0,
+                "z": 57.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/train/a8785.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 5,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 2.0,
+            "vertexIntervalZ": 20.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -4.371138828673793e-08,
+                    "y": 1.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 1.0
+                },
+                {
+                    "x": -4.371138828673793e-08,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 2.0
+                },
+                {
+                    "x": -4.371138828673793e-08,
+                    "y": 1.0,
+                    "z": 2.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 3.0
+                },
+                {
+                    "x": -4.371138828673793e-08,
+                    "y": 1.0,
+                    "z": 3.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 4.0
+                },
+                {
+                    "x": -4.371138828673793e-08,
+                    "y": 1.0,
+                    "z": 4.0
+                }
+            ]
+        },
+        {
+            "idx": 197,
+            "pos": {
+                "x": 72.0,
+                "y": 7.0,
+                "z": 57.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/train/a8785.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 5,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 2.0,
+            "vertexIntervalZ": 20.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -4.371138828673793e-08,
+                    "y": 1.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 1.0
+                },
+                {
+                    "x": -4.371138828673793e-08,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 2.0
+                },
+                {
+                    "x": -4.371138828673793e-08,
+                    "y": 1.0,
+                    "z": 2.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 3.0
+                },
+                {
+                    "x": -4.371138828673793e-08,
+                    "y": 1.0,
+                    "z": 3.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 4.0
+                },
+                {
+                    "x": -4.371138828673793e-08,
+                    "y": 1.0,
+                    "z": 4.0
+                }
+            ]
+        },
+        {
+            "idx": 198,
+            "pos": {
+                "x": 52.0,
+                "y": 9.0,
+                "z": 137.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/train/a8786.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 20.0,
+            "vertexIntervalY": 2.0,
+            "vertexIntervalZ": 1.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -4.371135275960114e-08,
+                    "y": -1.0,
+                    "z": -1.7484559577951586e-07
+                },
+                {
+                    "x": 1.0,
+                    "y": -4.371138118131057e-08,
+                    "z": 1.3113415775478643e-07
+                },
+                {
+                    "x": 0.9999999403953552,
+                    "y": -0.9999998211860657,
+                    "z": -4.371141315573368e-08
+                }
+            ]
+        },
+        {
+            "idx": 199,
+            "pos": {
+                "x": 52.0,
+                "y": 9.0,
+                "z": 57.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Constructure/train/a8786.PNG",
+            "type": 1,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 20.0,
+            "vertexIntervalY": 2.0,
+            "vertexIntervalZ": 1.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -2.18556948539117e-07,
+                    "y": -1.0,
+                    "z": -1.31134129333077e-07
+                },
+                {
+                    "x": 1.0,
+                    "y": -2.1855690590655286e-07,
+                    "z": -1.7484559577951586e-07
+                },
+                {
+                    "x": 0.9999997019767761,
+                    "y": -1.0,
+                    "z": -3.059796824800287e-07
+                }
+            ]
+        },
+        {
+            "idx": 200,
+            "pos": {
+                "x": 62.0,
+                "y": 9.0,
+                "z": 57.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/WALL76_1.png",
+            "type": 2,
+            "vertexCountX": 2,
+            "vertexCountZ": 3,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 40.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 1.0
+                },
+                {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 1.0
+                },
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 2.0
+                },
+                {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 2.0
+                }
+            ]
+        },
+        {
+            "idx": 201,
+            "pos": {
+                "x": 62.0,
+                "y": 9.0,
+                "z": 137.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/WALL76_1.png",
+            "type": 2,
+            "vertexCountX": 2,
+            "vertexCountZ": 3,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 40.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -1.0,
+                    "y": 8.742279788975793e-08,
+                    "z": 1.7484552472524229e-07
+                },
+                {
+                    "x": -1.7484555314695172e-07,
+                    "y": -8.742279078433057e-08,
+                    "z": -1.0
+                },
+                {
+                    "x": -1.0,
+                    "y": 1.4210854715202004e-14,
+                    "z": -0.9999997615814209
+                },
+                {
+                    "x": -3.4969110629390343e-07,
+                    "y": -1.7484558156866115e-07,
+                    "z": -2.0
+                },
+                {
+                    "x": -1.0000004768371582,
+                    "y": -8.742281920604e-08,
+                    "z": -2.0
                 }
             ]
         }
