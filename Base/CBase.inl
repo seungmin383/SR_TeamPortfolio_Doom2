@@ -23,6 +23,7 @@ unsigned long CBase::Release()
 		delete this;
 
 		return 0;
+
 	}
 	
 	return m_dwRefCnt--;

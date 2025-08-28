@@ -34,6 +34,7 @@
 #include "CArchvileBullet.h"
 #include "CZombiemanBullet.h"
 #include"CBossBullet.h"
+#include "CPinkyBullet.h"
 
 #include "CPlayerWeapon.h"
 #include "CHealth_Small.h"
@@ -88,7 +89,7 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 
 	//m_pManagementClass->Update_Scene(fTimeDelta);
 
-	if (GetAsyncKeyState('C'))
+	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_C))
 		g_colRend = !g_colRend;
 
 	// p 키 눌렀을 때 일시정지
@@ -261,6 +262,10 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 
 	// 아크바일 총알
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE_BULLET, CArchvileBullet::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 아크바일 총알
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_PIKNY_BULLET, CPinkyBullet::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	// 보스 총알

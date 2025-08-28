@@ -23,7 +23,7 @@ CTerrainTexSector::~CTerrainTexSector()
 
 HRESULT CTerrainTexSector::Ready_Buffer(const _ulong& dwCntX,
 	const _ulong& dwCntZ,
-	const _ulong& dwVtxItv,
+	const _float& dwVtxItv,
 	vector<_vec3> vertices)
 {
 	m_dwVtxSize = sizeof(VTXTEX);
@@ -278,4 +278,5 @@ void CTerrainTexSector::Free()
 	}
 
 	CVIBuffer::Free();
+
 }

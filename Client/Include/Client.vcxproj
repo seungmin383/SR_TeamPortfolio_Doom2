@@ -205,6 +205,7 @@
     <ClInclude Include="..\Header\CMonsterBase.h" />
     <ClInclude Include="..\Header\CObjectFactory.h" />
     <ClInclude Include="..\Header\CPinky.h" />
+    <ClInclude Include="..\Header\CPinkyBullet.h" />
     <ClInclude Include="..\Header\CPistol.h" />
     <ClInclude Include="..\Header\CPlayerWeapon.h" />
     <ClInclude Include="..\Header\CRocket.h" />
@@ -276,6 +277,7 @@
     <ClCompile Include="..\Code\CMonsterBase.cpp" />
     <ClCompile Include="..\Code\CObjectFactory.cpp" />
     <ClCompile Include="..\Code\CPinky.cpp" />
+    <ClCompile Include="..\Code\CPinkyBullet.cpp" />
     <ClCompile Include="..\Code\CPistol.cpp" />
     <ClCompile Include="..\Code\CPlayerWeapon.cpp" />
     <ClCompile Include="..\Code\CRocket.cpp" />
