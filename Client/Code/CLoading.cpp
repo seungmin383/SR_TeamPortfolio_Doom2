@@ -107,7 +107,7 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_BfgBullet", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Effect/BFGBullet/BFGBULLET%d.png", TEX_NORMAL, 2))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_NormalBullet", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Effect/NormalBullet/STKEYS4.png", TEX_NORMAL, 1))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_NormalBullet", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Effect/NormalBullet/a6676.png", TEX_NORMAL, 1))))
 		return E_FAIL;
 
 #pragma endregion
