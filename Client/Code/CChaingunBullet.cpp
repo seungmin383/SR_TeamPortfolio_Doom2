@@ -31,7 +31,7 @@ HRESULT CChaingunBullet::Ready_GameObject()
 	m_pTransformCom->Get_Pos(&vPos);
 
 	// Collider Settings
-	_vec3 vColliderScale = { 0.15f, 0.15f, 0.15f };
+	_vec3 vColliderScale = { 0.2f, 0.2f, 0.2f };
 	_vec3 vOffset = { 0.f, 0.f ,0.f };
 
 	m_pColliderCom->Ready_CCollider(this, vPos, vColliderScale, vOffset, COLLAYERID::COL_BULLET,
@@ -42,11 +42,11 @@ HRESULT CChaingunBullet::Ready_GameObject()
 		CDynamicCamera* pPlayer = dynamic_cast<CDynamicCamera*>(CManagement::GetInstance()->Get_Player());
 		m_vInitDir = pPlayer->Get_At() - pPlayer->Get_Pos();
 		D3DXVec3Normalize(&m_vInitDir, &m_vInitDir);
-		m_fSpeed = 100.f;
+		m_fSpeed = 125.f;
 		m_bDead = false;
 		m_iDmg = 10;
 
-		_vec3 vScale = { 0.03f, 0.03f, 0.03f };
+		_vec3 vScale = { 0.07f, 0.07f, 0.07f };
 		m_pTransformCom->Set_Scale(vScale);
 	}
 

@@ -49,10 +49,10 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	m_fFar = fFar;
 
 	// Player Default Settings
-	m_iGameHp = 83;
+	m_iGameHp = 100;
 	m_iArmor = 45;
 
-	m_fSpeed = 30.f;
+	m_fSpeed = 20.f;
 	m_fFallSpeed = 1.25f;
 	m_fJumpForce = 0.45f;
 	m_fAngle = 0.f;
@@ -323,7 +323,6 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 	if (m_bIsMoving)
 		Camera_Bobbing(fTimeDelta);
-
 #pragma endregion
 
 #pragma region Jump Part
@@ -581,6 +580,18 @@ void CDynamicCamera::Check_Death()
 {
 	if (m_eState == DEAD)
 	{
+		_vec3	vUp{ 0.f, 1.f, 0.f };
+
+		_vec3	vLook = m_vAt - m_vEye;
+		D3DXVec3Normalize(&vLook, &vLook);
+		_matrix matRot;
+
+		D3DXMatrixRotationAxis(&matRot, &vLook, D3DXToRadian(30.f));
+		D3DXVec3TransformNormal(&vUp, &vUp, &matRot);
+
+		m_vAt = m_vEye + vLook;
+		D3DXMatrixLookAtLH(&m_matView, &m_vEye, &m_vAt, &vUp);
+		m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_matView);
 	}
 }
 

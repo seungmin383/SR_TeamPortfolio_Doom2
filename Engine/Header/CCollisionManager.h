@@ -30,6 +30,17 @@ public:
 
     static bool Check_Mask(CCollider* _Dst, CCollider* _Src);
 
+    /// <summary>
+    /// RayCast
+    /// </summary>
+    /// <param name="vRayPos">Start position</param>
+    /// <param name="vRayDir">Ray direction</param>
+    /// <param name="vHitPos">Ray & Collider's hit position</param>
+    /// <param name="fDist">Moving distance of current frame</param>
+    /// <param name="pOut">Return Collider's owner GameObject</param>
+    /// <returns></returns>
+    static CGameObject* Raycast(const _vec3& vRayPos, const _vec3& vRayDir, _vec3& vHitPos, _float fMaxDist, CGameObject* pOut);
+
 private:
     virtual void        Free();
 
