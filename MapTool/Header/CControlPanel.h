@@ -5,6 +5,8 @@
 #include "CTextureManager.h"
 #include "CTextureExplorer.h"
 
+#include "../../Engine/Include/TerrainModelMod.h"
+
 #include "CTerrainSector.h"
 
 #ifdef new
@@ -37,7 +39,9 @@ class CControlPanel :
         _int vertexZCnt = 2;
         _int vertexYCnt = 0;
         
-        _float vertexInterval = 1.f;
+        _float vertexIntervalX = 1.f;
+        _float vertexIntervalZ = 1.f;
+        _float vertexIntervalY = 1.f;
 
         _int terrainIdx = 0;
         fs::path currentTextureTag = "";

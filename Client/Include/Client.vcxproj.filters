@@ -187,6 +187,9 @@
     <Filter Include="02. GameObject\07. Bullet\01. MonsterBullet\CPinkyBullet">
       <UniqueIdentifier>{0173e239-2361-4fee-b867-d2ace2e1706d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Scene\05. StageTest">
+      <UniqueIdentifier>{3c6b1b3a-c332-4a38-af40-bf6518714130}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -404,6 +407,9 @@
     </ClInclude>
     <ClInclude Include="..\Header\CSuits.h">
       <Filter>02. GameObject\06. Object\FieldObject</Filter>
+</ClInclude>
+    <ClInclude Include="CStageTest.h">
+      <Filter>01. Scene\05. StageTest</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -616,6 +622,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CSuits.cpp">
       <Filter>02. GameObject\06. Object\FieldObject</Filter>
+  </ClCompile>
+    <ClCompile Include="CStageTest.cpp">
+      <Filter>01. Scene\05. StageTest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
