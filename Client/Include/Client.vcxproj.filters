@@ -187,6 +187,9 @@
     <Filter Include="02. GameObject\07. Bullet\01. MonsterBullet\CPinkyBullet">
       <UniqueIdentifier>{0173e239-2361-4fee-b867-d2ace2e1706d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\03. Terrain\tmpWall">
+      <UniqueIdentifier>{73e38be8-d88e-4786-9e69-eb6c8ef7a0bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -402,6 +405,9 @@
     <ClInclude Include="..\Header\CPinkyBullet.h">
       <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CPinkyBullet</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CTmpWall.h">
+      <Filter>02. GameObject\03. Terrain\tmpWall</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -610,6 +616,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CPinkyBullet.cpp">
       <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CPinkyBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CTmpWall.cpp">
+      <Filter>02. GameObject\03. Terrain\tmpWall</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

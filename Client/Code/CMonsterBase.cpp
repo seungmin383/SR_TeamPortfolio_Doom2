@@ -96,7 +96,10 @@ void CMonsterBase::OnCollision(CCollider* _pOther)
 void CMonsterBase::OnCollisionEnter(CCollider* _pOther)
 {
 	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
-
+	if (_pOther->Get_ColLayer() == COLLAYERID::COL_WALL)
+	{
+		int a = 0;
+	}
 }
 
 void CMonsterBase::OnCollisionExit(CCollider* _pOther)
@@ -303,7 +306,12 @@ _bool CMonsterBase::Check_Target()
 		float distSq = D3DXVec3LengthSq(&vDistanceToPlayer);
 		float sightSq = m_fSightDistance * m_fSightDistance;
 
-		return (fDot >= 0.f) && (distSq <= sightSq);
+		if ((fDot >= 0.f) && (distSq <= sightSq)) //플레이어가 범위 안에 들어왔다
+		{
+
+		}
+		else //플레이어가 범위 밖에 있다
+			return FALSE;
 }
 
 _bool CMonsterBase::Check_Shooting_Sound()

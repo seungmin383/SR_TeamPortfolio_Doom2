@@ -88,7 +88,6 @@ private:
 	void        Update_State();          // 플레이어의 State 설정해주는 함수
 	void        Camera_Bobbing(const _float& fTimeDelta);
 	void		Apply_Gravity(const _float& fTimeDelta);		// 중력 적용 함수
-
 private:
 	Engine::CCalculator* m_pCalculatorCom;
 

@@ -87,6 +87,7 @@ _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 {
 	_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
 	
+	
 	Update_State();
 
 	return iExit;
@@ -96,6 +97,7 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	Engine::CCamera::LateUpdate_GameObject(fTimeDelta);
 	
+
 	Apply_Gravity(fTimeDelta);
 	Set_OnTerrain();
 	Key_Input(fTimeDelta);
@@ -158,6 +160,7 @@ void CDynamicCamera::OnCollisionEnter(CCollider* _pOther)
 
 		m_vMoveDist = _vec3(0.f, 0.f, 0.f);
 	}
+
 }
 
 void CDynamicCamera::OnCollisionExit(CCollider* _pOther)
@@ -566,6 +569,8 @@ void CDynamicCamera::Apply_Gravity(const _float& fTimeDelta)
 	if (m_vVelocity.y >= 200.f)
 		m_vVelocity.y = 200.f;
 }
+
+
 
 CDynamicCamera* CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)
 {

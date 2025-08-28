@@ -70,6 +70,7 @@ enum class OBJPROTOTYPE
 	WEAPON_ROCKET,
 	WEAPON_BFG,
 	BUTTON_DOOR,
+	TMP_WALL,
 
 	//51 ~ 60 공격 관련
 	ATTACK = 51,
@@ -180,7 +181,6 @@ enum class SCENEID
 	STAGE1,
 	STAGE2,
 	STAGE3,
-	TEST,
 	SCENE_END
 };
 

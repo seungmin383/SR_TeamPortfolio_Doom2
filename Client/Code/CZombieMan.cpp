@@ -130,7 +130,8 @@ HRESULT CZombieMan::Ready_GameObject()
 	m_iGibDeadPlus		= 24;
 	m_iNorDeadPlus		= 25;
 
-	m_pTransformCom->Set_Pos(54.f, 0.f, 10.f);
+	//m_pTransformCom->Set_Pos(54.f, 0.f, 10.f);
+	m_pTransformCom->Set_Pos(100.f, 0.f, 100.f);
 
 	//초기 룩으로 세팅해주고
 	m_pTransformCom->Get_Info(INFO_LOOK, &m_vMoveLook);
