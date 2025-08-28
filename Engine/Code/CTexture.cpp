@@ -8,17 +8,17 @@ CTexture::CTexture(LPDIRECT3DDEVICE9 pGraphicDev)
 CTexture::CTexture(const CTexture& rhs)
 	: CComponent(rhs)
 {
-	// 장치 포인터 참조 증가(베이스가 이미 AddRef했다면 생략 가능)
-	if (m_pGraphicDev) m_pGraphicDev->AddRef();
+	//// 장치 포인터 참조 증가(베이스가 이미 AddRef했다면 생략 가능)
+	//if (m_pGraphicDev) m_pGraphicDev->AddRef();
 
-	// 텍스처 포인터들을 "참조 증가"하며 복사
-	m_vecTexture.reserve(rhs.m_vecTexture.size());
-	for (auto* tex : rhs.m_vecTexture) {
-		if (tex) tex->AddRef();     // AddRef
-		m_vecTexture.push_back(tex);
-	}
+	//// 텍스처 포인터들을 "참조 증가"하며 복사
+	//m_vecTexture.reserve(rhs.m_vecTexture.size());
+	//for (auto* tex : rhs.m_vecTexture) {
+	//	if (tex) tex->AddRef();     // AddRef
+	//	m_vecTexture.push_back(tex);
+	//}
 
-	/*size_t	iContainerSize = rhs.m_vecTexture.size();
+	size_t	iContainerSize = rhs.m_vecTexture.size();
 
 	m_vecTexture.reserve(iContainerSize);
 
@@ -27,7 +27,7 @@ CTexture::CTexture(const CTexture& rhs)
 	for (size_t i = 0; i < iContainerSize; i++)
 	{
 		m_vecTexture[i]->AddRef();
-	}*/
+	}
 }
 
 CTexture::~CTexture()
@@ -97,10 +97,10 @@ CTexture* CTexture::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _tchar* pPath, T
 
 void CTexture::Free()
 {
-	//// 보유한 텍스처 전부 Release (참조 카운트 기반이라 중복 해제 안전)
-	//for (auto*& tex : m_vecTexture) {
-	//	Safe_Release(tex);
-	//}
+	// 보유한 텍스처 전부 Release (참조 카운트 기반이라 중복 해제 안전)
+	/*for (auto*& tex : m_vecTexture) {
+		Safe_Release(tex);
+	}*/
 	
 	for (size_t i = 0; i < m_vecTexture.size(); i++)
 	{

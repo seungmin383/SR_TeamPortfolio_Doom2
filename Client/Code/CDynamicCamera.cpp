@@ -160,7 +160,6 @@ void CDynamicCamera::OnCollisionEnter(CCollider* _pOther)
 
 		m_vMoveDist = _vec3(0.f, 0.f, 0.f);
 	}
-
 }
 
 void CDynamicCamera::OnCollisionExit(CCollider* _pOther)

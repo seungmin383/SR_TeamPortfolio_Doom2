@@ -56,7 +56,7 @@ _int CMonsterBase::Update_GameObject(const _float& fTimeDelta)
 {
 	Thinker(fTimeDelta);
 
-	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
+	CRenderer::GetInstance()->Add_RenderGroup(RENDER_NONALPHA, this);
 	CGameObject::Update_GameObject(fTimeDelta);
 
 	if (m_isGibbingDead || m_isNormalDead)
@@ -75,8 +75,11 @@ void                 CMonsterBase::LateUpdate_GameObject(const _float& fTimeDelt
 
 void                 CMonsterBase::Render_GameObject(const _float& fTimeDelta)
 {
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);			//알파 테스트를 하겠다.
+
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 	m_pTextureCom->Set_Texture(m_eCurAnimState);
@@ -98,8 +101,9 @@ void CMonsterBase::OnCollisionEnter(CCollider* _pOther)
 	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
 	if (_pOther->Get_ColLayer() == COLLAYERID::COL_WALL)
 	{
-		int a = 0;
+		m_vMoveLook = -m_vMoveLook;
 	}
+
 }
 
 void CMonsterBase::OnCollisionExit(CCollider* _pOther)

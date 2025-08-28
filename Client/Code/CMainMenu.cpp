@@ -339,7 +339,7 @@ CMainMenu* CMainMenu::Create()
 
 void CMainMenu::Free()
 {
-	//Safe_Release(m_pLoading);
+	Safe_Release(m_pLoading);
 	if (m_pHoverTex) { m_pHoverTex->Release(); m_pHoverTex = nullptr; }
 	if (m_pExitTex) { m_pExitTex->Release(); m_pExitTex = nullptr; }
 	if (m_pLogoTex) { m_pLogoTex->Release();  m_pLogoTex = nullptr; }
