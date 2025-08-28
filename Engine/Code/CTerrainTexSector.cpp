@@ -23,7 +23,9 @@ CTerrainTexSector::~CTerrainTexSector()
 
 HRESULT CTerrainTexSector::Ready_Buffer(const _ulong& dwCntX,
 	const _ulong& dwCntZ,
-	const _float& dwVtxItv,
+	const _float& dwVtxXItv,
+	const _float& dwVtxZItv,
+	const _float& dwVtxYItv,
 	vector<_vec3> vertices)
 {
 	m_dwVtxSize = sizeof(VTXTEX);
@@ -36,7 +38,8 @@ HRESULT CTerrainTexSector::Ready_Buffer(const _ulong& dwCntX,
 
 	m_VtxCntX = dwCntX;
 	m_VtxCntZ = dwCntZ;
-	m_VtxItv = dwVtxItv;
+	m_VtxXItv = dwVtxXItv;
+	m_VtxZItv = dwVtxZItv;
 
 	Safe_Delete_Array(m_pPos);
 
@@ -57,9 +60,9 @@ HRESULT CTerrainTexSector::Ready_Buffer(const _ulong& dwCntX,
 		{
 			dwIndex = j + (i * dwCntX);
 
-			pVertex[dwIndex].vPosition = { vertices[dwIndex].x * dwVtxItv,
-											vertices[dwIndex].y* dwVtxItv,
-											vertices[dwIndex].z* dwVtxItv };
+			pVertex[dwIndex].vPosition = { vertices[dwIndex].x * dwVtxXItv,
+											vertices[dwIndex].y* dwVtxYItv,
+											vertices[dwIndex].z* dwVtxZItv };
 
 			pVertex[dwIndex].vNormal = { 0.f, 0.f, 0.f };
 
@@ -143,11 +146,13 @@ CTerrainTexSector* CTerrainTexSector::Create(LPDIRECT3DDEVICE9 pGraphicDev,
 	vector<_vec3> vertices,
 	const _ulong& dwCntX,
 	const _ulong& dwCntZ,
-	const _float& dwVtxItv)
+	const _float& dwVtxXItv,
+	const _float& dwVtxZItv,
+	const _float& dwVtxYItv)
 {
 	CTerrainTexSector* pTerrainTex = new CTerrainTexSector(pGraphicDev);
 
-	if (FAILED(pTerrainTex->Ready_Buffer(dwCntX, dwCntZ, dwVtxItv, vertices)))
+	if (FAILED(pTerrainTex->Ready_Buffer(dwCntX, dwCntZ, dwVtxXItv, dwVtxZItv, dwVtxYItv, vertices)))
 	{
 		Safe_Release(pTerrainTex);
 		MSG_BOX("TerrainTex Create Failed");
@@ -183,7 +188,7 @@ HRESULT CTerrainTexSector::Ready_Buffer_Default(const _ulong& dwCntX, const _ulo
 
 	m_VtxCntX = dwCntX;
 	m_VtxCntZ = dwCntZ;
-	m_VtxItv = dwVtxItv;
+	m_VtxXItv = dwVtxItv;
 
 	Safe_Delete_Array(m_pPos);
 

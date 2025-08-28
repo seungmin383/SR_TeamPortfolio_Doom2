@@ -4,6 +4,7 @@
 #include "../../Engine/Include/StageInfo.h"
 #include "../../Engine/Include/ConfigModel.h"
 #include "../../Engine/Include/TerrainModels.h"
+#include "../../Engine/Include/TerrainModelsMod.h"
 #include <filesystem>
 #include <fstream>
 

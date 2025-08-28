@@ -46,7 +46,7 @@ _bool CControlPanel::ControlPanelWindow(const _float& timeDelta)
 {
 	pickingtime += timeDelta;
 
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_G) & 0x80)
+	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_G))
 		EnablePick = !EnablePick;
 
 	if (ImGui::Button("Show Demo"))
@@ -550,7 +550,55 @@ void CControlPanel::TerrainController()
 			Apply();
 	}
 
-	if (ImGui::InputFloat("tile interval", &tCachingControlInfo.vertexInterval, 0.1f, 1.0f, "%.1f"))
+	if (ImGui::InputFloat("tile interval X", &tCachingControlInfo.vertexIntervalX, 0.1f, 1.0f, "%.1f"))
+	{
+		tCachingControlInfo.vertices.clear();
+
+		DWORD dwIndex = 0;
+		_int cnt = tCachingControlInfo.vertexZCnt * tCachingControlInfo.vertexXCnt;
+		for (size_t i = 0; i < tCachingControlInfo.vertexZCnt; i++)
+		{
+			for (size_t j = 0; j < tCachingControlInfo.vertexXCnt; j++)
+			{
+				dwIndex = tCachingControlInfo.vertexXCnt * i + j;
+
+				tCachingControlInfo.vertices.push_back({ (_float)j
+													, 0.f,
+													(_float)i });
+			}
+		}
+
+		tCachingControlInfo.vertices.shrink_to_fit();
+
+		if (isModifing)
+			Apply();
+	}
+
+	if (ImGui::InputFloat("tile interval Z", &tCachingControlInfo.vertexIntervalZ, 0.1f, 1.0f, "%.1f"))
+	{
+		tCachingControlInfo.vertices.clear();
+
+		DWORD dwIndex = 0;
+		_int cnt = tCachingControlInfo.vertexZCnt * tCachingControlInfo.vertexXCnt;
+		for (size_t i = 0; i < tCachingControlInfo.vertexZCnt; i++)
+		{
+			for (size_t j = 0; j < tCachingControlInfo.vertexXCnt; j++)
+			{
+				dwIndex = tCachingControlInfo.vertexXCnt * i + j;
+
+				tCachingControlInfo.vertices.push_back({ (_float)j
+													, 0.f,
+													(_float)i });
+			}
+		}
+
+		tCachingControlInfo.vertices.shrink_to_fit();
+
+		if (isModifing)
+			Apply();
+	}
+
+	if (ImGui::InputFloat("tile interval Y", &tCachingControlInfo.vertexIntervalY, 0.1f, 1.0f, "%.1f"))
 	{
 		tCachingControlInfo.vertices.clear();
 
@@ -576,13 +624,13 @@ void CControlPanel::TerrainController()
 
 	//TODO
 	//타일 선택, 선택한 타일 값
-	if (ImGui::DragFloat3("Input tile pos", tCachingControlInfo.pos, tCachingControlInfo.vertexInterval, -50.f, 300.f, "%.1f") && isModifing)
+	if (ImGui::DragFloat3("Input tile pos", tCachingControlInfo.pos, 1.f, -50.f, 300.f, "%.1f") && isModifing)
 		Apply();
-	if (ImGui::InputFloat("tile pos x", &tCachingControlInfo.pos.x, tCachingControlInfo.vertexInterval, 0.5f, "%.1f"))
+	if (ImGui::InputFloat("tile pos x", &tCachingControlInfo.pos.x, 1.f, 0.5f, "%.1f"))
 		Apply();
-	if (ImGui::InputFloat("tile pos y", &tCachingControlInfo.pos.y, tCachingControlInfo.vertexInterval, 0.5f, "%.1f"))
+	if (ImGui::InputFloat("tile pos y", &tCachingControlInfo.pos.y, 1.f, 0.5f, "%.1f"))
 		Apply();
-	if (ImGui::InputFloat("tile pos z", &tCachingControlInfo.pos.z, tCachingControlInfo.vertexInterval, 0.5f, "%.1f"))
+	if (ImGui::InputFloat("tile pos z", &tCachingControlInfo.pos.z, 1.f, 0.5f, "%.1f"))
 		Apply();
 
 	if (ImGui::Button("Select Texture"))
@@ -652,7 +700,9 @@ void CControlPanel::SetDefault()
 	tCachingControlInfo.vertexXCnt = 2;
 	tCachingControlInfo.vertexZCnt = 2;
 	tCachingControlInfo.vertexYCnt = 0;
-	tCachingControlInfo.vertexInterval = 1.f;
+	tCachingControlInfo.vertexIntervalX = 1.f;
+	tCachingControlInfo.vertexIntervalZ = 1.f;
+	tCachingControlInfo.vertexIntervalY = 1.f;
 	tCachingControlInfo.terrainIdx = 0;
 	//tCachingControlInfo.pos = _vec3(0.f, 0.f, 0.f);
 
@@ -666,9 +716,9 @@ void CControlPanel::SetDefault()
 		{
 			dwIndex = tCachingControlInfo.vertexXCnt * i + j;
 
-			tCachingControlInfo.vertices.push_back({ (_float)j * tCachingControlInfo.vertexInterval
+			tCachingControlInfo.vertices.push_back({ (_float)j * tCachingControlInfo.vertexIntervalX
 												, 0.f,
-												(_float)i * tCachingControlInfo.vertexInterval });
+												(_float)i * tCachingControlInfo.vertexIntervalZ });
 		}
 	}
 
@@ -688,7 +738,9 @@ void CControlPanel::Apply()
 		vecSector[tCachingControlInfo.terrainIdx]->Mod_BufferCom(
 			tCachingControlInfo.vertexXCnt,
 			tCachingControlInfo.vertexZCnt,
-			tCachingControlInfo.vertexInterval,
+			tCachingControlInfo.vertexIntervalX,
+			tCachingControlInfo.vertexIntervalZ,
+			tCachingControlInfo.vertexIntervalY,
 			tCachingControlInfo.vertices);
 
 		vecSector[tCachingControlInfo.terrainIdx]->Get_Transform()->Set_Pos(tCachingControlInfo.pos.x, tCachingControlInfo.pos.y, tCachingControlInfo.pos.z);
@@ -707,7 +759,9 @@ void CControlPanel::Apply()
 		auto pObj = CObjectFactory::GetInstance()->Create_Terrain(vecSector.size(),
 			tCachingControlInfo.vertexXCnt,
 			tCachingControlInfo.vertexZCnt,
-			tCachingControlInfo.vertexInterval,
+			tCachingControlInfo.vertexIntervalX,
+			tCachingControlInfo.vertexIntervalZ,
+			tCachingControlInfo.vertexIntervalY,
 			tCachingControlInfo.vertices,
 			(_tchar*)tCachingControlInfo.currentTextureTag.filename().wstring().c_str(),
 			tCachingControlInfo.pos);
@@ -740,7 +794,9 @@ void CControlPanel::SaveTerrain(fs::path path, string filename)
 		model.strTextureTag = fs::relative(terraininfo.currentTextureTag, basePath).relative_path().generic_string();
 		model.vertexCountX = terraininfo.vertexXCnt;
 		model.vertexCountZ = terraininfo.vertexZCnt;
-		model.vertexInterval = terraininfo.vertexInterval;
+		model.vertexIntervalX = terraininfo.vertexIntervalX;
+		model.vertexIntervalZ = terraininfo.vertexIntervalZ;
+		model.vertexIntervalY = terraininfo.vertexIntervalY;
 		model.vertices = terraininfo.vertices;
 
 		vecTerrainInfos.push_back(model);
@@ -770,14 +826,18 @@ void CControlPanel::LoadTerrain(int sceneNumber)
 		tCachingControlInfo.currentTextureTag = m.strTextureTag;
 		tCachingControlInfo.vertexXCnt = m.vertexCountX;
 		tCachingControlInfo.vertexZCnt = m.vertexCountZ;
-		tCachingControlInfo.vertexInterval = m.vertexInterval;
+		tCachingControlInfo.vertexIntervalX = m.vertexIntervalX;
+		tCachingControlInfo.vertexIntervalZ = m.vertexIntervalZ;
+		tCachingControlInfo.vertexIntervalY = m.vertexIntervalY;
 		tCachingControlInfo.vertices = m.vertices;
 
 		//오브젝트 생성
 		auto pObj = CObjectFactory::GetInstance()->Load_Terrain(vecSector.size(),
 			tCachingControlInfo.vertexXCnt,
 			tCachingControlInfo.vertexZCnt,
-			tCachingControlInfo.vertexInterval,//tCachingControlInfo.vertexInterval,//1.f
+			tCachingControlInfo.vertexIntervalX,//tCachingControlInfo.vertexInterval,//1.f
+			tCachingControlInfo.vertexIntervalZ,
+			tCachingControlInfo.vertexIntervalY,
 			tCachingControlInfo.vertices,
 			tCachingControlInfo.currentTextureTag,
 			tCachingControlInfo.pos);

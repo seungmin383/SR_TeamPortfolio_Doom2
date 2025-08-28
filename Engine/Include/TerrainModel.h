@@ -8,7 +8,9 @@ struct TerrainModel
 	int type;
 	int vertexCountX;
 	int vertexCountZ;
-	float vertexInterval;
+	float vertexIntervalX;
+	float vertexIntervalY;
+	float vertexIntervalZ;
 
 	_vec3 pos;
 	vector<_vec3> vertices;
@@ -21,7 +23,9 @@ inline void to_json(json& j, const TerrainModel& t)
 	j["type"] = t.type;
 	j["vertexCountX"] = t.vertexCountX;
 	j["vertexCountZ"] = t.vertexCountZ;
-	j["vertexInterval"] = t.vertexInterval;
+	j["vertexIntervalX"] = t.vertexIntervalX;
+	j["vertexIntervalY"] = t.vertexIntervalY;
+	j["vertexIntervalZ"] = t.vertexIntervalZ;
 
 	j["pos"] = t.pos;
 	j["vertices"] = t.vertices;
@@ -34,7 +38,9 @@ inline void from_json(const json& j, TerrainModel& t)
 	j.at("type").get_to(t.type);
 	j.at("vertexCountX").get_to(t.vertexCountX);
 	j.at("vertexCountZ").get_to(t.vertexCountZ);
-	j.at("vertexInterval").get_to(t.vertexInterval);
+	j.at("vertexIntervalX").get_to(t.vertexIntervalX);
+	j.at("vertexIntervalY").get_to(t.vertexIntervalY);
+	j.at("vertexIntervalZ").get_to(t.vertexIntervalZ);
 
 	j.at("pos").get_to(t.pos);
 	j.at("vertices").get_to(t.vertices);

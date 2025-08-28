@@ -27,7 +27,7 @@ void CObjectFactory::Create_Object(OBJPROTOTYPE eprototype, OBJID eObjId, _vec3 
 	CManagement::GetInstance()->Set_GameLogicObject(eprototype, eObjId, vPos);
 }
 
-CGameObject* CObjectFactory::Create_Terrain_Default(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv, _tchar* texTag, _vec3 pos, OBJID eObjId)
+CGameObject* CObjectFactory::Create_Terrain_Default(const _ulong& dwCntX, const _ulong& dwCntZ, const _float& dwVtxItv, _tchar* texTag, _vec3 pos, OBJID eObjId)
 {
 	auto sectorBuffer = Engine::CTerrainTexSector::Create_Default(m_pGraphicDev, dwCntX, dwCntZ, dwVtxItv);
 	auto texture = CPrototypeManager::GetInstance()->Clone_ComPrototype(texTag);
@@ -50,9 +50,9 @@ CGameObject* CObjectFactory::Create_Terrain_Default(const _ulong& dwCntX, const 
 	return terrainSector;
 }
 
-CGameObject* CObjectFactory::Create_Terrain(_int idx, const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv, vector<_vec3> vertices, _tchar* texTag, _vec3 pos, OBJID eObjId)
+CGameObject* CObjectFactory::Create_Terrain(_int idx, const _ulong& dwCntX, const _ulong& dwCntZ, const _float& dwVtxXItv, const _float& dwVtxZItv, const _float& dwVtxYItv, vector<_vec3> vertices, _tchar* texTag, _vec3 pos, OBJID eObjId)
 {
-	auto sectorBuffer = Engine::CTerrainTexSector::Create(m_pGraphicDev, vertices, dwCntX, dwCntZ, dwVtxItv);
+	auto sectorBuffer = Engine::CTerrainTexSector::Create(m_pGraphicDev, vertices, dwCntX, dwCntZ, dwVtxXItv, dwVtxZItv, dwVtxYItv);
 	auto texture = CPrototypeManager::GetInstance()->Clone_ComPrototype(texTag);
 
 	auto terrainSector = dynamic_cast<CTerrainSector*>(CPrototypeManager::GetInstance()->GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::TERRAINSECTOR));
@@ -73,7 +73,7 @@ CGameObject* CObjectFactory::Create_Terrain(_int idx, const _ulong& dwCntX, cons
 	return terrainSector;
 }
 
-CGameObject* CObjectFactory::Mod_Terrain(_int idx, const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv, vector<_vec3> vertices, _tchar* texTag, _vec3 pos, OBJID eObjId)
+CGameObject* CObjectFactory::Mod_Terrain(_int idx, const _ulong& dwCntX, const _ulong& dwCntZ, const _float& dwVtxXItv, const _float& dwVtxZItv, const _float& dwVtxYItv, vector<_vec3> vertices, _tchar* texTag, _vec3 pos, OBJID eObjId)
 {
 	//Set terrain_sector to layer
 	auto layerIter = CManagement::GetInstance()->Get_Scene()->Get_Layer().find(LAYERID::LAYER_ENVIRONMENT);
@@ -83,13 +83,13 @@ CGameObject* CObjectFactory::Mod_Terrain(_int idx, const _ulong& dwCntX, const _
 	auto texture = CPrototypeManager::GetInstance()->Clone_ComPrototype(texTag);
 
 	auto terrainSector = dynamic_cast<CTerrainSector*>(pObj);
-	terrainSector->Mod_BufferCom(dwCntX, dwCntZ, dwVtxItv, vertices);
+	terrainSector->Mod_BufferCom(dwCntX, dwCntZ, dwVtxXItv, dwVtxZItv, dwVtxYItv, vertices);
 	terrainSector->Set_TextureCom(dynamic_cast<CTexture*>(texture));
 
 	return terrainSector;
 }
 
-CGameObject* CObjectFactory::Load_Terrain(_int idx, const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv, vector<_vec3> vertices, fs::path texPath, _vec3 pos, OBJID eObjId)
+CGameObject* CObjectFactory::Load_Terrain(_int idx, const _ulong& dwCntX, const _ulong& dwCntZ, const _float& dwVtxXItv, const _float& dwVtxZItv, const _float& dwVtxYItv, vector<_vec3> vertices, fs::path texPath, _vec3 pos, OBJID eObjId)
 {
 	CTexture* tempTex = CTexture::Create(m_pGraphicDev, texPath.wstring().c_str(), TEX_NORMAL);
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(texPath.filename().wstring().c_str(), tempTex)))
@@ -99,7 +99,7 @@ CGameObject* CObjectFactory::Load_Terrain(_int idx, const _ulong& dwCntX, const 
 
 	auto terrainSector = dynamic_cast<CTerrainSector*>(CPrototypeManager::GetInstance()->GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::TERRAINSECTOR));
 
-	terrainSector->Set_BufferCom(Engine::CTerrainTexSector::Create(m_pGraphicDev, vertices, dwCntX, dwCntZ, dwVtxItv));
+	terrainSector->Set_BufferCom(Engine::CTerrainTexSector::Create(m_pGraphicDev, vertices, dwCntX, dwCntZ, dwVtxXItv, dwVtxZItv, dwVtxYItv));
 	terrainSector->Set_TextureCom(dynamic_cast<CTexture*>(texture));
 	terrainSector->Set_Index(idx);
 

@@ -23,11 +23,13 @@ public:
     void        Set_BufferCom(Engine::CTerrainTexSector* pBuffer);
     void        Mod_BufferCom(const _ulong& dwCntX,
         const _ulong& dwCntZ,
-        const _float& dwVtxItv,
+        const _float& dwVtxXItv,
+        const _float& dwVtxZItv,
+        const _float& dwVtxYItv,
         vector<_vec3> vertices);
 
     void        Set_TextureCom(Engine::CTexture* pTexture);
-    CTexture*   Get_TextureCom() { return m_pTextureCom; }
+    CTexture* Get_TextureCom() { return m_pTextureCom; }
 
 private:
     HRESULT     Add_Component();
