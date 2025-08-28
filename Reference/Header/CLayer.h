@@ -22,12 +22,14 @@ public:
     //TODO: 스테이지에 등장시킬 오브젝트의 초기 값 전달 방법 구상
     HRESULT     SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, _int iCnt = 1);
 
-    // 링크 값으로 스테이지에 등장(08/28 김홍인)
+    // 상호작용 설치 + 태그 “기록만” (Set_LinkId는 하지 않음)(08/28 김홍인)
     HRESULT SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, _int iCnt,
         const std::wstring& linkId);
 
-    // 기록된 태그 목록을 꺼내는 함수(꺼내면 내부는 비움: move out)(08/28 김홍인)
+    // // 의존성 없는 태그 메모 구조(08/28 김홍인)
     struct SInteractiveTag { Engine::CGameObject* obj; std::wstring linkId; };
+
+    // 기록된 (obj*, tag) 꺼내오기 (꺼내면 내부 비움)(08/28 김홍인)
     void PopInteractiveTags(OBJID eObjId, std::vector<SInteractiveTag>& outList);
 
     HRESULT     SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, CGameObject* _Owner, CGameObject*& _Bullet);

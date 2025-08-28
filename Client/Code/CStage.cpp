@@ -576,6 +576,11 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
+	CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::DOOR, OBJID::OBJ_OBJECT, { 20.f,2.f,30.f }, 1, L"B");
+	CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::BUTTON_DOOR, OBJID::OBJ_OBJECT, { 18.f,2.f,30.f }, 1, L"B");
+
+	// 설치가 끝난 뒤 한 번에 적용 + 기존 연결 루틴
+	ApplyInteractiveTagsFromManagement();
 	ConnectDoorSwitchByLinkId();
 
 	// 합계 초기화
@@ -858,6 +863,20 @@ void CStage::ConnectDoorSwitchByLinkId()
 				if (bestDoor) sw->Set_Target(bestDoor);
 			}
 		}
+	}
+}
+
+void CStage::ApplyInteractiveTagsFromManagement()
+{
+	std::vector<CLayer::SInteractiveTag> tagged;
+	CManagement::GetInstance()->Pop_InteractiveTags(OBJID::OBJ_OBJECT, tagged);
+
+	for (auto& t : tagged)
+	{
+		if (!t.obj) continue;
+		if (auto* sw = dynamic_cast<CSwitch_Button*>(t.obj))      sw->Set_LinkId(t.linkId);
+		else if (auto* d = dynamic_cast<CDoor*>(t.obj))          d->Set_LinkId(t.linkId);
+		else if (auto* dk = dynamic_cast<CDoorWithKey*>(t.obj))   dk->Set_LinkId(t.linkId);
 	}
 }
 

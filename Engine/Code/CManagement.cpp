@@ -101,6 +101,23 @@ HRESULT CManagement::Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjI
 	return S_OK;
 }
 
+HRESULT CManagement::Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, const _vec3& vPos, _int iCnt, const std::wstring& linkId)
+{
+	m_pScene->Set_GameLogicObject(eObjPrototype, eObjId, vPos, iCnt, linkId);
+
+	return S_OK;
+}
+
+void CManagement::Pop_InteractiveTags(OBJID eObjId, std::vector<CLayer::SInteractiveTag>& outList)
+{
+	if (!m_pScene) return;
+	// ▼ 레이어 맵 참조
+	const auto& layers = m_pScene->Get_Layer(); // std::map<LAYERID, Engine::CLayer*>
+	auto it = layers.find(LAYERID::LAYER_GAMELOGIC);
+	if (it == layers.end() || it->second == nullptr) return;
+	it->second->PopInteractiveTags(eObjId, outList);
+}
+
 _int CManagement::Update_Scene(const _float& fTimeDelta)
 {
 	if (nullptr == m_pScene)

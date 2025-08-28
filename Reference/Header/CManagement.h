@@ -40,6 +40,13 @@ public:
     HRESULT         Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos = _vec3(0.f, 0.f, 0.f), _int iCnt = 1);
     HRESULT         Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, CGameObject* _Owner, CGameObject*& _Bullet );
 
+    // 기존과 비슷한 시그니처: 프로토/ID/위치/개수 + 링크 태그(08/28 김홍인)
+    HRESULT Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId,
+        const _vec3& vPos, _int iCnt,
+        const std::wstring& linkId);
+
+    // Client가 태그 적용할 때 꺼내 쓰는 헬퍼
+    void Pop_InteractiveTags(OBJID eObjId, std::vector<CLayer::SInteractiveTag>& outList);
 public:
     _int        Update_Scene(const _float& fTimeDelta);
     void        LateUpdate_Scene(const _float& fTimeDelta);

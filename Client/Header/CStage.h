@@ -41,6 +41,9 @@ public:
 private:
     void ConnectDoorSwitchByLinkId();
 
+    // 설치가 끝난 뒤 Management에서 (obj*, tag) 꺼내와 Set_LinkId 적용
+    void ApplyInteractiveTagsFromManagement();  
+
     // Transform을 STATIC/DYNAMIC 양쪽에서 찾아주는 안전 헬퍼
     static CTransform* GetTransformPtr(Engine::CGameObject* obj)
     {

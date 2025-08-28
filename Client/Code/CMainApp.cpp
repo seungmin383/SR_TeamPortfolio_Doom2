@@ -342,38 +342,6 @@ CMainApp* CMainApp::Create()
 
 void CMainApp::Free()
 {
-	// 1) 게임 콘텐츠(씬/오브젝트/컴포넌트)부터 모두 정리
-	//if (m_pManagementClass)
-	//{
-	//	m_pManagementClass->DestroyInstance(); // 내부에서 Scene/Layer/Object 해제
-	//	m_pManagementClass = nullptr;
-	//}
-
-	//// 2) 디바이스에 의존하는 매니저들 정리 (렌더/폰트/텍스처 등)
-	//CWeaponManager::GetInstance()->DestroyInstance();
-	//CObjectFactory::GetInstance()->DestroyInstance();
-	//CFileManager::GetInstance()->DestroyInstance();
-	//CLightManager::GetInstance()->DestroyInstance();
-	//CFontManager::GetInstance()->DestroyInstance();
-	//CRenderer::GetInstance()->DestroyInstance();
-	//CPrototypeManager::GetInstance()->DestroyInstance();
-	//CTimerManager::GetInstance()->DestroyInstance();
-	//CFrameManager::GetInstance()->DestroyInstance();
-	//CDInputManager::GetInstance()->DestroyInstance();
-	//CTextureManager::GetInstance()->DestroyInstance();
-
-	//// 3) 로컬로 AddRef 해둔 디바이스 포인터 해제
-	//Engine::Safe_Release(m_pGraphicDev); // LPDIRECT3DDEVICE9
-	//m_pGraphicDev = nullptr;
-
-	//// 4) 디바이스/SDK를 보유한 싱글톤을 '마지막'에 파괴
-	////    싱글톤은 DestroyInstance만 호출 (Safe_Release 금지)
-	//if (m_pDeviceClass)
-	//{
-	//	m_pDeviceClass->DestroyInstance(); // 내부에서 m_pGraphicDev/m_pSDK Release
-	//	m_pDeviceClass = nullptr;
-	//}
-
 	Engine::Safe_Release(m_pDeviceClass);
 	Engine::Safe_Release(m_pGraphicDev);				
 	
@@ -392,14 +360,4 @@ void CMainApp::Free()
 
 	m_pManagementClass->DestroyInstance();
 	m_pDeviceClass->DestroyInstance();
-
-
-	// 변경 이유(08/28 김홍인)
-	// 1. 원본 코드는 디바이스부터 해제
-	// 2. 그 뒤 m_pManagementClass->DestroyInstance()로 씬/레이어/오브젝트를 지우는데, 
-	// 이 과정에서 CRectTex → CVIBuffer::Free()가 호출되며 IB/VB를 Release하려다 
-	// 이미 죽은 디바이스에 매달려 크래시.
-	// 3. 게다가 CGraphicDev는 싱글톤인데 
-	// Safe_Release(m_pDeviceClass)와 m_pDeviceClass->DestroyInstance()를 
-	// 둘 다 호출하고 있어 이중 해제 가능성도 있다.
 }

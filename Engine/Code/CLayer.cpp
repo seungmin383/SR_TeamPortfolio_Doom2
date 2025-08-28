@@ -106,6 +106,8 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 
 HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, _int iCnt, const std::wstring& linkId)
 {
+	// 기존 SetOn_GameLogicObject와 동일한 분기/동작을 그대로 사용하면서,
+	// 생성/풀에서 꺼낸 직후 (obj*, linkId)만 기록한다.
 	CGameObject* pGameObject = nullptr;
 	const unsigned key = (unsigned)eObjId;
 
@@ -121,10 +123,10 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 
 			pGameObject->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
 
-			// ★ 기존과 동일: pending에 보관
+			// 기존과 동일: pending에 보관
 			m_vecPendingObject[key].push_back(pGameObject);
 
-			// ★ 추가: 태그 “기록”만 (적용은 나중에 Client에서)
+			// 추가: 태그 “기록”만 (적용은 나중에 Client에서)
 			m_mapInteractiveTags[key].push_back({ pGameObject, linkId });
 		}
 	}
@@ -144,7 +146,7 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 				// 실행 컨테이너로 이동
 				m_vecObject[key].push_back(pGameObject);
 
-				// ★ 태그 기록
+				// 태그 기록
 				m_mapInteractiveTags[key].push_back({ pGameObject, linkId });
 			}
 		}
@@ -161,7 +163,7 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 
 				m_vecPendingObject[key].push_back(pGameObject);
 
-				// ★ 태그 기록
+				// 태그 기록
 				m_mapInteractiveTags[key].push_back({ pGameObject, linkId });
 			}
 
@@ -175,7 +177,7 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 				pGameObject->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
 				m_vecPendingObject[key].push_back(pGameObject);
 
-				// ★ 태그 기록
+				// 태그 기록
 				m_mapInteractiveTags[key].push_back({ pGameObject, linkId });
 			}
 		}
