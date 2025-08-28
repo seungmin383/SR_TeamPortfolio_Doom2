@@ -85,12 +85,17 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 
 _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 {
-	_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
-	
-	Update_State();
-	Check_Death();
-
-	return iExit;
+	if (m_eState == DEAD)
+	{
+		Check_Death();
+		return 0;
+	}
+	else
+	{
+		_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
+		Update_State();
+		return iExit;
+	}
 }
 
 void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
@@ -466,7 +471,7 @@ void CDynamicCamera::Check_Dash(const _float& fTimeDelta)
 		m_fSpeed *= 1.5f;
 
 		if (m_fDashTime >= 0.1f)
-			m_fSpeed = 30.f;
+			m_fSpeed = 20.f;
 		
 		if (m_fDashTime >= 0.5f)
 			m_bIsDashing = false;
@@ -578,21 +583,18 @@ void CDynamicCamera::Apply_Gravity(const _float& fTimeDelta)
 
 void CDynamicCamera::Check_Death()
 {
-	if (m_eState == DEAD)
-	{
-		_vec3	vUp{ 0.f, 1.f, 0.f };
+	_vec3	vUp{ 0.f, 1.f, 0.f };
 
-		_vec3	vLook = m_vAt - m_vEye;
-		D3DXVec3Normalize(&vLook, &vLook);
-		_matrix matRot;
+	_vec3	vLook = m_vAt - m_vEye;
+	D3DXVec3Normalize(&vLook, &vLook);
+	_matrix matRot;
 
-		D3DXMatrixRotationAxis(&matRot, &vLook, D3DXToRadian(30.f));
-		D3DXVec3TransformNormal(&vUp, &vUp, &matRot);
+	D3DXMatrixRotationAxis(&matRot, &vLook, D3DXToRadian(30.f));
+	D3DXVec3TransformNormal(&vUp, &vUp, &matRot);
 
-		m_vAt = m_vEye + vLook;
-		D3DXMatrixLookAtLH(&m_matView, &m_vEye, &m_vAt, &vUp);
-		m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_matView);
-	}
+	m_vAt = m_vEye + vLook;
+	D3DXMatrixLookAtLH(&m_matView, &m_vEye, &m_vAt, &vUp);
+	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_matView);
 }
 
 CDynamicCamera* CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)
