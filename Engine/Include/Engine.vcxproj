@@ -46,6 +46,8 @@
     <ClInclude Include="..\Header\CLightManager.h" />
     <ClInclude Include="..\Header\CManagement.h" />
     <ClInclude Include="..\Header\CMaterial.h" />
+    <ClInclude Include="..\Header\CParticle.h" />
+    <ClInclude Include="..\Header\CParticleManager.h" />
     <ClInclude Include="..\Header\CPrototypeManager.h" />
     <ClInclude Include="..\Header\CRectCol.h" />
     <ClInclude Include="..\Header\CRectSpriteTex.h" />
@@ -106,6 +108,8 @@
     <ClCompile Include="..\Code\CLightManager.cpp" />
     <ClCompile Include="..\Code\CManagement.cpp" />
     <ClCompile Include="..\Code\CMaterial.cpp" />
+    <ClCompile Include="..\Code\CParticle.cpp" />
+    <ClCompile Include="..\Code\CParticleManager.cpp" />
     <ClCompile Include="..\Code\CPrototypeManager.cpp" />
     <ClCompile Include="..\Code\CRectCol.cpp" />
     <ClCompile Include="..\Code\CRectSpriteTex.cpp" />

@@ -136,9 +136,6 @@
     <Filter Include="03. Manager\00. WeaponManager\00. Weapon\03. Rocket">
       <UniqueIdentifier>{d27ab94b-4220-4da3-8739-2b8043fdeda3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Manager\00. WeaponManager\00. Weapon\04. BFG">
-      <UniqueIdentifier>{bc712a25-11a8-4012-b43a-9a2f2ac30265}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\06. Object\DropItem\Ammo">
       <UniqueIdentifier>{f306528f-fcb4-4e57-a16b-fa46fa144b5f}</UniqueIdentifier>
     </Filter>
@@ -201,6 +198,9 @@
     </Filter>
     <Filter Include="03. Manager\01. StatsManager">
       <UniqueIdentifier>{47c6544d-7591-41d6-93c2-4daec731dba1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\00. WeaponManager\04. BFG">
+      <UniqueIdentifier>{bc712a25-11a8-4012-b43a-9a2f2ac30265}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -349,7 +349,7 @@
       <Filter>03. Manager\00. WeaponManager\00. Weapon\02. Chaingun</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CBfg.h">
-      <Filter>03. Manager\00. WeaponManager\00. Weapon\04. BFG</Filter>
+      <Filter>03. Manager\00. WeaponManager\04. BFG</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CRocket.h">
       <Filter>03. Manager\00. WeaponManager\00. Weapon\03. Rocket</Filter>
@@ -582,7 +582,7 @@
       <Filter>03. Manager\00. WeaponManager\00. Weapon\02. Chaingun</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CBfg.cpp">
-      <Filter>03. Manager\00. WeaponManager\00. Weapon\04. BFG</Filter>
+      <Filter>03. Manager\00. WeaponManager\04. BFG</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CRocket.cpp">
       <Filter>03. Manager\00. WeaponManager\00. Weapon\03. Rocket</Filter>
