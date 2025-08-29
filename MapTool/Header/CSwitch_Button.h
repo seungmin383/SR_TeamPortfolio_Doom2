@@ -36,7 +36,7 @@ public:
 		m_targets.clear();
 	}
 	void        Set_LinkMode(Engine::LINKMODE m) { Engine::CGameObject::Set_LinkMode(m); }
-	Engine::LINKMODE    Get_LinkMode() const { return Engine::CGameObject::Get_LinkMode(); }
+	Engine::LINKMODE    Get_LinkMode() const { return Engine::CGameObject::Get_LinkMode();	}
 	// 문이랑 스위치 태그기능
 public:
 	/// <summary>

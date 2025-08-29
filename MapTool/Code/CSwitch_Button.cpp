@@ -6,6 +6,7 @@
 #include "CTimerManager.h"
 #include "CStage.h"
 #include "CTerrainSector.h"
+#include "CGameObject.h"
 
 CSwitch_Button::CSwitch_Button(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev), m_pObjTarget(nullptr)
@@ -58,7 +59,7 @@ void CSwitch_Button::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 	if (m_pColliderCom)
-		m_pColliderCom->Late_Update(); // ★ 중요
+		m_pColliderCom->Late_Update(); // 중요
 }
 
 void CSwitch_Button::Render_GameObject(const _float& fTimeDelta)

@@ -8,6 +8,7 @@
 #include "CPlayerWeapon.h"
 #include "CManagement.h"
 #include "CWeaponManager.h"
+#include "CDInputManager.h"
 
 #include "CObjectFactory.h"
 #include "CFileManager.h"
@@ -67,6 +68,11 @@ _int CStage3::Update_Scene(const _float& fTimeDelta)
 	CColliderManager::GetInstance()->Update();
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
 
+	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_T) & 0x80)
+	{
+		CManagement::GetInstance()->Change_Scene(SCENEID::TEST);
+	}
+
 	return iExit;
 }
 
@@ -82,12 +88,27 @@ void CStage3::Render_Scene(const _float& fTimeDelta)
 
 HRESULT CStage3::Load_PreSet()
 {
-	//CObjectFactory::GetInstance()->Create_Terrain_Default(VTXCNTX, VTXCNTZ, VTXITV, (_tchar*)L"Proto_TerrainTexture");
-
+	//지형 설치
 	TerrainModels tm = CFileManager::GetInstance()->LoadTerrain((_uint)SCENEID::STAGE3);
-
+	OBJID objid;
 	for (auto m : tm.model)
 	{
+		switch (m.type)
+		{
+		case 0:
+			objid = OBJID::OBJ_TERRAIN;
+			break;
+		case 1:
+			objid = OBJID::OBJ_WALL;
+			break;
+		case 2:
+			objid = OBJID::OBJ_CEIL;
+			break;
+		default:
+			objid = OBJID::OBJ_TERRAIN;
+			break;
+		}
+
 		auto pObj = CObjectFactory::GetInstance()->Load_Terrain(m.idx,
 			m.vertexCountX,
 			m.vertexCountZ,
@@ -96,14 +117,22 @@ HRESULT CStage3::Load_PreSet()
 			m.vertexIntervalY,
 			m.vertices,
 			m.strTextureTag,
-			m.pos);
+			m.pos,
+			objid);
 	}
 
+	//오브젝트 설치
 	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem((_uint)SCENEID::STAGE3);;
 
 	for (auto item : loadData)
 		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, item.position);
 
+	//몬스터 설치
+	vector<GameObjectSpawnInfo> loadMonsterData = CFileManager::GetInstance()->LoadMonster((_uint)SCENEID::STAGE3);;
+
+	for (auto monster : loadMonsterData)
+		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
+	
 	return S_OK;
 }
 

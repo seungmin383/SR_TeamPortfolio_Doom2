@@ -6,6 +6,7 @@
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
 #include "CBullet.h"
+#include "CTerrainSector.h"
 
 CArchVile::CArchVile(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonsterBase(pGraphicDev)
@@ -30,8 +31,11 @@ HRESULT CArchVile::Ready_GameObject()
 		return E_FAIL;
 
 	_vec3 vPos;
+	_vec3 vScale = { 3.f, 3.f, 3.f };
+
+	m_pTransformCom->Set_Scale(vScale);
 	m_pTransformCom->Get_Pos(&vPos);
-	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(2.f, 2.f, 2.f), _vec3(0.f, -1.f, 0.f),
+	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(2.f, 3.f, 2.f), _vec3(0.f, 0.f, 0.f),
 		COLLAYERID::COL_ENEMY,
 		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT);
 
@@ -114,9 +118,10 @@ HRESULT CArchVile::Ready_GameObject()
 	m_fSightDistance = 50.f;
 
 	m_fAtkSpeed = 4.f;
-	m_iGameHp = 70;
+	m_iGameHp = 700;
 	m_iAtkDmg = 30;
 
+	m_fSpeed = 12.f;
 	m_fAtkDelay = 0.f;
 	m_fMoveDelay = 0.f;
 	m_fAtkDelay = 0.f;
@@ -127,9 +132,6 @@ HRESULT CArchVile::Ready_GameObject()
 	m_pTransformCom->Get_Info(INFO_LOOK, &m_vMoveLook);
 
 	m_pTransformCom->Set_Pos(52.f, 10.f, 10.f);
-
-	_vec3 vSize{ 2.f, 2.f, 2.f };
-	m_pTransformCom->Set_Scale(vSize);
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 #pragma endregion
@@ -156,14 +158,7 @@ void CArchVile::Render_GameObject(const _float& fTimeDelta)
 	CMonsterBase::Render_GameObject(fTimeDelta);
 }
 
-void CArchVile::Set_OnTerrain()
-{
-	__super::Set_OnTerrain();
-	_vec3 pos;
-	m_pTransformCom->Get_Pos(&pos);
 
-	m_pTransformCom->Set_Pos(pos.x, pos.y + 2.f, pos.z);
-}
 
 void CArchVile::Attack(const _float fTimeDelta)
 {

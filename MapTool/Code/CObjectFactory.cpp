@@ -24,7 +24,6 @@ void CObjectFactory::Set_Dev(LPDIRECT3DDEVICE9 pGraphicDev)
 void CObjectFactory::Create_Object(OBJPROTOTYPE eprototype, OBJID eObjId, _vec3 vPos)
 {
 	//auto object = CPrototypeManager::GetInstance()->GetInstance()->Clone_ObjPrototype(eprototype);
-	
 	CManagement::GetInstance()->Set_GameLogicObject(eprototype, eObjId, vPos);
 }
 
