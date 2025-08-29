@@ -146,7 +146,7 @@ void CGameUI_Face::Render_GameObject(const _float& fTimeDelta)
 		else if (hp >= 20)      m_pTextureCom5->Set_Texture(3);
 		else                    m_pTextureCom5->Set_Texture(4);
 		m_pBufferCom->Render_Buffer();
-		 OutputDebugStringA("[FACE] EVIL overlay draw\n"); // 필요시 켜서 확인
+		//OutputDebugStringA("[FACE] EVIL overlay draw\n"); // 필요시 켜서 확인
 	}
 
 	// 5. 렌더링이 끝난 후, 백업해두었던 원래의 View, Projection 행렬로 복원합니다.                                           

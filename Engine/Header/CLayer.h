@@ -4,6 +4,8 @@
 
 BEGIN(Engine)
 
+enum class LINKMODE : int;
+
 class ENGINE_DLL CLayer :
     public CBase
 {
@@ -21,6 +23,13 @@ public:
     
     //TODO: 스테이지에 등장시킬 오브젝트의 초기 값 전달 방법 구상
     HRESULT     SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, _int iCnt = 1);
+
+    // 상호작용 오브젝트 전용 설치(08/28 김홍인)
+    HRESULT SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId,
+        _vec3 vPos, _int iCnt,
+        const std::wstring& linkId,
+        LINKMODE linkMode);
+
     HRESULT     SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, CGameObject* _Owner, CGameObject*& _Bullet);
     //TODO: m_vecObject를 순회하면서 회수할 오브젝트를 식별하고 회수
     HRESULT     SetOff_GameLogicObject(_int eObjId, CGameObject* pObj);

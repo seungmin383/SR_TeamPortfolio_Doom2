@@ -31,12 +31,12 @@ CDynamicCamera::~CDynamicCamera()
 }
 
 HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
-											const _vec3* pAt,
-											const _vec3* pUp,
-											const _float& fFov,
-											const _float& fAspect,
-											const _float& fNear,
-											const _float& fFar)
+	const _vec3* pAt,
+	const _vec3* pUp,
+	const _float& fFov,
+	const _float& fAspect,
+	const _float& fNear,
+	const _float& fFar)
 {
 	// Camera Default Settings
 	m_vEye = *pEye;
@@ -49,10 +49,10 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	m_fFar = fFar;
 
 	// Player Default Settings
-	m_iGameHp = 100;
+	m_iGameHp = 83;
 	m_iArmor = 45;
 
-	m_fSpeed = 20.f;
+	m_fSpeed = 30.f;
 	m_fFallSpeed = 1.25f;
 	m_fJumpForce = 0.45f;
 	m_fAngle = 0.f;
@@ -85,23 +85,21 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 
 _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 {
-	if (m_eState == DEAD)
-	{
-		Check_Death();
+	_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
+
+	// ?¼ì‹œ ?•ì? ê¸°ëŠ¥ ì¶”ê?
+	if (CManagement::GetInstance()->Is_Paused())
 		return 0;
-	}
-	else
-	{
-		_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
-		Update_State();
-		return iExit;
-	}
+
+	Update_State();
+
+	return iExit;
 }
 
 void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	Engine::CCamera::LateUpdate_GameObject(fTimeDelta);
-	
+
 	Apply_Gravity(fTimeDelta);
 	Set_OnTerrain();
 	Key_Input(fTimeDelta);
@@ -235,7 +233,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		m_vAt.x += vLength.x;
 		m_vAt.z += vLength.z;
-	
+
 		m_bIsMoving = true;
 	}
 
@@ -328,6 +326,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 	if (m_bIsMoving)
 		Camera_Bobbing(fTimeDelta);
+
 #pragma endregion
 
 #pragma region Jump Part
@@ -418,9 +417,6 @@ void CDynamicCamera::Mouse_Input()
 
 void CDynamicCamera::Mouse_Move()
 {
-	if (m_bDead)
-		return;
-
 	_matrix	matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, 0, &m_matView);
 
@@ -440,6 +436,7 @@ void CDynamicCamera::Mouse_Move()
 		m_vAt = m_vEye + vLook;
 	}
 
+	// ë§ˆìš°??xì¶??´ë™ ê°’ì„ ?€??(ë§??„ë ˆ?„ë§ˆ??ìµœì‹  ë§ˆìš°???´ë™ ê°’ì„ ?´ë””?œë“  ?•ì¸ ê°€??
 	s_lMouseMoveX = CDInputManager::GetInstance()->Get_DIMouseMove(DIMS_X);
 	if (s_lMouseMoveX)
 	{
@@ -471,8 +468,8 @@ void CDynamicCamera::Check_Dash(const _float& fTimeDelta)
 		m_fSpeed *= 1.5f;
 
 		if (m_fDashTime >= 0.1f)
-			m_fSpeed = 20.f;
-		
+			m_fSpeed = 30.f;
+
 		if (m_fDashTime >= 0.5f)
 			m_bIsDashing = false;
 	}
@@ -527,13 +524,6 @@ void CDynamicCamera::Set_OnTerrain()
 		m_bIsGrounded = true;
 		m_iJumpCnt = 0;
 	}
-
-	if (m_eState == DEAD)
-	{
-		_float deltaHeight = (fHighest + 0.5f) - m_vEye.y;
-		m_vEye.y += deltaHeight;
-		m_vAt.y += deltaHeight;
-	}
 }
 
 void CDynamicCamera::Update_State()
@@ -579,22 +569,6 @@ void CDynamicCamera::Apply_Gravity(const _float& fTimeDelta)
 
 	if (m_vVelocity.y >= 200.f)
 		m_vVelocity.y = 200.f;
-}
-
-void CDynamicCamera::Check_Death()
-{
-	_vec3	vUp{ 0.f, 1.f, 0.f };
-
-	_vec3	vLook = m_vAt - m_vEye;
-	D3DXVec3Normalize(&vLook, &vLook);
-	_matrix matRot;
-
-	D3DXMatrixRotationAxis(&matRot, &vLook, D3DXToRadian(30.f));
-	D3DXVec3TransformNormal(&vUp, &vUp, &matRot);
-
-	m_vAt = m_vEye + vLook;
-	D3DXMatrixLookAtLH(&m_matView, &m_vEye, &m_vAt, &vUp);
-	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_matView);
 }
 
 CDynamicCamera* CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)
