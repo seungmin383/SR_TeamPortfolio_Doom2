@@ -19,6 +19,14 @@ public:
     virtual void Check_Anim_Is_Finish();
     //몬스터 공격이 끝나고 
     virtual void Calc_Time_EndAttack(const _float& fTimeDelta);
+
+public:
+	_bool Get_isFinAnim() { return isFinAnim; }
+	_bool Get_isEverEndAinm() { return m_isEverEndAinm; }
+
+	void Set_isFinAnim(_bool b) { isFinAnim = b; }
+	void Set_isEverEndAinm(_bool b) { m_isEverEndAinm = b; }
+
 private:
     _uint Enter_Func_Cnt = 0;
     _bool isFinAnim = FALSE;

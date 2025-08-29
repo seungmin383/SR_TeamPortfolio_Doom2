@@ -30,11 +30,14 @@ HRESULT CImp::Ready_GameObject()
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Pos(50.f, 10.f, 10.f);
+	m_pTransformCom->Set_Pos(52.f, 0.f, 10.f);
 
 	_vec3 vPos;
+	_vec3 vScale = { 2.f, 2.f, 2.f };
+
+	m_pTransformCom->Set_Scale(vScale);
 	m_pTransformCom->Get_Pos(&vPos);
-	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, 0.5f, 0.f),
+	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(2.f, 3.f, 2.f), _vec3(0.f, 0.f, 0.f),
 		COLLAYERID::COL_ENEMY,
 		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT | COL_BULLET);
 
@@ -116,9 +119,10 @@ HRESULT CImp::Ready_GameObject()
 	m_fSightDistance = 50.f;
 
 	m_fAtkSpeed = 4.f;
-	m_iGameHp = 20;
+	m_iGameHp = 60;
 	m_iAtkDmg = 3;
 
+	m_fSpeed = 2.f;
 	m_fAtkDelay = 0.f;
 	m_fMoveDelay = 0.f;
 	m_fAtkDelay = 0.f;
@@ -157,6 +161,7 @@ void CImp::Attack(const _float fTimeDelta)
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
 	CGameObject* tmp = nullptr;
+	vPos.y += 1;
 
 	if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_IMP_BULLET, OBJID::OBJ_BULLET, vPos, this, tmp)))
 	{

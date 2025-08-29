@@ -1,5 +1,6 @@
 #include "CManagement.h"
 #include "CRenderer.h"
+#include "CGameObject.h"
 
 IMPLEMENT_SINGLETON(CManagement)
 
@@ -99,6 +100,25 @@ HRESULT CManagement::Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjI
 	m_pScene->Set_GameLogicObject(eObjPrototype, eObjId, vPos, _Owner, _Bullet);
 	
 	return S_OK;
+}
+
+HRESULT CManagement::Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId,
+	_vec3 vPos, _int iCnt,
+	const std::wstring& linkId,
+	LINKMODE linkMode)
+{
+	if (!m_pScene)
+		return E_FAIL;
+
+	// Get_Layer()가 맵을 돌려줄 때: 거기서 GAMELOGIC 레이어 포인터를 꺼냅니다.
+	const auto& layerMap = m_pScene->Get_Layer();  // std::map<LAYERID, Engine::CLayer*>
+	auto it = layerMap.find(LAYERID::LAYER_GAMELOGIC);
+	if (it == layerMap.end() || it->second == nullptr) return E_FAIL;
+
+	Engine::CLayer* pLayer = it->second;
+
+	// Layer 오버로드에 그대로 위임 (즉시 주입 버전)
+	return pLayer->SetOn_GameLogicObject(eObjPrototype, eObjId, vPos, iCnt, linkId, linkMode);
 }
 
 _int CManagement::Update_Scene(const _float& fTimeDelta)

@@ -6,10 +6,9 @@
 #include "CWeaponManager.h"
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
-#include "CTerrainSector.h"
 #include <iostream>
 #include "CStatsManager.h"
-
+#include "CTerrainSector.h"
 
 CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CCharacter(pGraphicDev), m_fSightAngle(0.f), m_fSightDistance(0.f),
@@ -46,6 +45,8 @@ HRESULT         CMonsterBase::Ready_GameObject()
 	freopen_s(&fp, "CONOUT$", "w", stdout);
 	freopen_s(&fp, "CONOUT$", "w", stderr);*/
 
+//	Add_Component();
+
 	m_iPreHp = m_iGameHp;
 
 	return S_OK;
@@ -54,6 +55,7 @@ HRESULT         CMonsterBase::Ready_GameObject()
 _int CMonsterBase::Update_GameObject(const _float& fTimeDelta)
 {
 	Thinker(fTimeDelta);
+
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 	CGameObject::Update_GameObject(fTimeDelta);
 
@@ -179,13 +181,13 @@ void CMonsterBase::Thinker(const _float& fTimeDelta)
 
 _int CMonsterBase::Perception(const _float& fTimeDelta)
 {
-	m_isDead						= Check_Dead();
+	m_isDead							= Check_Dead();
 	//m_isHit							= Check_Hit();
 	Calc_Hp();
 	Check_Hit(fTimeDelta);
-	m_isDetected_Player = Check_Shooting_Sound();
-	m_isDetect_Player		= Check_Target();
-	m_isAtk						= Check_Attack(fTimeDelta);
+	m_isDetected_Player		= Check_Shooting_Sound();
+	m_isDetect_Player			= Check_Target();
+	m_isAtk							= Check_Attack(fTimeDelta);
 
 	if (!m_isRecognize_Player && m_isDetect_Player)
 		m_isRecognize_Player = TRUE;
@@ -193,7 +195,7 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 	if (m_isAtk && m_isDetect_Player)
 		m_isDetected_Player = TRUE;
 
-	int a = 0;
+
 
 	//죽었는지
 	if (m_isDead)
@@ -209,7 +211,11 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 	
 	//플레이어를 발견하고 따라가는지
 	else if (m_isDetect_Player)
+	{
+		if (m_isBoss)
+			return AI_MOVE;
 		return AI_CHASE;
+	}
 
 	else//그냥 랜덤 이동할지
 		return AI_MOVE;
@@ -517,10 +523,13 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 
 	m_eCurAnimState = Calc_AnimState_byPlayer(m_vMoveLook, vPos);
 
+	int tmpAnimType = m_eAnim_Type;
+
 	switch (_Thought)
 	{
 		//죽었을 때 
 	case AI_DEAD:
+		m_isFirstEnt = FALSE;
 		if (m_isGibbingDead)
 		{
 			m_eCurAnimState = m_iGibDeadPlus;
@@ -532,15 +541,16 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			m_eAnim_Type = NOR_DEATH;
 		}
 		m_pColliderCom->Set_Active(false);
-		//cout << "AI_DEAD" << endl;
+	//	cout << "AI_DEAD" << endl;
 		break;
 
 		//맞았을 때
 	case AI_HIT:
+		m_isFirstEnt = FALSE;
 		if (!m_isPinky)
 			m_eCurAnimState += 16;
 		m_eAnim_Type = HIT;
-		//cout << "AI_HIT" << endl;
+	//	cout << "AI_HIT" << endl;
 		break;
 
 		//공격할 때
@@ -556,6 +566,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 
 		//플레이어를 발견했을 때
 	case AI_CHASE:
+		m_isFirstEnt = FALSE;
 		m_fChaseDelay += fTimeDelta;
 		if (m_eCurAnimState != m_ePreAnimState)
 			m_eAnim_Type = MOVE;
@@ -571,6 +582,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 
 		//아이들 상태
 	case AI_MOVE:
+		m_isFirstEnt = FALSE;
 		if(m_eCurAnimState != m_ePreAnimState)
 			m_eAnim_Type = MOVE;
 
@@ -583,6 +595,10 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 		//cout << "AI_MOVE" << endl;
 		break;
 	}
+
+
+	if(tmpAnimType == NANRI)
+		m_eAnim_Type = NANRI;
 
 	m_ePreAnimState = m_eCurAnimState;
 }
@@ -614,11 +630,13 @@ void CMonsterBase::Set_OnTerrain()
 		auto bufferCom = dterrain->Get_BufferCom();
 		auto transformCom = dterrain->Get_Transform();
 
+		_float vScaleY = m_pTransformCom->Get_Scale()->y;
+
 		_vec3 onPosition{ 0.f, 0.f, 0.f };
 		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
 		{
 
-			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 1, pos.z);
+			m_pTransformCom->Set_Pos(pos.x, onPosition.y + vScaleY, pos.z);
 			break;
 		}
 	}
@@ -631,6 +649,15 @@ void CMonsterBase::Movement(const _float fTimeDelta)
 
 void CMonsterBase::Attack(const _float fTimeDelta)
 {
+	if (!m_isFirstEnt)
+	{
+		m_AtkCnt++;
+		if (m_AtkCnt > 7)
+			m_AtkCnt = 0;
+
+		m_isFirstEnt = TRUE;
+
+	}
 }
 
 _vec3 CMonsterBase::Get_PlayerPos()

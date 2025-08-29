@@ -49,7 +49,7 @@ HRESULT CBfgBullet::Ready_GameObject()
 		CDynamicCamera* pPlayer = dynamic_cast<CDynamicCamera*>(CManagement::GetInstance()->Get_Player());
 		m_vInitDir = pPlayer->Get_At() - pPlayer->Get_Pos();
 		D3DXVec3Normalize(&m_vInitDir, &m_vInitDir);
-		m_fSpeed = 25.f;
+		m_fSpeed = 50.f;
 		m_bDead = false;
 		m_iDmg = 800;
 
@@ -85,7 +85,12 @@ void CBfgBullet::LateUpdate_GameObject(const _float& fTimeDelta)
 	m_pColliderCom->Late_Update();
 
 	if (m_eState == BULLET_STATE::HIT)
+	{
 		m_iAnimState = 1;
+		m_pAnimCom->Play_Animation((_uint)m_eState, 0, fTimeDelta);
+		m_bDead = true;
+		return;
+	}
 
 	m_pAnimCom->Play_Animation((_uint)m_eState, 0, fTimeDelta);
 
@@ -108,8 +113,6 @@ void CBfgBullet::Render_GameObject(const _float& fTimeDelta)
 
 void CBfgBullet::OnCollision(CCollider* _pOther)
 {
-	if (_pOther->Get_ColLayer() == COLLAYERID::COL_ENEMY)
-		_pOther->Get_Owner()->Take_Dmg(m_iDmg);
 }
 
 void CBfgBullet::OnCollisionEnter(CCollider* _pOther)
@@ -125,6 +128,7 @@ void CBfgBullet::OnCollisionEnter(CCollider* _pOther)
 		m_eState = BULLET_STATE::HIT;
 		break;
 
+	case COLLAYERID::COL_OBJECT:
 	case COLLAYERID::COL_ENEMY:
 		m_fSpeed = 0.f;
 		m_eState = BULLET_STATE::HIT;
@@ -140,7 +144,6 @@ void CBfgBullet::OnCollisionEnter(CCollider* _pOther)
 	_vec3 vAfterScale1 = { 6.f, 6.f, 6.f };
 	m_pColliderCom->Set_Scale(vAfterScale1);
 	m_pTransformCom->Set_Scale(vAfterScale);
-
 }
 
 void CBfgBullet::OnCollisionExit(CCollider* _pOther)

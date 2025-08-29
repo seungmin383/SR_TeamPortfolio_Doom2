@@ -85,9 +85,10 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 
 _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 {
-	if (m_eState == DEAD)
-	{
-		Check_Death();
+	_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
+
+	// ?¼ì‹œ ?•ì? ê¸°ëŠ¥ ì¶”ê?
+	if (CManagement::GetInstance()->Is_Paused())
 		return 0;
 	}
 	else
@@ -498,28 +499,34 @@ void CDynamicCamera::Set_OnTerrain()
 
 	if (fHighest == -999.f)
 		fHighest = 0.f;
+	
+	// »óÇÏ ¿òÁ÷ÀÓ ¹ßÆÇ ¶§¹®¿¡ Ãß°¡(08/30 ±èÈ«ÀÎ)
+	_float supportGroundY = fHighest;
+	if (m_hasExternalGround)
+		supportGroundY = max(supportGroundY, m_extGroundY);
+	// ÀÌÁ¦ºÎÅÍ fHighest ´ë½Å supportGroundY »ç¿ë
 
 	if (!m_bIsJumping)
 	{
-		if (m_vEye.y - fHighest >= 3.2f)
+		if (m_vEye.y - supportGroundY >= 3.2f)
 		{
 			m_bIsGrounded = false;
 		}
 		else
 		{
 			m_bIsGrounded = true;
-			_float deltaHeight = (fHighest + 3.f) - m_vEye.y;
+			_float deltaHeight = (supportGroundY + 3.f) - m_vEye.y;
 			m_vEye.y += deltaHeight;
 			m_vAt.y += deltaHeight;
 			m_iJumpCnt = 0;
 		}
 	}
 
-	if (m_bIsJumping && (m_vEye.y - 3.f) <= fHighest)
+	if (m_bIsJumping && (m_vEye.y - 3.f) <= supportGroundY)
 	{
 		m_bIsJumping = false;
 
-		_float deltaHeight = (fHighest + 3.f) - m_vEye.y;
+		_float deltaHeight = (supportGroundY + 3.f) - m_vEye.y;
 		m_vEye.y += deltaHeight;
 		m_vAt.y += deltaHeight;
 
@@ -530,7 +537,7 @@ void CDynamicCamera::Set_OnTerrain()
 
 	if (m_eState == DEAD)
 	{
-		_float deltaHeight = (fHighest + 0.5f) - m_vEye.y;
+		_float deltaHeight = (supportGroundY + 0.5f) - m_vEye.y;
 		m_vEye.y += deltaHeight;
 		m_vAt.y += deltaHeight;
 	}

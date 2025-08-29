@@ -323,6 +323,8 @@ HRESULT CStage2::Ready_Camera_Layer(LAYERID _eLayerId)
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
+	dynamic_cast<CDynamicCamera*>(pGameObject)->Set_Pos(_vec3(40.f, 1.f, 60.f));
+
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_PLAYER, pGameObject)))
 		return E_FAIL;
 

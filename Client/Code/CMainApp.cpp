@@ -62,6 +62,8 @@
 #include "CDoorWithKey.h"
 #include "CKey.h"
 #include "CSwitch_Button.h"
+#include "CSuits.h"
+#include "CVerticalMovingObject.h"
 
 CMainApp::CMainApp()
 	: m_pGraphicDev(nullptr),
@@ -88,13 +90,24 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 {
 	CDInputManager::GetInstance()->Update_InputDev();
 
-	m_pManagementClass->Update_Scene(fTimeDelta);
+	//m_pManagementClass->Update_Scene(fTimeDelta);
 
 	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_C))
 		g_colRend = !g_colRend;
 
 	// p 키 눌렀을 때 일시정지
-	//if (GetAsyncKeyState('P'))
+	// 1) 일시정지 토글
+	if (GetAsyncKeyState('P'))
+	{
+		CManagement::GetInstance()->Toggle_Pause();
+	}
+
+	// 2) Δt 스케일 (Paused면 0)
+	const float dt = CManagement::GetInstance()->ScaleDelta(fTimeDelta);
+
+	// 3) 씬 업데이트
+	if (m_pManagementClass->Update_Scene(dt) < 0)
+		return -1;
 		
 
 	return 0;
@@ -102,7 +115,9 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 
 void CMainApp::LateUpdate_MainApp(const float& fTimeDelta)
 {
-	m_pManagementClass->LateUpdate_Scene(fTimeDelta);
+	const float dt = CManagement::GetInstance()->ScaleDelta(fTimeDelta);
+	m_pManagementClass->LateUpdate_Scene(dt);
+	/*m_pManagementClass->LateUpdate_Scene(fTimeDelta);*/
 }
 
 void CMainApp::Render_MainApp(const float& fTimeDelta)
@@ -205,6 +220,10 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_CELL, CAmmo_Cell::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	// 슈트
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_SUIT, CSuits::Create(m_pGraphicDev))))
+		return E_FAIL;
+
 	// 폭발통
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL, CBarrelExplosive::Create(m_pGraphicDev))))
 		return E_FAIL;
@@ -276,6 +295,10 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::PLAYER_BFG_BULLET, CBfgBullet::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	// 수직이동 오브젝트
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::VERTICAL_MOVING, CVerticalMovingObject::Create(m_pGraphicDev))))
+		return E_FAIL;
+
 
 	//텍스처 필터
 	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
@@ -325,7 +348,7 @@ CMainApp* CMainApp::Create()
 void CMainApp::Free()
 {
 	Engine::Safe_Release(m_pDeviceClass);
-	Engine::Safe_Release(m_pGraphicDev);
+	Engine::Safe_Release(m_pGraphicDev);				
 	
 	CTextureManager::GetInstance()->DestroyInstance();
 	CFileManager::GetInstance()->DestroyInstance();

@@ -40,7 +40,7 @@ HRESULT CBarrelExplosive::Ready_GameObject()
 	m_fuseTime = 0.f;
 
 	m_pTransformCom->Set_Pos(20.f, 0.f, 25.f);
-	m_pTransformCom->Set_Scale(_vec3(1.f, 1.f, 1.f));
+	m_pTransformCom->Set_Scale(_vec3(1.f, 1.5f, 1.f));
 
 	// Collider 세팅
 	if (m_pColliderCom)
@@ -48,8 +48,8 @@ HRESULT CBarrelExplosive::Ready_GameObject()
 		m_pColliderCom->Ready_CCollider(
 			this,
 			_vec3(0, 0, 0),         // 초기 위치(Transform가 실제로 잡아줌)
-			_vec3(1.f, 1.f, 1.f),   // 박스 크기
-			_vec3(0, 0.4f, 0),      // 약간 위로
+			_vec3(2.f, 3.f, 2.f),   // 박스 크기
+			_vec3(0.f, 0.f, 0.f),      // 약간 위로
 			COL_OBJECT,             // 내 레이어
 			// 공격으로 인정할 대상 레이어(레이 사격 포함)
 			COL_BULLET | COL_ATTACK | COL_EXPLOSION | COL_PLAYER
@@ -106,7 +106,7 @@ _int CBarrelExplosive::Update_GameObject(const float& fTimeDelta)
 	if (m_state == State::Exploding)
 	{
 		m_animAcc += fTimeDelta;
-		const float frameTime = 0.06f;
+		const float frameTime = 0.2f;
 		if (m_animAcc >= frameTime) {
 			m_animAcc = 0.f;
 
@@ -163,7 +163,10 @@ void CBarrelExplosive::Render_GameObject(const _float& fTimeDelta)
 			(m_idleFrameCount == 0 || m_iFrame_Barrel < m_idleFrameCount) &&
 			m_pTexIdle->GetTextureHandle(m_iFrame_Barrel))
 		{
-			m_pTexIdle->Set_Texture(m_iFrame_Barrel);
+			if (CManagement::GetInstance()->Is_Paused())
+				m_pTexIdle->Set_Texture(0);
+			else
+				m_pTexIdle->Set_Texture(m_iFrame_Barrel);
 		}
 	}
 
@@ -251,7 +254,7 @@ void CBarrelExplosive::ApplyExplosionDamage()
 	// 내 위치
 	_vec3 myPos; m_pTransformCom->Get_Pos(&myPos);
 
-	const float R = 4.0f;        // 폭발 반경(필요시 4~6 사이로 조정)
+	const float R = 25.f;        // 폭발 반경
 	const float R2 = R * R;
 
 	Engine::CScene* pScene = Engine::CManagement::GetInstance()->Get_Scene();
@@ -269,17 +272,22 @@ void CBarrelExplosive::ApplyExplosionDamage()
 
 			_vec3 pos; tr->Get_Pos(&pos);
 			_vec3 d = pos - myPos;
+			d.y = 0.f;			// XZ 평면 거리로 통일
 			_float dist2 = D3DXVec3LengthSq(&d);
 			if (dist2 <= R2)
 			{
-				if (auto* pMonster = dynamic_cast<CMonsterBase*>(obj))
-				{
-					_float dist = sqrtf(dist2);
+				_float dist = sqrtf(dist2);
 
-					// 거리에 따라 데미지 감쇠
-					_float t = max(0.f, 1.f - dist / R);	// 0 ~ 1
-					_int damage = max(1, int(100.f * t));	// 최대 데미지 100
+				// 거리에 따라 데미지 감쇠
+				_float t = max(0.f, 1.f - dist / R);	// 0 ~ 1
+				_int damage = max(1, int(100.f * t));	// 최대 데미지 100
+				if (auto* pMonster = dynamic_cast<CMonsterBase*>(obj))
+				{					
 					pMonster->Take_Dmg(damage);
+
+					char buf[128];
+					sprintf_s(buf, "[Barrel] Monster hit dmg=%d dist=%.2f\n", damage, dist);
+					OutputDebugStringA(buf);
 				}
 			}
 		}
@@ -295,7 +303,8 @@ void CBarrelExplosive::ApplyExplosionDamage()
 			if (pPlTr)
 			{
 				_vec3 pPos; pPlTr->Get_Pos(&pPos);
-				_vec3 d = pPos - myPos; d.y = 0.f;
+				_vec3 d = pPos - myPos;
+				d.y = 0.f;		// XZ 평면 거리로 통일
 
 				float dist2 = D3DXVec3LengthSq(&d);
 				if (dist2 <= R2)
@@ -309,6 +318,12 @@ void CBarrelExplosive::ApplyExplosionDamage()
 					if (auto* cam = dynamic_cast<CDynamicCamera*>(pPlayer))
 					{
 						cam->Take_Damage(dmg);              // 실제 플레이어 데미지
+
+
+
+						char buf[128];
+						sprintf_s(buf, "[Barrel] Player hit dmg=%d dist=%.2f\n", dmg, dist);
+						OutputDebugStringA(buf);
 					}
 				}
 			}
@@ -331,6 +346,8 @@ void CBarrelExplosive::ApplyExplosionDamage()
 
 			_vec3 pos; tr->Get_Pos(&pos);
 			_vec3 d = pos - myPos;
+			d.y = 0.f; // XZ 평면 거리로 통일
+
 			float dist2 = D3DXVec3LengthSq(&d);
 			if (dist2 > R2) continue;
 
@@ -436,11 +453,12 @@ void CBarrelExplosive::Set_OnTerrain()
 		auto bufferCom = dterrain->Get_BufferCom();
 		auto transformCom = dterrain->Get_Transform();
 
+		_float fScaleY = m_pTransformCom->Get_Scale()->y;
+
 		_vec3 onPosition{ 0.f, 0.f, 0.f };
 		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
 		{
-
-			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 1, pos.z);
+			m_pTransformCom->Set_Pos(pos.x, onPosition.y + fScaleY, pos.z);
 			break;
 		}
 	}

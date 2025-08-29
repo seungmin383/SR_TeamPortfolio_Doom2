@@ -11,6 +11,7 @@
 #include "CManagement.h"
 #include "CWeaponManager.h"
 #include "CDInputManager.h"
+#include "CGameObject.h"
 
 #include "CObjectFactory.h"
 #include "CFileManager.h"
@@ -45,6 +46,7 @@
 
 #include "CStatsManager.h"
 #include "CUI_StageClear.h"
+#include "CVerticalMovingObject.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -385,6 +387,15 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
 		return E_FAIL;
 
+	// 슈트
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ITEM_SUIT);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
+		return E_FAIL;
+
 	// 폭발통
 	// 1개만 소환
 	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL);
@@ -433,83 +444,83 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	//	return E_FAIL;
 
 	// 문 생성(2개)
-	Engine::CGameObject* pDoorObj = CPrototypeManager::GetInstance()
-		->Clone_ObjPrototype(OBJPROTOTYPE::DOOR);
-	if (nullptr == pDoorObj) return E_FAIL;
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pDoorObj))) return E_FAIL;
-	dynamic_cast<CDoor*>(pDoorObj)->Set_LinkId(L"A");
+	//Engine::CGameObject* pDoorObj = CPrototypeManager::GetInstance()
+	//	->Clone_ObjPrototype(OBJPROTOTYPE::DOOR);
+	//if (nullptr == pDoorObj) return E_FAIL;
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pDoorObj))) return E_FAIL;
+	//dynamic_cast<CDoor*>(pDoorObj)->Set_LinkId(L"A");
 
-	// 문 #1 위치 지정 (확실히)
-	Engine::CTransform* tr1 = GetTransformPtr(pDoorObj);
-	if (tr1) {
-		tr1->Set_Pos(10.f, 2.f, 30.f);   // 기준 위치
-	}
+	//// 문 #1 위치 지정 (확실히)
+	//Engine::CTransform* tr1 = GetTransformPtr(pDoorObj);
+	//if (tr1) {
+	//	tr1->Set_Pos(10.f, 2.f, 30.f);   // 기준 위치
+	//}
 
-	Engine::CGameObject* pDoorObj2 = CPrototypeManager::GetInstance()
-		->Clone_ObjPrototype(OBJPROTOTYPE::DOOR);
-	if (nullptr == pDoorObj2) return E_FAIL;
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pDoorObj2))) return E_FAIL;
-	dynamic_cast<CDoor*>(pDoorObj2)->Set_LinkId(L"A");
+	//Engine::CGameObject* pDoorObj2 = CPrototypeManager::GetInstance()
+	//	->Clone_ObjPrototype(OBJPROTOTYPE::DOOR);
+	//if (nullptr == pDoorObj2) return E_FAIL;
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pDoorObj2))) return E_FAIL;
+	//dynamic_cast<CDoor*>(pDoorObj2)->Set_LinkId(L"A");
 
-	// 문 #2는 왼쪽으로 분리
-	Engine::CTransform* tr2 = GetTransformPtr(pDoorObj2);
-	if (tr2) tr2->Set_Pos(0.f, 2.f, 30.f);
+	//// 문 #2는 왼쪽으로 분리
+	//Engine::CTransform* tr2 = GetTransformPtr(pDoorObj2);
+	//if (tr2) tr2->Set_Pos(0.f, 2.f, 30.f);
 
-	// 키로 동작하는 문 제작
-	Engine::CGameObject* pDoorObj5 = CPrototypeManager::GetInstance()
-		->Clone_ObjPrototype(OBJPROTOTYPE::DOORKEY);
-	if (nullptr == pDoorObj5) return E_FAIL;
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pDoorObj5))) return E_FAIL;
-	dynamic_cast<CDoorWithKey*>(pDoorObj5)->Set_LinkId(L"B");
+	//// 키로 동작하는 문 제작
+	//Engine::CGameObject* pDoorObj5 = CPrototypeManager::GetInstance()
+	//	->Clone_ObjPrototype(OBJPROTOTYPE::DOORKEY);
+	//if (nullptr == pDoorObj5) return E_FAIL;
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pDoorObj5))) return E_FAIL;
+	//dynamic_cast<CDoorWithKey*>(pDoorObj5)->Set_LinkId(L"B");
 
-	// 문 #3는 오른쪽으로 분리
-	Engine::CTransform* tr5 = GetTransformPtr(pDoorObj5);
-	if (tr5) tr5->Set_Pos(20.f, 2.f, 30.f);
+	//// 문 #3는 오른쪽으로 분리
+	//Engine::CTransform* tr5 = GetTransformPtr(pDoorObj5);
+	//if (tr5) tr5->Set_Pos(20.f, 2.f, 30.f);
 
 
-	// 스위치 생성(1:1)
-	Engine::CGameObject* pSwitchObj = CPrototypeManager::GetInstance()
-		->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
-	if (nullptr == pSwitchObj) return E_FAIL;
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj))) return E_FAIL;
+	//// 스위치 생성(1:1)
+	//Engine::CGameObject* pSwitchObj = CPrototypeManager::GetInstance()
+	//	->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
+	//if (nullptr == pSwitchObj) return E_FAIL;
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj))) return E_FAIL;
 
-	auto* sw1 = dynamic_cast<CSwitch_Button*> (pSwitchObj);
-	sw1->Set_LinkId(L"A");
-	sw1->Set_LinkMode(CSwitch_Button::LinkMode::OneToOne);
+	//auto* sw1 = dynamic_cast<CSwitch_Button*> (pSwitchObj);
+	//sw1->Set_LinkId(L"A");
+	//sw1->Set_LinkMode(Engine::LINKMODE::ONE_TO_ONE);
 
-	Engine::CTransform* tr3 = GetTransformPtr(pSwitchObj);
-	if (tr3) {
-		tr3->Set_Pos(15.f, 0.f, 18.f);   // 기준 위치
-	}
+	//Engine::CTransform* tr3 = GetTransformPtr(pSwitchObj);
+	//if (tr3) {
+	//	tr3->Set_Pos(15.f, 0.f, 18.f);   // 기준 위치
+	//}
 
-	// 스위치 생성(1:N)
-	Engine::CGameObject* pSwitchObj2 = CPrototypeManager::GetInstance()
-		->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
-	if (nullptr == pSwitchObj2) return E_FAIL;
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj2))) return E_FAIL;
+	//// 스위치 생성(1:N)
+	//Engine::CGameObject* pSwitchObj2 = CPrototypeManager::GetInstance()
+	//	->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
+	//if (nullptr == pSwitchObj2) return E_FAIL;
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj2))) return E_FAIL;
 
-	auto* sw2 = dynamic_cast<CSwitch_Button*> (pSwitchObj2);
-	sw2->Set_LinkId(L"A");
-	sw2->Set_LinkMode(CSwitch_Button::LinkMode::OneToMany);
+	//auto* sw2 = dynamic_cast<CSwitch_Button*> (pSwitchObj2);
+	//sw2->Set_LinkId(L"A");
+	//sw2->Set_LinkMode(Engine::LINKMODE::ONE_TO_MANY);
 
-	Engine::CTransform* tr4 = GetTransformPtr(pSwitchObj2);
-	if (tr4) {
-		tr4->Set_Pos(5.f, 0.f, 18.f);   // 기준 위치
-	}
+	//Engine::CTransform* tr4 = GetTransformPtr(pSwitchObj2);
+	//if (tr4) {
+	//	tr4->Set_Pos(5.f, 0.f, 18.f);   // 기준 위치
+	//}
 
-	// 탈출 스위치
-	Engine::CGameObject* pSwitchObj3 = CPrototypeManager::GetInstance()
-		->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
-	if (nullptr == pSwitchObj3) return E_FAIL;
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj3))) return E_FAIL;
+	//// 탈출 스위치
+	//Engine::CGameObject* pSwitchObj3 = CPrototypeManager::GetInstance()
+	//	->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
+	//if (nullptr == pSwitchObj3) return E_FAIL;
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj3))) return E_FAIL;
 
-	auto* sw3 = dynamic_cast<CSwitch_Button*> (pSwitchObj3);
-	sw3->Set_LinkId(L"EXIT");
+	//auto* sw3 = dynamic_cast<CSwitch_Button*> (pSwitchObj3);
+	//sw3->Set_LinkId(L"EXIT");
 
-	Engine::CTransform* tr6 = GetTransformPtr(pSwitchObj3);
-	if (tr6) {
-		tr6->Set_Pos(25.f, 0.f, 18.f);   // 기준 위치
-	}
+	//Engine::CTransform* tr6 = GetTransformPtr(pSwitchObj3);
+	//if (tr6) {
+	//	tr6->Set_Pos(25.f, 0.f, 18.f);   // 기준 위치
+	//}
 
 	// 샷건 여러개 생성 테스트
 	/*vector<_vec3> ShotgunPos = {
@@ -565,7 +576,43 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
 		return E_FAIL;
 
+	// 수직 이동 오브젝트
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::VERTICAL_MOVING);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	// 2) 위치/크기/이동 파라미터 설정
+	auto* tr = dynamic_cast<Engine::CTransform*>(pGameObject->Get_Component(ID_DYNAMIC, L"Com_Transform"));
+	if (tr) tr->Set_Pos(10.f, 1.f, 12.f);   // 기둥 중심 좌표
+
+	auto* elev = dynamic_cast<CVerticalMovingObject*>(pGameObject);
+	if (elev) {
+		elev->SetMeshUnitAndPivot(2.f, false);		// 한 변 2, 피벗 = 중앙(바닥이면 true)
+		elev->SetVisualScale(2.f, 0.1f, 2.f);   // 얇고 길게
+		elev->SetMovement(/*minY*/0.5f, /*maxY*/5.0f, /*speed*/2.0f, /*wait*/0.5f);
+	}
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pGameObject)))
+		return E_FAIL;
+
+
 	m_mapLayer.insert({ _eLayerId, pLayer });
+
+	auto* M = CManagement::GetInstance();
+
+	// 스위치 & 문을 같은 태그 "A"로, 1:1 모드
+	M->Set_GameLogicObject(OBJPROTOTYPE::BUTTON_DOOR, OBJID::OBJ_OBJECT,
+		{ 18.f, 2.f, 30.f }, 1, L"A", Engine::LINKMODE::ONE_TO_ONE);
+
+	M->Set_GameLogicObject(OBJPROTOTYPE::DOOR, OBJID::OBJ_OBJECT,
+		{ 20.f, 2.f, 30.f }, 1, L"A", Engine::LINKMODE::ONE_TO_ONE);
+
+	M->Set_GameLogicObject(OBJPROTOTYPE::DOORKEY, OBJID::OBJ_OBJECT,
+		{ 25.f, 2.f, 30.f }, 2, L"B", Engine::LINKMODE::ONE_TO_ONE);
+
+	M->Set_GameLogicObject(OBJPROTOTYPE::BUTTON_DOOR, OBJID::OBJ_OBJECT,
+		{ 25.f, 0.f, 18.f }, 1, L"EXIT", Engine::LINKMODE::ONE_TO_ONE);
 
 	ConnectDoorSwitchByLinkId();
 
@@ -814,7 +861,7 @@ void CStage::ConnectDoorSwitchByLinkId()
 			sw->Clear_Targets();
 			sw->Set_Target(nullptr);
 
-			if (sw->Get_LinkMode() == CSwitch_Button::LinkMode::OneToMany)
+			if (sw->Get_LinkMode() == Engine::LINKMODE::ONE_TO_MANY)
 			{
 				// 1:N — 같은 ID의 모든 문
 				for (auto* d : candDoors)

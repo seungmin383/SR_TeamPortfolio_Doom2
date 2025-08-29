@@ -1,6 +1,7 @@
 #include "CLayer.h"
 #include "CPrototypeManager.h"
 #include "CManagement.h"
+#include "CGameObject.h"
 
 CLayer::CLayer()
 {
@@ -103,6 +104,101 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 
 	return S_OK;
  }
+
+HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId,
+	_vec3 vPos, _int iCnt,
+	const std::wstring& linkId,
+	LINKMODE linkMode)
+{
+	CGameObject* pGameObject = nullptr;
+	const unsigned key = (unsigned)eObjId;
+
+	// 오브젝트 풀이 비어있으면
+	if (m_vecObjectPool[key].empty())
+	{
+		// 횟수만큼 추가
+		for (size_t i = 0; i < (size_t)iCnt; i++)
+		{
+			pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(eObjPrototype);
+			if (nullptr == pGameObject)
+				return E_FAIL;
+
+			// 위치 세팅
+			pGameObject->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+
+			// 링크 즉시 주입
+			pGameObject->Set_LinkId(linkId);
+			pGameObject->Set_LinkMode(linkMode);
+
+			// 기존과 동일: pending에 보관
+			//m_vecPendingObject[key].push_back(pGameObject);
+			m_vecObject[key].push_back(pGameObject);
+		}
+	}
+	else
+	{
+		// 기존 코드 흐름과 동일 (capacity 분기 포함)
+		if (m_vecObjectPool[key].capacity() >= (size_t)iCnt)
+		{
+			for (size_t i = 0; i < (size_t)iCnt; i++)
+			{
+				pGameObject = m_vecObjectPool[key].back();
+				m_vecPendingObject[key].pop_back();   // 원래 코드 흐름 유지
+
+				// 위치 세팅
+				pGameObject->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+
+				// 링크 즉시 주입
+				pGameObject->Set_LinkId(linkId);
+				pGameObject->Set_LinkMode(linkMode);
+
+				// 실행 컨테이너로 이동
+				m_vecObject[key].push_back(pGameObject);
+			}
+		}
+		else if (m_vecObjectPool[key].capacity() < (size_t)iCnt)
+		{
+			_int additionalCnt = iCnt - (_int)m_vecObjectPool[key].capacity();
+
+			for (size_t i = 0; i < (size_t)iCnt; i++)
+			{
+				pGameObject = m_vecObjectPool[key].back();
+				m_vecObjectPool[key].pop_back();
+
+				// 위치 세팅
+				pGameObject->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+
+				// 링크 즉시 주입
+				pGameObject->Set_LinkId(linkId);
+				pGameObject->Set_LinkMode(linkMode);
+
+				//m_vecPendingObject[key].push_back(pGameObject);
+				m_vecObject[key].push_back(pGameObject);
+			}
+
+			// 횟수만큼 추가
+			for (size_t i = 0; i < (size_t)additionalCnt; i++)
+			{
+				pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(eObjPrototype);
+				if (nullptr == pGameObject)
+					return E_FAIL;
+
+				// 위치 세팅
+				pGameObject->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+
+				// 링크 즉시 주입
+				pGameObject->Set_LinkId(linkId);
+				pGameObject->Set_LinkMode(linkMode);
+
+				// 기존과 동일: pending에 보관
+				//m_vecPendingObject[key].push_back(pGameObject);
+				m_vecObject[key].push_back(pGameObject);
+			}
+		}
+	}
+
+	return S_OK;
+}
 
 HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, CGameObject* _Owner, CGameObject*& _Bullet)
 {

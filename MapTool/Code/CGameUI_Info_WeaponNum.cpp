@@ -111,7 +111,7 @@ void CGameUI_Info_WeaponNum::Render_GameObject(const _float& fTimeDelta)
 
 	Render_Number(4, -230.f, -WINCY * 0.5f + vScale.y + 60.f, 10.f, 8.f / (4.f / 6.f));
 	Render_Number(5, -170.f, -WINCY * 0.5f + vScale.y + 60.f, 10.f, 8.f / (4.f / 6.f));
-	Render_Number(6, -110.f, -WINCY * 0.5f + vScale.y + 60.f, 10.f, 8.f / (4.f / 6.f));
+	//Render_Number(6, -110.f, -WINCY * 0.5f + vScale.y + 60.f, 10.f, 8.f / (4.f / 6.f));
 
 	// 5. 렌더링이 끝난 후, 백업해두었던 원래의 View, Projection 행렬로 복원합니다.                                           
 	// 이렇게 해야 다른 3D 오브젝트들이 정상적으로 렌더링됩니다.                                                              

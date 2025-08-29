@@ -55,6 +55,7 @@ enum class OBJPROTOTYPE
 	DOOR,										// πÆ
 	DOORKEY,									// ø≠ºË∞° « ø‰«— πÆ
 	KEY,										// ø≠ºË
+	VERTICAL_MOVING,
 	SHIFT_CUBE,
 	ITEM_HELTH_SMALL,
 	ITEM_HELTH_BIG,
@@ -64,6 +65,7 @@ enum class OBJPROTOTYPE
 	ITEM_SHELL,
 	ITEM_ROCKET,
 	ITEM_CELL,
+	ITEM_SUIT,
 	OBJ_BARREL,
 	WEAPON_SHOTGUN,
 	WEAPON_CHAINGUN,

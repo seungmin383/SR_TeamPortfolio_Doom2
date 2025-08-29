@@ -131,7 +131,7 @@ public:
 		const _float& fFov = D3DXToRadian(60.f),
 		const _float& fAspect = (_float)WINCX / WINCY,
 		const _float& fNear = 0.1f,
-		const _float& fFar = 1000.f);
+		const _float& fFar = 550.f);
 
 	// Scale = 1/tanf(fFov * 0.5f)
 	// 1/(tanf(fFov * 0.5f)) = fNear
@@ -147,6 +147,45 @@ public:
 
 public:
 	virtual CDynamicCamera* Clone() override { return this; }
+
+public:		// (08/30 김홍인)
+	void External_SnapToGroundY(float y) {
+		m_vEye.y = y;
+		m_vVelocity.y = 0.f;     // 중력으로 다시 내려찍는 것 방지
+		m_bIsGrounded = true;    // 필요 시 사용
+	}
+
+	// 발판 위 최소 높이 보장 (속도 0/지면강제 X)
+	void External_ClampMinY_NoGround(float minY)
+	{
+		if (m_vEye.y < minY) {
+			m_vEye.y = minY;
+			if (m_vVelocity.y < 0.f) m_vVelocity.y = 0.f; // 내려찍는 중이면 멈춤만
+		}
+		// m_bIsGrounded 는 건드리지 않음
+	}
+
+	// 발판 이동량을 더해 주고, 내려찍을 때만 살짝 클램프
+	void External_ApplyPlatformDelta(float deltaY, float minY)
+	{
+		m_vEye.y += deltaY;                  // 플랫폼 이동량만 주입
+		if (m_vEye.y < minY) {               // 관통 방지용 최소 높이 보장
+			m_vEye.y = minY;
+			if (m_vVelocity.y < 0.f) m_vVelocity.y = 0.f;
+		}
+		// grounded/fall 상태는 그대로 두어 "달라붙은 느낌" 제거
+	}
+
+	void External_SetGround(float y, float gap = 0.f) {	// 발판 상단 월드 Y(ground) 전달
+		m_hasExternalGround = true;
+		m_extGroundY = y + gap;
+	}
+	void External_ClearGround() { m_hasExternalGround = false; }
+	bool HasExternalGround() const { return m_hasExternalGround; }
+
+private:
+	bool  m_hasExternalGround = false;
+	float m_extGroundY = -FLT_MAX;
 
 private:
 	virtual void        Free();
