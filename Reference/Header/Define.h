@@ -180,6 +180,7 @@ enum class SCENEID
 	STAGE1,
 	STAGE2,
 	STAGE3,
+	TEST,
 	SCENE_END
 };
 

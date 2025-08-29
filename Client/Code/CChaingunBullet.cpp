@@ -102,30 +102,30 @@ void CChaingunBullet::OnCollision(CCollider* _pOther)
 
 void CChaingunBullet::OnCollisionEnter(CCollider* _pOther)
 {
-	//switch (_pOther->Get_ColLayer())
-	//{
-	//case COLLAYERID::COL_PLAYER:
-	//	return;
+	switch (_pOther->Get_ColLayer())
+	{
+	case COLLAYERID::COL_PLAYER:
+		return;
 
-	//case COLLAYERID::COL_TERRAIN:
-	//case COLLAYERID::COL_WALL:
-	//	m_fSpeed = 0.f;
-	//	break;
+	case COLLAYERID::COL_TERRAIN:
+	case COLLAYERID::COL_WALL:
+		m_fSpeed = 0.f;
+		break;
 
-	//case COLLAYERID::COL_ENEMY:
-	//	m_fSpeed = 0.f;
-	//	_pOther->Get_Owner()->Take_Dmg(m_iDmg);
-	//	break;
+	case COLLAYERID::COL_ENEMY:
+		m_fSpeed = 0.f;
+		_pOther->Get_Owner()->Take_Dmg(m_iDmg);
+		break;
 
-	//case COLLAYERID::COL_OBJECT:
-	//	m_fSpeed = 0.f;
-	//	break;
+	case COLLAYERID::COL_OBJECT:
+		m_fSpeed = 0.f;
+		break;
 
-	//default:
-	//	break;
-	//}
+	default:
+		break;
+	}
 
-	//m_bDead = true;
+	m_bDead = true;
 }
 
 void CChaingunBullet::OnCollisionExit(CCollider* _pOther)

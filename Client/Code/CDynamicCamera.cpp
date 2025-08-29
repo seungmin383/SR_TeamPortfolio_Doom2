@@ -92,8 +92,8 @@ _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 	}
 	else
 	{
-		_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
 		Update_State();
+		_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
 		return iExit;
 	}
 }

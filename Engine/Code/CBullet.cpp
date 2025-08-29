@@ -32,20 +32,20 @@ _int CBullet::Update_GameObject(const _float& fTimeDelta)
 		return -1;
 	}
 
-	CGameObject::Update_GameObject(fTimeDelta);
-
 	// Apply Raycast on bullet
-	_vec3	vPos, vHitpos;
+	_vec3	vPos;
 	CGameObject* pTargetObj = nullptr;
+
 	m_pTransformCom->Get_Pos(&vPos);
-	pTargetObj = CCollisionManager::Raycast(vPos, m_vInitDir, vHitpos, m_fSpeed * fTimeDelta);
+	pTargetObj = CCollisionManager::Raycast(vPos, m_vInitDir, m_vHitpos, m_fSpeed * fTimeDelta);
 	if (pTargetObj != nullptr && !pTargetObj->Get_Dead())
 	{
-		_vec3 vTargetPos;
-		pTargetObj->Take_Dmg(m_iDmg);
-		m_pTransformCom->Set_Pos(vHitpos.x, vHitpos.y, vHitpos.z);
+		pTargetObj->OnCollisionEnter(this->GetCollider());
+		this->OnCollisionEnter(pTargetObj->GetCollider());
 		return 0;
 	}
+
+	CGameObject::Update_GameObject(fTimeDelta);
 
 	return 0;
 }
@@ -121,8 +121,8 @@ void CBullet::OnCollisionEnter(CCollider* _pOther)
 		return;
 
 	_pOther->Get_Owner()->Take_Dmg(m_iDmg);
-
-	m_bDead = TRUE;
+	
+	//m_bDead = TRUE;
 }
 
 void CBullet::OnCollisionExit(CCollider* _pOther)
