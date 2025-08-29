@@ -86,11 +86,15 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 {
 	_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
-
-	// ?¼ì‹œ ?•ì? ê¸°ëŠ¥ ì¶”ê?
-	if (CManagement::GetInstance()->Is_Paused())
+	
+	if (m_eState == DEAD)
+	{
+		Check_Death();
 		return 0;
 	}
+
+	if (CManagement::GetInstance()->Is_Paused())
+		return 0;
 	else
 	{
 		Update_State();
