@@ -10,7 +10,7 @@ class CTextureManager :
 public:
     //게임오브젝트도 추가 될 수 있음
     enum class terrainDir
-    { CEIL, DECO, DOOR, ENV, FLAT, FLOOR, LIGHTTILE, OBSTACLES, STEP, SWITCH, WALL, CONSTRUCTURE, ANNOUNCE, ETC,DIR_END };
+    { CEIL, DECO, DOOR, ENV, FLAT, FLOOR, LIGHTTILE, OBSTACLES, STEP, SWITCH, WALL, ETC, DIR_END };
 
     DECLARE_SINGLETON(CTextureManager)
 private:

@@ -78,10 +78,6 @@ CTextureManager::terrainDir CTextureManager::StringConversion(string str)
 		return CTextureManager::terrainDir::SWITCH;
 	else if (str == "Wall")
 		return CTextureManager::terrainDir::WALL;
-	else if (str == "Constructure")
-		return CTextureManager::terrainDir::CONSTRUCTURE;
-	else if (str == "Etc")
-		return CTextureManager::terrainDir::ETC;
 	else
 		return CTextureManager::terrainDir::ETC;
 }

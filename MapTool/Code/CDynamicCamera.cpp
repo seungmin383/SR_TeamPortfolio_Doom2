@@ -18,11 +18,11 @@ _long CDynamicCamera::s_lMouseMoveX = 0L;
 
 CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCamera(pGraphicDev),
-	m_bFix(false), m_bCheck(false), m_bTrigger(false), m_bIsMoving(false),
-	m_iArmor(0),
-	m_fSpeed(0.f), m_fAngle(0.f), m_fAngleSpeed(0.f),
+	m_bFix(false), m_bCheck(false), m_bTrigger(false), m_bIsMoving(false), m_bIsGrounded(true), m_bIsJumping(false), m_bIsDashing(false),
+	m_iArmor(0), m_iJumpCnt(0),
+	m_fSpeed(0.f), m_fAngle(0.f), m_fAngleSpeed(0.f), m_fFallSpeed(0.f), m_fDist(0.f), m_fJumpForce(0.f), m_fDashTime(0.f),
 	m_eState(IDLE),
-	m_vDist(_vec3(0.f, 0.f, 0.f))
+	m_vMoveDist(_vec3(0.f, 0.f, 0.f))
 {
 }
 
@@ -49,10 +49,12 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	m_fFar = fFar;
 
 	// Player Default Settings
-	m_iGameHp = 83;
+	m_iGameHp = 100;
 	m_iArmor = 45;
 
-	m_fSpeed = 60.f;
+	m_fSpeed = 100.f;
+	m_fFallSpeed = 1.25f;
+	m_fJumpForce = 0.45f;
 	m_fAngle = 0.f;
 	m_fAngleSpeed = 10.f;
 
@@ -76,23 +78,6 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	if (pPistol != nullptr)
 		CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::PISTOL, pPistol);
 
-	// Å×½ºÆ®¿ë ¹«±â Ãß°¡ ³ªÁß¿¡ »èÁ¦ ÇØ¾ß‰Î
-	//CWeapon* pShotgun = CShotgun::Create();
-	//if (pShotgun != nullptr)
-	//	CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::SHOTGUN, pShotgun);
-
-	//CWeapon* pChaingun = CChaingun::Create();
-	//if (pChaingun != nullptr)
-	//	CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::CHAINGUN, pChaingun);
-
-	//CWeapon* pRocket = CRocket::Create();
-	//if (pRocket != nullptr)
-	//	CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::ROCKET, pRocket);
-
-	//CWeapon* pBfg = CBfg::Create();
-	//if (pBfg != nullptr)
-	//	CWeaponManager::GetInstance()->Add_Weapon(WEAPON_ID::BFG, pBfg);
-
 	CWeaponManager::GetInstance()->Set_CurWeapon(WEAPON_ID::PISTOL);
 
 	return S_OK;
@@ -101,9 +86,12 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 {
 	_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
-	
+
+	// ?¼ì‹œ ?•ì? ê¸°ëŠ¥ ì¶”ê?
+	if (CManagement::GetInstance()->Is_Paused())
+		return 0;
+
 	Update_State();
-	//Set_OnTerrain();
 
 	return iExit;
 }
@@ -112,10 +100,14 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	Engine::CCamera::LateUpdate_GameObject(fTimeDelta);
 
+	//Apply_Gravity(fTimeDelta);
+	//Set_OnTerrain();
 	Key_Input(fTimeDelta);
 	//Mouse_Input();
+	Check_Dash(fTimeDelta);
 
 	m_pColliderCom->Late_Update();
+	m_pTransformCom->Set_Pos(m_vEye.x, m_vEye.y, m_vEye.z);
 
 	if (false == m_bFix)
 	{
@@ -139,15 +131,15 @@ void CDynamicCamera::OnCollision(CCollider* _pOther)
 
 		_vec3 curPos;
 		m_pTransformCom->Get_Pos(&curPos);
-		m_pTransformCom->Set_Pos(curPos.x + (-m_vDist.x), curPos.y, curPos.z + (-m_vDist.z));
+		m_pTransformCom->Set_Pos(curPos.x + (-m_vMoveDist.x), curPos.y, curPos.z + (-m_vMoveDist.z));
 
-		m_vEye.x += (-m_vDist.x);
-		m_vEye.z += (-m_vDist.z);
+		m_vEye.x += (-m_vMoveDist.x);
+		m_vEye.z += (-m_vMoveDist.z);
 
-		m_vAt.x += (-m_vDist.x);
-		m_vAt.z += (-m_vDist.z);
+		m_vAt.x += (-m_vMoveDist.x);
+		m_vAt.z += (-m_vMoveDist.z);
 
-		m_vDist = _vec3(0.f, 0.f, 0.f);
+		m_vMoveDist = _vec3(0.f, 0.f, 0.f);
 	}
 }
 
@@ -159,16 +151,16 @@ void CDynamicCamera::OnCollisionEnter(CCollider* _pOther)
 
 		_vec3 curPos;
 		m_pTransformCom->Get_Pos(&curPos);
-		m_pTransformCom->Set_Pos(curPos.x + (-m_vDist.x), curPos.y, curPos.z + (-m_vDist.z));
+		m_pTransformCom->Set_Pos(curPos.x + (-m_vMoveDist.x), curPos.y, curPos.z + (-m_vMoveDist.z));
 
-		m_vEye.x += (-m_vDist.x);
-		m_vEye.z += (-m_vDist.z);
+		m_vEye.x += (-m_vMoveDist.x);
+		m_vEye.z += (-m_vMoveDist.z);
 
-		m_vAt.x += (-m_vDist.x);
-		m_vAt.z += (-m_vDist.z);
+		m_vAt.x += (-m_vMoveDist.x);
+		m_vAt.z += (-m_vMoveDist.z);
 
 
-		m_vDist = _vec3(0.f, 0.f, 0.f);
+		m_vMoveDist = _vec3(0.f, 0.f, 0.f);
 	}
 }
 
@@ -204,10 +196,7 @@ HRESULT CDynamicCamera::Add_Component()
 
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Collider", pComponent });
 
-	OutputDebugStringA("[Stage] add OBJ_PLAYERCAMERA: DynamicCamera\n");
-
 	return S_OK;
-
 }
 
 void CDynamicCamera::Key_Input(const _float& fTimeDelta)
@@ -217,120 +206,188 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 	_matrix	matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, 0, &m_matView);
 
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_W) & 0x80)
+#pragma region Moving Part
+
+	if (CDInputManager::GetInstance()->Get_KeyHold(DIK_W))
 	{
-		_vec3	vLook;
-		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
+		_vec3	vRight, vLength;
+		memcpy(&vRight, &matCamWorld.m[2][0], sizeof(_vec3));
 
-		_vec3	vLength = *D3DXVec3Normalize(&vLook, &vLook) * fTimeDelta * m_fSpeed;
+		if (CDInputManager::GetInstance()->Get_KeyDown(DIK_LSHIFT))
+		{
+			if (m_bIsDashing)
+				return;
+			else
+			{
+				m_bIsDashing = true;
+				m_fDashTime = 0.f;
+			}
+		}
 
-		m_vDist = vLength;
+		vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
+
+		m_vMoveDist = vLength;
 
 		m_vEye.x += vLength.x;
-		m_vEye.y += vLength.y;
 		m_vEye.z += vLength.z;
+		m_vEye.y += vLength.y;
 
 		m_vAt.x += vLength.x;
-		m_vAt.y += vLength.y;
 		m_vAt.z += vLength.z;
+		m_vAt.y += vLength.y;
 	
 		m_bIsMoving = true;
 	}
 
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_S) & 0x80)
+	if (CDInputManager::GetInstance()->Get_KeyHold(DIK_S))
 	{
-		_vec3	vLook;
-		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
+		_vec3	vRight, vLength;
+		memcpy(&vRight, &matCamWorld.m[2][0], sizeof(_vec3));
 
-		_vec3	vLength = *D3DXVec3Normalize(&vLook, &vLook) * fTimeDelta * m_fSpeed;
+		if (CDInputManager::GetInstance()->Get_KeyDown(DIK_LSHIFT))
+		{
+			if (m_bIsDashing)
+				return;
+			else
+			{
+				m_bIsDashing = true;
+				m_fDashTime = 0.f;
+			}
+		}
 
-		m_vDist = -vLength;
+		vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
+
+		m_vMoveDist = -vLength;
 
 		m_vEye.x -= vLength.x;
-		m_vEye.y -= vLength.y;
 		m_vEye.z -= vLength.z;
+		m_vEye.y -= vLength.y;
 
 		m_vAt.x -= vLength.x;
-		m_vAt.y -= vLength.y;
 		m_vAt.z -= vLength.z;
+		m_vAt.y -= vLength.y;
 
 		m_bIsMoving = true;
 	}
 
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_D) & 0x80)
+	if (CDInputManager::GetInstance()->Get_KeyHold(DIK_D))
 	{
-		_vec3	vRight;
+		_vec3	vRight, vLength;
 		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
 
-		_vec3	vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
+		if (CDInputManager::GetInstance()->Get_KeyDown(DIK_LSHIFT))
+		{
+			if (m_bIsDashing)
+				return;
+			else
+			{
+				m_bIsDashing = true;
+				m_fDashTime = 0.f;
+			}
+		}
 
-		m_vDist = vLength;
+		vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
+
+		m_vMoveDist = vLength;
 
 		m_vEye.x += vLength.x;
-		m_vEye.y += vLength.y;
 		m_vEye.z += vLength.z;
+		m_vEye.y += vLength.y;
 
 		m_vAt.x += vLength.x;
-		m_vAt.y += vLength.y;
 		m_vAt.z += vLength.z;
+		m_vAt.y += vLength.y;
 
 		m_bIsMoving = true;
 	}
 
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_A) & 0x80)
+	if (CDInputManager::GetInstance()->Get_KeyHold(DIK_A))
 	{
-		_vec3	vRight;
+		_vec3	vRight, vLength;
 		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
 
-		_vec3	vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
+		if (CDInputManager::GetInstance()->Get_KeyDown(DIK_LSHIFT))
+		{
+			if (m_bIsDashing)
+				return;
+			else
+			{
+				m_bIsDashing = true;
+				m_fDashTime = 0.f;
+			}
+		}
 
-		m_vDist = -vLength;
+		vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
+
+		m_vMoveDist = -vLength;
 
 		m_vEye.x -= vLength.x;
-		m_vEye.y -= vLength.y;
 		m_vEye.z -= vLength.z;
+		m_vEye.y -= vLength.y;
 
 		m_vAt.x -= vLength.x;
-		m_vAt.y -= vLength.y;
 		m_vAt.z -= vLength.z;
+		m_vAt.y -= vLength.y;
 
 		m_bIsMoving = true;
 	}
 
-	// ¿òÁ÷ÀÌ°í ÀÖ´Ù¸é Ä«¸Þ¶ó Èçµé¸² È¿°ú Àû¿ë
 	if (m_bIsMoving)
-		//Camera_Bobbing(fTimeDelta);
+		Camera_Bobbing(fTimeDelta);
+#pragma endregion
 
-	// ¹«±â ±³Ã¼ °ü·Ã Å° ÀÔ·Â
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_1) & 0x80)
+#pragma region Jump Part
+
+	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_SPACE))
+	{
+		if (m_bIsGrounded && m_iJumpCnt == 0)
+		{
+			m_iJumpCnt++;
+			m_bIsJumping = true;
+			m_bIsGrounded = false;
+			m_vVelocity.y -= m_fJumpForce;
+		}
+		else if (!m_bIsGrounded && m_iJumpCnt == 1)
+		{
+			m_iJumpCnt++;
+			m_vVelocity.y = 0.f;
+			m_vVelocity.y -= m_fJumpForce;
+		}
+		else if (m_iJumpCnt >= 2)
+			return;
+	}
+
+#pragma endregion
+
+#pragma region	Weapon Change Part
+	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_1))
 	{
 		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::PISTOL);
 	}
 
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_2) & 0x80)
+	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_2))
 	{
 		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::SHOTGUN);
 	}
 
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_3) & 0x80)
+	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_3))
 	{
 		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::CHAINGUN);
 	}
 
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_4) & 0x80)
+	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_4))
 	{
 		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::ROCKET);
 	}
 
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_5) & 0x80)
+	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_5))
 	{
 		CWeaponManager::GetInstance()->Change_Weapon(WEAPON_ID::BFG);
 	}
+#pragma endregion
 
-	//m_pTransformCom ¾÷µ¥ÀÌÆ® //collider µ¿±âÈ­ ¿ë
-	m_pTransformCom->Set_Pos(m_vEye.x, m_vEye.y, m_vEye.z);
-
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_TAB) & 0x80)
+#pragma region Mouse Fix Part
+	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_TAB))
 	{
 		if (m_bCheck)
 			return;
@@ -349,6 +406,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 	if (false == m_bFix)
 		return;
+#pragma endregion
 }
 
 void CDynamicCamera::Mouse_Input()
@@ -366,6 +424,9 @@ void CDynamicCamera::Mouse_Input()
 
 void CDynamicCamera::Mouse_Move()
 {
+	if (m_bDead)
+		return;
+
 	_matrix	matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, 0, &m_matView);
 
@@ -385,7 +446,7 @@ void CDynamicCamera::Mouse_Move()
 		m_vAt = m_vEye + vLook;
 	}
 
-	// ¸¶¿ì½º xÃà ÀÌµ¿ °ªÀ» ÀúÀå.(¸Å ÇÁ·¹ÀÓ¸¶´Ù ÃÖ½Å ¸¶¿ì½º ÀÌµ¿ °ªÀ» ¾îµð¼­µç È®ÀÎ °¡´É)
+	// ë§ˆìš°??xì¶??´ë™ ê°’ì„ ?€??(ë§??„ë ˆ?„ë§ˆ??ìµœì‹  ë§ˆìš°???´ë™ ê°’ì„ ?´ë””?œë“  ?•ì¸ ê°€??
 	s_lMouseMoveX = CDInputManager::GetInstance()->Get_DIMouseMove(DIMS_X);
 	if (s_lMouseMoveX)
 	{
@@ -409,26 +470,26 @@ void CDynamicCamera::Mouse_Fix()
 	SetCursorPos(ptMouse.x, ptMouse.y);
 }
 
+void CDynamicCamera::Check_Dash(const _float& fTimeDelta)
+{
+	if (m_bIsDashing)
+	{
+		m_fDashTime += fTimeDelta;
+		m_fSpeed *= 1.5f;
+
+		if (m_fDashTime >= 0.1f)
+			m_fSpeed = 20.f;
+		
+		if (m_fDashTime >= 0.5f)
+			m_bIsDashing = false;
+	}
+}
+
 void CDynamicCamera::Set_OnTerrain()
 {
-	//// ÁöÇüÀÇ ¹öÅØ½º Á¤º¸¸¦ °¡Á®¿Â´Ù
-	//Engine::CTerrainTexSector* pTerrainBufferCom =
-	//	static_cast<CTerrainTexSector*>
-	//	(CManagement::GetInstance()->Get_Component(ID_STATIC, LAYERID::LAYER_ENVIRONMENT, OBJID::OBJ_TERRAIN, L"Com_Buffer"));
-
-	//_float height = m_pCalculatorCom->Compute_HeightOnTerrain(&m_vEye, pTerrainBufferCom->Get_VtxPos(), VTXCNTX, VTXCNTZ, VTXITV);
-	//
-	//// Ä«¸Þ¶óÀÇ ³ôÀÌ (m_vEye.y)°¡ º¯È­ÇÒ ¶§ ¸¶´Ù ¹Ù¶óº¸´Â ¸ñÇ¥(m_vAt.y)µµ ¹Ù²î¾î¾ßÇÑ´Ù.
-	//// Ä«¸Þ¶óÀÇ ³ôÀÌ º¯È­·®À» °è»êÇØ¼­ º¯È­·®À» m_vEye, m_vAt ¸ðµÎ ´õÇØÁà¾ß ½ÃÁ¡ÀÌ À¯ÁöµÈ´Ù.
-	//_float deltaHeight = (height + 3.f) - m_vEye.y;
-	//m_vEye.y += deltaHeight;
-	//m_vAt.y += deltaHeight;
-
-	// ¼ÒÀçÇõ ÁöÇü º¯°æ 2025-08-26
-	// TODO:·Îµù ½Ã ÁöÇüÁ¤º¸ µé°íÀÖ°Ô ¼öÁ¤
-	// TODO:ÃÖÀûÈ­
-	_float highest(-999.f);
+	_float fHighest(-999.f);
 	_vec3 onPosition{ 0.f, 0.f, 0.f };
+
 	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
 	{
 		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
@@ -437,17 +498,49 @@ void CDynamicCamera::Set_OnTerrain()
 
 		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &m_vEye))
 		{
-			if (highest < onPosition.y)
-				highest = onPosition.y;
+			if (fHighest < onPosition.y)
+				fHighest = onPosition.y;
 		}
 	}
 
-	if (highest == -999.f)
-		highest = 0.f;
+	if (fHighest == -999.f)
+		fHighest = 0.f;
 
-	_float deltaHeight = (highest + 3.f) - m_vEye.y;
-	m_vEye.y += deltaHeight;
-	m_vAt.y += deltaHeight;
+	if (!m_bIsJumping)
+	{
+		if (m_vEye.y - fHighest >= 3.2f)
+		{
+			m_bIsGrounded = false;
+		}
+		else
+		{
+			m_bIsGrounded = true;
+			_float deltaHeight = (fHighest + 3.f) - m_vEye.y;
+			m_vEye.y += deltaHeight;
+			m_vAt.y += deltaHeight;
+			m_iJumpCnt = 0;
+		}
+	}
+
+	if (m_bIsJumping && (m_vEye.y - 3.f) <= fHighest)
+	{
+		m_bIsJumping = false;
+
+		_float deltaHeight = (fHighest + 3.f) - m_vEye.y;
+		m_vEye.y += deltaHeight;
+		m_vAt.y += deltaHeight;
+
+		m_vVelocity.y = 0.f;
+		m_bIsGrounded = true;
+		m_iJumpCnt = 0;
+	}
+
+	if (m_eState == DEAD)
+	{
+		_float deltaHeight = (fHighest + 0.5f) - m_vEye.y;
+		m_vEye.y += deltaHeight;
+		m_vAt.y += deltaHeight;
+	}
 }
 
 void CDynamicCamera::Update_State()
@@ -471,11 +564,44 @@ void CDynamicCamera::Update_State()
 
 void CDynamicCamera::Camera_Bobbing(const _float& fTimeDelta)
 {
-	// Ä«¸Þ¶ó À§, ¾Æ·¡ È¿°ú
+	if (!m_bIsGrounded)
+		return;
+
 	m_fAngle += m_fAngleSpeed * fTimeDelta;
 	_float fBobAngle = sinf(m_fAngle) * 0.2f;
 	m_vEye.y += fBobAngle;
 	m_vAt.y += fBobAngle;
+}
+
+void CDynamicCamera::Apply_Gravity(const _float& fTimeDelta)
+{
+	if (!m_bIsGrounded)
+	{
+		m_vVelocity.y += m_fFallSpeed * fTimeDelta;
+		m_vEye.y -= m_vVelocity.y;
+		m_vAt.y -= m_vVelocity.y;
+	}
+	else
+		m_vVelocity.y = 0.f;
+
+	if (m_vVelocity.y >= 200.f)
+		m_vVelocity.y = 200.f;
+}
+
+void CDynamicCamera::Check_Death()
+{
+	_vec3	vUp{ 0.f, 1.f, 0.f };
+
+	_vec3	vLook = m_vAt - m_vEye;
+	D3DXVec3Normalize(&vLook, &vLook);
+	_matrix matRot;
+
+	D3DXMatrixRotationAxis(&matRot, &vLook, D3DXToRadian(30.f));
+	D3DXVec3TransformNormal(&vUp, &vUp, &matRot);
+
+	m_vAt = m_vEye + vLook;
+	D3DXMatrixLookAtLH(&m_matView, &m_vEye, &m_vAt, &vUp);
+	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_matView);
 }
 
 CDynamicCamera* CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)

@@ -4,6 +4,7 @@
 #include "CManagement.h"
 #include "CDynamicCamera.h"
 #include "CRenderer.h"
+#include "CCollisionManager.h"
 
 CChaingunBullet::CChaingunBullet(LPDIRECT3DDEVICE9 pGraphicDev) :
 	CBullet(pGraphicDev)
@@ -31,7 +32,7 @@ HRESULT CChaingunBullet::Ready_GameObject()
 	m_pTransformCom->Get_Pos(&vPos);
 
 	// Collider Settings
-	_vec3 vColliderScale = { 0.1f, 0.1f, 0.1f };
+	_vec3 vColliderScale = { 0.2f, 0.2f, 0.2f };
 	_vec3 vOffset = { 0.f, 0.f ,0.f };
 
 	m_pColliderCom->Ready_CCollider(this, vPos, vColliderScale, vOffset, COLLAYERID::COL_BULLET,
@@ -42,11 +43,11 @@ HRESULT CChaingunBullet::Ready_GameObject()
 		CDynamicCamera* pPlayer = dynamic_cast<CDynamicCamera*>(CManagement::GetInstance()->Get_Player());
 		m_vInitDir = pPlayer->Get_At() - pPlayer->Get_Pos();
 		D3DXVec3Normalize(&m_vInitDir, &m_vInitDir);
-		m_fSpeed = 150.f;
+		m_fSpeed = 1000.f;
 		m_bDead = false;
 		m_iDmg = 10;
 
-		_vec3 vScale = { 0.025f, 0.025f, 0.025f };
+		_vec3 vScale = { 0.07f, 0.07f, 0.07f };
 		m_pTransformCom->Set_Scale(vScale);
 	}
 
@@ -95,42 +96,42 @@ void CChaingunBullet::Render_GameObject(const _float& fTimeDelta)
 
 void CChaingunBullet::OnCollision(CCollider* _pOther)
 {
-	if (_pOther->Get_ColLayer() == COLLAYERID::COL_PLAYER)
-		return;
+	//if (_pOther->Get_ColLayer() == COLLAYERID::COL_PLAYER)
+	//	return;
 }
 
 void CChaingunBullet::OnCollisionEnter(CCollider* _pOther)
 {
-	switch (_pOther->Get_ColLayer())
-	{
-	case COLLAYERID::COL_PLAYER:
-		return;
+	//switch (_pOther->Get_ColLayer())
+	//{
+	//case COLLAYERID::COL_PLAYER:
+	//	return;
 
-	case COLLAYERID::COL_TERRAIN:
-	case COLLAYERID::COL_WALL:
-		m_fSpeed = 0.f;
-		break;
+	//case COLLAYERID::COL_TERRAIN:
+	//case COLLAYERID::COL_WALL:
+	//	m_fSpeed = 0.f;
+	//	break;
 
-	case COLLAYERID::COL_ENEMY:
-		m_fSpeed = 0.f;
-		_pOther->Get_Owner()->Take_Dmg(m_iDmg);
-		break;
+	//case COLLAYERID::COL_ENEMY:
+	//	m_fSpeed = 0.f;
+	//	_pOther->Get_Owner()->Take_Dmg(m_iDmg);
+	//	break;
 
-	case COLLAYERID::COL_OBJECT:
-		m_fSpeed = 0.f;
-		break;
+	//case COLLAYERID::COL_OBJECT:
+	//	m_fSpeed = 0.f;
+	//	break;
 
-	default:
-		break;
-	}
+	//default:
+	//	break;
+	//}
 
-	m_bDead = true;
+	//m_bDead = true;
 }
 
 void CChaingunBullet::OnCollisionExit(CCollider* _pOther)
 {
-	if (_pOther->Get_ColLayer() == COLLAYERID::COL_PLAYER)
-		return;
+	//if (_pOther->Get_ColLayer() == COLLAYERID::COL_PLAYER)
+	//	return;
 }
 
 HRESULT CChaingunBullet::Add_Component()

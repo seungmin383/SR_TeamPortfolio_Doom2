@@ -52,6 +52,9 @@ HRESULT CWeapon_ChainGun::Ready_GameObject()
 
 _int CWeapon_ChainGun::Update_GameObject(const _float& fTimeDelta)
 {
+	if (CManagement::GetInstance()->Is_Paused())
+		return 0;
+
 	CGameObject::Update_GameObject(fTimeDelta);
 	Set_OnTerrain();
 	Bill_Board();

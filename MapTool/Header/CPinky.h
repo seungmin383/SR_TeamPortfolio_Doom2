@@ -16,8 +16,8 @@ public:
     virtual     void            LateUpdate_GameObject(const _float& fTimeDelta);
     virtual     void            Render_GameObject(const _float& fTimeDelta);
 
+    virtual void         Attack(const _float fTimeDelta)override;
 #pragma endregion
-    void Set_OnTerrain()override;
 private:
     HRESULT     Add_Component()override;
 

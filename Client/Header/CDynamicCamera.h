@@ -131,7 +131,7 @@ public:
 		const _float& fFov = D3DXToRadian(60.f),
 		const _float& fAspect = (_float)WINCX / WINCY,
 		const _float& fNear = 0.1f,
-		const _float& fFar = 1000.f);
+		const _float& fFar = 550.f);
 
 	// Scale = 1/tanf(fFov * 0.5f)
 	// 1/(tanf(fFov * 0.5f)) = fNear

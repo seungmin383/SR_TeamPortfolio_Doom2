@@ -29,7 +29,7 @@ public:
         vector<_vec3> vertices);
 
     void        Set_TextureCom(Engine::CTexture* pTexture);
-    CTexture*   Get_TextureCom() { return m_pTextureCom; }
+    CTexture* Get_TextureCom() { return m_pTextureCom; }
 
 private:
     HRESULT     Add_Component();

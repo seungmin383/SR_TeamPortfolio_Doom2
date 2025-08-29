@@ -10,7 +10,7 @@
 
 
 CMainMenu::CMainMenu(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CScene(pGraphicDev), m_pLoading(nullptr), m_iFrame(1)
+	: Engine::CScene(pGraphicDev), m_pLoading(nullptr)
 {
 }
 
@@ -20,9 +20,6 @@ CMainMenu::~CMainMenu()
 
 HRESULT CMainMenu::Ready_Scene()
 {
-	//if (FAILED(Ready_Prototype()))
-	//	return E_FAIL;
-
 	if (FAILED(Ready_Environment_Layer(LAYERID::LAYER_ENVIRONMENT)))
 		return E_FAIL;
 
@@ -31,13 +28,12 @@ HRESULT CMainMenu::Ready_Scene()
 
 	UpdateHitRects();
 	m_focus = 0; // START
+
 	return S_OK;
 }
 
 _int CMainMenu::Update_Scene(const _float& fTimeDelta)
 {
-	m_inputLock = max(0.f, m_inputLock - fTimeDelta);
-
 	_int iExit = CScene::Update_Scene(fTimeDelta);
 
 	UpdateHitRects();
@@ -49,19 +45,15 @@ _int CMainMenu::Update_Scene(const _float& fTimeDelta)
 	else if (PtInRect(&m_rcExit, pt)) m_hover = 1;
 
 	// 키보드 포커스 업데이트
-	HandleKeyboard();
+	HandleKeyboard(fTimeDelta);
 
 	// 마우스가 버튼 위에 있으면 포커스를 동기화(자연스러운 UX)
 	if (m_hover != -1) m_focus = m_hover;
 
-	// 클릭 처리(마우스)
-	HandleClick();
+	// m_hover == 0 이면 메뉴 왼쪽에 해골 이미지 출력
 
-	m_iFrame += fTimeDelta;
-	if (m_iFrame >= 2)
-	{
-		m_iFrame = 1;
-	}
+	// 클릭 처리(마우스)
+	HandleClick(fTimeDelta);
 
 	return iExit;
 }
@@ -73,60 +65,54 @@ void CMainMenu::LateUpdate_Scene(const _float& fTimeDelta)
 
 void CMainMenu::Render_Scene(const _float& fTimeDelta)
 {
-	auto* fm = CFontManager::GetInstance();
-	if (!fm) return;
-
-	// ===== 0) 화면 중앙 좌표 =====
-	RECT rc; GetClientRect(g_hWnd, &rc);
-	const float cx = (rc.right - rc.left) * 0.5f;
-	const float yCenter = (rc.bottom - rc.top) * 0.5f;
-
-	// ===== 1) 기존 렌더상태 저장 & UI용 상태로 전환 =====
-	DWORD oldZ = TRUE, oldLight = TRUE, oldAlpha = FALSE;
-	m_pGraphicDev->GetRenderState(D3DRS_ZENABLE, &oldZ);
-	m_pGraphicDev->GetRenderState(D3DRS_LIGHTING, &oldLight);
+	// ---- 상태 백업 ----
+	DWORD oldAlpha, oldLight, oldZ;
 	m_pGraphicDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &oldAlpha);
+	m_pGraphicDev->GetRenderState(D3DRS_LIGHTING, &oldLight);
+	m_pGraphicDev->GetRenderState(D3DRS_ZENABLE, &oldZ);
 
-	m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, FALSE);          // UI는 깊이비교 끔
-	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);         // 조명 영향 제거
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);  // 투명도 적용
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+	m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, FALSE);
 
-	// ===== 2) 로고 스프라이트(타이틀 이미지) =====
-	if (m_pUISprite && m_pLogoTex) {
-		const float logoW = 320.f, logoH = 120.f;
-		const float logoX = cx - logoW * 0.5f;
-		const float logoY = (yCenter - 110.f) - logoH * 0.5f;     // 중앙 위로 살짝
-
-		D3DXMATRIX T; D3DXMatrixTranslation(&T, logoX, logoY, 0.f);
+	// ---- 화면 중앙 기준 배치(히트박스 계산과 동일한 좌표 사용) ----
+	if (m_pUISprite)
+	{
 		m_pUISprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
-		m_pUISprite->SetTransform(&T);
-		m_pUISprite->Draw(m_pLogoTex, nullptr, nullptr, nullptr, 0xFFFFFFFF);
+
+		// START ("NEW GAME")
+		if (m_pLogoTex) {
+			D3DXMATRIX T; D3DXMatrixTranslation(&T, m_posStart.x, m_posStart.y, 0.f);
+			m_pUISprite->SetTransform(&T);
+			m_pUISprite->Draw(m_pLogoTex, nullptr, nullptr, nullptr, 0xFFFFFFFF);
+		}
+
+		// EXIT ("QUIT GAME")
+		if (m_pExitTex) {
+			D3DXMATRIX T; D3DXMatrixTranslation(&T, m_posExit.x, m_posExit.y, 0.f);
+			m_pUISprite->SetTransform(&T);
+			m_pUISprite->Draw(m_pExitTex, nullptr, nullptr, nullptr, 0xFFFFFFFF);
+		}
+
+		// 해골 인디케이터(호버가 우선, 없으면 포커스)
+		const int idx = (m_hover != -1) ? m_hover : m_focus;
+		if (m_pHoverTex && (idx == 0 || idx == 1)) {
+			const D3DXVECTOR2 itemSize = (idx == 0) ? m_sizeStart : m_sizeExit;
+			const D3DXVECTOR2& itemPos = (idx == 0) ? m_posStart : m_posExit;
+			const float skullW = (m_sizeSkull.x > 0.f) ? m_sizeSkull.x : 32.f;
+			const float skullH = (m_sizeSkull.y > 0.f) ? m_sizeSkull.y : 32.f;
+			const float sx = itemPos.x - skullW - 12.f;
+			const float sy = itemPos.y + (itemSize.y - skullH) * 0.5f;
+
+			D3DXMATRIX T; D3DXMatrixTranslation(&T, sx, sy, 0.f);
+			m_pUISprite->SetTransform(&T);
+			m_pUISprite->Draw(m_pHoverTex, nullptr, nullptr, nullptr, 0xFFFFFFFF);
+		}
+
 		m_pUISprite->End();
 	}
 
-	// ===== 3) 버튼 텍스트(START / EXIT) =====
-	const float yStart = yCenter - 30.f;
-	const float yExit = yCenter + 30.f;
-
-	_vec2 posStart{ cx - 80.f, yStart - 16.f };
-	_vec2 posExit{ cx - 60.f, yExit - 16.f };
-
-	// 마우스/키보드 포커스 하이라이트
-	const bool hotStart = (m_hover == 0) || (m_hover == -1 && m_focus == 0);
-	const bool hotExit = (m_hover == 1) || (m_hover == -1 && m_focus == 1);
-	D3DXCOLOR colStart = hotStart ? D3DXCOLOR(1.f, 1.f, 0.f, 1.f) : D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	D3DXCOLOR colExit = hotExit ? D3DXCOLOR(1.f, 1.f, 0.f, 1.f) : D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-
-	//fm->Render_Font(L"ResultTitle", L"START", &posStart, colStart);
-	//fm->Render_Font(L"ResultTitle", L"EXIT", &posExit, colExit);
-
-	// 조작 힌트(옵션)
-	//_vec2 hintPos{ cx - 220.f, (float)rc.bottom - 60.f };
-	//fm->Render_Font(L"ResultTitle",
-	//	L"↑/↓ 또는 W/S : 이동   Enter : 선택   Esc : 종료",
-	//	&hintPos, D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.f));
-
-	// ===== 4) 렌더상태 복원 =====
+	// ---- 상태 복구 ----
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, oldAlpha);
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, oldLight);
 	m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, oldZ);
@@ -148,6 +134,8 @@ HRESULT CMainMenu::Ready_Environment_Layer(LAYERID _eLayerId)
 	pGameObject = CBackGround::Create(m_pGraphicDev);
 	if (nullptr == pGameObject)
 		return E_FAIL;
+
+	dynamic_cast<CBackGround*>(pGameObject)->Set_IsMainMenu(true);
 
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_BACKGROUND, pGameObject)))
 		return E_FAIL;
@@ -172,59 +160,57 @@ bool CMainMenu::IsLButtonDown() const
 void CMainMenu::UpdateHitRects()
 {
 	RECT rc; GetClientRect(g_hWnd, &rc);
-	const LONG cx = rc.right - rc.left;
-	const LONG cy = rc.bottom - rc.top;
+	const float cx = (rc.right - rc.left) * 0.5f;
+	const float cy = (rc.bottom - rc.top) * 0.5f;
 
-	const LONG w = 260;
-	const LONG h = 60;
-	const LONG x = cx / 2;
-	const LONG yStart = cy / 2 - 30;
-	const LONG yExit = cy / 2 + 30;
+	// DOOM 스타일: 약간 왼쪽으로 오프셋
+	const float maxW = max(m_sizeStart.x, m_sizeExit.x);
+	const float anchorX = cx - maxW * 0.25f;   // 화면 중앙 기준 왼쪽으로 살짝
+	const float yStart = cy - 110.f;
+	const float yExit = cy + 110.f;
 
-	m_rcStart = { x - w / 2, yStart - h / 2, x + w / 2, yStart + h / 2 };
-	m_rcExit = { x - w / 2, yExit - h / 2, x + w / 2, yExit + h / 2 };
+	m_posStart = D3DXVECTOR2(anchorX, yStart);
+	m_posExit = D3DXVECTOR2(anchorX, yExit);
+
+	m_rcStart = { (LONG)anchorX, (LONG)yStart, (LONG)(anchorX + m_sizeStart.x), (LONG)(yStart + m_sizeStart.y) };
+	m_rcExit = { (LONG)anchorX, (LONG)yExit , (LONG)(anchorX + m_sizeExit.x), (LONG)(yExit + m_sizeExit.y) };
 }
 
-void CMainMenu::HandleClick()
+void CMainMenu::HandleClick(_float fTimeDelta)
 {
-	if (m_inputLock > 0.f) return; // 입력 차단
+	// 호버 업데이트
+	const POINT pt = GetMouseClientPos();
+	m_hover = -1;
+	if (PtInRect(&m_rcStart, pt)) m_hover = 0;
+	else if (PtInRect(&m_rcExit, pt)) m_hover = 1;
 
-	const bool curDown = IsLButtonDown();
-	const bool pressed = (curDown && !m_prevLDown);
-	m_prevLDown = curDown;
-	if (!pressed) return;
-
-	POINT pt = GetMouseClientPos();
-	if (PtInRect(&m_rcStart, pt)) { m_focus = 0; PlaySfx_Select(); CManagement::GetInstance()->Change_Scene(SCENEID::STAGE1); }
-	else if (PtInRect(&m_rcExit, pt)) { m_focus = 1; PlaySfx_Select(); CManagement::GetInstance()->RequestQuit();
+	// 왼클릭 엣지 감지
+	const bool lDown = IsLButtonDown();
+	if (lDown && !m_prevLDown) {
+		if (m_hover == 0) { m_focus = 0; PlaySfx_Select(); ActivateFocused(); }
+		else if (m_hover == 1) { m_focus = 1; PlaySfx_Select(); ActivateFocused(); }
 	}
+	m_prevLDown = lDown;
 }
 
-void CMainMenu::HandleKeyboard()
+void CMainMenu::HandleKeyboard(_float fTimeDelta)
 {
-	if (m_inputLock > 0.f) return; // 입력 차단
+	// 간단한 디바운스
+	m_inputLock = max(0.f, m_inputLock - fTimeDelta);
+	auto pressOnce = [&](int vk)->bool {
+		if (GetAsyncKeyState(vk) & 0x8000) {
+			if (m_inputLock <= 0.f) { m_inputLock = 0.15f; return true; }
+		}
+		return false;
+		};
 
-	auto now = [](int vk) { return (GetAsyncKeyState(vk) & 0x8000) != 0; };
+	// ↑ / ↓ 로 포커스 이동
+	if (pressOnce(VK_UP)) { m_focus = (m_focus + 1 + 1) % 2; PlaySfx_Move(); }   // 0/1 전환
+	if (pressOnce(VK_DOWN)) { m_focus = (m_focus + 1) % 2;     PlaySfx_Move(); }
 
-	const bool upNow = now(VK_UP);
-	const bool downNow = now(VK_DOWN);
-	const bool wNow = now('W');
-	const bool sNow = now('S');
-	const bool enterNow = now(VK_RETURN);
-	const bool escNow = now('P');
-
-	const bool upEdge = upNow && !m_keyPrev.up;    m_keyPrev.up = upNow;
-	const bool downEdge = downNow && !m_keyPrev.down;  m_keyPrev.down = downNow;
-	const bool wEdge = wNow && !m_keyPrev.w;     m_keyPrev.w = wNow;
-	const bool sEdge = sNow && !m_keyPrev.s;     m_keyPrev.s = sNow;
-	const bool enterEdge = enterNow && !m_keyPrev.enter; m_keyPrev.enter = enterNow;
-	const bool escEdge = escNow && !m_keyPrev.esc;   m_keyPrev.esc = escNow;
-
-	const int count = 2;
-	if (upEdge || wEdge) { m_focus = (m_focus - 1 + count) % count; PlaySfx_Move(); }
-	if (downEdge || sEdge) { m_focus = (m_focus + 1) % count;         PlaySfx_Move(); }
-	if (enterEdge) { PlaySfx_Select(); ActivateFocused(); }
-	if (escEdge) { CManagement::GetInstance()->RequestQuit();
+	// Enter/Space 로 확정
+	if (pressOnce(VK_RETURN) || pressOnce(VK_SPACE)) {
+		ActivateFocused();
 	}
 }
 
@@ -233,7 +219,7 @@ void CMainMenu::ActivateFocused()
 	if (m_focus == 0)
 		CManagement::GetInstance()->Change_Scene(SCENEID::STAGE1);
 	else
-		PostQuitMessage(0);
+		CManagement::GetInstance()->RequestQuit();
 }
 
 void CMainMenu::PlaySfx_Move()
@@ -267,8 +253,24 @@ HRESULT CMainMenu::Ready_UI_Layer(LAYERID _eLayerId)
 	// 이미 Proto_LogoTexture가 등록돼 있지만, raw 텍스처 포인터 접근이 없다면
 	// 한 장만 쓰는 로고라 직접 로드가 가장 간단/안전
 	if (FAILED(D3DXCreateTextureFromFile(m_pGraphicDev,
-		L"../../Client/Resource/Texture/DoomTex/Title/M_DOOM.png", &m_pLogoTex)))
+		L"../Resource/Texture/DoomTex/M_NEWG.png", &m_pLogoTex)))
 		return E_FAIL;
+
+	if (FAILED(D3DXCreateTextureFromFile(m_pGraphicDev,
+		L"../Resource/Texture/DoomTex/M_QUITG.png", &m_pExitTex)))
+		return E_FAIL;
+
+	if (FAILED(D3DXCreateTextureFromFile(m_pGraphicDev,
+		L"../Resource/Texture/DoomTex/M_SKULL1.png", &m_pHoverTex)))
+		return E_FAIL;
+
+	// --- 텍스처 실제 크기 캐시 ---
+	if (m_pLogoTex) { D3DSURFACE_DESC d{}; if (SUCCEEDED(m_pLogoTex->GetLevelDesc(0, &d)))  m_sizeStart = D3DXVECTOR2((float)d.Width, (float)d.Height); }
+	if (m_pExitTex) { D3DSURFACE_DESC d{}; if (SUCCEEDED(m_pExitTex->GetLevelDesc(0, &d)))  m_sizeExit = D3DXVECTOR2((float)d.Width, (float)d.Height); }
+	if (m_pHoverTex) { D3DSURFACE_DESC d{}; if (SUCCEEDED(m_pHoverTex->GetLevelDesc(0, &d))) m_sizeSkull = D3DXVECTOR2((float)d.Width, (float)d.Height); }
+
+	// --- 히트박스/배치 계산 ---
+	UpdateHitRects();
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
@@ -277,17 +279,6 @@ HRESULT CMainMenu::Ready_UI_Layer(LAYERID _eLayerId)
 
 HRESULT CMainMenu::Ready_Prototype()
 {
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_RectTex", Engine::CRectTex::Create(m_pGraphicDev))))
-		return E_FAIL;
-
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_LogoTexture", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Title/M_DOOM.png", TEX_NORMAL))))
-		return E_FAIL;
-
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_BackGroundTexture", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/TITLEPIC.png", TEX_NORMAL))))
-		return E_FAIL;
-
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Highlight_Skull", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/M_SKULL%d.png", TEX_NORMAL, 2))))
-		return E_FAIL;
 
 	return S_OK;
 }
@@ -314,6 +305,8 @@ CMainMenu* CMainMenu::Create()
 void CMainMenu::Free()
 {
 	Safe_Release(m_pLoading);
+	if (m_pHoverTex) { m_pHoverTex->Release(); m_pHoverTex = nullptr; }
+	if (m_pExitTex) { m_pExitTex->Release(); m_pExitTex = nullptr; }
 	if (m_pLogoTex) { m_pLogoTex->Release();  m_pLogoTex = nullptr; }
 	if (m_pUISprite) { m_pUISprite->Release(); m_pUISprite = nullptr; }
 	Engine::CScene::Free();
