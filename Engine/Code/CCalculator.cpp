@@ -303,10 +303,10 @@ _bool CCalculator::Picking_GameObject(HWND hWnd)
 		{
 			if (i != (_uint)OBJID::OBJ_ENEMY
 				&& i != (_uint)OBJID::OBJ_OBJECT
-				&& i != (_uint)OBJID::OBJ_WALL
+				//&& i != (_uint)OBJID::OBJ_WALL
 				&& i != (_uint)OBJID::OBJ_BUTTON)
 				continue;
-
+			
 			for (auto object : objectArrayList[i])
 			{
 				objectColliderBox = object->GetCollider()->Get_WorldCollisionBox();
@@ -322,7 +322,7 @@ _bool CCalculator::Picking_GameObject(HWND hWnd)
 				dwVtxIdx[0] = 0;
 				dwVtxIdx[1] = 1;
 				dwVtxIdx[2] = 3;
-
+				
 				//V1 + U(V2 - V1) + V(V3 - V1)
 				if (D3DXIntersectTri(&objectColliderBox[dwVtxIdx[1]],
 					&objectColliderBox[dwVtxIdx[0]],

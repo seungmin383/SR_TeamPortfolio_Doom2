@@ -1,5 +1,6 @@
 #include "CBullet.h"
-#include"CManagement.h"
+#include "CManagement.h"
+#include "CCollisionManager.h"
 
 CBullet::CBullet(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CGameObject(pGraphicDev)
@@ -32,6 +33,20 @@ _int CBullet::Update_GameObject(const _float& fTimeDelta)
 	}
 
 	CGameObject::Update_GameObject(fTimeDelta);
+
+	// Apply Raycast on bullet
+	_vec3	vPos, vHitpos;
+	CGameObject* pTargetObj = nullptr;
+	m_pTransformCom->Get_Pos(&vPos);
+	pTargetObj = CCollisionManager::Raycast(vPos, m_vInitDir, vHitpos, m_fSpeed * fTimeDelta);
+	if (pTargetObj != nullptr && !pTargetObj->Get_Dead())
+	{
+		_vec3 vTargetPos;
+		pTargetObj->Take_Dmg(m_iDmg);
+		m_pTransformCom->Set_Pos(vHitpos.x, vHitpos.y, vHitpos.z);
+		return 0;
+	}
+
 	return 0;
 }
 
