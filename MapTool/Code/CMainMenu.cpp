@@ -253,15 +253,15 @@ HRESULT CMainMenu::Ready_UI_Layer(LAYERID _eLayerId)
 	// 이미 Proto_LogoTexture가 등록돼 있지만, raw 텍스처 포인터 접근이 없다면
 	// 한 장만 쓰는 로고라 직접 로드가 가장 간단/안전
 	if (FAILED(D3DXCreateTextureFromFile(m_pGraphicDev,
-		L"../Resource/Texture/DoomTex/M_NEWG.png", &m_pLogoTex)))
+		L"../../Client/Resource/Texture/DoomTex/M_NEWG.png", &m_pLogoTex)))
 		return E_FAIL;
 
 	if (FAILED(D3DXCreateTextureFromFile(m_pGraphicDev,
-		L"../Resource/Texture/DoomTex/M_QUITG.png", &m_pExitTex)))
+		L"../../Client/Resource/Texture/DoomTex/M_QUITG.png", &m_pExitTex)))
 		return E_FAIL;
 
 	if (FAILED(D3DXCreateTextureFromFile(m_pGraphicDev,
-		L"../Resource/Texture/DoomTex/M_SKULL1.png", &m_pHoverTex)))
+		L"../../Client/Resource/Texture/DoomTex/M_SKULL1.png", &m_pHoverTex)))
 		return E_FAIL;
 
 	// --- 텍스처 실제 크기 캐시 ---
