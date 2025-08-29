@@ -22,7 +22,7 @@ private:
     HRESULT     Add_Component();
 
 private:
-    Engine::CRectTex*        m_pBufferCom;
+    Engine::CRectTex*       m_pBufferCom;
     Engine::CTexture*       m_pTextureCom;
     Engine::CTexture*       m_pMainTextureCom;
 

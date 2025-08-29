@@ -20,6 +20,7 @@
 #include "CCollider.h"
 #include "CAnimation.h"
 #include "CAnimator.h"
+#include "CCameraCom.h"
 
 BEGIN(Engine)
 

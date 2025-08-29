@@ -248,29 +248,13 @@ HRESULT CMainMenu::Ready_UI_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	if (FAILED(D3DXCreateSprite(m_pGraphicDev, &m_pUISprite))) return E_FAIL;
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON);
 
-	// 이미 Proto_LogoTexture가 등록돼 있지만, raw 텍스처 포인터 접근이 없다면
-	// 한 장만 쓰는 로고라 직접 로드가 가장 간단/안전
-	if (FAILED(D3DXCreateTextureFromFile(m_pGraphicDev,
-		L"../Resource/Texture/DoomTex/M_NEWG.png", &m_pLogoTex)))
+	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	if (FAILED(D3DXCreateTextureFromFile(m_pGraphicDev,
-		L"../Resource/Texture/DoomTex/M_QUITG.png", &m_pExitTex)))
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
 		return E_FAIL;
-
-	if (FAILED(D3DXCreateTextureFromFile(m_pGraphicDev,
-		L"../Resource/Texture/DoomTex/M_SKULL1.png", &m_pHoverTex)))
-		return E_FAIL;
-
-	// --- 텍스처 실제 크기 캐시 ---
-	if (m_pLogoTex) { D3DSURFACE_DESC d{}; if (SUCCEEDED(m_pLogoTex->GetLevelDesc(0, &d)))  m_sizeStart = D3DXVECTOR2((float)d.Width, (float)d.Height); }
-	if (m_pExitTex) { D3DSURFACE_DESC d{}; if (SUCCEEDED(m_pExitTex->GetLevelDesc(0, &d)))  m_sizeExit = D3DXVECTOR2((float)d.Width, (float)d.Height); }
-	if (m_pHoverTex) { D3DSURFACE_DESC d{}; if (SUCCEEDED(m_pHoverTex->GetLevelDesc(0, &d))) m_sizeSkull = D3DXVECTOR2((float)d.Width, (float)d.Height); }
-
-	// --- 히트박스/배치 계산 ---
-	UpdateHitRects();
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
 

@@ -190,6 +190,9 @@
     <Filter Include="01. Scene\05. StageTest">
       <UniqueIdentifier>{3c6b1b3a-c332-4a38-af40-bf6518714130}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\09. UI\MainMenu">
+      <UniqueIdentifier>{6cbaf988-403a-4c38-b182-33f42203776b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -407,9 +410,21 @@
     </ClInclude>
     <ClInclude Include="..\Header\CSuits.h">
       <Filter>02. GameObject\06. Object\FieldObject</Filter>
-</ClInclude>
+    </ClInclude>
     <ClInclude Include="CStageTest.h">
       <Filter>01. Scene\05. StageTest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CMainMenuLogo.h">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CMainMenuExit.h">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CMainMenuHover.h">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CUIObject.h">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -622,9 +637,21 @@
     </ClCompile>
     <ClCompile Include="..\Code\CSuits.cpp">
       <Filter>02. GameObject\06. Object\FieldObject</Filter>
-  </ClCompile>
+    </ClCompile>
     <ClCompile Include="CStageTest.cpp">
       <Filter>01. Scene\05. StageTest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CMainMenuLogo.cpp">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CMainMenuExit.cpp">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CMainMenuHover.cpp">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CUIObject.cpp">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
