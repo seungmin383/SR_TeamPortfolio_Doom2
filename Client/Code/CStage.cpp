@@ -588,7 +588,8 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	auto* elev = dynamic_cast<CVerticalMovingObject*>(pGameObject);
 	if (elev) {
-		elev->SetVisualScale(2.f, 4.0f, 2.f);   // 얇고 길게
+		elev->SetMeshUnitAndPivot(2.f, false);		// 한 변 2, 피벗 = 중앙(바닥이면 true)
+		elev->SetVisualScale(2.f, 0.1f, 2.f);   // 얇고 길게
 		elev->SetMovement(/*minY*/0.5f, /*maxY*/5.0f, /*speed*/2.0f, /*wait*/0.5f);
 	}
 

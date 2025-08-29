@@ -66,6 +66,22 @@ private:
 	void    CarryRiderByDeltaY(float deltaY);
 	bool    IsPlayerObject(CGameObject* obj) const;
 
+public:
+	// CCubeTex 단위와 피벗 지정
+	void SetMeshUnitAndPivot(float unit, bool pivotIsBottom)
+	{
+		m_meshUnit = unit;
+		m_pivotIsBottom = pivotIsBottom;
+
+		// 현재 스케일로 즉시 재동기화
+		if (m_pTransformCom) {
+			const _vec3* s = m_pTransformCom->Get_Scale();
+			if (s) SyncColliderToVisual(s->x, s->y, s->z);
+		}
+	}
+
+	void SetRiderEyeGap(float gap) { m_riderEyeGap = max(0.f, gap); }
+
 private:
 	Engine::CCubeTex* m_pBufferCom;					// 평면, 플랫폼 그리기
 	Engine::CTexture* m_pTextureCom;						// 스위치 초기상태
@@ -78,6 +94,11 @@ private:
 	float  m_waitAtEnds = 0.f;   // 끝점에서 정지 시간(초)
 	float  m_waitTimer = 0.f;
 	bool   m_dirUp = true;
+
+	float m_riderEyeGap = 0.18f; // 발판 위에서 카메라를 바닥에서 이만큼 띄움(미세 조절용)
+
+	float m_meshUnit = 2.f;				// CCubeTex가 한 변 2이면 2.f
+	bool  m_pivotIsBottom = false;		// 메시 피벗이 바닥이면 true
 
 	// 라이더(플랫폼 위의 플레이어)
 	CGameObject* m_pRider = nullptr;
@@ -131,8 +152,7 @@ private:
 
 		char buf[256];
 		sprintf_s(buf,
-			"[Pillar %p] %s layer=%s(%d) mask=0x%X active=%d\n",
-			this,
+			"[Pillar] %s layer=%s(%d) mask=0x%X active=%d\n",
 			tag ? tag : "",
 			ColLayerToStr(layer), layer,
 			mask,
@@ -145,33 +165,23 @@ private:
 	{
 		if (!m_pColliderCom || !m_pTransformCom) return;
 
-		// ── ① 피벗/베이스 크기 보정 ─────────────────────────────
-		// CCubeTex가 보통 -0.5~+0.5 범위(=한 변 1)라면 아래 값 1.0f 유지.
-		// 만약 -1~+1(=한 변 2)라면 kMeshUnit=2.0f 로 바꿔주세요.
-		const float kMeshUnit = 1.0f;   // 필요시 2.0f
+		// 메시 단위 보정: CCubeTex 기본이 한 변 2라면 m_meshUnit=2.0f
+		_vec3 colScale = _vec3(sx * m_meshUnit, sy * m_meshUnit, sz * m_meshUnit);
 
-		// 피벗이 '중앙'이면 (0,0,0). 피벗이 '바닥'이면 +절반높이로 올려서 맞춤.
-		// (디버그 라인이 아래로 반 칸 빠져보이면 아래 false→true 로 바꾸세요)
-		const bool  kPivotIsBottom = false;
-		_vec3 offset = kPivotIsBottom ? _vec3(0.f, +sy * 0.5f, 0.f) : _vec3(0, 0, 0);
+		// 피벗이 바닥이면 콜라이더를 위로 halfHeight만큼 올려 맞춤
+		_vec3 offset = m_pivotIsBottom ? _vec3(0.f, colScale.y * 0.5f, 0.f) : _vec3(0, 0, 0);
 
-		// ── ② 최종 콜라이더 스케일(=월드에서 실제 크기) ─────────
-		_vec3 colScale = _vec3(sx * kMeshUnit, sy * kMeshUnit, sz * kMeshUnit);
-
-		// ── ③ 현재 위치로 재초기화 & 값 못 박기 ────────────────
 		_vec3 pos; m_pTransformCom->Get_Pos(&pos);
 
-		// Ready_CCollider가 내부 상태를 세팅하므로, 스케일/오프셋을 여기서 정의
-		m_pColliderCom->Ready_CCollider(this, pos, colScale, offset,
-			COL_OBJECT, (COL_PLAYER | COL_ENEMY));
+		// 내부 상태 세팅(라인 생성 포함) + 확정 값 못박기
+		m_pColliderCom->Ready_CCollider(this, pos, colScale, offset, COL_OBJECT, (COL_PLAYER | COL_ENEMY));
 		m_pColliderCom->Set_ColLayer(COL_OBJECT);
 		m_pColliderCom->Set_ColMask(COL_PLAYER | COL_ENEMY);
 		m_pColliderCom->Set_Active(true);
 		m_pColliderCom->Set_Scale(colScale);
-		// (Set_OffsetPos/Set_Offset 함수가 있으면 offset도 같이 세팅)
+		// Set_Offset/Set_OffsetPos 가 있으면 offset도 함께 반영
 
-		// ── ④ 상단면 계산도 '콜라이더 기준'으로 통일 ────────────
-		// 헷갈리지 않게 항상 콜라이더 높이로 halfHeight 갱신
+		// 탑면 계산 일관성 유지
 		m_halfHeight = colScale.y * 0.5f;
 	}
 

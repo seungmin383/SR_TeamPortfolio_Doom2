@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CVerticalMovingObject.h"
 #include "CRenderer.h"
 #include "CManagement.h"
@@ -30,21 +30,21 @@ HRESULT CVerticalMovingObject::Ready_GameObject()
 
 	if (FAILED(Add_Component())) return E_FAIL;
 
-	// ±âµÕÃ³·³ º¸ÀÌ°Ô: ¾ãÀº ´Ü¸é(2 x 2), ³ôÀÌ 4.0
-	SetVisualScale(2.f, 4.0f, 2.f);
+	// ê¸°ë‘¥ì²˜ëŸ¼ ë³´ì´ê²Œ: ì–‡ì€ ë‹¨ë©´(2 x 2), ë†’ì´ 4.0
+	SetVisualScale(2.f, 0.1f, 2.f);
 
-	// ±âº» ÀÌµ¿ ¹üÀ§(ÇöÀç y ±âÁØÀ¸·Î ¡¾2)
+	// ê¸°ë³¸ ì´ë™ ë²”ìœ„(í˜„ì¬ y ê¸°ì¤€ìœ¼ë¡œ Â±2)
 	_vec3 p; m_pTransformCom->Get_Pos(&p);
 
-	// Å¾¸é Y = Áß½ÉY + m_halfHeight ÀÌ°í, m_halfHeight´Â ½ºÄÉÀÏÀÇ Àı¹İ ³ôÀÌ¸¦ ¹İ¿µ
+	// íƒ‘ë©´ Y = ì¤‘ì‹¬Y + m_halfHeight ì´ê³ , m_halfHeightëŠ” ìŠ¤ì¼€ì¼ì˜ ì ˆë°˜ ë†’ì´ë¥¼ ë°˜ì˜
 
-	// Áß½É Y
-	float groundY = 0.f; // ÀÓ½Ã
+	// ì¤‘ì‹¬ Y
+	float groundY = 0.f; // ì„ì‹œ
 
-	// "Å¾¸éÀÌ groundY±îÁö ³»·Á¿À´Â" Áß½É ÃÖ¼Ò°ª
+	// "íƒ‘ë©´ì´ groundYê¹Œì§€ ë‚´ë ¤ì˜¤ëŠ”" ì¤‘ì‹¬ ìµœì†Œê°’
 	m_minY = groundY - m_halfHeight;
 
-	// À§ÂÊ ³¡Á¡Àº ÇÊ¿ä¿¡ ¸Â°Ô ¼³Á¤ (¿¹: +10¸¸Å­ À§)
+	// ìœ„ìª½ ëì ì€ í•„ìš”ì— ë§ê²Œ ì„¤ì • (ì˜ˆ: +10ë§Œí¼ ìœ„)
 	m_maxY = m_minY + 10.f;
 
 	m_speed = 2.f;
@@ -52,7 +52,7 @@ HRESULT CVerticalMovingObject::Ready_GameObject()
 	m_waitTimer = 0.f;
 	m_dirUp = true;
 
-	// ½ÃÀÛ y¸¦ ¹üÀ§·Î ½º³ÀÇÏ°í ±â·Ï
+	// ì‹œì‘ yë¥¼ ë²”ìœ„ë¡œ ìŠ¤ëƒ…í•˜ê³  ê¸°ë¡
 	p.y = std::clamp(p.y, m_minY, m_maxY);
 	m_pTransformCom->Set_Pos(p.x, p.y, p.z);
 
@@ -60,22 +60,9 @@ HRESULT CVerticalMovingObject::Ready_GameObject()
 
 	m_lastY = p.y;
 
-	// À§Ä¡/½ºÄÉÀÏ/¿ÀÇÁ¼Â
-	_vec3 pos; m_pTransformCom->Get_Pos(&pos);
-	const _vec3* pScale = m_pTransformCom->Get_Scale();
-	_vec3 scl = pScale ? *pScale : _vec3(1.f, 1.f, 1.f); // ¾ÈÀüÇÏ°Ô º¹»ç
-	_vec3 offset = _vec3(0.f, 0.f, 0.f);
-
-	if (m_pColliderCom) {
-		if (FAILED(m_pColliderCom->Ready_CCollider(this, pos, scl, offset, COL_OBJECT, COL_PLAYER | COL_ENEMY))) {
-			OutputDebugStringA("[Pillar] Ready_CCollider failed\n");   // ½ÇÆĞ½Ã¿¡¸¸ Ãâ·Â
-		}
-	}
-
 	m_pColliderCom->Set_ColLayer(COL_OBJECT);
 	m_pColliderCom->Set_ColMask(COL_PLAYER | COL_ENEMY);
 	m_pColliderCom->Set_Active(true);
-	m_pColliderCom->Set_Scale(scl); // ½ºÄÉÀÏµµ ÀçÈ®ÀÎ
 
 #ifdef _DEBUG
 	DebugPrint_ColLayer("Ready");
@@ -99,17 +86,17 @@ _int CVerticalMovingObject::Update_GameObject(const _float& fTimeDelta)
 
 	_vec3 pos; m_pTransformCom->Get_Pos(&pos);
 
-	// 1) ³¡Á¡ ´ë±â
+	// 1) ëì  ëŒ€ê¸°
 	if (m_waitTimer > 0.f) {
 		m_waitTimer -= fTimeDelta;
 		if (m_waitTimer < 0.f) m_waitTimer = 0.f;
 	}
 	else {
-		// TODO: ÁöÇü ³ôÀÌ¸¦ »ùÇÃ¸µÇØ¼­ groundY¿¡ ³ÖÀ¸¼¼¿ä.
+		// TODO: ì§€í˜• ë†’ì´ë¥¼ ìƒ˜í”Œë§í•´ì„œ groundYì— ë„£ìœ¼ì„¸ìš”.
 		const float groundY = 0.f;
 
 		if (m_dirUp) {
-			// »ó½Â: Áß½É Y ±âÁØ
+			// ìƒìŠ¹: ì¤‘ì‹¬ Y ê¸°ì¤€
 			pos.y += m_speed * fTimeDelta;
 			if (pos.y >= m_maxY) {
 				pos.y = m_maxY;
@@ -119,27 +106,27 @@ _int CVerticalMovingObject::Update_GameObject(const _float& fTimeDelta)
 			m_pTransformCom->Set_Pos(pos.x, pos.y, pos.z);
 		}
 		else {
-			// ÇÏ°­: Å¾¸éÀÌ ¶¥¿¡ ´ê¾Ò´Â°¡·Î ÆÇÁ¤
+			// í•˜ê°•: íƒ‘ë©´ì´ ë•…ì— ë‹¿ì•˜ëŠ”ê°€ë¡œ íŒì •
 			pos.y -= m_speed * fTimeDelta;
 			m_pTransformCom->Set_Pos(pos.x, pos.y, pos.z);
-			const float groundY = 0.f;   // ÇÊ¿äÇÏ¸é ÁöÇü »ùÇÃ °ªÀ¸·Î ´ëÃ¼
-			const float EPS = 0.01f; // z-fighting ¹æÁö¿ë »ìÂ¦ ¶ç¿ì±â
+			const float groundY = 0.f;   // í•„ìš”í•˜ë©´ ì§€í˜• ìƒ˜í”Œ ê°’ìœ¼ë¡œ ëŒ€ì²´
+			const float EPS = 0.01f; // z-fighting ë°©ì§€ìš© ì‚´ì§ ë„ìš°ê¸°
 
-			// Å¾¸é Y = Áß½ÉY + m_halfHeight (µÒ½Ä ±âµÕ: È¸Àü ¾øÀ½ °¡Á¤)
+			// íƒ‘ë©´ Y = ì¤‘ì‹¬Y + m_halfHeight (ë‘ ì‹ ê¸°ë‘¥: íšŒì „ ì—†ìŒ ê°€ì •)
 			if (pos.y + m_halfHeight <= groundY + EPS)
 			{
-				// Å¾¸éÀ» groundY+EPS·Î 'Á¤È®È÷' ½º³À
+				// íƒ‘ë©´ì„ groundY+EPSë¡œ 'ì •í™•íˆ' ìŠ¤ëƒ…
 				pos.y = (groundY + EPS) - m_halfHeight;
 				m_pTransformCom->Set_Pos(pos.x, pos.y, pos.z);
 				m_lastY = pos.y;
 
-				m_dirUp = true;            // ¹İÀü
-				m_waitTimer = m_waitAtEnds;   // ³¡Á¡ ´ë±â
+				m_dirUp = true;            // ë°˜ì „
+				m_waitTimer = m_waitAtEnds;   // ëì  ëŒ€ê¸°
 			}
 		}
 	}
 
-	// 2) ¶óÀÌ´õ(ÇÃ·¹ÀÌ¾î) µ¿½Â
+	// 2) ë¼ì´ë”(í”Œë ˆì´ì–´) ë™ìŠ¹
 	_vec3 cur; m_pTransformCom->Get_Pos(&cur);
 	float deltaY = cur.y - m_lastY;
 	m_lastY = cur.y;
@@ -147,7 +134,7 @@ _int CVerticalMovingObject::Update_GameObject(const _float& fTimeDelta)
 		CarryRiderByDeltaY(deltaY);
 	}
 
-	// 3) ·»´õ Å¥
+	// 3) ë Œë” í
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_NONALPHA, this);
 	return 0;
 }
@@ -181,9 +168,9 @@ void CVerticalMovingObject::Render_GameObject(const _float& fTimeDelta)
 		m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 
-		m_pColliderCom->Render(true);   // ¡Ú Ç×»ó À§¿¡ º¸ÀÓ
+		m_pColliderCom->Render(true);   // â˜… í•­ìƒ ìœ„ì— ë³´ì„
 
-		// ¿øº¹
+		// ì›ë³µ
 		m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, oldZEnable);
 		m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, oldZWrite);
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, oldAlpha);
@@ -192,59 +179,67 @@ void CVerticalMovingObject::Render_GameObject(const _float& fTimeDelta)
 
 void CVerticalMovingObject::OnCollision(CCollider* _pOther)
 {
-	// ¡Ú ¸¶½ºÅ© ¸ÅÄª: ³» ¸¶½ºÅ©¿Í »ó´ë ·¹ÀÌ¾î°¡ °ãÄ¡Áö ¾ÊÀ¸¸é ¹«½Ã
 	if (!_pOther || !m_pColliderCom) return;
+	if ((_pOther->Get_ColLayer() & m_pColliderCom->Get_ColMask()) == 0) return;
 
-	// ³» ¸¶½ºÅ©¿Í »ó´ë ·¹ÀÌ¾î°¡ °ãÄ¡Áö ¾ÊÀ¸¸é ¹«½Ã
-	if ((_pOther->Get_ColLayer() & m_pColliderCom->Get_ColMask()) == 0)
+	m_pRider = _pOther->Get_Owner();
+
+	float topY = GetTopFaceWorldY();
+	const float EPS = 0.02f;
+	const float rideY = topY + EPS + m_riderEyeGap;		// ì—¬ìœ  ë†’ì´
+
+	// CDynamicCamera ìš°ì„  ì²˜ë¦¬(ì¹´ë©”ë¼ í”Œë ˆì´ì–´: 'ì ˆëŒ€ ìŠ¤ëƒ…' ê¸ˆì§€ â†’ ìµœì†Œë†’ì´ ë³´ì¥ë§Œ)
+	if (auto* cam = dynamic_cast<CDynamicCamera*>(m_pRider)) {
+		cam->External_SetGround(rideY);            // â˜… ë°œíŒ ìƒë‹¨ì„ ì™¸ë¶€ ì§€ë©´ìœ¼ë¡œ ë“±ë¡
+		// (ì„ íƒ) ìˆ˜ì§ì†ë„ë¥¼ ìœ ì§€í•˜ê³  ì‹¶ìœ¼ë©´ ì•„ë¬´ ê²ƒë„ ì•ˆ í•¨
+		// (ì•„ë˜ í•œ ì¤„ì„ ì¶”ê°€í•˜ë©´ ì¦‰ì‹œ ê´€í†µ ë°©ì§€ ìµœì†Œ ë†’ì´ë„ ë³´ì¥)
+		cam->External_ApplyPlatformDelta(0.f, rideY);
 		return;
+	}
 
-	CGameObject* obj = _pOther->Get_Owner();
-	if (!obj) return;
-
-	m_pRider = obj;
-
-	// »ó¸éÀ¸·Î ½º³À
-	_vec3 p; m_pTransformCom->Get_Pos(&p);
-	float topY = p.y + m_halfHeight;
-	auto* tr = dynamic_cast<Engine::CTransform*>(obj->Get_Component(ID_DYNAMIC, L"Com_Transform"));
-	if (tr) {
+	// (í´ë°±) Transform ë³´ìœ  ê°ì²´
+	if (auto* tr = dynamic_cast<Engine::CTransform*>(
+		m_pRider->Get_Component(ID_DYNAMIC, L"Com_Transform"))) {
 		_vec3 rp; tr->Get_Pos(&rp);
-		const float EPS = 0.02f;
-		if (rp.y < topY + EPS) tr->Set_Pos(rp.x, topY + EPS, rp.z);
+		if (rp.y < topY + EPS) tr->Set_Pos(rp.x, rideY, rp.z);
 	}
 }
 
 void CVerticalMovingObject::OnCollisionEnter(CCollider* _pOther)
 {
 	if (!_pOther || !m_pColliderCom) return;
-	if ((_pOther->Get_ColLayer() & m_pColliderCom->Get_ColMask()) == 0) return; // ¡Ú
+	if ((_pOther->Get_ColLayer() & m_pColliderCom->Get_ColMask()) == 0) return;
+
 	m_pRider = _pOther->Get_Owner();
 
+	if (auto* cam = dynamic_cast<CDynamicCamera*>(m_pRider)) {
+		const float EPS = 0.02f;
+		cam->External_SetGround(GetTopFaceWorldY() + EPS + m_riderEyeGap);
+	}
 }
 
 void CVerticalMovingObject::OnCollisionExit(CCollider* _pOther)
 {
 	if (!_pOther || !m_pColliderCom) return;
 
-	int myL = (int)m_pColliderCom->Get_ColLayer();
-	int myM = (int)m_pColliderCom->Get_ColMask();
-	int otL = (int)_pOther->Get_ColLayer();
-
+#ifdef _DEBUG
 	char b[160];
-	sprintf_s(b, "[Pillar Enter] meL=%d mask=0x%X  otherL=%d  hit=%d\n",
-		myL, myM, otL, (otL & myM) ? 1 : 0);
+	sprintf_s(b, "[Pillar Exit] otherL=%d\n", (int)_pOther->Get_ColLayer());
 	OutputDebugStringA(b);
+#endif
 
-	if ((otL & myM) == 0) return;
-	m_pRider = _pOther->Get_Owner();
+	if (_pOther->Get_Owner() == m_pRider) {
+		if (auto* cam = dynamic_cast<CDynamicCamera*>(m_pRider))
+			cam->External_ClearGround();               // â˜… í•´ì œ
+		m_pRider = nullptr; // Exitì—ì„œëŠ” í•´ì œ
+	}
 }
 
 HRESULT CVerticalMovingObject::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	// 1) Buffer: ÇÃ·§Æû ½Ã°¢È­(Æò¸é). ÇÊ¿ä¿¡ µû¶ó CCubeTex·Î ¹Ù²ãµµ µÊ.
+	// 1) Buffer: í”Œë«í¼ ì‹œê°í™”(í‰ë©´). í•„ìš”ì— ë”°ë¼ CCubeTexë¡œ ë°”ê¿”ë„ ë¨.
 	pComponent = m_pBufferCom = dynamic_cast<Engine::CCubeTex*>(
 		CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_CubeTex"));
 	if (!pComponent) return E_FAIL;
@@ -256,8 +251,8 @@ HRESULT CVerticalMovingObject::Add_Component()
 	if (!pComponent) return E_FAIL;
 	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
 
-	// 3) Texture (¼±ÅÃ): ÇÁ·ÎÁ§Æ®¿¡ ¸Â´Â ÅØ½ºÃ³ ÇÁ·ÎÅäÅ¸ÀÔÀÌ ÀÖÀ¸¸é »ç¿ë
-	// ¾øÀ¸¸é nullptr·Î µÎ°í ¹öÆÛ¸¸ ±×·Áµµ µÊ.
+	// 3) Texture (ì„ íƒ): í”„ë¡œì íŠ¸ì— ë§ëŠ” í…ìŠ¤ì²˜ í”„ë¡œí† íƒ€ì…ì´ ìˆìœ¼ë©´ ì‚¬ìš©
+	// ì—†ìœ¼ë©´ nullptrë¡œ ë‘ê³  ë²„í¼ë§Œ ê·¸ë ¤ë„ ë¨.
 	if (auto* tex = dynamic_cast<Engine::CTexture*>(
 		CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_Elevator_Floor")))
 	{
@@ -282,26 +277,27 @@ HRESULT CVerticalMovingObject::Add_Component()
 
 void CVerticalMovingObject::CarryRiderByDeltaY(float deltaY)
 {
-	// ÇÃ·¹ÀÌ¾î Y¸¦ ÇÃ·§Æû ÀÌµ¿¸¸Å­ º¸Á¤ + ÇÃ·§Æû »ó¸é¿¡ ½º³À
 	if (!m_pRider) return;
 
-	// ¨ç À§Ä¡ º¸Á¤
-	auto* tr = dynamic_cast<Engine::CTransform*>(
-		m_pRider->Get_Component(ID_DYNAMIC, L"Com_Transform"));
-	if (!tr) return;
-
-	_vec3 rp; tr->Get_Pos(&rp);
-	rp.y += deltaY;
-
-	// ¨è »ó¸é ½º³À(»ìÂ¦ ¶ç¿ö¼­ ³¢ÀÓ ¹æÁö)
-	_vec3 p; m_pTransformCom->Get_Pos(&p);
-	float topY = p.y + m_halfHeight;
 	const float EPS = 0.02f;
-	if (rp.y < topY + EPS) rp.y = topY + EPS;
-	tr->Set_Pos(rp.x, rp.y, rp.z);
+	const float topY = GetTopFaceWorldY();
+	const float minY = topY + EPS + m_riderEyeGap;		// ìµœì†Œ ë†’ì´
 
-	// ¨é "Áö¸é À§"·Î °£ÁÖ½ÃÅ°±â
-	// ÇÃ·¹ÀÌ¾î°¡ Set_OnTerrain(float groundY) ¿À¹ö·Îµå¸¦ Áö¿øÇÏ¸é ±×°É È£Ãâ:
+	// ì¹´ë©”ë¼ í”Œë ˆì´ì–´ ìš°ì„  ì²˜ë¦¬
+	if (auto* cam = dynamic_cast<CDynamicCamera*>(m_pRider)) {
+		cam->External_SetGround(minY);                  // â˜… ê³„ì† ê°±ì‹ 
+		cam->External_ApplyPlatformDelta(deltaY, minY); // â˜… ì´ë™ëŸ‰ë§Œ ë”í•´ì£¼ê³ , ìµœì†Œ ë†’ì´ ë³´ì¥
+		return;
+	}
+
+	// (í´ë°±) Transform ë³´ìœ  ê°ì²´
+	if (auto* tr = dynamic_cast<Engine::CTransform*>(
+		m_pRider->Get_Component(ID_DYNAMIC, L"Com_Transform"))) {
+		_vec3 rp; tr->Get_Pos(&rp);
+		rp.y += deltaY;
+		if (rp.y < minY) rp.y = minY;
+		tr->Set_Pos(rp.x, rp.y, rp.z);
+	}
 
 }
 

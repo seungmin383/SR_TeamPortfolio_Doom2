@@ -497,28 +497,34 @@ void CDynamicCamera::Set_OnTerrain()
 
 	if (fHighest == -999.f)
 		fHighest = 0.f;
+	
+	// 상하 움직임 발판 때문에 추가(08/30 김홍인)
+	_float supportGroundY = fHighest;
+	if (m_hasExternalGround)
+		supportGroundY = max(supportGroundY, m_extGroundY);
+	// 이제부터 fHighest 대신 supportGroundY 사용
 
 	if (!m_bIsJumping)
 	{
-		if (m_vEye.y - fHighest >= 3.2f)
+		if (m_vEye.y - supportGroundY >= 3.2f)
 		{
 			m_bIsGrounded = false;
 		}
 		else
 		{
 			m_bIsGrounded = true;
-			_float deltaHeight = (fHighest + 3.f) - m_vEye.y;
+			_float deltaHeight = (supportGroundY + 3.f) - m_vEye.y;
 			m_vEye.y += deltaHeight;
 			m_vAt.y += deltaHeight;
 			m_iJumpCnt = 0;
 		}
 	}
 
-	if (m_bIsJumping && (m_vEye.y - 3.f) <= fHighest)
+	if (m_bIsJumping && (m_vEye.y - 3.f) <= supportGroundY)
 	{
 		m_bIsJumping = false;
 
-		_float deltaHeight = (fHighest + 3.f) - m_vEye.y;
+		_float deltaHeight = (supportGroundY + 3.f) - m_vEye.y;
 		m_vEye.y += deltaHeight;
 		m_vAt.y += deltaHeight;
 
@@ -529,7 +535,7 @@ void CDynamicCamera::Set_OnTerrain()
 
 	if (m_eState == DEAD)
 	{
-		_float deltaHeight = (fHighest + 0.5f) - m_vEye.y;
+		_float deltaHeight = (supportGroundY + 0.5f) - m_vEye.y;
 		m_vEye.y += deltaHeight;
 		m_vAt.y += deltaHeight;
 	}
