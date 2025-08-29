@@ -409,7 +409,7 @@ void CStage::ConnectDoorSwitchByLinkId()
 			sw->Clear_Targets();
 			sw->Set_Target(nullptr);
 
-			if (sw->Get_LinkMode() == CSwitch_Button::LinkMode::OneToMany)
+			if (sw->Get_LinkMode() == Engine::LINKMODE::ONE_TO_MANY)
 			{
 				// 1:N — 같은 ID의 모든 문
 				for (auto* d : candDoors)

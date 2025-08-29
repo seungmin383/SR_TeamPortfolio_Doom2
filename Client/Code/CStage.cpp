@@ -46,6 +46,7 @@
 
 #include "CStatsManager.h"
 #include "CUI_StageClear.h"
+#include "CVerticalMovingObject.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -574,6 +575,26 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
 		return E_FAIL;
+
+	// 수직 이동 오브젝트
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::VERTICAL_MOVING);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	// 2) 위치/크기/이동 파라미터 설정
+	auto* tr = dynamic_cast<Engine::CTransform*>(pGameObject->Get_Component(ID_DYNAMIC, L"Com_Transform"));
+	if (tr) tr->Set_Pos(10.f, 1.f, 12.f);   // 기둥 중심 좌표
+
+	auto* elev = dynamic_cast<CVerticalMovingObject*>(pGameObject);
+	if (elev) {
+		elev->SetVisualScale(2.f, 4.0f, 2.f);   // 얇고 길게
+		elev->SetMovement(/*minY*/0.5f, /*maxY*/5.0f, /*speed*/2.0f, /*wait*/0.5f);
+	}
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pGameObject)))
+		return E_FAIL;
+
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
