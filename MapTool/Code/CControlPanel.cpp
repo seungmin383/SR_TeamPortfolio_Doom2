@@ -819,8 +819,11 @@ void CControlPanel::LoadTerrain(int sceneNumber)
 	tControlInfo.clear();
 	tControlInfo.shrink_to_fit();
 
+	OBJID objid;
+
 	for (auto m : tm.model)
 	{
+		tCachingControlInfo.info = (TILEINFO)m.type;
 		tCachingControlInfo.terrainIdx = m.idx;
 		tCachingControlInfo.pos = m.pos;
 		tCachingControlInfo.currentTextureTag = m.strTextureTag;
@@ -831,6 +834,22 @@ void CControlPanel::LoadTerrain(int sceneNumber)
 		tCachingControlInfo.vertexIntervalY = m.vertexIntervalY;
 		tCachingControlInfo.vertices = m.vertices;
 
+		switch (m.type)
+		{
+		case 0:
+			objid = OBJID::OBJ_TERRAIN;
+			break;
+		case 1:
+			objid = OBJID::OBJ_WALL;
+			break;
+		case 2:
+			objid = OBJID::OBJ_CEIL;
+			break;
+		default:
+			objid = OBJID::OBJ_TERRAIN;
+			break;
+		}
+
 		//오브젝트 생성
 		auto pObj = CObjectFactory::GetInstance()->Load_Terrain(vecSector.size(),
 			tCachingControlInfo.vertexXCnt,
@@ -840,7 +859,8 @@ void CControlPanel::LoadTerrain(int sceneNumber)
 			tCachingControlInfo.vertexIntervalY,
 			tCachingControlInfo.vertices,
 			tCachingControlInfo.currentTextureTag,
-			tCachingControlInfo.pos);
+			tCachingControlInfo.pos,
+			objid);
 
 		vecSector.push_back(dynamic_cast<CTerrainSector*>(pObj));
 

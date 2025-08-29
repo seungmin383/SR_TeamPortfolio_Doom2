@@ -97,10 +97,10 @@ CTexture* CTexture::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _tchar* pPath, T
 
 void CTexture::Free()
 {
-	// 보유한 텍스처 전부 Release (참조 카운트 기반이라 중복 해제 안전)
-	/*for (auto*& tex : m_vecTexture) {
-		Safe_Release(tex);
-	}*/
+	//// 보유한 텍스처 전부 Release (참조 카운트 기반이라 중복 해제 안전)
+	//for (auto*& tex : m_vecTexture) {
+	//	Safe_Release(tex);
+	//}
 	
 	for (size_t i = 0; i < m_vecTexture.size(); i++)
 	{

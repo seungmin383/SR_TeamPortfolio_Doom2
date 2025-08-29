@@ -49,7 +49,7 @@ HRESULT CRocketBullet::Ready_GameObject()
 		CDynamicCamera* pPlayer = dynamic_cast<CDynamicCamera*>(CManagement::GetInstance()->Get_Player());
 		m_vInitDir = pPlayer->Get_At() - pPlayer->Get_Pos();
 		D3DXVec3Normalize(&m_vInitDir, &m_vInitDir);
-		m_fSpeed = 50.f;
+		m_fSpeed = 80.f;
 		m_bDead = false;
 		m_iDmg = 100;
 
@@ -64,6 +64,9 @@ _int CRocketBullet::Update_GameObject(const _float& fTimeDelta)
 {
 	if (m_bDead && m_pAnimCom->Get_isFinAct())
 		return -1;
+
+	if (CManagement::GetInstance()->Is_Paused())			// 여기서 일시 정지를 하면 멈추긴 하는데, Texture가 안보임
+		return 0;
 
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
@@ -140,7 +143,7 @@ void CRocketBullet::OnCollisionEnter(CCollider* _pOther)
 	// 충돌 후에는 텍스쳐와 콜라이더 스케일을 크게 만든다.
 	_vec3 vAfterScale = { 2.f, 2.f, 2.f };
 	m_pTransformCom->Set_Scale(vAfterScale);
-	_vec3 vAfterScale1 = { 6.f, 6.f, 6.f };
+	_vec3 vAfterScale1 = { 8.f, 8.f, 8.f };
 	m_pColliderCom->Set_Scale(vAfterScale1);
 }
 

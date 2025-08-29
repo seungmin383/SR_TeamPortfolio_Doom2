@@ -1,16 +1,16 @@
-#include "CParticleManager.h"
-IMPLEMENT_SINGLETON(CParticleManager)
+#include "CEffetcManager.h"
+IMPLEMENT_SINGLETON(CEffetcManager)
 
-CParticleManager::CParticleManager()
+CEffetcManager::CEffetcManager()
 {
 }
 
-CParticleManager::~CParticleManager()
+CEffetcManager::~CEffetcManager()
 {
 	Free();
 }
 
-HRESULT CParticleManager::Ready_Particle()
+HRESULT CEffetcManager::Ready_Particle()
 {
 	m_vecParticlePool.reserve(100);
 
@@ -18,19 +18,19 @@ HRESULT CParticleManager::Ready_Particle()
 	return S_OK;
 }
 
-void CParticleManager::Update_Particle(const _float& fTimeDelta)
+void CEffetcManager::Update_Particle(const _float& fTimeDelta)
 {
 }
 
-void CParticleManager::LateUpdate_Particle(const _float& fTimeDelta)
+void CEffetcManager::LateUpdate_Particle(const _float& fTimeDelta)
 {
 }
 
-void CParticleManager::Render_Particle(const _float& fTimeDelta)
+void CEffetcManager::Render_Particle(const _float& fTimeDelta)
 {
 }
 
-void CParticleManager::Free()
+void CEffetcManager::Free()
 {
 	for(auto iter = m_vecParticlePool.begin(); iter != m_vecParticlePool.end();)
 	{
