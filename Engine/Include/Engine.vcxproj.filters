@@ -139,6 +139,9 @@
     <Filter Include="00. Manager\13.EffectManager\00.Particle">
       <UniqueIdentifier>{1f01b1d6-889f-489e-8c61-99787bd69a6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. Manager\13.EffectManager\01.Effect">
+      <UniqueIdentifier>{908f63f3-a433-427c-a48e-2a3c8764b145}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\CGraphicDev.h">
@@ -315,12 +318,16 @@
     <ClInclude Include="TerrainModelsMod.h">
       <Filter>DataModel</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\CEffetcManager.h">
+    <ClInclude Include="..\Header\CEffectManager.h">
       <Filter>00. Manager\13.EffectManager</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CParticle.h">
       <Filter>00. Manager\13.EffectManager\00.Particle</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\IEffect.h">
+      <Filter>00. Manager\13.EffectManager\01.Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CEffectBase.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\CGraphicDev.cpp">
@@ -449,11 +456,15 @@
     <ClCompile Include="..\Code\CBullet.cpp">
       <Filter>00. Manager\03 .Management\02. GameObject\Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\CEffetcManager.cpp">
+    <ClCompile Include="..\Code\CEffectManager.cpp">
       <Filter>00. Manager\13.EffectManager</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CParticle.cpp">
       <Filter>00. Manager\13.EffectManager\00.Particle</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\IEffect.cpp">
+      <Filter>00. Manager\13.EffectManager\01.Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CEffectBase.cpp" />
   </ItemGroup>
 </Project>

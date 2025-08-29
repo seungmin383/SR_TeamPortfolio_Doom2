@@ -34,6 +34,7 @@
     <ClInclude Include="..\Header\CCubeCol.h" />
     <ClInclude Include="..\Header\CCubeTex.h" />
     <ClInclude Include="..\Header\CDInputManager.h" />
+    <ClInclude Include="..\Header\CEffectBase.h" />
     <ClInclude Include="..\Header\CFileManager.h" />
     <ClInclude Include="..\Header\CFont.h" />
     <ClInclude Include="..\Header\CFontManager.h" />
@@ -47,7 +48,7 @@
     <ClInclude Include="..\Header\CManagement.h" />
     <ClInclude Include="..\Header\CMaterial.h" />
     <ClInclude Include="..\Header\CParticle.h" />
-    <ClInclude Include="..\Header\CEffetcManager.h" />
+    <ClInclude Include="..\Header\CEffectManager.h" />
     <ClInclude Include="..\Header\CPrototypeManager.h" />
     <ClInclude Include="..\Header\CRectCol.h" />
     <ClInclude Include="..\Header\CRectSpriteTex.h" />
@@ -69,6 +70,7 @@
     <ClInclude Include="..\Header\Engine_Struct.h" />
     <ClInclude Include="..\Header\Engine_Typedef.h" />
     <ClInclude Include="..\Header\CTriCol.h" />
+    <ClInclude Include="..\Header\IEffect.h" />
     <ClInclude Include="ConfigModel.h" />
     <ClInclude Include="GameObjectSpawnInfo.h" />
     <ClInclude Include="GameObjectType.h" />
@@ -96,6 +98,7 @@
     <ClCompile Include="..\Code\CCubeCol.cpp" />
     <ClCompile Include="..\Code\CCubeTex.cpp" />
     <ClCompile Include="..\Code\CDInputManager.cpp" />
+    <ClCompile Include="..\Code\CEffectBase.cpp" />
     <ClCompile Include="..\Code\CFileManager.cpp" />
     <ClCompile Include="..\Code\CFont.cpp" />
     <ClCompile Include="..\Code\CFontManager.cpp" />
@@ -109,7 +112,7 @@
     <ClCompile Include="..\Code\CManagement.cpp" />
     <ClCompile Include="..\Code\CMaterial.cpp" />
     <ClCompile Include="..\Code\CParticle.cpp" />
-    <ClCompile Include="..\Code\CEffetcManager.cpp" />
+    <ClCompile Include="..\Code\CEffectManager.cpp" />
     <ClCompile Include="..\Code\CPrototypeManager.cpp" />
     <ClCompile Include="..\Code\CRectCol.cpp" />
     <ClCompile Include="..\Code\CRectSpriteTex.cpp" />
@@ -124,6 +127,7 @@
     <ClCompile Include="..\Code\CTransform.cpp" />
     <ClCompile Include="..\Code\CVIBuffer.cpp" />
     <ClCompile Include="..\Code\CTriCol.cpp" />
+    <ClCompile Include="..\Code\IEffect.cpp" />
     <ClCompile Include="TerrainModels.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

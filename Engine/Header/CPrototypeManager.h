@@ -20,6 +20,7 @@
 #include "CCollider.h"
 #include "CAnimation.h"
 #include "CAnimator.h"
+#include "CEffectManager.h"
 
 BEGIN(Engine)
 
@@ -41,7 +42,7 @@ public:
     HRESULT         Ready_ObjPrototype(OBJPROTOTYPE eObjId, CGameObject* pComponent);
     CGameObject*     Clone_ObjPrototype(OBJPROTOTYPE eObjId);
     CGameObject*     Clone_ObjPrototype(OBJPROTOTYPE eObjId, CGameObject* _Owner);
-  
+
 private:
     //Component
     CComponent*     Find_ComPrototype(wstring pComponentTag);

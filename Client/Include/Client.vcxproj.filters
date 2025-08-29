@@ -193,6 +193,15 @@
     <Filter Include="02. GameObject\03. Terrain\tmpWall">
       <UniqueIdentifier>{73e38be8-d88e-4786-9e69-eb6c8ef7a0bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\10. Effect">
+      <UniqueIdentifier>{c001c1ed-3325-4ae3-a55e-6d5097e38f82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\10. Effect\00.ExplosionBlood">
+      <UniqueIdentifier>{49217048-038e-4551-9511-9a90bf4ecaf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\10. Effect\01. ImpactBullet">
+      <UniqueIdentifier>{83115153-0361-4766-8343-a1e3e5971710}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -410,12 +419,15 @@
     </ClInclude>
     <ClInclude Include="..\Header\CSuits.h">
       <Filter>02. GameObject\06. Object\FieldObject</Filter>
-</ClInclude>
+    </ClInclude>
     <ClInclude Include="CStageTest.h">
       <Filter>01. Scene\05. StageTest</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CTmpWall.h">
       <Filter>02. GameObject\03. Terrain\tmpWall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CExplosionBlood.h">
+      <Filter>02. GameObject\10. Effect\00.ExplosionBlood</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -628,9 +640,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\CSuits.cpp">
       <Filter>02. GameObject\06. Object\FieldObject</Filter>
-  </ClCompile>
+    </ClCompile>
     <ClCompile Include="CStageTest.cpp">
       <Filter>01. Scene\05. StageTest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CTmpWall.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CExplosionBlood.cpp">
+      <Filter>02. GameObject\10. Effect\00.ExplosionBlood</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -23,7 +23,6 @@ CZombieMan::~CZombieMan()
 
 HRESULT CZombieMan::Ready_GameObject()
 {
-	CMonsterBase::Ready_GameObject();
 	m_iMonsterType = OBJPROTOTYPE::ENEMY_ZOMBIEMAN;
 
 
@@ -141,6 +140,7 @@ HRESULT CZombieMan::Ready_GameObject()
 	m_vMoveLook.x = 1;
 	//cout << m_vMoveLook.x << m_vMoveLook.y << m_vMoveLook.z << endl;
 #pragma endregion
+	CMonsterBase::Ready_GameObject();
 
 	return S_OK;
 }

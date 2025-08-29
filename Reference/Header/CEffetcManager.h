@@ -1,15 +1,18 @@
 #pragma once
 #include "CBase.h"
 #include"Engine_Define.h"
+#include "CPrototypeManager.h"
+#include "IEffect.h"
 #include "CParticle.h"
 
 BEGIN(Engine)
 
-enum class  PARTICLEID
+enum class  EFFECTID
 {
-	BLOOD_EXPLOSION,			//피터지는 파티클
-	BULLET_IMPACT,					//총알이 맞는 파티클
-	END_PARTICLE
+	BLOOD_EXPLOSION = 0,
+	BULLET_IMPACT,
+	TANPII_DROP,
+	END_EFFECT
 };
 
 class ENGINE_DLL CEffetcManager :public CBase
@@ -36,12 +39,17 @@ public:
 		const _float& fSpeed,
 		const _uint& iTextureIndex);
 
-
-	void Add_Particle(CParticle* _Particle) { m_vecParticlePool.push_back(_Particle); }
-
 private	:
-	vector<CParticle*> m_vecParticlePool;				// 비활성화된 파티클들
-	vector <CParticle*> m_vecActiveParticle;			// 활성화된 파티클들 -> 매 프레임마다 업데이트, 렌더링
+	vector<IEffect*> m_vecEffectPool;				// 비활성화된 파티클들
+	vector <IEffect*> m_vecActiveEffect;			// 활성화된 파티클들 -> 매 프레임마다 업데이트, 렌더링
+
+
+	LPDIRECT3DDEVICE9                       m_pGraphicDev;
+
+	CTexture*		m_pTexture[static_cast<_uint>(EFFECTID::END_EFFECT)] = { nullptr };
+	CAnimation* m_pAnimation[static_cast<_uint>(EFFECTID::END_EFFECT)] = { nullptr };
+	CRectSpriteTex* m_pBufferCom = nullptr;
+	CTransform* m_pTransformCom = nullptr;
 
 private:
 	virtual void Free();
