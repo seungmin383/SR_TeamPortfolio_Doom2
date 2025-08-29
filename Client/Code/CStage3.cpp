@@ -68,11 +68,6 @@ _int CStage3::Update_Scene(const _float& fTimeDelta)
 	CColliderManager::GetInstance()->Update();
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
 
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_T) & 0x80)
-	{
-		CManagement::GetInstance()->Change_Scene(SCENEID::TEST);
-	}
-
 	return iExit;
 }
 
