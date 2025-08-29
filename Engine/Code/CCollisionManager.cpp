@@ -263,7 +263,7 @@ bool CCollisionManager::Check_Mask(CCollider* _Dst, CCollider* _Src)
 	return ((_Dst->Get_ColLayer() & _Src->Get_ColMask()) != 0 && (_Src->Get_ColLayer() & _Dst->Get_ColMask()) != 0);
 }
 
-CGameObject* CCollisionManager::Raycast(_vec3 vRayPos, _vec3 vRayDir, _vec3& vHitPos, _float fMaxDist)
+CGameObject* CCollisionManager::Raycast(_vec3 vRayPos, _vec3 vRayDir, _vec3& vHitPos, _float fMaxDist, LAYERID* pHitLayer)
 {
 	CGameObject* pClosestObj = nullptr;
 	_float fU(0.f), fV(0.f), fDist(0.f), fClosestDist(0.f);
@@ -277,134 +277,140 @@ CGameObject* CCollisionManager::Raycast(_vec3 vRayPos, _vec3 vRayDir, _vec3& vHi
 
 	for (auto& pair : layers)
 	{
-		if (pair.first != LAYERID::LAYER_GAMELOGIC &&
-			pair.first != LAYERID::LAYER_ENVIRONMENT)
-			continue;
-
-		auto objectArrayList = pair.second->Get_AllObject();
-
-		for (size_t iD = 0; iD < (_uint)OBJID::OBJ_END; iD++)
+		if (pair.first == LAYERID::LAYER_GAMELOGIC)
 		{
-			if (iD == (_uint)OBJID::OBJ_ENEMY)
+			auto objectArrayList = pair.second->Get_AllObject();
+
+			for (size_t iD = 0; iD < (_uint)OBJID::OBJ_END; iD++)
 			{
-				for (auto object : objectArrayList[iD])
+				if (iD == (_uint)OBJID::OBJ_ENEMY)
 				{
-					objectColliderBox = object->GetCollider()->Get_WorldCollisionBox();
-
-					const _ulong dwIndices[36] =
+					for (auto object : objectArrayList[iD])
 					{
-						// front
-						1, 0, 3,	1, 2, 3,
-						// back
-						4, 5, 6,	4, 7, 6,
-						// top
-						5, 4, 0,	5, 1, 0,
-						// bottom
-						6, 7, 3,	6, 2, 3,
-						// right
-						5, 1, 2,	5, 6, 2,
-						// left
-						0, 4, 7,	0, 3, 7
-					};
+						objectColliderBox = object->GetCollider()->Get_WorldCollisionBox();
 
-					for (int i = 0; i < 12; i++)
-					{
-						const _vec3& v0 = objectColliderBox[dwIndices[i * 3 + 0]];
-						const _vec3& v1 = objectColliderBox[dwIndices[i * 3 + 1]];
-						const _vec3& v2 = objectColliderBox[dwIndices[i * 3 + 2]];
-
-						if (D3DXIntersectTri(&v0, &v1, &v2,
-							&vRayPos, &vRayDir, &fU, &fV, &fDist))
+						// Initialize indices
+						const _ulong dwIndices[36] =
 						{
-							if (fClosestDist >= fDist)
+							// front
+							1, 0, 3,	1, 2, 3,
+							// back
+							4, 5, 6,	4, 7, 6,
+							// top
+							5, 4, 0,	5, 1, 0,
+							// bottom
+							6, 7, 3,	6, 2, 3,
+							// right
+							5, 1, 2,	5, 6, 2,
+							// left
+							0, 4, 7,	0, 3, 7
+						};
+
+						for (int i = 0; i < 12; i++)
+						{
+							const _vec3& v0 = objectColliderBox[dwIndices[i * 3 + 0]];
+							const _vec3& v1 = objectColliderBox[dwIndices[i * 3 + 1]];
+							const _vec3& v2 = objectColliderBox[dwIndices[i * 3 + 2]];
+
+							if (D3DXIntersectTri(&v0, &v1, &v2,
+								&vRayPos, &vRayDir, &fU, &fV, &fDist))
 							{
-								fClosestDist = fDist;
-								pClosestObj = object;
+								if (fClosestDist >= fDist)
+								{
+									if (pHitLayer != nullptr)
+										*pHitLayer = pair.first;
+
+									fClosestDist = fDist;
+									pClosestObj = object;
+
+									vHitPos = vRayPos + (vRayDir * fClosestDist);
+								}
 							}
 						}
 					}
-
-					//if (i == (_uint)OBJID::OBJ_WALL ||
-					//	i == (_uint)OBJID::OBJ_CEIL ||
-					//	i == (_uint)OBJID::OBJ_TERRAIN)
-					//{
-					//	for (auto object : objectArrayList[i])
-					//	{
-					//		auto bufferCom = dynamic_cast<CTerrainTexSector*>(object->Get_Component(COMPONENTID::ID_STATIC, L"Com_Buffer"));
-					//		auto bufferTransCom = dynamic_cast<CTransform*>(object->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Transform"));
-
-					//		//월드 -> 로컬
-					//		_matrix matWorld, matInvWorld;
-					//		bufferTransCom->Get_World(&matWorld);
-					//		D3DXMatrixInverse(&matInvWorld, 0, &matWorld);
-
-					//		D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matInvWorld);
-					//		D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matInvWorld);
-
-					//		const _vec3* pTerrainVtxPos = bufferCom->Get_VtxPos();
-
-					//		_ulong vtxCntX = bufferCom->Get_VtxCntX();
-					//		_ulong vtxCntZ = bufferCom->Get_VtxCntZ();
-					//		_ulong vtxItv = bufferCom->Get_VtxItv();
-
-					//		for (_ulong i = 0; i < vtxCntZ - 1; i++)
-					//		{
-					//			for (_ulong j = 0; j < vtxCntX - 1; j++)
-					//			{
-					//				_ulong dwIndex = i * vtxCntX + j;
-
-					//				//오른쪽 위
-					//				dwVtxIdx[0] = dwIndex + vtxCntX;
-					//				dwVtxIdx[1] = dwIndex + vtxCntX + 1;
-					//				dwVtxIdx[2] = dwIndex + 1;
-
-					//				//V1 + U(V2 - V1) + V(V3 - V1)
-					//				if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[1]],
-					//					&pTerrainVtxPos[dwVtxIdx[0]],
-					//					&pTerrainVtxPos[dwVtxIdx[2]],
-					//					&vRayPos, &vRayDir, &fU, &fV, &fDist))
-					//				{
-					//					if (fClosestDist >= fDist)
-					//					{
-					//						fClosestDist = fDist;
-					//						pClosestObj = object;
-					//					}
-
-					//				}
-
-					//				//왼쪽 아래
-					//				dwVtxIdx[0] = dwIndex + vtxCntX;
-					//				dwVtxIdx[1] = dwIndex + 1;
-					//				dwVtxIdx[2] = dwIndex;
-
-					//				if (D3DXIntersectTri(&pTerrainVtxPos[dwVtxIdx[2]],
-					//					&pTerrainVtxPos[dwVtxIdx[1]],
-					//					&pTerrainVtxPos[dwVtxIdx[0]],
-					//					&vRayPos, &vRayDir, &fU, &fV, &fDist))
-					//				{
-					//					if (fClosestDist >= fDist)
-					//					{
-					//						fClosestDist = fDist;
-					//						pClosestObj = object;
-					//					}
-					//				}
-					//			}
-					//		}
-					//	}
-					//}
-					//if (pClosestObj != nullptr)
-					//{
-					//	vHitPos = vRayPos + (vRayDir * fClosestDist);
-
-					//	return pClosestObj;
 				}
 			}
 		}
 
-		if (pClosestObj != nullptr)
+		if (pair.first == LAYERID::LAYER_ENVIRONMENT)
 		{
-			// Calculate hit position
-			vHitPos = vRayPos + (vRayDir * fClosestDist);
+			auto objectArrayList = pair.second->Get_AllObject();
+
+			for (size_t iD = 0; iD < (_uint)OBJID::OBJ_END; iD++)
+			{
+				if (iD == (_uint)OBJID::OBJ_CEIL ||
+					iD == (_uint)OBJID::OBJ_WALL ||
+					iD == (_uint)OBJID::OBJ_TERRAIN)
+				{
+					for (auto object : objectArrayList[iD])
+					{
+						auto bufferCom = dynamic_cast<CTerrainTexSector*>(object->Get_Component(COMPONENTID::ID_STATIC, L"Com_Buffer"));
+						auto bufferTransCom = dynamic_cast<CTransform*>(object->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Transform"));
+
+						//월드 -> 로컬
+						_matrix matWorld, matInvWorld;
+						bufferTransCom->Get_World(&matWorld);
+						D3DXMatrixInverse(&matInvWorld, 0, &matWorld);
+
+						_vec3 vLocalRayPos, vLocalRayDir;
+						D3DXVec3TransformCoord(&vLocalRayPos, &vRayPos, &matInvWorld);
+						D3DXVec3TransformNormal(&vLocalRayDir, &vRayDir, &matInvWorld);
+
+						const _vec3* pTerrainVtxPos = bufferCom->Get_VtxPos();
+
+						_ulong vtxCntX = bufferCom->Get_VtxCntX();
+						_ulong vtxCntZ = bufferCom->Get_VtxCntZ();
+						_ulong vtxItv = bufferCom->Get_VtxItv();
+
+						for (_ulong i = 0; i < vtxCntZ - 1; ++i)
+						{
+							for (_ulong j = 0; j < vtxCntX - 1; ++j)
+							{
+								const _ulong bottomLeft = i * vtxCntX + j;
+								const _ulong bottomRight = bottomLeft + 1;
+								const _ulong topLeft = bottomLeft + vtxCntX;
+								const _ulong topRight = topLeft + 1;
+
+								if (D3DXIntersectTri(&pTerrainVtxPos[bottomLeft],
+													 &pTerrainVtxPos[bottomRight],
+													 &pTerrainVtxPos[topLeft],
+													 &vLocalRayPos, &vLocalRayDir, &fU, &fV, &fDist))
+								{
+									if (fDist <= fClosestDist)
+									{
+										if (pHitLayer != nullptr)
+											*pHitLayer = pair.first;
+
+										fClosestDist = fDist;
+										pClosestObj = object;
+
+										_vec3 vLocalHitPos = vLocalRayPos + (vLocalRayDir * fDist);
+										D3DXVec3TransformCoord(&vHitPos, &vLocalHitPos, &matWorld);
+									}
+								}
+
+								if (D3DXIntersectTri(&pTerrainVtxPos[topLeft],
+													 &pTerrainVtxPos[topRight],
+													 &pTerrainVtxPos[bottomRight],
+													 &vLocalRayPos, &vRayDir, &fU, &fV, &fDist))
+								{
+									if (fDist <= fClosestDist)
+									{
+										if (pHitLayer != nullptr)
+											*pHitLayer = pair.first;
+
+										fClosestDist = fDist;
+										pClosestObj = object;
+
+										_vec3 vLocalHitPos = vLocalRayPos + (vLocalRayDir * fDist);
+										D3DXVec3TransformCoord(&vHitPos, &vLocalHitPos, &matWorld);
+									};
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 	return pClosestObj;

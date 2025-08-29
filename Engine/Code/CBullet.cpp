@@ -35,14 +35,36 @@ _int CBullet::Update_GameObject(const _float& fTimeDelta)
 	// Apply Raycast on bullet
 	_vec3	vPos;
 	CGameObject* pTargetObj = nullptr;
+	LAYERID eHitLayer = LAYERID::LAYER_END;
 
 	m_pTransformCom->Get_Pos(&vPos);
-	pTargetObj = CCollisionManager::Raycast(vPos, m_vInitDir, m_vHitpos, m_fSpeed * fTimeDelta);
-	if (pTargetObj != nullptr && !pTargetObj->Get_Dead())
+	pTargetObj = CCollisionManager::Raycast(vPos, m_vInitDir, m_vHitpos, m_fSpeed * fTimeDelta, &eHitLayer);
+
+	if (pTargetObj != nullptr)
 	{
-		pTargetObj->OnCollisionEnter(this->GetCollider());
-		this->OnCollisionEnter(pTargetObj->GetCollider());
-		return 0;
+		switch (eHitLayer)
+		{
+		case LAYERID::LAYER_GAMELOGIC:
+			if (pTargetObj->Get_Dead())
+				return 0;
+
+			pTargetObj->OnCollisionEnter(this->GetCollider());
+			this->OnCollisionEnter(pTargetObj->GetCollider());
+			return 0;
+
+			break;
+
+		case LAYERID::LAYER_ENVIRONMENT:
+			this->Get_Transform()->Set_Pos(m_vHitpos.x, m_vHitpos.y, m_vHitpos.z);
+			return -1;
+
+			break;
+
+		default:
+			return 0;
+
+			break;
+		}		
 	}
 
 	CGameObject::Update_GameObject(fTimeDelta);
@@ -117,7 +139,8 @@ void CBullet::OnCollision(CCollider* _pOther)
 
 void CBullet::OnCollisionEnter(CCollider* _pOther)
 {
-	if (_pOther->Get_Owner() == m_pOwner)
+	if (_pOther->Get_Owner() == m_pOwner ||
+		_pOther == nullptr)
 		return;
 
 	_pOther->Get_Owner()->Take_Dmg(m_iDmg);

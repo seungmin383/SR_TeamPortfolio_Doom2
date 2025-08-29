@@ -59,9 +59,6 @@ _int CChaingunBullet::Update_GameObject(const _float& fTimeDelta)
 	if (m_bDead)
 		return -1;
 
-	_vec3 vPos;
-	m_pTransformCom->Get_Pos(&vPos);
-
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 	if (CBullet::Update_GameObject(fTimeDelta) == -1)
 		return -1;
@@ -96,8 +93,6 @@ void CChaingunBullet::Render_GameObject(const _float& fTimeDelta)
 
 void CChaingunBullet::OnCollision(CCollider* _pOther)
 {
-	//if (_pOther->Get_ColLayer() == COLLAYERID::COL_PLAYER)
-	//	return;
 }
 
 void CChaingunBullet::OnCollisionEnter(CCollider* _pOther)
