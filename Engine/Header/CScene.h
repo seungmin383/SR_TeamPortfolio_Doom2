@@ -32,7 +32,7 @@ public:
     HRESULT     Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, CGameObject* _Owner, CGameObject*& _Bullet);
 
     // (08/28 ±èÈ«ÀÎ)
-    HRESULT     Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, _int iCnt, const std::wstring& linkId);
+    HRESULT     Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, _int iCnt, const std::wstring& linkId, LINKMODE linkMode);
 public:
     virtual         HRESULT     Ready_Scene();
     virtual         _int        Update_Scene(const _float& fTimeDelta);

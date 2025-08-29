@@ -5,6 +5,8 @@
 
 BEGIN(Engine)
 
+enum class LINKMODE : int { NONE = 0, ONE_TO_ONE = 1, ONE_TO_MANY = 2 };
+
 class CCollider;
 class ENGINE_DLL CGameObject :
     public CBase
@@ -73,6 +75,18 @@ protected:
 
 private:
     CComponent* Find_Component(COMPONENTID eID, const _tchar* pComponentTag);
+
+public:
+    // 링크 인터페이스: 기본 구현은 값만 보관 
+    virtual void                 Set_LinkId(const std::wstring& id) { m_linkId = id; }
+    virtual const std::wstring& Get_LinkId() const { return m_linkId; }
+
+    virtual void                 Set_LinkMode(LINKMODE mode) { m_linkMode = mode; }
+    virtual LINKMODE             Get_LinkMode() const { return m_linkMode; }
+
+protected:
+    std::wstring m_linkId;                
+    LINKMODE     m_linkMode = LINKMODE::NONE;
 
 protected:
     virtual void        Free();

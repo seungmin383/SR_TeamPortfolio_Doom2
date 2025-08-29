@@ -1,5 +1,6 @@
 #include "CManagement.h"
 #include "CRenderer.h"
+#include "CGameObject.h"
 
 IMPLEMENT_SINGLETON(CManagement)
 
@@ -101,21 +102,23 @@ HRESULT CManagement::Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjI
 	return S_OK;
 }
 
-HRESULT CManagement::Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, const _vec3& vPos, _int iCnt, const std::wstring& linkId)
+HRESULT CManagement::Set_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId,
+	_vec3 vPos, _int iCnt,
+	const std::wstring& linkId,
+	LINKMODE linkMode)
 {
-	m_pScene->Set_GameLogicObject(eObjPrototype, eObjId, vPos, iCnt, linkId);
+	if (!m_pScene)
+		return E_FAIL;
 
-	return S_OK;
-}
+	// Get_Layer()가 맵을 돌려줄 때: 거기서 GAMELOGIC 레이어 포인터를 꺼냅니다.
+	const auto& layerMap = m_pScene->Get_Layer();  // std::map<LAYERID, Engine::CLayer*>
+	auto it = layerMap.find(LAYERID::LAYER_GAMELOGIC);
+	if (it == layerMap.end() || it->second == nullptr) return E_FAIL;
 
-void CManagement::Pop_InteractiveTags(OBJID eObjId, std::vector<CLayer::SInteractiveTag>& outList)
-{
-	if (!m_pScene) return;
-	// ▼ 레이어 맵 참조
-	const auto& layers = m_pScene->Get_Layer(); // std::map<LAYERID, Engine::CLayer*>
-	auto it = layers.find(LAYERID::LAYER_GAMELOGIC);
-	if (it == layers.end() || it->second == nullptr) return;
-	it->second->PopInteractiveTags(eObjId, outList);
+	Engine::CLayer* pLayer = it->second;
+
+	// Layer 오버로드에 그대로 위임 (즉시 주입 버전)
+	return pLayer->SetOn_GameLogicObject(eObjPrototype, eObjId, vPos, iCnt, linkId, linkMode);
 }
 
 _int CManagement::Update_Scene(const _float& fTimeDelta)

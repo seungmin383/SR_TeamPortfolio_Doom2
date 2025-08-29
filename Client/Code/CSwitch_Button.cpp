@@ -6,6 +6,7 @@
 #include "CTimerManager.h"
 #include "CStage.h"
 #include "CTerrainSector.h"
+#include "CGameObject.h"
 
 CSwitch_Button::CSwitch_Button(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev), m_pObjTarget(nullptr)
@@ -204,7 +205,7 @@ void CSwitch_Button::Bill_Board()
 
 void CSwitch_Button::SetSwitchOn()
 {
-	if (m_linkMode == LinkMode::OneToMany) {
+	if (m_linkMode == Engine::LINKMODE::ONE_TO_MANY) {
 		for (auto* d : m_targets) if (d) d->OpenDoor();  // 1:N
 	}
 	else {

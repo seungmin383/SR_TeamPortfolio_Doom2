@@ -1,6 +1,7 @@
 #include "CLayer.h"
 #include "CPrototypeManager.h"
 #include "CManagement.h"
+#include "CGameObject.h"
 
 CLayer::CLayer()
 {
@@ -104,10 +105,11 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 	return S_OK;
  }
 
-HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, _int iCnt, const std::wstring& linkId)
+HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId,
+	_vec3 vPos, _int iCnt,
+	const std::wstring& linkId,
+	LINKMODE linkMode)
 {
-	// 기존 SetOn_GameLogicObject와 동일한 분기/동작을 그대로 사용하면서,
-	// 생성/풀에서 꺼낸 직후 (obj*, linkId)만 기록한다.
 	CGameObject* pGameObject = nullptr;
 	const unsigned key = (unsigned)eObjId;
 
@@ -121,13 +123,16 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 			if (nullptr == pGameObject)
 				return E_FAIL;
 
+			// 위치 세팅
 			pGameObject->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
 
-			// 기존과 동일: pending에 보관
-			m_vecPendingObject[key].push_back(pGameObject);
+			// 링크 즉시 주입
+			pGameObject->Set_LinkId(linkId);
+			pGameObject->Set_LinkMode(linkMode);
 
-			// 추가: 태그 “기록”만 (적용은 나중에 Client에서)
-			m_mapInteractiveTags[key].push_back({ pGameObject, linkId });
+			// 기존과 동일: pending에 보관
+			//m_vecPendingObject[key].push_back(pGameObject);
+			m_vecObject[key].push_back(pGameObject);
 		}
 	}
 	else
@@ -138,16 +143,17 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 			for (size_t i = 0; i < (size_t)iCnt; i++)
 			{
 				pGameObject = m_vecObjectPool[key].back();
-				m_vecPendingObject[key].pop_back();
+				m_vecPendingObject[key].pop_back();   // 원래 코드 흐름 유지
 
 				// 위치 세팅
 				pGameObject->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
 
+				// 링크 즉시 주입
+				pGameObject->Set_LinkId(linkId);
+				pGameObject->Set_LinkMode(linkMode);
+
 				// 실행 컨테이너로 이동
 				m_vecObject[key].push_back(pGameObject);
-
-				// 태그 기록
-				m_mapInteractiveTags[key].push_back({ pGameObject, linkId });
 			}
 		}
 		else if (m_vecObjectPool[key].capacity() < (size_t)iCnt)
@@ -159,12 +165,15 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 				pGameObject = m_vecObjectPool[key].back();
 				m_vecObjectPool[key].pop_back();
 
+				// 위치 세팅
 				pGameObject->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
 
-				m_vecPendingObject[key].push_back(pGameObject);
+				// 링크 즉시 주입
+				pGameObject->Set_LinkId(linkId);
+				pGameObject->Set_LinkMode(linkMode);
 
-				// 태그 기록
-				m_mapInteractiveTags[key].push_back({ pGameObject, linkId });
+				//m_vecPendingObject[key].push_back(pGameObject);
+				m_vecObject[key].push_back(pGameObject);
 			}
 
 			// 횟수만큼 추가
@@ -174,30 +183,21 @@ HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, 
 				if (nullptr == pGameObject)
 					return E_FAIL;
 
+				// 위치 세팅
 				pGameObject->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
-				m_vecPendingObject[key].push_back(pGameObject);
 
-				// 태그 기록
-				m_mapInteractiveTags[key].push_back({ pGameObject, linkId });
+				// 링크 즉시 주입
+				pGameObject->Set_LinkId(linkId);
+				pGameObject->Set_LinkMode(linkMode);
+
+				// 기존과 동일: pending에 보관
+				//m_vecPendingObject[key].push_back(pGameObject);
+				m_vecObject[key].push_back(pGameObject);
 			}
 		}
 	}
 
 	return S_OK;
-}
-
-void CLayer::PopInteractiveTags(OBJID eObjId, std::vector<SInteractiveTag>& outList)
-{
-	const unsigned key = (unsigned)eObjId;
-	auto it = m_mapInteractiveTags.find(key);
-	if (it == m_mapInteractiveTags.end()) return;
-
-	// outList로 이동하고 내부는 비움
-	auto& vec = it->second;
-	outList.insert(outList.end(),
-		std::make_move_iterator(vec.begin()),
-		std::make_move_iterator(vec.end()));
-	vec.clear();
 }
 
 HRESULT CLayer::SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, CGameObject* _Owner, CGameObject*& _Bullet)

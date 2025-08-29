@@ -4,6 +4,8 @@
 
 BEGIN(Engine)
 
+enum class LINKMODE : int;
+
 class ENGINE_DLL CLayer :
     public CBase
 {
@@ -22,15 +24,11 @@ public:
     //TODO: 스테이지에 등장시킬 오브젝트의 초기 값 전달 방법 구상
     HRESULT     SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, _int iCnt = 1);
 
-    // 상호작용 설치 + 태그 “기록만” (Set_LinkId는 하지 않음)(08/28 김홍인)
-    HRESULT SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, _int iCnt,
-        const std::wstring& linkId);
-
-    // // 의존성 없는 태그 메모 구조(08/28 김홍인)
-    struct SInteractiveTag { Engine::CGameObject* obj; std::wstring linkId; };
-
-    // 기록된 (obj*, tag) 꺼내오기 (꺼내면 내부 비움)(08/28 김홍인)
-    void PopInteractiveTags(OBJID eObjId, std::vector<SInteractiveTag>& outList);
+    // 상호작용 오브젝트 전용 설치(08/28 김홍인)
+    HRESULT SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId,
+        _vec3 vPos, _int iCnt,
+        const std::wstring& linkId,
+        LINKMODE linkMode);
 
     HRESULT     SetOn_GameLogicObject(OBJPROTOTYPE eObjPrototype, OBJID eObjId, _vec3 vPos, CGameObject* _Owner, CGameObject*& _Bullet);
     //TODO: m_vecObject를 순회하면서 회수할 오브젝트를 식별하고 회수
@@ -45,9 +43,6 @@ private:
     vector<CGameObject*>                m_vecObjectPool[(_uint)OBJID::OBJ_END];
     map<OBJPROTOTYPE, vector<CGameObject*>>     m_mapObjectPool;
     vector<CGameObject*> m_vecPendingObject[(_uint)OBJID::OBJ_END];
-
-    // eObjId별로 (obj*, linkId) 기록(08/28 김홍인)
-    std::unordered_map<unsigned, std::vector<SInteractiveTag>> m_mapInteractiveTags;
 
 public:
     static CLayer* Create();
