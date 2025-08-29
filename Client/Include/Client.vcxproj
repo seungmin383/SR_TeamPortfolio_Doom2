@@ -227,6 +227,7 @@
     <ClInclude Include="..\Header\CLogo.h" />
     <ClInclude Include="..\Header\CMainApp.h" />
     <ClInclude Include="..\Header\CMonster.h" />
+    <ClInclude Include="..\Header\CUICamera.h" />
     <ClInclude Include="..\Header\CUIObject.h" />
     <ClInclude Include="..\Header\CUI_StageClear.h" />
     <ClInclude Include="..\Header\CWeapon_BFG.h" />
@@ -305,6 +306,7 @@
     <ClCompile Include="..\Code\CLogo.cpp" />
     <ClCompile Include="..\Code\CMainApp.cpp" />
     <ClCompile Include="..\Code\CMonster.cpp" />
+    <ClCompile Include="..\Code\CUICamera.cpp" />
     <ClCompile Include="..\Code\CUIObject.cpp" />
     <ClCompile Include="..\Code\CUI_StageClear.cpp" />
     <ClCompile Include="..\Code\CWeapon_BFG.cpp" />

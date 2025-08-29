@@ -426,6 +426,9 @@
     <ClInclude Include="..\Header\CUIObject.h">
       <Filter>02. GameObject\09. UI\MainMenu</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CUICamera.h">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -651,6 +654,9 @@
       <Filter>02. GameObject\09. UI\MainMenu</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CUIObject.cpp">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CUICamera.cpp">
       <Filter>02. GameObject\09. UI\MainMenu</Filter>
     </ClCompile>
   </ItemGroup>
