@@ -63,11 +63,6 @@ private:
         bool up = false, down = false, w = false, s = false, enter = false, space = false, esc = false;
     } m_keyPrev;
 
-    LPD3DXSPRITE        m_pUISprite = nullptr;
-    LPDIRECT3DTEXTURE9  m_pLogoTex = nullptr;
-    LPDIRECT3DTEXTURE9  m_pExitTex = nullptr;
-    LPDIRECT3DTEXTURE9  m_pHoverTex = nullptr;
-
 private:
     virtual void  Free() override;
 };

@@ -7,10 +7,12 @@
 #include "CLayer.h"
 #include "Define.h"
 
-
+#include "CMainMenuLogo.h"
+#include "CMainMenuExit.h"
+#include "CMainMenuHover.h"
 
 CMainMenu::CMainMenu(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CScene(pGraphicDev), m_pLoading(nullptr)
+	: Engine::CScene(pGraphicDev)
 {
 }
 
@@ -248,12 +250,34 @@ HRESULT CMainMenu::Ready_UI_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON);
+	auto logo = CMainMenuLogo::Create(m_pGraphicDev);
+	
+	if (nullptr == logo)
+		return E_FAIL;
+
+	logo->Set_SizeXY(10.f, 20.f);
+	logo->Set_Pos(WINCX * 0.5f - 10.f, WINCY * 0.5f + 50.f);
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, logo)))
+		return E_FAIL;
+
+	auto exit = CMainMenuExit::Create(m_pGraphicDev);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
+	exit->Set_SizeXY(10.f, 20.f);
+	exit->Set_Pos(WINCX * 0.5f - 10.f, WINCY * 0.5f - 50.f);
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, exit)))
+		return E_FAIL;
+
+	auto hover = CMainMenuHover::Create(m_pGraphicDev);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
 		return E_FAIL;
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
@@ -288,10 +312,5 @@ CMainMenu* CMainMenu::Create()
 
 void CMainMenu::Free()
 {
-	Safe_Release(m_pLoading);
-	if (m_pHoverTex) { m_pHoverTex->Release(); m_pHoverTex = nullptr; }
-	if (m_pExitTex) { m_pExitTex->Release(); m_pExitTex = nullptr; }
-	if (m_pLogoTex) { m_pLogoTex->Release();  m_pLogoTex = nullptr; }
-	if (m_pUISprite) { m_pUISprite->Release(); m_pUISprite = nullptr; }
 	Engine::CScene::Free();
 }

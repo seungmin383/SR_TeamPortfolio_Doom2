@@ -25,7 +25,7 @@ HRESULT CMainMenuHover::Ready_GameObject()
 
 _int CMainMenuHover::Update_GameObject(const _float& fTimeDelta)
 {
-	CGameObject::Update_GameObject(fTimeDelta);
+	CUIObject::Update_GameObject(fTimeDelta);
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_PRIORITY, this);
 

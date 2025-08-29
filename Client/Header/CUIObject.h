@@ -11,11 +11,19 @@ protected:
     virtual ~CUIObject();
 
 public:
+    virtual _int Update_GameObject(const _float& fTimeDelta);
+
     void    Set_SizeXY(_float _fSizeX, _float _fSizeY) { m_fSizeX = _fSizeX; m_fSizeY = _fSizeY; }
     void    Set_Pos(_float _fX, _float _fY) { m_fX = _fX; m_fY = _fY; }
 
-    void    Update_UI();
+    void    Update_UIRect();
     _bool   Catch_Mouce();
+
+    const _bool   Get_IsFocus() const { return m_bIsFocus; }
+    void          Set_IsFocus(_bool val) { m_bIsFocus = val; }
+
+    const _bool   Get_IsActive() const { return m_bIsActive; }
+    void          Set_IsActive(_bool val) { m_bIsActive = val; }
 
 protected:
     Engine::CRectTex*       m_pBufferCom;
@@ -28,7 +36,10 @@ protected:
     RECT                    rcUI;
     POINT                   ptMouse;
 
+    _bool                   m_bIsFocus;
+    _bool                   m_bIsActive;
+
 public:
-    virtual CGameObject* Clone() override;
+    virtual CGameObject* Clone() PURE;
 };
 

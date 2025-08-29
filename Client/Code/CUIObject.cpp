@@ -25,7 +25,14 @@ CUIObject::~CUIObject()
 {
 }
 
-void CUIObject::Update_UI()
+_int CUIObject::Update_GameObject(const _float& fTimeDelta)
+{
+	CGameObject::Update_GameObject(fTimeDelta);
+	Catch_Mouce();
+	Update_UIRect();
+}
+
+void CUIObject::Update_UIRect()
 {
 	rcUI = { (LONG)(m_fX - m_fSizeX * 0.5f), (LONG)(m_fY - m_fSizeY * 0.5f), (LONG)(m_fX + m_fSizeX * 0.5f), (LONG)(m_fY + m_fSizeY * 0.5f) };
 
@@ -38,8 +45,11 @@ _bool CUIObject::Catch_Mouce()
 	GetCursorPos(&ptMouse);
 	ScreenToClient(g_hWnd, &ptMouse);
 
-	if (true == PtInRect(&rcUI, ptMouse))
+	if (m_bIsFocus = PtInRect(&rcUI, ptMouse))
+	{
 		return true;
+	}
 
+	m_bIsFocus = false;
 	return false;
 }
