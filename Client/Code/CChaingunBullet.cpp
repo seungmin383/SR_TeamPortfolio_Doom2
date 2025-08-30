@@ -56,7 +56,7 @@ HRESULT CChaingunBullet::Ready_GameObject()
 
 _int CChaingunBullet::Update_GameObject(const _float& fTimeDelta)
 {
-	if (m_bDead)
+	if (m_bDead || m_eState == BULLET_STATE::HIT)
 		return -1;
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
@@ -102,11 +102,6 @@ void CChaingunBullet::OnCollisionEnter(CCollider* _pOther)
 	case COLLAYERID::COL_PLAYER:
 		return;
 
-	case COLLAYERID::COL_TERRAIN:
-	case COLLAYERID::COL_WALL:
-		m_fSpeed = 0.f;
-		break;
-
 	case COLLAYERID::COL_ENEMY:
 		m_fSpeed = 0.f;
 		_pOther->Get_Owner()->Take_Dmg(m_iDmg);
@@ -125,8 +120,6 @@ void CChaingunBullet::OnCollisionEnter(CCollider* _pOther)
 
 void CChaingunBullet::OnCollisionExit(CCollider* _pOther)
 {
-	//if (_pOther->Get_ColLayer() == COLLAYERID::COL_PLAYER)
-	//	return;
 }
 
 HRESULT CChaingunBullet::Add_Component()

@@ -3,12 +3,16 @@
 #include "CCollisionManager.h"
 
 CBullet::CBullet(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CGameObject(pGraphicDev)
+	:CGameObject(pGraphicDev),
+	m_eState(BULLET_STATE::IDLE),
+	m_iAnimState(0)
 {
 }
 
 CBullet::CBullet(const CBullet& rhs)
-	:CGameObject(rhs), m_pOwner(rhs.m_pOwner)
+	:CGameObject(rhs), m_pOwner(rhs.m_pOwner),
+	m_eState(BULLET_STATE::IDLE),
+	m_iAnimState(0)
 {
 }
 
@@ -26,19 +30,19 @@ HRESULT CBullet::Ready_GameObject()
 _int CBullet::Update_GameObject(const _float& fTimeDelta)
 {
 	m_fTimer += fTimeDelta;
-	if (m_fTimer > 5.f)
+	if (m_fTimer > 2.5f)
 	{
 		m_fTimer = 0.f;
 		return -1;
 	}
 
 	// Apply Raycast on bullet
-	_vec3	vPos;
+	_vec3	vPos, vNormal;
 	CGameObject* pTargetObj = nullptr;
 	LAYERID eHitLayer = LAYERID::LAYER_END;
 
 	m_pTransformCom->Get_Pos(&vPos);
-	pTargetObj = CCollisionManager::Raycast(vPos, m_vInitDir, m_vHitpos, m_fSpeed * fTimeDelta, &eHitLayer);
+	pTargetObj = CCollisionManager::Raycast(vPos, m_vInitDir, m_vHitpos, vNormal, m_fSpeed * fTimeDelta, &eHitLayer);
 
 	if (pTargetObj != nullptr)
 	{
@@ -55,8 +59,16 @@ _int CBullet::Update_GameObject(const _float& fTimeDelta)
 			break;
 
 		case LAYERID::LAYER_ENVIRONMENT:
-			this->Get_Transform()->Set_Pos(m_vHitpos.x, m_vHitpos.y, m_vHitpos.z);
-			return -1;
+			// 총알의 위치를 맞은 곳으로 고정시킨 후 속도 0으로 변경
+			D3DXVec3Normalize(&vNormal, &vNormal);
+			m_vHitpos = m_vHitpos + (vNormal * 1.f);
+			m_fSpeed = 0.f;
+			m_pTransformCom->Set_Pos(m_vHitpos.x, m_vHitpos.y, m_vHitpos.z);
+
+			// 총알의 상태를 Hit 상태로 변경
+			m_eState = BULLET_STATE::HIT;
+
+			return 0;
 
 			break;
 

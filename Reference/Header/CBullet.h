@@ -33,6 +33,9 @@ public:
 	void Set_Owner(CGameObject* _G) { m_pOwner = _G; };
 	void Set_InitDir(_vec3 _V)  { m_vInitDir = _V; };
 
+	BULLET_STATE Get_BulletState() { return m_eState; }
+	void Set_BulletState(BULLET_STATE eState) { m_eState = eState; }
+
 protected:
 	Engine::CRectSpriteTex* m_pBufferCom = nullptr;
 	Engine::CTexture* m_pTextureCom = nullptr;
@@ -40,6 +43,9 @@ protected:
 
 	//내 생각에 총알이 알고 있어야 될 것
 	CGameObject* m_pOwner = nullptr;			//총알의 주인
+
+	BULLET_STATE m_eState;						// 총알의 상태
+	_int m_iAnimState;							// 총알 애니메이션 상태
 
 	_vec3 m_vInitDir;							//발사할 때 총알의 방향
 	_vec3 m_vHitpos;

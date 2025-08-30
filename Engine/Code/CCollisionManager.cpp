@@ -263,7 +263,7 @@ bool CCollisionManager::Check_Mask(CCollider* _Dst, CCollider* _Src)
 	return ((_Dst->Get_ColLayer() & _Src->Get_ColMask()) != 0 && (_Src->Get_ColLayer() & _Dst->Get_ColMask()) != 0);
 }
 
-CGameObject* CCollisionManager::Raycast(_vec3 vRayPos, _vec3 vRayDir, _vec3& vHitPos, _float fMaxDist, LAYERID* pHitLayer)
+CGameObject* CCollisionManager::Raycast(_vec3 vRayPos, _vec3 vRayDir, _vec3& vHitPos, _vec3& vHitNormal, _float fMaxDist, LAYERID* pHitLayer)
 {
 	CGameObject* pClosestObj = nullptr;
 	_float fU(0.f), fV(0.f), fDist(0.f), fClosestDist(0.f);
@@ -360,7 +360,6 @@ CGameObject* CCollisionManager::Raycast(_vec3 vRayPos, _vec3 vRayDir, _vec3& vHi
 
 						_ulong vtxCntX = bufferCom->Get_VtxCntX();
 						_ulong vtxCntZ = bufferCom->Get_VtxCntZ();
-						_ulong vtxItv = bufferCom->Get_VtxItv();
 
 						for (_ulong i = 0; i < vtxCntZ - 1; ++i)
 						{
@@ -386,6 +385,17 @@ CGameObject* CCollisionManager::Raycast(_vec3 vRayPos, _vec3 vRayDir, _vec3& vHi
 
 										_vec3 vLocalHitPos = vLocalRayPos + (vLocalRayDir * fDist);
 										D3DXVec3TransformCoord(&vHitPos, &vLocalHitPos, &matWorld);
+										
+
+										// Calculate local normal vector
+										_vec3 vEdge1 = pTerrainVtxPos[bottomRight] - pTerrainVtxPos[bottomLeft];
+										_vec3 vEdge2 = pTerrainVtxPos[topLeft] - pTerrainVtxPos[bottomLeft];
+										D3DXVec3Cross(&vHitNormal, &vEdge1, &vEdge2);
+										D3DXVec3TransformNormal(&vHitNormal, &vHitNormal, &matWorld);
+										D3DXVec3Normalize(&vHitNormal, &vHitNormal);
+
+										if (D3DXVec3Dot(&vHitNormal, &vRayDir) > 0.f)
+											*vHitNormal = -*vHitNormal;
 									}
 								}
 
@@ -404,6 +414,16 @@ CGameObject* CCollisionManager::Raycast(_vec3 vRayPos, _vec3 vRayDir, _vec3& vHi
 
 										_vec3 vLocalHitPos = vLocalRayPos + (vLocalRayDir * fDist);
 										D3DXVec3TransformCoord(&vHitPos, &vLocalHitPos, &matWorld);
+										
+										// Calculate local normal vector
+										_vec3 vEdge1 = pTerrainVtxPos[topLeft] - pTerrainVtxPos[topRight];
+										_vec3 vEdge2 = pTerrainVtxPos[bottomRight] - pTerrainVtxPos[topRight];
+										D3DXVec3Cross(&vHitNormal, &vEdge1, &vEdge2);
+										D3DXVec3TransformNormal(&vHitNormal, &vHitNormal, &matWorld);
+										D3DXVec3Normalize(&vHitNormal, &vHitNormal);
+
+										if (D3DXVec3Dot(&vHitNormal, &vRayDir) > 0.f)
+											*vHitNormal = -*vHitNormal;
 									};
 								}
 							}
