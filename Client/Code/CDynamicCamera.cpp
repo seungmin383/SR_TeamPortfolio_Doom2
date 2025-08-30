@@ -221,6 +221,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 	{
 		_vec3	vRight, vLength;
 		memcpy(&vRight, &matCamWorld.m[2][0], sizeof(_vec3));
+		D3DXVec3Normalize(&vRight, &vRight);
 
 		if (CDInputManager::GetInstance()->Get_KeyDown(DIK_LSHIFT))
 		{
@@ -233,16 +234,16 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 			}
 		}
 
-		vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
+		vLength = vRight * fTimeDelta * m_fSpeed;
 
 		m_vMoveDist = vLength;
 
 		// Raycast part
 		_vec3 vHitPos, vHitNormal;
 		LAYERID eHitLayer = LAYERID::LAYER_END;
-		CCollisionManager::Raycast(m_vEye, *D3DXVec3Normalize(&vRight, &vRight), vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer);
+		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer);
 
-		if (eHitLayer == LAYERID::LAYER_END)
+		if (eHitLayer != LAYERID::LAYER_ENVIRONMENT)
 		{
 			m_vEye.x += vLength.x;
 			m_vEye.z += vLength.z;
@@ -251,15 +252,28 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 			m_vAt.z += vLength.z;
 
 			m_bIsMoving = true;
-
 		}
+		else
+		{
+			_float	fForce = D3DXVec3Dot(&vLength, &vHitNormal);
+			_vec3	vForce = fForce * vHitNormal;
+			_vec3	vSlide = vLength - vForce;
 
+			m_vEye.x += vSlide.x;
+			m_vEye.z += vSlide.z;
+
+			m_vAt.x += vSlide.x;
+			m_vAt.z += vSlide.z;
+
+			m_bIsMoving = true;
+		}
 	}
 
 	if (CDInputManager::GetInstance()->Get_KeyHold(DIK_S))
 	{
 		_vec3	vRight, vLength;
 		memcpy(&vRight, &matCamWorld.m[2][0], sizeof(_vec3));
+		D3DXVec3Normalize(&vRight, &vRight);
 
 		if (CDInputManager::GetInstance()->Get_KeyDown(DIK_LSHIFT))
 		{
@@ -272,23 +286,47 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 			}
 		}
 
-		vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
+		vLength = vRight * fTimeDelta * m_fSpeed;
 
 		m_vMoveDist = -vLength;
 
-		m_vEye.x -= vLength.x;
-		m_vEye.z -= vLength.z;
+		// Raycast part
+		_vec3 vHitPos, vHitNormal;
+		LAYERID eHitLayer = LAYERID::LAYER_END;
+		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer);
 
-		m_vAt.x -= vLength.x;
-		m_vAt.z -= vLength.z;
+		if (eHitLayer != LAYERID::LAYER_ENVIRONMENT)
+		{
+			m_vEye.x -= vLength.x;
+			m_vEye.z -= vLength.z;
 
-		m_bIsMoving = true;
+			m_vAt.x -= vLength.x;
+			m_vAt.z -= vLength.z;
+
+			m_bIsMoving = true;
+		}
+		else
+		{
+			_float	fForce = D3DXVec3Dot(&vLength, &vHitNormal);
+			_vec3	vForce = fForce * vHitNormal;
+			_vec3	vSlide = vLength - vForce;
+
+			m_vEye.x -= vSlide.x;
+			m_vEye.z -= vSlide.z;
+
+			m_vAt.x -= vSlide.x;
+			m_vAt.z -= vSlide.z;
+
+			m_bIsMoving = true;
+		}
+
 	}
 
 	if (CDInputManager::GetInstance()->Get_KeyHold(DIK_D))
 	{
 		_vec3	vRight, vLength;
 		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
+		D3DXVec3Normalize(&vRight, &vRight);
 
 		if (CDInputManager::GetInstance()->Get_KeyDown(DIK_LSHIFT))
 		{
@@ -301,23 +339,47 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 			}
 		}
 
-		vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
+		vLength = vRight * fTimeDelta * m_fSpeed;
 
 		m_vMoveDist = vLength;
 
-		m_vEye.x += vLength.x;
-		m_vEye.z += vLength.z;
+		// Raycast part
+		_vec3 vHitPos, vHitNormal;
+		LAYERID eHitLayer = LAYERID::LAYER_END;
+		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer);
 
-		m_vAt.x += vLength.x;
-		m_vAt.z += vLength.z;
+		if (eHitLayer != LAYERID::LAYER_ENVIRONMENT)
+		{
+			m_vEye.x += vLength.x;
+			m_vEye.z += vLength.z;
 
-		m_bIsMoving = true;
+			m_vAt.x += vLength.x;
+			m_vAt.z += vLength.z;
+
+			m_bIsMoving = true;
+		}
+		else
+		{
+			_float	fForce = D3DXVec3Dot(&vLength, &vHitNormal);
+			_vec3	vForce = fForce * vHitNormal;
+			_vec3	vSlide = vLength - vForce;
+
+			m_vEye.x += vSlide.x;
+			m_vEye.z += vSlide.z;
+
+			m_vAt.x += vSlide.x;
+			m_vAt.z += vSlide.z;
+
+			m_bIsMoving = true;
+		}
+
 	}
 
 	if (CDInputManager::GetInstance()->Get_KeyHold(DIK_A))
 	{
 		_vec3	vRight, vLength;
 		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
+		D3DXVec3Normalize(&vRight, &vRight);
 
 		if (CDInputManager::GetInstance()->Get_KeyDown(DIK_LSHIFT))
 		{
@@ -330,17 +392,39 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 			}
 		}
 
-		vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
+		vLength = vRight * fTimeDelta * m_fSpeed;
 
 		m_vMoveDist = -vLength;
 
-		m_vEye.x -= vLength.x;
-		m_vEye.z -= vLength.z;
+		// Raycast part
+		_vec3 vHitPos, vHitNormal;
+		LAYERID eHitLayer = LAYERID::LAYER_END;
+		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer);
 
-		m_vAt.x -= vLength.x;
-		m_vAt.z -= vLength.z;
+		if (eHitLayer != LAYERID::LAYER_ENVIRONMENT)
+		{
+			m_vEye.x -= vLength.x;
+			m_vEye.z -= vLength.z;
 
-		m_bIsMoving = true;
+			m_vAt.x -= vLength.x;
+			m_vAt.z -= vLength.z;
+
+			m_bIsMoving = true;
+		}
+		else
+		{
+			_float	fForce = D3DXVec3Dot(&vLength, &vHitNormal);
+			_vec3	vForce = fForce * vHitNormal;
+			_vec3	vSlide = vLength - vForce;
+
+			m_vEye.x -= vSlide.x;
+			m_vEye.z -= vSlide.z;
+
+			m_vAt.x -= vSlide.x;
+			m_vAt.z -= vSlide.z;
+
+			m_bIsMoving = true;
+		}
 	}
 
 	if (m_bIsMoving)
