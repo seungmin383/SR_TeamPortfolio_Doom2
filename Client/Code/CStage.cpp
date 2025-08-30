@@ -588,9 +588,15 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	auto* elev = dynamic_cast<CVerticalMovingObject*>(pGameObject);
 	if (elev) {
-		elev->SetMeshUnitAndPivot(2.f, false);		// 한 변 2, 피벗 = 중앙(바닥이면 true)
-		elev->SetVisualScale(2.f, 0.1f, 2.f);   // 얇고 길게
-		elev->SetMovement(/*minY*/0.5f, /*maxY*/5.0f, /*speed*/2.0f, /*wait*/0.5f);
+		elev->SetMeshUnitAndPivot(2.f, /*pivot bottom*/ true); // CCubeTex 한 변이 2라면 2.f, 피벗은 바닥
+		elev->SetVisualScale(2.f, 0.2f, 2.f);                  // 폭=2, 높이=0.2, 깊이=2 (콜라이더도 동일)
+		elev->SetRiderEyeGap(0.25f);                           // 발판 위에서 살짝 띄워 보이게 (0.15~0.30 추천)
+
+		// 왕복 범위(예시): 바닥(y=0)에 "상면"이 닿는 높이를 최소점으로
+		const float groundY = 0.f;
+		// halfHeight는 SetVisualScale 이후 내부에서 자동 반영됨. 대략 높이*unit*0.5 => 0.2*2*0.5=0.2
+		const float halfH = 0.2f; // 정확히 알기 원하면 elev에 GetHalfHeight() 작은 getter 추가해도 OK
+		elev->SetMovement(groundY - halfH, /*maxY*/ 5.f, /*speed*/ 2.f, /*wait*/ 0.5f);
 	}
 
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pGameObject)))

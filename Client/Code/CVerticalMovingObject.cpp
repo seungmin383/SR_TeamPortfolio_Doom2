@@ -30,8 +30,8 @@ HRESULT CVerticalMovingObject::Ready_GameObject()
 
 	if (FAILED(Add_Component())) return E_FAIL;
 
-	// 기둥처럼 보이게: 얇은 단면(2 x 2), 높이 4.0
-	SetVisualScale(2.f, 0.1f, 2.f);
+	// 기둥처럼 보이게: 얇은 단면(2 x 2), 높이 0.2
+	SetVisualScale(2.f, 0.2f, 2.f);
 
 	// 기본 이동 범위(현재 y 기준으로 ±2)
 	_vec3 p; m_pTransformCom->Get_Pos(&p);
@@ -61,7 +61,7 @@ HRESULT CVerticalMovingObject::Ready_GameObject()
 	m_lastY = p.y;
 
 	m_pColliderCom->Set_ColLayer(COL_OBJECT);
-	m_pColliderCom->Set_ColMask(COL_PLAYER | COL_ENEMY);
+	m_pColliderCom->Set_ColMask(COL_PLAYER);
 	m_pColliderCom->Set_Active(true);
 
 #ifdef _DEBUG
@@ -118,28 +118,15 @@ _int CVerticalMovingObject::Update_GameObject(const _float& fTimeDelta)
 	}
 
 	// 2) 라이더(플레이어) 동승
- // 동승 처리
+	// 이번 프레임 발판이 움직인 양만 기록
 	_vec3 cur; m_pTransformCom->Get_Pos(&cur);
-	const float deltaY = cur.y - m_lastY;
+	const float deltaY = cur.y - m_lastY;		 // 이번 프레임 발판이 움직인 양
+	m_postCarryDeltaY = deltaY;
 	m_lastY = cur.y;
 
 	const float EPS = 0.02f;
-	const float topY = GetTopFaceWorldY();
-	const float minY = topY + EPS + m_riderEyeGap;
+	m_postCarryMinY = (cur.y + m_halfHeight) + EPS + m_riderEyeGap;
 
-	// 현재 rider가 있으면 deltaY만큼 동승
-	if (m_pRiderTr && fabsf(deltaY) > 1e-6f) {
-		MoveRiderByDeltaY(deltaY, minY);
-		// rider가 있으면 홀드 타이머도 계속 리필되고 있음(OnCollision에서)
-	}
-
-	// rider가 비어도 홀드 타임 동안은 최소 높이 유지(깜빡임 방지)
-	if (!m_pRiderTr && m_groundHoldT > 0.f) {
-		m_groundHoldT -= fTimeDelta;
-		// 여기서 “최근에 서 있던 대상” Transform을 따로 캐시해두면 좋다.
-		// 간단히: 마지막 Transform을 캐시하고 DetachRider에서 nullptr로 만들지 말고 유지하는 방법도 있음.
-		// 원한다면 m_pLastRiderTr를 하나 더 두고 그걸로 ClampRiderMinY(minY) 호출.
-	}
 
 	// 3) 렌더 큐
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_NONALPHA, this);
@@ -150,9 +137,29 @@ void CVerticalMovingObject::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 
-	if (m_pColliderCom) {
-		m_pColliderCom->Late_Update();
+	// 현재 rider가 있으면 deltaY만큼 동승 + 최소 높이 보장
+	if (m_pRiderTr) {
+		if (fabsf(m_postCarryDeltaY) > 1e-6f)
+			MoveRiderByDeltaY(m_pRiderTr, m_postCarryDeltaY, m_postCarryMinY);
+		else
+			ClampRiderMinY(m_pRiderTr, m_postCarryMinY);
 	}
+	// rider가 없어도 홀드 시간 동안은 최근 Transform을 최소 높이로 유지(깜빡임/끊김 방지)
+	if (m_pRiderTr || (m_pLastRiderTr && m_groundHoldT > 0.f)) {
+		// 발판 중심/스케일
+		_vec3 p; m_pTransformCom->Get_Pos(&p);
+		const _vec3* s = m_pTransformCom->Get_Scale(); // (sx, sy, sz)
+		const float hx = s->x * 0.5f;
+		const float hz = s->z * 0.5f;
+
+		// 이번 프레임의 "최소 바닥 y"(상면 + EPS + 시점 간격)
+		PublishActiveGroundArea(m_postCarryMinY, p.x, p.z, hx, hz);
+	}
+
+	// TTL 감소
+	DecayActiveGround(fTimeDelta);
+
+	if (m_pColliderCom) m_pColliderCom->Late_Update();
 }
 
 void CVerticalMovingObject::Render_GameObject(const _float& fTimeDelta)
@@ -187,46 +194,63 @@ void CVerticalMovingObject::Render_GameObject(const _float& fTimeDelta)
 void CVerticalMovingObject::OnCollision(CCollider* _pOther)
 {
 	if (!_pOther || !m_pColliderCom) return;
-	if ((_pOther->Get_ColLayer() & m_pColliderCom->Get_ColMask()) == 0) return;
+	if ((_pOther->Get_ColLayer() != COL_PLAYER)) return;
 
-	// 접촉 유지 중 – rider 갱신 및 최소 높이 유지
-	if (_pOther->Get_Owner() != m_pRider) AttachRider(_pOther->Get_Owner());
+	if (!m_pRiderTr) AttachRider(_pOther->Get_Owner());
+#ifdef _DEBUG
+	if (!m_pRiderTr) {
+		char buf[128];
+		sprintf_s(buf, "[Platform] NO Com_Transform on %p (Stay)\n", _pOther->Get_Owner());
+		OutputDebugStringA(buf);
+	}
+	else {
+		OutputDebugStringA("[Platform] rider Transform OK (Stay)\n");
+	}
+#endif
+	
+	m_groundHoldT = m_groundHoldSec;    // 접촉 유지 → 홀드 리필
 
 	const float EPS = 0.02f;
 	const float topY = GetTopFaceWorldY();
 	const float minY = topY + EPS + m_riderEyeGap;
-
-	ClampRiderMinY(minY);
-	m_groundHoldT = m_groundHoldSec; // 매 프레임 갱신
+	ClampRiderMinY(m_pRiderTr, minY);
 }
 
 void CVerticalMovingObject::OnCollisionEnter(CCollider* _pOther)
 {
 	if (!_pOther || !m_pColliderCom) return;
 	// 레이어/마스크 필터 – 플레이어/적 등 발판에 서길 원하는 레이어만
-	if ((_pOther->Get_ColLayer() & m_pColliderCom->Get_ColMask()) == 0) return;
+	if (_pOther->Get_ColLayer() != COL_PLAYER) return;
 
 	AttachRider(_pOther->Get_Owner());
+
+#ifdef _DEBUG
+	if (!m_pRiderTr) {
+		char buf[128];
+		sprintf_s(buf, "[Platform] NO Com_Transform on %p (Enter)\n", _pOther->Get_Owner());
+		OutputDebugStringA(buf);
+	}
+	else {
+		OutputDebugStringA("[Platform] rider Transform OK (Enter)\n");
+	}
+#endif
 
 	const float EPS = 0.02f;
 	const float topY = GetTopFaceWorldY();
 	const float minY = topY + EPS + m_riderEyeGap;
 
 	// 첫 프레임에 관통 방지만 살짝
-	ClampRiderMinY(minY);
-
-	// 접촉 중이므로 홀드 타이머 리필
-	m_groundHoldT = m_groundHoldSec;
+	ClampRiderMinY(m_pRiderTr, minY);
 }
 
 void CVerticalMovingObject::OnCollisionExit(CCollider* _pOther)
 {
 	if (!_pOther || !m_pColliderCom) return;
-	if (_pOther->Get_Owner() == m_pRider) {
-		// 바로 Detach하지 않고 Transform 포인터만 유지해도 되지만
-		// 여기선 포인터 해제하되 홀드 타이머로 잠깐 유지
+	if (m_pRiderTr && _pOther->Get_Owner()
+		&& TryGetTransform(_pOther->Get_Owner()) == m_pRiderTr)
+	{
 		DetachRider();
-		// m_groundHoldT는 그대로 – Update에서 줄이며 유지
+		// m_groundHoldT는 Update/LateUpdate에서 감소
 	}
 }
 
@@ -296,39 +320,112 @@ bool CVerticalMovingObject::IsPlayerObject(CGameObject* obj) const
 	return false;
 }
 
+Engine::CTransform* CVerticalMovingObject::TryGetTransform(Engine::CGameObject* obj) const
+{
+	if (!obj) return nullptr;
+
+	// 1) 가장 표준: DYNAMIC의 "Com_Transform"
+	if (auto* tr = dynamic_cast<Engine::CTransform*>(
+		obj->Get_Component(ID_DYNAMIC, L"Com_Transform")))
+		return tr;
+
+	// 2) 일부 객체는 STATIC에 둘 수도 있음
+	if (auto* tr = dynamic_cast<Engine::CTransform*>(
+		obj->Get_Component(ID_STATIC, L"Com_Transform")))
+		return tr;
+
+	// 3) (선택) 다른 이름을 쓰는 프로젝트라면 여기서 추가로 시도
+	// if (auto* tr = dynamic_cast<Engine::CTransform*>(obj->Get_Component(ID_DYNAMIC, L"Com_PlayerTransform"))) return tr;
+
+	// 4) 최후: 못 얻으면 nullptr
+	return nullptr;
+}
+
 void CVerticalMovingObject::AttachRider(CGameObject* obj)
 {
-	m_pRider = obj;
-	m_pRiderTr = nullptr;
-	if (m_pRider) {
-		m_pRiderTr = dynamic_cast<Engine::CTransform*>(
-			m_pRider->Get_Component(ID_DYNAMIC, L"Com_Transform"));
-	}
+	if (!obj) return;
+	auto* tr = TryGetTransform(obj);
+	if (!tr) return;
+
+	// 이미 플레이어를 태우고 있다면 유지
+	if (m_pRiderOwner && m_pRiderOwner != obj) return;
+
+	m_pRiderOwner = obj;            // ★ 소유자 기억
+	m_pRiderTr = tr;
+	m_pLastRiderTr = tr;
+	m_groundHoldT = m_groundHoldSec;
 }
 
 void CVerticalMovingObject::DetachRider()
 {
+	// 마지막 라이더 Transform을 홀드 동안 유지
+	m_pLastRiderTr = m_pRiderTr;
 	m_pRider = nullptr;
 	m_pRiderTr = nullptr;
 }
 
-void CVerticalMovingObject::ClampRiderMinY(float minY)
+void CVerticalMovingObject::ClampRiderMinY(Engine::CTransform* tr, float minY)
 {
-	if (!m_pRiderTr) return;
-	_vec3 rp; m_pRiderTr->Get_Pos(&rp);
-	if (rp.y < minY) {
-		rp.y = minY;
-		m_pRiderTr->Set_Pos(rp.x, rp.y, rp.z);
+	if (!tr) return;
+	_vec3 p; tr->Get_Pos(&p);
+	if (p.y < minY) { p.y = minY; tr->Set_Pos(p.x, p.y, p.z); }
+}
+
+void CVerticalMovingObject::MoveRiderByDeltaY(Engine::CTransform* tr, float deltaY, float minY)
+{
+	if (!tr) return;
+	_vec3 p; tr->Get_Pos(&p);
+	p.y += deltaY;
+	if (p.y < minY) p.y = minY;
+	tr->Set_Pos(p.x, p.y, p.z);
+}
+
+CVerticalMovingObject::SActiveGround CVerticalMovingObject::s_ag = {};
+
+float CVerticalMovingObject::s_activeGroundY = -FLT_MAX;
+float CVerticalMovingObject::s_activeGroundTTL = 0.f;
+
+void CVerticalMovingObject::PublishActiveGroundY(float y)
+{
+	if (y > s_activeGroundY) s_activeGroundY = y;
+	s_activeGroundTTL = 0.12f; // 120ms 유지
+}
+
+float CVerticalMovingObject::GetActiveGroundY()
+{
+	return s_activeGroundY;
+}
+
+void CVerticalMovingObject::DecayActiveGround(float fTimeDelta)
+{
+	if (s_ag.ttl > 0.f) {
+		s_ag.ttl -= fTimeDelta;
+		if (s_ag.ttl <= 0.f) {
+			s_ag = SActiveGround{}; // 리셋
+		}
 	}
 }
 
-void CVerticalMovingObject::MoveRiderByDeltaY(float deltaY, float minY)
+void CVerticalMovingObject::PublishActiveGroundArea(float y, float cx, float cz, float hx, float hz)
 {
-	if (!m_pRiderTr) return;
-	_vec3 rp; m_pRiderTr->Get_Pos(&rp);
-	rp.y += deltaY;
-	if (rp.y < minY) rp.y = minY;
-	m_pRiderTr->Set_Pos(rp.x, rp.y, rp.z);
+	// 매 프레임 들어오는 최신 값으로 덮어쓰기
+	s_ag.y = y;
+	s_ag.cx = cx;  s_ag.cz = cz;
+	s_ag.hx = hx;  s_ag.hz = hz;
+	s_ag.ttl = 0.05f;  // 너무 오래 남지 않게 줄이기(권장: 0.03~0.06)
+}
+
+bool CVerticalMovingObject::QueryActiveGroundYAt(float x, float z, float& outY)
+{
+	if (s_ag.ttl <= 0.f) return false;
+	// 영역 안(패딩 약간)
+	const float pad = 0.15f;
+	if (fabsf(x - s_ag.cx) <= (s_ag.hx + pad) &&
+		fabsf(z - s_ag.cz) <= (s_ag.hz + pad)) {
+		outY = s_ag.y;
+		return true;
+	}
+	return false;
 }
 
 CVerticalMovingObject* CVerticalMovingObject::Create(LPDIRECT3DDEVICE9 pGraphicDev)

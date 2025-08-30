@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "CGameObject.h"
-#include "CDynamicCamera.h"
+#include "CPrototypeManager.h"
 
 static const char* ColLayerToStr(int l) {
 	switch (l) {
@@ -11,7 +11,7 @@ static const char* ColLayerToStr(int l) {
 	}
 }
 
-class CVerticalMovingObject :    public CGameObject
+class CVerticalMovingObject : public CGameObject
 {
 private:
 	explicit CVerticalMovingObject(LPDIRECT3DDEVICE9 pGraphicDev);
@@ -80,7 +80,7 @@ public:
 		}
 	}
 
-	//void SetRiderEyeGap(float gap) { m_riderEyeGap = max(0.f, gap); }
+	void SetRiderEyeGap(float gap) { m_riderEyeGap = max(0.f, gap); }
 
 private:
 	Engine::CCubeTex* m_pBufferCom;					// 평면, 플랫폼 그리기
@@ -174,9 +174,9 @@ private:
 		_vec3 pos; m_pTransformCom->Get_Pos(&pos);
 
 		// 내부 상태 세팅(라인 생성 포함) + 확정 값 못박기
-		m_pColliderCom->Ready_CCollider(this, pos, colScale, offset, COL_OBJECT, (COL_PLAYER | COL_ENEMY));
+		m_pColliderCom->Ready_CCollider(this, pos, colScale, offset, COL_OBJECT, (COL_PLAYER));
 		m_pColliderCom->Set_ColLayer(COL_OBJECT);
-		m_pColliderCom->Set_ColMask(COL_PLAYER | COL_ENEMY);
+		m_pColliderCom->Set_ColMask(COL_PLAYER);
 		m_pColliderCom->Set_Active(true);
 		m_pColliderCom->Set_Scale(colScale);
 		// Set_Offset/Set_OffsetPos 가 있으면 offset도 함께 반영
@@ -188,22 +188,48 @@ private:
 	// 라이더(플랫폼 위 대상) 포인터들 – Transform만 사용
 	Engine::CTransform* m_pRiderTr = nullptr;
 
+	CGameObject* m_pRiderOwner = nullptr;
+
+	// 최근 라이더(홀드 동안 사용) + 포스트 캐리 값
+	Engine::CTransform* m_pLastRiderTr = nullptr;
+	float m_postCarryDeltaY = 0.f;  // 이번 프레임 발판이 움직인 y 변화량
+	float m_postCarryMinY = 0.f;  // 발판 상면 + 여유(EPS + gap)
+
 	// 발판 상면과의 최소 간격/지연 해제
 	float m_groundHoldSec = 0.08f;    // 접촉 끊겨도 유지할 시간
 	float m_groundHoldT = 0.0f;     // 남은 홀드 타이머
+
+	// === Transform만 뽑는 헬퍼 ===
+	Engine::CTransform* TryGetTransform(Engine::CGameObject* obj) const;
 
 	// 라이더 캡처/해제 헬퍼
 	void AttachRider(CGameObject* obj);
 	void DetachRider();
 
 	// 라이더 Y 보정/동승
-	void ClampRiderMinY(float minY);           // 최소 높이 보장(관통방지)
-	void MoveRiderByDeltaY(float deltaY, float minY); // deltaY 동승 + 최소 높이
+	void ClampRiderMinY(Engine::CTransform* tr, float minY);           // 최소 높이 보장(관통방지)
+	void MoveRiderByDeltaY(Engine::CTransform* tr, float deltaY, float minY); // deltaY 동승 + 최소 높이
+
+	static float s_activeGroundY;
+	static float s_activeGroundTTL;
+
+	struct SActiveGround {
+		float y = -FLT_MAX; // 바닥 y (없으면 -INF)
+		float cx = 0.f, cz = 0.f; // 중심 (x,z)
+		float hx = 0.f, hz = 0.f; // 반폭 (x,z)
+		float ttl = 0.f;           // 유지 시간
+	};
+	static SActiveGround s_ag;      // 모든 발판이 공유해 누적 게시(필요시 가장 최근/가장 높은 값 사용)
 
 public:
-		// 필요 시 외부에서 간격 조정
-		void SetRiderEyeGap(float gap) { m_riderEyeGap = gap < 0.f ? 0.f : gap; }
+	// ★ 발판이 이번 프레임 "최소 바닥 높이"를 게시/조회하는 정적 API
+	static void  PublishActiveGroundY(float y);
+	static float GetActiveGroundY();
+	static void  DecayActiveGround(float fTimeDelta);
 
+	// 발판 상면 바닥 높이 게시/조회 (영역 포함)
+	static void  PublishActiveGroundArea(float y, float cx, float cz, float hx, float hz);
+	static bool  QueryActiveGroundYAt(float x, float z, float& outY);
 
 public:
 	static CVerticalMovingObject* Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -13,6 +13,8 @@
 #include "CBfg.h"
 #include "CTerrainSector.h"
 
+#include "CVerticalMovingObject.h"
+
 // Initialize static variable
 _long CDynamicCamera::s_lMouseMoveX = 0L;
 
@@ -497,6 +499,12 @@ void CDynamicCamera::Set_OnTerrain()
 
 	if (fHighest == -999.f)
 		fHighest = 0.f;
+
+	// 발판이 게시한 '해당 영역 내' 바닥 y만 병합
+	float platY;
+	if (CVerticalMovingObject::QueryActiveGroundYAt(m_vEye.x, m_vEye.z, platY)) {
+		if (platY > fHighest) fHighest = platY;
+	}
 
 	if (!m_bIsJumping)
 	{
