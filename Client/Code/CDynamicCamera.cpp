@@ -237,13 +237,23 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		m_vMoveDist = vLength;
 
-		m_vEye.x += vLength.x;
-		m_vEye.z += vLength.z;
+		// Raycast part
+		_vec3 vHitPos, vHitNormal;
+		LAYERID eHitLayer = LAYERID::LAYER_END;
+		CCollisionManager::Raycast(m_vEye, *D3DXVec3Normalize(&vRight, &vRight), vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer);
 
-		m_vAt.x += vLength.x;
-		m_vAt.z += vLength.z;
-	
-		m_bIsMoving = true;
+		if (eHitLayer == LAYERID::LAYER_END)
+		{
+			m_vEye.x += vLength.x;
+			m_vEye.z += vLength.z;
+
+			m_vAt.x += vLength.x;
+			m_vAt.z += vLength.z;
+
+			m_bIsMoving = true;
+
+		}
+
 	}
 
 	if (CDInputManager::GetInstance()->Get_KeyHold(DIK_S))
@@ -608,6 +618,10 @@ void CDynamicCamera::Check_Death()
 	m_vAt = m_vEye + vLook;
 	D3DXMatrixLookAtLH(&m_matView, &m_vEye, &m_vAt, &vUp);
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_matView);
+}
+
+void CDynamicCamera::Check_Wall(const _float& fTimeDelta)
+{
 }
 
 CDynamicCamera* CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)
