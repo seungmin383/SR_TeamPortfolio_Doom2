@@ -46,6 +46,7 @@
 
 #include "CStatsManager.h"
 #include "CUI_StageClear.h"
+#include "CVerticalMovingObject.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -585,6 +586,33 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
 		return E_FAIL;
+
+	// 수직 이동 오브젝트
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::VERTICAL_MOVING);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	// 2) 위치/크기/이동 파라미터 설정
+	auto* tr = dynamic_cast<Engine::CTransform*>(pGameObject->Get_Component(ID_DYNAMIC, L"Com_Transform"));
+	if (tr) tr->Set_Pos(10.f, 1.f, 12.f);   // 기둥 중심 좌표
+
+	auto* elev = dynamic_cast<CVerticalMovingObject*>(pGameObject);
+	if (elev) {
+		elev->SetMeshUnitAndPivot(2.f, /*pivot bottom*/ true); // CCubeTex 한 변이 2라면 2.f, 피벗은 바닥
+		elev->SetVisualScale(2.f, 0.2f, 2.f);                  // 폭=2, 높이=0.2, 깊이=2 (콜라이더도 동일)
+		elev->SetRiderEyeGap(0.25f);                           // 발판 위에서 살짝 띄워 보이게 (0.15~0.30 추천)
+
+		// 왕복 범위(예시): 바닥(y=0)에 "상면"이 닿는 높이를 최소점으로
+		const float groundY = 0.f;
+		// halfHeight는 SetVisualScale 이후 내부에서 자동 반영됨. 대략 높이*unit*0.5 => 0.2*2*0.5=0.2
+		const float halfH = 0.2f; // 정확히 알기 원하면 elev에 GetHalfHeight() 작은 getter 추가해도 OK
+		elev->SetMovement(groundY - halfH, /*maxY*/ 5.f, /*speed*/ 2.f, /*wait*/ 0.5f);
+	}
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pGameObject)))
+		return E_FAIL;
+
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
 

@@ -32,8 +32,11 @@ HRESULT CZombieMan::Ready_GameObject()
 		return E_FAIL;
 
 	_vec3 vPos;
+	_vec3 vScale = { 2.f, 2.f, 2.f };
+
+	m_pTransformCom->Set_Scale(vScale);
 	m_pTransformCom->Get_Pos(&vPos);
-	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(1.f, 1.f, 1.f), _vec3(0.f, -0.5f, 0.f),
+	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(2.f, 3.f, 2.f), _vec3(0.f, 0.f, 0.f),
 		COLLAYERID::COL_ENEMY,
 		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT | COLLAYERID::COL_ENEMY);
 
@@ -113,12 +116,12 @@ HRESULT CZombieMan::Ready_GameObject()
 
 #pragma region VARIABLE_SETTING
 	m_fSightAngle =D3DXToRadian( 80.f);
-	m_fSightDistance		= 15.f;
+	m_fSightDistance		= 30.f;
 
 	m_fAtkSpeed			= 4.f;
 	m_iGameHp						= 20;
 	m_iAtkDmg				= 3;
-	m_fSpeed					= 1.f;
+	m_fSpeed					= 2.f;
 
 	m_fAtkDelay			= 0.f;
 	m_fMoveDelay			= 0.f;

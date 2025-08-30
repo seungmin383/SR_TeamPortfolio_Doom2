@@ -432,6 +432,9 @@
     <ClInclude Include="CStageTest.h">
       <Filter>01. Scene\05. StageTest</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CVerticalMovingObject.h">
+      <Filter>02. GameObject\06. Object\FieldObject</Filter>
+    </ClInclude>
     <ClInclude Include="..\Header\CTmpWall.h">
       <Filter>02. GameObject\03. Terrain\tmpWall</Filter>
     </ClInclude>
@@ -655,6 +658,9 @@
     </ClCompile>
     <ClCompile Include="CStageTest.cpp">
       <Filter>01. Scene\05. StageTest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CVerticalMovingObject.cpp">
+      <Filter>02. GameObject\06. Object\FieldObject</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CTmpWall.cpp">
       <Filter>소스 파일</Filter>

@@ -13,6 +13,8 @@
 #include "CBfg.h"
 #include "CTerrainSector.h"
 
+#include "CVerticalMovingObject.h"
+
 // Initialize static variable
 _long CDynamicCamera::s_lMouseMoveX = 0L;
 
@@ -86,20 +88,27 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 {
 	_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
+	
+	if (m_eState == DEAD)
+	{
+		Check_Death();
+		return 0;
+	}
 
-	// ?¼ì‹œ ?•ì? ê¸°ëŠ¥ ì¶”ê?
 	if (CManagement::GetInstance()->Is_Paused())
 		return 0;
-
-	Update_State();
-
-	return iExit;
+	else
+	{
+		Update_State();
+		_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
+		return iExit;
+	}
 }
 
 void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	Engine::CCamera::LateUpdate_GameObject(fTimeDelta);
-
+	
 	Apply_Gravity(fTimeDelta);
 	Set_OnTerrain();
 	Key_Input(fTimeDelta);
@@ -438,7 +447,6 @@ void CDynamicCamera::Mouse_Move()
 		m_vAt = m_vEye + vLook;
 	}
 
-	// ë§ˆìš°??xì¶??´ë™ ê°’ì„ ?€??(ë§??„ë ˆ?„ë§ˆ??ìµœì‹  ë§ˆìš°???´ë™ ê°’ì„ ?´ë””?œë“  ?•ì¸ ê°€??
 	s_lMouseMoveX = CDInputManager::GetInstance()->Get_DIMouseMove(DIMS_X);
 	if (s_lMouseMoveX)
 	{
@@ -497,6 +505,12 @@ void CDynamicCamera::Set_OnTerrain()
 
 	if (fHighest == -999.f)
 		fHighest = 0.f;
+
+	// ¹ßÆÇÀÌ °Ô½ÃÇÑ 'ÇØ´ç ¿µ¿ª ³»' ¹Ù´Ú y¸¸ º´ÇÕ
+	float platY;
+	if (CVerticalMovingObject::QueryActiveGroundYAt(m_vEye.x, m_vEye.z, platY)) {
+		if (platY > fHighest) fHighest = platY;
+	}
 
 	if (!m_bIsJumping)
 	{

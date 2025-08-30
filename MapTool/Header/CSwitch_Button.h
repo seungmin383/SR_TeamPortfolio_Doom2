@@ -7,7 +7,7 @@
 class CSwitch_Button : public CGameObject
 {
 public:
-	enum class LinkMode { OneToOne, OneToMany }; // 스위치별 모드(1:1, 1:N)
+	//enum class LinkMode { OneToOne, OneToMany }; // 스위치별 모드(1:1, 1:N)
 
 private:
 	explicit CSwitch_Button(LPDIRECT3DDEVICE9 pGraphicDev);
@@ -24,7 +24,7 @@ public:
 	virtual     void			OnCollisionEnter(CCollider* _pOther) override;
 	virtual     void			OnCollisionExit(CCollider* _pOther) override;
 
-	void Set_Target(CDoor* pDoor) 
+	void Set_Target(CDoor* pDoor)
 	{
 		m_pObjTarget = pDoor;
 		m_target = pDoor;
@@ -35,8 +35,8 @@ public:
 		m_target = nullptr;
 		m_targets.clear();
 	}
-	void        Set_LinkMode(LinkMode m) { m_linkMode = m; }
-	LinkMode    Get_LinkMode() const { return m_linkMode; }
+	void        Set_LinkMode(Engine::LINKMODE m) { Engine::CGameObject::Set_LinkMode(m); }
+	Engine::LINKMODE    Get_LinkMode() const { return Engine::CGameObject::Get_LinkMode();	}
 	// 문이랑 스위치 태그기능
 public:
 	/// <summary>
@@ -61,7 +61,6 @@ private:
 	/// 문과 스위치가 1:1일때 사용
 	/// </summary>
 	wstring m_linkId;
-	LinkMode                m_linkMode = LinkMode::OneToOne; // 기본은 1:1
 
 	CDoor* m_target = nullptr;              // 1:1
 

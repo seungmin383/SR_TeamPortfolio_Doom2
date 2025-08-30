@@ -32,7 +32,4 @@ public:
 	virtual CRocketBullet* Clone() override;
 	virtual CRocketBullet* Clone(CGameObject* _Owner)override;
 
-private:
-	BULLET_STATE m_eState;
-	_int m_iAnimState;
 };

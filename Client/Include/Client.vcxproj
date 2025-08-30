@@ -228,6 +228,7 @@
     <ClInclude Include="..\Header\CMonster.h" />
     <ClInclude Include="..\Header\CTmpWall.h" />
     <ClInclude Include="..\Header\CUI_StageClear.h" />
+    <ClInclude Include="..\Header\CVerticalMovingObject.h" />
     <ClInclude Include="..\Header\CWeapon_BFG.h" />
     <ClInclude Include="..\Header\CWeapon_ChainGun.h" />
     <ClInclude Include="..\Header\CWeapon_Rocket.h" />
@@ -305,6 +306,7 @@
     <ClCompile Include="..\Code\CMonster.cpp" />
     <ClCompile Include="..\Code\CTmpWall.cpp" />
     <ClCompile Include="..\Code\CUI_StageClear.cpp" />
+    <ClCompile Include="..\Code\CVerticalMovingObject.cpp" />
     <ClCompile Include="..\Code\CWeapon_BFG.cpp" />
     <ClCompile Include="..\Code\CWeapon_ChainGun.cpp" />
     <ClCompile Include="..\Code\CWeapon_Rocket.cpp" />
