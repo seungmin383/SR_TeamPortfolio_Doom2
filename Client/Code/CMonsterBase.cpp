@@ -60,7 +60,10 @@ _int CMonsterBase::Update_GameObject(const _float& fTimeDelta)
 	CGameObject::Update_GameObject(fTimeDelta);
 
 	if (m_isGibbingDead || m_isNormalDead)
+	{
+		cout << "Á×À½" << endl;	
 		return -1;
+	}
 
 	return 0;
  }

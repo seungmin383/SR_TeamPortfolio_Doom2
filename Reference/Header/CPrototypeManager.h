@@ -20,7 +20,6 @@
 #include "CCollider.h"
 #include "CAnimation.h"
 #include "CAnimator.h"
-#include "CEffectManager.h"
 
 BEGIN(Engine)
 

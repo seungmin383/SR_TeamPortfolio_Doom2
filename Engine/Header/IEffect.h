@@ -12,6 +12,7 @@ protected:
 public:
 	virtual void Ready_Effect(const _vec3& vPos) PURE;
 	virtual _int Update_Effect(const _float& fTimeDelta) PURE;
+	virtual void LateUpdate_Effect() PURE;
 	virtual void Render_Effect(const _float& fTimeDelta) PURE;
 
 	virtual IEffect* Clone()PURE;
@@ -24,4 +25,3 @@ public:
 };
 
 END 
-

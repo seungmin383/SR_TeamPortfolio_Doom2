@@ -202,6 +202,15 @@
     <Filter Include="02. GameObject\10. Effect\01. ImpactBullet">
       <UniqueIdentifier>{83115153-0361-4766-8343-a1e3e5971710}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Effect">
+      <UniqueIdentifier>{7af1a088-d64a-48db-9a57-1d8df749c060}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Effect\00.BloodExplosion">
+      <UniqueIdentifier>{03b73c44-e0bf-465a-8d29-40050fce2079}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\10. Effect\00. ExplosionBlood">
+      <UniqueIdentifier>{9df72848-f023-4329-9b1d-c7e1be36f9b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -426,8 +435,11 @@
     <ClInclude Include="..\Header\CTmpWall.h">
       <Filter>02. GameObject\03. Terrain\tmpWall</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\CExplosionBlood.h">
-      <Filter>02. GameObject\10. Effect\00.ExplosionBlood</Filter>
+    <ClInclude Include="..\Header\CEffect.h">
+      <Filter>02. GameObject\10. Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CExplosionBloodEffect.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -647,8 +659,11 @@
     <ClCompile Include="..\Code\CTmpWall.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\CExplosionBlood.cpp">
-      <Filter>02. GameObject\10. Effect\00.ExplosionBlood</Filter>
+    <ClCompile Include="..\Code\CEffect.cpp">
+      <Filter>02. GameObject\10. Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CExplosionBloodEffect.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

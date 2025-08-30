@@ -24,14 +24,14 @@ private:
     virtual ~CEffectManager();
 
 public:
-	virtual HRESULT Ready_Effect();
+	virtual HRESULT Ready_Effect();													
 	virtual void Update_Effect(const _float& fTimeDelta);
 	virtual void LateUpdate_Effect(const _float& fTimeDelta);
 	virtual void Render_Effect(const _float& fTimeDelta);
 
-
-	void Start_Effect(const _vec3& _vPos, EFFECTID _Id, IEffect* _Strategy);		//이펙트를 시작한다. 
-
+public:
+	// _vPos : 이펙트를 띄우고 싶은 위치, _Id : 이펙트 아이디
+	void Start_Effect(const _vec3& _vPos, EFFECTID _Id);		//이펙트를 띄우고 싶은 곳에서 부르기 
 
 public:
 	virtual void Add_Effect(EFFECTID _Id, IEffect* _Effect);		//클라이언트에서 레디할 때 원본 생성해주기

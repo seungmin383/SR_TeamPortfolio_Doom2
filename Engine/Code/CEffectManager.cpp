@@ -24,20 +24,62 @@ HRESULT CEffectManager::Ready_Effect()
 
 void CEffectManager::Update_Effect(const _float& fTimeDelta)
 {
-	
+	if(m_vecActiveEffect->size() == 0)
+		return;
+
+	for (int i = 0; i < static_cast<_uint>(EFFECTID::END_EFFECT); i++)
+	{
+		for (auto iter = m_vecActiveEffect[i].begin(); iter != m_vecActiveEffect[i].end();)
+		{
+			_int iExit = (*iter)->Update_Effect(fTimeDelta);				//이펙트 업데이트
+
+			if (iExit == -1)																	//이펙트가 종료되었으면
+			{
+				m_vecEffectPool[i].push_back(*iter);							//풀에 넣어주고
+				iter = m_vecActiveEffect[i].erase(iter);							//활성화 벡터에서 지워주기
+			}
+			else
+				++iter;
+		}
+	}
 }
 
 void CEffectManager::LateUpdate_Effect(const _float& fTimeDelta)
 {
+	if (m_vecActiveEffect->size() == 0)
+		return;
+
+	for (int i = 0; i < static_cast<_uint>(EFFECTID::END_EFFECT); i++)
+	{
+		for (auto iter = m_vecActiveEffect[i].begin(); iter != m_vecActiveEffect[i].end();)
+		{
+			(*iter)->LateUpdate_Effect();							//이펙트 레이트 업데이트
+
+		}
+
+	}
+
+	return;
 }
 
 void CEffectManager::Render_Effect(const _float& fTimeDelta)
 {
+	if (m_vecActiveEffect->size() == 0)
+		return;
+
+	for (int i = 0; i < static_cast<_uint>(EFFECTID::END_EFFECT); i++)
+	{
+		for (auto iter = m_vecActiveEffect[i].begin(); iter != m_vecActiveEffect[i].end();)
+			(*iter)->Render_Effect(fTimeDelta);				//이펙트 렌더
+	}
+
+	return;
 }
 
-void CEffectManager::Start_Effect(const _vec3& _vPos, EFFECTID _Id, IEffect* _Strategy)
+void CEffectManager::Start_Effect(const _vec3& _vPos, EFFECTID _Id)
 {
 	_uint ID = static_cast<_uint>(_Id);
+
 	if (m_vecEffectPool[ID].size() == 0)							//만약 풀에 이펙트가 없다면
 	{
 		IEffect* pInstance = Clone_Effect(_Id);					//이펙트를 복제해서
