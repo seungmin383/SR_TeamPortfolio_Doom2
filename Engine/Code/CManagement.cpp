@@ -146,13 +146,14 @@ void CManagement::Free()
 	//프로그램 종료라고 판단, 강제로 stage3으로 설정
 	//Layer 소멸 시 player를 포함한 모든 오브젝트 release 의도
 	//m_eCurSceneId = SCENEID::STAGE3;
+
 	m_eCurSceneId = SCENEID::TEST;
+
+	Safe_Release(m_pScene);
 
 	for (size_t i = 0; i < (_uint)SCENEID::SCENE_END; i++)
 	{
 		if (nullptr != m_pArrScene[i])
 			Safe_Release(m_pArrScene[i]);
 	}
-
-	Safe_Release(m_pScene);
 }

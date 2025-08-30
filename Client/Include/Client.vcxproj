@@ -202,6 +202,7 @@
     <ClInclude Include="..\Header\CKey.h" />
     <ClInclude Include="..\Header\CLoading.h" />
     <ClInclude Include="..\Header\CMainMenu.h" />
+    <ClInclude Include="..\Header\CMainMenuBackground.h" />
     <ClInclude Include="..\Header\CMainMenuExit.h" />
     <ClInclude Include="..\Header\CMainMenuHover.h" />
     <ClInclude Include="..\Header\CMainMenuLogo.h" />
@@ -228,7 +229,9 @@
     <ClInclude Include="..\Header\CMainApp.h" />
     <ClInclude Include="..\Header\CMonster.h" />
     <ClInclude Include="..\Header\CUICamera.h" />
+    <ClInclude Include="..\Header\CUIManager.h" />
     <ClInclude Include="..\Header\CUIObject.h" />
+    <ClInclude Include="..\Header\CUISet.h" />
     <ClInclude Include="..\Header\CUI_StageClear.h" />
     <ClInclude Include="..\Header\CWeapon_BFG.h" />
     <ClInclude Include="..\Header\CWeapon_ChainGun.h" />
@@ -281,6 +284,7 @@
     <ClCompile Include="..\Code\CImpBullet.cpp" />
     <ClCompile Include="..\Code\CLoading.cpp" />
     <ClCompile Include="..\Code\CMainMenu.cpp" />
+    <ClCompile Include="..\Code\CMainMenuBackground.cpp" />
     <ClCompile Include="..\Code\CMainMenuExit.cpp" />
     <ClCompile Include="..\Code\CMainMenuHover.cpp" />
     <ClCompile Include="..\Code\CMainMenuLogo.cpp" />
@@ -307,7 +311,9 @@
     <ClCompile Include="..\Code\CMainApp.cpp" />
     <ClCompile Include="..\Code\CMonster.cpp" />
     <ClCompile Include="..\Code\CUICamera.cpp" />
+    <ClCompile Include="..\Code\CUIManager.cpp" />
     <ClCompile Include="..\Code\CUIObject.cpp" />
+    <ClCompile Include="..\Code\CUISet.cpp" />
     <ClCompile Include="..\Code\CUI_StageClear.cpp" />
     <ClCompile Include="..\Code\CWeapon_BFG.cpp" />
     <ClCompile Include="..\Code\CWeapon_ChainGun.cpp" />

@@ -30,6 +30,8 @@ _int CUIObject::Update_GameObject(const _float& fTimeDelta)
 	CGameObject::Update_GameObject(fTimeDelta);
 	Catch_Mouce();
 	Update_UIRect();
+
+	return 0;
 }
 
 void CUIObject::Update_UIRect()

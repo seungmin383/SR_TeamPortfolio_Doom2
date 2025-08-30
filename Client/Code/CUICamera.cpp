@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "CUICamera.h"
 #include "CRenderer.h"
 
@@ -31,7 +32,7 @@ _int CUICamera::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
 
-	CRenderer::GetInstance()->Add_RenderGroup(RENDER_PRIORITY, this);
+	//CRenderer::GetInstance()->Add_RenderGroup(RENDER_PRIORITY, this);
 
 	m_pCameraCom->Set_Projection(&m_matWorld);
 

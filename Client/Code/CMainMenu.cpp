@@ -7,9 +7,11 @@
 #include "CLayer.h"
 #include "Define.h"
 
+#include "CMainMenuBackground.h"
 #include "CMainMenuLogo.h"
 #include "CMainMenuExit.h"
 #include "CMainMenuHover.h"
+#include "CUICamera.h"
 
 CMainMenu::CMainMenu(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -22,13 +24,9 @@ CMainMenu::~CMainMenu()
 
 HRESULT CMainMenu::Ready_Scene()
 {
-	if (FAILED(Ready_Environment_Layer(LAYERID::LAYER_ENVIRONMENT)))
-		return E_FAIL;
-
 	if (FAILED(Ready_UI_Layer(LAYERID::LAYER_UI)))
 		return E_FAIL;
 
-	UpdateHitRects();
 	m_focus = 0; // START
 
 	return S_OK;
@@ -38,14 +36,6 @@ _int CMainMenu::Update_Scene(const _float& fTimeDelta)
 {
 	_int iExit = CScene::Update_Scene(fTimeDelta);
 
-	UpdateHitRects();
-
-	// 마우스 호버 계산
-	POINT pt = GetMouseClientPos();
-	m_hover = -1;
-	if (PtInRect(&m_rcStart, pt)) m_hover = 0;
-	else if (PtInRect(&m_rcExit, pt)) m_hover = 1;
-
 	// 키보드 포커스 업데이트
 	HandleKeyboard(fTimeDelta);
 
@@ -53,9 +43,6 @@ _int CMainMenu::Update_Scene(const _float& fTimeDelta)
 	if (m_hover != -1) m_focus = m_hover;
 
 	// m_hover == 0 이면 메뉴 왼쪽에 해골 이미지 출력
-
-	// 클릭 처리(마우스)
-	HandleClick(fTimeDelta);
 
 	return iExit;
 }
@@ -67,132 +54,11 @@ void CMainMenu::LateUpdate_Scene(const _float& fTimeDelta)
 
 void CMainMenu::Render_Scene(const _float& fTimeDelta)
 {
-	// ---- 상태 백업 ----
-	DWORD oldAlpha, oldLight, oldZ;
-	m_pGraphicDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &oldAlpha);
-	m_pGraphicDev->GetRenderState(D3DRS_LIGHTING, &oldLight);
-	m_pGraphicDev->GetRenderState(D3DRS_ZENABLE, &oldZ);
-
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
-	m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, FALSE);
-
-	// ---- 화면 중앙 기준 배치(히트박스 계산과 동일한 좌표 사용) ----
-	if (m_pUISprite)
-	{
-		m_pUISprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
-
-		// START ("NEW GAME")
-		if (m_pLogoTex) {
-			D3DXMATRIX T; D3DXMatrixTranslation(&T, m_posStart.x, m_posStart.y, 0.f);
-			m_pUISprite->SetTransform(&T);
-			m_pUISprite->Draw(m_pLogoTex, nullptr, nullptr, nullptr, 0xFFFFFFFF);
-		}
-
-		// EXIT ("QUIT GAME")
-		if (m_pExitTex) {
-			D3DXMATRIX T; D3DXMatrixTranslation(&T, m_posExit.x, m_posExit.y, 0.f);
-			m_pUISprite->SetTransform(&T);
-			m_pUISprite->Draw(m_pExitTex, nullptr, nullptr, nullptr, 0xFFFFFFFF);
-		}
-
-		// 해골 인디케이터(호버가 우선, 없으면 포커스)
-		const int idx = (m_hover != -1) ? m_hover : m_focus;
-		if (m_pHoverTex && (idx == 0 || idx == 1)) {
-			const D3DXVECTOR2 itemSize = (idx == 0) ? m_sizeStart : m_sizeExit;
-			const D3DXVECTOR2& itemPos = (idx == 0) ? m_posStart : m_posExit;
-			const float skullW = (m_sizeSkull.x > 0.f) ? m_sizeSkull.x : 32.f;
-			const float skullH = (m_sizeSkull.y > 0.f) ? m_sizeSkull.y : 32.f;
-			const float sx = itemPos.x - skullW - 12.f;
-			const float sy = itemPos.y + (itemSize.y - skullH) * 0.5f;
-
-			D3DXMATRIX T; D3DXMatrixTranslation(&T, sx, sy, 0.f);
-			m_pUISprite->SetTransform(&T);
-			m_pUISprite->Draw(m_pHoverTex, nullptr, nullptr, nullptr, 0xFFFFFFFF);
-		}
-
-		m_pUISprite->End();
-	}
-
-	// ---- 상태 복구 ----
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, oldAlpha);
-	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, oldLight);
-	m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, oldZ);
 }
 
 HRESULT CMainMenu::Load_PreSet()
 {
 	return S_OK;
-}
-
-HRESULT CMainMenu::Ready_Environment_Layer(LAYERID _eLayerId)
-{
-	Engine::CLayer* pLayer = CLayer::Create();
-	if (nullptr == pLayer)
-		return E_FAIL;
-
-	Engine::CGameObject* pGameObject = nullptr;
-
-	pGameObject = CBackGround::Create(m_pGraphicDev);
-	if (nullptr == pGameObject)
-		return E_FAIL;
-
-	dynamic_cast<CBackGround*>(pGameObject)->Set_IsMainMenu(true);
-
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_BACKGROUND, pGameObject)))
-		return E_FAIL;
-
-	m_mapLayer.insert({ _eLayerId, pLayer });
-
-	return S_OK;
-}
-
-POINT CMainMenu::GetMouseClientPos() const
-{
-	POINT pt; GetCursorPos(&pt);
-	ScreenToClient(g_hWnd, &pt);
-	return pt;
-}
-
-bool CMainMenu::IsLButtonDown() const
-{
-	return (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0;
-}
-
-void CMainMenu::UpdateHitRects()
-{
-	RECT rc; GetClientRect(g_hWnd, &rc);
-	const float cx = (rc.right - rc.left) * 0.5f;
-	const float cy = (rc.bottom - rc.top) * 0.5f;
-
-	// DOOM 스타일: 약간 왼쪽으로 오프셋
-	const float maxW = max(m_sizeStart.x, m_sizeExit.x);
-	const float anchorX = cx - maxW * 0.25f;   // 화면 중앙 기준 왼쪽으로 살짝
-	const float yStart = cy - 110.f;
-	const float yExit = cy + 110.f;
-
-	m_posStart = D3DXVECTOR2(anchorX, yStart);
-	m_posExit = D3DXVECTOR2(anchorX, yExit);
-
-	m_rcStart = { (LONG)anchorX, (LONG)yStart, (LONG)(anchorX + m_sizeStart.x), (LONG)(yStart + m_sizeStart.y) };
-	m_rcExit = { (LONG)anchorX, (LONG)yExit , (LONG)(anchorX + m_sizeExit.x), (LONG)(yExit + m_sizeExit.y) };
-}
-
-void CMainMenu::HandleClick(_float fTimeDelta)
-{
-	// 호버 업데이트
-	const POINT pt = GetMouseClientPos();
-	m_hover = -1;
-	if (PtInRect(&m_rcStart, pt)) m_hover = 0;
-	else if (PtInRect(&m_rcExit, pt)) m_hover = 1;
-
-	// 왼클릭 엣지 감지
-	const bool lDown = IsLButtonDown();
-	if (lDown && !m_prevLDown) {
-		if (m_hover == 0) { m_focus = 0; PlaySfx_Select(); ActivateFocused(); }
-		else if (m_hover == 1) { m_focus = 1; PlaySfx_Select(); ActivateFocused(); }
-	}
-	m_prevLDown = lDown;
 }
 
 void CMainMenu::HandleKeyboard(_float fTimeDelta)
@@ -226,20 +92,10 @@ void CMainMenu::ActivateFocused()
 
 void CMainMenu::PlaySfx_Move()
 {
-#if MENU_ENABLE_SOUND
-	// 예시) 엔진에 맞춰 여기를 구현
-	// if (auto* sm = CSoundManager::GetInstance())
-	//     sm->Play_Sound(L"ui_move.wav", CHANNELID::SOUND_UI, 0.6f);
-#endif
 }
 
 void CMainMenu::PlaySfx_Select()
 {
-#if MENU_ENABLE_SOUND
-	// 예시) 엔진에 맞춰 여기를 구현
-	// if (auto* sm = CSoundManager::GetInstance())
-	//     sm->Play_Sound(L"ui_select.wav", CHANNELID::SOUND_UI, 0.8f);
-#endif
 }
 
 HRESULT CMainMenu::Ready_UI_Layer(LAYERID _eLayerId)
@@ -250,34 +106,56 @@ HRESULT CMainMenu::Ready_UI_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
+	auto background = CMainMenuBackground::Create(m_pGraphicDev);
+
+	if (nullptr == background)
+		return E_FAIL;
+
+	background->Set_SizeXY(WINCX, WINCY);
+	background->Set_Pos(WINCX * 0.5f, WINCY * 0.5f);
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, background)))
+		return E_FAIL;
+
 	auto logo = CMainMenuLogo::Create(m_pGraphicDev);
 	
 	if (nullptr == logo)
 		return E_FAIL;
 
-	logo->Set_SizeXY(10.f, 20.f);
-	logo->Set_Pos(WINCX * 0.5f - 10.f, WINCY * 0.5f + 50.f);
+	logo->Set_SizeXY(100.f, 10.f);
+	logo->Set_Pos(WINCX * 0.5f - 10.f, WINCY * 0.5f - 50.f);
 
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, logo)))
 		return E_FAIL;
 
 	auto exit = CMainMenuExit::Create(m_pGraphicDev);
 
-	if (nullptr == pGameObject)
+	if (nullptr == exit)
 		return E_FAIL;
 
-	exit->Set_SizeXY(10.f, 20.f);
-	exit->Set_Pos(WINCX * 0.5f - 10.f, WINCY * 0.5f - 50.f);
+	exit->Set_SizeXY(100.f, 10.f);
+	exit->Set_Pos(WINCX * 0.5f - 10.f, WINCY * 0.5f + 50.f);
 
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, exit)))
 		return E_FAIL;
 
 	auto hover = CMainMenuHover::Create(m_pGraphicDev);
 
-	if (nullptr == pGameObject)
+	if (nullptr == hover)
+		return E_FAIL;
+	
+	hover->Set_SizeXY(15.f, 15.f);
+	hover->Set_Pos(WINCX * 0.5f - 90.f, WINCY * 0.5f + 50.f);
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, hover)))
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
+	auto uiCamera = CUICamera::Create(m_pGraphicDev);
+
+	if (nullptr == uiCamera)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, uiCamera)))
 		return E_FAIL;
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
@@ -287,7 +165,6 @@ HRESULT CMainMenu::Ready_UI_Layer(LAYERID _eLayerId)
 
 HRESULT CMainMenu::Ready_Prototype()
 {
-
 	return S_OK;
 }
 

@@ -14,9 +14,6 @@ protected:
 public:
     HRESULT                 Ready_Camera(_bool isOrtho);
 
-private:
-    LPDIRECT3DDEVICE9       m_pGraphicDev;
-
 public:
     virtual _int            Update_Component(const _float& fTimeDelta) override;
     virtual void            LateUpdate_Component() override;

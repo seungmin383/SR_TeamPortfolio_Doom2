@@ -15,12 +15,14 @@ public:
     virtual     void            LateUpdate_GameObject(const _float& fTimeDelta);
     virtual     void            Render_GameObject(const _float& fTimeDelta);
 
+    virtual void  Action() override { return; }
+
 private:
     HRESULT     Add_Component();
 
 public:
     static CMainMenuExit* Create(LPDIRECT3DDEVICE9 pGraphicDev);
-    virtual CGameObject* Clone() override { return this; }
+    virtual CGameObject* Clone() override;
 
 private:
     virtual void        Free();

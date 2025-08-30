@@ -193,6 +193,12 @@
     <Filter Include="02. GameObject\09. UI\MainMenu">
       <UniqueIdentifier>{6cbaf988-403a-4c38-b182-33f42203776b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Manager\04. UIManager">
+      <UniqueIdentifier>{036ed0e7-09f7-4588-ba65-c9f79190f4fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\04. UIManager\UISet">
+      <UniqueIdentifier>{34c3bcf5-1925-4978-b136-871ff7428c89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -429,6 +435,15 @@
     <ClInclude Include="..\Header\CUICamera.h">
       <Filter>02. GameObject\09. UI\MainMenu</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CMainMenuBackground.h">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CUIManager.h">
+      <Filter>03. Manager\04. UIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CUISet.h">
+      <Filter>03. Manager\04. UIManager\UISet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -658,6 +673,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\CUICamera.cpp">
       <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CMainMenuBackground.cpp">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CUIManager.cpp">
+      <Filter>03. Manager\04. UIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CUISet.cpp">
+      <Filter>03. Manager\04. UIManager\UISet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
