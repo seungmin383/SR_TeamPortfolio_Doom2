@@ -413,7 +413,7 @@ _bool CMonsterBase::Check_Dead()
 {
 	if (m_iGameHp <= 0)
 	{
-
+		m_bDead = true;
 		if (m_iGameHp <= -30)
 		{
 			m_isGibbingDead = TRUE;

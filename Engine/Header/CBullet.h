@@ -40,7 +40,9 @@ protected:
 
 	//내 생각에 총알이 알고 있어야 될 것
 	CGameObject* m_pOwner = nullptr;			//총알의 주인
+
 	_vec3 m_vInitDir;							//발사할 때 총알의 방향
+	_vec3 m_vHitpos;
 
 	_float m_fTimer = 0.f;
 
