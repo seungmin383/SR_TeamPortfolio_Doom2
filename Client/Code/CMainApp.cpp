@@ -65,6 +65,9 @@
 #include "CSuits.h"
 #include "CVerticalMovingObject.h"
 
+
+#include "CTmpWall.h"
+
 CMainApp::CMainApp()
 	: m_pGraphicDev(nullptr),
 	m_pManagementClass(CManagement::GetInstance())
@@ -299,6 +302,9 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::VERTICAL_MOVING, CVerticalMovingObject::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	//테스트 벽
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::TMP_WALL, CTmpWall::Create(m_pGraphicDev))))
+		return E_FAIL;
 
 	//텍스처 필터
 	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);

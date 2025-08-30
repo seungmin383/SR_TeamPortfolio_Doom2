@@ -82,6 +82,8 @@ HRESULT CStage::Ready_Scene()
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_OBJECT);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_BULLET, OBJID::OBJ_OBJECT);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_ENEMY, OBJID::OBJ_BULLET);
+	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_WALL);
+	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_ENEMY, OBJID::OBJ_WALL);
 
 
 
@@ -394,6 +396,15 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 		return E_FAIL;
 
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ITEM, pGameObject)))
+		return E_FAIL;
+
+	// 테스트 벽
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::TMP_WALL);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_WALL, pGameObject)))
 		return E_FAIL;
 
 	// 폭발통

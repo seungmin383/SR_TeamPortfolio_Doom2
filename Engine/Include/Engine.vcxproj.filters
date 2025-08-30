@@ -130,6 +130,18 @@
     <Filter Include="00. Manager\03 .Management\02. GameObject\Bullet">
       <UniqueIdentifier>{d0d17b99-8d9e-40d8-bd55-655531f3300a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00. Manager\13.EffectManager">
+      <UniqueIdentifier>{8acb5b54-101d-48c6-b295-6d1db54fd654}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Manager\13.EffectManager\00.Particle">
+      <UniqueIdentifier>{1f01b1d6-889f-489e-8c61-99787bd69a6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Manager\13.EffectManager\01.Effect">
+      <UniqueIdentifier>{908f63f3-a433-427c-a48e-2a3c8764b145}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Manager\13.EffectManager\02. EffectBase">
+      <UniqueIdentifier>{bda42209-cc5f-4aea-af3b-cdc78504ee75}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\CGraphicDev.h">
@@ -303,6 +315,18 @@
     <ClInclude Include="TerrainModelsMod.h">
       <Filter>DataModel</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CEffectManager.h">
+      <Filter>00. Manager\13.EffectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CParticle.h">
+      <Filter>00. Manager\13.EffectManager\00.Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\IEffect.h">
+      <Filter>00. Manager\13.EffectManager\01.Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CEffectBase.h">
+      <Filter>00. Manager\13.EffectManager\02. EffectBase</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\CGraphicDev.cpp">
@@ -427,6 +451,18 @@
     </ClCompile>
     <ClCompile Include="..\Code\CBullet.cpp">
       <Filter>00. Manager\03 .Management\02. GameObject\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CEffectManager.cpp">
+      <Filter>00. Manager\13.EffectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CParticle.cpp">
+      <Filter>00. Manager\13.EffectManager\00.Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\IEffect.cpp">
+      <Filter>00. Manager\13.EffectManager\01.Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CEffectBase.cpp">
+      <Filter>00. Manager\13.EffectManager\02. EffectBase</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

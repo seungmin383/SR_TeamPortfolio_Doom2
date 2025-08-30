@@ -165,6 +165,7 @@ HRESULT CSpiderMastermind::Ready_GameObject()
 
 #pragma endregion
 
+	CMonsterBase::Ready_GameObject();
 	return S_OK;
 }
 
@@ -172,14 +173,19 @@ _int CSpiderMastermind::Update_GameObject(const _float& fTimeDelta)
 {
 	Check_Anim_Fin(fTimeDelta);
 	Pattern_Timer(fTimeDelta);		//패턴 시간 누적
-	if (m_isAwake)
+
+	if (!m_bDead)
 	{
-		Reset_State();
-		Awake_Pattern(m_PattenArr[m_iEnt_Pattern_Number]);
-		//Awake_Pattern(3); 
-		m_isAwake = FALSE;
+		if (m_isAwake)
+		{
+			Reset_State();
+			Awake_Pattern(m_PattenArr[m_iEnt_Pattern_Number]);
+			//Awake_Pattern(3); 
+			m_isAwake = FALSE;
+		}
+		Update_Pattern(fTimeDelta, m_PattenArr[m_iEnt_Pattern_Number]);
+
 	}
-	Update_Pattern(fTimeDelta, m_PattenArr[m_iEnt_Pattern_Number]);
 	//Update_Pattern(fTimeDelta, 3);
 
 //	cout << "스파이더 마스터마인드 픎레이어 발견 : " << m_isDetect_Player << endl;
@@ -463,6 +469,7 @@ void CSpiderMastermind::Reset_Pattern3(const _float fTimeDelta)
 
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
+
 	_vec3 dir = m_vTargetPos - vPos;
 	D3DXVec3Normalize(&dir, &dir);
 

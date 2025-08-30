@@ -24,7 +24,6 @@ CArchVile::~CArchVile()
 
 HRESULT CArchVile::Ready_GameObject()
 {
-	CMonsterBase::Ready_GameObject();
 	m_iMonsterType = OBJPROTOTYPE::ENEMY_ARCHVILE;
 
 	if (FAILED(Add_Component()))
@@ -136,6 +135,7 @@ HRESULT CArchVile::Ready_GameObject()
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 #pragma endregion
 
+	CMonsterBase::Ready_GameObject();
 	return S_OK;
 }
 

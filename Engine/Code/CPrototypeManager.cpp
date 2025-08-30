@@ -63,6 +63,9 @@ CGameObject* CPrototypeManager::Clone_ObjPrototype(OBJPROTOTYPE eObjId, CGameObj
 	return pInstance->Clone(_Owner);
 }
 
+
+
+
 CComponent* CPrototypeManager::Find_ComPrototype(wstring pComponentTag)
 {
 	auto iter = find_if(m_mapComPrototype.begin(), m_mapComPrototype.end(), [&pComponentTag](const pair<wstring, CComponent*> pair) { return pair.first == pComponentTag; });
@@ -82,6 +85,7 @@ CGameObject* CPrototypeManager::Find_ObjPrototype(OBJPROTOTYPE eObjId)
 
 	return iter->second;
 }
+
 
 void CPrototypeManager::Free()
 {
