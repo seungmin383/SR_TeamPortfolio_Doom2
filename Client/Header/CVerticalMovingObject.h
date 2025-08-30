@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "CGameObject.h"
 #include "CDynamicCamera.h"
 
@@ -6,7 +6,7 @@ static const char* ColLayerToStr(int l) {
 	switch (l) {
 	case COL_PLAYER: return "COL_PLAYER";
 	case COL_OBJECT: return "COL_OBJECT";
-		// ÇÊ¿äÇÏ¸é ´Ù¸¥ ·¹ÀÌ¾îµµ Ãß°¡
+		// í•„ìš”í•˜ë©´ ë‹¤ë¥¸ ë ˆì´ì–´ë„ ì¶”ê°€
 	default:         return "UNKNOWN";
 	}
 }
@@ -28,28 +28,28 @@ public:
 	virtual     void			OnCollisionEnter(CCollider* _pOther) override;
 	virtual     void			OnCollisionExit(CCollider* _pOther) override;
 
-	// ¼³Ä¡¡¤Æ©´×¿ë ÆÄ¶ó¹ÌÅÍ
+	// ì„¤ì¹˜Â·íŠœë‹ìš© íŒŒë¼ë¯¸í„°
 	void SetMovement(float minY, float maxY, float speed, float waitAtEnds = 0.f)
 	{
 		m_minY = min(minY, maxY);
 		m_maxY = max(minY, maxY);
 		m_speed = max(0.0f, speed);
 		m_waitAtEnds = max(0.0f, waitAtEnds);
-		// ½ÃÀÛ À§Ä¡¸¦ ¹üÀ§ ¾ÈÀ¸·Î ½º³À
+		// ì‹œì‘ ìœ„ì¹˜ë¥¼ ë²”ìœ„ ì•ˆìœ¼ë¡œ ìŠ¤ëƒ…
 		_vec3 p; m_pTransformCom->Get_Pos(&p);
 		p.y = std::clamp(p.y, m_minY, m_maxY);
 		m_pTransformCom->Set_Pos(p.x, p.y, p.z);
-		m_dirUp = (fabsf(p.y - m_minY) < fabsf(p.y - m_maxY)); // ½ÃÀÛ ¹æÇâ ´ëÃæ °áÁ¤
+		m_dirUp = (fabsf(p.y - m_minY) < fabsf(p.y - m_maxY)); // ì‹œì‘ ë°©í–¥ ëŒ€ì¶© ê²°ì •
 	}
 
 	void SetVisualScale(float sx, float sy, float sz)
 	{
 		if (m_pTransformCom) m_pTransformCom->Set_Scale(_vec3(sx, sy, sz));
-		// ¸Ş½Ã ½ºÄÉÀÏ º¯°æ ½Ã, Äİ¶óÀÌ´õµµ µ¿ÀÏ Å©±â·Î Áï½Ã µ¿±âÈ­
+		// ë©”ì‹œ ìŠ¤ì¼€ì¼ ë³€ê²½ ì‹œ, ì½œë¼ì´ë”ë„ ë™ì¼ í¬ê¸°ë¡œ ì¦‰ì‹œ ë™ê¸°í™”
 		SyncColliderToVisual(sx, sy, sz);
 	}
 
-	// ¹®ÀÌ¶û ½ºÀ§Ä¡ ÅÂ±×±â´É
+	// ë¬¸ì´ë‘ ìŠ¤ìœ„ì¹˜ íƒœê·¸ê¸°ëŠ¥
 public:
 	void Set_LinkId(const wstring& id) { m_linkId = id; }
 	const wstring& Get_LinkId() const { return m_linkId; }
@@ -67,74 +67,74 @@ private:
 	bool    IsPlayerObject(CGameObject* obj) const;
 
 public:
-	// CCubeTex ´ÜÀ§¿Í ÇÇ¹ş ÁöÁ¤
+	// CCubeTex ë‹¨ìœ„ì™€ í”¼ë²— ì§€ì •
 	void SetMeshUnitAndPivot(float unit, bool pivotIsBottom)
 	{
 		m_meshUnit = unit;
 		m_pivotIsBottom = pivotIsBottom;
 
-		// ÇöÀç ½ºÄÉÀÏ·Î Áï½Ã Àçµ¿±âÈ­
+		// í˜„ì¬ ìŠ¤ì¼€ì¼ë¡œ ì¦‰ì‹œ ì¬ë™ê¸°í™”
 		if (m_pTransformCom) {
 			const _vec3* s = m_pTransformCom->Get_Scale();
 			if (s) SyncColliderToVisual(s->x, s->y, s->z);
 		}
 	}
 
-	void SetRiderEyeGap(float gap) { m_riderEyeGap = max(0.f, gap); }
+	//void SetRiderEyeGap(float gap) { m_riderEyeGap = max(0.f, gap); }
 
 private:
-	Engine::CCubeTex* m_pBufferCom;					// Æò¸é, ÇÃ·§Æû ±×¸®±â
-	Engine::CTexture* m_pTextureCom;						// ½ºÀ§Ä¡ ÃÊ±â»óÅÂ
+	Engine::CCubeTex* m_pBufferCom;					// í‰ë©´, í”Œë«í¼ ê·¸ë¦¬ê¸°
+	Engine::CTexture* m_pTextureCom;						// ìŠ¤ìœ„ì¹˜ ì´ˆê¸°ìƒíƒœ
 	Engine::CCalculator* m_pCalculatorCom;
 
-	// ÀÌµ¿ ÆÄ¶ó¹ÌÅÍ
+	// ì´ë™ íŒŒë¼ë¯¸í„°
 	float  m_minY = 0.f;
 	float  m_maxY = 0.f;
 	float  m_speed = 2.f;
-	float  m_waitAtEnds = 0.f;   // ³¡Á¡¿¡¼­ Á¤Áö ½Ã°£(ÃÊ)
+	float  m_waitAtEnds = 0.f;   // ëì ì—ì„œ ì •ì§€ ì‹œê°„(ì´ˆ)
 	float  m_waitTimer = 0.f;
 	bool   m_dirUp = true;
 
-	float m_riderEyeGap = 0.18f; // ¹ßÆÇ À§¿¡¼­ Ä«¸Ş¶ó¸¦ ¹Ù´Ú¿¡¼­ ÀÌ¸¸Å­ ¶ç¿ò(¹Ì¼¼ Á¶Àı¿ë)
+	float m_riderEyeGap = 0.18f; // ë°œíŒ ìœ„ì—ì„œ ì¹´ë©”ë¼ë¥¼ ë°”ë‹¥ì—ì„œ ì´ë§Œí¼ ë„ì›€(ë¯¸ì„¸ ì¡°ì ˆìš©)
 
-	float m_meshUnit = 2.f;				// CCubeTex°¡ ÇÑ º¯ 2ÀÌ¸é 2.f
-	bool  m_pivotIsBottom = false;		// ¸Ş½Ã ÇÇ¹şÀÌ ¹Ù´ÚÀÌ¸é true
+	float m_meshUnit = 2.f;				// CCubeTexê°€ í•œ ë³€ 2ì´ë©´ 2.f
+	bool  m_pivotIsBottom = false;		// ë©”ì‹œ í”¼ë²—ì´ ë°”ë‹¥ì´ë©´ true
 
-	// ¶óÀÌ´õ(ÇÃ·§Æû À§ÀÇ ÇÃ·¹ÀÌ¾î)
+	// ë¼ì´ë”(í”Œë«í¼ ìœ„ì˜ í”Œë ˆì´ì–´)
 	CGameObject* m_pRider = nullptr;
-	float        m_lastY = 0.f;     // ÀÌÀü ÇÁ·¹ÀÓ ÇÃ·§Æû Y (deltaY °è»ê)
-	float        m_halfHeight = 0.5f;// Äİ¶óÀÌ´õ/¸Ş½Ã Àı¹İ ³ôÀÌ
+	float        m_lastY = 0.f;     // ì´ì „ í”„ë ˆì„ í”Œë«í¼ Y (deltaY ê³„ì‚°)
+	float        m_halfHeight = 0.5f;// ì½œë¼ì´ë”/ë©”ì‹œ ì ˆë°˜ ë†’ì´
 
 	float GetTopFaceWorldY() const {
 		if (m_pColliderCom) {
-			const _vec3* v = m_pColliderCom->Get_WorldCollisionBox(); // Äİ¶óÀÌ´õ 8Á¡
+			const _vec3* v = m_pColliderCom->Get_WorldCollisionBox(); // ì½œë¼ì´ë” 8ì 
 			float top = v[0].y;
 			for (int i = 1; i < 8; ++i) if (v[i].y > top) top = v[i].y;
 			return top;
 		}
 		_vec3 p; m_pTransformCom->Get_Pos(&p);
-		return p.y + m_halfHeight; // Æú¹é
+		return p.y + m_halfHeight; // í´ë°±
 	}
 
 	void SnapTopTo(float targetY) {
 		_vec3 pos; m_pTransformCom->Get_Pos(&pos);
 		float top = GetTopFaceWorldY();
-		float off = targetY - top;        // topÀ» targetY·Î ¸ÂÃßµµ·Ï º¸Á¤
+		float off = targetY - top;        // topì„ targetYë¡œ ë§ì¶”ë„ë¡ ë³´ì •
 		if (fabsf(off) > 1e-5f) {
 			pos.y += off;
 			m_pTransformCom->Set_Pos(pos.x, pos.y, pos.z);
-			m_lastY = pos.y;              // ¿¬¼Ó¼º À¯Áö
+			m_lastY = pos.y;              // ì—°ì†ì„± ìœ ì§€
 		}
 	}
 
 	float TopY() const {
 		_vec3 p; m_pTransformCom->Get_Pos(&p);
-		return p.y + m_halfHeight;       // È¸Àü ¾ø´Ù´Â ÀüÁ¦(µÒ½Ä ±âµÕ)
+		return p.y + m_halfHeight;       // íšŒì „ ì—†ë‹¤ëŠ” ì „ì œ(ë‘ ì‹ ê¸°ë‘¥)
 	}
 
 	void SetTopY(float targetY) {
 		_vec3 p; m_pTransformCom->Get_Pos(&p);
-		p.y = targetY - m_halfHeight;    // Å¾¸éÀÌ targetY°¡ µÇµµ·Ï Áß½ÉY Á¶Á¤
+		p.y = targetY - m_halfHeight;    // íƒ‘ë©´ì´ targetYê°€ ë˜ë„ë¡ ì¤‘ì‹¬Y ì¡°ì •
 		m_pTransformCom->Set_Pos(p.x, p.y, p.z);
 		m_lastY = p.y;
 	}
@@ -165,25 +165,45 @@ private:
 	{
 		if (!m_pColliderCom || !m_pTransformCom) return;
 
-		// ¸Ş½Ã ´ÜÀ§ º¸Á¤: CCubeTex ±âº»ÀÌ ÇÑ º¯ 2¶ó¸é m_meshUnit=2.0f
+		// ë©”ì‹œ ë‹¨ìœ„ ë³´ì •: CCubeTex ê¸°ë³¸ì´ í•œ ë³€ 2ë¼ë©´ m_meshUnit=2.0f
 		_vec3 colScale = _vec3(sx * m_meshUnit, sy * m_meshUnit, sz * m_meshUnit);
 
-		// ÇÇ¹şÀÌ ¹Ù´ÚÀÌ¸é Äİ¶óÀÌ´õ¸¦ À§·Î halfHeight¸¸Å­ ¿Ã·Á ¸ÂÃã
+		// í”¼ë²—ì´ ë°”ë‹¥ì´ë©´ ì½œë¼ì´ë”ë¥¼ ìœ„ë¡œ halfHeightë§Œí¼ ì˜¬ë ¤ ë§ì¶¤
 		_vec3 offset = m_pivotIsBottom ? _vec3(0.f, colScale.y * 0.5f, 0.f) : _vec3(0, 0, 0);
 
 		_vec3 pos; m_pTransformCom->Get_Pos(&pos);
 
-		// ³»ºÎ »óÅÂ ¼¼ÆÃ(¶óÀÎ »ı¼º Æ÷ÇÔ) + È®Á¤ °ª ¸ø¹Ú±â
+		// ë‚´ë¶€ ìƒíƒœ ì„¸íŒ…(ë¼ì¸ ìƒì„± í¬í•¨) + í™•ì • ê°’ ëª»ë°•ê¸°
 		m_pColliderCom->Ready_CCollider(this, pos, colScale, offset, COL_OBJECT, (COL_PLAYER | COL_ENEMY));
 		m_pColliderCom->Set_ColLayer(COL_OBJECT);
 		m_pColliderCom->Set_ColMask(COL_PLAYER | COL_ENEMY);
 		m_pColliderCom->Set_Active(true);
 		m_pColliderCom->Set_Scale(colScale);
-		// Set_Offset/Set_OffsetPos °¡ ÀÖÀ¸¸é offsetµµ ÇÔ²² ¹İ¿µ
+		// Set_Offset/Set_OffsetPos ê°€ ìˆìœ¼ë©´ offsetë„ í•¨ê»˜ ë°˜ì˜
 
-		// Å¾¸é °è»ê ÀÏ°ü¼º À¯Áö
+		// íƒ‘ë©´ ê³„ì‚° ì¼ê´€ì„± ìœ ì§€
 		m_halfHeight = colScale.y * 0.5f;
 	}
+
+	// ë¼ì´ë”(í”Œë«í¼ ìœ„ ëŒ€ìƒ) í¬ì¸í„°ë“¤ â€“ Transformë§Œ ì‚¬ìš©
+	Engine::CTransform* m_pRiderTr = nullptr;
+
+	// ë°œíŒ ìƒë©´ê³¼ì˜ ìµœì†Œ ê°„ê²©/ì§€ì—° í•´ì œ
+	float m_groundHoldSec = 0.08f;    // ì ‘ì´‰ ëŠê²¨ë„ ìœ ì§€í•  ì‹œê°„
+	float m_groundHoldT = 0.0f;     // ë‚¨ì€ í™€ë“œ íƒ€ì´ë¨¸
+
+	// ë¼ì´ë” ìº¡ì²˜/í•´ì œ í—¬í¼
+	void AttachRider(CGameObject* obj);
+	void DetachRider();
+
+	// ë¼ì´ë” Y ë³´ì •/ë™ìŠ¹
+	void ClampRiderMinY(float minY);           // ìµœì†Œ ë†’ì´ ë³´ì¥(ê´€í†µë°©ì§€)
+	void MoveRiderByDeltaY(float deltaY, float minY); // deltaY ë™ìŠ¹ + ìµœì†Œ ë†’ì´
+
+public:
+		// í•„ìš” ì‹œ ì™¸ë¶€ì—ì„œ ê°„ê²© ì¡°ì •
+		void SetRiderEyeGap(float gap) { m_riderEyeGap = gap < 0.f ? 0.f : gap; }
+
 
 public:
 	static CVerticalMovingObject* Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -55,7 +55,6 @@ enum class OBJPROTOTYPE
 	DOOR,										// πÆ
 	DOORKEY,									// ø≠ºË∞° « ø‰«— πÆ
 	KEY,										// ø≠ºË
-	VERTICAL_MOVING,
 	SHIFT_CUBE,
 	ITEM_HELTH_SMALL,
 	ITEM_HELTH_BIG,

@@ -75,15 +75,6 @@ _int CVerticalMovingObject::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
 
-//#ifdef _DEBUG
-//	{
-//		_vec3 pos; m_pTransformCom->Get_Pos(&pos);
-//		char buf[160];
-//		sprintf_s(buf, "[Pillar] y=%.3f dir=%d wait=%.3f\n", pos.y, (int)m_dirUp, m_waitTimer);
-//		OutputDebugStringA(buf);
-//	}
-//#endif
-
 	_vec3 pos; m_pTransformCom->Get_Pos(&pos);
 
 	// 1) 끝점 대기
@@ -127,11 +118,27 @@ _int CVerticalMovingObject::Update_GameObject(const _float& fTimeDelta)
 	}
 
 	// 2) 라이더(플레이어) 동승
+ // 동승 처리
 	_vec3 cur; m_pTransformCom->Get_Pos(&cur);
-	float deltaY = cur.y - m_lastY;
+	const float deltaY = cur.y - m_lastY;
 	m_lastY = cur.y;
-	if (m_pRider && fabsf(deltaY) > 1e-6f) {
-		CarryRiderByDeltaY(deltaY);
+
+	const float EPS = 0.02f;
+	const float topY = GetTopFaceWorldY();
+	const float minY = topY + EPS + m_riderEyeGap;
+
+	// 현재 rider가 있으면 deltaY만큼 동승
+	if (m_pRiderTr && fabsf(deltaY) > 1e-6f) {
+		MoveRiderByDeltaY(deltaY, minY);
+		// rider가 있으면 홀드 타이머도 계속 리필되고 있음(OnCollision에서)
+	}
+
+	// rider가 비어도 홀드 타임 동안은 최소 높이 유지(깜빡임 방지)
+	if (!m_pRiderTr && m_groundHoldT > 0.f) {
+		m_groundHoldT -= fTimeDelta;
+		// 여기서 “최근에 서 있던 대상” Transform을 따로 캐시해두면 좋다.
+		// 간단히: 마지막 Transform을 캐시하고 DetachRider에서 nullptr로 만들지 말고 유지하는 방법도 있음.
+		// 원한다면 m_pLastRiderTr를 하나 더 두고 그걸로 ClampRiderMinY(minY) 호출.
 	}
 
 	// 3) 렌더 큐
@@ -182,56 +189,44 @@ void CVerticalMovingObject::OnCollision(CCollider* _pOther)
 	if (!_pOther || !m_pColliderCom) return;
 	if ((_pOther->Get_ColLayer() & m_pColliderCom->Get_ColMask()) == 0) return;
 
-	m_pRider = _pOther->Get_Owner();
+	// 접촉 유지 중 – rider 갱신 및 최소 높이 유지
+	if (_pOther->Get_Owner() != m_pRider) AttachRider(_pOther->Get_Owner());
 
-	float topY = GetTopFaceWorldY();
 	const float EPS = 0.02f;
-	const float rideY = topY + EPS + m_riderEyeGap;		// 여유 높이
+	const float topY = GetTopFaceWorldY();
+	const float minY = topY + EPS + m_riderEyeGap;
 
-	// CDynamicCamera 우선 처리(카메라 플레이어: '절대 스냅' 금지 → 최소높이 보장만)
-	if (auto* cam = dynamic_cast<CDynamicCamera*>(m_pRider)) {
-		cam->External_SetGround(rideY);            // ★ 발판 상단을 외부 지면으로 등록
-		// (선택) 수직속도를 유지하고 싶으면 아무 것도 안 함
-		// (아래 한 줄을 추가하면 즉시 관통 방지 최소 높이도 보장)
-		cam->External_ApplyPlatformDelta(0.f, rideY);
-		return;
-	}
-
-	// (폴백) Transform 보유 객체
-	if (auto* tr = dynamic_cast<Engine::CTransform*>(
-		m_pRider->Get_Component(ID_DYNAMIC, L"Com_Transform"))) {
-		_vec3 rp; tr->Get_Pos(&rp);
-		if (rp.y < topY + EPS) tr->Set_Pos(rp.x, rideY, rp.z);
-	}
+	ClampRiderMinY(minY);
+	m_groundHoldT = m_groundHoldSec; // 매 프레임 갱신
 }
 
 void CVerticalMovingObject::OnCollisionEnter(CCollider* _pOther)
 {
 	if (!_pOther || !m_pColliderCom) return;
+	// 레이어/마스크 필터 – 플레이어/적 등 발판에 서길 원하는 레이어만
 	if ((_pOther->Get_ColLayer() & m_pColliderCom->Get_ColMask()) == 0) return;
 
-	m_pRider = _pOther->Get_Owner();
+	AttachRider(_pOther->Get_Owner());
 
-	if (auto* cam = dynamic_cast<CDynamicCamera*>(m_pRider)) {
-		const float EPS = 0.02f;
-		cam->External_SetGround(GetTopFaceWorldY() + EPS + m_riderEyeGap);
-	}
+	const float EPS = 0.02f;
+	const float topY = GetTopFaceWorldY();
+	const float minY = topY + EPS + m_riderEyeGap;
+
+	// 첫 프레임에 관통 방지만 살짝
+	ClampRiderMinY(minY);
+
+	// 접촉 중이므로 홀드 타이머 리필
+	m_groundHoldT = m_groundHoldSec;
 }
 
 void CVerticalMovingObject::OnCollisionExit(CCollider* _pOther)
 {
 	if (!_pOther || !m_pColliderCom) return;
-
-#ifdef _DEBUG
-	char b[160];
-	sprintf_s(b, "[Pillar Exit] otherL=%d\n", (int)_pOther->Get_ColLayer());
-	OutputDebugStringA(b);
-#endif
-
 	if (_pOther->Get_Owner() == m_pRider) {
-		if (auto* cam = dynamic_cast<CDynamicCamera*>(m_pRider))
-			cam->External_ClearGround();               // ★ 해제
-		m_pRider = nullptr; // Exit에서는 해제
+		// 바로 Detach하지 않고 Transform 포인터만 유지해도 되지만
+		// 여기선 포인터 해제하되 홀드 타이머로 잠깐 유지
+		DetachRider();
+		// m_groundHoldT는 그대로 – Update에서 줄이며 유지
 	}
 }
 
@@ -283,13 +278,6 @@ void CVerticalMovingObject::CarryRiderByDeltaY(float deltaY)
 	const float topY = GetTopFaceWorldY();
 	const float minY = topY + EPS + m_riderEyeGap;		// 최소 높이
 
-	// 카메라 플레이어 우선 처리
-	if (auto* cam = dynamic_cast<CDynamicCamera*>(m_pRider)) {
-		cam->External_SetGround(minY);                  // ★ 계속 갱신
-		cam->External_ApplyPlatformDelta(deltaY, minY); // ★ 이동량만 더해주고, 최소 높이 보장
-		return;
-	}
-
 	// (폴백) Transform 보유 객체
 	if (auto* tr = dynamic_cast<Engine::CTransform*>(
 		m_pRider->Get_Component(ID_DYNAMIC, L"Com_Transform"))) {
@@ -304,8 +292,43 @@ void CVerticalMovingObject::CarryRiderByDeltaY(float deltaY)
 bool CVerticalMovingObject::IsPlayerObject(CGameObject* obj) const
 {
 	if (!obj) return false;
-	if (dynamic_cast<CDynamicCamera*>(obj)) return true;
+
 	return false;
+}
+
+void CVerticalMovingObject::AttachRider(CGameObject* obj)
+{
+	m_pRider = obj;
+	m_pRiderTr = nullptr;
+	if (m_pRider) {
+		m_pRiderTr = dynamic_cast<Engine::CTransform*>(
+			m_pRider->Get_Component(ID_DYNAMIC, L"Com_Transform"));
+	}
+}
+
+void CVerticalMovingObject::DetachRider()
+{
+	m_pRider = nullptr;
+	m_pRiderTr = nullptr;
+}
+
+void CVerticalMovingObject::ClampRiderMinY(float minY)
+{
+	if (!m_pRiderTr) return;
+	_vec3 rp; m_pRiderTr->Get_Pos(&rp);
+	if (rp.y < minY) {
+		rp.y = minY;
+		m_pRiderTr->Set_Pos(rp.x, rp.y, rp.z);
+	}
+}
+
+void CVerticalMovingObject::MoveRiderByDeltaY(float deltaY, float minY)
+{
+	if (!m_pRiderTr) return;
+	_vec3 rp; m_pRiderTr->Get_Pos(&rp);
+	rp.y += deltaY;
+	if (rp.y < minY) rp.y = minY;
+	m_pRiderTr->Set_Pos(rp.x, rp.y, rp.z);
 }
 
 CVerticalMovingObject* CVerticalMovingObject::Create(LPDIRECT3DDEVICE9 pGraphicDev)
