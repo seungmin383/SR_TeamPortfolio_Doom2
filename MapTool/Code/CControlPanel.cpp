@@ -675,8 +675,6 @@ void CControlPanel::ObjectController()
 	//tag 기타 태그
 	ImGui::InputText("object tag", &objectTag);
 
-	objectTag.clear();
-
 	tObjectinfo.type1 = objPrototypeTags[type_current].value;
 	tObjectinfo.type2 = objIdTags[id_current].value;
 	tObjectinfo.type3 = objLinkModes[link_current].value;
@@ -1078,6 +1076,7 @@ void CControlPanel::InputMouse_Object()
 			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)tObjectinfo.type1, (OBJID)tObjectinfo.type2, tObjectinfo.position);
 		}
 
+		objectTag.clear();
 
 		vecItemInfos.push_back(tObjectinfo);
 	}
