@@ -67,6 +67,10 @@ HRESULT CStage2::Ready_Scene()
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_ITEM);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_OBJECT);
 
+	// 진행 시간 + 진행 상황 초기화(08/31 김홍인)
+	CStatsManager::I().ResetRuntime();
+	CStatsManager::I().ResetTotals();
+
 	return S_OK;
 }
 
