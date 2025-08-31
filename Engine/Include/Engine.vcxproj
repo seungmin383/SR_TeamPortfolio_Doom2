@@ -22,7 +22,6 @@
     <ClInclude Include="..\Header\CAnimation.h" />
     <ClInclude Include="..\Header\CAnimator.h" />
     <ClInclude Include="..\Header\CBullet.h" />
-    <ClInclude Include="..\Header\CBulletMananger.h" />
     <ClInclude Include="..\Header\CCalculator.h" />
     <ClInclude Include="..\Header\CCamera.h" />
     <ClInclude Include="..\Header\CCameraCom.h" />
@@ -34,6 +33,9 @@
     <ClInclude Include="..\Header\CCubeCol.h" />
     <ClInclude Include="..\Header\CCubeTex.h" />
     <ClInclude Include="..\Header\CDInputManager.h" />
+    <ClInclude Include="..\Header\CEffectBase.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\Header\CFileManager.h" />
     <ClInclude Include="..\Header\CFont.h" />
     <ClInclude Include="..\Header\CFontManager.h" />
@@ -46,6 +48,12 @@
     <ClInclude Include="..\Header\CLightManager.h" />
     <ClInclude Include="..\Header\CManagement.h" />
     <ClInclude Include="..\Header\CMaterial.h" />
+    <ClInclude Include="..\Header\CParticle.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\Header\CEffectManager.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\Header\CPrototypeManager.h" />
     <ClInclude Include="..\Header\CRectCol.h" />
     <ClInclude Include="..\Header\CRectSpriteTex.h" />
@@ -67,6 +75,9 @@
     <ClInclude Include="..\Header\Engine_Struct.h" />
     <ClInclude Include="..\Header\Engine_Typedef.h" />
     <ClInclude Include="..\Header\CTriCol.h" />
+    <ClInclude Include="..\Header\IEffect.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="ConfigModel.h" />
     <ClInclude Include="GameObjectSpawnInfo.h" />
     <ClInclude Include="GameObjectType.h" />
@@ -82,7 +93,6 @@
     <ClCompile Include="..\Code\CAnimation.cpp" />
     <ClCompile Include="..\Code\CAnimator.cpp" />
     <ClCompile Include="..\Code\CBullet.cpp" />
-    <ClCompile Include="..\Code\CBulletMananger.cpp" />
     <ClCompile Include="..\Code\CCalculator.cpp" />
     <ClCompile Include="..\Code\CCamera.cpp" />
     <ClCompile Include="..\Code\CCameraCom.cpp" />
@@ -94,6 +104,9 @@
     <ClCompile Include="..\Code\CCubeCol.cpp" />
     <ClCompile Include="..\Code\CCubeTex.cpp" />
     <ClCompile Include="..\Code\CDInputManager.cpp" />
+    <ClCompile Include="..\Code\CEffectBase.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Code\CFileManager.cpp" />
     <ClCompile Include="..\Code\CFont.cpp" />
     <ClCompile Include="..\Code\CFontManager.cpp" />
@@ -106,6 +119,12 @@
     <ClCompile Include="..\Code\CLightManager.cpp" />
     <ClCompile Include="..\Code\CManagement.cpp" />
     <ClCompile Include="..\Code\CMaterial.cpp" />
+    <ClCompile Include="..\Code\CParticle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Code\CEffectManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Code\CPrototypeManager.cpp" />
     <ClCompile Include="..\Code\CRectCol.cpp" />
     <ClCompile Include="..\Code\CRectSpriteTex.cpp" />
@@ -120,6 +139,9 @@
     <ClCompile Include="..\Code\CTransform.cpp" />
     <ClCompile Include="..\Code\CVIBuffer.cpp" />
     <ClCompile Include="..\Code\CTriCol.cpp" />
+    <ClCompile Include="..\Code\IEffect.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="TerrainModels.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

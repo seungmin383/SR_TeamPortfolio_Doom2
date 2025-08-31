@@ -190,6 +190,27 @@
     <Filter Include="01. Scene\05. StageTest">
       <UniqueIdentifier>{3c6b1b3a-c332-4a38-af40-bf6518714130}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\03. Terrain\tmpWall">
+      <UniqueIdentifier>{73e38be8-d88e-4786-9e69-eb6c8ef7a0bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\10. Effect">
+      <UniqueIdentifier>{c001c1ed-3325-4ae3-a55e-6d5097e38f82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\10. Effect\00.ExplosionBlood">
+      <UniqueIdentifier>{49217048-038e-4551-9511-9a90bf4ecaf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\10. Effect\01. ImpactBullet">
+      <UniqueIdentifier>{83115153-0361-4766-8343-a1e3e5971710}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Effect">
+      <UniqueIdentifier>{7af1a088-d64a-48db-9a57-1d8df749c060}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Effect\00.BloodExplosion">
+      <UniqueIdentifier>{03b73c44-e0bf-465a-8d29-40050fce2079}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\10. Effect\00. ExplosionBlood">
+      <UniqueIdentifier>{9df72848-f023-4329-9b1d-c7e1be36f9b6}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02. GameObject\09. UI\MainMenu">
       <UniqueIdentifier>{6cbaf988-403a-4c38-b182-33f42203776b}</UniqueIdentifier>
     </Filter>
@@ -419,6 +440,18 @@
     </ClInclude>
     <ClInclude Include="CStageTest.h">
       <Filter>01. Scene\05. StageTest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CVerticalMovingObject.h">
+      <Filter>02. GameObject\06. Object\FieldObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CTmpWall.h">
+      <Filter>02. GameObject\03. Terrain\tmpWall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CEffect.h">
+      <Filter>02. GameObject\10. Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CExplosionBloodEffect.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CMainMenuLogo.h">
       <Filter>02. GameObject\09. UI\MainMenu</Filter>
@@ -658,6 +691,18 @@
     </ClCompile>
     <ClCompile Include="CStageTest.cpp">
       <Filter>01. Scene\05. StageTest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CVerticalMovingObject.cpp">
+      <Filter>02. GameObject\06. Object\FieldObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CTmpWall.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CEffect.cpp">
+      <Filter>02. GameObject\10. Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CExplosionBloodEffect.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CMainMenuLogo.cpp">
       <Filter>02. GameObject\09. UI\MainMenu</Filter>

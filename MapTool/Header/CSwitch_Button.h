@@ -24,7 +24,7 @@ public:
 	virtual     void			OnCollisionEnter(CCollider* _pOther) override;
 	virtual     void			OnCollisionExit(CCollider* _pOther) override;
 
-	void Set_Target(CDoor* pDoor) 
+	void Set_Target(CDoor* pDoor)
 	{
 		m_pObjTarget = pDoor;
 		m_target = pDoor;

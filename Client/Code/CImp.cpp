@@ -24,8 +24,6 @@ CImp::~CImp()
 
 HRESULT CImp::Ready_GameObject()
 {
-	//m_iMonsterType = OBJPROTOTYPE::ENEMY_IMP;
-	CMonsterBase::Ready_GameObject();
 
 	if (FAILED(Add_Component()))
 		return E_FAIL;
@@ -134,6 +132,7 @@ HRESULT CImp::Ready_GameObject()
 
 #pragma endregion
 
+	CMonsterBase::Ready_GameObject();
 	return S_OK;
 }
 

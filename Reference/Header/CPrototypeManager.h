@@ -42,7 +42,7 @@ public:
     HRESULT         Ready_ObjPrototype(OBJPROTOTYPE eObjId, CGameObject* pComponent);
     CGameObject*     Clone_ObjPrototype(OBJPROTOTYPE eObjId);
     CGameObject*     Clone_ObjPrototype(OBJPROTOTYPE eObjId, CGameObject* _Owner);
-  
+
 private:
     //Component
     CComponent*     Find_ComPrototype(wstring pComponentTag);

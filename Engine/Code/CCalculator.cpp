@@ -106,7 +106,7 @@ _bool CCalculator::RayScan_OnTerrain(CTerrainTexSector* pTerrainSectorBufferCom,
 
 	_float fU(0.f), fV(0.f), fDist(0.f);
 	_ulong dwVtxIdx[3]{};
-
+	
 	const _vec3* pTerrainVtxPos = pTerrainSectorBufferCom->Get_VtxPos();
 	_ulong vtxCntX = pTerrainSectorBufferCom->Get_VtxCntX();
 	_ulong vtxCntZ = pTerrainSectorBufferCom->Get_VtxCntZ();

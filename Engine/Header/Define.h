@@ -55,6 +55,7 @@ enum class OBJPROTOTYPE
 	DOOR,										// 문
 	DOORKEY,									// 열쇠가 필요한 문
 	KEY,										// 열쇠
+	VERTICAL_MOVING,
 	SHIFT_CUBE,
 	ITEM_HELTH_SMALL,
 	ITEM_HELTH_BIG,
@@ -71,6 +72,7 @@ enum class OBJPROTOTYPE
 	WEAPON_ROCKET,
 	WEAPON_BFG,
 	BUTTON_DOOR,
+	TMP_WALL,
 
 	//51 ~ 60 공격 관련
 	ATTACK = 51,
