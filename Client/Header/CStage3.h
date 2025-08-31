@@ -26,6 +26,14 @@ public:
     static CStage3* Standby(LPDIRECT3DDEVICE9 pGraphicDev);
     virtual CStage3* Create() override;
 
+public:
+    // 결과창 띄우는 함수(08/31 김홍인)
+    void EnterResultMode();
+
+private:
+    // 결과창 띄우기 위한 bool 변수
+    bool m_isResultMode = false;
+
 private:
     void ConnectDoorSwitchByLinkId();
 

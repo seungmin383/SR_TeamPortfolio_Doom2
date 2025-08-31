@@ -388,6 +388,22 @@ CStage3* CStage3::Create()
 	return pStage3;
 }
 
+// --------------(08/31 김홍인)----------------
+void CStage3::EnterResultMode()
+{
+	if (m_isResultMode) return;
+	m_isResultMode = true;
+
+	// 결과 UI를 UI 레이어에 추가
+	auto it = m_mapLayer.find(LAYERID::LAYER_UI);
+	if (it != m_mapLayer.end()) {
+		Engine::CLayer* uiLayer = it->second;
+		if (auto* ui = CUI_StageClear::Create(m_pGraphicDev)) {
+			uiLayer->Add_GameObject(OBJID::OBJ_UI, ui);
+		}
+	}
+}
+
 void CStage3::ConnectDoorSwitchByLinkId()
 {
 	// linkId -> 문 목록
