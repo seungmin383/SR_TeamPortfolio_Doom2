@@ -113,9 +113,9 @@ _int CStage::Update_Scene(const _float& fTimeDelta)
 
 		// 레이어 업데이트가 모두 끝난 뒤에만 씬 전환
 		if (m_pendingNext != SCENEID::SCENE_END) {
-			if (auto* wm = CWeaponManager::GetInstance()) {
-				wm->ResetOnSceneChange();   // 무기 포인터 초기화(초기화 하면 메모리 누수 남)
-			}
+			//if (auto* wm = CWeaponManager::GetInstance()) {
+			//	wm->ResetOnSceneChange();   // 무기 포인터 초기화(초기화 하면 메모리 누수 남)
+			//}
 			CManagement::GetInstance()->Change_Scene(m_pendingNext);
 			m_pendingNext = SCENEID::SCENE_END;
 		}

@@ -5,6 +5,8 @@
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
 #include "CStage.h"
+#include "CStage2.h"
+#include "CStage3.h"
 #include "CTerrainSector.h"
 #include "CGameObject.h"
 
@@ -27,7 +29,7 @@ HRESULT CSwitch_Button::Ready_GameObject()
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
-	 m_bPressed = false;
+	m_bPressed = false;
     m_state    = State::Idle;   // Idle로 강제
 
 	m_pTransformCom->Set_Pos(15.f, 0.f, 18.f);
@@ -90,16 +92,19 @@ void CSwitch_Button::Render_GameObject(const _float& fTimeDelta)
 
 void CSwitch_Button::OnCollision(CCollider* _pOther)
 {
-	_bool bIsTrigger = static_cast<CDynamicCamera*>(_pOther->Get_Owner())->Get_Trigger();
-	if (_pOther->Get_ColLayer() == COLLAYERID::COL_PLAYER && bIsTrigger)
-	{
+	if (!_pOther) return;
+	// 레이어(마스크) 체크
+	if ((_pOther->Get_ColLayer() & COLLAYERID::COL_PLAYER) == 0) return;
+
+	// 안전 캐스팅
+	auto* cam = dynamic_cast<CDynamicCamera*>(_pOther->Get_Owner());
+	if (!cam) return;
+
+	if (cam->Get_Trigger()) {
 		m_bPressed = true;
 		SetSwitchOn();
 		m_state = State::Dead;
 	}
-	char buf[64];
-	sprintf_s(buf, "[SW] Collision, trigger=%d\n", (int)bIsTrigger);
-	OutputDebugStringA(buf);
 }
 
 void CSwitch_Button::OnCollisionEnter(CCollider* _pOther)
@@ -213,7 +218,7 @@ void CSwitch_Button::SetSwitchOn()
 	if (m_linkMode == Engine::LINKMODE::ONE_TO_MANY) {
 		for (auto* d : m_targets) if (d) d->OpenDoor();  // 1:N
 	}
-	else {
+	else if(m_linkMode == Engine::LINKMODE::ONE_TO_ONE){
 		CDoor* one = m_target ? m_target : m_pObjTarget;  // 1:1
 		if (one) one->OpenDoor();
 	}
@@ -221,6 +226,9 @@ void CSwitch_Button::SetSwitchOn()
 	if (m_linkMode == Engine::LINKMODE::NONE) {			// 스테이지 끝(조건을 m_linkId -> m_linkMode로 변경 (08/31 김홍인))
 		if (auto* st = dynamic_cast<CStage*>(CManagement::GetInstance()->Get_Scene())) {
 			st->EnterResultMode();
+		}
+		else if (auto* st2 = dynamic_cast<CStage2*>(CManagement::GetInstance()->Get_Scene())) {
+			st2->EnterResultMode();
 		}
 	}
 }
