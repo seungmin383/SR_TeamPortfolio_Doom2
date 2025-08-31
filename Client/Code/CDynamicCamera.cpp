@@ -702,6 +702,16 @@ void CDynamicCamera::Apply_Gravity(const _float& fTimeDelta)
 		m_vVelocity.y += m_fFallSpeed * fTimeDelta;
 		m_vEye.y -= m_vVelocity.y;
 		m_vAt.y -= m_vVelocity.y;
+
+		// Raycast
+		_vec3	vHitPos, vHitNormal;
+		_vec3	vUp = { 0.f, 1.f, 0.f };
+		LAYERID	eHitLayer = LAYERID::LAYER_END;
+
+		CCollisionManager::Raycast(m_vEye, vUp, vHitPos, vHitNormal, -m_vVelocity.y, &eHitLayer);
+
+		if (eHitLayer == LAYERID::LAYER_ENVIRONMENT)
+			m_vVelocity.y = 0.f;
 	}
 	else
 		m_vVelocity.y = 0.f;
