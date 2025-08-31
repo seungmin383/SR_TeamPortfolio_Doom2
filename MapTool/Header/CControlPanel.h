@@ -137,12 +137,16 @@ private:
     char**                          typeTags;
     vector<GameObjectType>          objIdTags;
     char**                          idTags;
+    vector<GameObjectType>          objLinkModes;
+    char**                          linkModeTags;
+
 
     const char*                     terrainTags[3];
 
     char**                          loadSceneTags;
 
     string                          filename;
+    string                          objectTag;
 
     CTextureExplorer*               textureExpr;
 

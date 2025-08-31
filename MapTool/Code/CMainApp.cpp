@@ -19,6 +19,7 @@
 #include "CFileManager.h"
 #include "CObjectFactory.h"
 #include "CTextureManager.h"
+#include "CUIManager.h"
 
 #include "CTerrain.h"
 #include "CTerrainSector.h"
@@ -33,6 +34,8 @@
 #include "CImpBullet.h"
 #include "CArchvileBullet.h"
 #include "CZombiemanBullet.h"
+#include"CBossBullet.h"
+#include "CPinkyBullet.h"
 
 #include "CPlayerWeapon.h"
 #include "CHealth_Small.h"
@@ -59,6 +62,11 @@
 #include "CDoorWithKey.h"
 #include "CKey.h"
 #include "CSwitch_Button.h"
+#include "CSuits.h"
+#include "CVerticalMovingObject.h"
+
+
+#include "CTmpWall.h"
 
 CMainApp::CMainApp()
 	: m_pGraphicDev(nullptr),
@@ -86,17 +94,34 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 {
 	CDInputManager::GetInstance()->Update_InputDev();
 
-	m_pManagementClass->Update_Scene(fTimeDelta);
+	//m_pManagementClass->Update_Scene(fTimeDelta);
 
-	if (GetAsyncKeyState('C'))
+	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_C))
 		g_colRend = !g_colRend;
+
+	// p 키 눌렀을 때 일시정지
+	// 1) 일시정지 토글
+	if (GetAsyncKeyState('P'))
+	{
+		CManagement::GetInstance()->Toggle_Pause();
+	}
+
+	// 2) Δt 스케일 (Paused면 0)
+	const float dt = CManagement::GetInstance()->ScaleDelta(fTimeDelta);
+
+	// 3) 씬 업데이트
+	if (m_pManagementClass->Update_Scene(dt) < 0)
+		return -1;
+		
 
 	return 0;
 }
 
 void CMainApp::LateUpdate_MainApp(const float& fTimeDelta)
 {
-	m_pManagementClass->LateUpdate_Scene(fTimeDelta);
+	const float dt = CManagement::GetInstance()->ScaleDelta(fTimeDelta);
+	m_pManagementClass->LateUpdate_Scene(dt);
+	/*m_pManagementClass->LateUpdate_Scene(fTimeDelta);*/
 }
 
 void CMainApp::Render_MainApp(const float& fTimeDelta)
@@ -135,6 +160,7 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Calculator", Engine::CCalculator::Create(m_pGraphicDev))))
+		return E_FAIL;
 
 	if (FAILED(CFontManager::GetInstance()->Ready_Font(m_pGraphicDev, L"ResultTitle", L"Arial", 28, 32, 900)))
 		return E_FAIL;
@@ -203,6 +229,10 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_CELL, CAmmo_Cell::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	// 슈트
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ITEM_SUIT, CSuits::Create(m_pGraphicDev))))
+		return E_FAIL;
+
 	// 폭발통
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::OBJ_BARREL, CBarrelExplosive::Create(m_pGraphicDev))))
 		return E_FAIL;
@@ -250,6 +280,14 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE_BULLET, CArchvileBullet::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	// 아크바일 총알
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_PIKNY_BULLET, CPinkyBullet::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	// 보스 총알
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_BOSS_BULLET, CBossBullet::Create(m_pGraphicDev))))
+		return E_FAIL;
+
 	// 일반 총알
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::PLAYER_NORMAL_BULLET, CChaingunBullet::Create(m_pGraphicDev))))
 		return E_FAIL;
@@ -266,6 +304,13 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::PLAYER_BFG_BULLET, CBfgBullet::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	// 수직이동 오브젝트
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::VERTICAL_MOVING, CVerticalMovingObject::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	////테스트 벽
+	//if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::TMP_WALL, CTmpWall::Create(m_pGraphicDev))))
+	//	return E_FAIL;
 
 	//텍스처 필터
 	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
@@ -273,7 +318,7 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 
 	(*ppGraphicDev)->SetRenderState(D3DRS_ZENABLE, TRUE);		//Z 버퍼에 값을 기록, Z 값 기준 자동 정렬 수행 여부를 물음
 	(*ppGraphicDev)->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);	//Z 버퍼에 값을 기록할 지 결정
-
+	
 	m_pImGuiClass->Init_ImGui(*ppGraphicDev);
 	CObjectFactory::GetInstance()->Set_Dev(*ppGraphicDev);
 
@@ -317,8 +362,9 @@ void CMainApp::Free()
 	m_pImGuiClass->DestroyInstance();
 
 	Engine::Safe_Release(m_pDeviceClass);
-	Engine::Safe_Release(m_pGraphicDev);
+	Engine::Safe_Release(m_pGraphicDev);				
 	
+	CUIManager::GetInstance()->DestroyInstance();
 	CTextureManager::GetInstance()->DestroyInstance();
 	CFileManager::GetInstance()->DestroyInstance();
 	CObjectFactory::GetInstance()->DestroyInstance();
@@ -328,8 +374,9 @@ void CMainApp::Free()
 	CRenderer::GetInstance()->DestroyInstance();
 	CPrototypeManager::GetInstance()->DestroyInstance();
 	CTimerManager::GetInstance()->DestroyInstance();
-	CFrameManager::GetInstance()->DestroyInstance();
+	CFrameManager::GetInstance()->DestroyInstance(); 
 	CDInputManager::GetInstance()->DestroyInstance();
+	CWeaponManager::GetInstance()->DestroyInstance();
 
 	m_pManagementClass->DestroyInstance();
 	m_pDeviceClass->DestroyInstance();

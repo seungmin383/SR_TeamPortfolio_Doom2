@@ -83,7 +83,7 @@ _int CImpBullet::Update_GameObject(const _float& fTimeDelta)
 	if (GetAsyncKeyState('H'))
 		m_bDead = TRUE;
 
-	if (m_bDead)
+	if (m_bDead || m_eState == BULLET_STATE::HIT)
 		isDead = TRUE;
 
 	Check_Anim_Is_Finish();

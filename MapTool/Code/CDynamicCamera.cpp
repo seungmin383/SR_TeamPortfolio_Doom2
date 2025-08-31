@@ -13,6 +13,8 @@
 #include "CBfg.h"
 #include "CTerrainSector.h"
 
+#include "CVerticalMovingObject.h"
+
 // Initialize static variable
 _long CDynamicCamera::s_lMouseMoveX = 0L;
 
@@ -52,7 +54,7 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	m_iGameHp = 100;
 	m_iArmor = 45;
 
-	m_fSpeed = 100.f;
+	m_fSpeed = 60.f;
 	m_fFallSpeed = 1.25f;
 	m_fJumpForce = 0.45f;
 	m_fAngle = 0.f;
@@ -86,21 +88,28 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 {
 	_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
+	
+	if (m_eState == DEAD)
+	{
+		Check_Death();
+		return 0;
+	}
 
-	// ?¼ì‹œ ?•ì? ê¸°ëŠ¥ ì¶”ê?
 	if (CManagement::GetInstance()->Is_Paused())
 		return 0;
-
-	Update_State();
-
-	return iExit;
+	else
+	{
+		Update_State();
+		_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
+		return iExit;
+	}
 }
 
 void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	Engine::CCamera::LateUpdate_GameObject(fTimeDelta);
-
-	//Apply_Gravity(fTimeDelta);
+	
+	Apply_Gravity(fTimeDelta);
 	//Set_OnTerrain();
 	Key_Input(fTimeDelta);
 	//Mouse_Input();
@@ -212,6 +221,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 	{
 		_vec3	vRight, vLength;
 		memcpy(&vRight, &matCamWorld.m[2][0], sizeof(_vec3));
+		D3DXVec3Normalize(&vRight, &vRight);
 
 		if (CDInputManager::GetInstance()->Get_KeyDown(DIK_LSHIFT))
 		{
@@ -224,9 +234,14 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 			}
 		}
 
-		vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
+		vLength = vRight * fTimeDelta * m_fSpeed;
 
 		m_vMoveDist = vLength;
+
+		// Raycast part
+		_vec3 vHitPos, vHitNormal;
+		LAYERID eHitLayer = LAYERID::LAYER_END;
+		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer);
 
 		m_vEye.x += vLength.x;
 		m_vEye.z += vLength.z;
@@ -235,14 +250,42 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		m_vAt.x += vLength.x;
 		m_vAt.z += vLength.z;
 		m_vAt.y += vLength.y;
-	
-		m_bIsMoving = true;
+
+		//if (eHitLayer != LAYERID::LAYER_ENVIRONMENT)
+		//{
+		//	m_vEye.x += vLength.x;
+		//	m_vEye.z += vLength.z;
+		//	m_vEye.y += vLength.y;
+
+		//	m_vAt.x += vLength.x;
+		//	m_vAt.z += vLength.z;
+		//	m_vAt.y += vLength.y;
+
+		//	m_bIsMoving = true;
+		//}
+		//else
+		//{
+		//	_float	fForce = D3DXVec3Dot(&vLength, &vHitNormal);
+		//	_vec3	vForce = fForce * vHitNormal;
+		//	_vec3	vSlide = vLength - vForce;
+
+		//	m_vEye.x += vSlide.x;
+		//	m_vEye.z += vSlide.z;
+		//	m_vEye.y += vSlide.y;
+
+		//	m_vAt.x += vSlide.x;
+		//	m_vAt.z += vSlide.z;
+		//	m_vAt.y += vSlide.y;
+
+		//	m_bIsMoving = true;
+		//}
 	}
 
 	if (CDInputManager::GetInstance()->Get_KeyHold(DIK_S))
 	{
 		_vec3	vRight, vLength;
 		memcpy(&vRight, &matCamWorld.m[2][0], sizeof(_vec3));
+		D3DXVec3Normalize(&vRight, &vRight);
 
 		if (CDInputManager::GetInstance()->Get_KeyDown(DIK_LSHIFT))
 		{
@@ -255,9 +298,14 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 			}
 		}
 
-		vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
+		vLength = vRight * fTimeDelta * m_fSpeed;
 
 		m_vMoveDist = -vLength;
+
+		// Raycast part
+		_vec3 vHitPos, vHitNormal;
+		LAYERID eHitLayer = LAYERID::LAYER_END;
+		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer);
 
 		m_vEye.x -= vLength.x;
 		m_vEye.z -= vLength.z;
@@ -267,13 +315,42 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		m_vAt.z -= vLength.z;
 		m_vAt.y -= vLength.y;
 
-		m_bIsMoving = true;
+		//if (eHitLayer != LAYERID::LAYER_ENVIRONMENT)
+		//{
+		//	m_vEye.x -= vLength.x;
+		//	m_vEye.z -= vLength.z;
+		//	m_vEye.y -= vLength.y;
+
+		//	m_vAt.x -= vLength.x;
+		//	m_vAt.z -= vLength.z;
+		//	m_vAt.y -= vLength.y;
+
+		//	m_bIsMoving = true;
+		//}
+		//else
+		//{
+		//	_float	fForce = D3DXVec3Dot(&vLength, &vHitNormal);
+		//	_vec3	vForce = fForce * vHitNormal;
+		//	_vec3	vSlide = vLength - vForce;
+
+		//	m_vEye.x -= vSlide.x;
+		//	m_vEye.z -= vSlide.z;
+		//	m_vEye.y -= vSlide.y;
+
+		//	m_vAt.x -= vSlide.x;
+		//	m_vAt.z -= vSlide.z;
+		//	m_vAt.y -= vSlide.y;
+
+		//	m_bIsMoving = true;
+		//}
+
 	}
 
 	if (CDInputManager::GetInstance()->Get_KeyHold(DIK_D))
 	{
 		_vec3	vRight, vLength;
 		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
+		D3DXVec3Normalize(&vRight, &vRight);
 
 		if (CDInputManager::GetInstance()->Get_KeyDown(DIK_LSHIFT))
 		{
@@ -286,9 +363,14 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 			}
 		}
 
-		vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
+		vLength = vRight * fTimeDelta * m_fSpeed;
 
 		m_vMoveDist = vLength;
+
+		// Raycast part
+		_vec3 vHitPos, vHitNormal;
+		LAYERID eHitLayer = LAYERID::LAYER_END;
+		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer);
 
 		m_vEye.x += vLength.x;
 		m_vEye.z += vLength.z;
@@ -299,12 +381,43 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		m_vAt.y += vLength.y;
 
 		m_bIsMoving = true;
+
+		//if (eHitLayer != LAYERID::LAYER_ENVIRONMENT)
+		//{
+		//	m_vEye.x += vLength.x;
+		//	m_vEye.z += vLength.z;
+		//	m_vEye.y += vLength.y;
+
+		//	m_vAt.x += vLength.x;
+		//	m_vAt.z += vLength.z;
+		//	m_vAt.y += vLength.y;
+
+		//	m_bIsMoving = true;
+		//}
+		//else
+		//{
+		//	_float	fForce = D3DXVec3Dot(&vLength, &vHitNormal);
+		//	_vec3	vForce = fForce * vHitNormal;
+		//	_vec3	vSlide = vLength - vForce;
+
+		//	m_vEye.x += vSlide.x;
+		//	m_vEye.z += vSlide.z;
+		//	m_vEye.z += vSlide.z;
+
+		//	m_vAt.x += vSlide.x;
+		//	m_vAt.z += vSlide.z;
+		//	m_vAt.z += vSlide.z;
+
+		//	m_bIsMoving = true;
+		//}
+
 	}
 
 	if (CDInputManager::GetInstance()->Get_KeyHold(DIK_A))
 	{
 		_vec3	vRight, vLength;
 		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
+		D3DXVec3Normalize(&vRight, &vRight);
 
 		if (CDInputManager::GetInstance()->Get_KeyDown(DIK_LSHIFT))
 		{
@@ -317,19 +430,39 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 			}
 		}
 
-		vLength = *D3DXVec3Normalize(&vRight, &vRight) * fTimeDelta * m_fSpeed;
+		vLength = vRight * fTimeDelta * m_fSpeed;
 
 		m_vMoveDist = -vLength;
 
-		m_vEye.x -= vLength.x;
-		m_vEye.z -= vLength.z;
-		m_vEye.y -= vLength.y;
+		// Raycast part
+		_vec3 vHitPos, vHitNormal;
+		LAYERID eHitLayer = LAYERID::LAYER_END;
+		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer);
 
-		m_vAt.x -= vLength.x;
-		m_vAt.z -= vLength.z;
-		m_vAt.y -= vLength.y;
+		if (eHitLayer != LAYERID::LAYER_ENVIRONMENT)
+		{
+			m_vEye.x -= vLength.x;
+			m_vEye.z -= vLength.z;
 
-		m_bIsMoving = true;
+			m_vAt.x -= vLength.x;
+			m_vAt.z -= vLength.z;
+
+			m_bIsMoving = true;
+		}
+		else
+		{
+			_float	fForce = D3DXVec3Dot(&vLength, &vHitNormal);
+			_vec3	vForce = fForce * vHitNormal;
+			_vec3	vSlide = vLength - vForce;
+
+			m_vEye.x -= vSlide.x;
+			m_vEye.z -= vSlide.z;
+
+			m_vAt.x -= vSlide.x;
+			m_vAt.z -= vSlide.z;
+
+			m_bIsMoving = true;
+		}
 	}
 
 	if (m_bIsMoving)
@@ -446,7 +579,6 @@ void CDynamicCamera::Mouse_Move()
 		m_vAt = m_vEye + vLook;
 	}
 
-	// ë§ˆìš°??xì¶??´ë™ ê°’ì„ ?€??(ë§??„ë ˆ?„ë§ˆ??ìµœì‹  ë§ˆìš°???´ë™ ê°’ì„ ?´ë””?œë“  ?•ì¸ ê°€??
 	s_lMouseMoveX = CDInputManager::GetInstance()->Get_DIMouseMove(DIMS_X);
 	if (s_lMouseMoveX)
 	{
@@ -505,6 +637,12 @@ void CDynamicCamera::Set_OnTerrain()
 
 	if (fHighest == -999.f)
 		fHighest = 0.f;
+
+	// ¹ßÆÇÀÌ °Ô½ÃÇÑ 'ÇØ´ç ¿µ¿ª ³»' ¹Ù´Ú y¸¸ º´ÇÕ
+	float platY;
+	if (CVerticalMovingObject::QueryActiveGroundYAt(m_vEye.x, m_vEye.z, platY)) {
+		if (platY > fHighest) fHighest = platY;
+	}
 
 	if (!m_bIsJumping)
 	{
@@ -602,6 +740,10 @@ void CDynamicCamera::Check_Death()
 	m_vAt = m_vEye + vLook;
 	D3DXMatrixLookAtLH(&m_matView, &m_vEye, &m_vAt, &vUp);
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_matView);
+}
+
+void CDynamicCamera::Check_Wall(const _float& fTimeDelta)
+{
 }
 
 CDynamicCamera* CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)
