@@ -103,6 +103,7 @@ protected:
 
     _bool m_isMove = false;
     _bool m_isAtk = false;
+    _bool m_isWallHit = false;
 
     //Thinker Variable
     _bool m_isDetect_Player         = false;                //시야에 플레이어가 들어왔는가?
