@@ -213,7 +213,7 @@ void CSwitch_Button::SetSwitchOn()
 		if (one) one->OpenDoor();
 	}
 
-	if (m_linkId == L"EXIT") {								// 스테이지 끝
+	if (m_linkMode == Engine::LINKMODE::NONE) {			// 스테이지 끝(조건을 m_linkId -> m_linkMode로 변경 (08/31 김홍인))
 		if (auto* st = dynamic_cast<CStage*>(CManagement::GetInstance()->Get_Scene())) {
 			st->EnterResultMode();
 		}
