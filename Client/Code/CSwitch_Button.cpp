@@ -5,6 +5,8 @@
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
 #include "CStage.h"
+#include "CStage2.h"
+#include "CStage3.h"
 #include "CTerrainSector.h"
 #include "CGameObject.h"
 
@@ -27,8 +29,10 @@ HRESULT CSwitch_Button::Ready_GameObject()
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
+	m_bPressed = false;
+    m_state    = State::Idle;   // Idle로 초기화
 
-	m_pTransformCom->Set_Pos(15.f, 0.f, 18.f);
+	m_pTransformCom->Set_Pos(15.f, 2.f, 18.f);
 	m_pTransformCom->Set_Scale(_vec3(0.5f, 0.5f, 0.5f));
 
 	m_pColliderCom->Ready_CCollider(
@@ -88,9 +92,15 @@ void CSwitch_Button::Render_GameObject(const _float& fTimeDelta)
 
 void CSwitch_Button::OnCollision(CCollider* _pOther)
 {
-	_bool bIsTrigger = static_cast<CDynamicCamera*>(_pOther->Get_Owner())->Get_Trigger();
-	if (_pOther->Get_ColLayer() == COLLAYERID::COL_PLAYER && bIsTrigger)
-	{
+	if (!_pOther) return;
+	// 레이어(마스크) 체크
+	if ((_pOther->Get_ColLayer() & COLLAYERID::COL_PLAYER) == 0) return;
+
+	// 안전 캐스팅
+	auto* cam = dynamic_cast<CDynamicCamera*>(_pOther->Get_Owner());
+	if (!cam) return;
+
+	if (cam->Get_Trigger()) {
 		m_bPressed = true;
 		SetSwitchOn();
 		m_state = State::Dead;
@@ -208,14 +218,20 @@ void CSwitch_Button::SetSwitchOn()
 	if (m_linkMode == Engine::LINKMODE::ONE_TO_MANY) {
 		for (auto* d : m_targets) if (d) d->OpenDoor();  // 1:N
 	}
-	else {
+	else if(m_linkMode == Engine::LINKMODE::ONE_TO_ONE){
 		CDoor* one = m_target ? m_target : m_pObjTarget;  // 1:1
 		if (one) one->OpenDoor();
 	}
 
-	if (m_linkId == L"EXIT") {								// 스테이지 끝
+	if (m_linkMode == Engine::LINKMODE::NONE) {			// 스테이지 끝(조건을 m_linkId -> m_linkMode로 변경 (08/31 김홍인))
 		if (auto* st = dynamic_cast<CStage*>(CManagement::GetInstance()->Get_Scene())) {
 			st->EnterResultMode();
+		}
+		else if (auto* st2 = dynamic_cast<CStage2*>(CManagement::GetInstance()->Get_Scene())) {
+			st2->EnterResultMode();
+		}
+		else if (auto* st3 = dynamic_cast<CStage3*>(CManagement::GetInstance()->Get_Scene())) {
+			// 스테이지 3 이후 처리
 		}
 	}
 }
@@ -243,5 +259,7 @@ CSwitch_Button* CSwitch_Button::Clone()
 
 void CSwitch_Button::Free()
 {
+	m_state == State::Idle;
+	m_bPressed = false;
 	Engine::CGameObject::Free();
 }

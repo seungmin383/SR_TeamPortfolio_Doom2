@@ -173,21 +173,7 @@ void CVerticalMovingObject::Render_GameObject(const _float& fTimeDelta)
 
 	if (m_pColliderCom)
 	{
-		DWORD oldZEnable, oldZWrite, oldAlpha;
-		m_pGraphicDev->GetRenderState(D3DRS_ZENABLE, &oldZEnable);
-		m_pGraphicDev->GetRenderState(D3DRS_ZWRITEENABLE, &oldZWrite);
-		m_pGraphicDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &oldAlpha);
-
-		m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, FALSE);
-		m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-
-		m_pColliderCom->Render(true);   // ★ 항상 위에 보임
-
-		// 원복
-		m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, oldZEnable);
-		m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, oldZWrite);
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, oldAlpha);
+		m_pColliderCom->Render(g_colRend);
 	}
 }
 

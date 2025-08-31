@@ -663,6 +663,18 @@ void CMonsterBase::Set_OnTerrain()
 void CMonsterBase::Movement(const _float fTimeDelta)
 {
 	m_pTransformCom->Move_Pos(&m_vMoveLook, m_fSpeed, fTimeDelta);
+
+	// Raycast
+	_vec3	vPos;	m_pTransformCom->Get_Pos(&vPos);
+	_vec3	vHitPos, vHitNormal;
+	LAYERID	eHitLayer = LAYERID::LAYER_END;
+
+	CCollisionManager::Raycast(vPos, m_vMoveLook, vHitPos, vHitNormal, 2.f * m_pColliderCom->Get_Scale().x, &eHitLayer);
+
+	if (eHitLayer == LAYERID::LAYER_ENVIRONMENT)
+		m_isWallHit = true;
+	else
+		m_isWallHit = false;
 }
 
 void CMonsterBase::Attack(const _float fTimeDelta)

@@ -115,9 +115,9 @@ _int CStage::Update_Scene(const _float& fTimeDelta)
 
 		// 레이어 업데이트가 모두 끝난 뒤에만 씬 전환
 		if (m_pendingNext != SCENEID::SCENE_END) {
-			if (auto* wm = CWeaponManager::GetInstance()) {
-				wm->ResetOnSceneChange();   // 무기 포인터 초기화(초기화 하면 메모리 누수 남)
-			}
+			//if (auto* wm = CWeaponManager::GetInstance()) {
+			//	wm->ResetOnSceneChange();   // 무기 포인터 초기화(초기화 하면 메모리 누수 남)
+			//}
 			CManagement::GetInstance()->Change_Scene(m_pendingNext);
 			m_pendingNext = SCENEID::SCENE_END;
 		}
@@ -186,7 +186,14 @@ HRESULT CStage::Load_PreSet()
 	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem((_uint)SCENEID::STAGE1);;
 
 	for (auto item : loadData)
-		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, item.position);
+	{
+		if (item.type3 != (_uint)LINKMODE::NONE && item.tag != "")
+			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, (LINKMODE)item.type3, item.tag, item.position);
+		else
+			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, item.position);
+	}
+	
+	ConnectDoorSwitchByLinkId();
 
 	//몬스터 설치
 	vector<GameObjectSpawnInfo> loadMonsterData = CFileManager::GetInstance()->LoadMonster((_uint)SCENEID::STAGE1);;
@@ -538,9 +545,9 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	//	->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
 	//if (nullptr == pSwitchObj3) return E_FAIL;
 	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj3))) return E_FAIL;
-
+	//
 	//auto* sw3 = dynamic_cast<CSwitch_Button*> (pSwitchObj3);
-	//sw3->Set_LinkId(L"EXIT");
+	//sw3->Set_LinkMode(Engine::LINKMODE::NONE);
 
 	//Engine::CTransform* tr6 = GetTransformPtr(pSwitchObj3);
 	//if (tr6) {
@@ -632,20 +639,18 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	auto* M = CManagement::GetInstance();
 
-	// 스위치 & 문을 같은 태그 "A"로, 1:1 모드
-	M->Set_GameLogicObject(OBJPROTOTYPE::BUTTON_DOOR, OBJID::OBJ_OBJECT,
-		{ 18.f, 2.f, 30.f }, 1, L"A", Engine::LINKMODE::ONE_TO_ONE);
+	//// 스위치 & 문을 같은 태그 "A"로, 1:1 모드
+	//M->Set_GameLogicObject(OBJPROTOTYPE::BUTTON_DOOR, OBJID::OBJ_OBJECT,
+	//	{ 18.f, 2.f, 30.f }, 1, L"A", Engine::LINKMODE::ONE_TO_ONE);
 
-	M->Set_GameLogicObject(OBJPROTOTYPE::DOOR, OBJID::OBJ_OBJECT,
-		{ 20.f, 2.f, 30.f }, 1, L"A", Engine::LINKMODE::ONE_TO_ONE);
+	//M->Set_GameLogicObject(OBJPROTOTYPE::DOOR, OBJID::OBJ_OBJECT,
+	//	{ 20.f, 2.f, 30.f }, 1, L"A", Engine::LINKMODE::ONE_TO_ONE);
 
-	M->Set_GameLogicObject(OBJPROTOTYPE::DOORKEY, OBJID::OBJ_OBJECT,
-		{ 25.f, 2.f, 30.f }, 2, L"B", Engine::LINKMODE::ONE_TO_ONE);
+	//M->Set_GameLogicObject(OBJPROTOTYPE::DOORKEY, OBJID::OBJ_OBJECT,
+	//	{ 25.f, 2.f, 30.f }, 2, L"B", Engine::LINKMODE::ONE_TO_ONE);
 
-	M->Set_GameLogicObject(OBJPROTOTYPE::BUTTON_DOOR, OBJID::OBJ_OBJECT,
-		{ 25.f, 0.f, 18.f }, 1, L"EXIT", Engine::LINKMODE::ONE_TO_ONE);
-
-	ConnectDoorSwitchByLinkId();
+	//M->Set_GameLogicObject(OBJPROTOTYPE::BUTTON_DOOR, OBJID::OBJ_OBJECT,
+	//	{ 25.f, 0.f, 18.f }, 1, L"EXIT", Engine::LINKMODE::ONE_TO_ONE);
 
 	// 합계 초기화
 	CStatsManager::I().ResetTotals();

@@ -27,8 +27,4 @@ public:
 	static CBfgBullet* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual CBfgBullet* Clone() override;
 	virtual CBfgBullet* Clone(CGameObject* _Owner)override;
-
-private:
-	BULLET_STATE m_eState;
-	_int m_iAnimState;
 };

@@ -6,16 +6,12 @@
 #include "CRenderer.h"
 
 CRocketBullet::CRocketBullet(LPDIRECT3DDEVICE9 pGraphicDev) :
-	CBullet(pGraphicDev),
-	m_eState(BULLET_STATE::IDLE),
-	m_iAnimState(0)
+	CBullet(pGraphicDev)
 {
 }
 
 CRocketBullet::CRocketBullet(const CRocketBullet& rhs) :
-	CBullet(rhs),
-	m_eState(rhs.m_eState),
-	m_iAnimState(rhs.m_iAnimState)
+	CBullet(rhs)
 {
 }
 
@@ -85,15 +81,23 @@ _int CRocketBullet::Update_GameObject(const _float& fTimeDelta)
 
 void CRocketBullet::LateUpdate_GameObject(const _float& fTimeDelta)
 {
-	CBullet::LateUpdate_GameObject(fTimeDelta);
-	m_pColliderCom->Late_Update();
-
 	if (m_eState == BULLET_STATE::HIT)
 	{
+		// 충돌 후에는 텍스쳐와 콜라이더 스케일을 크게 만든다.
+		_vec3 vAfterScale = { 2.f, 2.f, 2.f };
+		m_pTransformCom->Set_Scale(vAfterScale);
+		_vec3 vAfterScale1 = { 8.f, 8.f, 8.f };
+		m_pColliderCom->Set_Scale(vAfterScale1);
+
 		m_iAnimState = 8;
 		m_pAnimCom->Play_Animation((_uint)BULLET_STATE::HIT, 0, fTimeDelta);
-		m_bDead = true;
+		
+		if (m_pAnimCom->Get_isFinAct())
+			m_bDead = true;
 	}
+
+	CBullet::LateUpdate_GameObject(fTimeDelta);
+	m_pColliderCom->Late_Update();
 }
 
 void CRocketBullet::Render_GameObject(const _float& fTimeDelta)
@@ -114,6 +118,11 @@ void CRocketBullet::Render_GameObject(const _float& fTimeDelta)
 
 void CRocketBullet::OnCollision(CCollider* _pOther)
 {
+	if (_pOther->Get_ColLayer() == COLLAYERID::COL_ENEMY)
+	{
+		_pOther->Get_Owner()->Take_Dmg(m_iDmg);
+		m_bDead = true;
+	}
 }
 
 void CRocketBullet::OnCollisionEnter(CCollider* _pOther)
@@ -122,12 +131,6 @@ void CRocketBullet::OnCollisionEnter(CCollider* _pOther)
 	{
 	case COLLAYERID::COL_PLAYER:
 		return;
-
-	case COLLAYERID::COL_TERRAIN:
-	case COLLAYERID::COL_WALL:
-		m_fSpeed = 0.f;
-		m_eState = BULLET_STATE::HIT;
-		break;
 
 	case COLLAYERID::COL_OBJECT:
 	case COLLAYERID::COL_ENEMY:
@@ -139,20 +142,12 @@ void CRocketBullet::OnCollisionEnter(CCollider* _pOther)
 	default:
 		break;
 	}
-
-	// 충돌 후에는 텍스쳐와 콜라이더 스케일을 크게 만든다.
-	_vec3 vAfterScale = { 2.f, 2.f, 2.f };
-	m_pTransformCom->Set_Scale(vAfterScale);
-	_vec3 vAfterScale1 = { 8.f, 8.f, 8.f };
-	m_pColliderCom->Set_Scale(vAfterScale1);
 }
 
 void CRocketBullet::OnCollisionExit(CCollider* _pOther)
 {
 	if (_pOther->Get_ColLayer() == COLLAYERID::COL_PLAYER)
 		return;
-
-	m_bDead = true;
 }
 
 HRESULT CRocketBullet::Add_Component()

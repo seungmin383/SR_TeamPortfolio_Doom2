@@ -202,6 +202,33 @@
     <Filter Include="03. Manager\00. WeaponManager\04. BFG">
       <UniqueIdentifier>{bc712a25-11a8-4012-b43a-9a2f2ac30265}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\03. Terrain\tmpWall">
+      <UniqueIdentifier>{a393fc5d-778d-4241-86c3-5f5fd51a60c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\07. Bullet\01. MonsterBullet\CBossBullet">
+      <UniqueIdentifier>{957d6620-376e-46a4-bc61-1a052c75102a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\07. Bullet\01. MonsterBullet\CPinkyBullet">
+      <UniqueIdentifier>{10d7b2d4-4375-4000-bdb5-def7219cbb8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\09. UI\MainMenu">
+      <UniqueIdentifier>{189b8b6e-2901-4118-9f2c-6cffc3c5b661}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\10. Effect">
+      <UniqueIdentifier>{895be3f7-e98b-40d6-903d-e074b4db6927}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\10. Effect\00. ExplosionBlood">
+      <UniqueIdentifier>{c1a3f5d5-05e1-43ea-b9e9-cc713a780de9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\10. Effect\01. ImpactBullet">
+      <UniqueIdentifier>{55368fb0-bf24-4244-9c87-81af3fe1f399}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\02. UIManager">
+      <UniqueIdentifier>{80e3a3a4-227b-48cd-95a7-cc4bfe8c5617}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\02. UIManager\UISet">
+      <UniqueIdentifier>{a8edc192-a29c-4dc0-a4ad-b7f087d05ce5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -447,6 +474,48 @@
     <ClInclude Include="..\Header\CAmmo_Cell.h">
       <Filter>02. GameObject\06. Object\DropItem\Ammo</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CTmpWall.h">
+      <Filter>02. GameObject\03. Terrain\tmpWall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CSuits.h">
+      <Filter>02. GameObject\06. Object\FieldObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CVerticalMovingObject.h">
+      <Filter>02. GameObject\06. Object\FieldObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CBossBullet.h">
+      <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CBossBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CPinkyBullet.h">
+      <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CPinkyBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CMainMenuBackground.h">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CMainMenuExit.h">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CMainMenuHover.h">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CMainMenuLogo.h">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CUICamera.h">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CUIObject.h">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CEffect.h">
+      <Filter>02. GameObject\10. Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CUISet.h">
+      <Filter>03. Manager\02. UIManager\UISet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CUIManager.h">
+      <Filter>03. Manager\02. UIManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapTool.cpp">
@@ -679,6 +748,45 @@
     </ClCompile>
     <ClCompile Include="..\Code\CAmmo_Cell.cpp">
       <Filter>02. GameObject\06. Object\DropItem\Ammo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CSuits.cpp">
+      <Filter>02. GameObject\06. Object\FieldObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CVerticalMovingObject.cpp">
+      <Filter>02. GameObject\06. Object\FieldObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CBossBullet.cpp">
+      <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CBossBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CPinkyBullet.cpp">
+      <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CPinkyBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CMainMenuBackground.cpp">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CMainMenuExit.cpp">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CMainMenuHover.cpp">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CMainMenuLogo.cpp">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CUICamera.cpp">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CUIObject.cpp">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CEffect.cpp">
+      <Filter>02. GameObject\10. Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CUISet.cpp">
+      <Filter>03. Manager\02. UIManager\UISet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CUIManager.cpp">
+      <Filter>03. Manager\02. UIManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

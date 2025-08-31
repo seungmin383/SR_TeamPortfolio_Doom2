@@ -144,6 +144,7 @@ HRESULT CPinky::Ready_GameObject()
 
 #pragma endregion
 
+	CMonsterBase::Ready_GameObject();
 	return S_OK;
 }
 

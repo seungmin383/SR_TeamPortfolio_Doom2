@@ -34,7 +34,7 @@ HRESULT CAmmo_Cell::Ready_GameObject()
 	m_pWeaponManager = CWeaponManager::GetInstance();
 
 	m_pTransformCom->Set_Pos(13.f, 0.f, 11.f);
-	m_pTransformCom->Set_Scale(_vec3(1.f, 1.f, 1.f));
+	m_pTransformCom->Set_Scale(_vec3(0.5f, 0.5f, 0.5f));
 
 	m_pColliderCom->Ready_CCollider(
 		this,
