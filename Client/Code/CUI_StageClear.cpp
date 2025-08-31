@@ -82,6 +82,12 @@ _int CUI_StageClear::Update_GameObject(const _float& fTimeDelta)
 			if (auto* st = dynamic_cast<CStage*>(cur)) {
 				st->RequestNextScene(next);  // 즉시 전환 금지! 예약만
 			}
+			else if (auto* st2 = dynamic_cast<CStage2*>(cur)) {
+				st2->RequestNextScene(next);
+			}
+			else if (auto* st3 = dynamic_cast<CStage3*>(cur)) {
+				CManagement::GetInstance()->Change_Scene(next);
+			}
 		}
 		break;
 	}

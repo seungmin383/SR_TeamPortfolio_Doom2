@@ -31,6 +31,7 @@
 #include "CPistol.h"
 #include "CWeapon_Shotgun.h"
 
+// (08/31 김홍인)
 #include "CSwitch_Button.h"
 #include "CUI_StageClear.h"
 
@@ -76,11 +77,13 @@ HRESULT CStage2::Ready_Scene()
 
 _int CStage2::Update_Scene(const _float& fTimeDelta)
 {
+	// --------------(08/31 김홍인)----------------
 	// 경과 시간
 	CStatsManager::I().Tick(fTimeDelta);
 
 	if (m_isResultMode)
 	{
+		// 0초로 업데이트: 위치/애니메이션은 그대로, 하지만 렌더 큐엔 올라감
 		// 0초로 업데이트: 위치/애니메이션은 그대로, 하지만 렌더 큐엔 올라감
 		auto upd0 = [&](LAYERID id) {
 			auto it = m_mapLayer.find(id);
@@ -106,7 +109,7 @@ _int CStage2::Update_Scene(const _float& fTimeDelta)
 
 		return 0;
 	}
-
+	// --------------(08/31 김홍인)----------------
 	CColliderManager::GetInstance()->Update();
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
 
@@ -206,7 +209,7 @@ HRESULT CStage2::Ready_GameLogic_Layer(LAYERID _eLayerId)
 		return E_FAIL;
 
 	Engine::CGameObject* pGameObject = nullptr;
-
+	// --------------(08/31 김홍인)----------------
 	Engine::CGameObject* pSwitchObj3 = CPrototypeManager::GetInstance()
 		->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
 	if (nullptr == pSwitchObj3) return E_FAIL;
@@ -214,7 +217,7 @@ HRESULT CStage2::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	auto* sw3 = dynamic_cast<CSwitch_Button*> (pSwitchObj3);
 	sw3->Set_LinkMode(Engine::LINKMODE::NONE);
-
+	// --------------(08/31 김홍인)----------------
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
 	if (auto* wm = CWeaponManager::GetInstance()) {
@@ -418,7 +421,7 @@ CStage2* CStage2::Create()
 
 	return pStage2;
 }
-
+// --------------(08/31 김홍인)----------------
 void CStage2::EnterResultMode()
 {
 	if (m_isResultMode) return;
@@ -515,7 +518,7 @@ void CStage2::ConnectDoorSwitchByLinkId()
 		}
 	}
 }
-
+// --------------(08/31 김홍인)----------------
 void CStage2::Free()
 {
 	Engine::CScene::Free();
