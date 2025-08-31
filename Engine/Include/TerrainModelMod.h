@@ -5,6 +5,7 @@
 struct TerrainModelMod
 {
 	int idx;
+	bool blend;
 	int type = 0;
 	int vertexCountX;
 	int vertexCountZ;
@@ -20,6 +21,7 @@ struct TerrainModelMod
 inline void to_json(json& j, const TerrainModelMod& t)
 {
 	j["idx"] = t.idx;
+	j["blend"] = t.blend;
 	j["type"] = t.type;
 	j["vertexCountX"] = t.vertexCountX;
 	j["vertexCountZ"] = t.vertexCountZ;
@@ -35,6 +37,7 @@ inline void to_json(json& j, const TerrainModelMod& t)
 inline void from_json(const json& j, TerrainModelMod& t)
 {
 	j.at("idx").get_to(t.idx);
+	j.at("blend").get_to(t.blend);
 	j.at("type").get_to(t.type);
 	j.at("vertexCountX").get_to(t.vertexCountX);
 	j.at("vertexCountZ").get_to(t.vertexCountZ);

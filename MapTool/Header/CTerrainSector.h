@@ -42,6 +42,7 @@ private:
     Engine::CMaterial* m_pMaterialCom;
 
     _int m_iIdx;
+    _bool m_bBlend;
 
 public:
     static CTerrainSector* Create(LPDIRECT3DDEVICE9 pGraphicDev);
