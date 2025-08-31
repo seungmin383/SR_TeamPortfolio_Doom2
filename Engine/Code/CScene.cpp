@@ -1,4 +1,5 @@
 #include "CScene.h"
+#include "EffectManager.h"
 
 CScene::CScene(LPDIRECT3DDEVICE9 pGraphicDev)
 	: m_pGraphicDev(pGraphicDev)
@@ -136,6 +137,8 @@ _int CScene::Update_Scene(const _float& fTimeDelta)
 	for (auto& pLayer : m_mapLayer)
 		pLayer.second->Update_Layer(fTimeDelta);
 
+	EffectManager::GetInstance()->Update_Effect(fTimeDelta);
+
 	return 0;
 }
 
@@ -143,6 +146,8 @@ void CScene::LateUpdate_Scene(const _float& fTimeDelta)
 {
 	for (auto& pLayer : m_mapLayer)
 		pLayer.second->LateUpdate_Layer(fTimeDelta);
+
+	EffectManager::GetInstance()->LateUpdate_Effect(fTimeDelta);
 }
 
 void CScene::Free()

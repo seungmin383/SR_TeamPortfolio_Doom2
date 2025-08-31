@@ -14,7 +14,7 @@
 #include "CTerrainSector.h"
 
 #include "CVerticalMovingObject.h"
-
+#include "EffectManager.h"
 // Initialize static variable
 _long CDynamicCamera::s_lMouseMoveX = 0L;
 
@@ -89,6 +89,12 @@ _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 {
 	_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
 	
+	if (GetAsyncKeyState('M'))
+	{
+		_vec3 vPos;
+		m_pTransformCom->Get_Pos(&vPos);
+		EffectManager::GetInstance()->Start_Effect(vPos, EFFECTID::BULLET_IMPACT);
+	}
 	if (m_eState == DEAD)
 	{
 		Check_Death();

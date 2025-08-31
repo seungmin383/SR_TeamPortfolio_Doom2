@@ -47,6 +47,8 @@
 #include "CStatsManager.h"
 #include "CUI_StageClear.h"
 #include "CVerticalMovingObject.h"
+#include "EffectManager.h"
+#include "CImpactBulletEffect.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -280,6 +282,18 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
 		return E_FAIL;
+
+
+	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::EFFECT_IMPACT_BULLET);
+
+	//if (nullptr == pGameObject)
+	//	return E_FAIL;
+
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_EFFECT, pGameObject)))
+	//	return E_FAIL;
+
+	for (int i = 0; i < 10; ++i)
+		EffectManager::GetInstance()->Start_Effect(_vec3{ 100.f * i, 0.f, 100.f }, EFFECTID::BULLET_IMPACT);
 
 	////임프 불렛
 	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP_BULLET, pImp);

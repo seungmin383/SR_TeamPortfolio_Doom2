@@ -215,6 +215,9 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_BFG", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Object/BFUGA0.png", TEX_NORMAL))))
 		return E_FAIL;
 	
+	//Effct Texture
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_ImpactBulletEffect_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Effect/BulletImpact/EffectState%d.png", TEX_NORMAL))))
+		return E_FAIL;
 
 	lstrcpy(m_szLoading, L"Etc Component Loading.....................");
 

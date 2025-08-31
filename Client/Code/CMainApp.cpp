@@ -65,6 +65,9 @@
 #include "CSuits.h"
 #include "CVerticalMovingObject.h"
 
+#include "CImpactBulletEffect.h"
+
+#include "EffectManager.h"
 
 #include "CTmpWall.h"
 
@@ -306,6 +309,11 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::TMP_WALL, CTmpWall::Create(m_pGraphicDev))))
 		return E_FAIL;
 
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::EFFECT_IMPACT_BULLET, CImpactBulletEffect::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	EffectManager::GetInstance()->Add_Effect(EFFECTID::BULLET_IMPACT, CImpactBulletEffect::Create(m_pGraphicDev));
+
 	//텍스처 필터
 	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
@@ -368,6 +376,7 @@ void CMainApp::Free()
 	CFrameManager::GetInstance()->DestroyInstance();
 	CDInputManager::GetInstance()->DestroyInstance();
 	CWeaponManager::GetInstance()->DestroyInstance();
+	EffectManager::GetInstance()->DestroyInstance();	
 
 	m_pManagementClass->DestroyInstance();
 	m_pDeviceClass->DestroyInstance();

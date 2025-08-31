@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "CEffect.h"
 
 CEffect::CEffect(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -17,25 +16,37 @@ CEffect::~CEffect()
 
 HRESULT CEffect::Ready_GameObject()
 {
-    return E_NOTIMPL;
+	CGameObject::Ready_GameObject();
+
+    return S_OK;
 }
 
 _int CEffect::Update_GameObject(const _float& fTimeDelta)
 {
-    return _int();
+	CGameObject::Update_GameObject(fTimeDelta);
+	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
+
+	return 0;
 }
 
 void CEffect::LateUpdate_GameObject(const _float& fTimeDelta)
 {
+	CGameObject::LateUpdate_GameObject(fTimeDelta);
 }
 
 void CEffect::Render_GameObject(const _float& fTimeDelta)
 {
+	CGameObject::Render_GameObject(fTimeDelta);
 }
 
-CGameObject* CEffect::Clone()
+CEffect* CEffect::Clone()
 {
     return nullptr;
+}
+
+CEffect* CEffect::Clone(_vec3 vPos)
+{
+	return nullptr;
 }
 
 HRESULT CEffect::Add_Component()
@@ -57,7 +68,7 @@ HRESULT CEffect::Add_Component()
 
 	if (nullptr == pComponent)
 		return E_FAIL;
-	m_mapComponent[ID_STATIC].insert({ L"Com_Transform", pComponent });
+	m_mapComponent[ID_DYNAMIC].insert({ L"Com_Transform", pComponent });
 
 	//Animator
 	pComponent = m_pAnimCom = dynamic_cast<Engine::CAnimator*>
@@ -73,4 +84,5 @@ HRESULT CEffect::Add_Component()
 
 void CEffect::Free()
 {
+	CGameObject::Free();
 }

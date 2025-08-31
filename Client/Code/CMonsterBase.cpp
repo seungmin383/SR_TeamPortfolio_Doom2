@@ -9,6 +9,7 @@
 #include <iostream>
 #include "CStatsManager.h"
 #include "CTerrainSector.h"
+#include "EffectManager.h"
 
 CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CCharacter(pGraphicDev), m_fSightAngle(0.f), m_fSightDistance(0.f),
@@ -106,6 +107,8 @@ void CMonsterBase::OnCollisionEnter(CCollider* _pOther)
 	{
 		m_vMoveLook = -m_vMoveLook;
 	}
+
+	
 
 }
 
