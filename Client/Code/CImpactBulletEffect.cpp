@@ -45,6 +45,11 @@ HRESULT CImpactBulletEffect::Ready_GameObject()
 _int CImpactBulletEffect::Update_GameObject(const _float& fTimeDelta)
 {
 	CEffect::Update_GameObject(fTimeDelta);
+
+	if (m_pAnimCom->Get_isFinAct())
+		return -1;
+
+
 	return 0;
 }
 
