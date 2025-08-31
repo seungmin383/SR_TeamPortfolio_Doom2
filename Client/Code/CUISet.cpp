@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "CUISet.h"
 
 CUISet::CUISet()
@@ -14,6 +15,28 @@ void CUISet::InsertUIObject(CUIObject* uiObj, _bool isEnabledFocus)
 	UIElements.push_back(uiObj);
 	FocusEnabled.push_back(isEnabledFocus);
 	MaxCount++;
+}
+
+void CUISet::AddUIElementIndex()
+{
+	do
+	{
+		UIElementFocus++;
+
+		if (UIElementFocus > MaxCount - 1)
+			UIElementFocus = 0;
+	} while (FocusEnabled[UIElementFocus] == false);
+}
+
+void CUISet::SubTractUIElementIndex()
+{
+	do
+	{
+		UIElementFocus--;
+
+		if (UIElementFocus < 0)
+			UIElementFocus = MaxCount - 1;
+	} while (FocusEnabled[UIElementFocus] == false);
 }
 
 void CUISet::ActivateUI()
@@ -53,8 +76,8 @@ void CUISet::GetKeyInput()
 
 void CUISet::Free()
 {
-	for (auto uiObj : UIElements)
-		Safe_Delete(uiObj);
+	//for (auto uiObj : UIElements)
+	//	uiObj->Release();
 
 	UIElements.clear();
 }

@@ -14,6 +14,8 @@ public:
     virtual     void            LateUpdate_GameObject(const _float& fTimeDelta);
     virtual     void            Render_GameObject(const _float& fTimeDelta);
 
+    virtual void  Action() override { return; }
+
 private:
     HRESULT     Add_Component();
 

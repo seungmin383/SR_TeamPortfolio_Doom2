@@ -26,7 +26,7 @@ HRESULT CMainMenuHover::Ready_GameObject()
 
 _int CMainMenuHover::Update_GameObject(const _float& fTimeDelta)
 {
-	if (m_bIsActive)
+	if (m_bIsActive == false)
 		return 0;
 
 	CUIObject::Update_GameObject(fTimeDelta);
@@ -39,7 +39,7 @@ _int CMainMenuHover::Update_GameObject(const _float& fTimeDelta)
 
 void CMainMenuHover::LateUpdate_GameObject(const _float& fTimeDelta)
 {
-	if (m_bIsActive)
+	if (m_bIsActive == false)
 		return;
 
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
@@ -47,7 +47,7 @@ void CMainMenuHover::LateUpdate_GameObject(const _float& fTimeDelta)
 
 void CMainMenuHover::Render_GameObject(const _float& fTimeDelta)
 {
-	if (m_bIsActive)
+	if (m_bIsActive == false)
 		return;
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);

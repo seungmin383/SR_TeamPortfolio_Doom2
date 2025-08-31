@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CMainMenuLogo.h"
 #include "CRenderer.h"
+#include "CManagement.h"
 
 CMainMenuLogo::CMainMenuLogo(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUIObject(pGraphicDev)
@@ -26,7 +27,7 @@ HRESULT CMainMenuLogo::Ready_GameObject()
 
 _int CMainMenuLogo::Update_GameObject(const _float& fTimeDelta)
 {
-	if (m_bIsActive)
+	if (m_bIsActive == false)
 		return 0;
 
 	CUIObject::Update_GameObject(fTimeDelta);
@@ -39,7 +40,7 @@ _int CMainMenuLogo::Update_GameObject(const _float& fTimeDelta)
 
 void CMainMenuLogo::LateUpdate_GameObject(const _float& fTimeDelta)
 {
-	if (m_bIsActive)
+	if (m_bIsActive == false)
 		return;
 
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
@@ -47,7 +48,7 @@ void CMainMenuLogo::LateUpdate_GameObject(const _float& fTimeDelta)
 
 void CMainMenuLogo::Render_GameObject(const _float& fTimeDelta)
 {
-	if (m_bIsActive)
+	if (m_bIsActive == false)
 		return;
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -66,6 +67,11 @@ void CMainMenuLogo::Render_GameObject(const _float& fTimeDelta)
 	// 렌더 상태 복원
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+}
+
+void CMainMenuLogo::Action()
+{
+	CManagement::GetInstance()->Change_Scene(SCENEID::STAGE1);
 }
 
 HRESULT CMainMenuLogo::Add_Component()

@@ -26,7 +26,7 @@ HRESULT CMainMenuExit::Ready_GameObject()
 
 _int CMainMenuExit::Update_GameObject(const _float& fTimeDelta)
 {
-	if (m_bIsActive)
+	if (m_bIsActive == false)
 		return 0;
 
 	CUIObject::Update_GameObject(fTimeDelta);
@@ -38,7 +38,7 @@ _int CMainMenuExit::Update_GameObject(const _float& fTimeDelta)
 
 void CMainMenuExit::LateUpdate_GameObject(const _float& fTimeDelta)
 {
-	if (m_bIsActive)
+	if (m_bIsActive == false)
 		return;
 
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
@@ -46,7 +46,7 @@ void CMainMenuExit::LateUpdate_GameObject(const _float& fTimeDelta)
 
 void CMainMenuExit::Render_GameObject(const _float& fTimeDelta)
 {
-	if (m_bIsActive)
+	if (m_bIsActive == false)
 		return;
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -65,6 +65,11 @@ void CMainMenuExit::Render_GameObject(const _float& fTimeDelta)
 	// 렌더 상태 복원
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+}
+
+void CMainMenuExit::Action()
+{
+	PostQuitMessage(0);
 }
 
 HRESULT CMainMenuExit::Add_Component()

@@ -11,7 +11,7 @@ class CUIManager :
 {
     DECLARE_SINGLETON(CUIManager)
 
-private:
+protected:
     explicit CUIManager();
     virtual ~CUIManager();
 
@@ -36,6 +36,7 @@ public:
 private:
     vector<CUISet*>         UISetList;
     _int                    CurUIPhase = 0;
+    _int                    MaxCount = 0;
     vector<_bool>           Acts;
     map<_ubyte, function<void()>>       UIKeyInputMap;
 

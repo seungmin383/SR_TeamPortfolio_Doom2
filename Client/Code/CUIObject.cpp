@@ -6,9 +6,12 @@ CUIObject::CUIObject(LPDIRECT3DDEVICE9 pGraphicDev)
 	m_pBufferCom(nullptr),
 	m_pTransformCom(nullptr),
 	m_pTextureCom(nullptr),
-	m_pCameraCom(nullptr)
+	m_pCameraCom(nullptr),
+	m_bIsFocus(false),
+	m_bIsActive(true)
 {
 	ZeroMemory(&rcUI, sizeof(RECT));
+	ZeroMemory(&ptMouse, sizeof(POINT));
 }
 
 CUIObject::CUIObject(const CUIObject& rhs)
@@ -16,9 +19,12 @@ CUIObject::CUIObject(const CUIObject& rhs)
 	m_pBufferCom(rhs.m_pBufferCom),
 	m_pTransformCom(rhs.m_pTransformCom),
 	m_pTextureCom(rhs.m_pTextureCom),
-	m_pCameraCom(rhs.m_pCameraCom)
+	m_pCameraCom(rhs.m_pCameraCom),
+	m_bIsFocus(false),
+	m_bIsActive(true)
 {
 	ZeroMemory(&rcUI, sizeof(RECT));
+	ZeroMemory(&ptMouse, sizeof(POINT));
 }
 
 CUIObject::~CUIObject()

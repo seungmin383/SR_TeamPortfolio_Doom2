@@ -26,6 +26,9 @@ HRESULT CMainMenuBackground::Ready_GameObject()
 
 _int CMainMenuBackground::Update_GameObject(const _float& fTimeDelta)
 {
+	if (m_bIsActive == false)
+		return 0;
+
 	CUIObject::Update_GameObject(fTimeDelta);
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_UI, this);
@@ -35,11 +38,17 @@ _int CMainMenuBackground::Update_GameObject(const _float& fTimeDelta)
 
 void CMainMenuBackground::LateUpdate_GameObject(const _float& fTimeDelta)
 {
+	if (m_bIsActive == false)
+		return;
+
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 }
 
 void CMainMenuBackground::Render_GameObject(const _float& fTimeDelta)
 {
+	if (m_bIsActive == false)
+		return;
+
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());

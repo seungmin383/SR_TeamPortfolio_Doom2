@@ -13,6 +13,9 @@
 #include "CMainMenuHover.h"
 #include "CUICamera.h"
 
+#include "CUISet.h"
+#include "CUIManager.h"
+
 CMainMenu::CMainMenu(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -36,13 +39,20 @@ _int CMainMenu::Update_Scene(const _float& fTimeDelta)
 {
 	_int iExit = CScene::Update_Scene(fTimeDelta);
 
-	// 키보드 포커스 업데이트
-	HandleKeyboard(fTimeDelta);
-
-	// 마우스가 버튼 위에 있으면 포커스를 동기화(자연스러운 UX)
-	if (m_hover != -1) m_focus = m_hover;
-
-	// m_hover == 0 이면 메뉴 왼쪽에 해골 이미지 출력
+	auto uiMgr = CUIManager::GetInstance();
+	uiMgr->UpdateUI();
+	auto curUiFocus = uiMgr->GetCurUISet()->FocusObserving();
+	switch (curUiFocus)
+	{
+	case 1:
+		uiMgr->GetCurUISet()->SetPosition(3, WINCX * 0.5f - 120.f, WINCY * 0.5f - 50.f);
+		break;
+	case 2:
+		uiMgr->GetCurUISet()->SetPosition(3, WINCX * 0.5f - 120.f, WINCY * 0.5f + 50.f);
+		break;
+	default:
+		break;
+	}
 
 	return iExit;
 }
@@ -63,23 +73,23 @@ HRESULT CMainMenu::Load_PreSet()
 
 void CMainMenu::HandleKeyboard(_float fTimeDelta)
 {
-	// 간단한 디바운스
-	m_inputLock = max(0.f, m_inputLock - fTimeDelta);
-	auto pressOnce = [&](int vk)->bool {
-		if (GetAsyncKeyState(vk) & 0x8000) {
-			if (m_inputLock <= 0.f) { m_inputLock = 0.15f; return true; }
-		}
-		return false;
-		};
+	//// 간단한 디바운스
+	//m_inputLock = max(0.f, m_inputLock - fTimeDelta);
+	//auto pressOnce = [&](int vk)->bool {
+	//	if (GetAsyncKeyState(vk) & 0x8000) {
+	//		if (m_inputLock <= 0.f) { m_inputLock = 0.15f; return true; }
+	//	}
+	//	return false;
+	//	};
 
-	// ↑ / ↓ 로 포커스 이동
-	if (pressOnce(VK_UP)) { m_focus = (m_focus + 1 + 1) % 2; PlaySfx_Move(); }   // 0/1 전환
-	if (pressOnce(VK_DOWN)) { m_focus = (m_focus + 1) % 2;     PlaySfx_Move(); }
+	//// ↑ / ↓ 로 포커스 이동
+	//if (pressOnce(VK_UP)) { m_focus = (m_focus + 1 + 1) % 2; PlaySfx_Move(); }   // 0/1 전환
+	//if (pressOnce(VK_DOWN)) { m_focus = (m_focus + 1) % 2;     PlaySfx_Move(); }
 
-	// Enter/Space 로 확정
-	if (pressOnce(VK_RETURN) || pressOnce(VK_SPACE)) {
-		ActivateFocused();
-	}
+	//// Enter/Space 로 확정
+	//if (pressOnce(VK_RETURN) || pressOnce(VK_SPACE)) {
+	//	ActivateFocused();
+	//}
 }
 
 void CMainMenu::ActivateFocused()
@@ -104,7 +114,13 @@ HRESULT CMainMenu::Ready_UI_Layer(LAYERID _eLayerId)
 	if (pLayer == nullptr)
 		return E_FAIL;
 
-	Engine::CGameObject* pGameObject = nullptr;
+	//CUISet
+	//UI 한 그룹
+	CUISet* pUiSet = new CUISet();
+
+	//CUIManager
+	//UI 그룹 여러개를 관리
+	auto uiMgr = CUIManager::GetInstance();
 
 	auto background = CMainMenuBackground::Create(m_pGraphicDev);
 
@@ -117,46 +133,56 @@ HRESULT CMainMenu::Ready_UI_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, background)))
 		return E_FAIL;
 
+	pUiSet->InsertUIObject(background, false);
+
 	auto logo = CMainMenuLogo::Create(m_pGraphicDev);
 	
 	if (nullptr == logo)
 		return E_FAIL;
 
-	logo->Set_SizeXY(100.f, 10.f);
+	logo->Set_SizeXY(160.f, 30.f);
 	logo->Set_Pos(WINCX * 0.5f - 10.f, WINCY * 0.5f - 50.f);
 
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, logo)))
 		return E_FAIL;
+
+	pUiSet->InsertUIObject(logo, true);
 
 	auto exit = CMainMenuExit::Create(m_pGraphicDev);
 
 	if (nullptr == exit)
 		return E_FAIL;
 
-	exit->Set_SizeXY(100.f, 10.f);
+	exit->Set_SizeXY(160.f, 30.f);
 	exit->Set_Pos(WINCX * 0.5f - 10.f, WINCY * 0.5f + 50.f);
 
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, exit)))
 		return E_FAIL;
+
+	pUiSet->InsertUIObject(exit, true);
 
 	auto hover = CMainMenuHover::Create(m_pGraphicDev);
 
 	if (nullptr == hover)
 		return E_FAIL;
 	
-	hover->Set_SizeXY(15.f, 15.f);
-	hover->Set_Pos(WINCX * 0.5f - 90.f, WINCY * 0.5f + 50.f);
+	hover->Set_SizeXY(40.f, 40.f);
+	hover->Set_Pos(WINCX * 0.5f - 120.f, WINCY * 0.5f + 50.f);
 
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, hover)))
 		return E_FAIL;
 
-	auto uiCamera = CUICamera::Create(m_pGraphicDev);
+	//하나의 UI Set에 그룹에 해당하는 UI 오브젝트들을 추가한다
+	pUiSet->InsertUIObject(hover, false);
 
-	if (nullptr == uiCamera)
-		return E_FAIL;
+	//해당 그룹이 받는 key input과 input에 해당하는 메서드 할당
+	pUiSet->MappingKeyInput(DIK_UP, bind(&CUISet::AddUIElementIndex, pUiSet));
+	pUiSet->MappingKeyInput(DIK_DOWN, bind(&CUISet::SubTractUIElementIndex, pUiSet));
+	pUiSet->MappingKeyInput(DIK_RETURN, bind(&CUISet::ActivateUI, pUiSet));
+	pUiSet->SetUIElementFocus(1);
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, uiCamera)))
-		return E_FAIL;
+	//UI그룹 하나를 매니징에 추가
+	uiMgr->InsertUISet(pUiSet);
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
 

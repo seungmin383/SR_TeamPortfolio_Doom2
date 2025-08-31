@@ -14,6 +14,8 @@ CUIManager::~CUIManager()
 
 void CUIManager::InsertUISet(CUISet* uiSet)
 {
+	UISetList.push_back(uiSet);
+	MaxCount++;
 }
 
 void CUIManager::ToggleUIPhase()
@@ -34,6 +36,8 @@ void CUIManager::MappingKeyInput(_ubyte dInput, function<void()> func)
 
 void CUIManager::UpdateUI()
 {
+	UISetList[CurUIPhase]->UpdateUI();
+	GetKeyInput();
 }
 
 void CUIManager::GetKeyInput()
@@ -43,12 +47,12 @@ void CUIManager::GetKeyInput()
 void CUIManager::UISetListClear()
 {
 	for (auto uiSet : UISetList)
-		Safe_Delete(uiSet);
+		uiSet->Release();
 
 	UISetList.clear();
 
-	for (auto keymappair : UIKeyInputMap)
-		Safe_Delete(keymappair.second);
+	//for (auto keymappair : UIKeyInputMap)
+	//	Safe_Delete(keymappair.second);
 	
 	UIKeyInputMap.clear();
 

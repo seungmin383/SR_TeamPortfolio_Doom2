@@ -237,9 +237,6 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Animator", Engine::CAnimator::Create(m_pGraphicDev))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_OrthoCamera", Engine::CCameraCom::Create(m_pGraphicDev, true))))
-		return E_FAIL;
-
 	m_bFinish = true;
 
 	lstrcpy(m_szLoading, L"Loading Complete");

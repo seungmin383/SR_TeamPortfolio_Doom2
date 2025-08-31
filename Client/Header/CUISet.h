@@ -8,15 +8,15 @@
 class CUISet :
     public CBase
 {
-private:
+public:
     explicit CUISet();
     virtual ~CUISet();
 
 public:
     void                    InsertUIObject(CUIObject* uiObj, _bool isEnabledFocus);
 
-    void                    AddUIElementIndex() { UIElementFocus++; }
-    void                    SubTractUIElementIndex() { UIElementFocus--; }
+    void                    AddUIElementIndex();
+    void                    SubTractUIElementIndex();
     void                    ActivateUI();
     void                    MappingKeyInput(_ubyte dInput, function<void()> func);
 
@@ -28,6 +28,9 @@ public:
     void                    SetPosition(_uint num, _float fX, _float fY);
 
     void                    GetKeyInput();
+
+    void                    SetUIElementFocus(_int ival) { UIElementFocus = ival; }
+    _int                    GetUIElementFocus() { return UIElementFocus; }
 
 private:
     //TODO: ÁßÃ¸±¸Á¶
