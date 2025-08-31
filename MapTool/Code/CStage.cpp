@@ -125,10 +125,10 @@ _int CStage::Update_Scene(const _float& fTimeDelta)
 
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
 
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_T) & 0x80)
-	{
-		CManagement::GetInstance()->Change_Scene(SCENEID::STAGE2);
-	}
+	//if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_T) & 0x80)
+	//{
+	//	CManagement::GetInstance()->Change_Scene(SCENEID::STAGE2);
+	//}
 
 	return iExit;
 }

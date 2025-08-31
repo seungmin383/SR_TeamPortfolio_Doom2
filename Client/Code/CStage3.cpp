@@ -162,7 +162,12 @@ HRESULT CStage3::Load_PreSet()
 	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem((_uint)SCENEID::STAGE3);;
 
 	for (auto item : loadData)
-		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, item.position);
+	{
+		if (item.type3 != (_uint)LINKMODE::NONE && item.tag != "")
+			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, (LINKMODE)item.type3, item.tag, item.position);
+		else
+			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, item.position);
+	}
 
 	//몬스터 설치
 	vector<GameObjectSpawnInfo> loadMonsterData = CFileManager::GetInstance()->LoadMonster((_uint)SCENEID::STAGE3);;
