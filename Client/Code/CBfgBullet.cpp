@@ -91,8 +91,8 @@ void CBfgBullet::LateUpdate_GameObject(const _float& fTimeDelta)
 		if (m_pAnimCom->Get_isFinAct())
 			m_bDead = true;
 	}
-
-	m_pAnimCom->Play_Animation((_uint)m_eState, 0, fTimeDelta);
+	else
+		m_pAnimCom->Play_Animation((_uint)m_eState, 0, fTimeDelta);
 
 	CBullet::LateUpdate_GameObject(fTimeDelta);
 	m_pColliderCom->Late_Update();

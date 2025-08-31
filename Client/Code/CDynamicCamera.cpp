@@ -239,9 +239,12 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		m_vMoveDist = vLength;
 
 		// Raycast part
-		_vec3 vHitPos, vHitNormal;
+		_vec3 vHitPos, vHitNormal, vLook;
+		vLook = vRight;
+		vLook.y = 0.f;
+
 		LAYERID eHitLayer = LAYERID::LAYER_END;
-		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer);
+		CCollisionManager::Raycast(m_vEye, vLook, vHitPos, vHitNormal, 2.f * m_pColliderCom->Get_Scale().x, &eHitLayer);
 
 		if (eHitLayer != LAYERID::LAYER_ENVIRONMENT)
 		{
@@ -256,14 +259,18 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		else
 		{
 			_float	fForce = D3DXVec3Dot(&vLength, &vHitNormal);
-			_vec3	vForce = fForce * vHitNormal;
-			_vec3	vSlide = vLength - vForce;
+			
+			if (fForce < 0.f)
+			{
+				_vec3	vForce = fForce * vHitNormal;
+				_vec3	vSlide = vLength - vForce;
 
-			m_vEye.x += vSlide.x;
-			m_vEye.z += vSlide.z;
+				m_vEye.x += vSlide.x;
+				m_vEye.z += vSlide.z;
 
-			m_vAt.x += vSlide.x;
-			m_vAt.z += vSlide.z;
+				m_vAt.x += vSlide.x;
+				m_vAt.z += vSlide.z;
+			}
 
 			m_bIsMoving = true;
 		}
@@ -293,7 +300,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		// Raycast part
 		_vec3 vHitPos, vHitNormal;
 		LAYERID eHitLayer = LAYERID::LAYER_END;
-		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer);
+		CCollisionManager::Raycast(m_vEye, -vRight, vHitPos, vHitNormal, 2.f * m_pColliderCom->Get_Scale().x, &eHitLayer);
 
 		if (eHitLayer != LAYERID::LAYER_ENVIRONMENT)
 		{
@@ -308,14 +315,17 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		else
 		{
 			_float	fForce = D3DXVec3Dot(&vLength, &vHitNormal);
-			_vec3	vForce = fForce * vHitNormal;
-			_vec3	vSlide = vLength - vForce;
+			if (fForce > 0.f)
+			{
+				_vec3	vForce = fForce * vHitNormal;
+				_vec3	vSlide = vLength - vForce;
 
-			m_vEye.x -= vSlide.x;
-			m_vEye.z -= vSlide.z;
+				m_vEye.x -= vSlide.x;
+				m_vEye.z -= vSlide.z;
 
-			m_vAt.x -= vSlide.x;
-			m_vAt.z -= vSlide.z;
+				m_vAt.x -= vSlide.x;
+				m_vAt.z -= vSlide.z;
+			}
 
 			m_bIsMoving = true;
 		}
@@ -346,7 +356,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		// Raycast part
 		_vec3 vHitPos, vHitNormal;
 		LAYERID eHitLayer = LAYERID::LAYER_END;
-		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer);
+		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, 2.f * m_pColliderCom->Get_Scale().x, &eHitLayer);
 
 		if (eHitLayer != LAYERID::LAYER_ENVIRONMENT)
 		{
@@ -361,14 +371,18 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		else
 		{
 			_float	fForce = D3DXVec3Dot(&vLength, &vHitNormal);
-			_vec3	vForce = fForce * vHitNormal;
-			_vec3	vSlide = vLength - vForce;
 
-			m_vEye.x += vSlide.x;
-			m_vEye.z += vSlide.z;
+			if (fForce < 0.f)
+			{
+				_vec3	vForce = fForce * vHitNormal;
+				_vec3	vSlide = vLength - vForce;
 
-			m_vAt.x += vSlide.x;
-			m_vAt.z += vSlide.z;
+				m_vEye.x += vSlide.x;
+				m_vEye.z += vSlide.z;
+
+				m_vAt.x += vSlide.x;
+				m_vAt.z += vSlide.z;
+			}
 
 			m_bIsMoving = true;
 		}
@@ -399,29 +413,33 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		// Raycast part
 		_vec3 vHitPos, vHitNormal;
 		LAYERID eHitLayer = LAYERID::LAYER_END;
-		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer);
+		CCollisionManager::Raycast(m_vEye, -vRight, vHitPos, vHitNormal, 2.f * m_pColliderCom->Get_Scale().x * 2.f, &eHitLayer);
 
 		if (eHitLayer != LAYERID::LAYER_ENVIRONMENT)
 		{
-			m_vEye.x -= vLength.x;
-			m_vEye.z -= vLength.z;
+				m_vEye.x -= vLength.x;
+				m_vEye.z -= vLength.z;
 
-			m_vAt.x -= vLength.x;
-			m_vAt.z -= vLength.z;
+				m_vAt.x -= vLength.x;
+				m_vAt.z -= vLength.z;
 
 			m_bIsMoving = true;
 		}
 		else
 		{
 			_float	fForce = D3DXVec3Dot(&vLength, &vHitNormal);
-			_vec3	vForce = fForce * vHitNormal;
-			_vec3	vSlide = vLength - vForce;
 
-			m_vEye.x -= vSlide.x;
-			m_vEye.z -= vSlide.z;
+			if (fForce > 0.f)
+			{
+				_vec3	vForce = fForce * vHitNormal;
+				_vec3	vSlide = vLength - vForce;
 
-			m_vAt.x -= vSlide.x;
-			m_vAt.z -= vSlide.z;
+				m_vEye.x += vSlide.x;
+				m_vEye.z += vSlide.z;
+
+				m_vAt.x += vSlide.x;
+				m_vAt.z += vSlide.z;
+			}
 
 			m_bIsMoving = true;
 		}
