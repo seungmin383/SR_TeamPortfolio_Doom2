@@ -3,6 +3,7 @@
 #include "CDInputManager.h"
 #include "CRenderer.h"
 #include "CWeaponManager.h"
+#include "CManagement.h"
 
 CPlayerWeapon::CPlayerWeapon(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CCharacter(pGraphicDev),
@@ -175,6 +176,9 @@ HRESULT CPlayerWeapon::Add_Component()
 
 void CPlayerWeapon::Key_Input(const _float& fTimeDelta)
 {
+	if (CManagement::GetInstance()->Get_Player()->Get_Dead())
+		return;
+
 	// 이동 관련 키 입력
 	m_bIsMoving = false;
 

@@ -111,8 +111,12 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 	
 	Apply_Gravity(fTimeDelta);
 	Set_OnTerrain();
-	Key_Input(fTimeDelta);
-	Mouse_Input();
+
+	if (!m_bDead)
+	{
+		Key_Input(fTimeDelta);
+		Mouse_Input();
+	}
 	Check_Dash(fTimeDelta);
 
 	m_pColliderCom->Late_Update();
