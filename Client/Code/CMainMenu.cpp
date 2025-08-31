@@ -30,8 +30,6 @@ HRESULT CMainMenu::Ready_Scene()
 	if (FAILED(Ready_UI_Layer(LAYERID::LAYER_UI)))
 		return E_FAIL;
 
-	m_focus = 0; // START
-
 	return S_OK;
 }
 
@@ -69,35 +67,6 @@ void CMainMenu::Render_Scene(const _float& fTimeDelta)
 HRESULT CMainMenu::Load_PreSet()
 {
 	return S_OK;
-}
-
-void CMainMenu::HandleKeyboard(_float fTimeDelta)
-{
-	//// 간단한 디바운스
-	//m_inputLock = max(0.f, m_inputLock - fTimeDelta);
-	//auto pressOnce = [&](int vk)->bool {
-	//	if (GetAsyncKeyState(vk) & 0x8000) {
-	//		if (m_inputLock <= 0.f) { m_inputLock = 0.15f; return true; }
-	//	}
-	//	return false;
-	//	};
-
-	//// ↑ / ↓ 로 포커스 이동
-	//if (pressOnce(VK_UP)) { m_focus = (m_focus + 1 + 1) % 2; PlaySfx_Move(); }   // 0/1 전환
-	//if (pressOnce(VK_DOWN)) { m_focus = (m_focus + 1) % 2;     PlaySfx_Move(); }
-
-	//// Enter/Space 로 확정
-	//if (pressOnce(VK_RETURN) || pressOnce(VK_SPACE)) {
-	//	ActivateFocused();
-	//}
-}
-
-void CMainMenu::ActivateFocused()
-{
-	if (m_focus == 0)
-		CManagement::GetInstance()->Change_Scene(SCENEID::STAGE1);
-	else
-		CManagement::GetInstance()->RequestQuit();
 }
 
 void CMainMenu::PlaySfx_Move()

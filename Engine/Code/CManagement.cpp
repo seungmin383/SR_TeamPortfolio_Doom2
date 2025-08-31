@@ -147,9 +147,9 @@ void CManagement::Free()
 	//Layer 소멸 시 player를 포함한 모든 오브젝트 release 의도
 	//m_eCurSceneId = SCENEID::STAGE3;
 
-	Safe_Release(m_pScene);
-
 	m_eCurSceneId = SCENEID::TEST;
+
+	Safe_Release(m_pScene);
 
 	for (size_t i = 0; i < (_uint)SCENEID::SCENE_END; i++)
 	{
