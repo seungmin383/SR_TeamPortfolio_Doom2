@@ -117,6 +117,13 @@ _uint CLoading::Loading_ForStage()
 		return E_FAIL;
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_PlayerUI_Weapon", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STARMS.png", TEX_NORMAL))))
 		return E_FAIL;
+	
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_MainMenuUI_Logo", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/M_NEWG.png", TEX_NORMAL))))
+		return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_MainMenuUI_Exit", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/M_QUITG.png", TEX_NORMAL))))
+		return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_MainMenuUI_Hover", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/M_SKULL1.png", TEX_NORMAL))))
+		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_FaceUI", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STFST0%d.png", TEX_NORMAL, 3))))
 		return E_FAIL;

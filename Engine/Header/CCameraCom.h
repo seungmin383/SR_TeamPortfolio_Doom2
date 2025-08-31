@@ -6,21 +6,21 @@ BEGIN(Engine)
 class ENGINE_DLL CCameraCom :
     public CComponent
 {
-private:
+protected:
     explicit CCameraCom(LPDIRECT3DDEVICE9 pGraphicDev);
+    explicit CCameraCom(const CCameraCom& rhs);
     virtual ~CCameraCom();
 
 public:
-    HRESULT                 Ready_Camera();
-
-private:
-    LPDIRECT3DDEVICE9       m_pGraphicDev;
+    HRESULT                 Ready_Camera(_bool isOrtho);
 
 public:
     virtual _int            Update_Component(const _float& fTimeDelta) override;
     virtual void            LateUpdate_Component() override;
 
-    static CCameraCom*      Create(LPDIRECT3DDEVICE9 pGraphicDev);
+    void                    Set_Projection(_matrix* matWorld);
+
+    static CCameraCom*      Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool isOrtho);
     virtual CComponent*     Clone();
 
 private:
@@ -36,6 +36,8 @@ private:
     _float                  m_fAspect;      //종횡비 = 너비 / 높이
     _float                  m_fNear;        //가까운 평면까지의 거리
     _float                  m_fFar;         //먼 평면까지의 거리
+
+    _bool                   m_bIsOrtho;
 
 private:
     virtual void            Free();
