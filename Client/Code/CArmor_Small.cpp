@@ -31,7 +31,7 @@ HRESULT CArmor_Small::Ready_GameObject()
 	m_iFrame_Armor = 0;
 
 	m_pTransformCom->Set_Pos(5.f, 0.f, 5.f);
-	m_pTransformCom->Set_Scale(_vec3(1.f, 1.f, 1.f));
+	m_pTransformCom->Set_Scale(_vec3(0.5f, 0.5f, 0.5f));
 
 	m_pColliderCom->Ready_CCollider(
 		this,

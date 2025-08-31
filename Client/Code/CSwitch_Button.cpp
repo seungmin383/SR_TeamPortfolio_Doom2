@@ -30,9 +30,9 @@ HRESULT CSwitch_Button::Ready_GameObject()
 		return E_FAIL;
 
 	m_bPressed = false;
-    m_state    = State::Idle;   // Idle로 강제
+    m_state    = State::Idle;   // Idle로 초기화
 
-	m_pTransformCom->Set_Pos(15.f, 0.f, 18.f);
+	m_pTransformCom->Set_Pos(15.f, 2.f, 18.f);
 	m_pTransformCom->Set_Scale(_vec3(0.5f, 0.5f, 0.5f));
 
 	m_pColliderCom->Ready_CCollider(
@@ -228,7 +228,7 @@ void CSwitch_Button::SetSwitchOn()
 			st->EnterResultMode();
 		}
 		else if (auto* st2 = dynamic_cast<CStage2*>(CManagement::GetInstance()->Get_Scene())) {
-			st2->EnterResultMode();
+			// Stage2에 함수 추가 가능하면 추가된 함수 사용 예정
 		}
 	}
 }
@@ -251,11 +251,6 @@ CSwitch_Button* CSwitch_Button::Clone()
 		return nullptr;
 	}
 
-	pSB->m_bPressed = false;
-	pSB->m_state = State::Idle;
-	pSB->m_targets.clear();
-
-	OutputDebugStringA("[SW] Spawned: state=Idle, pressed=0\n");
 	return pSB;
 }
 

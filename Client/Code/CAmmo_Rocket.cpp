@@ -34,7 +34,7 @@ HRESULT CAmmo_Rocket::Ready_GameObject()
 	m_pWeaponManager = CWeaponManager::GetInstance();
 
 	m_pTransformCom->Set_Pos(14.f, 0.f, 14.f);
-	m_pTransformCom->Set_Scale(_vec3(1.f, 1.f, 1.f));
+	m_pTransformCom->Set_Scale(_vec3(0.7f, 1.f, 0.7f));
 
 	m_pColliderCom->Ready_CCollider(
 		this,

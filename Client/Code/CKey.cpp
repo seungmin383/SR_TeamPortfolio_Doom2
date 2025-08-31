@@ -27,7 +27,7 @@ HRESULT CKey::Ready_GameObject()
 		return E_FAIL;
 
 	m_pTransformCom->Set_Pos(40.f, 0.f, 40.f);
-	m_pTransformCom->Set_Scale(_vec3(1.f, 1.f, 1.f));
+	m_pTransformCom->Set_Scale(_vec3(0.5f, 0.5f, 0.5f));
 
 	m_pColliderCom->Ready_CCollider(
 		this,
