@@ -23,7 +23,7 @@ public:
 
 public:
 	virtual void Add_Effect(EFFECTID _Id, CEffect* _Effect);		//클라이언트에서 레디할 때 원본 생성해주기
-	virtual void Reset_Effect();							//이펙트 풀 비우기
+	virtual void Reset_EffectPool();							//이펙트 풀 비우기
 
 private:
 	virtual CEffect* Clone_Effect(EFFECTID _Id, _vec3 vPos);

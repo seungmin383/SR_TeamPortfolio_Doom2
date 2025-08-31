@@ -67,7 +67,7 @@
 #include "CVerticalMovingObject.h"
 
 #include "CImpactBulletEffect.h"
-
+#include "CExplosionBloodEffect.h"
 #include "EffectManager.h"
 
 #include "CTmpWall.h"
@@ -314,6 +314,7 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 		return E_FAIL;
 
 	EffectManager::GetInstance()->Add_Effect(EFFECTID::BULLET_IMPACT, CImpactBulletEffect::Create(m_pGraphicDev));
+	EffectManager::GetInstance()->Add_Effect(EFFECTID::BLOOD_EXPLOSION, CExplosionBloodEffect::Create(m_pGraphicDev));
 
 	//텍스처 필터
 	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);

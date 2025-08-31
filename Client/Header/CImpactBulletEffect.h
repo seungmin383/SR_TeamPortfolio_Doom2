@@ -14,6 +14,8 @@ public:
 	virtual void            LateUpdate_GameObject(const _float& fTimeDelta)override;
 	virtual void            Render_GameObject(const _float& fTimeDelta)override;
 
+	virtual void Reset_Effect(_vec3 vPos) override;
+
 public:
 	CEffect* Clone() override;
 	CEffect* Clone(_vec3 vPos) override;

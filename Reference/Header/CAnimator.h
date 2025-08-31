@@ -61,6 +61,22 @@ public:
     { 
         return m_pCurAnimation == nullptr ? false :  m_pCurAnimation->Get_isFinAct();
     }
+    _bool                   Get_isAnimEnd()
+    {
+        return m_pCurAnimation == nullptr ? false : m_pCurAnimation->Get_isAnimEnd();
+	}
+
+    void 				 Set_isAnimEnd(_bool _b)
+    {
+        if(m_pCurAnimation)
+            m_pCurAnimation->Set_isAnimEnd(_b);
+	}
+
+    void 				  SetFrameDefault()
+    {
+        if (m_pCurAnimation)
+            m_pCurAnimation->SetFrameDefault();
+    }
 
 public:
     virtual CComponent*     Clone();

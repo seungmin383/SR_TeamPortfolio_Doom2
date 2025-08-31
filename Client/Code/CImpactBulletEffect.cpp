@@ -30,25 +30,24 @@ HRESULT CImpactBulletEffect::Ready_GameObject()
 		1,
 		0,
 		5,
-		0.2f,
-		true,
+		0.15f,
+		false,
 		false
 	);
 
-	//m_pTransformCom->Set_Pos(m_vPos.x, m_vPos.y, m_vPos.z);
+	//m_pTransformCom->Set_Pos(m_vPos.x, m_vPos.y, m_vPos.z);65
 
-	m_pTransformCom->Set_Pos(100.f, 0.f, 100.f);
-	m_pTransformCom->Set_Scale( _vec3{100.f, 100.f, 100.f} );
+	m_bDead = FALSE;
 	return S_OK;
 }
 
 _int CImpactBulletEffect::Update_GameObject(const _float& fTimeDelta)
-{
+{                                                                    
 	CEffect::Update_GameObject(fTimeDelta);
+	Bill_Board();
 
-	if (m_pAnimCom->Get_isFinAct())
+	if (m_pAnimCom->Get_isAnimEnd())
 		return -1;
-
 
 	return 0;
 }
@@ -66,6 +65,15 @@ void CImpactBulletEffect::Render_GameObject(const _float& fTimeDelta)
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 	m_pTextureCom->Set_Texture(0);
 	m_pBufferCom->Render_Buffer();
+}
+
+void CImpactBulletEffect::Reset_Effect(_vec3 vPos)
+{
+	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
+	m_pTransformCom->Set_Scale(_vec3{ 1.f, 1.f, 1.f });
+	m_pAnimCom->SetFrameDefault();
+		
+	m_bDead = FALSE;
 }
 
 CEffect* CImpactBulletEffect::Clone()
@@ -92,7 +100,7 @@ CEffect* CImpactBulletEffect::Clone(_vec3 vPos)
 		return nullptr;
 	}
 
-	pInstance->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+	//pInstance->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
 
 	return pInstance;
 }

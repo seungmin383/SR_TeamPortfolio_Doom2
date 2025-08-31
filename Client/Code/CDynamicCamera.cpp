@@ -93,7 +93,7 @@ _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 	{
 		_vec3 vPos;
 		m_pTransformCom->Get_Pos(&vPos);
-		EffectManager::GetInstance()->Start_Effect(vPos, EFFECTID::BULLET_IMPACT);
+		EffectManager::GetInstance()->Start_Effect(_vec3{100.f, 100.f, 100.f}, EFFECTID::BULLET_IMPACT);
 	}
 	if (m_eState == DEAD)
 	{

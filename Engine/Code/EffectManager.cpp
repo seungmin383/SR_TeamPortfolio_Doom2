@@ -1,11 +1,18 @@
 #include "EffectManager.h"
 #include "CPrototypeManager.h"
 #include "CManagement.h"
+#include <iostream>
 
 IMPLEMENT_SINGLETON(EffectManager)
 
 EffectManager::EffectManager()
 {
+	AllocConsole();	
+
+	FILE* fp;
+	freopen_s(&fp, "CONOUT$", "w", stdout);
+	freopen_s(&fp, "CONOUT$", "w", stderr);
+
 }
 
 EffectManager::~EffectManager()
@@ -15,7 +22,8 @@ EffectManager::~EffectManager()
 
 HRESULT EffectManager::Ready_Effect()
 {
-	//m_vecEffectPool.reserve(100);
+	for (int i = 0; i < static_cast<_uint>(EFFECTID::END_EFFECT); i++)
+		m_vecEffectPool[i].reserve(100);
 
 
 	return S_OK;
@@ -23,8 +31,11 @@ HRESULT EffectManager::Ready_Effect()
 
 void EffectManager::Update_Effect(const _float& fTimeDelta)
 {
+	cout << m_vecEffectPool[static_cast<_int>(EFFECTID::BULLET_IMPACT)].size() << endl;
+
 	if (m_vecActiveEffect.size() == 0)
 		return;
+
 
 	for (auto iter = m_vecActiveEffect.begin(); iter != m_vecActiveEffect.end();)
 	{
@@ -65,6 +76,7 @@ void EffectManager::Start_Effect(const _vec3& _vPos, EFFECTID _Id)
 			return;
 
 		pInstance->Set_EffectId(_Id);
+		pInstance->Reset_Effect(_vPos);																//초기화 해주고
 
 		m_vecActiveEffect.push_back(pInstance);		//활성화 벡터에 넣어주고
 		return;
@@ -73,8 +85,8 @@ void EffectManager::Start_Effect(const _vec3& _vPos, EFFECTID _Id)
 	//풀에 이펙트가 있다면
 	CEffect* pInstance = m_vecEffectPool[ID].back();							//가장 뒤에있는 원소를 빼고
 
-	pInstance->Ready_GameObject();													//레디 부르고
-	pInstance->Get_Transform()->Set_Pos(_vPos.x, _vPos.y, _vPos.z);	//위치 세팅해주고
+	pInstance->Set_EffectId(_Id);
+	pInstance->Reset_Effect(_vPos);																//초기화 해주고
 
 	m_vecActiveEffect.push_back(pInstance);										//활성화 벡터에 넣어주고
 	m_vecEffectPool[ID].pop_back();														//원소 지워주기
@@ -92,7 +104,7 @@ void EffectManager::Add_Effect(EFFECTID _Id, CEffect* _Effect)
 	m_mapEffectPrototype.insert({ _Id, _Effect });		//없으면 원본으로 저장
 }
 
-void EffectManager::Reset_Effect()
+void EffectManager::Reset_EffectPool()
 {
 	for(int i = 0; i < static_cast<_uint>(EFFECTID::END_EFFECT); i++)
 	{
@@ -110,7 +122,6 @@ void EffectManager::Reset_Effect()
 
 CEffect* EffectManager::Clone_Effect(EFFECTID _Id, _vec3 vPos)
 {
-
 	CEffect* pEffect = Find_Effect(_Id);						//이펙트가 있는지 확인하고
 
 	if (pEffect == nullptr)											//없다면 return

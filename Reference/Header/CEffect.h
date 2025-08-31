@@ -9,7 +9,7 @@ class ENGINE_DLL CEffect : public CGameObject
 {
 protected:
 	explicit CEffect(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CEffect(const CGameObject& rhs);
+	explicit CEffect(const CEffect& rhs);
 	virtual ~CEffect();
 
 public:
@@ -17,6 +17,10 @@ public:
 	virtual _int            Update_GameObject(const _float& fTimeDelta);
 	virtual void            LateUpdate_GameObject(const _float& fTimeDelta);
 	virtual void            Render_GameObject(const _float& fTimeDelta);
+
+	virtual void Reset_Effect(_vec3 vPos);
+	virtual _bool Check_isAnim_Fin();
+	virtual void Bill_Board();
 
 public:
 	virtual CEffect* Clone() ;
@@ -35,9 +39,9 @@ protected:
 
 	EFFECTID m_eEffectId = EFFECTID::END_EFFECT;
 
+	_int m_iFunc_Ent_Cnt = 0;
+
 protected:
 	void Free() override;
-
-
 };
 END
