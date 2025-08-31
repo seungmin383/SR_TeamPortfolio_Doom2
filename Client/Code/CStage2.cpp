@@ -31,6 +31,9 @@
 #include "CPistol.h"
 #include "CWeapon_Shotgun.h"
 
+#include "CSwitch_Button.h"
+#include "CUI_StageClear.h"
+
 CStage2::CStage2(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -42,6 +45,8 @@ CStage2::~CStage2()
 
 HRESULT CStage2::Ready_Scene()
 {
+	CColliderManager::GetInstance()->Reset();
+
 	if (FAILED(Ready_Environment_Layer(LAYERID::LAYER_ENVIRONMENT)))
 		return E_FAIL;
 
@@ -67,6 +72,37 @@ HRESULT CStage2::Ready_Scene()
 
 _int CStage2::Update_Scene(const _float& fTimeDelta)
 {
+	// 경과 시간
+	CStatsManager::I().Tick(fTimeDelta);
+
+	if (m_isResultMode)
+	{
+		// 0초로 업데이트: 위치/애니메이션은 그대로, 하지만 렌더 큐엔 올라감
+		auto upd0 = [&](LAYERID id) {
+			auto it = m_mapLayer.find(id);
+			if (it != m_mapLayer.end()) it->second->Update_Layer(0.f);
+			};
+
+		upd0(LAYERID::LAYER_CAMERA);       // 뷰/프로젝션 유지
+		upd0(LAYERID::LAYER_ENVIRONMENT);  // 스카이박스/지형 등
+		upd0(LAYERID::LAYER_GAMELOGIC);    // 적/오브젝트 등(정지된 상태로 그리기)
+
+		// UI는 정상 시간으로
+		if (auto it = m_mapLayer.find(LAYERID::LAYER_UI); it != m_mapLayer.end())
+			it->second->Update_Layer(fTimeDelta);
+
+		// 레이어 업데이트가 모두 끝난 뒤에만 씬 전환
+		if (m_pendingNext != SCENEID::SCENE_END) {
+			//if (auto* wm = CWeaponManager::GetInstance()) {
+			//	wm->ResetOnSceneChange();   // 무기 포인터 초기화(초기화 하면 메모리 누수 남)
+			//}
+			CManagement::GetInstance()->Change_Scene(m_pendingNext);
+			m_pendingNext = SCENEID::SCENE_END;
+		}
+
+		return 0;
+	}
+
 	CColliderManager::GetInstance()->Update();
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
 
@@ -166,6 +202,14 @@ HRESULT CStage2::Ready_GameLogic_Layer(LAYERID _eLayerId)
 		return E_FAIL;
 
 	Engine::CGameObject* pGameObject = nullptr;
+
+	Engine::CGameObject* pSwitchObj3 = CPrototypeManager::GetInstance()
+		->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
+	if (nullptr == pSwitchObj3) return E_FAIL;
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj3))) return E_FAIL;
+
+	auto* sw3 = dynamic_cast<CSwitch_Button*> (pSwitchObj3);
+	sw3->Set_LinkMode(Engine::LINKMODE::NONE);
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
@@ -371,8 +415,101 @@ CStage2* CStage2::Create()
 	return pStage2;
 }
 
+void CStage2::EnterResultMode()
+{
+	if (m_isResultMode) return;
+	m_isResultMode = true;
+
+	// 결과 UI를 UI 레이어에 추가
+	auto it = m_mapLayer.find(LAYERID::LAYER_UI);
+	if (it != m_mapLayer.end()) {
+		Engine::CLayer* uiLayer = it->second;
+		if (auto* ui = CUI_StageClear::Create(m_pGraphicDev)) {
+			uiLayer->Add_GameObject(OBJID::OBJ_UI, ui);
+		}
+	}
+}
+
+void CStage2::RequestNextScene(SCENEID id)
+{
+	m_pendingNext = id;
+}
+
 void CStage2::ConnectDoorSwitchByLinkId()
 {
+	// linkId -> 문 목록
+	unordered_map<wstring, vector<CDoor*>> doorsById;
+	// linkId -> 스위치 목록
+	unordered_map<wstring, vector<CSwitch_Button*>> switchesById;
+
+	const auto& objs = Get_ObjectGroup(LAYERID::LAYER_GAMELOGIC, OBJID::OBJ_OBJECT);
+
+	// 1) 분류
+	for (auto* o : objs)
+	{
+		if (auto* d = dynamic_cast<CDoor*>(o)) {
+			const std::wstring& id = d->Get_LinkId();
+			if (!id.empty()) doorsById[id].push_back(d);
+		}
+		else if (auto* s = dynamic_cast<CSwitch_Button*>(o)) {
+			const wstring& id = s->Get_LinkId();
+			if (!id.empty()) switchesById[id].push_back(s);
+		}
+	}
+
+	// 2) 연결 (스위치 모드에 따라 1:1 또는 1:N)
+	for (const auto& kv : switchesById)
+	{
+		const wstring& id = kv.first;
+		const vector<CSwitch_Button*>& sws = kv.second;
+
+		auto it = doorsById.find(id);
+		if (it == doorsById.end()) continue;
+
+		const vector<CDoor*>& candDoors = it->second;
+
+		for (auto* sw : sws)
+		{
+			// 기존 연결 초기화
+			sw->Clear_Targets();
+			sw->Set_Target(nullptr);
+
+			if (sw->Get_LinkMode() == Engine::LINKMODE::ONE_TO_MANY)
+			{
+				// 1:N — 같은 ID의 모든 문
+				for (auto* d : candDoors)
+					sw->Add_Target(d);
+			}
+			else
+			{
+				// 1:1 — 같은 ID의 문들 중 가장 가까운 문
+				auto* swTr = dynamic_cast<Engine::CTransform*>(
+					sw->Get_Component(Engine::ID_DYNAMIC, L"Com_Transform"));
+
+				CDoor* bestDoor = nullptr;
+				float bestD2 = (std::numeric_limits<float>::max)();		// 매크로 회피(이렇게 안하면 max 매크로를 인식하지 못함)
+
+				for (auto* d : candDoors)
+				{
+					auto* dTr = dynamic_cast<Engine::CTransform*>(
+						d->Get_Component(Engine::ID_DYNAMIC, L"Com_Transform"));
+
+					if (!swTr || !dTr) { // 트랜스폼 없으면 첫 문으로 대체
+						if (!bestDoor) bestDoor = d;
+						continue;
+					}
+
+					_vec3 a; swTr->Get_Pos(&a);
+					_vec3 b; dTr->Get_Pos(&b);
+
+					const float dx = a.x - b.x, dy = a.y - b.y, dz = a.z - b.z;
+					const float d2 = dx * dx + dy * dy + dz * dz;
+					if (d2 < bestD2) { bestD2 = d2; bestDoor = d; }
+				}
+				if (bestDoor) sw->Set_Target(bestDoor);
+			}
+		}
+	}
 }
 
 void CStage2::Free()

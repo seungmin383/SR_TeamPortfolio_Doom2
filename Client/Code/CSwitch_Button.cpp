@@ -228,7 +228,10 @@ void CSwitch_Button::SetSwitchOn()
 			st->EnterResultMode();
 		}
 		else if (auto* st2 = dynamic_cast<CStage2*>(CManagement::GetInstance()->Get_Scene())) {
-			// Stage2에 함수 추가 가능하면 추가된 함수 사용 예정
+			st2->EnterResultMode();
+		}
+		else if (auto* st3 = dynamic_cast<CStage3*>(CManagement::GetInstance()->Get_Scene())) {
+			// 스테이지 3 이후 처리
 		}
 	}
 }
