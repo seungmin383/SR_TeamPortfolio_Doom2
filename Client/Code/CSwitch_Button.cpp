@@ -27,6 +27,8 @@ HRESULT CSwitch_Button::Ready_GameObject()
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
+	 m_bPressed = false;
+    m_state    = State::Idle;   // Idle·Î °­Á¦
 
 	m_pTransformCom->Set_Pos(15.f, 0.f, 18.f);
 	m_pTransformCom->Set_Scale(_vec3(0.5f, 0.5f, 0.5f));
@@ -95,6 +97,9 @@ void CSwitch_Button::OnCollision(CCollider* _pOther)
 		SetSwitchOn();
 		m_state = State::Dead;
 	}
+	char buf[64];
+	sprintf_s(buf, "[SW] Collision, trigger=%d\n", (int)bIsTrigger);
+	OutputDebugStringA(buf);
 }
 
 void CSwitch_Button::OnCollisionEnter(CCollider* _pOther)
@@ -238,10 +243,17 @@ CSwitch_Button* CSwitch_Button::Clone()
 		return nullptr;
 	}
 
+	pSB->m_bPressed = false;
+	pSB->m_state = State::Idle;
+	pSB->m_targets.clear();
+
+	OutputDebugStringA("[SW] Spawned: state=Idle, pressed=0\n");
 	return pSB;
 }
 
 void CSwitch_Button::Free()
 {
+	m_state == State::Idle;
+	m_bPressed = false;
 	Engine::CGameObject::Free();
 }

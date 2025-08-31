@@ -520,13 +520,13 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	//}
 
 	//// 탈출 스위치
-	//Engine::CGameObject* pSwitchObj3 = CPrototypeManager::GetInstance()
-	//	->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
-	//if (nullptr == pSwitchObj3) return E_FAIL;
-	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj3))) return E_FAIL;
+	Engine::CGameObject* pSwitchObj3 = CPrototypeManager::GetInstance()
+		->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
+	if (nullptr == pSwitchObj3) return E_FAIL;
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj3))) return E_FAIL;
 
-	//auto* sw3 = dynamic_cast<CSwitch_Button*> (pSwitchObj3);
-	//sw3->Set_LinkId(L"EXIT");
+	auto* sw3 = dynamic_cast<CSwitch_Button*> (pSwitchObj3);
+	sw3->Set_LinkMode(Engine::LINKMODE::NONE);
 
 	//Engine::CTransform* tr6 = GetTransformPtr(pSwitchObj3);
 	//if (tr6) {
