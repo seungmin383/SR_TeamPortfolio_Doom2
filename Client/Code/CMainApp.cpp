@@ -20,6 +20,7 @@
 #include "CFileManager.h"
 #include "CObjectFactory.h"
 #include "CTextureManager.h"
+#include "CUIManager.h"
 
 #include "CTerrain.h"
 #include "CTerrainSector.h"
@@ -356,6 +357,7 @@ void CMainApp::Free()
 	Engine::Safe_Release(m_pDeviceClass);
 	Engine::Safe_Release(m_pGraphicDev);				
 	
+	CUIManager::GetInstance()->DestroyInstance();
 	CTextureManager::GetInstance()->DestroyInstance();
 	CFileManager::GetInstance()->DestroyInstance();
 	CObjectFactory::GetInstance()->DestroyInstance();
@@ -365,7 +367,7 @@ void CMainApp::Free()
 	CRenderer::GetInstance()->DestroyInstance();
 	CPrototypeManager::GetInstance()->DestroyInstance();
 	CTimerManager::GetInstance()->DestroyInstance();
-	CFrameManager::GetInstance()->DestroyInstance();
+	CFrameManager::GetInstance()->DestroyInstance(); 
 	CDInputManager::GetInstance()->DestroyInstance();
 	CWeaponManager::GetInstance()->DestroyInstance();
 

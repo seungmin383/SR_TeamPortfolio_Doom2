@@ -27,6 +27,7 @@ void CRenderer::Render_GameObejct(LPDIRECT3DDEVICE9& pGraphicDev, const _float& 
 	Render_Reflect(pGraphicDev, fTimeDelta);
 	Render_Alpha(pGraphicDev, fTimeDelta);
 	Render_UI(pGraphicDev, fTimeDelta);
+	Render_Proj_UI(pGraphicDev, fTimeDelta);
 
 	Clear_RenderGroup();
 }
@@ -150,6 +151,27 @@ void CRenderer::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev, const _float& fTimeDel
 	// Render 끝나고 복사해둔 뷰, 투영 행렬 복원해주기
 	pGraphicDev->SetTransform(D3DTS_VIEW, &matPrevView);
 	pGraphicDev->SetTransform(D3DTS_PROJECTION, &matPrevProj);
+}
+
+void CRenderer::Render_Proj_UI(LPDIRECT3DDEVICE9& pGraphicDev, const _float& fTimeDelta)
+{
+	// ---- 상태 백업 ----
+	//DWORD oldAlpha, oldLight, oldZ;
+	//pGraphicDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &oldAlpha);
+	//pGraphicDev->GetRenderState(D3DRS_LIGHTING, &oldLight);
+	//pGraphicDev->GetRenderState(D3DRS_ZENABLE, &oldZ);
+
+	//pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	//pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+	//pGraphicDev->SetRenderState(D3DRS_ZENABLE, FALSE);
+
+	for (auto& pObj : m_RenderGroup[RENDER_PROJ_UI])
+		pObj->Render_GameObject(fTimeDelta);
+
+	// ---- 상태 복구 ----
+	//pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, oldAlpha);
+	//pGraphicDev->SetRenderState(D3DRS_LIGHTING, oldLight);
+	//pGraphicDev->SetRenderState(D3DRS_ZENABLE, oldZ);
 }
 
 void CRenderer::Free()

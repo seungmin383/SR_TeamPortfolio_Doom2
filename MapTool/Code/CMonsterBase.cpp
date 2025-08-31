@@ -60,7 +60,10 @@ _int CMonsterBase::Update_GameObject(const _float& fTimeDelta)
 	CGameObject::Update_GameObject(fTimeDelta);
 
 	if (m_isGibbingDead || m_isNormalDead)
+	{
+		cout << "죽음" << endl;	
 		return -1;
+	}
 
 	return 0;
  }
@@ -75,8 +78,11 @@ void                 CMonsterBase::LateUpdate_GameObject(const _float& fTimeDelt
 
 void                 CMonsterBase::Render_GameObject(const _float& fTimeDelta)
 {
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);			//알파 테스트를 하겠다.
+
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 	m_pTextureCom->Set_Texture(m_eCurAnimState);
@@ -96,6 +102,10 @@ void CMonsterBase::OnCollision(CCollider* _pOther)
 void CMonsterBase::OnCollisionEnter(CCollider* _pOther)
 {
 	CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
+	if (_pOther->Get_ColLayer() == COLLAYERID::COL_WALL)
+	{
+		m_vMoveLook = -m_vMoveLook;
+	}
 
 }
 
@@ -303,7 +313,12 @@ _bool CMonsterBase::Check_Target()
 		float distSq = D3DXVec3LengthSq(&vDistanceToPlayer);
 		float sightSq = m_fSightDistance * m_fSightDistance;
 
-		return (fDot >= 0.f) && (distSq <= sightSq);
+		if ((fDot >= 0.f) && (distSq <= sightSq)) //플레이어가 범위 안에 들어왔다
+		{
+
+		}
+		else //플레이어가 범위 밖에 있다
+			return FALSE;
 }
 
 _bool CMonsterBase::Check_Shooting_Sound()
@@ -413,7 +428,7 @@ _bool CMonsterBase::Check_Dead()
 {
 	if (m_iGameHp <= 0)
 	{
-
+		m_bDead = true;
 		if (m_iGameHp <= -30)
 		{
 			m_isGibbingDead = TRUE;

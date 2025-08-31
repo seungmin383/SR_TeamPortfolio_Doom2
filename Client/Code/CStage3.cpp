@@ -40,6 +40,8 @@ CStage3::~CStage3()
 
 HRESULT CStage3::Ready_Scene()
 {
+	CColliderManager::GetInstance()->Reset();
+
 	if (FAILED(Ready_Environment_Layer(LAYERID::LAYER_ENVIRONMENT)))
 		return E_FAIL;
 

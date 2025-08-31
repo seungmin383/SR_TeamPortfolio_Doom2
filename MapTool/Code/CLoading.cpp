@@ -83,8 +83,8 @@ _uint CLoading::Loading_ForStage()
 #pragma endregion
 #pragma region MONSTER_BULLET
 
-	//if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_ZombieMan_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Monster/ZombieMan/MonsterState%d.png", TEX_NORMAL, 26))))
-	//	return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Zombieman_Bullet_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Effect/ZombiemanBullet/BulletState%d.png", TEX_NORMAL))))
+		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Imp_Bullet_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Effect/ImpBullet/BulletState%d.png", TEX_NORMAL, 2))))
 		return E_FAIL;
@@ -92,9 +92,11 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Archvile_Bullet_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Effect/ArchvileBullet/BulletState%d.png", TEX_NORMAL, 2))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Zombieman_Bullet_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Effect/ZombiemanBullet/BulletState%d.png", TEX_NORMAL, 2))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Boss_Bullet_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Effect/BossBullet/BulletState%d.png", TEX_NORMAL, 2))))
 		return E_FAIL;
 
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Pinky_Bullet_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Effect/PinkyBullet/BulletState%d.png", TEX_NORMAL))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region PLAYER_BULLET
@@ -105,7 +107,7 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_BfgBullet", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Effect/BFGBullet/BFGBULLET%d.png", TEX_NORMAL, 2))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_NormalBullet", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Effect/NormalBullet/STKEYS4.png", TEX_NORMAL, 1))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_NormalBullet", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Effect/NormalBullet/a6676.png", TEX_NORMAL, 1))))
 		return E_FAIL;
 
 #pragma endregion
@@ -114,6 +116,13 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_PlayerUI", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/PLAYERUI.png", TEX_NORMAL))))
 		return E_FAIL;
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_PlayerUI_Weapon", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/STARMS.png", TEX_NORMAL))))
+		return E_FAIL;
+	
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_MainMenuUI_Logo", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/M_NEWG.png", TEX_NORMAL))))
+		return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_MainMenuUI_Exit", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/M_QUITG.png", TEX_NORMAL))))
+		return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_MainMenuUI_Hover", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/M_SKULL1.png", TEX_NORMAL))))
 		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_FaceUI", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/STFST0%d.png", TEX_NORMAL, 3))))
@@ -138,6 +147,17 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_UI_Key", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Object/STKEYS0.png", TEX_NORMAL))))
 		return E_FAIL;
 
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Kills", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/WIOSTK.png", TEX_NORMAL))))
+		return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Items", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/WIOSTI.png", TEX_NORMAL))))
+		return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Clear", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/WIF.png", TEX_NORMAL))))
+		return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Times", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/WITIME.png", TEX_NORMAL))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Elevator_Floor", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/FLAT14.png", TEX_NORMAL))))
+		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Number", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/STTNUM%d.png", TEX_NORMAL, 10))))
 		return E_FAIL;
@@ -170,6 +190,9 @@ _uint CLoading::Loading_ForStage()
 		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Cell", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Object/CELLA0.png", TEX_NORMAL))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Suit", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Object/SUITA0.png", TEX_NORMAL))))
 		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Barrel", Engine::CTexture::Create(m_pGraphicDev, L"../../Client/Resource/Texture/DoomTex/Object/BAR1A%d.png", TEX_NORMAL, 2))))

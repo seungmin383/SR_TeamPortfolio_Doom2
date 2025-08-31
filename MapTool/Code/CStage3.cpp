@@ -40,6 +40,8 @@ CStage3::~CStage3()
 
 HRESULT CStage3::Ready_Scene()
 {
+	CColliderManager::GetInstance()->Reset();
+
 	if (FAILED(Ready_Environment_Layer(LAYERID::LAYER_ENVIRONMENT)))
 		return E_FAIL;
 
@@ -67,11 +69,6 @@ _int CStage3::Update_Scene(const _float& fTimeDelta)
 {
 	CColliderManager::GetInstance()->Update();
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
-
-	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_T) & 0x80)
-	{
-		CManagement::GetInstance()->Change_Scene(SCENEID::TEST);
-	}
 
 	return iExit;
 }
@@ -292,6 +289,8 @@ HRESULT CStage3::Ready_Camera_Layer(LAYERID _eLayerId)
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
+
+	dynamic_cast<CDynamicCamera*>(pGameObject)->Set_Pos(_vec3(290.f, 0.f, 105.f));
 
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_PLAYER, pGameObject)))
 		return E_FAIL;
