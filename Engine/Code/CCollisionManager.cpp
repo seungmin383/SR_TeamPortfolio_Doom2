@@ -402,7 +402,7 @@ CGameObject* CCollisionManager::Raycast(_vec3 vRayPos, _vec3 vRayDir, _vec3& vHi
 								if (D3DXIntersectTri(&pTerrainVtxPos[topLeft],
 													 &pTerrainVtxPos[topRight],
 													 &pTerrainVtxPos[bottomRight],
-													 &vLocalRayPos, &vRayDir, &fU, &fV, &fDist))
+													 &vLocalRayPos, &vLocalRayDir, &fU, &fV, &fDist))
 								{
 									if (fDist <= fClosestDist)
 									{
