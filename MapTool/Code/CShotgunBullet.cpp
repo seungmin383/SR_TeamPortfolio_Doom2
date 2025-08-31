@@ -55,7 +55,7 @@ HRESULT CShotgunBullet::Ready_GameObject()
 
 _int CShotgunBullet::Update_GameObject(const _float& fTimeDelta)
 {
-	if (m_bDead)
+	if (m_bDead || m_eState == BULLET_STATE::HIT)
 		return -1;
 
 	_vec3 vPos;
@@ -95,8 +95,6 @@ void CShotgunBullet::Render_GameObject(const _float& fTimeDelta)
 
 void CShotgunBullet::OnCollision(CCollider* _pOther)
 {
-	if (_pOther->Get_ColLayer() == COLLAYERID::COL_PLAYER)
-		return;
 }
 
 void CShotgunBullet::OnCollisionEnter(CCollider* _pOther)
@@ -126,8 +124,6 @@ void CShotgunBullet::OnCollisionEnter(CCollider* _pOther)
 
 void CShotgunBullet::OnCollisionExit(CCollider* _pOther)
 {
-	if (_pOther->Get_ColLayer() == COLLAYERID::COL_PLAYER)
-		return;
 }
 
 HRESULT CShotgunBullet::Add_Component()

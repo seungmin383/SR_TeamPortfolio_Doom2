@@ -89,6 +89,7 @@ private:
 	void        Camera_Bobbing(const _float& fTimeDelta);
 	void		Apply_Gravity(const _float& fTimeDelta);		// 중력 적용 함수
 	void		Check_Death();
+	void		Check_Wall(const _float& fTimeDelta);
 
 private:
 	Engine::CCalculator* m_pCalculatorCom;

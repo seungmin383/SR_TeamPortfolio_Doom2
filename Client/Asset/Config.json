@@ -87,64 +87,77 @@
     },
     {
       "value": 7,
-      "tag": "SHIFT_CUBE"
+      "tag": "VERTICAL_MOVING"
     },
     {
       "value": 8,
-      "tag": "ITEM_HELTH_SMALL"
+      "tag": "SHIFT_CUBE"
     },
     {
       "value": 9,
-      "tag": "ITEM_HELTH_BIG"
+      "tag": "ITEM_HELTH_SMALL"
     },
     {
       "value": 10,
-      "tag": "ITEM_ARMOR_SMALL"
+      "tag": "ITEM_HELTH_BIG"
     },
     {
       "value": 11,
-      "tag": "ITEM_ARMOR_BIG"
+      "tag": "ITEM_ARMOR_SMALL"
     },
     {
       "value": 12,
-      "tag": "ITEM_CLIP"
+      "tag": "ITEM_ARMOR_BIG"
     },
     {
       "value": 13,
-      "tag": "ITEM_SHELL"
+      "tag": "ITEM_CLIP"
     },
     {
       "value": 14,
-      "tag": "ITEM_ROCKET"
+      "tag": "ITEM_SHELL"
     },
     {
       "value": 15,
-      "tag": "ITEM_CELL"
+      "tag": "ITEM_ROCKET"
     },
     {
       "value": 16,
-      "tag": "OBJ_BARREL"
+      "tag": "ITEM_CELL"
     },
     {
       "value": 17,
-      "tag": "WEAPON_SHOTGUN"
+      "tag": "ITEM_SUIT"
     },
     {
       "value": 18,
-      "tag": "WEAPON_CHAINGUN"
+      "tag": "OBJ_BARREL"
     },
     {
       "value": 19,
-      "tag": "WEAPON_ROCKET"
+      "tag": "WEAPON_SHOTGUN"
     },
     {
       "value": 20,
-      "tag": "WEAPON_BFG"
+      "tag": "WEAPON_CHAINGUN"
     },
     {
       "value": 21,
+      "tag": "WEAPON_ROCKET"
+    },
+    {
+      "value": 22,
+      "tag": "WEAPON_BFG"
+    },
+    {
+      "value": 23,
       "tag": "BUTTON_DOOR"
     },
+    {
+      "value": 24,
+      "tag": "TMP_WALL"
+    },
+
 
 
 
@@ -173,6 +186,8 @@
       "tag": "BULLET"
     },
 
+
+
     {
       "value": 61,
       "tag": "UI"
@@ -182,6 +197,8 @@
       "tag": "WEAPON"
     },
 
+
+
     {
       "value": 71,
       "tag": "BACKGROUND"
@@ -190,6 +207,8 @@
       "value": 72,
       "tag": "SKYBOX"
     },
+
+
 
     {
       "value": 81,
@@ -266,7 +285,7 @@
     },
 
     {
-      "value": 111,
+      "value": 11,
       "tag": "OBJ_EXPLOSION"
     },
     {
@@ -291,6 +310,21 @@
     {
       "value": 16,
       "tag": "OBJ_SKYBOX"
+    }
+  ],
+  "ObjLinkMode": [
+    {
+      "value": 0,
+      "tag": "NONE"
+    },
+    {
+      "value": 1,
+      "tag": "ONE_TO_ONE"
+    },
+
+    {
+      "value": 2,
+      "tag": "ONE_TO_MANY"
     }
   ]
 }

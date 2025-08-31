@@ -4,6 +4,9 @@
 #include "CTerrainSector.h"
 #include "CTextureManager.h"
 
+#include <locale>
+#include <codecvt>
+
 IMPLEMENT_SINGLETON(CObjectFactory)
 
 CObjectFactory::CObjectFactory()
@@ -23,8 +26,16 @@ void CObjectFactory::Set_Dev(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CObjectFactory::Create_Object(OBJPROTOTYPE eprototype, OBJID eObjId, _vec3 vPos)
 {
-	//auto object = CPrototypeManager::GetInstance()->GetInstance()->Clone_ObjPrototype(eprototype);
 	CManagement::GetInstance()->Set_GameLogicObject(eprototype, eObjId, vPos);
+}
+
+void CObjectFactory::Create_Object(OBJPROTOTYPE eprototype, OBJID eObjId, LINKMODE eLinkMode, string linkId, _vec3 vPos)
+{
+	wstring wLinkId;
+	
+	wLinkId = wstring().assign(linkId.begin(), linkId.end());
+
+	CManagement::GetInstance()->Set_GameLogicObject(eprototype, eObjId, vPos, 1, wLinkId, eLinkMode);
 }
 
 CGameObject* CObjectFactory::Create_Terrain_Default(const _ulong& dwCntX, const _ulong& dwCntZ, const _float& dwVtxItv, _tchar* texTag, _vec3 pos, OBJID eObjId)

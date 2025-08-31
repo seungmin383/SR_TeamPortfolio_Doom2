@@ -56,11 +56,8 @@ HRESULT CChaingunBullet::Ready_GameObject()
 
 _int CChaingunBullet::Update_GameObject(const _float& fTimeDelta)
 {
-	if (m_bDead)
+	if (m_bDead || m_eState == BULLET_STATE::HIT)
 		return -1;
-
-	_vec3 vPos;
-	m_pTransformCom->Get_Pos(&vPos);
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 	if (CBullet::Update_GameObject(fTimeDelta) == -1)
@@ -96,42 +93,33 @@ void CChaingunBullet::Render_GameObject(const _float& fTimeDelta)
 
 void CChaingunBullet::OnCollision(CCollider* _pOther)
 {
-	//if (_pOther->Get_ColLayer() == COLLAYERID::COL_PLAYER)
-	//	return;
 }
 
 void CChaingunBullet::OnCollisionEnter(CCollider* _pOther)
 {
-	//switch (_pOther->Get_ColLayer())
-	//{
-	//case COLLAYERID::COL_PLAYER:
-	//	return;
+	switch (_pOther->Get_ColLayer())
+	{
+	case COLLAYERID::COL_PLAYER:
+		return;
 
-	//case COLLAYERID::COL_TERRAIN:
-	//case COLLAYERID::COL_WALL:
-	//	m_fSpeed = 0.f;
-	//	break;
+	case COLLAYERID::COL_ENEMY:
+		m_fSpeed = 0.f;
+		_pOther->Get_Owner()->Take_Dmg(m_iDmg);
+		break;
 
-	//case COLLAYERID::COL_ENEMY:
-	//	m_fSpeed = 0.f;
-	//	_pOther->Get_Owner()->Take_Dmg(m_iDmg);
-	//	break;
+	case COLLAYERID::COL_OBJECT:
+		m_fSpeed = 0.f;
+		break;
 
-	//case COLLAYERID::COL_OBJECT:
-	//	m_fSpeed = 0.f;
-	//	break;
+	default:
+		break;
+	}
 
-	//default:
-	//	break;
-	//}
-
-	//m_bDead = true;
+	m_bDead = true;
 }
 
 void CChaingunBullet::OnCollisionExit(CCollider* _pOther)
 {
-	//if (_pOther->Get_ColLayer() == COLLAYERID::COL_PLAYER)
-	//	return;
 }
 
 HRESULT CChaingunBullet::Add_Component()

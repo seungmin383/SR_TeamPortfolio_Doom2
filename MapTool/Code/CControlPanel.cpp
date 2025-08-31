@@ -208,6 +208,8 @@ _bool CControlPanel::ControlPanelWindow(const _float& timeDelta)
 		LoadMonster(load_current);
 	}
 
+	ImGui::Checkbox("EnablePick", &EnablePick);
+
 	ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
 	if (ImGui::BeginTabBar("ControlPanel", tab_bar_flags))
 	{
@@ -457,8 +459,6 @@ void CControlPanel::TerrainController()
 
 	curTileIdx = ModifyChildWindow();
 
-	ImGui::Checkbox("EnablePick", &EnablePick);
-
 	static int terraintype_current = 0;
 
 	if (!tControlInfo.empty())
@@ -669,11 +669,16 @@ void CControlPanel::ObjectController()
 	ImGui::Combo("id", &id_current, idTags, objIdTags.size());
 
 	//type3 여분값
+	static int link_current = 0;
+	ImGui::Combo("linkMode", &link_current, linkModeTags, objLinkModes.size());
 
 	//tag 기타 태그
+	ImGui::InputText("object tag", &objectTag);
 
 	tObjectinfo.type1 = objPrototypeTags[type_current].value;
 	tObjectinfo.type2 = objIdTags[id_current].value;
+	tObjectinfo.type3 = objLinkModes[link_current].value;
+	tObjectinfo.tag = objectTag;
 }
 
 void CControlPanel::ChangeTileInfo()
@@ -943,6 +948,14 @@ void CControlPanel::SetObjInfo()
 		strcpy_s(idTags[i], (rsize_t)((objIdTags[i].tag.size() + 1) * sizeof(char)), objIdTags[i].tag.c_str());
 	}
 
+	objLinkModes = config.ObjLinkMode;
+	linkModeTags = new char* [objLinkModes.size()];
+	for (size_t i = 0; i < objLinkModes.size(); i++)
+	{
+		linkModeTags[i] = new char[objLinkModes[i].tag.size() + 1];
+		strcpy_s(linkModeTags[i], (rsize_t)((objLinkModes[i].tag.size() + 1) * sizeof(char)), objLinkModes[i].tag.c_str());
+	}
+
 	//터레인타입 꼽사리
 
 	terrainTags[0] = "Terrain";
@@ -1052,7 +1065,18 @@ void CControlPanel::InputMouse_Object()
 		if (nearest == 99999.f)
 			return;
 
-		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)tObjectinfo.type1, (OBJID)tObjectinfo.type2, tObjectinfo.position);
+		//TODO: 링크모드 설치 일반설치 분기
+		if (tObjectinfo.type3 != (_uint)LINKMODE::NONE && tObjectinfo.tag != "")
+		{
+			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)tObjectinfo.type1, (OBJID)tObjectinfo.type2, (LINKMODE)tObjectinfo.type3, tObjectinfo.tag, tObjectinfo.position);
+		}
+		else
+		{
+			//일반 오브젝트 설치
+			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)tObjectinfo.type1, (OBJID)tObjectinfo.type2, tObjectinfo.position);
+		}
+
+		objectTag.clear();
 
 		vecItemInfos.push_back(tObjectinfo);
 	}
@@ -1159,6 +1183,13 @@ void CControlPanel::Free()
 		for (size_t i = 0; i < objIdTags.size(); i++)
 			Safe_Delete(idTags[i]);
 		Safe_Delete_Array(idTags);
+	}
+
+	if (linkModeTags != nullptr)
+	{
+		for (size_t i = 0; i < objLinkModes.size(); i++)
+			Safe_Delete(linkModeTags[i]);
+		Safe_Delete_Array(linkModeTags);
 	}
 
 	if (loadSceneTags != nullptr)

@@ -20,6 +20,7 @@ struct ConfigModel
 
 	vector<GameObjectType> ObjPrototypeTags;
 	vector<GameObjectType> ObjIdTags;
+	vector<GameObjectType> ObjLinkMode;
 };
 
 inline void to_json(json& j, const ConfigModel& c)
@@ -39,6 +40,7 @@ inline void to_json(json& j, const ConfigModel& c)
 
 	j["ObjPrototypeTags"] = c.ObjPrototypeTags;
 	j["ObjIdTags"] = c.ObjIdTags;
+	j["ObjLinkMode"] = c.ObjLinkMode;
 }
 
 inline void from_json(const json& j, ConfigModel& c)
@@ -58,4 +60,5 @@ inline void from_json(const json& j, ConfigModel& c)
 
 	j.at("ObjPrototypeTags").get_to(c.ObjPrototypeTags);
 	j.at("ObjIdTags").get_to(c.ObjIdTags);
+	j.at("ObjLinkMode").get_to(c.ObjLinkMode);
 }

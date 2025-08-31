@@ -23,7 +23,6 @@ CZombieMan::~CZombieMan()
 
 HRESULT CZombieMan::Ready_GameObject()
 {
-	CMonsterBase::Ready_GameObject();
 	m_iMonsterType = OBJPROTOTYPE::ENEMY_ZOMBIEMAN;
 
 
@@ -130,7 +129,8 @@ HRESULT CZombieMan::Ready_GameObject()
 	m_iGibDeadPlus		= 24;
 	m_iNorDeadPlus		= 25;
 
-	m_pTransformCom->Set_Pos(54.f, 0.f, 10.f);
+	//m_pTransformCom->Set_Pos(54.f, 0.f, 10.f);
+	m_pTransformCom->Set_Pos(100.f, 0.f, 100.f);
 
 	//초기 룩으로 세팅해주고
 	m_pTransformCom->Get_Info(INFO_LOOK, &m_vMoveLook);
@@ -140,6 +140,7 @@ HRESULT CZombieMan::Ready_GameObject()
 	m_vMoveLook.x = 1;
 	//cout << m_vMoveLook.x << m_vMoveLook.y << m_vMoveLook.z << endl;
 #pragma endregion
+	CMonsterBase::Ready_GameObject();
 
 	return S_OK;
 }

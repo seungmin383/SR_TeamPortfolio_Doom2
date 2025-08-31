@@ -16,15 +16,12 @@ public:
     virtual     void            LateUpdate_GameObject(const _float& fTimeDelta);
     virtual     void            Render_GameObject(const _float& fTimeDelta);
 
-    void Set_IsMainMenu(const _bool& bIsMain) { m_bIsMainMenu = bIsMain; }
-
 private:
     HRESULT     Add_Component();
 
 private:
-    Engine::CRectTex*        m_pBufferCom;
+    Engine::CRectTex*       m_pBufferCom;
     Engine::CTexture*       m_pTextureCom;
-    Engine::CTexture*       m_pMainTextureCom;
 
     _bool                   m_bIsMainMenu = false;
 

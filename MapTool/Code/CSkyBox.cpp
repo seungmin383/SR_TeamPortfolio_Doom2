@@ -21,7 +21,7 @@ HRESULT CSkyBox::Ready_GameObject()
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scale(_vec3(20.f, 20.f, 20.f));
+	m_pTransformCom->Set_Scale(_vec3(40.f, 40.f, 40.f));
 
 	return S_OK;
 }
