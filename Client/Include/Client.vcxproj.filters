@@ -211,6 +211,15 @@
     <Filter Include="02. GameObject\10. Effect\00. ExplosionBlood">
       <UniqueIdentifier>{9df72848-f023-4329-9b1d-c7e1be36f9b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\09. UI\MainMenu">
+      <UniqueIdentifier>{6cbaf988-403a-4c38-b182-33f42203776b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\04. UIManager">
+      <UniqueIdentifier>{036ed0e7-09f7-4588-ba65-c9f79190f4fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\04. UIManager\UISet">
+      <UniqueIdentifier>{34c3bcf5-1925-4978-b136-871ff7428c89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -444,6 +453,30 @@
     <ClInclude Include="..\Header\CExplosionBloodEffect.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CMainMenuLogo.h">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CMainMenuExit.h">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CMainMenuHover.h">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CUIObject.h">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CUICamera.h">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CMainMenuBackground.h">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CUIManager.h">
+      <Filter>03. Manager\04. UIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CUISet.h">
+      <Filter>03. Manager\04. UIManager\UISet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -670,6 +703,30 @@
     </ClCompile>
     <ClCompile Include="..\Code\CExplosionBloodEffect.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CMainMenuLogo.cpp">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CMainMenuExit.cpp">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CMainMenuHover.cpp">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CUIObject.cpp">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CUICamera.cpp">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CMainMenuBackground.cpp">
+      <Filter>02. GameObject\09. UI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CUIManager.cpp">
+      <Filter>03. Manager\04. UIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CUISet.cpp">
+      <Filter>03. Manager\04. UIManager\UISet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
