@@ -44,6 +44,7 @@ class CControlPanel :
         _float vertexIntervalY = 1.f;
 
         _int terrainIdx = 0;
+        _bool blend = false;
         fs::path currentTextureTag = "";
 
         _vec3 pos = _vec3(0.f, 0.f, 0.f);
