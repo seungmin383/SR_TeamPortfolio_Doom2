@@ -86,7 +86,7 @@ _int CUI_StageClear::Update_GameObject(const _float& fTimeDelta)
 				st2->RequestNextScene(next);
 			}
 			else if (auto* st3 = dynamic_cast<CStage3*>(cur)) {
-				CManagement::GetInstance()->Change_Scene(next);		// 3스테이지에서 끝나면 메인메뉴로
+				st3->RequestNextScene(next);		// 3스테이지에서 끝나면 메인메뉴로
 			}
 		}
 		break;

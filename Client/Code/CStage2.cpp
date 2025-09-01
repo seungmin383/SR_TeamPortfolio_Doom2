@@ -164,6 +164,8 @@ HRESULT CStage2::Load_PreSet()
 			m.strTextureTag,
 			m.pos,
 			objid);
+
+		ConnectDoorSwitchByLinkId();
 	}
 
 	//오브젝트 설치

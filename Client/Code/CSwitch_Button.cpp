@@ -231,7 +231,7 @@ void CSwitch_Button::SetSwitchOn()
 			st2->EnterResultMode();
 		}
 		else if (auto* st3 = dynamic_cast<CStage3*>(CManagement::GetInstance()->Get_Scene())) {
-			// 스테이지 3 이후 처리
+			st3->EnterResultMode();
 		}
 	}
 }
