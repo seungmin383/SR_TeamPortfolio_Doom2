@@ -534,8 +534,15 @@ void CDynamicCamera::Mouse_Input()
 	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB) & 0x80)
 		 bFireCheck = CWeaponManager::GetInstance()->Fire_Weapon();
 
-	if (bFireCheck )
+	if (bFireCheck)
+	{
+		if (CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponID() == WEAPON_ID::PISTOL ||
+			CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponID() == WEAPON_ID::SHOTGUN ||
+			CWeaponManager::GetInstance()->Get_CurWeapon()->Get_WeaponID() == WEAPON_ID::CHAINGUN)
+		{
 			Drop_Tanpii();
+		}
+	}
 
 	m_bTrigger = false;
 
