@@ -29,8 +29,8 @@ HRESULT CDoor::Ready_GameObject()
 	m_fSpeed = 5.f;
 	m_fTimer = 0.f;
 
-	m_pTransformCom->Set_Pos(20.f, 2.f, 25.f);
-	m_pTransformCom->Set_Scale(_vec3(2.f, 2.f, 2.f));
+	m_pTransformCom->Set_Pos(20.f, 3.f, 25.f);					// Scale.y 값이랑 y 값이랑 같게 해야 한다.
+	m_pTransformCom->Set_Scale(_vec3(3.f, 3.f, 0.5f));		
 
 	m_pTransformCom->Get_Pos(&m_vOriginPos);
 
@@ -40,8 +40,8 @@ HRESULT CDoor::Ready_GameObject()
 		m_pColliderCom->Ready_CCollider(
 			this,
 			_vec3(0, 0, 0),         // 초기 위치(Transform가 실제로 잡아줌)
-			_vec3(2.f, 2.f, 1.f),   // 박스 크기
-			_vec3(0, 0.4f, 0),      // 약간 위로
+			_vec3(3.f, 3.f, 1.5f),   // 박스 크기
+			_vec3(0, 0.f, 0),      // 약간 위로
 			COL_OBJECT,             // 내 레이어
 			// 공격으로 인정할 대상 레이어(레이 사격 포함)
 			COL_PLAYER
@@ -54,16 +54,18 @@ HRESULT CDoor::Ready_GameObject()
 	else
 		m_fTimer = 0;
 
+	m_fOpenHeight = m_vOriginPos.y * 2;
+
 	return S_OK;
 }
 
 _int CDoor::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
-
+	Set_OnTerrain();
 	DoorOpening(fTimeDelta);
 
-	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
+	CRenderer::GetInstance()->Add_RenderGroup(RENDER_NONALPHA, this);
 
 	return 0;
 }
@@ -72,7 +74,7 @@ void CDoor::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 	if (m_pColliderCom)
-		m_pColliderCom->Late_Update(); // ★ 중요
+		m_pColliderCom->Late_Update(); // ★중요
 }
 
 void CDoor::Render_GameObject(const _float& fTimeDelta)
@@ -126,8 +128,8 @@ HRESULT CDoor::Add_Component()
 {
 	CComponent* pComponent = NULL;
 
-	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectSpriteTex*>
-		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_RectSpriteTex"));
+	pComponent = m_pBufferCom = dynamic_cast<Engine::CCubeTex*>
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_CubeTex"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -183,7 +185,7 @@ void CDoor::Set_OnTerrain()
 		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
 		{
 
-			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 1, pos.z);
+			m_pTransformCom->Set_Pos(pos.x, onPosition.y + m_vOriginPos.y, pos.z);
 			break;
 		}
 	}
@@ -207,6 +209,7 @@ void CDoor::DoorOpening(const _float& fTimeDelta)
 
 		if (vPos.y >= m_vOriginPos.y + m_fOpenHeight)
 		{
+			// XZ는 유지, Y만 원래 높이에 OpenHeight만큼 증가
 			vPos.y = m_vOriginPos.y + m_fOpenHeight;
 			m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 			m_state = State::Open;

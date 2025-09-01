@@ -2,6 +2,8 @@
 #include "CManagement.h"
 #include "CCollisionManager.h"
 
+#include"EffectManager.h"
+
 CBullet::CBullet(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CGameObject(pGraphicDev),
 	m_eState(BULLET_STATE::IDLE),
@@ -157,6 +159,8 @@ void CBullet::OnCollisionEnter(CCollider* _pOther)
 
 	_pOther->Get_Owner()->Take_Dmg(m_iDmg);
 	
+	EffectManager::GetInstance()->Start_Effect(m_vHitpos, EFFECTID::BULLET_IMPACT);
+
 	//m_bDead = TRUE;
 }
 

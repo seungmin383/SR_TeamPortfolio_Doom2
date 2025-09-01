@@ -49,7 +49,7 @@ private:
 	_float m_fStayOpenTime = 5.f;
 
 private:
-	Engine::CRectSpriteTex* m_pBufferCom;
+	Engine::CCubeTex* m_pBufferCom;
 	Engine::CTexture* m_pTextureCom;						
 	Engine::CCalculator* m_pCalculatorCom;
 

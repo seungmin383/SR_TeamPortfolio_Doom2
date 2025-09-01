@@ -29,8 +29,8 @@ HRESULT CDoorWithKey::Ready_GameObject()
 	m_fSpeed = 5.f;
 	m_fTimer = 0.f;
 
-	m_pTransformCom->Set_Pos(20.f, 2.f, 25.f);
-	m_pTransformCom->Set_Scale(_vec3(2.f, 2.f, 2.f));
+	m_pTransformCom->Set_Pos(20.f, 3.f, 25.f);
+	m_pTransformCom->Set_Scale(_vec3(3.f, 3.f, 1.f));
 
 	m_pTransformCom->Get_Pos(&m_vOriginPos);
 
@@ -40,8 +40,8 @@ HRESULT CDoorWithKey::Ready_GameObject()
 		m_pColliderCom->Ready_CCollider(
 			this,
 			_vec3(0, 0, 0),         // 초기 위치(Transform가 실제로 잡아줌)
-			_vec3(2.f, 2.f, 1.f),   // 박스 크기
-			_vec3(0, 0.4f, 0),      // 약간 위로
+			_vec3(3.f, 3.f, 1.5f),   // 박스 크기
+			_vec3(0, 0.f, 0),      // 약간 위로
 			COL_OBJECT,             // 내 레이어
 			// 공격으로 인정할 대상 레이어(레이 사격 포함)
 			COL_PLAYER
@@ -53,6 +53,8 @@ HRESULT CDoorWithKey::Ready_GameObject()
 		m_fTimer++;
 	else
 		m_fTimer = 0;
+
+	m_fOpenHeight = m_vOriginPos.y * 2;
 
 	return S_OK;
 }
@@ -132,8 +134,8 @@ HRESULT CDoorWithKey::Add_Component()
 {
 	CComponent* pComponent = NULL;
 
-	pComponent = m_pBufferCom = dynamic_cast<Engine::CRectSpriteTex*>
-		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_RectSpriteTex"));
+	pComponent = m_pBufferCom = dynamic_cast<Engine::CCubeTex*>
+		(CPrototypeManager::GetInstance()->Clone_ComPrototype(L"Proto_CubeTex"));
 	if (nullptr == pComponent)
 		return E_FAIL;
 
@@ -213,6 +215,7 @@ void CDoorWithKey::DoorOpening(const _float& fTimeDelta)
 
 		if (vPos.y >= m_vOriginPos.y + m_fOpenHeight)
 		{
+			// XZ는 유지, Y만 원래 높이에 OpenHeight만큼 증가
 			vPos.y = m_vOriginPos.y + m_fOpenHeight;
 			m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 			m_state = State::Open;

@@ -1,12 +1,15 @@
 #pragma once
 #include "CGameObject.h"
+#include "Engine_Define.h"
 #include"CPrototypeManager.h"
+#include "CRenderer.h"
 
-class CEffect : public CGameObject
+BEGIN(Engine)
+class ENGINE_DLL CEffect : public CGameObject
 {
 protected:
 	explicit CEffect(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CEffect(const CGameObject& rhs);
+	explicit CEffect(const CEffect& rhs);
 	virtual ~CEffect();
 
 public:
@@ -15,18 +18,30 @@ public:
 	virtual void            LateUpdate_GameObject(const _float& fTimeDelta);
 	virtual void            Render_GameObject(const _float& fTimeDelta);
 
+	virtual void Reset_Effect(_vec3 vPos);
+	virtual _bool Check_isAnim_Fin();
+	virtual void Bill_Board();
+
 public:
-	CGameObject* Clone() override;
+	virtual CEffect* Clone() ;
+	virtual CEffect* Clone(_vec3 vPos);
 	virtual HRESULT     Add_Component();
 
+public:
+	EFFECTID Get_EffectId() const { return m_eEffectId; }
+	void Set_EffectId(EFFECTID eId) { m_eEffectId = eId; }
+
 protected:
+	_vec3 m_vPos = {};
 	CRectSpriteTex* m_pBufferCom = nullptr;
 	CTexture* m_pTextureCom = nullptr;
 	CAnimator* m_pAnimCom = nullptr;
 
-private:
+	EFFECTID m_eEffectId = EFFECTID::END_EFFECT;
+
+	_int m_iFunc_Ent_Cnt = 0;
+
+protected:
 	void Free() override;
-
-
 };
-
+END

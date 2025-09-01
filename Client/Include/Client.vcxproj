@@ -188,8 +188,8 @@
     <ClInclude Include="..\Header\CChaingunBullet.h" />
     <ClInclude Include="..\Header\CDoor.h" />
     <ClInclude Include="..\Header\CDoorWithKey.h" />
+    <ClInclude Include="..\Header\CDropBulletEffect.h" />
     <ClInclude Include="..\Header\CDynamicCamera.h" />
-    <ClInclude Include="..\Header\CEffect.h" />
     <ClInclude Include="..\Header\CExplosionBloodEffect.h" />
     <ClInclude Include="..\Header\CGameUI.h" />
     <ClInclude Include="..\Header\CGameUI_Face.h" />
@@ -200,6 +200,7 @@
     <ClInclude Include="..\Header\CHealth_Big.h" />
     <ClInclude Include="..\Header\CHealth_Small.h" />
     <ClInclude Include="..\Header\CImp.h" />
+    <ClInclude Include="..\Header\CImpactBulletEffect.h" />
     <ClInclude Include="..\Header\CImpBullet.h" />
     <ClInclude Include="..\Header\CKey.h" />
     <ClInclude Include="..\Header\CLoading.h" />
@@ -274,8 +275,8 @@
     <ClCompile Include="..\Code\CChaingunBullet.cpp" />
     <ClCompile Include="..\Code\CDoor.cpp" />
     <ClCompile Include="..\Code\CDoorWithKey.cpp" />
+    <ClCompile Include="..\Code\CDropBulletEffect.cpp" />
     <ClCompile Include="..\Code\CDynamicCamera.cpp" />
-    <ClCompile Include="..\Code\CEffect.cpp" />
     <ClCompile Include="..\Code\CExplosionBloodEffect.cpp" />
     <ClCompile Include="..\Code\CGameUI.cpp" />
     <ClCompile Include="..\Code\CGameUI_Face.cpp" />
@@ -286,6 +287,7 @@
     <ClCompile Include="..\Code\CHealth_Big.cpp" />
     <ClCompile Include="..\Code\CHealth_Small.cpp" />
     <ClCompile Include="..\Code\CImp.cpp" />
+    <ClCompile Include="..\Code\CImpactBulletEffect.cpp" />
     <ClCompile Include="..\Code\CKey.cpp" />
     <ClCompile Include="..\Code\CImpBullet.cpp" />
     <ClCompile Include="..\Code\CLoading.cpp" />
