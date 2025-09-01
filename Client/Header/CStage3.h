@@ -30,9 +30,15 @@ public:
     // 결과창 띄우는 함수(08/31 김홍인)
     void EnterResultMode();
 
+    // 다음 씬으로 넘기는 함수 (08/31 김홍인)
+    void RequestNextScene(SCENEID id);
+
 private:
     // 결과창 띄우기 위한 bool 변수
     bool m_isResultMode = false;
+
+    // 다음 씬의 아이디
+    SCENEID m_pendingNext = SCENEID::SCENE_END;
 
 private:
     void ConnectDoorSwitchByLinkId();

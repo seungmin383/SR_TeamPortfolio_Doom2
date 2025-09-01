@@ -52,7 +52,6 @@ _int CSwitch_Button::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
 	Set_OnTerrain();
-	Bill_Board();
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -231,7 +230,7 @@ void CSwitch_Button::SetSwitchOn()
 			st2->EnterResultMode();
 		}
 		else if (auto* st3 = dynamic_cast<CStage3*>(CManagement::GetInstance()->Get_Scene())) {
-			// 스테이지 3 이후 처리
+			st3->EnterResultMode();
 		}
 	}
 }

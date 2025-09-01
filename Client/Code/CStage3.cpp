@@ -9,6 +9,7 @@
 #include "CManagement.h"
 #include "CWeaponManager.h"
 #include "CDInputManager.h"
+#include "CUIManager.h"
 
 #include "CObjectFactory.h"
 #include "CFileManager.h"
@@ -96,13 +97,14 @@ _int CStage3::Update_Scene(const _float& fTimeDelta)
 			it->second->Update_Layer(fTimeDelta);
 
 		// 레이어 업데이트가 모두 끝난 뒤에만 씬 전환
-		//if (m_pendingNext != SCENEID::SCENE_END) {
-		//	//if (auto* wm = CWeaponManager::GetInstance()) {
-		//	//	wm->ResetOnSceneChange();   // 무기 포인터 초기화(초기화 하면 메모리 누수 남)
-		//	//}
-		//	CManagement::GetInstance()->Change_Scene(m_pendingNext);
-		//	m_pendingNext = SCENEID::SCENE_END;
-		//}
+		if (m_pendingNext != SCENEID::SCENE_END) {
+			//if (auto* wm = CWeaponManager::GetInstance()) {
+			//	wm->ResetOnSceneChange();   // 무기 포인터 초기화(초기화 하면 메모리 누수 남)
+			//}
+			CUIManager::GetInstance()->UISetListClear();
+			CManagement::GetInstance()->Change_Scene(m_pendingNext);
+			m_pendingNext = SCENEID::SCENE_END;
+		}
 
 		return 0;
 	}
@@ -118,7 +120,7 @@ void CStage3::LateUpdate_Scene(const _float& fTimeDelta)
 	Engine::CScene::LateUpdate_Scene(fTimeDelta);
 
 }
-	
+
 void CStage3::Render_Scene(const _float& fTimeDelta)
 {
 }
@@ -156,6 +158,8 @@ HRESULT CStage3::Load_PreSet()
 			m.strTextureTag,
 			m.pos,
 			objid);
+
+		ConnectDoorSwitchByLinkId();
 	}
 
 	//오브젝트 설치
@@ -174,7 +178,7 @@ HRESULT CStage3::Load_PreSet()
 
 	for (auto monster : loadMonsterData)
 		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
-	
+
 	return S_OK;
 }
 
@@ -215,6 +219,11 @@ HRESULT CStage3::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	auto* sw3 = dynamic_cast<CSwitch_Button*> (pSwitchObj3);
 	sw3->Set_LinkMode(Engine::LINKMODE::NONE);
+
+	Engine::CTransform* tr6 = GetTransformPtr(pSwitchObj3);
+	if (tr6) {
+		tr6->Set_Pos(290.f, 0.f, 120.f);   // 기준 위치
+	}
 	// --------------(08/31 김홍인)----------------
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
@@ -407,6 +416,11 @@ void CStage3::EnterResultMode()
 			uiLayer->Add_GameObject(OBJID::OBJ_UI, ui);
 		}
 	}
+}
+
+void CStage3::RequestNextScene(SCENEID id)
+{
+	m_pendingNext = id;
 }
 
 void CStage3::ConnectDoorSwitchByLinkId()
