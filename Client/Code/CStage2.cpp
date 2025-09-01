@@ -35,6 +35,7 @@
 // (08/31 김홍인)
 #include "CSwitch_Button.h"
 #include "CUI_StageClear.h"
+#include "CArchVile.h"
 
 CStage2::CStage2(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -80,6 +81,18 @@ HRESULT CStage2::Ready_Scene()
 	CStatsManager::I().ResetRuntime();
 	CStatsManager::I().ResetTotals();
 
+	// 스폰 완료 후 총계 초기화
+	InitTotals();
+
+	// 원하는 모드로 설정 (둘 중 하나 택1)
+   // 1) 보스 처치형
+	m_goal = GoalType::KillBoss;
+
+	// 2) 킬 카운트형
+	// m_goal = GoalType::KillCount;
+	// m_goalKillCount = -1; // -1이면 totalKills(=전멸) 기준
+	// m_goalKillCount = 15; // 이런 식으로 특정 수치도 가능
+
 	return S_OK;
 }
 
@@ -120,6 +133,9 @@ _int CStage2::Update_Scene(const _float& fTimeDelta)
 	}
 	// --------------(08/31 김홍인)----------------
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
+
+	// ★ 목표 충족 검사
+	CheckStageGoal();
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_T) & 0x80)
 	{
@@ -527,6 +543,97 @@ void CStage2::ConnectDoorSwitchByLinkId()
 			}
 		}
 	}
+}
+void CStage2::InitTotals()
+{
+	// 스테이지 시작 시 통계 리셋
+	CStatsManager::I().Reset();
+
+	// 전체 적 개수 계산 (모든 레이어에서 ENEMY 그룹만 모음)
+	const auto& allEnemies = Get_TotalGameObject(OBJID::OBJ_ENEMY);
+	CStatsManager::I().SetTotalKills(static_cast<int>(allEnemies.size()));
+
+	// ★ 동시달성 처리용 초기화
+	m_goalSource = GoalSource::None;
+	m_goalLatched = false;
+	m_goalBossTime = FLT_MAX;
+	m_goalKillTime = FLT_MAX;
+}
+void CStage2::CheckStageGoal()
+{
+	if (m_isResultMode || m_goalLatched) return;
+
+	const auto& cur = CStatsManager::I().Cur();
+	const float t = cur.timeSec; // 누적 시간(StatsManager Tick 기반)
+
+	// 현재 만족 여부 계산
+	const bool bossCleared = !IsArchVileAlive();
+	int target = (m_goalKillCount < 0) ? cur.totalKills : m_goalKillCount;
+	const bool killCleared = (target > 0 && cur.kills >= target);
+
+	// 처음 달성 시각만 기록
+	if (bossCleared && m_goalBossTime == FLT_MAX) m_goalBossTime = t;
+	if (killCleared && m_goalKillTime == FLT_MAX) m_goalKillTime = t;
+
+	// 어느 하나라도 켜졌으면 최종 결정
+	if (bossCleared || killCleared) {
+		ResolveAndLatchGoal();
+	}
+}
+bool CStage2::IsArchVileAlive() const
+{
+	// 게임로직 레이어의 ENEMY 그룹만 훑어도 충분
+	const auto& enemies = CManagement::GetInstance()->Get_ObjectGroup(LAYERID::LAYER_GAMELOGIC, OBJID::OBJ_ENEMY);
+	for (auto* e : enemies) {
+		if (auto* av = dynamic_cast<CArchVile*>(e)) {
+			if (!av->Get_Dead()) return true;
+		}
+	}
+	return false;
+}
+void CStage2::ResolveAndLatchGoal()
+{
+	if (m_goalLatched) return;
+
+	// 동시 달성 처리 규칙
+	GoalSource chosen = GoalSource::None;
+
+	switch (m_tiePolicy)
+	{
+	case GoalTiePolicy::PreferEarliest:
+		if (m_goalBossTime < m_goalKillTime)       chosen = GoalSource::Boss;
+		else if (m_goalKillTime < m_goalBossTime)  chosen = GoalSource::KillCount;
+		else {
+			// 사실상 동시(같은 프레임) — 보스 우선으로 기본값
+			if (m_goalBossTime != FLT_MAX) chosen = GoalSource::Boss;
+			else if (m_goalKillTime != FLT_MAX) chosen = GoalSource::KillCount;
+		}
+		break;
+
+	case GoalTiePolicy::PreferBoss:
+		if (m_goalBossTime != FLT_MAX) chosen = GoalSource::Boss;
+		else if (m_goalKillTime != FLT_MAX) chosen = GoalSource::KillCount;
+		break;
+
+	case GoalTiePolicy::PreferKillCount:
+		if (m_goalKillTime != FLT_MAX) chosen = GoalSource::KillCount;
+		else if (m_goalBossTime != FLT_MAX) chosen = GoalSource::Boss;
+		break;
+	}
+
+	if (chosen == GoalSource::None) return; // 안전 가드
+
+	m_goalSource = chosen;
+	m_goalLatched = true;
+
+	//// (선택) 디버그 표시
+	//if (chosen == GoalSource::Boss)
+	//	OutputDebugStringA("[Stage2] Clear by: Boss\n");
+	//else
+	//	OutputDebugStringA("[Stage2] Clear by: KillCount\n");
+
+	// 기존 결과 모드 진입
+	EnterResultMode();
 }
 // --------------(08/31 김홍인)----------------
 void CStage2::Free()
