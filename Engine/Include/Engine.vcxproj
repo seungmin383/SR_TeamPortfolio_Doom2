@@ -33,6 +33,7 @@
     <ClInclude Include="..\Header\CCubeCol.h" />
     <ClInclude Include="..\Header\CCubeTex.h" />
     <ClInclude Include="..\Header\CDInputManager.h" />
+    <ClInclude Include="..\Header\CEffect.h" />
     <ClInclude Include="..\Header\CEffectBase.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -51,9 +52,6 @@
     <ClInclude Include="..\Header\CParticle.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="..\Header\CEffectManager.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="..\Header\CPrototypeManager.h" />
     <ClInclude Include="..\Header\CRectCol.h" />
     <ClInclude Include="..\Header\CRectSpriteTex.h" />
@@ -68,6 +66,7 @@
     <ClInclude Include="..\Header\CTransform.h" />
     <ClInclude Include="..\Header\CVIBuffer.h" />
     <ClInclude Include="..\Header\Define.h" />
+    <ClInclude Include="..\Header\EffectManager.h" />
     <ClInclude Include="..\Header\Engine_Define.h" />
     <ClInclude Include="..\Header\Engine_Enum.h" />
     <ClInclude Include="..\Header\Engine_Function.h" />
@@ -104,6 +103,9 @@
     <ClCompile Include="..\Code\CCubeCol.cpp" />
     <ClCompile Include="..\Code\CCubeTex.cpp" />
     <ClCompile Include="..\Code\CDInputManager.cpp" />
+    <ClCompile Include="..\Code\CEffect.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Code\CEffectBase.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -122,9 +124,6 @@
     <ClCompile Include="..\Code\CParticle.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\Code\CEffectManager.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\Code\CPrototypeManager.cpp" />
     <ClCompile Include="..\Code\CRectCol.cpp" />
     <ClCompile Include="..\Code\CRectSpriteTex.cpp" />
@@ -139,6 +138,7 @@
     <ClCompile Include="..\Code\CTransform.cpp" />
     <ClCompile Include="..\Code\CVIBuffer.cpp" />
     <ClCompile Include="..\Code\CTriCol.cpp" />
+    <ClCompile Include="..\Code\EffectManager.cpp" />
     <ClCompile Include="..\Code\IEffect.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
