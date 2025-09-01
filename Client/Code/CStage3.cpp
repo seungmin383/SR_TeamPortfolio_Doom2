@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "CStage3.h"
 
 #include "CSkyBox.h"
@@ -9,6 +9,7 @@
 #include "CManagement.h"
 #include "CWeaponManager.h"
 #include "CDInputManager.h"
+#include "CUIManager.h"
 
 #include "CObjectFactory.h"
 #include "CFileManager.h"
@@ -28,6 +29,10 @@
 #include "CAmmo_Shell.h"
 
 #include "CPistol.h"
+
+// (08/31 김홍인)
+#include "CSwitch_Button.h"
+#include "CUI_StageClear.h"
 
 CStage3::CStage3(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -62,11 +67,48 @@ HRESULT CStage3::Ready_Scene()
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_ITEM);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_OBJECT);
 
+	// 진행 시간 + 진행 상황 초기화(08/31 김홍인)
+	CStatsManager::I().ResetRuntime();
+	CStatsManager::I().ResetTotals();
+
 	return S_OK;
 }
 
 _int CStage3::Update_Scene(const _float& fTimeDelta)
 {
+	// 경과 시간
+	CStatsManager::I().Tick(fTimeDelta);
+
+	if (m_isResultMode)
+	{
+		// 0초로 업데이트: 위치/애니메이션은 그대로, 하지만 렌더 큐엔 올라감
+		// 0초로 업데이트: 위치/애니메이션은 그대로, 하지만 렌더 큐엔 올라감
+		auto upd0 = [&](LAYERID id) {
+			auto it = m_mapLayer.find(id);
+			if (it != m_mapLayer.end()) it->second->Update_Layer(0.f);
+			};
+
+		upd0(LAYERID::LAYER_CAMERA);       // 뷰/프로젝션 유지
+		upd0(LAYERID::LAYER_ENVIRONMENT);  // 스카이박스/지형 등
+		upd0(LAYERID::LAYER_GAMELOGIC);    // 적/오브젝트 등(정지된 상태로 그리기)
+
+		// UI는 정상 시간으로
+		if (auto it = m_mapLayer.find(LAYERID::LAYER_UI); it != m_mapLayer.end())
+			it->second->Update_Layer(fTimeDelta);
+
+		// 레이어 업데이트가 모두 끝난 뒤에만 씬 전환
+		if (m_pendingNext != SCENEID::SCENE_END) {
+			//if (auto* wm = CWeaponManager::GetInstance()) {
+			//	wm->ResetOnSceneChange();   // 무기 포인터 초기화(초기화 하면 메모리 누수 남)
+			//}
+			CUIManager::GetInstance()->UISetListClear();
+			CManagement::GetInstance()->Change_Scene(m_pendingNext);
+			m_pendingNext = SCENEID::SCENE_END;
+		}
+
+		return 0;
+	}
+
 	CColliderManager::GetInstance()->Update();
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
 
@@ -78,14 +120,14 @@ void CStage3::LateUpdate_Scene(const _float& fTimeDelta)
 	Engine::CScene::LateUpdate_Scene(fTimeDelta);
 
 }
-	
+
 void CStage3::Render_Scene(const _float& fTimeDelta)
 {
 }
 
 HRESULT CStage3::Load_PreSet()
 {
-	//���� ��ġ
+	//지형 설치
 	TerrainModels tm = CFileManager::GetInstance()->LoadTerrain((_uint)SCENEID::STAGE3);
 	OBJID objid;
 	for (auto m : tm.model)
@@ -116,9 +158,11 @@ HRESULT CStage3::Load_PreSet()
 			m.strTextureTag,
 			m.pos,
 			objid);
+
+		ConnectDoorSwitchByLinkId();
 	}
 
-	//������Ʈ ��ġ
+	//오브젝트 설치
 	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem((_uint)SCENEID::STAGE3);;
 
 	for (auto item : loadData)
@@ -129,12 +173,12 @@ HRESULT CStage3::Load_PreSet()
 			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, item.position);
 	}
 
-	//���� ��ġ
+	//몬스터 설치
 	vector<GameObjectSpawnInfo> loadMonsterData = CFileManager::GetInstance()->LoadMonster((_uint)SCENEID::STAGE3);;
 
 	for (auto monster : loadMonsterData)
 		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
-	
+
 	return S_OK;
 }
 
@@ -167,6 +211,21 @@ HRESULT CStage3::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
+	// --------------(08/31 김홍인)----------------
+	Engine::CGameObject* pSwitchObj3 = CPrototypeManager::GetInstance()
+		->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
+	if (nullptr == pSwitchObj3) return E_FAIL;
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj3))) return E_FAIL;
+
+	auto* sw3 = dynamic_cast<CSwitch_Button*> (pSwitchObj3);
+	sw3->Set_LinkMode(Engine::LINKMODE::NONE);
+
+	Engine::CTransform* tr6 = GetTransformPtr(pSwitchObj3);
+	if (tr6) {
+		tr6->Set_Pos(290.f, 0.f, 120.f);   // 기준 위치
+	}
+	// --------------(08/31 김홍인)----------------
+
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
 	return S_OK;
@@ -186,7 +245,7 @@ HRESULT CStage3::Ready_UI_Layer(LAYERID _eLayerId)
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_WEAPON, pGameObject)))				// �ϴ� OBJ_WEAPON�̶�� enum ���� �־ OBJ_UI->OBJ_WEAPON���� ��ü(08/05)
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_WEAPON, pGameObject)))				// 일단 OBJ_WEAPON이라는 enum 값이 있어서 OBJ_UI->OBJ_WEAPON으로 교체(08/05)
 		return E_FAIL;
 
 	// UI
@@ -216,12 +275,12 @@ HRESULT CStage3::Ready_UI_Layer(LAYERID _eLayerId)
 		return E_FAIL;
 
 	// Info
-	// (1) UI Info ��ü ����
+	// (1) UI Info 객체 생성
 	pGameObject = CGameUI_Info::Create(m_pGraphicDev);
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	// (2) Camera ��ü �����͸� ��
+	// (2) Camera 객체 포인터를 얻어서
 	const auto& cameraObjects = Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYER);
 	if (cameraObjects.empty())
 		return E_FAIL;
@@ -230,33 +289,33 @@ HRESULT CStage3::Ready_UI_Layer(LAYERID _eLayerId)
 	if (pCameraObject == nullptr)
 		return E_FAIL;
 
-	// (3) UI Info�� Camera �����͸� ����
+	// (3) UI Info에 Camera 포인터를 연결
 	static_cast<CGameUI_Info*>(pGameObject)->Set_Camera(pCameraObject);
 
-	// (4) UI Info�� UI ���̾ ���
+	// (4) UI Info를 UI 레이어에 등록
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
 		return E_FAIL;
 
 	// Ammo
-	// (1) UI Info ��ü ����
+	// (1) UI Info 객체 생성
 	pGameObject = CGameUI_Info_Ammo::Create(m_pGraphicDev);
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	// (2) WeaponManager ������ ����
+	// (2) WeaponManager 포인터 연결
 	static_cast<CGameUI_Info_Ammo*>(pGameObject)->Set_WeaponManager(CWeaponManager::GetInstance());
 
-	// (3) UI Info�� UI ���̾ ���
+	// (3) UI Info를 UI 레이어에 등록
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
 		return E_FAIL;
 
 	// WeaponNumber
-		// (1) UI Info ��ü ����
+		// (1) UI Info 객체 생성
 	pGameObject = CGameUI_Info_WeaponNum::Create(m_pGraphicDev);
 	if (nullptr == pGameObject)
 		return E_FAIL;
 
-	// (2) Camera ��ü �����͸� ��
+	// (2) Camera 객체 포인터를 얻어서
 	const auto& cameraObjects3 = Get_ObjectGroup(LAYERID::LAYER_CAMERA, OBJID::OBJ_PLAYER);
 	if (cameraObjects3.empty())
 		return E_FAIL;
@@ -265,10 +324,10 @@ HRESULT CStage3::Ready_UI_Layer(LAYERID _eLayerId)
 	if (pCameraObject3 == nullptr)
 		return E_FAIL;
 
-	// (3) UI Info�� Camera �����͸� ����
+	// (3) UI Info에 Camera 포인터를 연결
 	static_cast<CGameUI_Info_WeaponNum*>(pGameObject)->Set_Camera(pCameraObject3);
 
-	// (4) UI Info�� UI ���̾ ���
+	// (4) UI Info를 UI 레이어에 등록
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
 		return E_FAIL;
 
@@ -343,8 +402,102 @@ CStage3* CStage3::Create()
 	return pStage3;
 }
 
+// --------------(08/31 김홍인)----------------
+void CStage3::EnterResultMode()
+{
+	if (m_isResultMode) return;
+	m_isResultMode = true;
+
+	// 결과 UI를 UI 레이어에 추가
+	auto it = m_mapLayer.find(LAYERID::LAYER_UI);
+	if (it != m_mapLayer.end()) {
+		Engine::CLayer* uiLayer = it->second;
+		if (auto* ui = CUI_StageClear::Create(m_pGraphicDev)) {
+			uiLayer->Add_GameObject(OBJID::OBJ_UI, ui);
+		}
+	}
+}
+
+void CStage3::RequestNextScene(SCENEID id)
+{
+	m_pendingNext = id;
+}
+
 void CStage3::ConnectDoorSwitchByLinkId()
 {
+	// linkId -> 문 목록
+	unordered_map<wstring, vector<CDoor*>> doorsById;
+	// linkId -> 스위치 목록
+	unordered_map<wstring, vector<CSwitch_Button*>> switchesById;
+
+	const auto& objs = Get_ObjectGroup(LAYERID::LAYER_GAMELOGIC, OBJID::OBJ_OBJECT);
+
+	// 1) 분류
+	for (auto* o : objs)
+	{
+		if (auto* d = dynamic_cast<CDoor*>(o)) {
+			const std::wstring& id = d->Get_LinkId();
+			if (!id.empty()) doorsById[id].push_back(d);
+		}
+		else if (auto* s = dynamic_cast<CSwitch_Button*>(o)) {
+			const wstring& id = s->Get_LinkId();
+			if (!id.empty()) switchesById[id].push_back(s);
+		}
+	}
+
+	// 2) 연결 (스위치 모드에 따라 1:1 또는 1:N)
+	for (const auto& kv : switchesById)
+	{
+		const wstring& id = kv.first;
+		const vector<CSwitch_Button*>& sws = kv.second;
+
+		auto it = doorsById.find(id);
+		if (it == doorsById.end()) continue;
+
+		const vector<CDoor*>& candDoors = it->second;
+
+		for (auto* sw : sws)
+		{
+			// 기존 연결 초기화
+			sw->Clear_Targets();
+			sw->Set_Target(nullptr);
+
+			if (sw->Get_LinkMode() == Engine::LINKMODE::ONE_TO_MANY)
+			{
+				// 1:N — 같은 ID의 모든 문
+				for (auto* d : candDoors)
+					sw->Add_Target(d);
+			}
+			else
+			{
+				// 1:1 — 같은 ID의 문들 중 가장 가까운 문
+				auto* swTr = dynamic_cast<Engine::CTransform*>(
+					sw->Get_Component(Engine::ID_DYNAMIC, L"Com_Transform"));
+
+				CDoor* bestDoor = nullptr;
+				float bestD2 = (std::numeric_limits<float>::max)();		// 매크로 회피(이렇게 안하면 max 매크로를 인식하지 못함)
+
+				for (auto* d : candDoors)
+				{
+					auto* dTr = dynamic_cast<Engine::CTransform*>(
+						d->Get_Component(Engine::ID_DYNAMIC, L"Com_Transform"));
+
+					if (!swTr || !dTr) { // 트랜스폼 없으면 첫 문으로 대체
+						if (!bestDoor) bestDoor = d;
+						continue;
+					}
+
+					_vec3 a; swTr->Get_Pos(&a);
+					_vec3 b; dTr->Get_Pos(&b);
+
+					const float dx = a.x - b.x, dy = a.y - b.y, dz = a.z - b.z;
+					const float d2 = dx * dx + dy * dy + dz * dz;
+					if (d2 < bestD2) { bestD2 = d2; bestDoor = d; }
+				}
+				if (bestDoor) sw->Set_Target(bestDoor);
+			}
+		}
+	}
 }
 
 void CStage3::Free()

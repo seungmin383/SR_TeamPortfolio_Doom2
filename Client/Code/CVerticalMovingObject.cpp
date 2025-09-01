@@ -73,93 +73,107 @@ HRESULT CVerticalMovingObject::Ready_GameObject()
 
 _int CVerticalMovingObject::Update_GameObject(const _float& fTimeDelta)
 {
-	CGameObject::Update_GameObject(fTimeDelta);
+	if (CManagement::GetInstance()->Is_KeyOwned())
+	{
+		CGameObject::Update_GameObject(fTimeDelta);
 
-	_vec3 pos; m_pTransformCom->Get_Pos(&pos);
+		_vec3 pos; m_pTransformCom->Get_Pos(&pos);
 
-	// 1) 끝점 대기
-	if (m_waitTimer > 0.f) {
-		m_waitTimer -= fTimeDelta;
-		if (m_waitTimer < 0.f) m_waitTimer = 0.f;
-	}
-	else {
-		// TODO: 지형 높이를 샘플링해서 groundY에 넣으세요.
-		const float groundY = 0.f;
-
-		if (m_dirUp) {
-			// 상승: 중심 Y 기준
-			pos.y += m_speed * fTimeDelta;
-			if (pos.y >= m_maxY) {
-				pos.y = m_maxY;
-				m_dirUp = false;
-				m_waitTimer = m_waitAtEnds;
-			}
-			m_pTransformCom->Set_Pos(pos.x, pos.y, pos.z);
+		// 1) 끝점 대기
+		if (m_waitTimer > 0.f) {
+			m_waitTimer -= fTimeDelta;
+			if (m_waitTimer < 0.f) m_waitTimer = 0.f;
 		}
 		else {
-			// 하강: 탑면이 땅에 닿았는가로 판정
-			pos.y -= m_speed * fTimeDelta;
-			m_pTransformCom->Set_Pos(pos.x, pos.y, pos.z);
-			const float groundY = 0.f;   // 필요하면 지형 샘플 값으로 대체
-			const float EPS = 0.01f; // z-fighting 방지용 살짝 띄우기
+			// TODO: 지형 높이를 샘플링해서 groundY에 넣으세요.
+			const float groundY = 0.f;
 
-			// 탑면 Y = 중심Y + m_halfHeight (둠식 기둥: 회전 없음 가정)
-			if (pos.y + m_halfHeight <= groundY + EPS)
-			{
-				// 탑면을 groundY+EPS로 '정확히' 스냅
-				pos.y = (groundY + EPS) - m_halfHeight;
+			if (m_dirUp) {
+				// 상승: 중심 Y 기준
+				pos.y += m_speed * fTimeDelta;
+				if (pos.y >= m_maxY) {
+					pos.y = m_maxY;
+					m_dirUp = false;
+					m_waitTimer = m_waitAtEnds;
+				}
 				m_pTransformCom->Set_Pos(pos.x, pos.y, pos.z);
-				m_lastY = pos.y;
+			}
+			else {
+				// 하강: 탑면이 땅에 닿았는가로 판정
+				pos.y -= m_speed * fTimeDelta;
+				m_pTransformCom->Set_Pos(pos.x, pos.y, pos.z);
+				const float groundY = 0.f;   // 필요하면 지형 샘플 값으로 대체
+				const float EPS = 0.01f; // z-fighting 방지용 살짝 띄우기
 
-				m_dirUp = true;            // 반전
-				m_waitTimer = m_waitAtEnds;   // 끝점 대기
+				// 탑면 Y = 중심Y + m_halfHeight (둠식 기둥: 회전 없음 가정)
+				if (pos.y + m_halfHeight <= groundY + EPS)
+				{
+					// 탑면을 groundY+EPS로 '정확히' 스냅
+					pos.y = (groundY + EPS) - m_halfHeight;
+					m_pTransformCom->Set_Pos(pos.x, pos.y, pos.z);
+					m_lastY = pos.y;
+
+					m_dirUp = true;            // 반전
+					m_waitTimer = m_waitAtEnds;   // 끝점 대기
+				}
 			}
 		}
+
+		// 2) 라이더(플레이어) 동승
+		// 이번 프레임 발판이 움직인 양만 기록
+		_vec3 cur; m_pTransformCom->Get_Pos(&cur);
+		const float deltaY = cur.y - m_lastY;		 // 이번 프레임 발판이 움직인 양
+		m_postCarryDeltaY = deltaY;
+		m_lastY = cur.y;
+
+		const float EPS = 0.02f;
+		m_postCarryMinY = (cur.y + m_halfHeight) + EPS + m_riderEyeGap;
+
+
+		// 3) 렌더 큐
+		CRenderer::GetInstance()->Add_RenderGroup(RENDER_NONALPHA, this);
+		
+		return 0;
 	}
-
-	// 2) 라이더(플레이어) 동승
-	// 이번 프레임 발판이 움직인 양만 기록
-	_vec3 cur; m_pTransformCom->Get_Pos(&cur);
-	const float deltaY = cur.y - m_lastY;		 // 이번 프레임 발판이 움직인 양
-	m_postCarryDeltaY = deltaY;
-	m_lastY = cur.y;
-
-	const float EPS = 0.02f;
-	m_postCarryMinY = (cur.y + m_halfHeight) + EPS + m_riderEyeGap;
+	else
+		CRenderer::GetInstance()->Add_RenderGroup(RENDER_NONALPHA, this);
+		return 0;
 
 
-	// 3) 렌더 큐
-	CRenderer::GetInstance()->Add_RenderGroup(RENDER_NONALPHA, this);
-	return 0;
 }
 
 void CVerticalMovingObject::LateUpdate_GameObject(const _float& fTimeDelta)
 {
-	CGameObject::LateUpdate_GameObject(fTimeDelta);
+	if (CManagement::GetInstance()->Is_KeyOwned())
+	{
+		CGameObject::LateUpdate_GameObject(fTimeDelta);
 
-	// 현재 rider가 있으면 deltaY만큼 동승 + 최소 높이 보장
-	if (m_pRiderTr) {
-		if (fabsf(m_postCarryDeltaY) > 1e-6f)
-			MoveRiderByDeltaY(m_pRiderTr, m_postCarryDeltaY, m_postCarryMinY);
-		else
-			ClampRiderMinY(m_pRiderTr, m_postCarryMinY);
+		// 현재 rider가 있으면 deltaY만큼 동승 + 최소 높이 보장
+		if (m_pRiderTr) {
+			if (fabsf(m_postCarryDeltaY) > 1e-6f)
+				MoveRiderByDeltaY(m_pRiderTr, m_postCarryDeltaY, m_postCarryMinY);
+			else
+				ClampRiderMinY(m_pRiderTr, m_postCarryMinY);
+		}
+		// rider가 없어도 홀드 시간 동안은 최근 Transform을 최소 높이로 유지(깜빡임/끊김 방지)
+		if (m_pRiderTr || (m_pLastRiderTr && m_groundHoldT > 0.f)) {
+			// 발판 중심/스케일
+			_vec3 p; m_pTransformCom->Get_Pos(&p);
+			const _vec3* s = m_pTransformCom->Get_Scale(); // (sx, sy, sz)
+			const float hx = s->x * 0.5f;
+			const float hz = s->z * 0.5f;
+
+			// 이번 프레임의 "최소 바닥 y"(상면 + EPS + 시점 간격)
+			PublishActiveGroundArea(m_postCarryMinY, p.x, p.z, hx, hz);
+		}
+
+		// TTL 감소
+		DecayActiveGround(fTimeDelta);
+
+		if (m_pColliderCom) m_pColliderCom->Late_Update();
 	}
-	// rider가 없어도 홀드 시간 동안은 최근 Transform을 최소 높이로 유지(깜빡임/끊김 방지)
-	if (m_pRiderTr || (m_pLastRiderTr && m_groundHoldT > 0.f)) {
-		// 발판 중심/스케일
-		_vec3 p; m_pTransformCom->Get_Pos(&p);
-		const _vec3* s = m_pTransformCom->Get_Scale(); // (sx, sy, sz)
-		const float hx = s->x * 0.5f;
-		const float hz = s->z * 0.5f;
-
-		// 이번 프레임의 "최소 바닥 y"(상면 + EPS + 시점 간격)
-		PublishActiveGroundArea(m_postCarryMinY, p.x, p.z, hx, hz);
-	}
-
-	// TTL 감소
-	DecayActiveGround(fTimeDelta);
-
-	if (m_pColliderCom) m_pColliderCom->Late_Update();
+	else
+		return;
 }
 
 void CVerticalMovingObject::Render_GameObject(const _float& fTimeDelta)
@@ -173,21 +187,7 @@ void CVerticalMovingObject::Render_GameObject(const _float& fTimeDelta)
 
 	if (m_pColliderCom)
 	{
-		DWORD oldZEnable, oldZWrite, oldAlpha;
-		m_pGraphicDev->GetRenderState(D3DRS_ZENABLE, &oldZEnable);
-		m_pGraphicDev->GetRenderState(D3DRS_ZWRITEENABLE, &oldZWrite);
-		m_pGraphicDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &oldAlpha);
-
-		m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, FALSE);
-		m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-
-		m_pColliderCom->Render(true);   // ★ 항상 위에 보임
-
-		// 원복
-		m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, oldZEnable);
-		m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, oldZWrite);
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, oldAlpha);
+		m_pColliderCom->Render(g_colRend);
 	}
 }
 

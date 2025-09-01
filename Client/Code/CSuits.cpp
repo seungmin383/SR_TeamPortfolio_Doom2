@@ -29,7 +29,7 @@ HRESULT CSuits::Ready_GameObject()
 		return E_FAIL;
 
 	m_pTransformCom->Set_Pos(25.f, 0.f, 11.f);					// 임시로 추가
-	m_pTransformCom->Set_Scale(_vec3(1.f, 1.f, 1.f));
+	m_pTransformCom->Set_Scale(_vec3(0.9f, 1.f, 0.9f));
 
 	m_pColliderCom->Ready_CCollider(
 		this,

@@ -5,7 +5,7 @@
 
 BEGIN(Engine)
 
-enum class LINKMODE : int { NONE = 0, ONE_TO_ONE = 1, ONE_TO_MANY = 2 };
+enum class LINKMODE : int { NONE = 0, ONE_TO_ONE = 1, ONE_TO_MANY = 2 };        // NONE = ≈ª√‚øÎ¿∏∑Œ ∫Ø∞Ê(08/31 ±Ë»´¿Œ)
 
 class CCollider;
 class ENGINE_DLL CGameObject :
