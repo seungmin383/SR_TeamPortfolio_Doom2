@@ -112,7 +112,6 @@ _int CStage2::Update_Scene(const _float& fTimeDelta)
 		return 0;
 	}
 	// --------------(08/31 김홍인)----------------
-	CColliderManager::GetInstance()->Update();
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
 
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_T) & 0x80)
@@ -126,7 +125,9 @@ _int CStage2::Update_Scene(const _float& fTimeDelta)
 void CStage2::LateUpdate_Scene(const _float& fTimeDelta)
 {
 	Engine::CScene::LateUpdate_Scene(fTimeDelta);
+	CWeaponManager::GetInstance()->Update_Weapon(fTimeDelta);
 
+	CColliderManager::GetInstance()->Update();
 }
 
 void CStage2::Render_Scene(const _float& fTimeDelta)

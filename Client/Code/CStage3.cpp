@@ -118,7 +118,9 @@ _int CStage3::Update_Scene(const _float& fTimeDelta)
 void CStage3::LateUpdate_Scene(const _float& fTimeDelta)
 {
 	Engine::CScene::LateUpdate_Scene(fTimeDelta);
+	CWeaponManager::GetInstance()->Update_Weapon(fTimeDelta);
 
+	CColliderManager::GetInstance()->Update();
 }
 
 void CStage3::Render_Scene(const _float& fTimeDelta)
