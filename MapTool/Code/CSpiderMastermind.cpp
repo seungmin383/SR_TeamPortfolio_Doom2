@@ -28,12 +28,6 @@ CSpiderMastermind::~CSpiderMastermind()
 
 HRESULT CSpiderMastermind::Ready_GameObject()
 {
-	AllocConsole();
-
-	FILE* fp;
-	freopen_s(&fp, "CONOUT$", "w", stdout);
-	freopen_s(&fp, "CONOUT$", "w", stderr);
-
 
 	if (FAILED(Add_Component()))
 		return E_FAIL;
