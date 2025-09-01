@@ -47,6 +47,8 @@ private:
 	_float m_fOpenHeight = 0.f;				// 문 올라가는 높이
 	_float m_fStayOpenTime = 5.f;			// 문이 얼마나 열려있는가를 나타냄
 
+	_vec3  m_vMoveDist;
+
 private:
 	Engine::CCubeTex* m_pBufferCom;
 	Engine::CTexture* m_pTextureCom;						// 스위치 초기상태

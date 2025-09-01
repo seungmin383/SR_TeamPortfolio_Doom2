@@ -8,7 +8,7 @@
 #include "CTerrainSector.h"
 
 CDoor::CDoor(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev)
+	: CGameObject(pGraphicDev), m_vMoveDist(_vec3(0.f, 0.f, 0.f))
 {
 }
 
@@ -37,10 +37,12 @@ HRESULT CDoor::Ready_GameObject()
 	// Collider 세팅
 	if (m_pColliderCom)
 	{
+		_vec3 vScale = *m_pTransformCom->Get_Scale();
+
 		m_pColliderCom->Ready_CCollider(
 			this,
 			_vec3(0, 0, 0),         // 초기 위치(Transform가 실제로 잡아줌)
-			_vec3(3.f, 3.f, 1.5f),   // 박스 크기
+			vScale * 2/*_vec3(3.f, 3.f, 1.5f)*/,   // 박스 크기
 			_vec3(0, 0.f, 0),      // 약간 위로
 			COL_OBJECT,             // 내 레이어
 			// 공격으로 인정할 대상 레이어(레이 사격 포함)
@@ -62,8 +64,10 @@ HRESULT CDoor::Ready_GameObject()
 _int CDoor::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
-	Set_OnTerrain();
-	DoorOpening(fTimeDelta);
+	if (m_state == State::Idle)
+		Set_OnTerrain();
+	else
+		DoorOpening(fTimeDelta);
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_NONALPHA, this);
 
@@ -95,6 +99,29 @@ void CDoor::Render_GameObject(const _float& fTimeDelta)
 
 void CDoor::OnCollision(CCollider* _pOther)
 {
+	if (!_pOther) return;
+
+	if (m_state == State::Idle)
+	{
+		const auto layer = _pOther->Get_ColLayer();
+		const bool allowed = (layer & (COL_PLAYER)) && CCollisionManager::Check_AABB(m_pColliderCom, _pOther) &&
+			static_cast<CDynamicCamera*>(_pOther->Get_Owner())->Get_Trigger();
+		// 플레이어랑만 처리
+		if (allowed) {
+			OpenDoor();
+		}
+		if (_pOther->Get_ColLayer() == COL_PLAYER && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
+		{
+			CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
+
+			_vec3 curPos;
+			m_pTransformCom->Get_Pos(&curPos);
+			m_pTransformCom->Set_Pos(curPos.x + (-m_vMoveDist.x), curPos.y, curPos.z + (-m_vMoveDist.z));
+
+			m_vMoveDist = _vec3(0.f, 0.f, 0.f);
+		}
+
+	}
 }
 
 void CDoor::OnCollisionEnter(CCollider* _pOther)
@@ -104,12 +131,23 @@ void CDoor::OnCollisionEnter(CCollider* _pOther)
 	if (m_state == State::Idle)
 	{
 		const auto layer = _pOther->Get_ColLayer();
-		const bool allowed = layer & (COL_PLAYER);
+		const bool allowed = (layer & (COL_PLAYER)) && CCollisionManager::Check_AABB(m_pColliderCom, _pOther) &&
+			static_cast<CDynamicCamera*>(_pOther->Get_Owner())->Get_Trigger();
 		// 플레이어랑만 처리
 		if (allowed) {
 			OpenDoor();
 		}
-	}	
+		if (_pOther->Get_ColLayer() == COL_PLAYER && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
+		{
+			CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
+
+			_vec3 curPos;
+			m_pTransformCom->Get_Pos(&curPos);
+			m_pTransformCom->Set_Pos(curPos.x + (-m_vMoveDist.x), curPos.y, curPos.z + (-m_vMoveDist.z));
+
+			m_vMoveDist = _vec3(0.f, 0.f, 0.f);
+		}
+	}
 }
 
 void CDoor::OnCollisionExit(CCollider* _pOther)
