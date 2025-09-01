@@ -70,7 +70,7 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 		return E_FAIL;
 
 	// Collider Default Settings
-	_vec3 vScale{ 1.f, 3.f, 1.f };
+	_vec3 vScale{ 1.5f, 3.f, 1.5f };
 	_vec3 vOffset{ 0.f, -1.5f, 0.f };
 
 	m_pColliderCom->Ready_CCollider(this, m_vEye, vScale, vOffset, COL_PLAYER,
@@ -155,7 +155,7 @@ void CDynamicCamera::OnCollision(CCollider* _pOther)
 		m_vMoveDist = _vec3(0.f, 0.f, 0.f);
 	}
 }
-
+ 
 void CDynamicCamera::OnCollisionEnter(CCollider* _pOther)
 {
 	if (_pOther->Get_ColLayer() == COL_ENEMY && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
@@ -533,7 +533,7 @@ void CDynamicCamera::Mouse_Input()
 
 	m_bTrigger = false;
 
-	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_RB) & 0x80)
+	if (CDInputManager::GetInstance()->Get_KeyDown(DIM_RB) & 0x80)
 	{
 		m_bTrigger = true;
 	}
