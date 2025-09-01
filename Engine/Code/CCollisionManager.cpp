@@ -324,6 +324,12 @@ CGameObject* CCollisionManager::Raycast(_vec3 vRayPos, _vec3 vRayDir, _vec3& vHi
 									pClosestObj = object;
 
 									vHitPos = vRayPos + (vRayDir * fClosestDist);
+
+									// Calculate local normal vector
+									_vec3 vEdge1 = objectColliderBox[dwIndices[i * 3 + 0]] - objectColliderBox[dwIndices[i * 3 + 1]];
+									_vec3 vEdge2 = objectColliderBox[dwIndices[i * 3 + 2]] - objectColliderBox[dwIndices[i * 3 + 1]];
+									D3DXVec3Cross(&vHitNormal, &vEdge1, &vEdge2);
+									D3DXVec3Normalize(&vHitNormal, &vHitNormal);
 								}
 							}
 						}
