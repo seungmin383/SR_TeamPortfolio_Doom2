@@ -76,7 +76,7 @@ private:
     // 목표/상태 체크
     void InitTotals();            // 총 몬스터 수 등 세팅
     void CheckStageGoal();        // 매 프레임 조건 검사
-    bool IsArchVileAlive() const; // 아크바일 생존 여부
+    bool IsArchVileAlive();       // 아크바일 생존 여부
 
     // ★ 추가: 최종 원인 선택 & 라치
     void ResolveAndLatchGoal();

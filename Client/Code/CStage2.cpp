@@ -48,7 +48,10 @@ CStage2::~CStage2()
 
 HRESULT CStage2::Ready_Scene()
 {
+	CUIManager::GetInstance()->UISetListClear();
 	CColliderManager::GetInstance()->Reset();
+	m_isResultMode = false;
+	m_pendingNext = SCENEID::SCENE_END;
 
 	if (FAILED(Ready_Environment_Layer(LAYERID::LAYER_ENVIRONMENT)))
 		return E_FAIL;
@@ -83,15 +86,6 @@ HRESULT CStage2::Ready_Scene()
 
 	// 스폰 완료 후 총계 초기화
 	InitTotals();
-
-	// 원하는 모드로 설정 (둘 중 하나 택1)
-   // 1) 보스 처치형
-	m_goal = GoalType::KillBoss;
-
-	// 2) 킬 카운트형
-	// m_goal = GoalType::KillCount;
-	// m_goalKillCount = -1; // -1이면 totalKills(=전멸) 기준
-	// m_goalKillCount = 15; // 이런 식으로 특정 수치도 가능
 
 	return S_OK;
 }
@@ -580,12 +574,20 @@ void CStage2::CheckStageGoal()
 		ResolveAndLatchGoal();
 	}
 }
-bool CStage2::IsArchVileAlive() const
+bool CStage2::IsArchVileAlive()
 {
-	// 게임로직 레이어의 ENEMY 그룹만 훑어도 충분
-	const auto& enemies = CManagement::GetInstance()->Get_ObjectGroup(LAYERID::LAYER_GAMELOGIC, OBJID::OBJ_ENEMY);
+	// 씬 내부 컨테이너만 사용 (전역 Management X)
+	const auto& enemies = Get_ObjectGroup(LAYERID::LAYER_GAMELOGIC, OBJID::OBJ_ENEMY);
+
+	// 방어: 비어있으면 바로 false
+	if (enemies.empty()) return false;
+
 	for (auto* e : enemies) {
+		if (!e) continue; // nullptr 가드
+
+		// 아크바일만 체크
 		if (auto* av = dynamic_cast<CArchVile*>(e)) {
+			// 객체가 살아있고(!dead)라면 아직 한 마리라도 생존
 			if (!av->Get_Dead()) return true;
 		}
 	}
@@ -638,5 +640,6 @@ void CStage2::ResolveAndLatchGoal()
 // --------------(08/31 김홍인)----------------
 void CStage2::Free()
 {
+	CUIManager::GetInstance()->UISetListClear();
 	Engine::CScene::Free();
 }
