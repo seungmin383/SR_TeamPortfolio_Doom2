@@ -238,23 +238,23 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	Engine::CGameObject* pImp = nullptr;
 	Engine::CGameObject* pArchvile = nullptr;
 
-	//핑키데몬
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON);
+	////핑키데몬
+	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON);
 
-	if (nullptr == pGameObject)
-		return E_FAIL;
+	//if (nullptr == pGameObject)
+	//	return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
-		return E_FAIL;
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
+	//	return E_FAIL;
 
-	//아크바일
-	pArchvile = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE);
+	////아크바일
+	//pArchvile = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE);
 
-	if (nullptr == pArchvile)
-		return E_FAIL;
+	//if (nullptr == pArchvile)
+	//	return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pArchvile)))
-		return E_FAIL;
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pArchvile)))
+	//	return E_FAIL;
 
 	//임프
 	pImp = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP);
@@ -275,14 +275,14 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
 		return E_FAIL;
 
-	//스파이더 마스터마인
-	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SPIDERMASTERMIND);
+	////스파이더 마스터마인
+	//pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SPIDERMASTERMIND);
 
-	if (nullptr == pGameObject)
-		return E_FAIL;
+	//if (nullptr == pGameObject)
+	//	return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
-		return E_FAIL;
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))
+	//	return E_FAIL;
 
 	//샷건 가이
 	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_SHOTGUNGUY);
