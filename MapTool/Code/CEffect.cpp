@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "CEffect.h"
 
 CEffect::CEffect(LPDIRECT3DDEVICE9 pGraphicDev)

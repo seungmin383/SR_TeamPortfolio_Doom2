@@ -568,7 +568,7 @@ void CDynamicCamera::Mouse_Input()
 
 	m_bTrigger = false;
 
-	if (CDInputManager::GetInstance()->Get_KeyDown(DIM_RB) & 0x80)
+	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_RB) & 0x80)
 	{
 		m_bTrigger = true;
 	}

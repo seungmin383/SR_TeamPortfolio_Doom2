@@ -54,6 +54,8 @@ _int CBullet::Update_GameObject(const _float& fTimeDelta)
 			if (pTargetObj->Get_Dead())
 				return 0;
 
+			EffectManager::GetInstance()->Start_Effect(m_vHitpos, EFFECTID::BLOOD_EXPLOSION);
+
 			pTargetObj->OnCollisionEnter(this->GetCollider());
 			this->OnCollisionEnter(pTargetObj->GetCollider());
 			return 0;
