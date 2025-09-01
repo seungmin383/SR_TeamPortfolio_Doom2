@@ -62,8 +62,10 @@ HRESULT CDoor::Ready_GameObject()
 _int CDoor::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
-	Set_OnTerrain();
-	DoorOpening(fTimeDelta);
+	if (m_state == State::Idle)
+		Set_OnTerrain();
+	else
+		DoorOpening(fTimeDelta);
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_NONALPHA, this);
 

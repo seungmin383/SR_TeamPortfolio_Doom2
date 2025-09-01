@@ -63,15 +63,17 @@ _int CDoorWithKey::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
 
+	if (m_state == State::Idle)
+		Set_OnTerrain();
+	else
+		DoorOpening(fTimeDelta);
+
 	if (!CManagement::GetInstance()->Is_KeyOwned()) {
-		CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
+		CRenderer::GetInstance()->Add_RenderGroup(RENDER_NONALPHA, this);
 		return 0;
 	}
 
-	
-	DoorOpening(fTimeDelta);
-
-	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
+	CRenderer::GetInstance()->Add_RenderGroup(RENDER_NONALPHA, this);
 
 	return 0;
 }
