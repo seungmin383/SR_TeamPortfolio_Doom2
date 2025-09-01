@@ -1261,7 +1261,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 10,
             "pos": {
                 "x": 395.0,
