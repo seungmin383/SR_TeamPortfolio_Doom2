@@ -159,7 +159,10 @@ void CBullet::OnCollisionEnter(CCollider* _pOther)
 		_pOther == nullptr)
 		return;
 
-	_pOther->Get_Owner()->Take_Dmg(m_iDmg);
+	if (_pOther->Get_ColLayer() == m_pColliderCom->Get_ColLayer())
+		_pOther->Get_Owner()->Take_Dmg(m_iDmg * 0.5f);
+	else
+		_pOther->Get_Owner()->Take_Dmg(m_iDmg);
 	
 	EffectManager::GetInstance()->Start_Effect(m_vHitpos, EFFECTID::BULLET_IMPACT);
 

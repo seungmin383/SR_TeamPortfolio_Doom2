@@ -42,7 +42,7 @@ HRESULT CImpBullet::Ready_GameObject()
 	{
 		m_vInitDir = dynamic_cast<CMonsterBase*>(m_pOwner)->Get_MoveLook();
 		D3DXVec3Normalize(&m_vInitDir, &m_vInitDir);
-		m_fSpeed = 15.f;
+		m_fSpeed = 30.f;
 		m_bDead = FALSE;
 		m_iDmg = dynamic_cast<CMonsterBase*>(m_pOwner)->GetAtkDmg();
 	}
