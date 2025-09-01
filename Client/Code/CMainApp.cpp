@@ -72,6 +72,7 @@
 #include "EffectManager.h"
 
 #include "CTmpWall.h"
+#include "CMonsterSpawner.h"
 
 CMainApp::CMainApp()
 	: m_pGraphicDev(nullptr),
@@ -311,12 +312,31 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::TMP_WALL, CTmpWall::Create(m_pGraphicDev))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::EFFECT_IMPACT_BULLET, CImpactBulletEffect::Create(m_pGraphicDev))))
-		return E_FAIL;
+	////좀비맨 스포너
+	//if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ZOMBIEMAN_SPAWNER, CMonsterSpawner::Create(m_pGraphicDev, OBJPROTOTYPE::ENEMY_ZOMBIEMAN_SPAWNER))))
+	//	return E_FAIL;
+	////샷건가이 스포너
+	//if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_SHOTGUNGUY_SPAWNER, CMonsterSpawner::Create(m_pGraphicDev, OBJPROTOTYPE::ENEMY_SHOTGUNGUY_SPAWNER))))
+	//	return E_FAIL;
+	////임프 스포너
+	//if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP_SPAWNER, CMonsterSpawner::Create(m_pGraphicDev, OBJPROTOTYPE::ENEMY_IMP_SPAWNER))))
+	//	return E_FAIL;
+	////데몬 스포너
+	//if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON_SPAWNER, CMonsterSpawner::Create(m_pGraphicDev, OBJPROTOTYPE::ENEMY_DEMON_SPAWNER))))
+	//	return E_FAIL;
+	////아바일 스포너
+	//if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE_SPAWNER, CMonsterSpawner::Create(m_pGraphicDev, OBJPROTOTYPE::ENEMY_ARCHVILE_SPAWNER))))
+	//	return E_FAIL;
+	////거미 스포너
+	//if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_SPIDERMASTERMIND_SPAWNER, CMonsterSpawner::Create(m_pGraphicDev, OBJPROTOTYPE::ENEMY_SPIDERMASTERMIND_SPAWNER))))
+	//	return E_FAIL;
 
 	EffectManager::GetInstance()->Add_Effect(EFFECTID::BULLET_IMPACT, CImpactBulletEffect::Create(m_pGraphicDev));
 	EffectManager::GetInstance()->Add_Effect(EFFECTID::BLOOD_EXPLOSION, CExplosionBloodEffect::Create(m_pGraphicDev));
 	EffectManager::GetInstance()->Add_Effect(EFFECTID::TANPII_DROP, CDropBulletEffect::Create(m_pGraphicDev));
+
+	//if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::TMP_WALL, CTmpWall::Create(m_pGraphicDev))))
+	//	return E_FAIL;
 
 	//텍스처 필터
 	//(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);

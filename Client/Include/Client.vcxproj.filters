@@ -214,6 +214,9 @@
     <Filter Include="02. GameObject\10. Effect\02.DropBulletEffect">
       <UniqueIdentifier>{c231ee9b-1c9c-4c0c-b938-f1d2365c073a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\02. Monster\MonsterSpawner">
+      <UniqueIdentifier>{1b18ff23-362d-4bc4-926f-b9360950f4f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -474,6 +477,9 @@
     <ClInclude Include="..\Header\CDropBulletEffect.h">
       <Filter>02. GameObject\10. Effect\02.DropBulletEffect</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CMonsterSpawner.h">
+      <Filter>02. GameObject\02. Monster\MonsterSpawner</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -692,9 +698,6 @@
     <ClCompile Include="..\Code\CVerticalMovingObject.cpp">
       <Filter>02. GameObject\06. Object\FieldObject</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\CTmpWall.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\CExplosionBloodEffect.cpp">
       <Filter>02. GameObject\10. Effect\00.ExplosionBlood</Filter>
     </ClCompile>
@@ -727,6 +730,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\CDropBulletEffect.cpp">
       <Filter>02. GameObject\10. Effect\02.DropBulletEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CMonsterSpawner.cpp">
+      <Filter>02. GameObject\02. Monster\MonsterSpawner</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CTmpWall.cpp">
+      <Filter>02. GameObject\03. Terrain\tmpWall</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
