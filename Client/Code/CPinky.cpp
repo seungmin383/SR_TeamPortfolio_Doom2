@@ -43,7 +43,7 @@ HRESULT CPinky::Ready_GameObject()
 	m_pTransformCom->Get_Pos(&vPos);
 	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(3.f, 4.f, 3.f), _vec3(0.f, -vScale.y * 0.5f, 0.f),
 		COLLAYERID::COL_ENEMY,
-		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT);
+		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT | COLLAYERID::COL_ENEMY);
 
 
 #pragma region ANIM_SETTING

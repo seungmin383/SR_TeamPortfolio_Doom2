@@ -9,6 +9,7 @@
 #include <iostream>
 #include "CStatsManager.h"
 #include "CTerrainSector.h"
+#include "EffectManager.h"
 
 CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CCharacter(pGraphicDev), m_fSightAngle(0.f), m_fSightDistance(0.f),
@@ -61,7 +62,6 @@ _int CMonsterBase::Update_GameObject(const _float& fTimeDelta)
 
 	if (m_isGibbingDead || m_isNormalDead)
 	{
-		cout << "죽음" << endl;	
 		return -1;
 	}
 
@@ -490,6 +490,12 @@ void CMonsterBase::Calc_Hp()
 	if (m_iGameHp != m_iPreHp)
 	{
 		m_isHit = TRUE;
+
+		_vec3 vPos;
+		m_pTransformCom->Get_Pos(&vPos);
+
+		EffectManager::GetInstance()->Start_Effect(vPos, EFFECTID::BLOOD_EXPLOSION);
+
 		m_iPreHp = m_iGameHp;
 	}
 
@@ -556,7 +562,6 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			m_eAnim_Type = NOR_DEATH;
 		}
 		m_pColliderCom->Set_Active(false);
-	//	cout << "AI_DEAD" << endl;
 		break;
 
 		//맞았을 때
@@ -565,7 +570,6 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 		if (!m_isPinky)
 			m_eCurAnimState += 16;
 		m_eAnim_Type = HIT;
-	//	cout << "AI_HIT" << endl;
 		break;
 
 		//공격할 때
@@ -576,7 +580,6 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 		if (!m_isShoot)
 			Attack(fTimeDelta);
 
-		//cout << "AI_ATTACK" << endl;
 		break;
 
 		//플레이어를 발견했을 때
@@ -592,7 +595,6 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			m_fChaseDelay = 0.f;
 		}
 		Movement(fTimeDelta);
-		//cout << "AI_CHASE" << endl;
 		break;
 
 		//아이들 상태
@@ -607,7 +609,6 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 			Movement(fTimeDelta);
 		}
 
-		//cout << "AI_MOVE" << endl;
 		break;
 	}
 

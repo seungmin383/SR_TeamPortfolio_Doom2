@@ -37,7 +37,9 @@ public:
     void                            Set_Texture(_uint _setTexNum = 0);
     void                            SetFrameDefault();
     _bool                           Get_isFinAct() { return m_bFinAct; }
-    
+	_bool 					           Get_isAnimEnd() { return m_bIsEnd; } 
+
+	void                                Set_isAnimEnd(_bool _b) { m_bIsEnd = _b; } 
     void                            Set_UVCoord();
 
 private:
