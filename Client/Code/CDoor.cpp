@@ -62,7 +62,7 @@ HRESULT CDoor::Ready_GameObject()
 _int CDoor::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
-
+	Set_OnTerrain();
 	DoorOpening(fTimeDelta);
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_NONALPHA, this);
@@ -185,7 +185,7 @@ void CDoor::Set_OnTerrain()
 		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
 		{
 
-			m_pTransformCom->Set_Pos(pos.x, onPosition.y, pos.z);
+			m_pTransformCom->Set_Pos(pos.x, onPosition.y + m_vOriginPos.y, pos.z);
 			break;
 		}
 	}

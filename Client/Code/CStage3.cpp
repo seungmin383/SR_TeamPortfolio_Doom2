@@ -9,6 +9,7 @@
 #include "CManagement.h"
 #include "CWeaponManager.h"
 #include "CDInputManager.h"
+#include "CUIManager.h"
 
 #include "CObjectFactory.h"
 #include "CFileManager.h"
@@ -100,6 +101,7 @@ _int CStage3::Update_Scene(const _float& fTimeDelta)
 			//if (auto* wm = CWeaponManager::GetInstance()) {
 			//	wm->ResetOnSceneChange();   // 무기 포인터 초기화(초기화 하면 메모리 누수 남)
 			//}
+			CUIManager::GetInstance()->UISetListClear();
 			CManagement::GetInstance()->Change_Scene(m_pendingNext);
 			m_pendingNext = SCENEID::SCENE_END;
 		}

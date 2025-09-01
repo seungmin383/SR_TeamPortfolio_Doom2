@@ -52,7 +52,6 @@ _int CSwitch_Button::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
 	Set_OnTerrain();
-	Bill_Board();
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 
