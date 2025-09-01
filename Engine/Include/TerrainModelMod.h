@@ -9,9 +9,9 @@ struct TerrainModelMod
 	int type = 0;
 	int vertexCountX;
 	int vertexCountZ;
-	int vertexIntervalX;
-	int vertexIntervalZ;
-	int vertexIntervalY;
+	float vertexIntervalX;
+	float vertexIntervalZ;
+	float vertexIntervalY;
 
 	_vec3 pos;
 	vector<_vec3> vertices;
