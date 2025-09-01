@@ -54,7 +54,7 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 	m_iGameHp = 100;
 	m_iArmor = 45;
 
-	m_fSpeed = 20.f;
+	m_fSpeed = 300.f;
 	m_fFallSpeed = 1.25f;
 	m_fJumpForce = 0.45f;
 	m_fAngle = 0.f;
