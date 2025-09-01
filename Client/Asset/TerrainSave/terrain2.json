@@ -12,9 +12,9 @@
             "type": 2,
             "vertexCountX": 4,
             "vertexCountZ": 6,
-            "vertexIntervalX": 43,
-            "vertexIntervalY": 43,
-            "vertexIntervalZ": 43,
+            "vertexIntervalX": 43.0,
+            "vertexIntervalY": 43.0,
+            "vertexIntervalZ": 43.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -150,9 +150,9 @@
             "type": 0,
             "vertexCountX": 12,
             "vertexCountZ": 4,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 5,
-            "vertexIntervalZ": 5,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -408,9 +408,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 6,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 5,
-            "vertexIntervalZ": 5,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -516,9 +516,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 6,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 5,
-            "vertexIntervalZ": 5,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -624,9 +624,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -662,9 +662,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 11,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 5,
-            "vertexIntervalZ": 5,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -845,9 +845,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 11,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 5,
-            "vertexIntervalZ": 5,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -1028,9 +1028,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 11,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 5,
-            "vertexIntervalZ": 5,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -1211,9 +1211,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 11,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 5,
-            "vertexIntervalZ": 5,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -1394,9 +1394,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 6,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 5,
-            "vertexIntervalZ": 5,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -1502,9 +1502,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 6,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 5,
-            "vertexIntervalZ": 5,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -1610,9 +1610,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 6,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 5,
-            "vertexIntervalZ": 5,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -1718,9 +1718,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 6,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 5,
-            "vertexIntervalZ": 5,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -1826,9 +1826,9 @@
             "type": 0,
             "vertexCountX": 12,
             "vertexCountZ": 4,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 5,
-            "vertexIntervalZ": 5,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -2084,9 +2084,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 6,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 5,
-            "vertexIntervalZ": 5,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -2192,9 +2192,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 6,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 5,
-            "vertexIntervalZ": 5,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -2300,9 +2300,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -2428,9 +2428,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -2556,9 +2556,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -2684,9 +2684,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -2812,9 +2812,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -2940,9 +2940,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -3068,9 +3068,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -3196,9 +3196,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -3324,9 +3324,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -3452,9 +3452,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -3580,9 +3580,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -3708,9 +3708,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -3836,9 +3836,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -3964,9 +3964,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4092,9 +4092,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4220,9 +4220,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4348,9 +4348,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4476,9 +4476,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4604,9 +4604,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4732,9 +4732,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4860,9 +4860,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4988,9 +4988,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -5116,9 +5116,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -5244,9 +5244,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -5372,9 +5372,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -5500,9 +5500,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -5628,9 +5628,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -5756,9 +5756,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -5884,9 +5884,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -6012,9 +6012,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -6140,9 +6140,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -6268,9 +6268,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -6396,9 +6396,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -6524,9 +6524,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -6652,9 +6652,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -6780,9 +6780,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -6908,9 +6908,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -7036,9 +7036,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -7164,9 +7164,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -7292,9 +7292,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -7420,9 +7420,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -7548,9 +7548,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -7676,9 +7676,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -7804,9 +7804,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -7932,9 +7932,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -8060,9 +8060,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -8188,9 +8188,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -8316,9 +8316,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -8444,9 +8444,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -8572,9 +8572,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -8700,9 +8700,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -8828,9 +8828,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -8956,9 +8956,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -9084,9 +9084,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -9212,9 +9212,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -9340,9 +9340,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -9468,9 +9468,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -9596,9 +9596,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -9724,9 +9724,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -9852,9 +9852,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -9980,9 +9980,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -10108,9 +10108,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -10236,9 +10236,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -10364,9 +10364,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -10492,9 +10492,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -10620,9 +10620,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -10748,9 +10748,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -10876,9 +10876,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -11004,9 +11004,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -11132,9 +11132,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -11260,9 +11260,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -11388,9 +11388,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -11516,9 +11516,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -11644,9 +11644,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -11772,9 +11772,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -11900,9 +11900,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -12028,9 +12028,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -12156,9 +12156,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -12284,9 +12284,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -12412,9 +12412,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -12540,9 +12540,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -12668,9 +12668,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -12796,9 +12796,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -12924,9 +12924,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -13052,9 +13052,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -13180,9 +13180,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -13308,9 +13308,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -13436,9 +13436,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -13564,9 +13564,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -13692,9 +13692,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -13820,9 +13820,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -13858,9 +13858,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -13986,9 +13986,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -14114,9 +14114,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -14242,9 +14242,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -14370,9 +14370,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -14498,9 +14498,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -14626,9 +14626,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -14754,9 +14754,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -14882,9 +14882,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -15010,9 +15010,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -15138,9 +15138,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -15266,9 +15266,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -15394,9 +15394,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -15522,9 +15522,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -15650,9 +15650,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -15778,9 +15778,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -15906,9 +15906,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -16034,9 +16034,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -16162,9 +16162,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -16290,9 +16290,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -16418,9 +16418,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -16546,9 +16546,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -16674,9 +16674,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -16802,9 +16802,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -16930,9 +16930,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -17058,9 +17058,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -17186,9 +17186,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -17314,9 +17314,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -17442,9 +17442,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -17570,9 +17570,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 2,
-            "vertexIntervalX": 0,
-            "vertexIntervalY": 0,
-            "vertexIntervalZ": 0,
+            "vertexIntervalX": 0.5,
+            "vertexIntervalY": 0.5,
+            "vertexIntervalZ": 0.5,
             "vertices": [
                 {
                     "x": 0.0,
@@ -17698,9 +17698,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -17736,9 +17736,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 11,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 5,
-            "vertexIntervalZ": 5,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -17919,9 +17919,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 11,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 5,
-            "vertexIntervalZ": 5,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -18102,9 +18102,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 4,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -18340,9 +18340,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 4,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -18578,9 +18578,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 5,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 5.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -18616,9 +18616,9 @@
             "type": 1,
             "vertexCountX": 6,
             "vertexCountZ": 2,
-            "vertexIntervalX": 10,
-            "vertexIntervalY": 50,
-            "vertexIntervalZ": 15,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 15.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -18694,9 +18694,9 @@
             "type": 1,
             "vertexCountX": 6,
             "vertexCountZ": 2,
-            "vertexIntervalX": 10,
-            "vertexIntervalY": 50,
-            "vertexIntervalZ": 15,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 15.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -18772,9 +18772,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 10,
-            "vertexIntervalY": 50,
-            "vertexIntervalZ": 5,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -18810,9 +18810,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 10,
-            "vertexIntervalY": 50,
-            "vertexIntervalZ": 5,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -18848,9 +18848,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 10,
-            "vertexIntervalY": 50,
-            "vertexIntervalZ": 5,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -18886,9 +18886,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 10,
-            "vertexIntervalY": 50,
-            "vertexIntervalZ": 5,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -18924,9 +18924,9 @@
             "type": 2,
             "vertexCountX": 4,
             "vertexCountZ": 4,
-            "vertexIntervalX": 25,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 25,
+            "vertexIntervalX": 25.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 25.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19011,7 +19011,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 150,
             "pos": {
                 "x": 45.0,
@@ -19022,9 +19022,9 @@
             "type": 1,
             "vertexCountX": 6,
             "vertexCountZ": 2,
-            "vertexIntervalX": 10,
-            "vertexIntervalY": 2,
-            "vertexIntervalZ": 10,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 2.5,
+            "vertexIntervalZ": 10.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19089,7 +19089,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 151,
             "pos": {
                 "x": 80.0,
@@ -19100,9 +19100,9 @@
             "type": 1,
             "vertexCountX": 6,
             "vertexCountZ": 2,
-            "vertexIntervalX": 10,
-            "vertexIntervalY": 2,
-            "vertexIntervalZ": 10,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 2.5,
+            "vertexIntervalZ": 10.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19167,7 +19167,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 152,
             "pos": {
                 "x": 90.0,
@@ -19178,9 +19178,9 @@
             "type": 1,
             "vertexCountX": 6,
             "vertexCountZ": 2,
-            "vertexIntervalX": 10,
-            "vertexIntervalY": 2,
-            "vertexIntervalZ": 10,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 2.5,
+            "vertexIntervalZ": 10.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19245,7 +19245,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 153,
             "pos": {
                 "x": 35.0,
@@ -19256,9 +19256,9 @@
             "type": 1,
             "vertexCountX": 6,
             "vertexCountZ": 2,
-            "vertexIntervalX": 10,
-            "vertexIntervalY": 2,
-            "vertexIntervalZ": 10,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 2.5,
+            "vertexIntervalZ": 10.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19323,7 +19323,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 154,
             "pos": {
                 "x": 45.0,
@@ -19334,9 +19334,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 2,
-            "vertexIntervalZ": 4,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 2.5,
+            "vertexIntervalZ": 4.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19361,7 +19361,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 155,
             "pos": {
                 "x": 35.0,
@@ -19372,9 +19372,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 2,
-            "vertexIntervalZ": 4,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 2.5,
+            "vertexIntervalZ": 4.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19399,7 +19399,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 156,
             "pos": {
                 "x": 80.0,
@@ -19410,9 +19410,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 2,
-            "vertexIntervalZ": 4,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 2.5,
+            "vertexIntervalZ": 4.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19437,7 +19437,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 157,
             "pos": {
                 "x": 90.0,
@@ -19448,9 +19448,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 2,
-            "vertexIntervalZ": 4,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 2.5,
+            "vertexIntervalZ": 4.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19475,7 +19475,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 158,
             "pos": {
                 "x": 80.0,
@@ -19486,9 +19486,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 7,
-            "vertexIntervalZ": 10,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 7.5,
+            "vertexIntervalZ": 10.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19513,7 +19513,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 159,
             "pos": {
                 "x": 85.0,
@@ -19524,9 +19524,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 7,
-            "vertexIntervalZ": 10,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 7.5,
+            "vertexIntervalZ": 10.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19551,7 +19551,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 160,
             "pos": {
                 "x": 45.0,
@@ -19562,9 +19562,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 7,
-            "vertexIntervalZ": 10,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 7.5,
+            "vertexIntervalZ": 10.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19589,7 +19589,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 161,
             "pos": {
                 "x": 40.0,
@@ -19600,9 +19600,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 7,
-            "vertexIntervalZ": 10,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 7.5,
+            "vertexIntervalZ": 10.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19627,7 +19627,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 162,
             "pos": {
                 "x": 45.0,
@@ -19638,9 +19638,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 5,
-            "vertexIntervalZ": 10,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.5,
+            "vertexIntervalZ": 10.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19665,7 +19665,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 163,
             "pos": {
                 "x": 40.0,
@@ -19676,9 +19676,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 5,
-            "vertexIntervalZ": 10,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.5,
+            "vertexIntervalZ": 10.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19703,7 +19703,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 164,
             "pos": {
                 "x": 80.0,
@@ -19714,9 +19714,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 5,
-            "vertexIntervalZ": 10,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.5,
+            "vertexIntervalZ": 10.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19741,7 +19741,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 165,
             "pos": {
                 "x": 85.0,
@@ -19752,9 +19752,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 5,
-            "vertexIntervalZ": 10,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 5.5,
+            "vertexIntervalZ": 10.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19790,9 +19790,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 50,
-            "vertexIntervalZ": 40,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 40.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19828,9 +19828,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 4,
-            "vertexIntervalY": 50,
-            "vertexIntervalZ": 40,
+            "vertexIntervalX": 4.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 40.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19866,9 +19866,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 10,
-            "vertexIntervalY": 50,
-            "vertexIntervalZ": 5,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19904,9 +19904,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 10,
-            "vertexIntervalY": 50,
-            "vertexIntervalZ": 5,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 5.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19931,7 +19931,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 170,
             "pos": {
                 "x": 80.0,
@@ -19942,9 +19942,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 35,
-            "vertexIntervalY": 25,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 35.0,
+            "vertexIntervalY": 25.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19969,7 +19969,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 171,
             "pos": {
                 "x": 80.0,
@@ -19980,9 +19980,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 35,
-            "vertexIntervalY": 25,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 35.0,
+            "vertexIntervalY": 25.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20007,7 +20007,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 172,
             "pos": {
                 "x": 80.0,
@@ -20018,9 +20018,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 25,
-            "vertexIntervalZ": 25,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 25.0,
+            "vertexIntervalZ": 25.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20045,7 +20045,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 173,
             "pos": {
                 "x": 80.0,
@@ -20056,9 +20056,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 25,
-            "vertexIntervalZ": 25,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 25.0,
+            "vertexIntervalZ": 25.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20083,7 +20083,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 174,
             "pos": {
                 "x": 45.0,
@@ -20094,9 +20094,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 25,
-            "vertexIntervalZ": 25,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 25.0,
+            "vertexIntervalZ": 25.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20121,7 +20121,7 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 175,
             "pos": {
                 "x": 45.0,
@@ -20132,9 +20132,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 25,
-            "vertexIntervalZ": 25,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 25.0,
+            "vertexIntervalZ": 25.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20170,9 +20170,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 50,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20208,9 +20208,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 5,
-            "vertexIntervalY": 50,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 5.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20246,9 +20246,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 25,
-            "vertexIntervalY": 50,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 25.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20284,9 +20284,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 10,
-            "vertexIntervalY": 50,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20322,9 +20322,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 10,
-            "vertexIntervalY": 50,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20360,9 +20360,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 50,
-            "vertexIntervalZ": 25,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 25.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20398,9 +20398,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 50,
-            "vertexIntervalZ": 25,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 25.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20436,9 +20436,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 50,
-            "vertexIntervalZ": 40,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 40.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20474,9 +20474,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 50,
-            "vertexIntervalZ": 40,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 50.0,
+            "vertexIntervalZ": 40.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20512,9 +20512,9 @@
             "type": 2,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 55,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 50,
+            "vertexIntervalX": 55.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 50.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20550,9 +20550,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 20,
-            "vertexIntervalY": 20,
-            "vertexIntervalZ": 20,
+            "vertexIntervalX": 20.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 20.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20588,9 +20588,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 20,
-            "vertexIntervalY": 20,
-            "vertexIntervalZ": 20,
+            "vertexIntervalX": 20.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 20.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20626,9 +20626,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 20,
-            "vertexIntervalY": 20,
-            "vertexIntervalZ": 20,
+            "vertexIntervalX": 20.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 20.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20664,9 +20664,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 20,
-            "vertexIntervalY": 20,
-            "vertexIntervalZ": 20,
+            "vertexIntervalX": 20.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 20.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20702,9 +20702,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 20,
-            "vertexIntervalY": 20,
-            "vertexIntervalZ": 20,
+            "vertexIntervalX": 20.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 20.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20740,9 +20740,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 20,
-            "vertexIntervalZ": 40,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 40.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20778,9 +20778,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 20,
-            "vertexIntervalZ": 10,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 10.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20816,9 +20816,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 20,
-            "vertexIntervalZ": 10,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 10.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20854,9 +20854,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 20,
-            "vertexIntervalZ": 20,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 20.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20892,9 +20892,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 20,
-            "vertexIntervalY": 20,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 20.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20930,9 +20930,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 5,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 2,
-            "vertexIntervalZ": 20,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 2.0,
+            "vertexIntervalZ": 20.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20998,9 +20998,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 5,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 2,
-            "vertexIntervalZ": 20,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 2.0,
+            "vertexIntervalZ": 20.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -21066,9 +21066,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 20,
-            "vertexIntervalY": 2,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 20.0,
+            "vertexIntervalY": 2.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -21104,9 +21104,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 20,
-            "vertexIntervalY": 2,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 20.0,
+            "vertexIntervalY": 2.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -21142,9 +21142,9 @@
             "type": 2,
             "vertexCountX": 2,
             "vertexCountZ": 3,
-            "vertexIntervalX": 10,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 40,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 40.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -21190,9 +21190,9 @@
             "type": 2,
             "vertexCountX": 2,
             "vertexCountZ": 3,
-            "vertexIntervalX": 10,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 40,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 40.0,
             "vertices": [
                 {
                     "x": 0.0,

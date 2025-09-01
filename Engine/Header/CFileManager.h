@@ -39,7 +39,7 @@ public:
     //TODO: save monster spawn
     //TODO: load monster spawn
 
-    void                              SaveTerrain(fs::path path, string filename, vector<TerrainModelMod> datas);
+    void                              SaveTerrain(fs::path path, string filename, vector<TerrainModel> datas);
     TerrainModels                     LoadTerrain(_int stageNumber);
 
     void                              SaveItem(fs::path path, string filename, vector<GameObjectSpawnInfo> datas);

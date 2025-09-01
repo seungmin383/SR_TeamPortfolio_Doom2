@@ -12,9 +12,9 @@
             "type": 0,
             "vertexCountX": 26,
             "vertexCountZ": 36,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4710,9 +4710,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 6,
-            "vertexIntervalY": 6,
-            "vertexIntervalZ": 6,
+            "vertexIntervalX": 6.0,
+            "vertexIntervalY": 6.0,
+            "vertexIntervalZ": 6.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4748,9 +4748,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 9,
-            "vertexIntervalY": 20,
-            "vertexIntervalZ": 6,
+            "vertexIntervalX": 9.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 6.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4786,9 +4786,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 10,
-            "vertexIntervalY": 20,
-            "vertexIntervalZ": 6,
+            "vertexIntervalX": 10.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 6.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -4824,9 +4824,9 @@
             "type": 1,
             "vertexCountX": 16,
             "vertexCountZ": 21,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -6522,9 +6522,9 @@
             "type": 1,
             "vertexCountX": 16,
             "vertexCountZ": 21,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -8220,9 +8220,9 @@
             "type": 1,
             "vertexCountX": 13,
             "vertexCountZ": 21,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -9603,9 +9603,9 @@
             "type": 1,
             "vertexCountX": 16,
             "vertexCountZ": 21,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -11301,9 +11301,9 @@
             "type": 1,
             "vertexCountX": 16,
             "vertexCountZ": 7,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -11879,9 +11879,9 @@
             "type": 1,
             "vertexCountX": 18,
             "vertexCountZ": 7,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -12527,9 +12527,9 @@
             "type": 1,
             "vertexCountX": 16,
             "vertexCountZ": 21,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -14225,9 +14225,9 @@
             "type": 0,
             "vertexCountX": 16,
             "vertexCountZ": 21,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -15923,9 +15923,9 @@
             "type": 1,
             "vertexCountX": 6,
             "vertexCountZ": 21,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -16571,9 +16571,9 @@
             "type": 1,
             "vertexCountX": 12,
             "vertexCountZ": 21,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -17849,9 +17849,9 @@
             "type": 1,
             "vertexCountX": 16,
             "vertexCountZ": 21,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -19547,9 +19547,9 @@
             "type": 1,
             "vertexCountX": 16,
             "vertexCountZ": 7,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20125,9 +20125,9 @@
             "type": 1,
             "vertexCountX": 16,
             "vertexCountZ": 7,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -20703,9 +20703,9 @@
             "type": 1,
             "vertexCountX": 16,
             "vertexCountZ": 21,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -22401,9 +22401,9 @@
             "type": 1,
             "vertexCountX": 16,
             "vertexCountZ": 21,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -24099,9 +24099,9 @@
             "type": 1,
             "vertexCountX": 6,
             "vertexCountZ": 21,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -24747,9 +24747,9 @@
             "type": 1,
             "vertexCountX": 16,
             "vertexCountZ": 21,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -26445,9 +26445,9 @@
             "type": 1,
             "vertexCountX": 16,
             "vertexCountZ": 21,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -28143,9 +28143,9 @@
             "type": 0,
             "vertexCountX": 16,
             "vertexCountZ": 18,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -29601,9 +29601,9 @@
             "type": 0,
             "vertexCountX": 12,
             "vertexCountZ": 16,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -30579,9 +30579,9 @@
             "type": 0,
             "vertexCountX": 13,
             "vertexCountZ": 16,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -31637,9 +31637,9 @@
             "type": 0,
             "vertexCountX": 11,
             "vertexCountZ": 23,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -32920,9 +32920,9 @@
             "type": 0,
             "vertexCountX": 12,
             "vertexCountZ": 23,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -34318,9 +34318,9 @@
             "type": 0,
             "vertexCountX": 17,
             "vertexCountZ": 8,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -35016,9 +35016,9 @@
             "type": 0,
             "vertexCountX": 18,
             "vertexCountZ": 8,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -35754,9 +35754,9 @@
             "type": 0,
             "vertexCountX": 6,
             "vertexCountZ": 3,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -35862,9 +35862,9 @@
             "type": 0,
             "vertexCountX": 6,
             "vertexCountZ": 3,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -35970,9 +35970,9 @@
             "type": 0,
             "vertexCountX": 46,
             "vertexCountZ": 11,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -38518,9 +38518,9 @@
             "type": 0,
             "vertexCountX": 9,
             "vertexCountZ": 16,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -39256,9 +39256,9 @@
             "type": 0,
             "vertexCountX": 9,
             "vertexCountZ": 16,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -39994,9 +39994,9 @@
             "type": 0,
             "vertexCountX": 9,
             "vertexCountZ": 16,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -40732,9 +40732,9 @@
             "type": 0,
             "vertexCountX": 12,
             "vertexCountZ": 26,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -42310,9 +42310,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -42348,9 +42348,9 @@
             "type": 0,
             "vertexCountX": 10,
             "vertexCountZ": 26,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -43666,9 +43666,9 @@
             "type": 0,
             "vertexCountX": 12,
             "vertexCountZ": 25,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -45184,9 +45184,9 @@
             "type": 0,
             "vertexCountX": 12,
             "vertexCountZ": 26,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -46762,9 +46762,9 @@
             "type": 0,
             "vertexCountX": 46,
             "vertexCountZ": 24,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -52300,9 +52300,9 @@
             "type": 1,
             "vertexCountX": 24,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -52558,9 +52558,9 @@
             "type": 1,
             "vertexCountX": 24,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -52816,9 +52816,9 @@
             "type": 1,
             "vertexCountX": 3,
             "vertexCountZ": 2,
-            "vertexIntervalX": 16,
-            "vertexIntervalY": 16,
-            "vertexIntervalZ": 16,
+            "vertexIntervalX": 16.0,
+            "vertexIntervalY": 16.0,
+            "vertexIntervalZ": 16.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -52864,9 +52864,9 @@
             "type": 1,
             "vertexCountX": 3,
             "vertexCountZ": 2,
-            "vertexIntervalX": 16,
-            "vertexIntervalY": 16,
-            "vertexIntervalZ": 16,
+            "vertexIntervalX": 16.0,
+            "vertexIntervalY": 16.0,
+            "vertexIntervalZ": 16.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -52912,9 +52912,9 @@
             "type": 0,
             "vertexCountX": 7,
             "vertexCountZ": 26,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -53839,844 +53839,10 @@
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT5_4.png",
             "type": 1,
             "vertexCountX": 7,
-            "vertexCountZ": 3,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
-            "vertices": [
-                {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                {
-                    "x": 1.0,
-                    "y": 5.3499197259776476e-14,
-                    "z": -3.4969113471561286e-07
-                },
-                {
-                    "x": 2.0,
-                    "y": 1.0699839451955295e-13,
-                    "z": -6.993822694312257e-07
-                },
-                {
-                    "x": 3.0,
-                    "y": 1.6049755112174796e-13,
-                    "z": -1.0490731483514537e-06
-                },
-                {
-                    "x": 4.0,
-                    "y": 2.139967890391059e-13,
-                    "z": -1.3987645388624514e-06
-                },
-                {
-                    "x": 5.0,
-                    "y": 2.6749595919382807e-13,
-                    "z": -1.7484554746260983e-06
-                },
-                {
-                    "x": 6.0,
-                    "y": 3.209951022434959e-13,
-                    "z": -2.0981462967029074e-06
-                },
-                {
-                    "x": 5.34991904835129e-14,
-                    "y": 1.0,
-                    "z": 3.059797393234476e-07
-                },
-                {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": -4.371138118131057e-08
-                },
-                {
-                    "x": 2.0,
-                    "y": 1.0,
-                    "z": -3.934025016860687e-07
-                },
-                {
-                    "x": 3.0,
-                    "y": 1.0,
-                    "z": -7.430934942931344e-07
-                },
-                {
-                    "x": 4.0,
-                    "y": 1.0,
-                    "z": -1.092784941647551e-06
-                },
-                {
-                    "x": 5.0,
-                    "y": 1.0,
-                    "z": -1.4424758774111979e-06
-                },
-                {
-                    "x": 6.0,
-                    "y": 1.0,
-                    "z": -1.792166699488007e-06
-                },
-                {
-                    "x": 1.069983809670258e-13,
-                    "y": 2.0,
-                    "z": 6.119594786468951e-07
-                },
-                {
-                    "x": 1.0,
-                    "y": 2.0,
-                    "z": 2.6226831550957286e-07
-                },
-                {
-                    "x": 2.0,
-                    "y": 2.0,
-                    "z": -8.742276236262114e-08
-                },
-                {
-                    "x": 3.0,
-                    "y": 2.0,
-                    "z": -4.371137265479774e-07
-                },
-                {
-                    "x": 4.0,
-                    "y": 2.0,
-                    "z": -7.868050033721374e-07
-                },
-                {
-                    "x": 5.0,
-                    "y": 2.0,
-                    "z": -1.136496052822622e-06
-                },
-                {
-                    "x": 6.0,
-                    "y": 2.0,
-                    "z": -1.4861869885862689e-06
-                }
-            ]
-        },
-        {
-            "blend": false,
-            "idx": 47,
-            "pos": {
-                "x": 108.0,
-                "y": 0.0,
-                "z": 37.0
-            },
-            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT5_4.png",
-            "type": 1,
-            "vertexCountX": 26,
-            "vertexCountZ": 3,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
-            "vertices": [
-                {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                {
-                    "x": -4.371138828673793e-08,
-                    "y": 1.3113415775478643e-07,
-                    "z": -1.0
-                },
-                {
-                    "x": -8.742277657347586e-08,
-                    "y": 2.6226831550957286e-07,
-                    "z": -2.0
-                },
-                {
-                    "x": -1.3113415775478643e-07,
-                    "y": 3.934024732643593e-07,
-                    "z": -3.0
-                },
-                {
-                    "x": -1.7484555314695172e-07,
-                    "y": 5.245366310191457e-07,
-                    "z": -4.0
-                },
-                {
-                    "x": -2.18556948539117e-07,
-                    "y": 6.556708740390604e-07,
-                    "z": -5.0
-                },
-                {
-                    "x": -2.6226831550957286e-07,
-                    "y": 7.868049465287186e-07,
-                    "z": -6.0
-                },
-                {
-                    "x": -3.0597971090173814e-07,
-                    "y": 9.179391327052144e-07,
-                    "z": -7.0
-                },
-                {
-                    "x": -3.4969110629390343e-07,
-                    "y": 1.0490732620382914e-06,
-                    "z": -8.0
-                },
-                {
-                    "x": -3.934025016860687e-07,
-                    "y": 1.1802075050582062e-06,
-                    "z": -9.0
-                },
-                {
-                    "x": -4.37113897078234e-07,
-                    "y": 1.3113417480781209e-06,
-                    "z": -10.0
-                },
-                {
-                    "x": -4.808252924703993e-07,
-                    "y": 1.4424758774111979e-06,
-                    "z": -11.0
-                },
-                {
-                    "x": -5.245366310191457e-07,
-                    "y": 1.5736098930574371e-06,
-                    "z": -12.0
-                },
-                {
-                    "x": -5.68248026411311e-07,
-                    "y": 1.7047441360773519e-06,
-                    "z": -13.0
-                },
-                {
-                    "x": -6.119594218034763e-07,
-                    "y": 1.8358782654104289e-06,
-                    "z": -14.0
-                },
-                {
-                    "x": -6.556708171956416e-07,
-                    "y": 1.967012394743506e-06,
-                    "z": -15.0
-                },
-                {
-                    "x": -6.993822125878069e-07,
-                    "y": 2.098146524076583e-06,
-                    "z": -16.0
-                },
-                {
-                    "x": -7.430936079799721e-07,
-                    "y": 2.2292808807833353e-06,
-                    "z": -17.0
-                },
-                {
-                    "x": -7.868050033721374e-07,
-                    "y": 2.3604150101164123e-06,
-                    "z": -18.0
-                },
-                {
-                    "x": -8.305163987643027e-07,
-                    "y": 2.4915491394494893e-06,
-                    "z": -19.0
-                },
-                {
-                    "x": -8.74227794156468e-07,
-                    "y": 2.6226834961562417e-06,
-                    "z": -20.0
-                },
-                {
-                    "x": -9.179391327052144e-07,
-                    "y": 2.7538173981156433e-06,
-                    "z": -21.0
-                },
-                {
-                    "x": -9.616505849407986e-07,
-                    "y": 2.8849517548223957e-06,
-                    "z": -22.0
-                },
-                {
-                    "x": -1.005361923489545e-06,
-                    "y": 3.0160858841554727e-06,
-                    "z": -23.0
-                },
-                {
-                    "x": -1.0490732620382914e-06,
-                    "y": 3.1472197861148743e-06,
-                    "z": -24.0
-                },
-                {
-                    "x": -1.0927847142738756e-06,
-                    "y": 3.2783541428216267e-06,
-                    "z": -25.0
-                },
-                {
-                    "x": 0.0,
-                    "y": 1.0,
-                    "z": 1.3113415775478643e-07
-                },
-                {
-                    "x": -4.371138828673793e-08,
-                    "y": 1.0,
-                    "z": -0.9999998211860657
-                },
-                {
-                    "x": -8.742277657347586e-08,
-                    "y": 1.0000003576278687,
-                    "z": -2.0
-                },
-                {
-                    "x": -1.3113415775478643e-07,
-                    "y": 1.0000003576278687,
-                    "z": -3.0
-                },
-                {
-                    "x": -1.7484555314695172e-07,
-                    "y": 1.0000003576278687,
-                    "z": -4.0
-                },
-                {
-                    "x": -2.18556948539117e-07,
-                    "y": 1.0000007152557373,
-                    "z": -5.0
-                },
-                {
-                    "x": -2.6226831550957286e-07,
-                    "y": 1.0000007152557373,
-                    "z": -6.0
-                },
-                {
-                    "x": -3.0597971090173814e-07,
-                    "y": 1.000001072883606,
-                    "z": -7.0
-                },
-                {
-                    "x": -3.4969110629390343e-07,
-                    "y": 1.000001072883606,
-                    "z": -8.0
-                },
-                {
-                    "x": -3.934025016860687e-07,
-                    "y": 1.000001072883606,
-                    "z": -9.0
-                },
-                {
-                    "x": -4.37113897078234e-07,
-                    "y": 1.0000014305114746,
-                    "z": -10.0
-                },
-                {
-                    "x": -4.808252924703993e-07,
-                    "y": 1.0000014305114746,
-                    "z": -11.0
-                },
-                {
-                    "x": -5.245366310191457e-07,
-                    "y": 1.0000014305114746,
-                    "z": -12.0
-                },
-                {
-                    "x": -5.68248026411311e-07,
-                    "y": 1.0000017881393433,
-                    "z": -13.0
-                },
-                {
-                    "x": -6.119594218034763e-07,
-                    "y": 1.0000017881393433,
-                    "z": -14.0
-                },
-                {
-                    "x": -6.556708171956416e-07,
-                    "y": 1.000002145767212,
-                    "z": -15.0
-                },
-                {
-                    "x": -6.993822125878069e-07,
-                    "y": 1.000002145767212,
-                    "z": -16.0
-                },
-                {
-                    "x": -7.430936079799721e-07,
-                    "y": 1.000002145767212,
-                    "z": -17.0
-                },
-                {
-                    "x": -7.868050033721374e-07,
-                    "y": 1.0000025033950806,
-                    "z": -18.0
-                },
-                {
-                    "x": -8.305163987643027e-07,
-                    "y": 1.0000025033950806,
-                    "z": -19.0
-                },
-                {
-                    "x": -8.74227794156468e-07,
-                    "y": 1.0000025033950806,
-                    "z": -20.0
-                },
-                {
-                    "x": -9.179391327052144e-07,
-                    "y": 1.0000028610229492,
-                    "z": -21.0
-                },
-                {
-                    "x": -9.616505849407986e-07,
-                    "y": 1.0000028610229492,
-                    "z": -22.0
-                },
-                {
-                    "x": -1.005361923489545e-06,
-                    "y": 1.0000028610229492,
-                    "z": -23.0
-                },
-                {
-                    "x": -1.0490732620382914e-06,
-                    "y": 1.0000032186508179,
-                    "z": -24.0
-                },
-                {
-                    "x": -1.0927847142738756e-06,
-                    "y": 1.0000032186508179,
-                    "z": -25.0
-                },
-                {
-                    "x": 0.0,
-                    "y": 2.0,
-                    "z": 2.6226831550957286e-07
-                },
-                {
-                    "x": -4.371138828673793e-08,
-                    "y": 2.0,
-                    "z": -0.9999998211860657
-                },
-                {
-                    "x": -8.742277657347586e-08,
-                    "y": 2.0,
-                    "z": -1.9999996423721313
-                },
-                {
-                    "x": -1.3113415775478643e-07,
-                    "y": 2.0000007152557373,
-                    "z": -3.0
-                },
-                {
-                    "x": -1.7484555314695172e-07,
-                    "y": 2.0000007152557373,
-                    "z": -4.0
-                },
-                {
-                    "x": -2.18556948539117e-07,
-                    "y": 2.0000007152557373,
-                    "z": -5.0
-                },
-                {
-                    "x": -2.6226831550957286e-07,
-                    "y": 2.0000007152557373,
-                    "z": -6.0
-                },
-                {
-                    "x": -3.0597971090173814e-07,
-                    "y": 2.0000007152557373,
-                    "z": -7.0
-                },
-                {
-                    "x": -3.4969110629390343e-07,
-                    "y": 2.0000007152557373,
-                    "z": -8.0
-                },
-                {
-                    "x": -3.934025016860687e-07,
-                    "y": 2.0000014305114746,
-                    "z": -9.0
-                },
-                {
-                    "x": -4.37113897078234e-07,
-                    "y": 2.0000014305114746,
-                    "z": -10.0
-                },
-                {
-                    "x": -4.808252924703993e-07,
-                    "y": 2.0000014305114746,
-                    "z": -11.0
-                },
-                {
-                    "x": -5.245366310191457e-07,
-                    "y": 2.0000014305114746,
-                    "z": -12.0
-                },
-                {
-                    "x": -5.68248026411311e-07,
-                    "y": 2.0000014305114746,
-                    "z": -13.0
-                },
-                {
-                    "x": -6.119594218034763e-07,
-                    "y": 2.000002145767212,
-                    "z": -14.0
-                },
-                {
-                    "x": -6.556708171956416e-07,
-                    "y": 2.000002145767212,
-                    "z": -15.0
-                },
-                {
-                    "x": -6.993822125878069e-07,
-                    "y": 2.000002145767212,
-                    "z": -16.0
-                },
-                {
-                    "x": -7.430936079799721e-07,
-                    "y": 2.000002145767212,
-                    "z": -17.0
-                },
-                {
-                    "x": -7.868050033721374e-07,
-                    "y": 2.000002145767212,
-                    "z": -18.0
-                },
-                {
-                    "x": -8.305163987643027e-07,
-                    "y": 2.000002145767212,
-                    "z": -19.0
-                },
-                {
-                    "x": -8.74227794156468e-07,
-                    "y": 2.000002861022949,
-                    "z": -20.0
-                },
-                {
-                    "x": -9.179391327052144e-07,
-                    "y": 2.000002861022949,
-                    "z": -21.0
-                },
-                {
-                    "x": -9.616505849407986e-07,
-                    "y": 2.000002861022949,
-                    "z": -22.0
-                },
-                {
-                    "x": -1.005361923489545e-06,
-                    "y": 2.000002861022949,
-                    "z": -23.0
-                },
-                {
-                    "x": -1.0490732620382914e-06,
-                    "y": 2.000002861022949,
-                    "z": -24.0
-                },
-                {
-                    "x": -1.0927847142738756e-06,
-                    "y": 2.0000035762786865,
-                    "z": -25.0
-                }
-            ]
-        },
-        {
-            "blend": false,
-            "idx": 48,
-            "pos": {
-                "x": 102.0,
-                "y": 0.0,
-                "z": 12.0
-            },
-            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT5_4.png",
-            "type": 1,
-            "vertexCountX": 3,
-            "vertexCountZ": 19,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
-            "vertices": [
-                {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                {
-                    "x": -2.18556948539117e-07,
-                    "y": 1.0,
-                    "z": 0.0
-                },
-                {
-                    "x": -4.37113897078234e-07,
-                    "y": 2.0,
-                    "z": 0.0
-                },
-                {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 1.0
-                },
-                {
-                    "x": -2.18556948539117e-07,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                {
-                    "x": -4.37113897078234e-07,
-                    "y": 2.0,
-                    "z": 1.0
-                },
-                {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 2.0
-                },
-                {
-                    "x": -2.18556948539117e-07,
-                    "y": 1.0,
-                    "z": 2.0
-                },
-                {
-                    "x": -4.37113897078234e-07,
-                    "y": 2.0,
-                    "z": 2.0
-                },
-                {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 3.0
-                },
-                {
-                    "x": -2.18556948539117e-07,
-                    "y": 1.0,
-                    "z": 3.0
-                },
-                {
-                    "x": -4.37113897078234e-07,
-                    "y": 2.0,
-                    "z": 3.0
-                },
-                {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 4.0
-                },
-                {
-                    "x": -2.18556948539117e-07,
-                    "y": 1.0,
-                    "z": 4.0
-                },
-                {
-                    "x": -4.37113897078234e-07,
-                    "y": 2.0,
-                    "z": 4.0
-                },
-                {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 5.0
-                },
-                {
-                    "x": -2.18556948539117e-07,
-                    "y": 1.0,
-                    "z": 5.0
-                },
-                {
-                    "x": -4.37113897078234e-07,
-                    "y": 2.0,
-                    "z": 5.0
-                },
-                {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 6.0
-                },
-                {
-                    "x": -2.18556948539117e-07,
-                    "y": 1.0,
-                    "z": 6.0
-                },
-                {
-                    "x": -4.37113897078234e-07,
-                    "y": 2.0,
-                    "z": 6.0
-                },
-                {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 7.0
-                },
-                {
-                    "x": -2.18556948539117e-07,
-                    "y": 1.0,
-                    "z": 7.0
-                },
-                {
-                    "x": -4.37113897078234e-07,
-                    "y": 2.0,
-                    "z": 7.0
-                },
-                {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 8.0
-                },
-                {
-                    "x": -2.18556948539117e-07,
-                    "y": 1.0,
-                    "z": 8.0
-                },
-                {
-                    "x": -4.37113897078234e-07,
-                    "y": 2.0,
-                    "z": 8.0
-                },
-                {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 9.0
-                },
-                {
-                    "x": -2.18556948539117e-07,
-                    "y": 1.0,
-                    "z": 9.0
-                },
-                {
-                    "x": -4.37113897078234e-07,
-                    "y": 2.0,
-                    "z": 9.0
-                },
-                {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 10.0
-                },
-                {
-                    "x": -2.18556948539117e-07,
-                    "y": 1.0,
-                    "z": 10.0
-                },
-                {
-                    "x": -4.37113897078234e-07,
-                    "y": 2.0,
-                    "z": 10.0
-                },
-                {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 11.0
-                },
-                {
-                    "x": -2.18556948539117e-07,
-                    "y": 1.0,
-                    "z": 11.0
-                },
-                {
-                    "x": -4.37113897078234e-07,
-                    "y": 2.0,
-                    "z": 11.0
-                },
-                {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 12.0
-                },
-                {
-                    "x": -2.18556948539117e-07,
-                    "y": 1.0,
-                    "z": 12.0
-                },
-                {
-                    "x": -4.37113897078234e-07,
-                    "y": 2.0,
-                    "z": 12.0
-                },
-                {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 13.0
-                },
-                {
-                    "x": -2.18556948539117e-07,
-                    "y": 1.0,
-                    "z": 13.0
-                },
-                {
-                    "x": -4.37113897078234e-07,
-                    "y": 2.0,
-                    "z": 13.0
-                },
-                {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 14.0
-                },
-                {
-                    "x": -2.18556948539117e-07,
-                    "y": 1.0,
-                    "z": 14.0
-                },
-                {
-                    "x": -4.37113897078234e-07,
-                    "y": 2.0,
-                    "z": 14.0
-                },
-                {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 15.0
-                },
-                {
-                    "x": -2.18556948539117e-07,
-                    "y": 1.0,
-                    "z": 15.0
-                },
-                {
-                    "x": -4.37113897078234e-07,
-                    "y": 2.0,
-                    "z": 15.0
-                },
-                {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 16.0
-                },
-                {
-                    "x": -2.18556948539117e-07,
-                    "y": 1.0,
-                    "z": 16.0
-                },
-                {
-                    "x": -4.37113897078234e-07,
-                    "y": 2.0,
-                    "z": 16.0
-                },
-                {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 17.0
-                },
-                {
-                    "x": -2.18556948539117e-07,
-                    "y": 1.0,
-                    "z": 17.0
-                },
-                {
-                    "x": -4.37113897078234e-07,
-                    "y": 2.0,
-                    "z": 17.0
-                },
-                {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 18.0
-                },
-                {
-                    "x": -2.18556948539117e-07,
-                    "y": 1.0,
-                    "z": 18.0
-                },
-                {
-                    "x": -4.37113897078234e-07,
-                    "y": 2.0,
-                    "z": 18.0
-                }
-            ]
-        },
-        {
-            "blend": false,
-            "idx": 49,
-            "pos": {
-                "x": 102.0,
-                "y": 0.0,
-                "z": 12.0
-            },
-            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT5_4.png",
-            "type": 1,
-            "vertexCountX": 7,
-            "vertexCountZ": 3,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexCountZ": 4,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -54716,7 +53882,7 @@
                 {
                     "x": 1.7484555314695172e-07,
                     "y": 1.0,
-                    "z": 1.3113415775478643e-07
+                    "z": 1.31134129333077e-07
                 },
                 {
                     "x": 1.0,
@@ -54751,12 +53917,12 @@
                 {
                     "x": 3.4969110629390343e-07,
                     "y": 2.0,
-                    "z": 2.6226831550957286e-07
+                    "z": 2.62268258666154e-07
                 },
                 {
                     "x": 1.0000004768371582,
                     "y": 2.0,
-                    "z": 8.742277657347586e-08
+                    "z": 8.742269130834757e-08
                 },
                 {
                     "x": 2.0,
@@ -54782,6 +53948,1135 @@
                     "x": 6.0,
                     "y": 1.9999990463256836,
                     "z": -7.868051170589752e-07
+                },
+                {
+                    "x": 5.245366310191457e-07,
+                    "y": 3.0,
+                    "z": 3.93402387999231e-07
+                },
+                {
+                    "x": 1.0000004768371582,
+                    "y": 3.0,
+                    "z": 2.1855683485227928e-07
+                },
+                {
+                    "x": 2.0000009536743164,
+                    "y": 3.0,
+                    "z": 4.3711196440199274e-08
+                },
+                {
+                    "x": 3.0000009536743164,
+                    "y": 2.9999990463256836,
+                    "z": -1.311344135501713e-07
+                },
+                {
+                    "x": 4.0,
+                    "y": 2.9999990463256836,
+                    "z": -3.0597982458857587e-07
+                },
+                {
+                    "x": 5.0,
+                    "y": 2.9999990463256836,
+                    "z": -4.80825406157237e-07
+                },
+                {
+                    "x": 6.0,
+                    "y": 2.9999990463256836,
+                    "z": -6.556708740390604e-07
+                }
+            ]
+        },
+        {
+            "blend": false,
+            "idx": 47,
+            "pos": {
+                "x": 108.0,
+                "y": 0.0,
+                "z": 37.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT5_4.png",
+            "type": 1,
+            "vertexCountX": 26,
+            "vertexCountZ": 4,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -3.4969113471561286e-07,
+                    "y": -4.3711370523169535e-08,
+                    "z": -1.0
+                },
+                {
+                    "x": -6.993822694312257e-07,
+                    "y": -8.742274104633907e-08,
+                    "z": -2.0
+                },
+                {
+                    "x": -1.0490731483514537e-06,
+                    "y": -1.3113411512222228e-07,
+                    "z": -3.0
+                },
+                {
+                    "x": -1.3987645388624514e-06,
+                    "y": -1.7484548209267814e-07,
+                    "z": -4.0
+                },
+                {
+                    "x": -1.7484554746260983e-06,
+                    "y": -2.185568632739887e-07,
+                    "z": -5.0
+                },
+                {
+                    "x": -2.0981462967029074e-06,
+                    "y": -2.6226823024444457e-07,
+                    "z": -6.0
+                },
+                {
+                    "x": -2.447837687213905e-06,
+                    "y": -3.059795972149004e-07,
+                    "z": -7.0
+                },
+                {
+                    "x": -2.797529077724903e-06,
+                    "y": -3.496909641853563e-07,
+                    "z": -8.0
+                },
+                {
+                    "x": -3.147219558741199e-06,
+                    "y": -3.9340235957752157e-07,
+                    "z": -9.0
+                },
+                {
+                    "x": -3.4969109492521966e-06,
+                    "y": -4.371137265479774e-07,
+                    "z": -10.0
+                },
+                {
+                    "x": -3.846602339763194e-06,
+                    "y": -4.808251219401427e-07,
+                    "z": -11.0
+                },
+                {
+                    "x": -4.196292593405815e-06,
+                    "y": -5.245364604888891e-07,
+                    "z": -12.0
+                },
+                {
+                    "x": -4.545984211290488e-06,
+                    "y": -5.682477990376356e-07,
+                    "z": -13.0
+                },
+                {
+                    "x": -4.89567537442781e-06,
+                    "y": -6.119591944298008e-07,
+                    "z": -14.0
+                },
+                {
+                    "x": -5.245366082817782e-06,
+                    "y": -6.556705898219661e-07,
+                    "z": -15.0
+                },
+                {
+                    "x": -5.595058155449806e-06,
+                    "y": -6.993819283707126e-07,
+                    "z": -16.0
+                },
+                {
+                    "x": -5.944748863839777e-06,
+                    "y": -7.430933806062967e-07,
+                    "z": -17.0
+                },
+                {
+                    "x": -6.294439117482398e-06,
+                    "y": -7.868047191550431e-07,
+                    "z": -18.0
+                },
+                {
+                    "x": -6.644131190114422e-06,
+                    "y": -8.305161145472084e-07,
+                    "z": -19.0
+                },
+                {
+                    "x": -6.993821898504393e-06,
+                    "y": -8.742274530959548e-07,
+                    "z": -20.0
+                },
+                {
+                    "x": -7.343513971136417e-06,
+                    "y": -9.179388484881201e-07,
+                    "z": -21.0
+                },
+                {
+                    "x": -7.693204679526389e-06,
+                    "y": -9.616502438802854e-07,
+                    "z": -22.0
+                },
+                {
+                    "x": -8.04289538791636e-06,
+                    "y": -1.0053615824290318e-06,
+                    "z": -23.0
+                },
+                {
+                    "x": -8.39258518681163e-06,
+                    "y": -1.0490729209777783e-06,
+                    "z": -24.0
+                },
+                {
+                    "x": -8.742277714191005e-06,
+                    "y": -1.0927842595265247e-06,
+                    "z": -25.0
+                },
+                {
+                    "x": 1.3113415775478643e-07,
+                    "y": 1.0,
+                    "z": -4.371141670844736e-08
+                },
+                {
+                    "x": -2.1855693432826229e-07,
+                    "y": 0.9999999403953552,
+                    "z": -1.0
+                },
+                {
+                    "x": -5.682480832547299e-07,
+                    "y": 0.9999999403953552,
+                    "z": -2.0
+                },
+                {
+                    "x": -9.179389621749579e-07,
+                    "y": 0.9999998807907104,
+                    "z": -3.0
+                },
+                {
+                    "x": -1.2676302958425367e-06,
+                    "y": 0.9999998211860657,
+                    "z": -4.0
+                },
+                {
+                    "x": -1.6173212316061836e-06,
+                    "y": 0.9999997615814209,
+                    "z": -5.0
+                },
+                {
+                    "x": -1.967012394743506e-06,
+                    "y": 0.9999997615814209,
+                    "z": -6.0
+                },
+                {
+                    "x": -2.3167037852545036e-06,
+                    "y": 0.9999997019767761,
+                    "z": -7.0
+                },
+                {
+                    "x": -2.6663951757655013e-06,
+                    "y": 0.9999996423721313,
+                    "z": -8.0
+                },
+                {
+                    "x": -3.016086111529148e-06,
+                    "y": 0.9999995827674866,
+                    "z": -9.0
+                },
+                {
+                    "x": -3.365777047292795e-06,
+                    "y": 0.9999995827674866,
+                    "z": -10.0
+                },
+                {
+                    "x": -3.7154684378037928e-06,
+                    "y": 0.9999995231628418,
+                    "z": -11.0
+                },
+                {
+                    "x": -4.065158009325387e-06,
+                    "y": 0.999999463558197,
+                    "z": -12.0
+                },
+                {
+                    "x": -4.41484962721006e-06,
+                    "y": 0.9999994039535522,
+                    "z": -13.0
+                },
+                {
+                    "x": -4.7645407903473824e-06,
+                    "y": 0.9999994039535522,
+                    "z": -14.0
+                },
+                {
+                    "x": -5.114231953484705e-06,
+                    "y": 0.9999993443489075,
+                    "z": -15.0
+                },
+                {
+                    "x": -5.463923571369378e-06,
+                    "y": 0.9999992847442627,
+                    "z": -16.0
+                },
+                {
+                    "x": -5.813614279759349e-06,
+                    "y": 0.9999992847442627,
+                    "z": -17.0
+                },
+                {
+                    "x": -6.163305442896672e-06,
+                    "y": 0.9999992251396179,
+                    "z": -18.0
+                },
+                {
+                    "x": -6.512996606033994e-06,
+                    "y": 0.9999991655349731,
+                    "z": -19.0
+                },
+                {
+                    "x": -6.862687314423965e-06,
+                    "y": 0.9999991059303284,
+                    "z": -20.0
+                },
+                {
+                    "x": -7.212379387055989e-06,
+                    "y": 0.9999991059303284,
+                    "z": -21.0
+                },
+                {
+                    "x": -7.562070095445961e-06,
+                    "y": 0.9999990463256836,
+                    "z": -22.0
+                },
+                {
+                    "x": -7.911761713330634e-06,
+                    "y": 0.9999989867210388,
+                    "z": -23.0
+                },
+                {
+                    "x": -8.261451512225904e-06,
+                    "y": 0.999998927116394,
+                    "z": -24.0
+                },
+                {
+                    "x": -8.611144039605279e-06,
+                    "y": 0.999998927116394,
+                    "z": -25.0
+                },
+                {
+                    "x": 2.6226831550957286e-07,
+                    "y": 2.0,
+                    "z": -8.742283341689472e-08
+                },
+                {
+                    "x": -8.742279788975793e-08,
+                    "y": 2.0,
+                    "z": -1.0000001192092896
+                },
+                {
+                    "x": -4.3711386865652457e-07,
+                    "y": 1.9999998807907104,
+                    "z": -2.0
+                },
+                {
+                    "x": -7.868048896852997e-07,
+                    "y": 1.9999998807907104,
+                    "z": -3.0
+                },
+                {
+                    "x": -1.1364961665094597e-06,
+                    "y": 1.9999998807907104,
+                    "z": -4.0
+                },
+                {
+                    "x": -1.4861871022731066e-06,
+                    "y": 1.999999761581421,
+                    "z": -5.0
+                },
+                {
+                    "x": -1.8358779243499157e-06,
+                    "y": 1.999999761581421,
+                    "z": -6.0
+                },
+                {
+                    "x": -2.1855692011740757e-06,
+                    "y": 1.9999996423721313,
+                    "z": -7.0
+                },
+                {
+                    "x": -2.5352605916850735e-06,
+                    "y": 1.9999996423721313,
+                    "z": -8.0
+                },
+                {
+                    "x": -2.8849515274487203e-06,
+                    "y": 1.9999996423721313,
+                    "z": -9.0
+                },
+                {
+                    "x": -3.234642463212367e-06,
+                    "y": 1.9999995231628418,
+                    "z": -10.0
+                },
+                {
+                    "x": -3.584333853723365e-06,
+                    "y": 1.9999995231628418,
+                    "z": -11.0
+                },
+                {
+                    "x": -3.934024789487012e-06,
+                    "y": 1.9999995231628418,
+                    "z": -12.0
+                },
+                {
+                    "x": -4.283716407371685e-06,
+                    "y": 1.9999994039535522,
+                    "z": -13.0
+                },
+                {
+                    "x": -4.633407570509007e-06,
+                    "y": 1.9999994039535522,
+                    "z": -14.0
+                },
+                {
+                    "x": -4.9830987336463295e-06,
+                    "y": 1.9999992847442627,
+                    "z": -15.0
+                },
+                {
+                    "x": -5.332790351531003e-06,
+                    "y": 1.9999992847442627,
+                    "z": -16.0
+                },
+                {
+                    "x": -5.682481059920974e-06,
+                    "y": 1.9999992847442627,
+                    "z": -17.0
+                },
+                {
+                    "x": -6.032172223058296e-06,
+                    "y": 1.9999991655349731,
+                    "z": -18.0
+                },
+                {
+                    "x": -6.381863386195619e-06,
+                    "y": 1.9999991655349731,
+                    "z": -19.0
+                },
+                {
+                    "x": -6.73155409458559e-06,
+                    "y": 1.9999991655349731,
+                    "z": -20.0
+                },
+                {
+                    "x": -7.081246167217614e-06,
+                    "y": 1.9999990463256836,
+                    "z": -21.0
+                },
+                {
+                    "x": -7.4309368756075855e-06,
+                    "y": 1.9999990463256836,
+                    "z": -22.0
+                },
+                {
+                    "x": -7.780626219755504e-06,
+                    "y": 1.9999990463256836,
+                    "z": -23.0
+                },
+                {
+                    "x": -8.130316018650774e-06,
+                    "y": 1.999998927116394,
+                    "z": -24.0
+                },
+                {
+                    "x": -8.480008546030149e-06,
+                    "y": 1.999998927116394,
+                    "z": -25.0
+                },
+                {
+                    "x": 3.934024732643593e-07,
+                    "y": 3.0,
+                    "z": -1.3113427144162415e-07
+                },
+                {
+                    "x": 4.3711338548746426e-08,
+                    "y": 3.0,
+                    "z": -1.0000001192092896
+                },
+                {
+                    "x": -3.05979767745157e-07,
+                    "y": 3.0,
+                    "z": -2.000000238418579
+                },
+                {
+                    "x": -6.556708740390604e-07,
+                    "y": 2.999999761581421,
+                    "z": -3.000000238418579
+                },
+                {
+                    "x": -1.0053620371763827e-06,
+                    "y": 2.999999761581421,
+                    "z": -4.0
+                },
+                {
+                    "x": -1.3550530866268673e-06,
+                    "y": 2.999999761581421,
+                    "z": -5.0
+                },
+                {
+                    "x": -1.7047441360773519e-06,
+                    "y": 2.999999761581421,
+                    "z": -6.0
+                },
+                {
+                    "x": -2.054435299214674e-06,
+                    "y": 2.999999761581421,
+                    "z": -7.0
+                },
+                {
+                    "x": -2.404126689725672e-06,
+                    "y": 2.999999761581421,
+                    "z": -8.0
+                },
+                {
+                    "x": -2.7538176254893187e-06,
+                    "y": 2.999999523162842,
+                    "z": -9.0
+                },
+                {
+                    "x": -3.1035085612529656e-06,
+                    "y": 2.999999523162842,
+                    "z": -10.0
+                },
+                {
+                    "x": -3.4531999517639633e-06,
+                    "y": 2.999999523162842,
+                    "z": -11.0
+                },
+                {
+                    "x": -3.802890205406584e-06,
+                    "y": 2.999999523162842,
+                    "z": -12.0
+                },
+                {
+                    "x": -4.152581823291257e-06,
+                    "y": 2.999999523162842,
+                    "z": -13.0
+                },
+                {
+                    "x": -4.502272986428579e-06,
+                    "y": 2.9999992847442627,
+                    "z": -14.0
+                },
+                {
+                    "x": -4.851964149565902e-06,
+                    "y": 2.9999992847442627,
+                    "z": -15.0
+                },
+                {
+                    "x": -5.201655767450575e-06,
+                    "y": 2.9999992847442627,
+                    "z": -16.0
+                },
+                {
+                    "x": -5.551346475840546e-06,
+                    "y": 2.9999992847442627,
+                    "z": -17.0
+                },
+                {
+                    "x": -5.9010376389778685e-06,
+                    "y": 2.9999992847442627,
+                    "z": -18.0
+                },
+                {
+                    "x": -6.250728802115191e-06,
+                    "y": 2.9999992847442627,
+                    "z": -19.0
+                },
+                {
+                    "x": -6.600419510505162e-06,
+                    "y": 2.9999990463256836,
+                    "z": -20.0
+                },
+                {
+                    "x": -6.950111583137186e-06,
+                    "y": 2.9999990463256836,
+                    "z": -21.0
+                },
+                {
+                    "x": -7.299802291527158e-06,
+                    "y": 2.9999990463256836,
+                    "z": -22.0
+                },
+                {
+                    "x": -7.649492545169778e-06,
+                    "y": 2.9999990463256836,
+                    "z": -23.0
+                },
+                {
+                    "x": -7.999182344065048e-06,
+                    "y": 2.9999990463256836,
+                    "z": -24.0
+                },
+                {
+                    "x": -8.348874871444423e-06,
+                    "y": 2.9999988079071045,
+                    "z": -25.0
+                }
+            ]
+        },
+        {
+            "blend": false,
+            "idx": 48,
+            "pos": {
+                "x": 102.0,
+                "y": 0.0,
+                "z": 12.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT5_4.png",
+            "type": 1,
+            "vertexCountX": 4,
+            "vertexCountZ": 19,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -2.1855697696082643e-07,
+                    "y": 1.0,
+                    "z": -1.7484555314695172e-07
+                },
+                {
+                    "x": -4.3711395392165286e-07,
+                    "y": 2.0,
+                    "z": -3.4969110629390343e-07
+                },
+                {
+                    "x": -6.556708740390604e-07,
+                    "y": 3.0,
+                    "z": -5.245366310191457e-07
+                },
+                {
+                    "x": 1.7484548209267814e-07,
+                    "y": 1.748456242012253e-07,
+                    "z": 1.0
+                },
+                {
+                    "x": -4.371142381387472e-08,
+                    "y": 1.0,
+                    "z": 0.9999997615814209
+                },
+                {
+                    "x": -2.622683723529917e-07,
+                    "y": 2.0,
+                    "z": 0.9999997615814209
+                },
+                {
+                    "x": -4.808252924703993e-07,
+                    "y": 3.0,
+                    "z": 0.9999995231628418
+                },
+                {
+                    "x": 3.496909641853563e-07,
+                    "y": 3.496912484024506e-07,
+                    "z": 2.0
+                },
+                {
+                    "x": 1.3113408670051285e-07,
+                    "y": 1.0000004768371582,
+                    "z": 2.0
+                },
+                {
+                    "x": -8.742284762774943e-08,
+                    "y": 2.0,
+                    "z": 1.9999995231628418
+                },
+                {
+                    "x": -3.05979767745157e-07,
+                    "y": 3.0,
+                    "z": 1.9999995231628418
+                },
+                {
+                    "x": 5.245366310191457e-07,
+                    "y": 5.245366310191457e-07,
+                    "z": 3.0
+                },
+                {
+                    "x": 3.059796540583193e-07,
+                    "y": 1.0000004768371582,
+                    "z": 3.0
+                },
+                {
+                    "x": 8.74225349889457e-08,
+                    "y": 2.0000009536743164,
+                    "z": 3.0
+                },
+                {
+                    "x": -1.3113445618273545e-07,
+                    "y": 3.0000009536743164,
+                    "z": 2.9999990463256836
+                },
+                {
+                    "x": 6.993819283707126e-07,
+                    "y": 6.993824968049012e-07,
+                    "z": 4.0
+                },
+                {
+                    "x": 4.808252356269804e-07,
+                    "y": 1.0000004768371582,
+                    "z": 4.0
+                },
+                {
+                    "x": 2.622681734010257e-07,
+                    "y": 2.0000009536743164,
+                    "z": 4.0
+                },
+                {
+                    "x": 4.371108275336155e-08,
+                    "y": 3.0000009536743164,
+                    "z": 3.9999990463256836
+                },
+                {
+                    "x": 8.742275099393737e-07,
+                    "y": 8.742280783735623e-07,
+                    "z": 5.0
+                },
+                {
+                    "x": 6.556705329785473e-07,
+                    "y": 1.0000009536743164,
+                    "z": 5.0
+                },
+                {
+                    "x": 4.371138118131057e-07,
+                    "y": 2.0000009536743164,
+                    "z": 5.0
+                },
+                {
+                    "x": 2.18556849063134e-07,
+                    "y": 3.0000009536743164,
+                    "z": 5.0
+                },
+                {
+                    "x": 1.0490732620382914e-06,
+                    "y": 1.0490732620382914e-06,
+                    "z": 6.0
+                },
+                {
+                    "x": 8.305160008603707e-07,
+                    "y": 1.0000009536743164,
+                    "z": 6.0
+                },
+                {
+                    "x": 6.119593081166386e-07,
+                    "y": 2.0000009536743164,
+                    "z": 6.0
+                },
+                {
+                    "x": 3.9340233115581213e-07,
+                    "y": 3.0000009536743164,
+                    "z": 6.0
+                },
+                {
+                    "x": 1.2239188436069526e-06,
+                    "y": 1.2239188436069526e-06,
+                    "z": 7.0
+                },
+                {
+                    "x": 1.0053615824290318e-06,
+                    "y": 1.0000014305114746,
+                    "z": 7.0
+                },
+                {
+                    "x": 7.868048896852997e-07,
+                    "y": 2.0000009536743164,
+                    "z": 7.0
+                },
+                {
+                    "x": 5.682477990376356e-07,
+                    "y": 3.0000009536743164,
+                    "z": 7.0
+                },
+                {
+                    "x": 1.3987638567414251e-06,
+                    "y": 1.3987649936098023e-06,
+                    "z": 8.0
+                },
+                {
+                    "x": 1.180207163997693e-06,
+                    "y": 1.0000014305114746,
+                    "z": 8.0
+                },
+                {
+                    "x": 9.616504712539609e-07,
+                    "y": 2.0000009536743164,
+                    "z": 8.0
+                },
+                {
+                    "x": 7.430933237628778e-07,
+                    "y": 3.0000009536743164,
+                    "z": 8.0
+                },
+                {
+                    "x": 1.5736094383100863e-06,
+                    "y": 1.5736105751784635e-06,
+                    "z": 9.0
+                },
+                {
+                    "x": 1.3550527455663541e-06,
+                    "y": 1.0000014305114746,
+                    "z": 9.0
+                },
+                {
+                    "x": 1.1364954843884334e-06,
+                    "y": 2.000001907348633,
+                    "z": 9.0
+                },
+                {
+                    "x": 9.179387916447013e-07,
+                    "y": 3.000001907348633,
+                    "z": 9.0
+                },
+                {
+                    "x": 1.7484550198787474e-06,
+                    "y": 1.7484561567471246e-06,
+                    "z": 10.0
+                },
+                {
+                    "x": 1.5298983271350153e-06,
+                    "y": 1.0000019073486328,
+                    "z": 10.0
+                },
+                {
+                    "x": 1.3113410659570945e-06,
+                    "y": 2.000001907348633,
+                    "z": 10.0
+                },
+                {
+                    "x": 1.0927843732133624e-06,
+                    "y": 3.000001907348633,
+                    "z": 10.0
+                },
+                {
+                    "x": 1.923301169881597e-06,
+                    "y": 1.923301169881597e-06,
+                    "z": 11.0
+                },
+                {
+                    "x": 1.7047439087036764e-06,
+                    "y": 1.0000019073486328,
+                    "z": 11.0
+                },
+                {
+                    "x": 1.4861866475257557e-06,
+                    "y": 2.000001907348633,
+                    "z": 11.0
+                },
+                {
+                    "x": 1.2676299547820236e-06,
+                    "y": 3.000001907348633,
+                    "z": 11.0
+                },
+                {
+                    "x": 2.098146524076583e-06,
+                    "y": 2.098146524076583e-06,
+                    "z": 12.0
+                },
+                {
+                    "x": 1.8795892628986621e-06,
+                    "y": 1.0000019073486328,
+                    "z": 12.0
+                },
+                {
+                    "x": 1.6610320017207414e-06,
+                    "y": 2.000001907348633,
+                    "z": 12.0
+                },
+                {
+                    "x": 1.442475422663847e-06,
+                    "y": 3.000001907348633,
+                    "z": 12.0
+                },
+                {
+                    "x": 2.272992105645244e-06,
+                    "y": 2.272992105645244e-06,
+                    "z": 13.0
+                },
+                {
+                    "x": 2.0544348444673233e-06,
+                    "y": 1.000002384185791,
+                    "z": 13.0
+                },
+                {
+                    "x": 1.8358775832894025e-06,
+                    "y": 2.000001907348633,
+                    "z": 13.0
+                },
+                {
+                    "x": 1.6173208905456704e-06,
+                    "y": 3.000001907348633,
+                    "z": 13.0
+                },
+                {
+                    "x": 2.447837687213905e-06,
+                    "y": 2.447837687213905e-06,
+                    "z": 14.0
+                },
+                {
+                    "x": 2.2292804260359844e-06,
+                    "y": 1.000002384185791,
+                    "z": 14.0
+                },
+                {
+                    "x": 2.0107231648580637e-06,
+                    "y": 2.000002861022949,
+                    "z": 14.0
+                },
+                {
+                    "x": 1.7921660173669807e-06,
+                    "y": 3.000002861022949,
+                    "z": 14.0
+                },
+                {
+                    "x": 2.622682131914189e-06,
+                    "y": 2.6226844056509435e-06,
+                    "z": 15.0
+                },
+                {
+                    "x": 2.4041260076046456e-06,
+                    "y": 1.0000028610229492,
+                    "z": 15.0
+                },
+                {
+                    "x": 2.185568746426725e-06,
+                    "y": 2.000002861022949,
+                    "z": 15.0
+                },
+                {
+                    "x": 1.967011485248804e-06,
+                    "y": 3.000002861022949,
+                    "z": 15.0
+                },
+                {
+                    "x": 2.7975277134828502e-06,
+                    "y": 2.7975299872196047e-06,
+                    "z": 16.0
+                },
+                {
+                    "x": 2.5789715891733067e-06,
+                    "y": 1.0000028610229492,
+                    "z": 16.0
+                },
+                {
+                    "x": 2.360414327995386e-06,
+                    "y": 2.000002861022949,
+                    "z": 16.0
+                },
+                {
+                    "x": 2.1418570668174652e-06,
+                    "y": 3.000002861022949,
+                    "z": 16.0
+                },
+                {
+                    "x": 2.9723732950515114e-06,
+                    "y": 2.972375568788266e-06,
+                    "z": 17.0
+                },
+                {
+                    "x": 2.753817170741968e-06,
+                    "y": 1.0000028610229492,
+                    "z": 17.0
+                },
+                {
+                    "x": 2.535259909564047e-06,
+                    "y": 2.000002861022949,
+                    "z": 17.0
+                },
+                {
+                    "x": 2.3167026483861264e-06,
+                    "y": 3.000002861022949,
+                    "z": 17.0
+                },
+                {
+                    "x": 3.1472188766201725e-06,
+                    "y": 3.147221150356927e-06,
+                    "z": 18.0
+                },
+                {
+                    "x": 2.928662752310629e-06,
+                    "y": 1.0000033378601074,
+                    "z": 18.0
+                },
+                {
+                    "x": 2.7101054911327083e-06,
+                    "y": 2.000002861022949,
+                    "z": 18.0
+                },
+                {
+                    "x": 2.4915482299547875e-06,
+                    "y": 3.000002861022949,
+                    "z": 18.0
+                }
+            ]
+        },
+        {
+            "blend": false,
+            "idx": 49,
+            "pos": {
+                "x": 102.0,
+                "y": 0.0,
+                "z": 12.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Flat/FLAT5_4.png",
+            "type": 1,
+            "vertexCountX": 7,
+            "vertexCountZ": 4,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": 1.0,
+                    "y": -1.7484555314695172e-07,
+                    "z": -5.34991904835129e-14
+                },
+                {
+                    "x": 2.0,
+                    "y": -3.4969110629390343e-07,
+                    "z": -1.069983809670258e-13
+                },
+                {
+                    "x": 3.0,
+                    "y": -5.245366310191457e-07,
+                    "z": -1.6049756467427512e-13
+                },
+                {
+                    "x": 4.0,
+                    "y": -6.993822125878069e-07,
+                    "z": -2.139967619340516e-13
+                },
+                {
+                    "x": 5.0,
+                    "y": -8.74227794156468e-07,
+                    "z": -2.674959862988824e-13
+                },
+                {
+                    "x": 6.0,
+                    "y": -1.0490732620382914e-06,
+                    "z": -3.2099512934855023e-13
+                },
+                {
+                    "x": 1.7484555314695172e-07,
+                    "y": 1.0,
+                    "z": 3.059797393234476e-07
+                },
+                {
+                    "x": 1.0,
+                    "y": 0.9999997615814209,
+                    "z": 3.0597962563660985e-07
+                },
+                {
+                    "x": 2.0,
+                    "y": 0.9999997615814209,
+                    "z": 3.0597962563660985e-07
+                },
+                {
+                    "x": 3.0,
+                    "y": 0.9999995231628418,
+                    "z": 3.05979568793191e-07
+                },
+                {
+                    "x": 4.0,
+                    "y": 0.9999992847442627,
+                    "z": 3.0597951194977213e-07
+                },
+                {
+                    "x": 5.0,
+                    "y": 0.9999990463256836,
+                    "z": 3.059793982629344e-07
+                },
+                {
+                    "x": 6.0,
+                    "y": 0.9999990463256836,
+                    "z": 3.059793982629344e-07
+                },
+                {
+                    "x": 3.4969110629390343e-07,
+                    "y": 2.0,
+                    "z": 6.119594786468951e-07
+                },
+                {
+                    "x": 1.0000004768371582,
+                    "y": 2.0,
+                    "z": 6.119594786468951e-07
+                },
+                {
+                    "x": 2.0,
+                    "y": 1.9999995231628418,
+                    "z": 6.119592512732197e-07
+                },
+                {
+                    "x": 3.0,
+                    "y": 1.9999995231628418,
+                    "z": 6.119592512732197e-07
+                },
+                {
+                    "x": 4.0,
+                    "y": 1.9999995231628418,
+                    "z": 6.119592512732197e-07
+                },
+                {
+                    "x": 5.0,
+                    "y": 1.9999990463256836,
+                    "z": 6.11959137586382e-07
+                },
+                {
+                    "x": 6.0,
+                    "y": 1.9999990463256836,
+                    "z": 6.11959137586382e-07
+                },
+                {
+                    "x": 5.245366310191457e-07,
+                    "y": 3.0,
+                    "z": 9.179390190183767e-07
+                },
+                {
+                    "x": 1.0000004768371582,
+                    "y": 3.0,
+                    "z": 9.179390190183767e-07
+                },
+                {
+                    "x": 2.0000009536743164,
+                    "y": 3.0,
+                    "z": 9.179390190183767e-07
+                },
+                {
+                    "x": 3.0000009536743164,
+                    "y": 2.9999990463256836,
+                    "z": 9.17938905331539e-07
+                },
+                {
+                    "x": 4.0,
+                    "y": 2.9999990463256836,
+                    "z": 9.17938905331539e-07
+                },
+                {
+                    "x": 5.0,
+                    "y": 2.9999990463256836,
+                    "z": 9.17938905331539e-07
+                },
+                {
+                    "x": 6.0,
+                    "y": 2.9999990463256836,
+                    "z": 9.17938905331539e-07
                 }
             ]
         },
@@ -54790,16 +55085,16 @@
             "idx": 50,
             "pos": {
                 "x": 102.0,
-                "y": 2.0,
+                "y": 3.0,
                 "z": 37.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W31_1.png",
             "type": 1,
             "vertexCountX": 7,
             "vertexCountZ": 3,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -54920,9 +55215,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -54951,16 +55246,16 @@
             "idx": 52,
             "pos": {
                 "x": 108.0,
-                "y": 2.0,
+                "y": 3.0,
                 "z": 12.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W31_1.png",
             "type": 1,
             "vertexCountX": 3,
             "vertexCountZ": 28,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -55389,16 +55684,16 @@
             "idx": 53,
             "pos": {
                 "x": 100.0,
-                "y": 2.0,
+                "y": 3.0,
                 "z": 10.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W31_1.png",
             "type": 1,
             "vertexCountX": 11,
             "vertexCountZ": 3,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -55572,16 +55867,16 @@
             "idx": 54,
             "pos": {
                 "x": 100.0,
-                "y": 2.0,
+                "y": 3.0,
                 "z": 12.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W31_1.png",
             "type": 1,
             "vertexCountX": 3,
             "vertexCountZ": 19,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -55871,20 +56166,20 @@
             ]
         },
         {
-            "blend": false,
+            "blend": true,
             "idx": 55,
             "pos": {
                 "x": 100.0,
-                "y": 2.0,
+                "y": 3.0,
                 "z": 10.0
             },
             "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Wall/W111_3.png",
             "type": 1,
             "vertexCountX": 3,
             "vertexCountZ": 21,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -56215,9 +56510,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 25,
-            "vertexIntervalY": 25,
-            "vertexIntervalZ": 25,
+            "vertexIntervalX": 25.0,
+            "vertexIntervalY": 25.0,
+            "vertexIntervalZ": 25.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -56253,9 +56548,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 25,
-            "vertexIntervalY": 25,
-            "vertexIntervalZ": 25,
+            "vertexIntervalX": 25.0,
+            "vertexIntervalY": 25.0,
+            "vertexIntervalZ": 25.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -56291,9 +56586,9 @@
             "type": 1,
             "vertexCountX": 6,
             "vertexCountZ": 21,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -56939,9 +57234,9 @@
             "type": 1,
             "vertexCountX": 6,
             "vertexCountZ": 21,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -57587,9 +57882,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -57625,9 +57920,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 9,
-            "vertexIntervalY": 9,
-            "vertexIntervalZ": 9,
+            "vertexIntervalX": 9.0,
+            "vertexIntervalY": 9.0,
+            "vertexIntervalZ": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -57663,9 +57958,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 9,
-            "vertexIntervalY": 9,
-            "vertexIntervalZ": 9,
+            "vertexIntervalX": 9.0,
+            "vertexIntervalY": 9.0,
+            "vertexIntervalZ": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -57701,9 +57996,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 9,
-            "vertexIntervalY": 9,
-            "vertexIntervalZ": 9,
+            "vertexIntervalX": 9.0,
+            "vertexIntervalY": 9.0,
+            "vertexIntervalZ": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -57739,9 +58034,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 9,
-            "vertexIntervalY": 9,
-            "vertexIntervalZ": 9,
+            "vertexIntervalX": 9.0,
+            "vertexIntervalY": 9.0,
+            "vertexIntervalZ": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -57777,9 +58072,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 9,
-            "vertexIntervalY": 9,
-            "vertexIntervalZ": 9,
+            "vertexIntervalX": 9.0,
+            "vertexIntervalY": 9.0,
+            "vertexIntervalZ": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -57815,9 +58110,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 9,
-            "vertexIntervalY": 9,
-            "vertexIntervalZ": 9,
+            "vertexIntervalX": 9.0,
+            "vertexIntervalY": 9.0,
+            "vertexIntervalZ": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -57853,9 +58148,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 9,
-            "vertexIntervalY": 9,
-            "vertexIntervalZ": 9,
+            "vertexIntervalX": 9.0,
+            "vertexIntervalY": 9.0,
+            "vertexIntervalZ": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -57891,9 +58186,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 9,
-            "vertexIntervalY": 9,
-            "vertexIntervalZ": 9,
+            "vertexIntervalX": 9.0,
+            "vertexIntervalY": 9.0,
+            "vertexIntervalZ": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -57929,9 +58224,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 9,
-            "vertexIntervalY": 9,
-            "vertexIntervalZ": 9,
+            "vertexIntervalX": 9.0,
+            "vertexIntervalY": 9.0,
+            "vertexIntervalZ": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -57967,9 +58262,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 9,
-            "vertexIntervalY": 9,
-            "vertexIntervalZ": 9,
+            "vertexIntervalX": 9.0,
+            "vertexIntervalY": 9.0,
+            "vertexIntervalZ": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -58005,9 +58300,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 9,
-            "vertexIntervalY": 9,
-            "vertexIntervalZ": 9,
+            "vertexIntervalX": 9.0,
+            "vertexIntervalY": 9.0,
+            "vertexIntervalZ": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -58043,9 +58338,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 9,
-            "vertexIntervalY": 9,
-            "vertexIntervalZ": 9,
+            "vertexIntervalX": 9.0,
+            "vertexIntervalY": 9.0,
+            "vertexIntervalZ": 9.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -58081,9 +58376,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -58209,9 +58504,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -58337,9 +58632,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -58465,9 +58760,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -58593,9 +58888,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -58721,9 +59016,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -58849,9 +59144,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -58977,9 +59272,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -59105,9 +59400,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -59233,9 +59528,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -59361,9 +59656,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -59489,9 +59784,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 11,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -59617,9 +59912,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -59655,9 +59950,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -59693,9 +59988,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -59731,9 +60026,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -59769,9 +60064,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 7,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -59857,9 +60152,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 6,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -59935,9 +60230,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 5,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -60003,9 +60298,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 4,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -60061,9 +60356,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 3,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -60109,9 +60404,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -60147,9 +60442,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -60185,9 +60480,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 3,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -60233,9 +60528,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 4,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -60291,9 +60586,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 5,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -60359,9 +60654,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 6,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -60437,9 +60732,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 7,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -60525,9 +60820,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 4,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -60603,9 +60898,9 @@
             "type": 1,
             "vertexCountX": 3,
             "vertexCountZ": 4,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -60681,9 +60976,9 @@
             "type": 0,
             "vertexCountX": 3,
             "vertexCountZ": 4,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -60759,9 +61054,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -62255,9 +62550,9 @@
             "type": 0,
             "vertexCountX": 16,
             "vertexCountZ": 11,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -64371,9 +64666,9 @@
             "type": 0,
             "vertexCountX": 8,
             "vertexCountZ": 8,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -64709,9 +65004,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 7,
-            "vertexIntervalY": 7,
-            "vertexIntervalZ": 7,
+            "vertexIntervalX": 7.0,
+            "vertexIntervalY": 7.0,
+            "vertexIntervalZ": 7.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -64785,9 +65080,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 7,
-            "vertexIntervalY": 7,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 7.0,
+            "vertexIntervalY": 7.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -64823,9 +65118,9 @@
             "type": 0,
             "vertexCountX": 19,
             "vertexCountZ": 12,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -65981,9 +66276,9 @@
             "type": 0,
             "vertexCountX": 12,
             "vertexCountZ": 7,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -66419,9 +66714,9 @@
             "type": 2,
             "vertexCountX": 21,
             "vertexCountZ": 48,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -71477,9 +71772,9 @@
             "type": 2,
             "vertexCountX": 21,
             "vertexCountZ": 48,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -76535,9 +76830,9 @@
             "type": 2,
             "vertexCountX": 26,
             "vertexCountZ": 16,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -78633,9 +78928,9 @@
             "type": 2,
             "vertexCountX": 9,
             "vertexCountZ": 33,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -80136,9 +80431,9 @@
             "type": 0,
             "vertexCountX": 16,
             "vertexCountZ": 8,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -80794,9 +81089,9 @@
             "type": 2,
             "vertexCountX": 9,
             "vertexCountZ": 8,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -81172,9 +81467,9 @@
             "type": 0,
             "vertexCountX": 4,
             "vertexCountZ": 2,
-            "vertexIntervalX": 15,
-            "vertexIntervalY": 15,
-            "vertexIntervalZ": 15,
+            "vertexIntervalX": 15.0,
+            "vertexIntervalY": 15.0,
+            "vertexIntervalZ": 15.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -81230,9 +81525,9 @@
             "type": 0,
             "vertexCountX": 47,
             "vertexCountZ": 24,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -86888,9 +87183,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -88224,9 +88519,9 @@
             "type": 1,
             "vertexCountX": 15,
             "vertexCountZ": 12,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -89142,9 +89437,9 @@
             "type": 1,
             "vertexCountX": 11,
             "vertexCountZ": 7,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -92351,9 +92646,9 @@
             "type": 1,
             "vertexCountX": 18,
             "vertexCountZ": 15,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -94342,9 +94637,9 @@
             "type": 1,
             "vertexCountX": 13,
             "vertexCountZ": 8,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -94880,9 +95175,9 @@
             "type": 1,
             "vertexCountX": 8,
             "vertexCountZ": 12,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -95378,9 +95673,9 @@
             "type": 1,
             "vertexCountX": 19,
             "vertexCountZ": 8,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -96156,9 +96451,9 @@
             "type": 2,
             "vertexCountX": 8,
             "vertexCountZ": 8,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -96494,9 +96789,9 @@
             "type": 2,
             "vertexCountX": 19,
             "vertexCountZ": 12,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -100876,9 +101171,9 @@
             "type": 1,
             "vertexCountX": 11,
             "vertexCountZ": 9,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -101389,9 +101684,9 @@
             "type": 0,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -101427,9 +101722,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 6,
-            "vertexIntervalY": 20,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 6.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -101465,9 +101760,9 @@
             "type": 1,
             "vertexCountX": 10,
             "vertexCountZ": 3,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -101633,9 +101928,9 @@
             "type": 1,
             "vertexCountX": 4,
             "vertexCountZ": 3,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -101711,9 +102006,9 @@
             "type": 1,
             "vertexCountX": 8,
             "vertexCountZ": 15,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -102329,9 +102624,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 7,
-            "vertexIntervalY": 7,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 7.0,
+            "vertexIntervalY": 7.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -102367,9 +102662,9 @@
             "type": 1,
             "vertexCountX": 6,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -102445,9 +102740,9 @@
             "type": 1,
             "vertexCountX": 6,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -102523,9 +102818,9 @@
             "type": 1,
             "vertexCountX": 3,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -102571,9 +102866,9 @@
             "type": 1,
             "vertexCountX": 3,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -102619,9 +102914,9 @@
             "type": 1,
             "vertexCountX": 3,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -102667,9 +102962,9 @@
             "type": 1,
             "vertexCountX": 3,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -102715,9 +103010,9 @@
             "type": 1,
             "vertexCountX": 6,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -102793,9 +103088,9 @@
             "type": 1,
             "vertexCountX": 6,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -102871,9 +103166,9 @@
             "type": 1,
             "vertexCountX": 46,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -103349,9 +103644,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 14,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -103507,9 +103802,9 @@
             "type": 1,
             "vertexCountX": 15,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -103675,9 +103970,9 @@
             "type": 1,
             "vertexCountX": 9,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -103783,9 +104078,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 10,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -103901,9 +104196,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 10,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -104019,9 +104314,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 13,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -104167,9 +104462,9 @@
             "type": 1,
             "vertexCountX": 9,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 1,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 1.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -104275,9 +104570,9 @@
             "type": 2,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 7,
-            "vertexIntervalY": 1,
-            "vertexIntervalZ": 7,
+            "vertexIntervalX": 7.0,
+            "vertexIntervalY": 1.0,
+            "vertexIntervalZ": 7.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -104313,9 +104608,9 @@
             "type": 1,
             "vertexCountX": 2,
             "vertexCountZ": 2,
-            "vertexIntervalX": 1,
-            "vertexIntervalY": 7,
-            "vertexIntervalZ": 7,
+            "vertexIntervalX": 1.0,
+            "vertexIntervalY": 7.0,
+            "vertexIntervalZ": 7.0,
             "vertices": [
                 {
                     "x": 0.0,
@@ -104340,6 +104635,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 163,
             "pos": {
                 "x": 24.0,
@@ -104677,6 +104973,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 164,
             "pos": {
                 "x": 87.0,
@@ -105294,6 +105591,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 165,
             "pos": {
                 "x": 87.0,
@@ -105536,6 +105834,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 166,
             "pos": {
                 "x": 39.0,
@@ -106158,6 +106457,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 167,
             "pos": {
                 "x": 39.0,
@@ -106285,6 +106585,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 168,
             "pos": {
                 "x": 39.0,
@@ -106352,6 +106653,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 169,
             "pos": {
                 "x": 85.0,
@@ -108049,6 +108351,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 170,
             "pos": {
                 "x": 85.0,
@@ -109746,6 +110049,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 171,
             "pos": {
                 "x": 85.0,
@@ -111443,6 +111747,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 172,
             "pos": {
                 "x": 85.0,
@@ -112340,6 +112645,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 173,
             "pos": {
                 "x": 85.0,
@@ -112377,6 +112683,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 174,
             "pos": {
                 "x": 100.0,
@@ -112414,6 +112721,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 175,
             "pos": {
                 "x": 100.0,
@@ -112451,6 +112759,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 176,
             "pos": {
                 "x": 110.0,
@@ -112488,6 +112797,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 177,
             "pos": {
                 "x": 110.0,
@@ -112525,6 +112835,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 178,
             "pos": {
                 "x": 100.0,
@@ -114247,6 +114558,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 179,
             "pos": {
                 "x": 100.0,
@@ -115969,6 +116281,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 180,
             "pos": {
                 "x": 110.0,
@@ -116006,6 +116319,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 181,
             "pos": {
                 "x": 110.0,
@@ -116043,6 +116357,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 182,
             "pos": {
                 "x": 100.0,
@@ -116080,6 +116395,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 183,
             "pos": {
                 "x": 100.0,
@@ -116117,6 +116433,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 184,
             "pos": {
                 "x": 110.0,
@@ -116154,6 +116471,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 185,
             "pos": {
                 "x": 110.0,
@@ -116776,6 +117094,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 186,
             "pos": {
                 "x": 110.0,
@@ -117398,6 +117717,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 187,
             "pos": {
                 "x": 120.0,
@@ -117435,6 +117755,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 188,
             "pos": {
                 "x": 130.0,
@@ -117456,22 +117777,23 @@
                 },
                 {
                     "x": -1.0,
-                    "y": 8.74227694680485e-08,
-                    "z": -1.7484558156866115e-07
+                    "y": 8.74228689440315e-08,
+                    "z": -3.496911631373223e-07
                 },
                 {
                     "x": -8.74227694680485e-08,
                     "y": -1.0,
-                    "z": 1.3113410091136757e-07
+                    "z": -2.185570338042453e-07
                 },
                 {
                     "x": -0.9999998807907104,
                     "y": -0.9999998807907104,
-                    "z": -4.371142381387472e-08
+                    "z": -5.682480832547299e-07
                 }
             ]
         },
         {
+            "blend": false,
             "idx": 189,
             "pos": {
                 "x": 130.0,
@@ -117509,6 +117831,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 190,
             "pos": {
                 "x": 130.0,
@@ -117546,6 +117869,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 191,
             "pos": {
                 "x": 120.0,
@@ -117583,6 +117907,7 @@
             ]
         },
         {
+            "blend": false,
             "idx": 192,
             "pos": {
                 "x": 120.0,
@@ -117604,22 +117929,23 @@
                 },
                 {
                     "x": 1.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "y": 1.7484555314695172e-07,
+                    "z": -3.4969113471561286e-07
                 },
                 {
-                    "x": 0.0,
-                    "y": 0.0,
+                    "x": 3.496911915590317e-07,
+                    "y": -1.7484549630353285e-07,
                     "z": 1.0
                 },
                 {
                     "x": 1.0,
-                    "y": 0.0,
-                    "z": 1.0
+                    "y": 7.105427357601002e-15,
+                    "z": 0.9999995231628418
                 }
             ]
         },
         {
+            "blend": false,
             "idx": 193,
             "pos": {
                 "x": 120.0,
@@ -117653,6 +117979,44 @@
                     "x": -4.3711427366588396e-08,
                     "y": -0.9999998211860657,
                     "z": 0.9999999403953552
+                }
+            ]
+        },
+        {
+            "blend": true,
+            "idx": 194,
+            "pos": {
+                "x": 119.0,
+                "y": 20.0,
+                "z": 33.0
+            },
+            "strTextureTag": "../../Client/Resource/Texture/DoomTex/Terrain/Obstacles/TRE2A0.png",
+            "type": 0,
+            "vertexCountX": 2,
+            "vertexCountZ": 2,
+            "vertexIntervalX": 20.0,
+            "vertexIntervalY": 20.0,
+            "vertexIntervalZ": 20.0,
+            "vertices": [
+                {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                {
+                    "x": -0.8191525340080261,
+                    "y": 8.742278509998869e-07,
+                    "z": 0.5735768675804138
+                },
+                {
+                    "x": -1.2426343118931982e-06,
+                    "y": -1.0,
+                    "z": -2.504955602944392e-07
+                },
+                {
+                    "x": -0.8191531300544739,
+                    "y": -0.9999988079071045,
+                    "z": 0.573576033115387
                 }
             ]
         }

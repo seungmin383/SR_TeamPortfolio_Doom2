@@ -125,11 +125,11 @@ vector<fs::path> CFileManager::GetListChildDir()
 	return result;
 }
 
-void CFileManager::SaveTerrain(fs::path path, string filename, vector<TerrainModelMod> datas)
+void CFileManager::SaveTerrain(fs::path path, string filename, vector<TerrainModel> datas)
 {
 	MoveProjectDir();
 
-	TerrainModelsMod dataSet;
+	TerrainModels dataSet;
 	dataSet.model = datas;
 
 	auto a = path.string() + "/" + filename;

@@ -795,10 +795,9 @@ void CControlPanel::SaveTerrain(fs::path path, string filename)
 
 	for (auto terraininfo : tControlInfo)
 	{
-		//TerrainModel model;
-		TerrainModelMod model;
+		TerrainModel model;
 		model.idx = terraininfo.terrainIdx;
-		model.blend = false;
+		model.blend = terraininfo.blend;
 		model.type = (int)terraininfo.info;
 		model.pos = terraininfo.pos;
 		model.strTextureTag = fs::relative(terraininfo.currentTextureTag, basePath).relative_path().generic_string();
@@ -809,11 +808,10 @@ void CControlPanel::SaveTerrain(fs::path path, string filename)
 		model.vertexIntervalY = terraininfo.vertexIntervalY;
 		model.vertices = terraininfo.vertices;
 
-		//vecTerrainInfos.push_back(model);
-		vecTerrainInfosMod.push_back(model);
+		vecTerrainInfos.push_back(model);
 	}
 
-	CFileManager::GetInstance()->SaveTerrain(path, filename, vecTerrainInfosMod);
+	CFileManager::GetInstance()->SaveTerrain(path, filename, vecTerrainInfos);
 
 	CFileManager::GetInstance()->MoveDir(prevPath);
 
@@ -836,7 +834,7 @@ void CControlPanel::LoadTerrain(int sceneNumber)
 	{
 		tCachingControlInfo.info = (TILEINFO)m.type;
 		tCachingControlInfo.terrainIdx = m.idx;
-		tCachingControlInfo.blend = false;
+		tCachingControlInfo.blend = m.blend;
 		tCachingControlInfo.pos = m.pos;
 		tCachingControlInfo.currentTextureTag = m.strTextureTag;
 		tCachingControlInfo.vertexXCnt = m.vertexCountX;

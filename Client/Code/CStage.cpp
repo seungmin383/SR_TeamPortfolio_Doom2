@@ -182,7 +182,8 @@ HRESULT CStage::Load_PreSet()
 			m.vertices,
 			m.strTextureTag,
 			m.pos,
-			objid);
+			objid,
+			m.blend);
 	}
 
 	//오브젝트 설치

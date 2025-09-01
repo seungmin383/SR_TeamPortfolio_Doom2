@@ -5,9 +5,6 @@
 #include "CTextureManager.h"
 #include "CTextureExplorer.h"
 
-#include "../../Engine/Include/TerrainModelMod.h"
-#include "../../Engine/Include/TerrainModelsMod.h"
-
 #include "CTerrainSector.h"
 
 #ifdef new
@@ -117,7 +114,6 @@ private:
     _int                            curTileIdx;
 
     vector<TerrainModel>            vecTerrainInfos;
-    vector<TerrainModelMod>            vecTerrainInfosMod;
 
     //수정 목적으로 보관
     vector<CTerrainSector*>          vecSector;

@@ -157,7 +157,8 @@ HRESULT CStage3::Load_PreSet()
 			m.vertices,
 			m.strTextureTag,
 			m.pos,
-			objid);
+			objid,
+			m.blend);
 
 		ConnectDoorSwitchByLinkId();
 	}
