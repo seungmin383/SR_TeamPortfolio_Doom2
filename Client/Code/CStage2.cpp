@@ -68,6 +68,7 @@ HRESULT CStage2::Ready_Scene()
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_ENEMY);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_ITEM);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_OBJECT);
+	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_BULLET, OBJID::OBJ_OBJECT);
 
 	// 진행 시간 + 진행 상황 초기화(08/31 김홍인)
 	CStatsManager::I().ResetRuntime();
@@ -220,15 +221,7 @@ HRESULT CStage2::Ready_GameLogic_Layer(LAYERID _eLayerId)
 		return E_FAIL;
 
 	Engine::CGameObject* pGameObject = nullptr;
-	// --------------(08/31 김홍인)----------------
-	Engine::CGameObject* pSwitchObj3 = CPrototypeManager::GetInstance()
-		->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
-	if (nullptr == pSwitchObj3) return E_FAIL;
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj3))) return E_FAIL;
 
-	auto* sw3 = dynamic_cast<CSwitch_Button*> (pSwitchObj3);
-	sw3->Set_LinkMode(Engine::LINKMODE::NONE);
-	// --------------(08/31 김홍인)----------------
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
 	if (auto* wm = CWeaponManager::GetInstance()) {

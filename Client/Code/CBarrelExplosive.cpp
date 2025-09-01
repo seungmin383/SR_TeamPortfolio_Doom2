@@ -183,33 +183,36 @@ void CBarrelExplosive::OnCollision(CCollider* _pOther)
 
 void CBarrelExplosive::OnCollisionEnter(CCollider* _pOther)
 {
-	char buf[128];
-
 	if (!_pOther) return;
-
-	//sprintf_s(buf, "[Barrel] OnCollisionEnter layer=0x%08X\n",
-	//	(unsigned)_pOther->Get_ColLayer());
-	//OutputDebugStringA(buf);
-
-	// 폭발 중에는 추가 히트 무시
-	if (m_state != State::Idle) return;
+	if (m_state != State::Idle) return; // 폭발 중/사망 상태는 무시
 
 	const auto layer = _pOther->Get_ColLayer();
 
+	// 1) 탄환 피격
 	if (layer & COL_BULLET)
 	{
-		sprintf_s(buf, "[Barrel] OnCollisionEnter layer=0x%08X\n",
-			(unsigned)_pOther->Get_ColLayer());
-		OutputDebugStringA(buf);
-		TakeDamage(10);
+		// 맞으면 탄환은 제거
+		if (auto* otherObj = _pOther->Get_Owner())
+			otherObj->Set_Dead(true);
+
+		// 탄환 기본 데미지(필요하면 탄종별로 가중치 부여)
+		int damage = 10;
+		TakeDamage(damage);   // HP <= 0이면 BeginExplosion() 자동 호출
+		return;
 	}
-	return;
 
+	// 2) 히트스캔(레이) 공격 처리
+	if (layer & COL_ATTACK)
+	{
+		// 히트스캔도 동일하게 기본 데미지 적용
+		TakeDamage(10);
+		return;
+	}
 
-	// 체인 폭발
+	// 3) 주변 폭발에 의한 체인 폭발
 	if (layer & COL_EXPLOSION)
 	{
-		TakeDamage(9999);
+		TakeDamage(9999);     // 무조건 터지게
 		return;
 	}
 
