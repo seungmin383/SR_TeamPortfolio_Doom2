@@ -211,6 +211,9 @@
     <Filter Include="03. Manager\04. UIManager\UISet">
       <UniqueIdentifier>{34c3bcf5-1925-4978-b136-871ff7428c89}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\10. Effect\02.DropBulletEffect">
+      <UniqueIdentifier>{c231ee9b-1c9c-4c0c-b938-f1d2365c073a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -468,6 +471,9 @@
     <ClInclude Include="..\Header\CUISet.h">
       <Filter>03. Manager\04. UIManager\UISet</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CDropBulletEffect.h">
+      <Filter>02. GameObject\10. Effect\02.DropBulletEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -718,6 +724,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CUISet.cpp">
       <Filter>03. Manager\04. UIManager\UISet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CDropBulletEffect.cpp">
+      <Filter>02. GameObject\10. Effect\02.DropBulletEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
