@@ -39,15 +39,7 @@ CMonsterBase::~CMonsterBase()
 
 
 HRESULT         CMonsterBase::Ready_GameObject()
-{	/*
-	AllocConsole();
-
-	FILE* fp;
-	freopen_s(&fp, "CONOUT$", "w", stdout);
-	freopen_s(&fp, "CONOUT$", "w", stderr);*/
-
-//	Add_Component();
-
+{	
 	m_iPreHp = m_iGameHp;
 
 	return S_OK;
@@ -142,7 +134,7 @@ _vec3 CMonsterBase::Set_Move_Direction(_vec3* _Look, _float _DelayTime, _float _
 
 	// --- 4) 도달 판정 → 새 목표각 선택 ---
 	// (delta를 다시 계산하지 않고도 사용 가능)
-	if (fabsf(delta) <= 2.f)
+	if (fabsf(delta) <= 2.f || m_isWallHit)
 	{
 		int RandMove = rand() % 14;
 		switch (RandMove)
@@ -192,7 +184,6 @@ void CMonsterBase::Thinker(const _float& fTimeDelta)
 _int CMonsterBase::Perception(const _float& fTimeDelta)
 {
 	m_isDead							= Check_Dead();
-	//m_isHit							= Check_Hit();
 	Calc_Hp();
 	Check_Hit(fTimeDelta);
 	m_isDetected_Player		= Check_Shooting_Sound();
@@ -660,19 +651,36 @@ void CMonsterBase::Set_OnTerrain()
 
 void CMonsterBase::Movement(const _float fTimeDelta)
 {
-	m_pTransformCom->Move_Pos(&m_vMoveLook, m_fSpeed, fTimeDelta);
+	//m_pTransformCom->Move_Pos(&m_vMoveLook, m_fSpeed, fTimeDelta);
 
-	// Raycast
-	_vec3	vPos;	m_pTransformCom->Get_Pos(&vPos);
-	_vec3	vHitPos, vHitNormal;
-	LAYERID	eHitLayer = LAYERID::LAYER_END;
+	// Raycast part
+	_vec3 vPos, vHitPos, vHitNormal, vLook;
+	vLook = m_vMoveLook;
+	vLook.y = 0.f;
+	LAYERID eHitLayer = LAYERID::LAYER_END;
 
-	CCollisionManager::Raycast(vPos, m_vMoveLook, vHitPos, vHitNormal, 2.f * m_pColliderCom->Get_Scale().x, &eHitLayer);
+	m_pTransformCom->Get_Pos(&vPos);
+	CCollisionManager::Raycast(vPos, vLook, vHitPos, vHitNormal, 2.f * m_pColliderCom->Get_Scale().x, &eHitLayer);
 
-	if (eHitLayer == LAYERID::LAYER_ENVIRONMENT)
-		m_isWallHit = true;
+	if (eHitLayer != LAYERID::LAYER_ENVIRONMENT)
+	{
+		m_pTransformCom->Move_Pos(&vLook, m_fSpeed, fTimeDelta);
+	}
 	else
-		m_isWallHit = false;
+	{
+		_vec3	vMoveForce = vLook * m_fSpeed * fTimeDelta;
+		_float	fForce = D3DXVec3Dot(&vMoveForce, &vHitNormal);
+
+		if (fForce < 0.f)
+		{
+			_vec3	vForce = fForce * vHitNormal;
+			_vec3	vSlide = vMoveForce - vForce;
+			D3DXVec3Normalize(&vSlide, &vSlide);
+
+			m_pTransformCom->Move_Pos(&vSlide, m_fSpeed, fTimeDelta);
+			m_pTransformCom->Move_Pos(&vHitNormal, 2.f * m_fSpeed, fTimeDelta);
+		}
+	}
 }
 
 void CMonsterBase::Attack(const _float fTimeDelta)
