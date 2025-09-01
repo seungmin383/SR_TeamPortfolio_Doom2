@@ -713,7 +713,7 @@ void CDynamicCamera::Camera_Bobbing(const _float& fTimeDelta)
 
 void CDynamicCamera::Apply_Gravity(const _float& fTimeDelta)
 {
-	if (!m_bIsGrounded)
+	/*if (!m_bIsGrounded)
 	{
 		m_vVelocity.y += m_fFallSpeed * fTimeDelta;
 		m_vEye.y -= m_vVelocity.y;
@@ -723,7 +723,7 @@ void CDynamicCamera::Apply_Gravity(const _float& fTimeDelta)
 		m_vVelocity.y = 0.f;
 
 	if (m_vVelocity.y >= 200.f)
-		m_vVelocity.y = 200.f;
+		m_vVelocity.y = 200.f;*/
 }
 
 void CDynamicCamera::Check_Death()

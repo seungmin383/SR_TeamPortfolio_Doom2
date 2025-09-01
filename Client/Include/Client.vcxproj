@@ -210,6 +210,7 @@
     <ClInclude Include="..\Header\CMainMenuHover.h" />
     <ClInclude Include="..\Header\CMainMenuLogo.h" />
     <ClInclude Include="..\Header\CMonsterBase.h" />
+    <ClInclude Include="..\Header\CMonsterSpawner.h" />
     <ClInclude Include="..\Header\CObjectFactory.h" />
     <ClInclude Include="..\Header\CPinky.h" />
     <ClInclude Include="..\Header\CPinkyBullet.h" />
@@ -297,6 +298,7 @@
     <ClCompile Include="..\Code\CMainMenuHover.cpp" />
     <ClCompile Include="..\Code\CMainMenuLogo.cpp" />
     <ClCompile Include="..\Code\CMonsterBase.cpp" />
+    <ClCompile Include="..\Code\CMonsterSpawner.cpp" />
     <ClCompile Include="..\Code\CObjectFactory.cpp" />
     <ClCompile Include="..\Code\CPinky.cpp" />
     <ClCompile Include="..\Code\CPinkyBullet.cpp" />

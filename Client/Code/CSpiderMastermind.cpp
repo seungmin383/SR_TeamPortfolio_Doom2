@@ -11,7 +11,7 @@
 #include"CTerrainSector.h"
 #include "CDynamicCamera.h"
 
-#define SPEED 3.f
+#define SPEED 10.f
 CSpiderMastermind::CSpiderMastermind(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonsterBase(pGraphicDev)
 {
@@ -36,7 +36,7 @@ HRESULT CSpiderMastermind::Ready_GameObject()
 	m_pTransformCom->Set_Pos(60.f, 0.f, 10.f);
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
-	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(8.f, 5.f, 8.f), _vec3(0.f, -5.f, 0.f),
+	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(40.f,20.f, 40.f), _vec3(0.f, -25.f, 0.f),
 		COLLAYERID::COL_ENEMY,
 		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT | COLLAYERID::COL_ENEMY);
 
@@ -128,7 +128,7 @@ HRESULT CSpiderMastermind::Ready_GameObject()
 
 #pragma region VARIABLE_SETTING
 	m_fSightAngle = D3DXToRadian(80.f);
-	m_fSightDistance = 50.f;
+	m_fSightDistance = 500.f;
 
 	m_fAtkSpeed = 4.f;
 	m_iGameHp = 3000;
@@ -151,7 +151,7 @@ HRESULT CSpiderMastermind::Ready_GameObject()
 	for (int i = 0; i < 8; i++)
 	{
 	}
-	_vec3 vSize{ 10.f, 10.f, 10.f };
+	_vec3 vSize{ 50.f, 50.f, 50.f };
 	m_pTransformCom->Set_Scale(vSize);
 	m_iHeight = 10;
 	//초기 룩으로 세팅해주고
