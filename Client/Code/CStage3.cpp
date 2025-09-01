@@ -168,12 +168,10 @@ HRESULT CStage3::Load_PreSet()
 			m.pos,
 			objid,
 			m.blend);
-
-		ConnectDoorSwitchByLinkId();
 	}
 
 	//오브젝트 설치
-	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem((_uint)SCENEID::STAGE3);;
+	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem((_uint)SCENEID::STAGE3);
 
 	for (auto item : loadData)
 	{
@@ -183,8 +181,10 @@ HRESULT CStage3::Load_PreSet()
 			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, item.position);
 	}
 
+	ConnectDoorSwitchByLinkId();
+
 	//몬스터 설치
-	vector<GameObjectSpawnInfo> loadMonsterData = CFileManager::GetInstance()->LoadMonster((_uint)SCENEID::STAGE3);;
+	vector<GameObjectSpawnInfo> loadMonsterData = CFileManager::GetInstance()->LoadMonster((_uint)SCENEID::STAGE3);
 
 	for (auto monster : loadMonsterData)
 		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);

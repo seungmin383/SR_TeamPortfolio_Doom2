@@ -211,6 +211,32 @@ vector<GameObjectSpawnInfo> CFileManager::LoadItem(_int stageNumber)
 	return s.objects;
 }
 
+vector<GameObjectSpawnInfo> CFileManager::LoadAdditionalItem(_int stageNumber, _int phaseNumber)
+{
+	MoveProjectDir();
+
+	SceneSpawnInfo s;
+
+	vector<StageSet>::iterator stage = find_if(m_tConfig.StageSettings.begin(), m_tConfig.StageSettings.end(), [&stageNumber](StageSet item) { return item.StageNumber == stageNumber; });
+
+	fs::path p(m_tConfig.ObjectSpawnSavePath + "/" + (*stage).AdditionalObject[phaseNumber]);
+
+	if (!fs::exists(p))
+	{
+		MSG_BOX("not found item save");
+		return s.objects;
+	}
+
+	ifstream read(p);
+	json j = json::parse(read);
+
+	s = j.get<SceneSpawnInfo>();
+
+	read.close();
+
+	return s.objects;
+}
+
 void CFileManager::SaveMonster(fs::path path, string filename, vector<GameObjectSpawnInfo> datas)
 {
 	MoveProjectDir();
@@ -241,6 +267,32 @@ vector<GameObjectSpawnInfo> CFileManager::LoadMonster(_int stageNumber)
 	if (!fs::exists(p))
 	{
 		MSG_BOX("not found monster save");
+		return s.objects;
+	}
+
+	ifstream read(p);
+	json j = json::parse(read);
+
+	s = j.get<SceneSpawnInfo>();
+
+	read.close();
+
+	return s.objects;
+}
+
+vector<GameObjectSpawnInfo> CFileManager::LoadAdditionalMonster(_int stageNumber, _int phaseNumber)
+{
+	MoveProjectDir();
+
+	SceneSpawnInfo s;
+
+	vector<StageSet>::iterator stage = find_if(m_tConfig.StageSettings.begin(), m_tConfig.StageSettings.end(), [&stageNumber](StageSet item) { return item.StageNumber == stageNumber; });
+
+	fs::path p(m_tConfig.MonsterSpawnSavePath + "/" + (*stage).AdditionalMonster[phaseNumber]);
+
+	if (!fs::exists(p))
+	{
+		MSG_BOX("not found additional monster save");
 		return s.objects;
 	}
 
