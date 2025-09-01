@@ -90,6 +90,7 @@ private:
 	void		Apply_Gravity(const _float& fTimeDelta);		// 중력 적용 함수
 	void		Check_Death();
 	void		Check_Wall(const _float& fTimeDelta);
+	void		Drop_Tanpii();
 
 private:
 	Engine::CCalculator* m_pCalculatorCom;

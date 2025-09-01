@@ -89,41 +89,7 @@ _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 {
 	_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
 	
-	if (GetAsyncKeyState('M'))
-	{
-		_vec3 vPos;
-		_vec3 vLook;
-		_matrix Player;
-		D3DXMatrixIdentity(&Player);
-		m_pGraphicDev->GetTransform(D3DTS_VIEW, &Player);
-		D3DXMatrixInverse(&Player, nullptr, &Player);
 
-		vLook.x = Player._31;
-		vLook.y = Player._32;
-		vLook.z = Player._33;
-		D3DXVec3Normalize(&vLook, &vLook);
-
-		m_pTransformCom->Get_Pos(&vPos);
-		vPos += vLook * 3.f;
-
-		_vec3 vLeft;
-		vLeft.x = Player._11;
-		vLeft.y = Player._12;
-		vLeft.z = Player._13;
-		D3DXVec3Normalize(&vLeft, &vLeft);
-		vLeft = -vLeft;
-
-		vPos += vLeft * 0.3f;
-
-		_vec3 vUp;
-		vUp.x = Player._21;
-		vUp.y = Player._22;
-		vUp.z = Player._23;
-		D3DXVec3Normalize(&vUp, &vUp);
-		vPos -= vUp * 0.8f;
-
-		EffectManager::GetInstance()->Start_Effect(vPos, EFFECTID::TANPII_DROP);
-	}
 	if (m_eState == DEAD)
 	{
 		Check_Death();
@@ -563,8 +529,13 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 void CDynamicCamera::Mouse_Input()
 {
+	_bool bFireCheck = false;
+
 	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB) & 0x80)
-		_bool bFireCheck = CWeaponManager::GetInstance()->Fire_Weapon();
+		 bFireCheck = CWeaponManager::GetInstance()->Fire_Weapon();
+
+	if (bFireCheck )
+			Drop_Tanpii();
 
 	m_bTrigger = false;
 
@@ -773,6 +744,42 @@ void CDynamicCamera::Check_Death()
 
 void CDynamicCamera::Check_Wall(const _float& fTimeDelta)
 {
+}
+
+void CDynamicCamera::Drop_Tanpii()
+{
+	_vec3 vPos;
+	_vec3 vLook;
+	_matrix Player;
+	D3DXMatrixIdentity(&Player);
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &Player);
+	D3DXMatrixInverse(&Player, nullptr, &Player);
+
+	vLook.x = Player._31;
+	vLook.y = Player._32;
+	vLook.z = Player._33;
+	D3DXVec3Normalize(&vLook, &vLook);
+
+	m_pTransformCom->Get_Pos(&vPos);
+	vPos += vLook * 3.f;
+
+	_vec3 vLeft;
+	vLeft.x = Player._11;
+	vLeft.y = Player._12;
+	vLeft.z = Player._13;
+	D3DXVec3Normalize(&vLeft, &vLeft);
+	vLeft = -vLeft;
+
+	vPos += vLeft * 0.3f;
+
+	_vec3 vUp;
+	vUp.x = Player._21;
+	vUp.y = Player._22;
+	vUp.z = Player._23;
+	D3DXVec3Normalize(&vUp, &vUp);
+	vPos -= vUp * 0.8f;
+
+	EffectManager::GetInstance()->Start_Effect(vPos, EFFECTID::TANPII_DROP);
 }
 
 CDynamicCamera* CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)
