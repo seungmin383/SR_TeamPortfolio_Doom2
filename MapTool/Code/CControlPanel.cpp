@@ -472,6 +472,8 @@ void CControlPanel::TerrainController()
 			tControlInfo[tCachingControlInfo.terrainIdx].info = (TILEINFO)terraintype_current;
 	}
 		
+	if (ImGui::Checkbox("blend", &tCachingControlInfo.blend) && isModifing)
+		Apply();
 
 	if (curTex != nullptr)
 	{
@@ -709,6 +711,7 @@ void CControlPanel::SetDefault()
 	tCachingControlInfo.vertexIntervalZ = 1.f;
 	tCachingControlInfo.vertexIntervalY = 1.f;
 	tCachingControlInfo.terrainIdx = 0;
+	tCachingControlInfo.blend = false;
 	//tCachingControlInfo.pos = _vec3(0.f, 0.f, 0.f);
 
 	vecDegree = _vec3(0.f, 0.f, 0.f);
@@ -794,6 +797,7 @@ void CControlPanel::SaveTerrain(fs::path path, string filename)
 	{
 		TerrainModel model;
 		model.idx = terraininfo.terrainIdx;
+		model.blend = terraininfo.blend;
 		model.type = (int)terraininfo.info;
 		model.pos = terraininfo.pos;
 		model.strTextureTag = fs::relative(terraininfo.currentTextureTag, basePath).relative_path().generic_string();
@@ -830,6 +834,7 @@ void CControlPanel::LoadTerrain(int sceneNumber)
 	{
 		tCachingControlInfo.info = (TILEINFO)m.type;
 		tCachingControlInfo.terrainIdx = m.idx;
+		tCachingControlInfo.blend = m.blend;
 		tCachingControlInfo.pos = m.pos;
 		tCachingControlInfo.currentTextureTag = m.strTextureTag;
 		tCachingControlInfo.vertexXCnt = m.vertexCountX;
@@ -865,7 +870,8 @@ void CControlPanel::LoadTerrain(int sceneNumber)
 			tCachingControlInfo.vertices,
 			tCachingControlInfo.currentTextureTag,
 			tCachingControlInfo.pos,
-			objid);
+			objid,
+			tCachingControlInfo.blend);
 
 		vecSector.push_back(dynamic_cast<CTerrainSector*>(pObj));
 

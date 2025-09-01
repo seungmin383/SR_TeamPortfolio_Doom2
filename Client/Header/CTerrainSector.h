@@ -19,6 +19,9 @@ public:
     void                        Set_Index(_int idx) { m_iIdx = idx; }
     _int                        Get_Index() { return m_iIdx; }
 
+    void                        Set_Blend(_bool bval) { m_bBlend = bval; }
+    _bool                       Get_Blend() { return m_bBlend; }
+
     Engine::CTerrainTexSector* Get_BufferCom() { return m_pBufferCom; }
     void        Set_BufferCom(Engine::CTerrainTexSector* pBuffer);
     void        Mod_BufferCom(const _ulong& dwCntX,
@@ -42,6 +45,7 @@ private:
     Engine::CMaterial* m_pMaterialCom;
 
     _int m_iIdx;
+    _bool m_bBlend;
 
 public:
     static CTerrainSector* Create(LPDIRECT3DDEVICE9 pGraphicDev);

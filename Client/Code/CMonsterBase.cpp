@@ -482,11 +482,6 @@ void CMonsterBase::Calc_Hp()
 	{
 		m_isHit = TRUE;
 
-		_vec3 vPos;
-		m_pTransformCom->Get_Pos(&vPos);
-
-		EffectManager::GetInstance()->Start_Effect(vPos, EFFECTID::BLOOD_EXPLOSION);
-
 		m_iPreHp = m_iGameHp;
 	}
 
