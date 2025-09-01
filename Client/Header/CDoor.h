@@ -44,7 +44,7 @@ private:
 	enum class State { Idle, Opening, Open, Closing, Dead };
 	State           m_state = State::Idle;
 	_vec3 m_vOriginPos;
-	_float m_fOpenHeight = 6.f;				// 문 올라가는 높이
+	_float m_fOpenHeight = 0.f;				// 문 올라가는 높이
 	_float m_fStayOpenTime = 5.f;			// 문이 얼마나 열려있는가를 나타냄
 
 private:

@@ -54,6 +54,8 @@ HRESULT CDoor::Ready_GameObject()
 	else
 		m_fTimer = 0;
 
+	m_fOpenHeight = m_vOriginPos.y * 2;
+
 	return S_OK;
 }
 
@@ -72,7 +74,7 @@ void CDoor::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 	if (m_pColliderCom)
-		m_pColliderCom->Late_Update(); // ★ 중요
+		m_pColliderCom->Late_Update(); // ★중요
 }
 
 void CDoor::Render_GameObject(const _float& fTimeDelta)
@@ -207,6 +209,7 @@ void CDoor::DoorOpening(const _float& fTimeDelta)
 
 		if (vPos.y >= m_vOriginPos.y + m_fOpenHeight)
 		{
+			// XZ는 유지, Y만 원래 높이에 OpenHeight만큼 증가
 			vPos.y = m_vOriginPos.y + m_fOpenHeight;
 			m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 			m_state = State::Open;

@@ -86,7 +86,7 @@ _int CUI_StageClear::Update_GameObject(const _float& fTimeDelta)
 				st2->RequestNextScene(next);
 			}
 			else if (auto* st3 = dynamic_cast<CStage3*>(cur)) {
-				CManagement::GetInstance()->Change_Scene(next);
+				CManagement::GetInstance()->Change_Scene(next);		// 3스테이지에서 끝나면 메인메뉴로
 			}
 		}
 		break;
@@ -143,16 +143,16 @@ void CUI_StageClear::Render_GameObject(const _float& dt)
 	const auto& cur = CStatsManager::I().Cur();
 	auto pct = [](int a, int b) { return b > 0 ? int((a * 100.0) / b + 0.5) : 100; };
 
-	Render_Sprite(m_pTextureClearCom, -60.f, 30.f, 60.f, 12.f);
+	Render_Sprite(m_pTextureClearCom, -60.f, 30.f, 60.f, 12.f);					// 결과 알림 UI
 
 	Render_Sprite(m_pTextureKillsCom, -60.f, 90.f, 60.f, 12.f);
-	Render_Number(m_k, 40.f, 90.f, vScale.x, vScale.y);
+	Render_Number(m_k, 40.f, 90.f, vScale.x, vScale.y);							// 죽인 몬스터 수
 
 	Render_Sprite(m_pTextureItemsCom, -60.f, 120.f, 60.f, 12.f);
-	Render_Number(m_i, 40.f, 120.f, vScale.x, vScale.y);
+	Render_Number(m_i, 40.f, 120.f, vScale.x, vScale.y);						// 먹은 아이템 수
 
 	Render_Sprite(m_pTextureTimesCom, -60.f, 180.f, 60.f, 12.f);
-	Render_Number((_int)Get_Time(), 40.f, 180.f, vScale.x, vScale.y);
+	Render_Number((_int)Get_Time(), 40.f, 180.f, vScale.x, vScale.y);			// 진행 시간
 
 	if (m_state == State::Wait) {
 		// "Press Enter" 렌더링
@@ -266,13 +266,6 @@ HRESULT CUI_StageClear::Add_Component()
 
 void CUI_StageClear::Render_Number(_int number, _float baseX, _float baseY, _float scaleX, _float scaleY)
 {
-	// 숫자를 100, 10, 1의 자리로 분리
-	/*int digits[3] = {
-		number / 100,
-		(number % 100) / 10,
-		number % 10
-	};*/
-
 	wstring numStr = to_wstring(number);
 	_float digitWidth = 32.f;           // 가로 크기
 	_float spacing = 2.f;              // 자간
