@@ -100,8 +100,15 @@ void CDropBulletEffect::Reset_Effect(_vec3 vPos)
 
 	_vec3 vUp{ 0.f, 1.f, 0.f };
 	D3DXVec3Normalize(&vUp, &vUp);
+	_float a = 0.f;
+	_float b = 0.f;
+	a = rand() % 3;
+	b = rand() % 3;
 
-	m_vDir = (vRight * (m_fLeftForce * m_fSpeed)) + (vUp * (m_fUpForce * m_fSpeed));
+	if (a == 0)
+		a = 0.5f;
+
+	m_vDir = (vRight * (m_fLeftForce* a * m_fSpeed)) + (vUp * (m_fUpForce* b * m_fSpeed));
 }
 
 void CDropBulletEffect::Tanpii_Movement(const _float& fTimeDelta)
