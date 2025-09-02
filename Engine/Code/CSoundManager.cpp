@@ -1,6 +1,7 @@
 #include "CSoundManager.h"
 
-IMPLEMENT_SINGLETON(CSoundManager)
+
+ IMPLEMENT_SINGLETON(CSoundManager)
 
 CSoundManager::CSoundManager()
     : m_pSystem(nullptr)
@@ -157,6 +158,7 @@ void CSoundManager::Free()
     {
         FMOD_Sound_Release(kv.second);
     }
+
     m_mapSound.clear();
 
     FMOD_System_Close(m_pSystem);
