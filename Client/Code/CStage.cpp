@@ -44,6 +44,7 @@
 #include "CWeapon_ChainGun.h"
 #include "CWeapon_Rocket.h"
 #include "CWeapon_BFG.h"
+#include "CCrosshair.h"
 
 #include "CStatsManager.h"
 #include "CUI_StageClear.h"
@@ -62,6 +63,8 @@ CStage::~CStage()
 
 HRESULT CStage::Ready_Scene()
 {
+	ShowCursor(FALSE);
+
 	if (FAILED(Ready_Environment_Layer(LAYERID::LAYER_ENVIRONMENT)))
 		return E_FAIL;
 
@@ -88,8 +91,6 @@ HRESULT CStage::Ready_Scene()
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_ENEMY, OBJID::OBJ_BULLET);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_ENEMY, OBJID::OBJ_ENEMY);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_ENEMY, OBJID::OBJ_WALL);
-
-
 
 	return S_OK;
 }
@@ -272,6 +273,22 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 
 	// UI
 	pGameObject = CGameUI::Create(m_pGraphicDev);
+
+	// CrossHair
+	CUISet* pUiSet = new CUISet();
+
+	auto crosshair = CCrosshair::Create(m_pGraphicDev);
+
+	if (nullptr == crosshair)
+		return E_FAIL;
+
+	crosshair->Set_SizeXY(32.f, 32.f);
+	crosshair->Set_Pos(WINCX * 0.5f, WINCY * 0.5f);
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, crosshair)))
+		return E_FAIL;
+
+	pUiSet->InsertUIObject(crosshair, false);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;

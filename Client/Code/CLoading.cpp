@@ -111,7 +111,8 @@ _uint CLoading::Loading_ForStage()
 		return E_FAIL;
 
 #pragma endregion
-
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Crosshair", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Player/Crosshair.png", TEX_NORMAL))))
+		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_PlayerUI", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/PLAYERUI.png", TEX_NORMAL))))
 		return E_FAIL;

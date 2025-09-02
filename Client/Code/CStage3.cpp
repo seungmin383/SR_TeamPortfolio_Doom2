@@ -29,6 +29,7 @@
 #include "CAmmo_Shell.h"
 
 #include "CPistol.h"
+#include "CCrosshair.h"
 
 // (08/31 김홍인)
 #include "CSwitch_Button.h"
@@ -45,6 +46,8 @@ CStage3::~CStage3()
 
 HRESULT CStage3::Ready_Scene()
 {
+	ShowCursor(FALSE);
+
 	//CUIManager::GetInstance()->UISetListClear();
 	CColliderManager::GetInstance()->Reset();
 
@@ -261,6 +264,22 @@ HRESULT CStage3::Ready_UI_Layer(LAYERID _eLayerId)
 
 	// UI
 	pGameObject = CGameUI::Create(m_pGraphicDev);
+
+	// CrossHair
+	CUISet* pUiSet = new CUISet();
+
+	auto crosshair = CCrosshair::Create(m_pGraphicDev);
+
+	if (nullptr == crosshair)
+		return E_FAIL;
+
+	crosshair->Set_SizeXY(32.f, 32.f);
+	crosshair->Set_Pos(WINCX * 0.5f, WINCY * 0.5f);
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, crosshair)))
+		return E_FAIL;
+
+	pUiSet->InsertUIObject(crosshair, false);
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
