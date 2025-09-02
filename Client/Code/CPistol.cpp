@@ -2,6 +2,7 @@
 #include "CPistol.h"
 #include "CWeaponManager.h"
 #include "CManagement.h"
+#include "CSoundManager.h"
 
 CPistol::CPistol()
 {
@@ -39,6 +40,7 @@ _bool CPistol::Fire()
 		CGameObject* tmp = nullptr;
 		// 로켓 투사체 발사
 		CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::PLAYER_NORMAL_BULLET, OBJID::OBJ_BULLET, vPlayerPos, pPlayer, tmp);
+		CSoundManager::GetInstance()->PlaySoundW(L"DSPISTOL.wav", CHANNELID::SOUND_EFFECT, 0.5f);
 
 		return true;
 	}

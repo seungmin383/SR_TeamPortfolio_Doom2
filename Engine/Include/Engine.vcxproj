@@ -58,6 +58,7 @@
     <ClInclude Include="..\Header\CRectTex.h" />
     <ClInclude Include="..\Header\CRenderer.h" />
     <ClInclude Include="..\Header\CScene.h" />
+    <ClInclude Include="..\Header\CSoundManager.h" />
     <ClInclude Include="..\Header\CTerrainTexSector.h" />
     <ClInclude Include="..\Header\CTexture.h" />
     <ClInclude Include="..\Header\CTerrainTex.h" />
@@ -78,6 +79,14 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="ConfigModel.h" />
+    <ClInclude Include="fMod\fmod.h" />
+    <ClInclude Include="fMod\fmod.hpp" />
+    <ClInclude Include="fMod\fmod_codec.h" />
+    <ClInclude Include="fMod\fmod_common.h" />
+    <ClInclude Include="fMod\fmod_dsp.h" />
+    <ClInclude Include="fMod\fmod_dsp_effects.h" />
+    <ClInclude Include="fMod\fmod_errors.h" />
+    <ClInclude Include="fMod\fmod_output.h" />
     <ClInclude Include="GameObjectSpawnInfo.h" />
     <ClInclude Include="GameObjectType.h" />
     <ClInclude Include="SceneSpawnInfo.h" />
@@ -130,6 +139,7 @@
     <ClCompile Include="..\Code\CRectTex.cpp" />
     <ClCompile Include="..\Code\CRenderer.cpp" />
     <ClCompile Include="..\Code\CScene.cpp" />
+    <ClCompile Include="..\Code\CSoundManager.cpp" />
     <ClCompile Include="..\Code\CTerrainTexSector.cpp" />
     <ClCompile Include="..\Code\CTexture.cpp" />
     <ClCompile Include="..\Code\CTerrainTex.cpp" />
@@ -143,6 +153,14 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="TerrainModels.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fMod\fmod.dll" />
+    <None Include="fMod\fmodL.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="fMod\fmodL_vc.lib" />
+    <Library Include="fMod\fmod_vc.lib" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -207,8 +225,8 @@
     <OutDir>../Bin/</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(DXSDK_DIR)\Include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(DXSDK_DIR)\Lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(DXSDK_DIR)\Include\;$(SolutionDir)Engine\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)\Lib\x64;$(SolutionDir)Engine\Include\fMod;$(LibraryPath)</LibraryPath>
     <OutDir>../Bin/</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -277,7 +295,7 @@
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;dinput8.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dxguid.lib;dinput8.lib;fmod_vc.lib;fmodL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>cd /d $(SolutionDir)
