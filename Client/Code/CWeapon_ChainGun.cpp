@@ -188,7 +188,7 @@ HRESULT CWeapon_ChainGun::Add_Component()
 
 void CWeapon_ChainGun::Set_OnTerrain()
 {
-	_float heghtest(FLT_MIN);
+	_float highest(FLT_MIN);
 	_vec3 pos;
 	_vec3 onPosition{ 0.f, 0.f, 0.f };
 	_float vScaleY = m_pTransformCom->Get_Scale()->y;

@@ -200,11 +200,10 @@ HRESULT CWeapon_Shotgun::Add_Component()
 
 void CWeapon_Shotgun::Set_OnTerrain()
 {
-	_float heghtest(FLT_MIN);
+	_float highest(FLT_MIN);
 	_vec3 pos;
 	_vec3 onPosition{ 0.f, 0.f, 0.f };
 	_float vScaleY = m_pTransformCom->Get_Scale()->y;
-
 	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
 	{
 		m_pTransformCom->Get_Pos(&pos);
@@ -213,14 +212,15 @@ void CWeapon_Shotgun::Set_OnTerrain()
 		auto bufferCom = dterrain->Get_BufferCom();
 		auto transformCom = dterrain->Get_Transform();
 
-		_vec3 onPosition{ 0.f, 0.f, 0.f };
+
 		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
 		{
-
-			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 2, pos.z);
-			break;
+			if (highest < onPosition.y)
+				highest = onPosition.y;
 		}
 	}
+
+	m_pTransformCom->Set_Pos(pos.x, highest + vScaleY, pos.z);
 }
 
 void CWeapon_Shotgun::Bill_Board()

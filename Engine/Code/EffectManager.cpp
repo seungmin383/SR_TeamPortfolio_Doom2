@@ -7,11 +7,11 @@ IMPLEMENT_SINGLETON(EffectManager)
 
 EffectManager::EffectManager()
 {
-	//AllocConsole();	
+	AllocConsole();	
 
-	//FILE* fp;
-	//freopen_s(&fp, "CONOUT$", "w", stdout);
-	//freopen_s(&fp, "CONOUT$", "w", stderr);
+	FILE* fp;
+	freopen_s(&fp, "CONOUT$", "w", stdout);
+	freopen_s(&fp, "CONOUT$", "w", stderr);
 
 }
 
@@ -31,7 +31,6 @@ HRESULT EffectManager::Ready_Effect()
 
 void EffectManager::Update_Effect(const _float& fTimeDelta)
 {
-	cout << m_vecEffectPool[static_cast<_int>(EFFECTID::BULLET_IMPACT)].size() << endl;
 
 	if (m_vecActiveEffect.size() == 0)
 		return;

@@ -70,7 +70,7 @@ void CExplosionBloodEffect::Render_GameObject(const _float& fTimeDelta)
 void CExplosionBloodEffect::Reset_Effect(_vec3 vPos)
 {
 	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
-	m_pTransformCom->Set_Scale(_vec3{ 1.f, 1.f, 1.f });
+	m_pTransformCom->Set_Scale(_vec3{ 3.f, 3.f, 3.f });
 	m_pAnimCom->SetFrameDefault();
 	m_iCurFrame = rand() % 3;
 	m_bDead = FALSE;

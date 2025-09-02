@@ -168,6 +168,11 @@ _int CSpiderMastermind::Update_GameObject(const _float& fTimeDelta)
 	Check_Anim_Fin(fTimeDelta);
 	Pattern_Timer(fTimeDelta);		//패턴 시간 누적
 
+	if (m_isIdle)
+		cout << "idle" << endl;
+	else
+		cout << "no idle " << endl;
+
 	if (!m_bDead)
 	{
 		if (m_isAwake)
@@ -182,7 +187,7 @@ _int CSpiderMastermind::Update_GameObject(const _float& fTimeDelta)
 	}
 	//Update_Pattern(fTimeDelta, 3);
 
-//	cout << "스파이더 마스터마인드 픎레이어 발견 : " << m_isDetect_Player << endl;
+
 	if(!m_isPattern3On)
 		CMonsterBase::Update_GameObject(fTimeDelta);
 	else
@@ -249,7 +254,7 @@ void CSpiderMastermind::Reset_State()
 	m_iTmp_Anim_Type = MOVE;	//애니메이션을 MOVE로 바꾸고
 	m_eAnim_Type = MOVE;
 	m_isPattern3On = FALSE;
-
+	m_isIdle = TRUE;
 	m_pColliderCom->Set_Active(true);
 }
 
@@ -304,14 +309,15 @@ void CSpiderMastermind::Calc_Pattern()
 
 void CSpiderMastermind::Fire(const _float fTimeDelta)
 {
-	m_isShoot = TRUE;
+ 	m_isShoot = TRUE;
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
 	CGameObject* tmp = nullptr;
+	vPos.y -= 30.f;
 	for(int i = 0; i< 3; i++)
 	{
 		vPos.z -= i;
-		if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_ZOMBIEMAN_BULLET, OBJID::OBJ_BULLET, vPos, this, tmp)))
+		if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_BOSS_BASIC_BULLET, OBJID::OBJ_BULLET, vPos, this, tmp)))
 		{
 			int a = 0;
 		}

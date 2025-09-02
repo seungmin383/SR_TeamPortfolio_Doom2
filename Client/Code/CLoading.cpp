@@ -97,6 +97,10 @@ _uint CLoading::Loading_ForStage()
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Pinky_Bullet_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Effect/PinkyBullet/BulletState%d.png", TEX_NORMAL))))
 		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_BossBasic_Bullet_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Effect/BossBasicBullet/BulletState%d.png", TEX_NORMAL, 2))))
+		return E_FAIL;
+
 #pragma endregion
 
 #pragma region PLAYER_BULLET
@@ -111,7 +115,8 @@ _uint CLoading::Loading_ForStage()
 		return E_FAIL;
 
 #pragma endregion
-
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Crosshair", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Player/Crosshair.png", TEX_NORMAL))))
+		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_PlayerUI", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/PLAYERUI.png", TEX_NORMAL))))
 		return E_FAIL;

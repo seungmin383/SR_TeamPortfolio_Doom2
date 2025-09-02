@@ -21,7 +21,6 @@ HRESULT CMonsterSpawner::Ready_GameObject()
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Pos(100.f, 0.f, 100.f);
 	m_pTransformCom->Set_Scale(_vec3{ 10.f, 10.f, 10.f });
 
 	_vec3 vPos;

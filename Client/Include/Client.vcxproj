@@ -183,9 +183,11 @@
     <ClInclude Include="..\Header\CBarrelExplosive.h" />
     <ClInclude Include="..\Header\CBfg.h" />
     <ClInclude Include="..\Header\CBfgBullet.h" />
+    <ClInclude Include="..\Header\CBossBasicBullet.h" />
     <ClInclude Include="..\Header\CBossBullet.h" />
     <ClInclude Include="..\Header\CChaingun.h" />
     <ClInclude Include="..\Header\CChaingunBullet.h" />
+    <ClInclude Include="..\Header\CCrosshair.h" />
     <ClInclude Include="..\Header\CDoor.h" />
     <ClInclude Include="..\Header\CDoorWithKey.h" />
     <ClInclude Include="..\Header\CDropBulletEffect.h" />
@@ -271,9 +273,11 @@
     <ClCompile Include="..\Code\CBarrelExplosive.cpp" />
     <ClCompile Include="..\Code\CBfg.cpp" />
     <ClCompile Include="..\Code\CBfgBullet.cpp" />
+    <ClCompile Include="..\Code\CBossBasicBullet.cpp" />
     <ClCompile Include="..\Code\CBossBullet.cpp" />
     <ClCompile Include="..\Code\CChaingun.cpp" />
     <ClCompile Include="..\Code\CChaingunBullet.cpp" />
+    <ClCompile Include="..\Code\CCrosshair.cpp" />
     <ClCompile Include="..\Code\CDoor.cpp" />
     <ClCompile Include="..\Code\CDoorWithKey.cpp" />
     <ClCompile Include="..\Code\CDropBulletEffect.cpp" />
