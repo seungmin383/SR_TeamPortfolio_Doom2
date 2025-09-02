@@ -196,7 +196,8 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 	if (m_isAtk && m_isDetect_Player)
 		m_isDetected_Player = TRUE;
 
-
+	if (m_isDetected_Player)
+		m_isIdle = FALSE;
 
 	//죽었는지
 	if (m_isDead)
@@ -206,8 +207,13 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 	else if (m_isHit)
 		return AI_HIT;
 
+	else if (m_isIdle)
+	{
+		return AI_MOVE;
+	}
+
 	//공격할 수 있는지
-	else if (m_isAtk && m_isDetected_Player)
+	else if (m_isAtk && m_isDetect_Player)
 		return AI_ATTACK;
 	
 	//플레이어를 발견하고 따라가는지
@@ -215,6 +221,7 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 	{
 		if (m_isBoss)
 			return AI_MOVE;
+
 		return AI_CHASE;
 	}
 
@@ -306,7 +313,7 @@ _bool CMonsterBase::Check_Target()
 
 		if ((fDot >= 0.f) && (distSq <= sightSq)) //플레이어가 범위 안에 들어왔다
 		{
-
+			return TRUE;
 		}
 		else //플레이어가 범위 밖에 있다
 			return FALSE;
@@ -430,6 +437,11 @@ _bool CMonsterBase::Check_Dead()
 			{
 				m_bCountedDeath = true;
 				CStatsManager::I().OnEnemyKilled();
+			}
+
+			if (!m_bDropDone) {				// (08/25 수정 - 김홍인)
+				Drop_Item();
+				m_bDropDone = true;
 			}
 
 			return	TRUE;

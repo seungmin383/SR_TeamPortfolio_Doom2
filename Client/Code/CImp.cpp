@@ -176,6 +176,14 @@ void CImp::Attack(const _float fTimeDelta)
 
 }
 
+void CImp::Drop_Item()
+{
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+
+	CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ITEM_CLIP, OBJID::OBJ_ITEM, vPos, 1);
+}
+
 HRESULT CImp::Add_Component()
 {
 	CMonsterBase::Add_Component();

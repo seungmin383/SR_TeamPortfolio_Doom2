@@ -17,6 +17,8 @@ public:
     virtual     void            Render_GameObject(const _float& fTimeDelta);
 
     virtual void         Attack(const _float fTimeDelta)override;
+    virtual void Drop_Item()override;
+
 #pragma endregion
 
 private:

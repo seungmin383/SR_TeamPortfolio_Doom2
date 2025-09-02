@@ -217,6 +217,9 @@
     <Filter Include="02. GameObject\02. Monster\MonsterSpawner">
       <UniqueIdentifier>{1b18ff23-362d-4bc4-926f-b9360950f4f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\02. Monster\MonsterSpawner\00.ZombiemanSpawner">
+      <UniqueIdentifier>{6d65aa2a-5f93-4084-bfac-5d8c43c9f150}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">

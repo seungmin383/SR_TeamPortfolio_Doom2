@@ -52,6 +52,8 @@
 #include "EffectManager.h"
 #include "CImpactBulletEffect.h"
 
+#include "CMonsterSpawner.h"
+
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -248,6 +250,27 @@ HRESULT CStage::Ready_GameLogic_Layer(LAYERID _eLayerId)
 	Engine::CLayer* pLayer = CLayer::Create();
 	if (nullptr == pLayer)
 		return E_FAIL;
+
+	Engine::CGameObject* pGameObject = nullptr;
+
+	//좀비맨     
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_ZOMBIEMAN_SPAWNER);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))				// 일단 OBJ_WEAPON이라는 enum 값이 있어서 OBJ_UI->OBJ_WEAPON으로 교체(08/05)
+		return E_FAIL;
+
+	//핑키 
+	pGameObject = CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON_SPAWNER);
+
+	if (nullptr == pGameObject)
+		return E_FAIL;
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_ENEMY, pGameObject)))				// 일단 OBJ_WEAPON이라는 enum 값이 있어서 OBJ_UI->OBJ_WEAPON으로 교체(08/05)
+		return E_FAIL;
+
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
 

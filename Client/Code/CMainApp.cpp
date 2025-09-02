@@ -312,18 +312,19 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::TMP_WALL, CTmpWall::Create(m_pGraphicDev))))
 		return E_FAIL;
 
-	////좀비맨 스포너
-	//if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ZOMBIEMAN_SPAWNER, CMonsterSpawner::Create(m_pGraphicDev, OBJPROTOTYPE::ENEMY_ZOMBIEMAN_SPAWNER))))
-	//	return E_FAIL;
+
+	//좀비맨 스포너
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ZOMBIEMAN_SPAWNER, CMonsterSpawner::Create(m_pGraphicDev, OBJPROTOTYPE::ENEMY_ZOMBIEMAN_SPAWNER))))
+		return E_FAIL;
 	////샷건가이 스포너
 	//if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_SHOTGUNGUY_SPAWNER, CMonsterSpawner::Create(m_pGraphicDev, OBJPROTOTYPE::ENEMY_SHOTGUNGUY_SPAWNER))))
 	//	return E_FAIL;
 	////임프 스포너
 	//if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_IMP_SPAWNER, CMonsterSpawner::Create(m_pGraphicDev, OBJPROTOTYPE::ENEMY_IMP_SPAWNER))))
 	//	return E_FAIL;
-	////데몬 스포너
-	//if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON_SPAWNER, CMonsterSpawner::Create(m_pGraphicDev, OBJPROTOTYPE::ENEMY_DEMON_SPAWNER))))
-	//	return E_FAIL;
+	//데몬 스포너
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_DEMON_SPAWNER, CMonsterSpawner::Create(m_pGraphicDev, OBJPROTOTYPE::ENEMY_DEMON_SPAWNER))))
+		return E_FAIL;
 	////아바일 스포너
 	//if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_ARCHVILE_SPAWNER, CMonsterSpawner::Create(m_pGraphicDev, OBJPROTOTYPE::ENEMY_ARCHVILE_SPAWNER))))
 	//	return E_FAIL;
