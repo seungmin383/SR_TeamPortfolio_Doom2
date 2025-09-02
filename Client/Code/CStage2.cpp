@@ -30,6 +30,7 @@
 #include "CAmmo_Shell.h"
 
 #include "CPistol.h"
+#include "CCrosshair.h"
 #include "CWeapon_Shotgun.h"
 
 // (08/31 김홍인)
@@ -47,6 +48,8 @@ CStage2::~CStage2()
 
 HRESULT CStage2::Ready_Scene()
 {
+	ShowCursor(FALSE);
+
 	CColliderManager::GetInstance()->Reset();
 
 	if (FAILED(Ready_Environment_Layer(LAYERID::LAYER_ENVIRONMENT)))
@@ -288,6 +291,25 @@ HRESULT CStage2::Ready_UI_Layer(LAYERID _eLayerId)
 
 	// UI
 	pGameObject = CGameUI::Create(m_pGraphicDev);
+
+
+	// CrossHair
+	CUISet* pUiSet = new CUISet();
+
+	auto crosshair = CCrosshair::Create(m_pGraphicDev);
+
+	if (nullptr == crosshair)
+		return E_FAIL;
+
+	crosshair->Set_SizeXY(32.f, 32.f);
+	crosshair->Set_Pos(WINCX * 0.5f, WINCY * 0.5f);
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, crosshair)))
+		return E_FAIL;
+
+	pUiSet->InsertUIObject(crosshair, false);
+
+
 
 	if (nullptr == pGameObject)
 		return E_FAIL;

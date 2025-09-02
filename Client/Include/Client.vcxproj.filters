@@ -486,6 +486,9 @@
     <ClInclude Include="..\Header\CMonsterSpawner.h">
       <Filter>02. GameObject\02. Monster\MonsterSpawner</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CCrosshair.h">
+      <Filter>02. GameObject\09. UI</Filter>
+    </ClInclude>
     <ClInclude Include="..\Header\CBossBasicBullet.h">
       <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CBossBasicBullet</Filter>
     </ClInclude>
@@ -745,6 +748,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CTmpWall.cpp">
       <Filter>02. GameObject\03. Terrain\tmpWall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CCrosshair.cpp">
+      <Filter>02. GameObject\09. UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CBossBasicBullet.cpp">
       <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CBossBasicBullet</Filter>
