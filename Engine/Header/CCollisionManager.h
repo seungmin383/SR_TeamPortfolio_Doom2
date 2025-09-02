@@ -40,7 +40,7 @@ public:
     /// <param name="fMaxDist">: Ray's move speed</param>
     /// <param name="pHitLayer">: Hit object's layer</param>
     /// <returns></returns>
-    static CGameObject* Raycast(_vec3 vRayPos, _vec3 vRayDir, _vec3& vHitPos, _vec3& vHitNormal, _float fMaxDist, LAYERID* pHitLayer);
+    static CGameObject* Raycast(_vec3 vRayPos, _vec3 vRayDir, _vec3& vHitPos, _vec3& vHitNormal, _float fMaxDist, LAYERID* pHitLayer, CGameObject* _this);
 
 private:
     virtual void        Free();
