@@ -220,6 +220,9 @@
     <Filter Include="02. GameObject\02. Monster\MonsterSpawner\00.ZombiemanSpawner">
       <UniqueIdentifier>{6d65aa2a-5f93-4084-bfac-5d8c43c9f150}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\07. Bullet\01. MonsterBullet\CBossBasicBullet">
+      <UniqueIdentifier>{a366d7c7-196f-4636-8448-b6a601bfebe6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -483,6 +486,9 @@
     <ClInclude Include="..\Header\CMonsterSpawner.h">
       <Filter>02. GameObject\02. Monster\MonsterSpawner</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CBossBasicBullet.h">
+      <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CBossBasicBullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -739,6 +745,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CTmpWall.cpp">
       <Filter>02. GameObject\03. Terrain\tmpWall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CBossBasicBullet.cpp">
+      <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CBossBasicBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

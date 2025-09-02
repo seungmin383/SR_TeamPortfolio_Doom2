@@ -22,14 +22,96 @@ CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 }
 
+//CMonsterBase::CMonsterBase(const CMonsterBase& rhs)
+//	:CCharacter(rhs), m_fSightAngle(rhs.m_fSightAngle), m_fSightDistance(rhs.m_fSightDistance),
+//	m_isGibbingDead(rhs.m_isGibbingDead),
+//	m_isNormalDead(rhs.m_isNormalDead),
+//	m_isAtk(rhs.m_isAtk),
+//	m_eCurAnimState(rhs.m_eCurAnimState),
+//	m_fAtkDelay(0.f), m_fMoveDelay(0.f), m_fChaseDelay(0.f),
+//	m_isRecognize_Player(false)
+//{
+//}
 CMonsterBase::CMonsterBase(const CMonsterBase& rhs)
-	:CCharacter(rhs), m_fSightAngle(rhs.m_fSightAngle), m_fSightDistance(rhs.m_fSightDistance),
-	m_isGibbingDead(rhs.m_isGibbingDead),
-	m_isNormalDead(rhs.m_isNormalDead),
-	m_isAtk(rhs.m_isAtk),
-	m_eCurAnimState(rhs.m_eCurAnimState),
-	m_fAtkDelay(0.f), m_fMoveDelay(0.f), m_fChaseDelay(0.f),
-	m_isRecognize_Player(false)
+	: CCharacter(rhs)
+	// --- 컴포넌트 포인터: 복사 금지(별도 Add_Component에서 세팅) ---
+	, m_pCalculatorCom(nullptr)
+	, m_pBufferCom(nullptr)
+	, m_pTextureCom(nullptr)
+	, m_pAnimCom(nullptr)
+
+	// --- AI 상태 ---
+	, m_iCurThought(0)
+	, m_iPreThought(0)
+
+	// --- 애니 상태/타입 ---
+	, m_eCurAnimState(rhs.m_eCurAnimState)
+	, m_ePreAnimState(rhs.m_eCurAnimState)
+	, m_eAnim_Type(ANIM_MOVE)
+
+	// --- 이동 벡터 ---
+	, m_vMoveLook(rhs.m_vMoveLook)
+	, m_vtmpLook(rhs.m_vtmpLook)
+
+	// --- 시야 파라미터(설정값은 복사) ---
+	, m_fSightAngle(rhs.m_fSightAngle)
+	, m_fSightDistance(rhs.m_fSightDistance)
+
+	// --- 타이머/카운터(런타임 값은 리셋)---
+	, m_fAtkDelay(0.f)
+	, m_fMoveDelay(0.f)
+	, m_fChaseDelay(0.f)
+	, m_fHitDelay(0.f)
+	, m_AtkEnterCnt(0)
+	, m_HitEnterCnt(0)
+
+	// --- 동작 플래그(런타임 값은 리셋) ---
+	, m_isMove(false)
+	, m_isAtk(false)
+	, m_isWallHit(false)
+
+	// --- 인지/인식 플래그 ---
+	, m_isDetect_Player(false)
+	, m_isDetected_Player(false)
+	, m_isRecognize_Player(false)
+
+	// --- 피격/사망/유휴 ---
+	, m_isHit(false)
+	, m_isDead(FALSE)
+	, m_isNormalDead(false)
+	, m_isGibbingDead(false)
+	, m_isIdle(TRUE)
+
+	// --- 통계/드랍 1회성 가드 ---
+	, m_bCountedDeath(false)
+	, m_bDropDone(false)
+
+	// --- 플레이어 위치 캐시 ---
+	, m_PlayerPos{ 0.f, 0.f, 0.f }
+
+	// --- 애니 시트 오프셋(설정값은 복사) ---
+	, m_iGibDeadPlus(rhs.m_iGibDeadPlus)
+	, m_iNorDeadPlus(rhs.m_iNorDeadPlus)
+
+	// --- 특성 플래그/보스 여부(설정값은 복사) ---
+	, m_isPinky(rhs.m_isPinky)
+	, m_isBoss(rhs.m_isBoss)
+	, m_isShoot(false)                 // ★ 공격 1회 트리거 가드 리셋
+
+	// --- 타입/각도(설정값은 복사) ---
+	, m_iMonsterType(rhs.m_iMonsterType)
+	, m_fTargetAngle(rhs.m_fTargetAngle)
+	, m_fCurAngle(rhs.m_fCurAngle)
+
+	// --- 타겟/체력/기타 ---
+	, m_pAttackTarget(nullptr)         // 기본은 플레이어 타겟
+	, m_iPreHp(rhs.m_iGameHp)          // 직후 Calc_Hp 로직 일관성
+	, m_iHeight(rhs.m_iHeight)
+
+	// --- 보스 패턴용 ---
+	, m_AtkCnt(0)
+	, m_isFirstEnt(FALSE)
+	, m_isPattern3On(FALSE)
 {
 }
 
@@ -186,7 +268,7 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 	m_isDead							= Check_Dead();
 	Calc_Hp();
 	Check_Hit(fTimeDelta);
-	m_isDetected_Player		= Check_Shooting_Sound();
+	Check_Shooting_Sound();
 	m_isDetect_Player			= Check_Target();
 	m_isAtk							= Check_Attack(fTimeDelta);
 
@@ -317,6 +399,8 @@ _bool CMonsterBase::Check_Target()
 		}
 		else //플레이어가 범위 밖에 있다
 			return FALSE;
+
+		return false;
 }
 
 _bool CMonsterBase::Check_Shooting_Sound()
@@ -415,6 +499,8 @@ _bool CMonsterBase::Check_Shooting_Sound()
 			_vec3 look = vPlayerPos - vPos;
 			D3DXVec3Normalize(&look, &look);
 			m_vMoveLook = look;
+
+			m_isDetected_Player = true;
 			return true;
 		}
 		else
@@ -694,15 +780,6 @@ void CMonsterBase::Movement(const _float fTimeDelta)
 
 void CMonsterBase::Attack(const _float fTimeDelta)
 {
-	if (!m_isFirstEnt)
-	{
-		m_AtkCnt++;
-		if (m_AtkCnt > 7)
-			m_AtkCnt = 0;
-
-		m_isFirstEnt = TRUE;
-
-	}
 }
 
 _vec3 CMonsterBase::Get_PlayerPos()

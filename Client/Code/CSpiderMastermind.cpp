@@ -128,7 +128,7 @@ HRESULT CSpiderMastermind::Ready_GameObject()
 
 #pragma region VARIABLE_SETTING
 	m_fSightAngle = D3DXToRadian(80.f);
-	m_fSightDistance = 50.f;
+	m_fSightDistance = 500.f;
 
 	m_fAtkSpeed = 4.f;
 	m_iGameHp = 3000;
@@ -173,7 +173,7 @@ _int CSpiderMastermind::Update_GameObject(const _float& fTimeDelta)
 	else
 		cout << "no idle " << endl;
 
-	if (!m_bDead && !m_isIdle)
+	if (!m_bDead)
 	{
 		if (m_isAwake)
 		{
@@ -309,14 +309,15 @@ void CSpiderMastermind::Calc_Pattern()
 
 void CSpiderMastermind::Fire(const _float fTimeDelta)
 {
-	m_isShoot = TRUE;
+ 	m_isShoot = TRUE;
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
 	CGameObject* tmp = nullptr;
+	vPos.y -= 30.f;
 	for(int i = 0; i< 3; i++)
 	{
 		vPos.z -= i;
-		if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_ZOMBIEMAN_BULLET, OBJID::OBJ_BULLET, vPos, this, tmp)))
+		if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_BOSS_BASIC_BULLET, OBJID::OBJ_BULLET, vPos, this, tmp)))
 		{
 			int a = 0;
 		}
