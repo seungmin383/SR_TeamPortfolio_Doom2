@@ -151,7 +151,7 @@ HRESULT CMainMenu::Ready_UI_Layer(LAYERID _eLayerId)
 	pUiSet->SetUIElementFocus(1);
 
 	//UI그룹 하나를 매니징에 추가
-	uiMgr->InsertUISet(pUiSet);
+	uiMgr->InsertUISet(pUiSet, true, true);
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
 

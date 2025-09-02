@@ -130,6 +130,13 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_MainMenuUI_Hover", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/M_SKULL1.png", TEX_NORMAL))))
 		return E_FAIL;
 
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_PauseUI_Pause", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/M_PAUSE.png", TEX_NORMAL))))
+		return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_PauseUI_New", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/M_NGAME.png", TEX_NORMAL))))
+		return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_PauseUI_Quit", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/M_QUITG.png", TEX_NORMAL))))
+		return E_FAIL;
+
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_FaceUI", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STFST0%d.png", TEX_NORMAL, 3))))
 		return E_FAIL;
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_FaceUI1", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STFST1%d.png", TEX_NORMAL, 3))))

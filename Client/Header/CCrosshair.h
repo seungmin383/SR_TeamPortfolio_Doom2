@@ -13,7 +13,7 @@ public:
     virtual     void            LateUpdate_GameObject(const _float& fTimeDelta);
     virtual     void            Render_GameObject(const _float& fTimeDelta);
 
-    virtual void  Action() override { return; }
+    virtual _bool  Action() override { return true; }
 
 private:
     HRESULT     Add_Component();

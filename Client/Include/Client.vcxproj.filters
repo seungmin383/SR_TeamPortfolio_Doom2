@@ -223,6 +223,9 @@
     <Filter Include="02. GameObject\07. Bullet\01. MonsterBullet\CBossBasicBullet">
       <UniqueIdentifier>{a366d7c7-196f-4636-8448-b6a601bfebe6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\09. UI\Pause">
+      <UniqueIdentifier>{28bd3230-1302-40ef-81c1-05795aa982f8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -492,6 +495,15 @@
     <ClInclude Include="..\Header\CBossBasicBullet.h">
       <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CBossBasicBullet</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CPauseNew.h">
+      <Filter>02. GameObject\09. UI\Pause</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CPauseQuit.h">
+      <Filter>02. GameObject\09. UI\Pause</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CPausePause.h">
+      <Filter>02. GameObject\09. UI\Pause</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -754,6 +766,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\CBossBasicBullet.cpp">
       <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CBossBasicBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CPauseNew.cpp">
+      <Filter>02. GameObject\09. UI\Pause</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CPauseQuit.cpp">
+      <Filter>02. GameObject\09. UI\Pause</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CPausePause.cpp">
+      <Filter>02. GameObject\09. UI\Pause</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

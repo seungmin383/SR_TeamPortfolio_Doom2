@@ -67,9 +67,10 @@ void CMainMenuExit::Render_GameObject(const _float& fTimeDelta)
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }
 
-void CMainMenuExit::Action()
+_bool CMainMenuExit::Action()
 {
 	PostQuitMessage(0);
+	return false;
 }
 
 HRESULT CMainMenuExit::Add_Component()

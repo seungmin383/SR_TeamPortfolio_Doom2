@@ -16,14 +16,18 @@ protected:
     virtual ~CUIManager();
 
 public:
-    void                    InsertUISet(CUISet* uiSet);
+    void                    InsertUISet(CUISet* uiSet, _bool act, _bool isEnabledFocus);
 
-    //void                    AddUIPhase() { UIPhase++; }
-    //void                    SubTractUIPhase() { UIPhase--; }
-    void                    ToggleUIPhase();
-    void                    ExitUIPhase();
-    void                    ActivateUIPhase(_int phaseNumber);
-    void                    MappingKeyInput(_ubyte dInput, function<void()> func);
+    void                    SetUIPhase(_int ival) { CurUIPhase = ival; }
+    _int                    GetUIPhase() { return CurUIPhase; }
+
+    _bool                    AddUIPhase();
+    _bool                    SubTractUIPhase();
+
+    _bool                    ToggleUIPhase();
+    _bool                    ExitUIPhase();
+    _bool                    ActivateUIPhase(_int phaseNumber);
+    void                    MappingKeyInput(_ubyte dInput, function<_bool()> func);
 
     void                    UpdateUI();
 
@@ -37,8 +41,9 @@ private:
     vector<CUISet*>         UISetList;
     _int                    CurUIPhase = 0;
     _int                    MaxCount = 0;
+    vector<_bool>           FocusEnabled;
     vector<_bool>           Acts;
-    map<_ubyte, function<void()>>       UIKeyInputMap;
+    map<_ubyte, function<_bool()>>       UIKeyInputMap;
 
 private:
     virtual void        Free();

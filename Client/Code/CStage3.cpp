@@ -48,7 +48,8 @@ HRESULT CStage3::Ready_Scene()
 {
 	ShowCursor(FALSE);
 
-	//CUIManager::GetInstance()->UISetListClear();
+	CUIManager::GetInstance()->UISetListClear();
+
 	CColliderManager::GetInstance()->Reset();
 
 	if (FAILED(Ready_Environment_Layer(LAYERID::LAYER_ENVIRONMENT)))

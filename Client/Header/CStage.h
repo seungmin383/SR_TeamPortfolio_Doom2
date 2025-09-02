@@ -22,6 +22,7 @@ private:
     HRESULT         Ready_Environment_Layer(LAYERID _eLayerId);
     HRESULT         Ready_GameLogic_Layer(LAYERID _eLayerId);
     HRESULT         Ready_UI_Layer(LAYERID _eLayerId);
+    HRESULT         Ready_UI_Layer_Pause();
     HRESULT         Ready_Camera_Layer(LAYERID _eLayerId);
     HRESULT         Ready_Light();
 

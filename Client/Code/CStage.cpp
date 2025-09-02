@@ -19,6 +19,11 @@
 #include "../../Engine/Include/TerrainModels.h"
 #include "../../Engine/Include/GameObjectSpawnInfo.h"
 
+#include "CPausePause.h"
+#include "CPauseNew.h"
+#include "CPauseQuit.h"
+#include "CMainMenuHover.h"
+
 #include "CGameUI.h"
 #include "CGameUI_Info_Weapon.h"
 #include "CGameUI_Face.h"
@@ -66,6 +71,10 @@ CStage::~CStage()
 HRESULT CStage::Ready_Scene()
 {
 	ShowCursor(FALSE);
+	
+	CUIManager::GetInstance()->UISetListClear();
+
+	CColliderManager::GetInstance()->Reset();
 
 	if (FAILED(Ready_Environment_Layer(LAYERID::LAYER_ENVIRONMENT)))
 		return E_FAIL;
@@ -79,6 +88,8 @@ HRESULT CStage::Ready_Scene()
 	if (FAILED(Ready_UI_Layer(LAYERID::LAYER_UI)))
 		return E_FAIL;
 
+	if (FAILED(Ready_UI_Layer_Pause()))
+		return E_FAIL;
 
 	if (FAILED(Ready_Light()))
 		return E_FAIL;
@@ -136,6 +147,21 @@ _int CStage::Update_Scene(const _float& fTimeDelta)
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_T) & 0x80)
 	{
 		CManagement::GetInstance()->Change_Scene(SCENEID::STAGE2);
+	}
+
+	auto uiMgr = CUIManager::GetInstance();
+	uiMgr->UpdateUI();
+	auto curUiFocus = uiMgr->GetCurUISet()->FocusObserving();
+	switch (curUiFocus)
+	{
+	case 1:
+		uiMgr->GetCurUISet()->SetPosition(3, WINCX * 0.5f - 120.f, WINCY * 0.5f - 50.f);
+		break;
+	case 2:
+		uiMgr->GetCurUISet()->SetPosition(3, WINCX * 0.5f - 120.f, WINCY * 0.5f + 50.f);
+		break;
+	default:
+		break;
 	}
 
 	return iExit;
@@ -395,7 +421,170 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 		return E_FAIL;
 
 
+
+
+	//CUIManager
+	//UI 그룹 여러개를 관리
+	auto uiMgr = CUIManager::GetInstance();
+
+	//상단의 크로스헤어 추가
+	uiMgr->InsertUISet(pUiSet, true, false);
+
+	pUiSet = new CUISet();
+
+	auto pause = CPausePause::Create(m_pGraphicDev);
+
+	if (nullptr == pause)
+		return E_FAIL;
+
+	pause->Set_SizeXY(160.f, 30.f);
+	pause->Set_Pos(WINCX * 0.5f - 10.f, WINCY * 0.5f - 120.f);
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pause)))
+		return E_FAIL;
+
+	pUiSet->InsertUIObject(pause, false);
+
+	auto newgame = CPauseNew::Create(m_pGraphicDev);
+
+	if (nullptr == newgame)
+		return E_FAIL;
+
+	newgame->Set_SizeXY(160.f, 30.f);
+	newgame->Set_Pos(WINCX * 0.5f - 10.f, WINCY * 0.5f - 50.f);
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, newgame)))
+		return E_FAIL;
+
+	pUiSet->InsertUIObject(newgame, true);
+
+	auto quit = CPauseQuit::Create(m_pGraphicDev);
+
+	if (nullptr == exit)
+		return E_FAIL;
+
+	quit->Set_SizeXY(160.f, 30.f);
+	quit->Set_Pos(WINCX * 0.5f - 10.f, WINCY * 0.5f + 50.f);
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, quit)))
+		return E_FAIL;
+
+	pUiSet->InsertUIObject(quit, true);
+
+	auto hover = CMainMenuHover::Create(m_pGraphicDev);
+
+	if (nullptr == hover)
+		return E_FAIL;
+
+	hover->Set_SizeXY(40.f, 40.f);
+	hover->Set_Pos(WINCX * 0.5f - 120.f, WINCY * 0.5f + 50.f);
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, hover)))
+		return E_FAIL;
+
+	//하나의 UI Set에 그룹에 해당하는 UI 오브젝트들을 추가한다
+	pUiSet->InsertUIObject(hover, false);
+
+	//해당 그룹이 받는 key input과 input에 해당하는 메서드 할당
+	pUiSet->MappingKeyInput(DIK_UP, bind(&CUISet::AddUIElementIndex, pUiSet));
+	pUiSet->MappingKeyInput(DIK_DOWN, bind(&CUISet::SubTractUIElementIndex, pUiSet));
+	pUiSet->MappingKeyInput(DIK_RETURN, bind(&CUISet::ActivateUI, pUiSet));
+	pUiSet->SetUIElementFocus(1);
+
+	//UI그룹 하나를 매니징에 추가
+	uiMgr->InsertUISet(pUiSet, false, true);
+
+	uiMgr->MappingKeyInput(DIK_P, bind(&CUIManager::ToggleUIPhase, uiMgr));
+	uiMgr->SetUIPhase(1);
+
+
+
+
 	m_mapLayer.insert({ _eLayerId, pLayer });
+
+	return S_OK;
+}
+
+HRESULT CStage::Ready_UI_Layer_Pause()
+{
+	Engine::CLayer* pLayer = CLayer::Create();
+	if (pLayer == nullptr)
+		return E_FAIL;
+
+	////CUISet
+	////UI 한 그룹
+	//CUISet* pUiSet = new CUISet();
+
+	////CUIManager
+	////UI 그룹 여러개를 관리
+	//auto uiMgr = CUIManager::GetInstance();
+
+	//auto pause = CPausePause::Create(m_pGraphicDev);
+
+	//if (nullptr == pause)
+	//	return E_FAIL;
+
+	//pause->Set_SizeXY(160.f, 30.f);
+	//pause->Set_Pos(WINCX * 0.5f - 10.f, WINCY * 0.5f - 120.f);
+
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pause)))
+	//	return E_FAIL;
+
+	//pUiSet->InsertUIObject(pause, false);
+
+	//auto newgame = CPauseNew::Create(m_pGraphicDev);
+
+	//if (nullptr == newgame)
+	//	return E_FAIL;
+
+	//newgame->Set_SizeXY(160.f, 30.f);
+	//newgame->Set_Pos(WINCX * 0.5f - 10.f, WINCY * 0.5f - 50.f);
+
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, newgame)))
+	//	return E_FAIL;
+
+	//pUiSet->InsertUIObject(newgame, true);
+
+	//auto quit = CPauseQuit::Create(m_pGraphicDev);
+
+	//if (nullptr == exit)
+	//	return E_FAIL;
+
+	//quit->Set_SizeXY(160.f, 30.f);
+	//quit->Set_Pos(WINCX * 0.5f - 10.f, WINCY * 0.5f + 50.f);
+
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, quit)))
+	//	return E_FAIL;
+
+	//pUiSet->InsertUIObject(quit, true);
+
+	//auto hover = CMainMenuHover::Create(m_pGraphicDev);
+
+	//if (nullptr == hover)
+	//	return E_FAIL;
+
+	//hover->Set_SizeXY(40.f, 40.f);
+	//hover->Set_Pos(WINCX * 0.5f - 120.f, WINCY * 0.5f + 50.f);
+
+	//if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, hover)))
+	//	return E_FAIL;
+
+	////하나의 UI Set에 그룹에 해당하는 UI 오브젝트들을 추가한다
+	//pUiSet->InsertUIObject(hover, false);
+
+	////해당 그룹이 받는 key input과 input에 해당하는 메서드 할당
+	//pUiSet->MappingKeyInput(DIK_UP, bind(&CUISet::AddUIElementIndex, pUiSet));
+	//pUiSet->MappingKeyInput(DIK_DOWN, bind(&CUISet::SubTractUIElementIndex, pUiSet));
+	//pUiSet->MappingKeyInput(DIK_RETURN, bind(&CUISet::ActivateUI, pUiSet));
+	//pUiSet->SetUIElementFocus(1);
+
+	////UI그룹 하나를 매니징에 추가
+	//uiMgr->InsertUISet(pUiSet, false, true);
+
+	//uiMgr->MappingKeyInput(DIK_P, bind(&CUIManager::ToggleUIPhase, uiMgr));
+	//uiMgr->SetUIPhase(0);
+
+	m_mapLayer.insert({ LAYERID::LAYER_UI, pLayer });
 
 	return S_OK;
 }
