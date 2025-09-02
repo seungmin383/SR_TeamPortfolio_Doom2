@@ -55,7 +55,7 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_TerrainTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/Terrain/Grass_%d.tga", TEX_NORMAL, 2))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_SkyBoxTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/SkyBox/burger%d.dds", TEX_CUBE, 4))))
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_SkyBoxTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/SkyBox/burger0.dds", TEX_CUBE))))
 		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_PlayerWeaponTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Player/GUN%d.png", TEX_NORMAL, 5))))

@@ -15,43 +15,60 @@
       "StageNumber": 0,
       "terrainFileName": "",
       "ObjectFileName": "",
-      "MonsterFileName": ""
+      "MonsterFileName": "",
+      "AdditionalObject": [],
+      "AdditionalMonster": []
     },
     {
       "StageNumber": 1,
       "terrainFileName": "",
       "ObjectFileName": "",
-      "MonsterFileName": ""
+      "MonsterFileName": "",
+      "AdditionalObject": [],
+      "AdditionalMonster": []
     },
     {
       "StageNumber": 2,
       "terrainFileName": "",
       "ObjectFileName": "",
-      "MonsterFileName": ""
+      "MonsterFileName": "",
+      "AdditionalObject": [],
+      "AdditionalMonster": []
     },
     {
       "StageNumber": 3,
       "terrainFileName": "terrain1.json",
       "ObjectFileName": "object1.json",
-      "MonsterFileName": "monster1.json"
+      "MonsterFileName": "monster1.json",
+      "AdditionalObject": [],
+      "AdditionalMonster": [
+        "monster1-1.json",
+        "monster1-2.json"
+      ]
     },
     {
       "StageNumber": 4,
       "terrainFileName": "terrain2.json",
       "ObjectFileName": "object2.json",
-      "MonsterFileName": "monster2.json"
+      "MonsterFileName": "monster2.json",
+      "AdditionalObject": [],
+      "AdditionalMonster": []
     },
     {
       "StageNumber": 5,
       "terrainFileName": "terrain3.json",
       "ObjectFileName": "object3.json",
-      "MonsterFileName": "monster3.json"
+      "MonsterFileName": "monster3.json",
+      "AdditionalObject": [],
+      "AdditionalMonster": []
     },
     {
       "StageNumber": 6,
       "terrainFileName": "terrainlast.json",
       "ObjectFileName": "object4.json",
-      "MonsterFileName": "monster4.json"
+      "MonsterFileName": "monster4.json",
+      "AdditionalObject": [],
+      "AdditionalMonster": []
     }
   ],
 

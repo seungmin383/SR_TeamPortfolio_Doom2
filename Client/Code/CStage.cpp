@@ -189,7 +189,7 @@ HRESULT CStage::Load_PreSet()
 	}
 
 	//오브젝트 설치
-	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem((_uint)SCENEID::STAGE1);;
+	vector<GameObjectSpawnInfo> loadData = CFileManager::GetInstance()->LoadItem((_uint)SCENEID::STAGE1);
 
 	for (auto item : loadData)
 	{
@@ -202,7 +202,20 @@ HRESULT CStage::Load_PreSet()
 	ConnectDoorSwitchByLinkId();
 
 	//몬스터 설치
-	vector<GameObjectSpawnInfo> loadMonsterData = CFileManager::GetInstance()->LoadMonster((_uint)SCENEID::STAGE1);;
+	vector<GameObjectSpawnInfo> loadMonsterData = CFileManager::GetInstance()->LoadMonster((_uint)SCENEID::STAGE1);
+
+	for (auto monster : loadMonsterData)
+		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
+
+	//몬스터 설치 1-1
+	//Config.json 참고
+	loadMonsterData = CFileManager::GetInstance()->LoadAdditionalMonster((_uint)SCENEID::STAGE1, 0);
+
+	for (auto monster : loadMonsterData)
+		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
+
+	//몬스터 설치 1-2
+	loadMonsterData = CFileManager::GetInstance()->LoadAdditionalMonster((_uint)SCENEID::STAGE1, 1);
 
 	for (auto monster : loadMonsterData)
 		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
@@ -537,5 +550,6 @@ void CStage::RequestNextScene(SCENEID id)
 
 void CStage::Free()
 {
+	//CUIManager::GetInstance()->UISetListClear();
 	Engine::CScene::Free();
 }
