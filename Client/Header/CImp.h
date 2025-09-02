@@ -16,6 +16,8 @@ public:
     virtual     void            LateUpdate_GameObject(const _float& fTimeDelta);
     virtual     void            Render_GameObject(const _float& fTimeDelta);
 
+    virtual _bool Check_Attack(const _float& fTimeDelta)override;
+
     virtual void         Attack(const _float fTimeDelta)override;
     virtual void Drop_Item()override;
 

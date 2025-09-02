@@ -116,7 +116,7 @@ HRESULT CImp::Ready_GameObject()
 	m_fSightAngle = D3DXToRadian(80.f);
 	m_fSightDistance = 50.f;
 
-	m_fAtkSpeed = 4.f;
+	m_fAtkSpeed = rand()%4 + 2;
 	m_iGameHp = 60;
 	m_iAtkDmg = 3;
 
@@ -152,6 +152,38 @@ void CImp::LateUpdate_GameObject(const _float& fTimeDelta)
 void CImp::Render_GameObject(const _float& fTimeDelta)
 {
 	CMonsterBase::Render_GameObject(fTimeDelta);
+}
+
+_bool CImp::Check_Attack(const _float& fTimeDelta)
+{
+	m_fAtkDelay += fTimeDelta;
+
+	if (m_fAtkDelay > m_fAtkSpeed)
+	{
+		if (m_AtkEnterCnt == 0)									//이 함수에 처음 입장했다면
+		{
+			m_AtkEnterCnt++;										//카운트만 올리고 return 
+			return TRUE;
+		}
+		else
+		{
+			if (m_pAnimCom->Get_isFinAct())			//애니메이션이 끝났다면
+			{
+				m_AtkEnterCnt = 0;
+				m_fAtkDelay = 0.f;
+				m_isDetected_Player = FALSE;
+				m_isShoot = FALSE;
+				return FALSE;
+			}
+			else
+			{
+				m_AtkEnterCnt++;
+				return TRUE;
+			}
+		}
+	}
+	else
+		return FALSE;
 }
 
 void CImp::Attack(const _float fTimeDelta)

@@ -263,7 +263,7 @@ bool CCollisionManager::Check_Mask(CCollider* _Dst, CCollider* _Src)
 	return ((_Dst->Get_ColLayer() & _Src->Get_ColMask()) != 0 && (_Src->Get_ColLayer() & _Dst->Get_ColMask()) != 0);
 }
 
-CGameObject* CCollisionManager::Raycast(_vec3 vRayPos, _vec3 vRayDir, _vec3& vHitPos, _vec3& vHitNormal, _float fMaxDist, LAYERID* pHitLayer)
+CGameObject* CCollisionManager::Raycast(_vec3 vRayPos, _vec3 vRayDir, _vec3& vHitPos, _vec3& vHitNormal, _float fMaxDist, LAYERID* pHitLayer, CGameObject* _this)
 {
 	CGameObject* pClosestObj = nullptr;
 	_float fU(0.f), fV(0.f), fDist(0.f), fClosestDist(0.f);
@@ -287,6 +287,9 @@ CGameObject* CCollisionManager::Raycast(_vec3 vRayPos, _vec3 vRayDir, _vec3& vHi
 				{
 					for (auto object : objectArrayList[iD])
 					{
+						if (object == _this)
+							continue;
+
 						objectColliderBox = object->GetCollider()->Get_WorldCollisionBox();
 
 						// Initialize indices
@@ -437,6 +440,8 @@ CGameObject* CCollisionManager::Raycast(_vec3 vRayPos, _vec3 vRayDir, _vec3& vHi
 					}
 				}
 			}
+
+
 		}
 	}
 	return pClosestObj;

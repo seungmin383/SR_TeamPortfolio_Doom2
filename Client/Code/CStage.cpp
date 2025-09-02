@@ -209,17 +209,17 @@ HRESULT CStage::Load_PreSet()
 		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
 
 	//몬스터 설치 1-1
-	//Config.json 참고
-	loadMonsterData = CFileManager::GetInstance()->LoadAdditionalMonster((_uint)SCENEID::STAGE1, 0);
+	////Config.json 참고
+	//loadMonsterData = CFileManager::GetInstance()->LoadAdditionalMonster((_uint)SCENEID::STAGE1, 0);
 
-	for (auto monster : loadMonsterData)
-		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
+	//for (auto monster : loadMonsterData)
+	//	CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
 
-	//몬스터 설치 1-2
-	loadMonsterData = CFileManager::GetInstance()->LoadAdditionalMonster((_uint)SCENEID::STAGE1, 1);
+	////몬스터 설치 1-2
+	//loadMonsterData = CFileManager::GetInstance()->LoadAdditionalMonster((_uint)SCENEID::STAGE1, 1);
 
-	for (auto monster : loadMonsterData)
-		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
+	//for (auto monster : loadMonsterData)
+	//	CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
 
 	return S_OK;
 }
@@ -298,7 +298,7 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 	pGameObject = CGameUI::Create(m_pGraphicDev);
 
 	// CrossHair
-	CUISet* pUiSet = new CUISet();
+	//CUISet* pUiSet = new CUISet();
 
 	auto crosshair = CCrosshair::Create(m_pGraphicDev);
 
@@ -311,7 +311,8 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, crosshair)))
 		return E_FAIL;
 
-	pUiSet->InsertUIObject(crosshair, false);
+	//pUiSet->InsertUIObject(crosshair, false);
+
 
 	if (nullptr == pGameObject)
 		return E_FAIL;
