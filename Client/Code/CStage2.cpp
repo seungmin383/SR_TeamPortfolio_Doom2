@@ -294,7 +294,7 @@ HRESULT CStage2::Ready_UI_Layer(LAYERID _eLayerId)
 
 
 	// CrossHair
-	CUISet* pUiSet = new CUISet();
+	//CUISet* pUiSet = new CUISet();
 
 	auto crosshair = CCrosshair::Create(m_pGraphicDev);
 
@@ -307,7 +307,7 @@ HRESULT CStage2::Ready_UI_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, crosshair)))
 		return E_FAIL;
 
-	pUiSet->InsertUIObject(crosshair, false);
+	//pUiSet->InsertUIObject(crosshair, false);
 
 
 

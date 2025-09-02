@@ -118,7 +118,7 @@ HRESULT CArchVile::Ready_GameObject()
 	m_fSightAngle = D3DXToRadian(80.f);
 	m_fSightDistance = 50.f;
 
-	m_fAtkSpeed = 4.f;
+	m_fAtkSpeed = rand() % 4 + 2;
 	m_iGameHp = 700;
 	m_iAtkDmg = 30;
 

@@ -34,7 +34,7 @@ HRESULT CBossBasicBullet::Ready_GameObject()
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
-	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(10.f, 10.f, 10.f), _vec3(0.f, 0.f, 0.f),
+	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(5.f, 5.f, 5.f), _vec3(0.f, 0.f, 0.f),
 		COLLAYERID::COL_BULLET,
 		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT | COLLAYERID::COL_ENEMY);
 
@@ -45,7 +45,7 @@ HRESULT CBossBasicBullet::Ready_GameObject()
 		m_fSpeed = 105.f;
 		m_bDead = FALSE;
 		m_iDmg = dynamic_cast<CMonsterBase*>(m_pOwner)->GetAtkDmg();
-		m_pTransformCom->Set_Scale(_vec3{ 10.f, 10.f, 10.f });
+		m_pTransformCom->Set_Scale(_vec3{ 5.f, 5.f, 5.f });
 	}
 
 	//날라갈 때
