@@ -527,6 +527,6 @@ void CStage::RequestNextScene(SCENEID id)
 
 void CStage::Free()
 {
-	CUIManager::GetInstance()->UISetListClear();
+	//CUIManager::GetInstance()->UISetListClear();
 	Engine::CScene::Free();
 }
