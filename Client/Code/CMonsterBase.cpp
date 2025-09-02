@@ -765,7 +765,7 @@ void CMonsterBase::Movement(const _float fTimeDelta)
 	LAYERID eHitLayer = LAYERID::LAYER_END;
 
 	m_pTransformCom->Get_Pos(&vPos);
-	CCollisionManager::Raycast(vPos, vLook, vHitPos, vHitNormal, 2.f * m_pColliderCom->Get_Scale().x, &eHitLayer);
+	CCollisionManager::Raycast(vPos, vLook, vHitPos, vHitNormal, 2.f * m_pColliderCom->Get_Scale().x, &eHitLayer, this);
 
 	if (eHitLayer != LAYERID::LAYER_ENVIRONMENT)
 	{
