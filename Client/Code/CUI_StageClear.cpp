@@ -71,9 +71,10 @@ _int CUI_StageClear::Update_GameObject(const _float& fTimeDelta)
 	}
 
 	case State::Wait:
-		if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_RETURN) & 0x80) {
-			auto* mg = CManagement::GetInstance();
-			auto* cur = mg->Get_Scene();   // 현재 씬 포인터
+		if (CDInputManager::GetInstance()->Get_KeyDown(DIK_RETURN)) {
+			auto mg = CManagement::GetInstance();
+			auto cur = mg->Get_Scene();   // 현재 씬 포인터
+			SCENEID curSceneId = mg->Get_CurSceneId();
 			SCENEID next = SCENEID::STAGE2;
 
 			if (dynamic_cast<CStage2*>(cur))      next = SCENEID::STAGE3;
