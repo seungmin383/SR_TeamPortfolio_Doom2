@@ -77,7 +77,7 @@ void CDropBulletEffect::Reset_Effect(_vec3 vPos)
 {
 	m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 	m_pTransformCom->Set_Scale(_vec3{ 0.3f, 0.3f, 0.3f });
-	m_pAnimCom->SetFrameDefault();
+	m_pAnimCom->SetFrameDefault(); 
 
 	m_bDead = FALSE;
 
