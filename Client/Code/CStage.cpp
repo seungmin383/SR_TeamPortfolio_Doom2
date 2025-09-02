@@ -215,7 +215,7 @@ HRESULT CStage::Load_PreSet()
 	//for (auto monster : loadMonsterData)
 	//	CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
 
-	////몬스터 설치 1-2
+	//몬스터 설치 1-2
 	//loadMonsterData = CFileManager::GetInstance()->LoadAdditionalMonster((_uint)SCENEID::STAGE1, 1);
 
 	//for (auto monster : loadMonsterData)
