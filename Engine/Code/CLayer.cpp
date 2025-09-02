@@ -294,7 +294,7 @@ _int CLayer::Update_Layer(const _float& fTimeDelta)
 				return iResult;
 			}
 
-			++iter;																			// 저기 푸쉬백 해줘서 iter가 무효화 되서 여기 ++ 할때 터지는 상황이였어요
+				++iter;																			// 저기 푸쉬백 해줘서 iter가 무효화 되서 여기 ++ 할때 터지는 상황이였어요
 		}
 
 		//업데이트 다 돌고나면 m_vecObject여기에 m_vecPendingObject를 추가해주는 식으로 고쳤더니 
