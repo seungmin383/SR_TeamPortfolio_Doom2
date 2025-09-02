@@ -412,8 +412,8 @@ void CMainApp::Free()
 	CDInputManager::GetInstance()->DestroyInstance();
 	CWeaponManager::GetInstance()->DestroyInstance();
 	EffectManager::GetInstance()->DestroyInstance();	
-	m_pManagementClass->DestroyInstance();
 
+	m_pManagementClass->DestroyInstance();
 	CSoundManager::GetInstance()->DestroyInstance();
 
 	m_pDeviceClass->DestroyInstance();
