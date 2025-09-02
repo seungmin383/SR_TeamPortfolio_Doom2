@@ -210,6 +210,7 @@ void CZombieMan::Drop_Item()
 	m_pTransformCom->Get_Pos(&vPos);
 
 	CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ITEM_CLIP, OBJID::OBJ_ITEM, vPos, 1);
+
 }
 
 

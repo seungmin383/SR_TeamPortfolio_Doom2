@@ -189,6 +189,15 @@ void CPinky::Attack(const _float fTimeDelta)
 
 }
 
+void CPinky::Drop_Item()
+{
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+
+	CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ITEM_SHELL, OBJID::OBJ_ITEM, vPos, 1);
+
+}
+
 HRESULT CPinky::Add_Component()
 {
 	CMonsterBase::Add_Component();
