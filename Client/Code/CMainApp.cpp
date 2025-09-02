@@ -75,6 +75,8 @@
 #include "CTmpWall.h"
 #include "CMonsterSpawner.h"
 
+#include "CSoundManager.h"
+
 CMainApp::CMainApp()
 	: m_pGraphicDev(nullptr),
 	m_pManagementClass(CManagement::GetInstance())
@@ -355,6 +357,8 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 
 	CFileManager::GetInstance()->SetProjectDir();
 
+	CSoundManager::GetInstance()->Init();
+
 	return S_OK;
 }
 
@@ -410,5 +414,7 @@ void CMainApp::Free()
 	EffectManager::GetInstance()->DestroyInstance();	
 
 	m_pManagementClass->DestroyInstance();
+	CSoundManager::GetInstance()->DestroyInstance();
+
 	m_pDeviceClass->DestroyInstance();
 }

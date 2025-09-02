@@ -2,11 +2,13 @@
 
 CEffect::CEffect(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CGameObject(pGraphicDev)
+	, m_pBufferCom(nullptr), m_pTextureCom(nullptr), m_pAnimCom(nullptr)
 {
 }
 
 CEffect::CEffect(const CEffect& rhs)
 	:CGameObject(rhs), m_eEffectId(), m_iFunc_Ent_Cnt(0)
+	, m_pBufferCom(nullptr), m_pTextureCom(nullptr), m_pAnimCom(nullptr)
 {
 }
 
