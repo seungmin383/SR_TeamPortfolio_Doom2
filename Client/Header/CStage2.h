@@ -57,6 +57,29 @@ private:
         return tr;
     }
 
+    // 추가: 클리어 목표 타입
+    enum class GoalType { KillBoss, KillCount };
+    enum class GoalSource { None, Boss, KillCount };
+    enum class GoalTiePolicy { PreferEarliest, PreferBoss, PreferKillCount };
+
+
+    GoalType m_goal = GoalType::KillBoss; // 기본: 보스 처치형
+    int      m_goalKillCount = -1;        // KillCount 모드에서 목표치 (-1 = totalKills 사용)
+
+    // ★ 추가: 동시달성 처리 상태
+    GoalTiePolicy  m_tiePolicy = GoalTiePolicy::PreferEarliest; // 기본: 먼저 달성한 쪽
+    GoalSource     m_goalSource = GoalSource::None;
+    bool           m_goalLatched = false; // 한번만 결과 발생하도록 잠금
+    float          m_goalBossTime = FLT_MAX;
+    float          m_goalKillTime = FLT_MAX;
+
+    // 목표/상태 체크
+    void InitTotals();            // 총 몬스터 수 등 세팅
+    void CheckStageGoal();        // 매 프레임 조건 검사
+    bool IsArchVileAlive();       // 아크바일 생존 여부
+
+    // ★ 추가: 최종 원인 선택 & 라치
+    void ResolveAndLatchGoal();
 protected:
     virtual void        Free();
 };
