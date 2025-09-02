@@ -241,7 +241,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		// Raycast part
 		_vec3 vHitPos, vHitNormal;
 		LAYERID eHitLayer = LAYERID::LAYER_END;
-		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer);
+		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer, this);
 
 		m_vEye.x += vLength.x;
 		m_vEye.z += vLength.z;
@@ -305,7 +305,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		// Raycast part
 		_vec3 vHitPos, vHitNormal;
 		LAYERID eHitLayer = LAYERID::LAYER_END;
-		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer);
+		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer, this);
 
 		m_vEye.x -= vLength.x;
 		m_vEye.z -= vLength.z;
@@ -370,7 +370,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		// Raycast part
 		_vec3 vHitPos, vHitNormal;
 		LAYERID eHitLayer = LAYERID::LAYER_END;
-		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer);
+		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer, this);
 
 		m_vEye.x += vLength.x;
 		m_vEye.z += vLength.z;
@@ -437,7 +437,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		// Raycast part
 		_vec3 vHitPos, vHitNormal;
 		LAYERID eHitLayer = LAYERID::LAYER_END;
-		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer);
+		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer, this);
 
 		if (eHitLayer != LAYERID::LAYER_ENVIRONMENT)
 		{

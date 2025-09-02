@@ -103,7 +103,7 @@ private:
 	// 라이더(플랫폼 위의 플레이어)
 	CGameObject* m_pRider = nullptr;
 	float        m_lastY = 0.f;     // 이전 프레임 플랫폼 Y (deltaY 계산)
-	float        m_halfHeight = 0.5f;// 콜라이더/메시 절반 높이
+	float        m_halfHeight = 0.25f;// 콜라이더/메시 절반 높이
 
 	float GetTopFaceWorldY() const {
 		if (m_pColliderCom) {

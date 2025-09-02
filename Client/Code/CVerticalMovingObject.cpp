@@ -75,8 +75,8 @@ _int CVerticalMovingObject::Update_GameObject(const _float& fTimeDelta)
 {
 	const _int iExit = CGameObject::Update_GameObject(fTimeDelta);
 
-	// 키를 먹었으면 '움직임'만 수행
-	if (CManagement::GetInstance()->Is_KeyOwned())
+	const bool hasRider = (m_pRiderTr != nullptr) || (m_pLastRiderTr && m_groundHoldT > 0.f);
+	if (hasRider)
 	{
 		_vec3 pos; m_pTransformCom->Get_Pos(&pos);
 
@@ -122,8 +122,9 @@ _int CVerticalMovingObject::Update_GameObject(const _float& fTimeDelta)
 void CVerticalMovingObject::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
-
-	if (CManagement::GetInstance()->Is_KeyOwned())
+	
+	const bool hasRider = (m_pRiderTr != nullptr) || (m_pLastRiderTr && m_groundHoldT > 0.f);
+	if (hasRider)
 	{
 		if (m_pRiderTr) {
 			if (fabsf(m_postCarryDeltaY) > 1e-6f)
@@ -142,8 +143,9 @@ void CVerticalMovingObject::LateUpdate_GameObject(const _float& fTimeDelta)
 
 		DecayActiveGround(fTimeDelta);
 
-		if (m_pColliderCom) m_pColliderCom->Late_Update();
+		
 	}
+	if (m_pColliderCom) m_pColliderCom->Late_Update();
 }
 
 void CVerticalMovingObject::Render_GameObject(const _float& fTimeDelta)
@@ -193,7 +195,7 @@ void CVerticalMovingObject::Render_GameObject(const _float& fTimeDelta)
 void CVerticalMovingObject::OnCollision(CCollider* _pOther)
 {
 	if (!_pOther || !m_pColliderCom) return;
-	if ((_pOther->Get_ColLayer() != COL_PLAYER)) return;
+	if ((_pOther->Get_ColLayer() & COL_PLAYER) == 0) return;
 
 	if (!m_pRiderTr) AttachRider(_pOther->Get_Owner());
 #ifdef _DEBUG
@@ -206,7 +208,7 @@ void CVerticalMovingObject::OnCollision(CCollider* _pOther)
 		OutputDebugStringA("[Platform] rider Transform OK (Stay)\n");
 	}
 #endif
-	
+
 	m_groundHoldT = m_groundHoldSec;    // 접촉 유지 → 홀드 리필
 
 	const float EPS = 0.02f;
@@ -219,7 +221,7 @@ void CVerticalMovingObject::OnCollisionEnter(CCollider* _pOther)
 {
 	if (!_pOther || !m_pColliderCom) return;
 	// 레이어/마스크 필터 – 플레이어/적 등 발판에 서길 원하는 레이어만
-	if (_pOther->Get_ColLayer() != COL_PLAYER) return;
+	if ((_pOther->Get_ColLayer() & COL_PLAYER) == 0) return;
 
 	AttachRider(_pOther->Get_Owner());
 
