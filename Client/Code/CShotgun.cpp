@@ -4,6 +4,7 @@
 #include "CShotgunBullet.h"
 #include "CManagement.h"
 #include "CDynamicCamera.h"
+#include "CSoundManager.h"
 
 CShotgun::CShotgun()
 {
@@ -40,7 +41,8 @@ _bool CShotgun::Fire()
 		vAt = static_cast<CDynamicCamera*>(pPlayer)->Get_At();
 		vLook = vAt - vPlayerPos;
 		D3DXVec3Normalize(&vLook, &vLook);
-		
+
+		CSoundManager::GetInstance()->PlaySoundW(L"DSSHOTGN.wav", CHANNELID::SOUND_EFFECT, 0.5f);
 		CGameObject* tmp = nullptr;
 
 		for (int i = 0; i < 5; i++)

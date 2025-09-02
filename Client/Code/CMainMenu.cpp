@@ -15,6 +15,7 @@
 
 #include "CUISet.h"
 #include "CUIManager.h"
+#include "CSoundManager.h"
 
 CMainMenu::CMainMenu(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -29,6 +30,8 @@ HRESULT CMainMenu::Ready_Scene()
 {
 	if (FAILED(Ready_UI_Layer(LAYERID::LAYER_UI)))
 		return E_FAIL;
+
+	CSoundManager::GetInstance()->PlayBGM(L"D_INTRO.mid", 0.5f);
 
 	return S_OK;
 }
@@ -184,5 +187,6 @@ CMainMenu* CMainMenu::Create()
 
 void CMainMenu::Free()
 {
+	CSoundManager::GetInstance()->StopAll();
 	Engine::CScene::Free();
 }

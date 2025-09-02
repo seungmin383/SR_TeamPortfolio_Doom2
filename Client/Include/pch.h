@@ -18,6 +18,10 @@ extern bool g_colRend;
 #include <d3dx9.h>
 #include <process.h>
 #include <iostream>
+#include "fmod.h"
+#include "fmod.hpp"
+#pragma comment(lib, "fmod_vc.lib")
+#include <io.h>
 
 #include <../../Engine/Include/nlohmann/json.hpp>
 using json = nlohmann::json;
