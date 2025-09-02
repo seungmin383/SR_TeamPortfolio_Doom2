@@ -142,7 +142,7 @@ HRESULT CSpiderMastermind::Ready_GameObject()
 	m_iGibDeadPlus = 24;
 	m_iNorDeadPlus = 25;
 	m_fSpeed = SPEED;
-	m_isBoss = FALSE;
+	m_isBoss = TRUE;
 	std::mt19937 rng{ std::random_device{}() };
 	std::uniform_int_distribution<uint16_t> dist(0, 0xFFFF);
 	m_iPattern = dist(rng);
@@ -167,11 +167,6 @@ _int CSpiderMastermind::Update_GameObject(const _float& fTimeDelta)
 {
 	Check_Anim_Fin(fTimeDelta);
 	Pattern_Timer(fTimeDelta);		//패턴 시간 누적
-
-	if (m_isIdle)
-		cout << "idle" << endl;
-	else
-		cout << "no idle " << endl;
 
 	if (!m_bDead)
 	{
@@ -294,6 +289,38 @@ HRESULT CSpiderMastermind::Add_Component()
 }
 
 
+_bool CSpiderMastermind::Check_Attack(const _float& fTimeDelta)
+{
+	m_fAtkDelay += fTimeDelta;
+
+	if (m_fAtkDelay > m_fAtkSpeed)
+	{
+		if (m_AtkEnterCnt == 0)									//이 함수에 처음 입장했다면
+		{
+			m_AtkEnterCnt++;										//카운트만 올리고 return 
+			return TRUE;
+		}
+		else
+		{
+			if (m_pAnimCom->Get_isFinAct())			//애니메이션이 끝났다면
+			{
+				m_AtkEnterCnt = 0;
+				m_fAtkDelay = 0.f;
+				m_isDetected_Player = FALSE;
+				m_isShoot = FALSE;
+				return FALSE;
+			}
+			else
+			{
+				m_AtkEnterCnt++;
+				return TRUE;
+			}
+		}
+	}
+	else
+		return FALSE;
+}
+
 void CSpiderMastermind::Attack(const _float fTimeDelta)
 {
 	CMonsterBase::Attack(fTimeDelta);
@@ -312,11 +339,24 @@ void CSpiderMastermind::Fire(const _float fTimeDelta)
  	m_isShoot = TRUE;
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
+	_vec3 vPlayerPos;
+	_matrix PlayerPos;
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &PlayerPos);
+	D3DXMatrixIdentity(&PlayerPos);
+	vPlayerPos.x = PlayerPos._41;
+	vPlayerPos.y = PlayerPos._42;
+	vPlayerPos.z = PlayerPos._43;
+
+	_vec3 vLook = vPlayerPos - vPos;
+	D3DXVec3Normalize(&m_vMoveLook, &(vLook));
+
 	CGameObject* tmp = nullptr;
 	vPos.y -= 30.f;
+
 	for(int i = 0; i< 3; i++)
 	{
-		vPos.z -= i;
+		vPos += m_vMoveLook * i*10;
+
 		if (FAILED(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ENEMY_BOSS_BASIC_BULLET, OBJID::OBJ_BULLET, vPos, this, tmp)))
 		{
 			int a = 0;
