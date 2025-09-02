@@ -184,9 +184,13 @@ HRESULT CWeapon_BFG::Add_Component()
 
 void CWeapon_BFG::Set_OnTerrain()
 {
+	_float heghtest(FLT_MIN);
+	_vec3 pos;
+	_vec3 onPosition{ 0.f, 0.f, 0.f };
+	_float vScaleY = m_pTransformCom->Get_Scale()->y;
+
 	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
 	{
-		_vec3 pos;
 		m_pTransformCom->Get_Pos(&pos);
 
 		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
@@ -197,7 +201,7 @@ void CWeapon_BFG::Set_OnTerrain()
 		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
 		{
 
-			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 1, pos.z);
+			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 2, pos.z);
 			break;
 		}
 	}

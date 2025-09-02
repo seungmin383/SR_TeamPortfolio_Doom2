@@ -30,7 +30,7 @@ HRESULT CDoorWithKey::Ready_GameObject()
 	m_fTimer = 0.f;
 
 	m_pTransformCom->Set_Pos(20.f, 3.f, 25.f);
-	m_pTransformCom->Set_Scale(_vec3(3.f, 3.f, 1.f));
+	m_pTransformCom->Set_Scale(_vec3(7.f, 7.f, 1.f));
 
 	m_pTransformCom->Get_Pos(&m_vOriginPos);
 
@@ -40,7 +40,7 @@ HRESULT CDoorWithKey::Ready_GameObject()
 		m_pColliderCom->Ready_CCollider(
 			this,
 			_vec3(0, 0, 0),         // 초기 위치(Transform가 실제로 잡아줌)
-			_vec3(3.f, 3.f, 1.5f),   // 박스 크기
+			_vec3(14.f, 14.f, 2.1f),   // 박스 크기
 			_vec3(0, 0.f, 0),      // 약간 위로
 			COL_OBJECT,             // 내 레이어
 			// 공격으로 인정할 대상 레이어(레이 사격 포함)
@@ -54,7 +54,7 @@ HRESULT CDoorWithKey::Ready_GameObject()
 	else
 		m_fTimer = 0;
 
-	m_fOpenHeight = m_vOriginPos.y * 2;
+	m_fOpenHeight = m_vOriginPos.y * 3;
 
 	return S_OK;
 }
@@ -180,9 +180,13 @@ HRESULT CDoorWithKey::Add_Component()
 
 void CDoorWithKey::Set_OnTerrain()
 {
+	_float heghtest(FLT_MIN);
+	_vec3 pos;
+	_vec3 onPosition{ 0.f, 0.f, 0.f };
+	_float vScaleY = m_pTransformCom->Get_Scale()->y;
+
 	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
 	{
-		_vec3 pos;
 		m_pTransformCom->Get_Pos(&pos);
 
 		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
@@ -193,7 +197,7 @@ void CDoorWithKey::Set_OnTerrain()
 		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
 		{
 
-			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 1, pos.z);
+			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 2, pos.z);
 			break;
 		}
 	}
@@ -244,10 +248,10 @@ void CDoorWithKey::DoorOpening(const _float& fTimeDelta)
 		_vec3 vPos;
 		m_pTransformCom->Get_Pos(&vPos);
 
-		if (vPos.y <= m_vOriginPos.y)
+		if (vPos.y <= m_vOriginPos.y + 1.5)
 		{
 			// XZ는 유지, Y만 원래 높이로
-			vPos.y = m_vOriginPos.y;
+			vPos.y = m_vOriginPos.y + 1.5f;
 			m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 			m_state = State::Idle;
 		}
