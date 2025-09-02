@@ -440,6 +440,8 @@ CGameObject* CCollisionManager::Raycast(_vec3 vRayPos, _vec3 vRayDir, _vec3& vHi
 					}
 				}
 			}
+
+
 		}
 	}
 	return pClosestObj;

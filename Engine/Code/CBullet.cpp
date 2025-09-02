@@ -71,6 +71,7 @@ _int CBullet::Update_GameObject(const _float& fTimeDelta)
 			m_fSpeed = 0.f;
 			m_pTransformCom->Set_Pos(m_vHitpos.x, m_vHitpos.y, m_vHitpos.z);
 
+			EffectManager::GetInstance()->Start_Effect(m_vHitpos, EFFECTID::BULLET_IMPACT);
 			// 총알의 상태를 Hit 상태로 변경
 			m_eState = BULLET_STATE::HIT;
 
@@ -166,7 +167,6 @@ void CBullet::OnCollisionEnter(CCollider* _pOther)
 	else
 		_pOther->Get_Owner()->Take_Dmg(m_iDmg);
 	
-	EffectManager::GetInstance()->Start_Effect(m_vHitpos, EFFECTID::BULLET_IMPACT);
 
 	//m_bDead = TRUE;
 }
