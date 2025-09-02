@@ -117,7 +117,7 @@ HRESULT CZombieMan::Ready_GameObject()
 	m_fSightAngle =D3DXToRadian( 80.f);
 	m_fSightDistance		= 30.f;
 
-	m_fAtkSpeed			= 4.f;
+	m_fAtkSpeed			= rand() % 4 + 2;
 	m_iGameHp						= 20;
 	m_iAtkDmg				= 3;
 	m_fSpeed					= 2.f;
@@ -135,9 +135,6 @@ HRESULT CZombieMan::Ready_GameObject()
 	//초기 룩으로 세팅해주고
 	m_pTransformCom->Get_Info(INFO_LOOK, &m_vMoveLook);
 	//cout << m_vMoveLook.x << m_vMoveLook.y << m_vMoveLook.z << endl;
-
-	m_vMoveLook.z = m_vMoveLook.z;
-	m_vMoveLook.x = 1;
 	//cout << m_vMoveLook.x << m_vMoveLook.y << m_vMoveLook.z << endl;
 #pragma endregion
 	CMonsterBase::Ready_GameObject();
@@ -149,6 +146,7 @@ _int CZombieMan::Update_GameObject(const _float& fTimeDelta)
 {
 	CMonsterBase::Update_GameObject(fTimeDelta);
 
+	cout << "hp :  " << m_iGameHp << endl;
 	Bill_Board();
 	Set_OnTerrain();
 	return 0;

@@ -498,7 +498,8 @@ _bool CMonsterBase::Check_Shooting_Sound()
 			m_pTransformCom->Get_Pos(&vPos);
 			_vec3 look = vPlayerPos - vPos;
 			D3DXVec3Normalize(&look, &look);
-			m_vMoveLook = look;
+			if(!m_isBoss)
+				m_vMoveLook = look;
 
 			m_isDetected_Player = true;
 			return true;
@@ -578,7 +579,16 @@ void CMonsterBase::Calc_Hp()
 {
 	if (m_iGameHp != m_iPreHp)
 	{
-		m_isHit = TRUE;
+		if (m_isBoss)
+		{
+			_int a = rand() % 10;
+			if (a > 7)
+				m_isHit = TRUE;
+			else
+				m_isHit = FALSE;
+		}
+		else
+			m_isHit = TRUE;
 
 		m_iPreHp = m_iGameHp;
 	}
@@ -755,7 +765,7 @@ void CMonsterBase::Movement(const _float fTimeDelta)
 	LAYERID eHitLayer = LAYERID::LAYER_END;
 
 	m_pTransformCom->Get_Pos(&vPos);
-	CCollisionManager::Raycast(vPos, vLook, vHitPos, vHitNormal, 2.f * m_pColliderCom->Get_Scale().x, &eHitLayer);
+	CCollisionManager::Raycast(vPos, vLook, vHitPos, vHitNormal, 2.f * m_pColliderCom->Get_Scale().x, &eHitLayer, this);
 
 	if (eHitLayer != LAYERID::LAYER_ENVIRONMENT)
 	{

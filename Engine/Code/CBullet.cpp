@@ -44,7 +44,9 @@ _int CBullet::Update_GameObject(const _float& fTimeDelta)
 	LAYERID eHitLayer = LAYERID::LAYER_END;
 
 	m_pTransformCom->Get_Pos(&vPos);
-	pTargetObj = CCollisionManager::Raycast(vPos, m_vInitDir, m_vHitpos, vNormal, m_fSpeed * fTimeDelta, &eHitLayer);
+
+	D3DXVec3Normalize(&m_vInitDir, &m_vInitDir);
+	pTargetObj = CCollisionManager::Raycast(vPos, m_vInitDir, m_vHitpos, vNormal, m_fSpeed * fTimeDelta, &eHitLayer, m_pOwner);
 
 	if (pTargetObj != nullptr)
 	{
@@ -54,7 +56,7 @@ _int CBullet::Update_GameObject(const _float& fTimeDelta)
 			if (pTargetObj->Get_Dead())
 				return 0;
 
-			EffectManager::GetInstance()->Start_Effect(m_vHitpos, EFFECTID::BLOOD_EXPLOSION);
+		EffectManager::GetInstance()->Start_Effect(m_vHitpos, EFFECTID::BLOOD_EXPLOSION);
 
 			pTargetObj->OnCollisionEnter(this->GetCollider());
 			this->OnCollisionEnter(pTargetObj->GetCollider());
@@ -69,6 +71,7 @@ _int CBullet::Update_GameObject(const _float& fTimeDelta)
 			m_fSpeed = 0.f;
 			m_pTransformCom->Set_Pos(m_vHitpos.x, m_vHitpos.y, m_vHitpos.z);
 
+			EffectManager::GetInstance()->Start_Effect(m_vHitpos, EFFECTID::BULLET_IMPACT);
 			// 총알의 상태를 Hit 상태로 변경
 			m_eState = BULLET_STATE::HIT;
 
@@ -164,7 +167,6 @@ void CBullet::OnCollisionEnter(CCollider* _pOther)
 	else
 		_pOther->Get_Owner()->Take_Dmg(m_iDmg);
 	
-	EffectManager::GetInstance()->Start_Effect(m_vHitpos, EFFECTID::BULLET_IMPACT);
 
 	//m_bDead = TRUE;
 }
