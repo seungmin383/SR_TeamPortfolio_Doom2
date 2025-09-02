@@ -439,6 +439,11 @@ _bool CMonsterBase::Check_Dead()
 				CStatsManager::I().OnEnemyKilled();
 			}
 
+			if (!m_bDropDone) {				// (08/25 ¼öÁ¤ - ±èÈ«ÀÎ)
+				Drop_Item();
+				m_bDropDone = true;
+			}
+
 			return	TRUE;
 		}
 		m_isGibbingDead = FALSE;
