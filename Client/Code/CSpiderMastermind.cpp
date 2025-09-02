@@ -128,7 +128,7 @@ HRESULT CSpiderMastermind::Ready_GameObject()
 
 #pragma region VARIABLE_SETTING
 	m_fSightAngle = D3DXToRadian(80.f);
-	m_fSightDistance = 500.f;
+	m_fSightDistance = 50.f;
 
 	m_fAtkSpeed = 4.f;
 	m_iGameHp = 3000;
@@ -168,7 +168,12 @@ _int CSpiderMastermind::Update_GameObject(const _float& fTimeDelta)
 	Check_Anim_Fin(fTimeDelta);
 	Pattern_Timer(fTimeDelta);		//패턴 시간 누적
 
-	if (!m_bDead)
+	if (m_isIdle)
+		cout << "idle" << endl;
+	else
+		cout << "no idle " << endl;
+
+	if (!m_bDead && !m_isIdle)
 	{
 		if (m_isAwake)
 		{
@@ -182,7 +187,7 @@ _int CSpiderMastermind::Update_GameObject(const _float& fTimeDelta)
 	}
 	//Update_Pattern(fTimeDelta, 3);
 
-//	cout << "스파이더 마스터마인드 픎레이어 발견 : " << m_isDetect_Player << endl;
+
 	if(!m_isPattern3On)
 		CMonsterBase::Update_GameObject(fTimeDelta);
 	else
@@ -249,7 +254,7 @@ void CSpiderMastermind::Reset_State()
 	m_iTmp_Anim_Type = MOVE;	//애니메이션을 MOVE로 바꾸고
 	m_eAnim_Type = MOVE;
 	m_isPattern3On = FALSE;
-
+	m_isIdle = TRUE;
 	m_pColliderCom->Set_Active(true);
 }
 

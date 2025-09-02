@@ -114,6 +114,8 @@ protected:
     _int    m_isDead = false;                             //죽었는가?
     _bool m_isNormalDead = false;                  //그냥 죽었는가?
     _bool m_isGibbingDead = false;                 //폭사했는가?
+    _bool m_isIdle = TRUE;
+
 
     // 적 처리 카운트 플래그 추가(08/24 김홍인)
     _bool m_bCountedDeath = false;

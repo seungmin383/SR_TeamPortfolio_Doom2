@@ -7,6 +7,7 @@
 #include "CTimerManager.h"
 #include "CBullet.h"
 #include "CTerrainSector.h"
+#include <iostream>
 
 CArchVile::CArchVile(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonsterBase(pGraphicDev)
@@ -24,6 +25,7 @@ CArchVile::~CArchVile()
 
 HRESULT CArchVile::Ready_GameObject()
 {
+
 	m_iMonsterType = OBJPROTOTYPE::ENEMY_ARCHVILE;
 
 	if (FAILED(Add_Component()))
