@@ -5,7 +5,8 @@
 IMPLEMENT_SINGLETON(CManagement)
 
 CManagement::CManagement()
-	: m_pScene(nullptr)
+	: m_pScene(nullptr),
+	m_pPlayer(nullptr)
 {
 	for (size_t i = 0; i < (_uint)SCENEID::SCENE_END; i++)
 		m_pArrScene[i] = nullptr;
@@ -71,6 +72,9 @@ HRESULT CManagement::Change_Scene(SCENEID _eSceneId)
 	if (nullptr == m_pArrScene[(_uint)_eSceneId])
 		return E_FAIL;
 
+	if (_eSceneId == SCENEID::STAGE1)
+		m_eCurSceneId = SCENEID::TEST;
+	
 	Set_Scene(m_pArrScene[(_uint)_eSceneId]->Create());
 
 	m_eCurSceneId = _eSceneId;

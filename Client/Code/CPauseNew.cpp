@@ -2,6 +2,7 @@
 #include "CPauseNew.h"
 #include "CRenderer.h"
 #include "CManagement.h"
+#include "CWeaponManager.h"
 
 CPauseNew::CPauseNew(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUIObject(pGraphicDev)
@@ -71,6 +72,9 @@ void CPauseNew::Render_GameObject(const _float& fTimeDelta)
 
 _bool CPauseNew::Action()
 {
+	if (CManagement::GetInstance()->Get_CurSceneId() == SCENEID::STAGE1)
+		CWeaponManager::GetInstance()->DestroyInstance();
+	
 	CManagement::GetInstance()->Change_Scene(CManagement::GetInstance()->Get_CurSceneId());
 
 	return false;

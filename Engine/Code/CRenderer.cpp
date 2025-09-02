@@ -34,9 +34,20 @@ void CRenderer::Render_GameObejct(LPDIRECT3DDEVICE9& pGraphicDev, const _float& 
 
 void CRenderer::Clear_RenderGroup()
 {
+	//for (size_t i = 0; i < RENDER_END; i++)
+	//{
+	//	for_each(m_RenderGroup[i].begin(), m_RenderGroup[i].end(), CDeleteObj());
+	//	m_RenderGroup[i].clear();
+	//}
+
 	for (size_t i = 0; i < RENDER_END; i++)
 	{
-		for_each(m_RenderGroup[i].begin(), m_RenderGroup[i].end(), CDeleteObj());
+		for (auto j = m_RenderGroup[i].begin(); j != m_RenderGroup[i].end();)
+		{
+			Safe_Release(*j);
+			j++;
+		}
+
 		m_RenderGroup[i].clear();
 	}
 }
