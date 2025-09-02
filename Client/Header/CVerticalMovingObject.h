@@ -97,7 +97,7 @@ private:
 
 	float m_riderEyeGap = 0.18f; // 발판 위에서 카메라를 바닥에서 이만큼 띄움(미세 조절용)
 
-	float m_meshUnit = 2.f;				// CCubeTex가 한 변 2이면 2.f
+	float m_meshUnit = 4.f;				// CCubeTex가 한 변 2이면 2.f
 	bool  m_pivotIsBottom = false;		// 메시 피벗이 바닥이면 true
 
 	// 라이더(플랫폼 위의 플레이어)

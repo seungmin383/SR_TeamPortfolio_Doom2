@@ -30,8 +30,8 @@ HRESULT CVerticalMovingObject::Ready_GameObject()
 
 	if (FAILED(Add_Component())) return E_FAIL;
 
-	// 기둥처럼 보이게: 얇은 단면(2 x 2), 높이 0.2
-	SetVisualScale(2.f, 0.2f, 2.f);
+	// 기둥처럼 보이게: 얇은 단면(4 x 4), 높이 0.4
+	SetVisualScale(4.f, 0.5f, 4.f);
 
 	// 기본 이동 범위(현재 y 기준으로 ±2)
 	_vec3 p; m_pTransformCom->Get_Pos(&p);
@@ -42,15 +42,15 @@ HRESULT CVerticalMovingObject::Ready_GameObject()
 	//float groundY = 0.f; // 임시
 
 	// "탑면이 groundY까지 내려오는" 중심 최소값
-	m_minY = p.y - m_halfHeight;
+	m_minY = p.y;
 
 	// 위쪽 끝점은 필요에 맞게 설정 (예: +10만큼 위)
-	m_maxY = m_minY + 10.f;
+	m_maxY = m_minY + 6.3f;
 
 	m_speed = 2.f;
 	m_waitAtEnds = 0.9f;
 	m_waitTimer = 0.f;
-	m_dirUp = true;
+	m_dirUp = false;
 
 	// 시작 y를 범위로 스냅하고 기록
 	p.y = std::clamp(p.y, m_minY, m_maxY);

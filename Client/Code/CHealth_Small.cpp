@@ -53,7 +53,7 @@ _int CHealth_Small::Update_GameObject(const _float& fTimeDelta)
 	Bill_Board();
 
 	m_iFrame++;
-	if (m_iFrame >= 4)
+	if (m_iFrame >= 3)
 		m_iFrame = 0;
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
