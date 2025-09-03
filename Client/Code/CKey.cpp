@@ -7,6 +7,8 @@
 #include "CStatsManager.h"
 #include "CTerrainSector.h"
 #include "CSoundManager.h"
+#include"CObjectFactory.h"
+#include "CFileManager.h"
 
 CKey::CKey(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -104,6 +106,16 @@ void CKey::OnCollisionEnter(CCollider* _pOther)
 		(layer & COL_PLAYER);
 
 	if (allowed == 0) return;
+
+
+	if (CManagement::GetInstance()->Get_CurSceneId() == SCENEID::STAGE1)
+	{
+		vector<GameObjectSpawnInfo>loadMonsterData = CFileManager::GetInstance()->LoadAdditionalMonster((_uint)SCENEID::STAGE1, 0);
+
+		for (auto monster : loadMonsterData)
+			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
+	}
+
 	m_bPicked = true;
 	// 저역 키 보유 플래그 세팅 + 콜라이더 비활성
 	CManagement::GetInstance()->Set_KeyOwned(true);

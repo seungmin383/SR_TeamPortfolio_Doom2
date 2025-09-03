@@ -148,6 +148,8 @@ _int CArchVile::Update_GameObject(const _float& fTimeDelta)
 	Bill_Board();
 	Set_OnTerrain();
 
+	if (m_bDead)
+		return Calc_Death_Time(fTimeDelta);
 	return 0;
 }
 

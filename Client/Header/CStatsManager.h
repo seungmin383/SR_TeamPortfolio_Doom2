@@ -37,7 +37,7 @@ public:
     void OnItemPicked() { ++m_s.items; }
     void OnSecretFound() { ++m_s.secrets; }
 
-    const StageStats& Cur() const { return m_s; }
+    StageStats& Cur() { return m_s; }
 
 private:
     StageStats m_s{};
