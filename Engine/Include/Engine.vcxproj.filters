@@ -327,9 +327,6 @@
     <ClInclude Include="..\Header\IEffect.h">
       <Filter>00. Manager\13.EffectManager\01.Effect</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\CEffectBase.h">
-      <Filter>00. Manager\13.EffectManager\02. EffectBase</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\EffectManager.h">
       <Filter>00. Manager\13.EffectManager</Filter>
     </ClInclude>
@@ -493,9 +490,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\IEffect.cpp">
       <Filter>00. Manager\13.EffectManager\01.Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\CEffectBase.cpp">
-      <Filter>00. Manager\13.EffectManager\02. EffectBase</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\EffectManager.cpp">
       <Filter>00. Manager\13.EffectManager</Filter>

@@ -30,6 +30,7 @@ public:
 	_vec3           Get_Pos() { return m_vEye; }
 	void            Set_Pos(_vec3 vPos) { m_vEye = vPos; }
 	_vec3           Get_At() { return m_vAt; }
+	void            Set_At(_vec3 vAt) { m_vAt = vAt; }
 	_vec3           Get_Up() { return m_vUp; }
 
 	PLAYER_STATE    Get_State() { return m_eState; }
@@ -45,6 +46,8 @@ public:
 	void            Set_Armor(_int i) { m_iArmor = i; }
 
 	_int            Get_MaxNum() { return m_iMax; }
+
+	_vec3			Get_MoveDist() { return m_vMoveDist; }
 
 public:
 	void            OnCollision(CCollider* _pOther) override;
@@ -91,6 +94,8 @@ private:
 	void		Check_Death();
 	void		Check_Wall(const _float& fTimeDelta);
 	void		Drop_Tanpii();
+
+	void		CalcOnTerrain(CGameObject* terrain, _float& result, _vec3& pos, mutex& m);
 
 private:
 	Engine::CCalculator* m_pCalculatorCom;
