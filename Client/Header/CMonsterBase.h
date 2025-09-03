@@ -50,6 +50,8 @@ public:
    virtual  void        Set_OnTerrain();
    virtual void         Movement(const _float fTimeDelta);
    virtual void         Attack(const _float fTimeDelta);
+   virtual _int Calc_Death_Time(const _float fTimeDelta);
+
 
    virtual _vec3 Get_PlayerPos();
    virtual _float Calc_AngleToPlayer(_vec3 vLook, _vec3 vPos);
@@ -115,6 +117,8 @@ protected:
     _bool m_isNormalDead = false;                  //그냥 죽었는가?
     _bool m_isGibbingDead = false;                 //폭사했는가?
     _bool m_isIdle = TRUE;
+
+    _float m_fDeathTimer = 0;
 
 
     // 적 처리 카운트 플래그 추가(08/24 김홍인)

@@ -793,6 +793,18 @@ void CMonsterBase::Attack(const _float fTimeDelta)
 
 }
 
+_int CMonsterBase::Calc_Death_Time(const _float fTimeDelta)
+{
+	m_fDeathTimer += fTimeDelta;
+
+	if (m_fDeathTimer > 5.f)
+	{
+		m_fDeathTimer = 0.f;
+			return -1;
+	}
+	return 0;
+}
+
 _vec3 CMonsterBase::Get_PlayerPos()
 {
 	_matrix CameraMat;
