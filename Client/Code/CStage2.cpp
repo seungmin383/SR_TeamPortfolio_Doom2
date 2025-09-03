@@ -38,10 +38,13 @@
 #include "CCrosshair.h"
 #include "CWeapon_Shotgun.h"
 
+#include "CStatsManager.h"
 // (08/31 김홍인)
 #include "CSwitch_Button.h"
 #include "CUI_StageClear.h"
 #include "CArchVile.h"
+
+#define INITMONSTERNUM 10
 
 CStage2::CStage2(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -55,6 +58,8 @@ CStage2::~CStage2()
 HRESULT CStage2::Ready_Scene()
 {
 	ShowCursor(FALSE);
+
+	CStatsManager::I().Reset();
 
 	CUIManager::GetInstance()->UISetListClear();
 
@@ -104,6 +109,18 @@ _int CStage2::Update_Scene(const _float& fTimeDelta)
 	// --------------(08/31 김홍인)----------------
 	// 경과 시간
 	CStatsManager::I().Tick(fTimeDelta);
+
+	static _bool isReadyWave1 = FALSE;
+
+	if (!isReadyWave1 && CStatsManager::I().Cur().kills == INITMONSTERNUM)
+	{
+		vector<GameObjectSpawnInfo> loadMonsterData = CFileManager::GetInstance()->LoadAdditionalMonster((_uint)SCENEID::STAGE2, 0);
+
+		for (auto monster : loadMonsterData)
+			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
+
+		isReadyWave1 = TRUE;
+	}
 
 	if (m_isResultMode)
 	{

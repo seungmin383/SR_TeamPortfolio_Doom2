@@ -141,6 +141,9 @@ _int CImp::Update_GameObject(const _float& fTimeDelta)
 	CMonsterBase::Update_GameObject(fTimeDelta);
 	Bill_Board();
 	Set_OnTerrain();
+
+	if (m_bDead)
+		return Calc_Death_Time(fTimeDelta);
 	return 0;
 }
 
