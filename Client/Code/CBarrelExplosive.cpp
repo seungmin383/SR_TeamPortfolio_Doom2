@@ -236,7 +236,11 @@ void CBarrelExplosive::BeginExplosion()
 	m_state = State::Exploding;
 	m_animAcc = 0.f;
 	m_iFrame_Explosion = 0;
-	CSoundManager::GetInstance()->PlaySoundW(L"DSBAREXP.wav", CHANNELID::SOUND_EFFECT, 0.8f);
+
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	CSoundManager::GetInstance()->PlaySound3D(L"EXPLOSION", vPos, 1.f);
+	//CSoundManager::GetInstance()->PlaySoundW(L"DSBAREXP.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 	// 더 이상 피격/겹침 없도록 콜라이더 비활성화
 	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
 
