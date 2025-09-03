@@ -4,6 +4,7 @@
 #include "CRocketBullet.h"
 #include "CManagement.h"
 #include "CDynamicCamera.h"
+#include "CSoundManager.h"
 
 CRocket::CRocket()
 {
@@ -50,6 +51,8 @@ _bool CRocket::Fire()
 		CGameObject* tmp = nullptr;
 		// 로켓 투사체 발사
 		CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::PLAYER_ROCKET_BULLET, OBJID::OBJ_BULLET, vPlayerPos, pPlayer, tmp);
+		CSoundManager::GetInstance()->PlaySoundW(L"WPROCKET.wav", CHANNELID::SOUND_EFFECT, 0.5f);
+
 		return true;
 	}
 

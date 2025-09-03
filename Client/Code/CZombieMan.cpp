@@ -189,9 +189,6 @@ void CZombieMan::Attack(const _float fTimeDelta)
 {
 	m_isShoot = TRUE;
 
-	CSoundManager::GetInstance()->PlaySoundW(L"dnfdmathfl.wav", CHANNELID::SOUND_ZOMBIEMAN, 1.f);
-
-
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
 	CGameObject* tmp = nullptr;
