@@ -100,6 +100,7 @@ HRESULT CMainApp::Ready_MainApp()
 
 int CMainApp::Update_MainApp(const float& fTimeDelta)
 {
+	CSoundManager::GetInstance()->Update();
 	CDInputManager::GetInstance()->Update_InputDev();
 
 	//m_pManagementClass->Update_Scene(fTimeDelta);
