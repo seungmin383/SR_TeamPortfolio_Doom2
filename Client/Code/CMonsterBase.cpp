@@ -797,7 +797,7 @@ _int CMonsterBase::Calc_Death_Time(const _float fTimeDelta)
 {
 	m_fDeathTimer += fTimeDelta;
 
-	if (m_fDeathTimer > 5.f)
+	if (m_fDeathTimer > 3.5f)
 	{
 		m_fDeathTimer = 0.f;
 			return -1;

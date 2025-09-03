@@ -121,13 +121,8 @@ void CSoundManager::PlaySoundW(const std::wstring& soundKey, CHANNELID eID, floa
         );
     }
 
-<<<<<<< HEAD
-    //FMOD_Channel_SetVolume(m_pChannelArr[eID], fVolume);
-    FMOD_System_Update(m_pSystem);
-=======
     FMOD_Channel_SetVolume(m_pChannelArr[eID], fVolume);
     //FMOD_System_Update(m_pSystem);
->>>>>>> 11623847d498d05abb394d7fa68bbe3fcc116da7
 }
 
 void CSoundManager::PlayBGM(const std::wstring& soundKey, float fVolume)
