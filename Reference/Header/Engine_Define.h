@@ -16,6 +16,7 @@
 #include "fmod.hpp"
 #pragma comment(lib, "fmod_vc.lib")
 #include <io.h>
+#include <cstdlib>
 
 #include "Engine_Enum.h"
 #include "Engine_Macro.h"

@@ -229,6 +229,12 @@
     <Filter Include="03. Manager\02. UIManager\UISet">
       <UniqueIdentifier>{a8edc192-a29c-4dc0-a4ad-b7f087d05ce5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Manager\03.SoundManager">
+      <UniqueIdentifier>{d8a028f4-a560-4c6d-acfe-0eddf661071f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Manager\03.SoundManager\99.fMod">
+      <UniqueIdentifier>{95990bf1-0778-4e4f-9cf0-8e462e47a460}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -516,6 +522,30 @@
     <ClInclude Include="..\Header\CUIManager.h">
       <Filter>03. Manager\02. UIManager</Filter>
     </ClInclude>
+    <ClInclude Include="fmod.h">
+      <Filter>03. Manager\03.SoundManager\99.fMod</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod.hpp">
+      <Filter>03. Manager\03.SoundManager\99.fMod</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_codec.h">
+      <Filter>03. Manager\03.SoundManager\99.fMod</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_common.h">
+      <Filter>03. Manager\03.SoundManager\99.fMod</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_dsp.h">
+      <Filter>03. Manager\03.SoundManager\99.fMod</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_dsp_effects.h">
+      <Filter>03. Manager\03.SoundManager\99.fMod</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_errors.h">
+      <Filter>03. Manager\03.SoundManager\99.fMod</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_output.h">
+      <Filter>03. Manager\03.SoundManager\99.fMod</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapTool.cpp">
@@ -801,5 +831,13 @@
     <Image Include="MapTool.ico">
       <Filter>리소스 파일</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fmod.dll">
+      <Filter>03. Manager\03.SoundManager\99.fMod</Filter>
+    </None>
+    <None Include="fmodL.dll">
+      <Filter>03. Manager\03.SoundManager\99.fMod</Filter>
+    </None>
   </ItemGroup>
 </Project>

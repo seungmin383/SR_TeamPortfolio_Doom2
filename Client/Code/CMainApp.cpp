@@ -100,6 +100,7 @@ HRESULT CMainApp::Ready_MainApp()
 
 int CMainApp::Update_MainApp(const float& fTimeDelta)
 {
+	CSoundManager::GetInstance()->Update();
 	CDInputManager::GetInstance()->Update_InputDev();
 
 	//m_pManagementClass->Update_Scene(fTimeDelta);
@@ -112,6 +113,7 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_P))
 	{
 		CManagement::GetInstance()->Toggle_Pause();
+		CSoundManager::GetInstance()->PlaySoundW(L"DSSWTCHN.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 	}
 
 	// 2) Δt 스케일 (Paused면 0)

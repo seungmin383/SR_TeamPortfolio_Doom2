@@ -6,6 +6,7 @@
 #include "CTimerManager.h"
 #include "CStatsManager.h"
 #include "CTerrainSector.h"
+#include "CSoundManager.h"
 
 CArmor_Small::CArmor_Small(LPDIRECT3DDEVICE9 pGraphicDev)
     : CGameObject(pGraphicDev), m_iArmor(0), m_iFrame_Armor(0)
@@ -111,6 +112,7 @@ void CArmor_Small::OnCollisionEnter(CCollider* _pOther)
 		m_bPicked = true;
 
 		CStatsManager::I().OnItemPicked();
+		CSoundManager::GetInstance()->PlaySoundW(L"DSITEMUP.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 	}
 }
 

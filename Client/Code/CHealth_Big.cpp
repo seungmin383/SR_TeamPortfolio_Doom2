@@ -6,6 +6,7 @@
 #include "CTimerManager.h"
 #include "CStatsManager.h"
 #include "CTerrainSector.h"
+#include "CSoundManager.h"
 
 CHealth_Big::CHealth_Big(LPDIRECT3DDEVICE9 pGraphicDev)
     : CGameObject(pGraphicDev), m_iHeal(0)
@@ -100,6 +101,7 @@ void CHealth_Big::OnCollisionEnter(CCollider* _pOther)
 		m_bPicked = true;
 
 		CStatsManager::I().OnItemPicked();
+		CSoundManager::GetInstance()->PlaySoundW(L"DSITEMUP.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 	}
 }
 

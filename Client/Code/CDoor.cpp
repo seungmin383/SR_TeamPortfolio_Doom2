@@ -6,6 +6,7 @@
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
 #include "CTerrainSector.h"
+#include "CSoundManager.h"
 
 CDoor::CDoor(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev), m_vMoveDist(_vec3(0.f, 0.f, 0.f))
@@ -158,6 +159,7 @@ void CDoor::OpenDoor()
 {
 	if (m_state == State::Idle)
 	{
+		CSoundManager::GetInstance()->PlaySoundW(L"DSDOROPN.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 		m_state = State::Opening;
 	}
 }
@@ -269,6 +271,7 @@ void CDoor::DoorOpening(const _float& fTimeDelta)
 		if (m_fTimer >= m_fStayOpenTime)
 		{
 			m_state = State::Closing;
+			CSoundManager::GetInstance()->PlaySoundW(L"DSDORCLS.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 		}
 		break;
 	}
@@ -283,6 +286,7 @@ void CDoor::DoorOpening(const _float& fTimeDelta)
 			vPos.y = m_vOriginPos.y;
 			m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 			m_state = State::Idle;
+			CSoundManager::GetInstance()->PlaySoundW(L"DSPSTOP.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 		}
 		else
 		{
