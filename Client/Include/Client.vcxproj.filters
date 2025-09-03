@@ -226,6 +226,9 @@
     <Filter Include="02. GameObject\09. UI\Pause">
       <UniqueIdentifier>{28bd3230-1302-40ef-81c1-05795aa982f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\09. UI\LoadingSpinner">
+      <UniqueIdentifier>{c91b911d-c0bd-471d-a298-0f2327be8c2d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -504,6 +507,12 @@
     <ClInclude Include="..\Header\CPausePause.h">
       <Filter>02. GameObject\09. UI\Pause</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CLoadingSpinner.h">
+      <Filter>02. GameObject\09. UI\LoadingSpinner</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\CLoadingBackground.h">
+      <Filter>02. GameObject\09. UI\LoadingSpinner</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -775,6 +784,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\CPausePause.cpp">
       <Filter>02. GameObject\09. UI\Pause</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CLoadingSpinner.cpp">
+      <Filter>02. GameObject\09. UI\LoadingSpinner</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CLoadingBackground.cpp">
+      <Filter>02. GameObject\09. UI\LoadingSpinner</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
