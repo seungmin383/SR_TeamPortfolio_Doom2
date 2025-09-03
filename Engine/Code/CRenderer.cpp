@@ -76,11 +76,17 @@ void CRenderer::Render_Reflect(LPDIRECT3DDEVICE9& pGraphicDev, const _float& fTi
 
 void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev, const _float& fTimeDelta)
 {
-	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	/*pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);*/
+
+	pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
+	pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 100);
+	pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); /* 통과조건 == 그리는 조건 */
 	// z-sorting
 	// 투명 객체 목록을 받아와서 정렬해야함.
 	// 정렬 기준은 카메라와의 거리.
@@ -117,8 +123,13 @@ void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& pGraphicDev, const _float& fTime
 	//}	
 
 	// 렌더 상태 복구하기
-	pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+	//pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+	//pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+
+	pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
 	pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void CRenderer::Render_UI(LPDIRECT3DDEVICE9& pGraphicDev, const _float& fTimeDelta)
