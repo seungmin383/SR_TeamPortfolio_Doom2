@@ -101,6 +101,7 @@ _int CVerticalMovingObject::Update_GameObject(const _float& fTimeDelta)
 				}
 			}
 			m_pTransformCom->Set_Pos(pos.x, pos.y, pos.z);
+			CSoundManager::GetInstance()->PlaySound3D(L"MOVING", pos, 0.5f);
 		}
 
 		// 라이더 동승 계산

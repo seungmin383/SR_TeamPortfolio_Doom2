@@ -21,6 +21,7 @@ void CSoundManager::Init()
     FMOD_System_Init(m_pSystem, MAXCHANNEL, FMOD_INIT_NORMAL, NULL);
     LoadSoundFile();
     LoadSound3D(L"EXPLOSION", TEXT("../../Client/Resource/Sound/3Dsound/DSBAREXP.wav"));
+    LoadSound3D(L"MOVING", TEXT("../../Client/Resource/Sound/3Dsound/DSSTNMOV.wav"));
 }
 
 void CSoundManager::Update()
