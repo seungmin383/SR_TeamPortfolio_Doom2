@@ -59,7 +59,7 @@ void CSoundManager::PlaySoundW(const std::wstring& soundKey, CHANNELID eID, floa
         );
     }
 
-    FMOD_Channel_SetVolume(m_pChannelArr[eID], fVolume);
+    //FMOD_Channel_SetVolume(m_pChannelArr[eID], fVolume);
     FMOD_System_Update(m_pSystem);
 }
 

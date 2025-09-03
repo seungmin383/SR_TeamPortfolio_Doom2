@@ -6,7 +6,7 @@
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
 #include "CBullet.h"
-
+#include"CSoundManager.h"
 CZombieMan::CZombieMan(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonsterBase(pGraphicDev)
 {
@@ -146,7 +146,8 @@ _int CZombieMan::Update_GameObject(const _float& fTimeDelta)
 {
 	CMonsterBase::Update_GameObject(fTimeDelta);
 
-	cout << "hp :  " << m_iGameHp << endl;
+	m_fSound = 1.f;
+
 	Bill_Board();
 	Set_OnTerrain();
 	return 0;
@@ -183,6 +184,10 @@ void CZombieMan::Render_GameObject(const _float& fTimeDelta)
 void CZombieMan::Attack(const _float fTimeDelta)
 {
 	m_isShoot = TRUE;
+
+	CSoundManager::GetInstance()->PlaySoundW(L"dnfdmathfl.wav", CHANNELID::SOUND_ZOMBIEMAN, 1.f);
+
+
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
 	CGameObject* tmp = nullptr;

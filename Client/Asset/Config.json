@@ -50,15 +50,17 @@
       "StageNumber": 4,
       "terrainFileName": "terrain2.json",
       "ObjectFileName": "object2.json",
-      "MonsterFileName": "monster2.json",
+      "MonsterFileName": "monster2-1.json",
       "AdditionalObject": [],
-      "AdditionalMonster": []
+      "AdditionalMonster": [
+        "monster2-1.json"
+      ]
     },
     {
       "StageNumber": 5,
       "terrainFileName": "terrain3.json",
       "ObjectFileName": "object3.json",
-      "MonsterFileName": "monster3.json",
+      "MonsterFileName": "monster3-2.json",
       "AdditionalObject": [],
       "AdditionalMonster": []
     },

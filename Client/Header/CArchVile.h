@@ -25,6 +25,12 @@ public:
     static CArchVile* Create(LPDIRECT3DDEVICE9 pGraphicDev);
     virtual CArchVile* Clone() override;
 
+public:
+    _bool Get_isArchvileDead() const { return m_isArchvileDead; };
+
+private:
+    _bool m_isArchvileDead = false;;
+
 private:
     virtual void        Free();
 };

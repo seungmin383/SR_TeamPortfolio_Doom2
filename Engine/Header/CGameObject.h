@@ -70,7 +70,7 @@ protected:
     _bool                                   m_bDead = FALSE;
 
     _uint                                   m_iDmg = 0;			//총알 데미지
-    _int                                    m_iGameHp = 0;
+    _int                                    m_iGameHp = 1;
 	_int                                    m_iMaxHp = m_iGameHp;
 
 private:

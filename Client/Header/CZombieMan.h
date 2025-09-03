@@ -22,7 +22,7 @@ public:
 
     virtual void         Attack(const _float fTimeDelta)override;
     void Drop_Item()override;
-
+    _float m_fSound = 1.f;
 #pragma endregion
 
 private:

@@ -10,6 +10,7 @@
 #include "CStatsManager.h"
 #include "CTerrainSector.h"
 #include "EffectManager.h"
+#include "CSoundManager.h"
 
 CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CCharacter(pGraphicDev), m_fSightAngle(0.f), m_fSightDistance(0.f),
@@ -133,7 +134,6 @@ _int CMonsterBase::Update_GameObject(const _float& fTimeDelta)
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 	CGameObject::Update_GameObject(fTimeDelta);
-
 	if (m_isGibbingDead || m_isNormalDead)
 	{
 		return -1;
@@ -790,6 +790,7 @@ void CMonsterBase::Movement(const _float fTimeDelta)
 
 void CMonsterBase::Attack(const _float fTimeDelta)
 {
+
 }
 
 _vec3 CMonsterBase::Get_PlayerPos()
