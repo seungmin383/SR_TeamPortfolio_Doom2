@@ -109,9 +109,10 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 
 	// p 키 눌렀을 때 일시정지
 	// 1) 일시정지 토글
-	if (GetAsyncKeyState('P'))
+	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_P))
 	{
 		CManagement::GetInstance()->Toggle_Pause();
+		CSoundManager::GetInstance()->PlaySoundW(L"DSSWTCHN.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 	}
 
 	// 2) Δt 스케일 (Paused면 0)

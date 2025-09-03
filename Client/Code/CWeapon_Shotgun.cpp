@@ -10,6 +10,7 @@
 #include "CStatsManager.h"
 #include "CShotgun.h"
 #include "CTerrainSector.h"
+#include "CSoundManager.h"
 
 CWeapon_Shotgun::CWeapon_Shotgun(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -146,6 +147,7 @@ void CWeapon_Shotgun::OnCollisionEnter(CCollider* _pOther)
 	Set_Dead(true);
 	
 	CStatsManager::I().OnItemPicked();
+	CSoundManager::GetInstance()->PlaySoundW(L"DSWPNUP.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 }
 
 void CWeapon_Shotgun::OnCollisionExit(CCollider* _pOther)

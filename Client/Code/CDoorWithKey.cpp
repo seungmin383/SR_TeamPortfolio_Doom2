@@ -129,6 +129,7 @@ void CDoorWithKey::OpenDoor()
 {
 	if (m_state == State::Idle)
 	{
+		CSoundManager::GetInstance()->PlaySoundW(L"DSDOROPN.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 		m_state = State::Opening;
 	}
 }
@@ -220,6 +221,7 @@ void CDoorWithKey::DoorOpening(const _float& fTimeDelta)
 		_vec3 vPos;
 		m_pTransformCom->Get_Pos(&vPos);
 
+
 		if (vPos.y >= m_vOriginPos.y + m_fOpenHeight)
 		{
 			// XZ는 유지, Y만 원래 높이에 OpenHeight만큼 증가
@@ -241,6 +243,7 @@ void CDoorWithKey::DoorOpening(const _float& fTimeDelta)
 		if (m_fTimer >= m_fStayOpenTime)
 		{
 			m_state = State::Closing;
+			CSoundManager::GetInstance()->PlaySoundW(L"DSDORCLS.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 		}
 		break;
 	}
@@ -249,12 +252,13 @@ void CDoorWithKey::DoorOpening(const _float& fTimeDelta)
 		_vec3 vPos;
 		m_pTransformCom->Get_Pos(&vPos);
 
-		if (vPos.y <= m_vOriginPos.y + 1.5)
+		if (vPos.y <= m_vOriginPos.y + 2.0)
 		{
 			// XZ는 유지, Y만 원래 높이로
-			vPos.y = m_vOriginPos.y + 1.5f;
+			vPos.y = m_vOriginPos.y + 2.0f;
 			m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 			m_state = State::Idle;
+			CSoundManager::GetInstance()->PlaySoundW(L"DSPSTOP.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 		}
 		else
 		{
