@@ -15,6 +15,7 @@
 
 #include "CVerticalMovingObject.h"
 #include "EffectManager.h"
+#include "CSoundManager.h"
 // Initialize static variable
 _long CDynamicCamera::s_lMouseMoveX = 0L;
 
@@ -122,6 +123,10 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 
 	m_pColliderCom->Late_Update();
 	m_pTransformCom->Set_Pos(m_vEye.x, m_vEye.y, m_vEye.z);
+
+	_vec3 vLook = m_vAt - m_vEye;
+	D3DXVec3Normalize(&vLook, &vLook);
+	CSoundManager::GetInstance()->SetListener(m_vEye, vLook);
 
 	if (false == m_bFix)
 	{
