@@ -75,6 +75,8 @@ _bool CPauseNew::Action()
 	if (CManagement::GetInstance()->Get_CurSceneId() == SCENEID::STAGE1)
 		CWeaponManager::GetInstance()->DestroyInstance();
 	
+	CManagement::GetInstance()->Set_Paused(false);
+
 	CManagement::GetInstance()->Change_Scene(CManagement::GetInstance()->Get_CurSceneId());
 
 	return false;

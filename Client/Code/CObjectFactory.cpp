@@ -105,6 +105,8 @@ CGameObject* CObjectFactory::Mod_Terrain(_int idx, const _ulong& dwCntX, const _
 CGameObject* CObjectFactory::Load_Terrain(_int idx, const _ulong& dwCntX, const _ulong& dwCntZ, const _float& dwVtxXItv, const _float& dwVtxZItv, const _float& dwVtxYItv, vector<_vec3> vertices, fs::path texPath, _vec3 pos, OBJID eObjId, _bool blend)
 {
 	CTexture* tempTex = CTexture::Create(m_pGraphicDev, texPath.wstring().c_str(), TEX_NORMAL);
+	tempTex->Add_Ref();
+
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(texPath.filename().wstring().c_str(), tempTex)))
 		Safe_Release(tempTex);
 
@@ -125,6 +127,8 @@ CGameObject* CObjectFactory::Load_Terrain(_int idx, const _ulong& dwCntX, const 
 	auto layerIter = maplayer.find(LAYERID::LAYER_ENVIRONMENT);
 	auto layer = (*layerIter).second;
 	layer->Add_GameObject(eObjId, terrainSector);
+
+	Safe_Release(tempTex);
 
 	return terrainSector;
 }
