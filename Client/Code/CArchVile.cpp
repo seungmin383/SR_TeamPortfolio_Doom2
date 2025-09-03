@@ -147,6 +147,7 @@ _int CArchVile::Update_GameObject(const _float& fTimeDelta)
 	CMonsterBase::Update_GameObject(fTimeDelta);
 	Bill_Board();
 	Set_OnTerrain();
+
 	return 0;
 }
 
