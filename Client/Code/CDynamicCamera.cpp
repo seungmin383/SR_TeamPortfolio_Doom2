@@ -53,7 +53,7 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 
 	// Player Default Settings
 	m_iGameHp = 100;
-	m_iArmor = 45;
+	m_iArmor = 0;
 
 	m_fSpeed = 20.f;
 	m_fFallSpeed = 1.25f;
@@ -90,7 +90,6 @@ _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 {
 	_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
 	
-
 	if (m_eState == DEAD)
 	{
 		Check_Death();
@@ -181,6 +180,7 @@ void CDynamicCamera::OnCollisionEnter(CCollider* _pOther)
 
 		m_vMoveDist = _vec3(0.f, 0.f, 0.f);
 	}
+
 }
 
 void CDynamicCamera::OnCollisionExit(CCollider* _pOther)
@@ -697,6 +697,8 @@ void CDynamicCamera::Update_State()
 		m_eState = HURT4;
 	else
 	{
+		CSoundManager::GetInstance()->PlaySoundW(L"PLAYERDEATH.wav", CHANNELID::SOUND_EFFECT, 1.f);
+
 		m_eState = DEAD;
 		m_bDead = true;
 	}

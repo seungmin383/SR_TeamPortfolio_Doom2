@@ -126,7 +126,6 @@ _int CStage3::Update_Scene(const _float& fTimeDelta)
 		return 0;
 	}
 
-	CColliderManager::GetInstance()->Update();
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
 
 	auto uiMgr = CUIManager::GetInstance();
