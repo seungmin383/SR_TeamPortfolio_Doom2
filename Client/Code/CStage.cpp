@@ -19,6 +19,11 @@
 #include "../../Engine/Include/TerrainModels.h"
 #include "../../Engine/Include/GameObjectSpawnInfo.h"
 
+#include "CPausePause.h"
+#include "CPauseNew.h"
+#include "CPauseQuit.h"
+#include "CMainMenuHover.h"
+
 #include "CGameUI.h"
 #include "CGameUI_Info_Weapon.h"
 #include "CGameUI_Face.h"
@@ -67,6 +72,10 @@ HRESULT CStage::Ready_Scene()
 {
 	ShowCursor(FALSE);
 
+	CUIManager::GetInstance()->UISetListClear();
+
+	CColliderManager::GetInstance()->Reset();
+
 	if (FAILED(Ready_Environment_Layer(LAYERID::LAYER_ENVIRONMENT)))
 		return E_FAIL;
 
@@ -78,7 +87,6 @@ HRESULT CStage::Ready_Scene()
 
 	if (FAILED(Ready_UI_Layer(LAYERID::LAYER_UI)))
 		return E_FAIL;
-
 
 	if (FAILED(Ready_Light()))
 		return E_FAIL;
@@ -105,9 +113,10 @@ _int CStage::Update_Scene(const _float& fTimeDelta)
 	if (m_isResultMode)
 	{
 		// 0초로 업데이트: 위치/애니메이션은 그대로, 하지만 렌더 큐엔 올라감
-		auto upd0 = [&](LAYERID id) {
-			auto it = m_mapLayer.find(id);
-			if (it != m_mapLayer.end()) it->second->Update_Layer(0.f);
+		auto upd0 = [&](LAYERID id)
+			{
+				auto it = m_mapLayer.find(id);
+				if (it != m_mapLayer.end()) it->second->Update_Layer(0.f);
 			};
 
 		upd0(LAYERID::LAYER_CAMERA);       // 뷰/프로젝션 유지
@@ -119,7 +128,8 @@ _int CStage::Update_Scene(const _float& fTimeDelta)
 			it->second->Update_Layer(fTimeDelta);
 
 		// 레이어 업데이트가 모두 끝난 뒤에만 씬 전환
-		if (m_pendingNext != SCENEID::SCENE_END) {
+		if (m_pendingNext != SCENEID::SCENE_END)
+		{
 			//if (auto* wm = CWeaponManager::GetInstance()) {
 			//	wm->ResetOnSceneChange();   // 무기 포인터 초기화(초기화 하면 메모리 누수 남)
 			//}
@@ -136,6 +146,21 @@ _int CStage::Update_Scene(const _float& fTimeDelta)
 	if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_T) & 0x80)
 	{
 		CManagement::GetInstance()->Change_Scene(SCENEID::STAGE2);
+	}
+
+	auto uiMgr = CUIManager::GetInstance();
+	uiMgr->UpdateUI();
+	auto curUiFocus = uiMgr->GetCurUISet()->FocusObserving();
+	switch (curUiFocus)
+	{
+	case 1:
+		uiMgr->GetCurUISet()->SetPosition(3, WINCX * 0.5f - 120.f, WINCY * 0.5f - 50.f);
+		break;
+	case 2:
+		uiMgr->GetCurUISet()->SetPosition(3, WINCX * 0.5f - 120.f, WINCY * 0.5f + 50.f);
+		break;
+	default:
+		break;
 	}
 
 	return iExit;
@@ -199,7 +224,7 @@ HRESULT CStage::Load_PreSet()
 		else
 			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)item.type1, (OBJID)item.type2, item.position);
 	}
-	
+
 	ConnectDoorSwitchByLinkId();
 
 	//몬스터 설치
@@ -298,7 +323,7 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 	pGameObject = CGameUI::Create(m_pGraphicDev);
 
 	// CrossHair
-	//CUISet* pUiSet = new CUISet();
+	CUISet* pUiSet = new CUISet();
 
 	auto crosshair = CCrosshair::Create(m_pGraphicDev);
 
@@ -311,7 +336,7 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, crosshair)))
 		return E_FAIL;
 
-	//pUiSet->InsertUIObject(crosshair, false);
+	pUiSet->InsertUIObject(crosshair, false);
 
 
 	if (nullptr == pGameObject)
@@ -394,6 +419,85 @@ HRESULT CStage::Ready_UI_Layer(LAYERID _eLayerId)
 	// (4) UI Info를 UI 레이어에 등록
 	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pGameObject)))
 		return E_FAIL;
+
+
+
+
+	//CUIManager
+	//UI 그룹 여러개를 관리
+	auto uiMgr = CUIManager::GetInstance();
+
+	//상단의 크로스헤어 추가
+	uiMgr->InsertUISet(pUiSet, true, false);
+
+	pUiSet = new CUISet();
+
+	auto pause = CPausePause::Create(m_pGraphicDev);
+
+	if (nullptr == pause)
+		return E_FAIL;
+
+	pause->Set_SizeXY(160.f, 30.f);
+	pause->Set_Pos(WINCX * 0.5f - 10.f, WINCY * 0.5f - 120.f);
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, pause)))
+		return E_FAIL;
+
+	pUiSet->InsertUIObject(pause, false);
+
+	auto newgame = CPauseNew::Create(m_pGraphicDev);
+
+	if (nullptr == newgame)
+		return E_FAIL;
+
+	newgame->Set_SizeXY(160.f, 30.f);
+	newgame->Set_Pos(WINCX * 0.5f - 10.f, WINCY * 0.5f - 50.f);
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, newgame)))
+		return E_FAIL;
+
+	pUiSet->InsertUIObject(newgame, true);
+
+	auto quit = CPauseQuit::Create(m_pGraphicDev);
+
+	if (nullptr == exit)
+		return E_FAIL;
+
+	quit->Set_SizeXY(160.f, 30.f);
+	quit->Set_Pos(WINCX * 0.5f - 10.f, WINCY * 0.5f + 50.f);
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, quit)))
+		return E_FAIL;
+
+	pUiSet->InsertUIObject(quit, true);
+
+	auto hover = CMainMenuHover::Create(m_pGraphicDev);
+
+	if (nullptr == hover)
+		return E_FAIL;
+
+	hover->Set_SizeXY(40.f, 40.f);
+	hover->Set_Pos(WINCX * 0.5f - 120.f, WINCY * 0.5f + 50.f);
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, hover)))
+		return E_FAIL;
+
+	//하나의 UI Set에 그룹에 해당하는 UI 오브젝트들을 추가한다
+	pUiSet->InsertUIObject(hover, false);
+
+	//해당 그룹이 받는 key input과 input에 해당하는 메서드 할당
+	pUiSet->MappingKeyInput(DIK_UP, bind(&CUISet::AddUIElementIndex, pUiSet));
+	pUiSet->MappingKeyInput(DIK_DOWN, bind(&CUISet::SubTractUIElementIndex, pUiSet));
+	pUiSet->MappingKeyInput(DIK_RETURN, bind(&CUISet::ActivateUI, pUiSet));
+	pUiSet->SetUIElementFocus(1);
+
+	//UI그룹 하나를 매니징에 추가
+	uiMgr->InsertUISet(pUiSet, false, true);
+
+	uiMgr->MappingKeyInput(DIK_P, bind(&CUIManager::ToggleUIPhase, uiMgr));
+	uiMgr->SetUIPhase(1);
+
+
 
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
@@ -481,11 +585,13 @@ void CStage::ConnectDoorSwitchByLinkId()
 	// 1) 분류
 	for (auto* o : objs)
 	{
-		if (auto* d = dynamic_cast<CDoor*>(o)) {
+		if (auto* d = dynamic_cast<CDoor*>(o))
+		{
 			const std::wstring& id = d->Get_LinkId();
 			if (!id.empty()) doorsById[id].push_back(d);
 		}
-		else if (auto* s = dynamic_cast<CSwitch_Button*>(o)) {
+		else if (auto* s = dynamic_cast<CSwitch_Button*>(o))
+		{
 			const wstring& id = s->Get_LinkId();
 			if (!id.empty()) switchesById[id].push_back(s);
 		}
@@ -528,7 +634,8 @@ void CStage::ConnectDoorSwitchByLinkId()
 					auto* dTr = dynamic_cast<Engine::CTransform*>(
 						d->Get_Component(Engine::ID_DYNAMIC, L"Com_Transform"));
 
-					if (!swTr || !dTr) { // 트랜스폼 없으면 첫 문으로 대체
+					if (!swTr || !dTr)
+					{ // 트랜스폼 없으면 첫 문으로 대체
 						if (!bestDoor) bestDoor = d;
 						continue;
 					}
@@ -553,9 +660,11 @@ void CStage::EnterResultMode()
 
 	// 결과 UI를 UI 레이어에 추가
 	auto it = m_mapLayer.find(LAYERID::LAYER_UI);
-	if (it != m_mapLayer.end()) {
+	if (it != m_mapLayer.end())
+	{
 		Engine::CLayer* uiLayer = it->second;
-		if (auto* ui = CUI_StageClear::Create(m_pGraphicDev)) {
+		if (auto* ui = CUI_StageClear::Create(m_pGraphicDev))
+		{
 			uiLayer->Add_GameObject(OBJID::OBJ_UI, ui);
 		}
 	}
@@ -569,6 +678,5 @@ void CStage::RequestNextScene(SCENEID id)
 
 void CStage::Free()
 {
-	CUIManager::GetInstance()->UISetListClear();
 	Engine::CScene::Free();
 }

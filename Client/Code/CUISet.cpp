@@ -17,7 +17,7 @@ void CUISet::InsertUIObject(CUIObject* uiObj, _bool isEnabledFocus)
 	MaxCount++;
 }
 
-void CUISet::AddUIElementIndex()
+_bool CUISet::AddUIElementIndex()
 {
 	do
 	{
@@ -26,9 +26,11 @@ void CUISet::AddUIElementIndex()
 		if (UIElementFocus > MaxCount - 1)
 			UIElementFocus = 0;
 	} while (FocusEnabled[UIElementFocus] == false);
+
+	return true;
 }
 
-void CUISet::SubTractUIElementIndex()
+_bool CUISet::SubTractUIElementIndex()
 {
 	do
 	{
@@ -37,20 +39,23 @@ void CUISet::SubTractUIElementIndex()
 		if (UIElementFocus < 0)
 			UIElementFocus = MaxCount - 1;
 	} while (FocusEnabled[UIElementFocus] == false);
+	
+	return true;
 }
 
-void CUISet::ActivateUI()
+_bool CUISet::ActivateUI()
 {
-	UIElements[UIElementFocus]->Action();
+	return UIElements[UIElementFocus]->Action();
 }
 
-void CUISet::MappingKeyInput(_ubyte dInput, function<void()> func)
+void CUISet::MappingKeyInput(_ubyte dInput, function<_bool()> func)
 {
 	UIKeyInputMap.insert({ dInput, func });
 }
 
-void CUISet::ToggleActivate()
+_bool CUISet::ToggleActivate()
 {
+	return true;
 }
 
 void CUISet::UpdateUI()
@@ -67,17 +72,28 @@ void CUISet::SetPosition(_uint num, _float fX, _float fY)
 
 void CUISet::GetKeyInput()
 {
+	if (UIKeyInputMap.empty())
+		return;
+
 	for (auto keymap : UIKeyInputMap)
 	{
 		if (CDInputManager::GetInstance()->Get_KeyDown(keymap.first))
-			keymap.second();
+			if (keymap.second() == false) return;
+
+		if (UIKeyInputMap.empty() || keymap.second == nullptr)
+			return;
 	}
+}
+
+_bool CUISet::SetElementsToggle(_bool bval)
+{
+	for (auto ele : UIElements)
+		ele->Set_IsActive(bval);
+
+	return true;
 }
 
 void CUISet::Free()
 {
-	//for (auto uiObj : UIElements)
-	//	uiObj->Release();
-
 	UIElements.clear();
 }

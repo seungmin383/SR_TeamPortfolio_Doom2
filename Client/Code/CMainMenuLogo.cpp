@@ -2,6 +2,8 @@
 #include "CMainMenuLogo.h"
 #include "CRenderer.h"
 #include "CManagement.h"
+#include "CUIManager.h"
+#include "CSoundManager.h"
 
 CMainMenuLogo::CMainMenuLogo(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUIObject(pGraphicDev)
@@ -69,9 +71,13 @@ void CMainMenuLogo::Render_GameObject(const _float& fTimeDelta)
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }
 
-void CMainMenuLogo::Action()
+_bool CMainMenuLogo::Action()
 {
+	CSoundManager::GetInstance()->StopAll();
+
 	CManagement::GetInstance()->Change_Scene(SCENEID::STAGE1);
+
+	return false;
 }
 
 HRESULT CMainMenuLogo::Add_Component()

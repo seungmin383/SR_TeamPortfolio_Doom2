@@ -15,12 +15,12 @@ public:
 public:
     void                    InsertUIObject(CUIObject* uiObj, _bool isEnabledFocus);
 
-    void                    AddUIElementIndex();
-    void                    SubTractUIElementIndex();
-    void                    ActivateUI();
-    void                    MappingKeyInput(_ubyte dInput, function<void()> func);
+    _bool                    AddUIElementIndex();
+    _bool                    SubTractUIElementIndex();
+    _bool                    ActivateUI();
+    void                    MappingKeyInput(_ubyte dInput, function<_bool()> func);
 
-    void                    ToggleActivate();
+    _bool                    ToggleActivate();
 
     void                    UpdateUI();
 
@@ -32,6 +32,8 @@ public:
     void                    SetUIElementFocus(_int ival) { UIElementFocus = ival; }
     _int                    GetUIElementFocus() { return UIElementFocus; }
 
+    _bool                    SetElementsToggle(_bool bval);
+
 private:
     //TODO: ÁßÃ¸±¸Á¶
     //CUISet*                 NestedUI;
@@ -41,7 +43,7 @@ private:
     vector<_bool>           FocusEnabled;
     _int                    UIElementFocus = 0;
     _int                    MaxCount = 0;
-    map<_ubyte, function<void()>>       UIKeyInputMap;
+    map<_ubyte, function<_bool()>>       UIKeyInputMap;
 
 private:
     virtual void            Free();

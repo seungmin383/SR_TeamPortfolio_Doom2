@@ -1,9 +1,7 @@
 #include "pch.h"
 #include "CMainMenu.h"
-#include "CBackGround.h"
 #include "CManagement.h"
 #include "CFontManager.h"
-#include "CTextureManager.h"
 #include "CLayer.h"
 #include "Define.h"
 
@@ -154,7 +152,7 @@ HRESULT CMainMenu::Ready_UI_Layer(LAYERID _eLayerId)
 	pUiSet->SetUIElementFocus(1);
 
 	//UI그룹 하나를 매니징에 추가
-	uiMgr->InsertUISet(pUiSet);
+	uiMgr->InsertUISet(pUiSet, true, true);
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
@@ -187,6 +185,5 @@ CMainMenu* CMainMenu::Create()
 
 void CMainMenu::Free()
 {
-	CSoundManager::GetInstance()->StopAll();
 	Engine::CScene::Free();
 }

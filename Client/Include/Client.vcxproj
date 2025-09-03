@@ -214,6 +214,9 @@
     <ClInclude Include="..\Header\CMonsterBase.h" />
     <ClInclude Include="..\Header\CMonsterSpawner.h" />
     <ClInclude Include="..\Header\CObjectFactory.h" />
+    <ClInclude Include="..\Header\CPauseNew.h" />
+    <ClInclude Include="..\Header\CPausePause.h" />
+    <ClInclude Include="..\Header\CPauseQuit.h" />
     <ClInclude Include="..\Header\CPinky.h" />
     <ClInclude Include="..\Header\CPinkyBullet.h" />
     <ClInclude Include="..\Header\CPistol.h" />
@@ -304,6 +307,9 @@
     <ClCompile Include="..\Code\CMonsterBase.cpp" />
     <ClCompile Include="..\Code\CMonsterSpawner.cpp" />
     <ClCompile Include="..\Code\CObjectFactory.cpp" />
+    <ClCompile Include="..\Code\CPauseNew.cpp" />
+    <ClCompile Include="..\Code\CPausePause.cpp" />
+    <ClCompile Include="..\Code\CPauseQuit.cpp" />
     <ClCompile Include="..\Code\CPinky.cpp" />
     <ClCompile Include="..\Code\CPinkyBullet.cpp" />
     <ClCompile Include="..\Code\CPistol.cpp" />

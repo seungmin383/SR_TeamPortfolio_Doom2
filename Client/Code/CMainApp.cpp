@@ -366,12 +366,12 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 
 HRESULT CMainApp::Ready_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	m_pManagementClass->Add_Scene(SCENEID::LOGO, new CLogo(pGraphicDev));
-	m_pManagementClass->Add_Scene(SCENEID::MAINMENU, new CMainMenu(pGraphicDev));
-	m_pManagementClass->Add_Scene(SCENEID::STAGE1, new CStage(pGraphicDev));
-	m_pManagementClass->Add_Scene(SCENEID::STAGE2, new CStage2(pGraphicDev));
-	m_pManagementClass->Add_Scene(SCENEID::STAGE3, new CStage3(pGraphicDev));
-	m_pManagementClass->Add_Scene(SCENEID::TEST, new CStageTest(pGraphicDev));
+	m_pManagementClass->Add_Scene(SCENEID::LOGO, CLogo::Standby(pGraphicDev));
+	m_pManagementClass->Add_Scene(SCENEID::MAINMENU, CMainMenu::Standby(pGraphicDev));
+	m_pManagementClass->Add_Scene(SCENEID::STAGE1, CStage::Standby(pGraphicDev));
+	m_pManagementClass->Add_Scene(SCENEID::STAGE2, CStage2::Standby(pGraphicDev));
+	m_pManagementClass->Add_Scene(SCENEID::STAGE3, CStage3::Standby(pGraphicDev));
+	m_pManagementClass->Add_Scene(SCENEID::TEST, CStageTest::Standby(pGraphicDev));
 
 	if (FAILED(m_pManagementClass->Change_Scene(SCENEID::LOGO)))
 	{
@@ -415,8 +415,8 @@ void CMainApp::Free()
 	CWeaponManager::GetInstance()->DestroyInstance();
 	EffectManager::GetInstance()->DestroyInstance();	
 
-	m_pManagementClass->DestroyInstance();
 	CSoundManager::GetInstance()->DestroyInstance();
 
+	m_pManagementClass->DestroyInstance();
 	m_pDeviceClass->DestroyInstance();
 }

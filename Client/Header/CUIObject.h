@@ -25,7 +25,7 @@ public:
     const _bool   Get_IsActive() const { return m_bIsActive; }
     void          Set_IsActive(_bool val) { m_bIsActive = val; }
 
-    virtual void  Action() PURE;
+    virtual _bool  Action() PURE;
 
 protected:
     Engine::CRectTex*       m_pBufferCom;
