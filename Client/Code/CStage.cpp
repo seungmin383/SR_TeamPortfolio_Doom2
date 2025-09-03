@@ -672,11 +672,12 @@ void CStage::EnterResultMode()
 
 void CStage::RequestNextScene(SCENEID id)
 {
+	CManagement::GetInstance()->Set_KeyOwned(false);
 	m_pendingNext = id; // 호출만 하고, 실제 전환은 Update_Scene의 끝에서!
 }
 
 void CStage::Free()
 {
-	//CUIManager::GetInstance()->UISetListClear();
+	CUIManager::GetInstance()->UISetListClear();
 	Engine::CScene::Free();
 }

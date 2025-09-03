@@ -210,9 +210,12 @@ HRESULT CDoor::Add_Component()
 
 void CDoor::Set_OnTerrain()
 {
+	_float highest(FLT_MIN);
+	_vec3 pos;
+	_vec3 onPosition{ 0.f, 0.f, 0.f };
+	_float vScaleY = m_pTransformCom->Get_Scale()->y;
 	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
 	{
-		_vec3 pos;
 		m_pTransformCom->Get_Pos(&pos);
 
 		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);

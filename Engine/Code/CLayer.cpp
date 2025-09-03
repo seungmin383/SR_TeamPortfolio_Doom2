@@ -294,7 +294,7 @@ _int CLayer::Update_Layer(const _float& fTimeDelta)
 				return iResult;
 			}
 
-			++iter;
+				++iter;																			// 저기 푸쉬백 해줘서 iter가 무효화 되서 여기 ++ 할때 터지는 상황이였어요
 		}
 
 		if (!m_vecPendingObject[i].empty())

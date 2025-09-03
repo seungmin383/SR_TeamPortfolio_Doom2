@@ -7,6 +7,7 @@
 #include "CStage.h"
 #include "CStage2.h"
 #include "CStage3.h"
+#include "CMainMenu.h"
 
 CUI_StageClear* CUI_StageClear::Create(LPDIRECT3DDEVICE9 dev)
 {
@@ -52,6 +53,8 @@ _int CUI_StageClear::Update_GameObject(const _float& fTimeDelta)
 	const auto& cur = CStatsManager::I().Cur();
 	m_t += fTimeDelta;
 
+	CRenderer::GetInstance()->Add_RenderGroup(RENDER_UI, this);
+
 	switch (m_state) {
 	case State::Intro:
 		if (m_t > 0.4f) { m_state = State::Counting; m_t = 0.f; }
@@ -71,28 +74,24 @@ _int CUI_StageClear::Update_GameObject(const _float& fTimeDelta)
 	}
 
 	case State::Wait:
-		if (CDInputManager::GetInstance()->Get_DIKeyState(DIK_RETURN) & 0x80) {
-			auto* mg = CManagement::GetInstance();
-			auto* cur = mg->Get_Scene();   // 현재 씬 포인터
-			SCENEID next = SCENEID::STAGE2;
+		if (CDInputManager::GetInstance()->Get_KeyDown(DIK_RETURN)) {
+			auto mg = CManagement::GetInstance();
+			auto cur = mg->Get_Scene();   // 현재 씬 포인터
+			SCENEID curSceneId = mg->Get_CurSceneId();
 
-			if (dynamic_cast<CStage2*>(cur))      next = SCENEID::STAGE3;
-			else if (dynamic_cast<CStage3*>(cur)) next = SCENEID::MAINMENU; // 끝나면 메인메뉴로
-
-			if (auto* st = dynamic_cast<CStage*>(cur)) {
-				st->RequestNextScene(next);  // 즉시 전환 금지! 예약만
+			if (curSceneId == SCENEID::STAGE1) {
+				dynamic_cast<CStage*>(cur)->RequestNextScene(SCENEID::STAGE2);
 			}
-			else if (auto* st2 = dynamic_cast<CStage2*>(cur)) {
-				st2->RequestNextScene(next);
+			else if (curSceneId == SCENEID::STAGE2) {
+				dynamic_cast<CStage2*>(cur)->RequestNextScene(SCENEID::STAGE3);
 			}
-			else if (auto* st3 = dynamic_cast<CStage3*>(cur)) {
-				st3->RequestNextScene(next);		// 3스테이지에서 끝나면 메인메뉴로
+			else if (curSceneId == SCENEID::STAGE3) {
+				dynamic_cast<CStage3*>(cur)->RequestNextScene(SCENEID::MAINMENU);
 			}
 		}
 		break;
 	}
 
-	CRenderer::GetInstance()->Add_RenderGroup(RENDER_UI, this);
 
 	return 0;
 }
