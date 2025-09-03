@@ -129,10 +129,10 @@ void CDoorWithKey::OpenDoor()
 {
 	if (m_state == State::Idle)
 	{
-		_vec3 vPos;
-		m_pTransformCom->Get_Pos(&vPos);
-		CSoundManager::GetInstance()->PlaySound3D(L"../../Client/Resource/Sound/3Dsound/DSDOROPN.wav", vPos, 1.f);
-		//CSoundManager::GetInstance()->PlaySoundW(L"DSDOROPN.wav", CHANNELID::SOUND_EFFECT, 0.8f);
+		//_vec3 vPos;
+		//m_pTransformCom->Get_Pos(&vPos);
+		//CSoundManager::GetInstance()->PlaySound3D(L"../../Client/Resource/Sound/3Dsound/DSDOROPN.wav", vPos, 1.f);
+		CSoundManager::GetInstance()->PlaySoundW(L"DSDOROPN.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 		m_state = State::Opening;
 	}
 }
@@ -246,9 +246,9 @@ void CDoorWithKey::DoorOpening(const _float& fTimeDelta)
 		if (m_fTimer >= m_fStayOpenTime)
 		{
 			m_state = State::Closing;
-			_vec3 vPos;
-			m_pTransformCom->Get_Pos(&vPos);
-			CSoundManager::GetInstance()->PlaySound3D(L"../../Client/Resource/Sound/3Dsound/DSDORCLS.wav", vPos, 1.f);
+			//_vec3 vPos;
+			//m_pTransformCom->Get_Pos(&vPos);
+			//CSoundManager::GetInstance()->PlaySound3D(L"../../Client/Resource/Sound/3Dsound/DSDORCLS.wav", vPos, 1.f);
 			//CSoundManager::GetInstance()->PlaySoundW(L"DSDORCLS.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 		}
 		break;
@@ -264,7 +264,7 @@ void CDoorWithKey::DoorOpening(const _float& fTimeDelta)
 			vPos.y = m_vOriginPos.y + 2.0f;
 			m_pTransformCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 			m_state = State::Idle;
-			CSoundManager::GetInstance()->PlaySound3D(L"../../Client/Resource/Sound/3Dsound/DSPSTOP.wav", vPos, 1.f);
+			//CSoundManager::GetInstance()->PlaySound3D(L"../../Client/Resource/Sound/3Dsound/DSPSTOP.wav", vPos, 1.f);
 			//CSoundManager::GetInstance()->PlaySoundW(L"DSPSTOP.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 		}
 		else
