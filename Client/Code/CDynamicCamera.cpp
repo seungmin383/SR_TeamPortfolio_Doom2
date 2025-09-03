@@ -34,12 +34,12 @@ CDynamicCamera::~CDynamicCamera()
 }
 
 HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
-											const _vec3* pAt,
-											const _vec3* pUp,
-											const _float& fFov,
-											const _float& fAspect,
-											const _float& fNear,
-											const _float& fFar)
+	const _vec3* pAt,
+	const _vec3* pUp,
+	const _float& fFov,
+	const _float& fAspect,
+	const _float& fNear,
+	const _float& fFar)
 {
 	// Camera Default Settings
 	m_vEye = *pEye;
@@ -89,7 +89,7 @@ HRESULT CDynamicCamera::Ready_GameObject(const _vec3* pEye,
 _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 {
 	_int iExit = Engine::CCamera::Update_GameObject(fTimeDelta);
-	
+
 
 	if (m_eState == DEAD)
 	{
@@ -110,8 +110,9 @@ _int CDynamicCamera::Update_GameObject(const _float& fTimeDelta)
 void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 {
 	Engine::CCamera::LateUpdate_GameObject(fTimeDelta);
-	
+
 	Apply_Gravity(fTimeDelta);
+
 	Set_OnTerrain();
 
 	if (!m_bDead)
@@ -161,7 +162,7 @@ void CDynamicCamera::OnCollision(CCollider* _pOther)
 		m_vMoveDist = _vec3(0.f, 0.f, 0.f);
 	}
 }
- 
+
 void CDynamicCamera::OnCollisionEnter(CCollider* _pOther)
 {
 	if ((_pOther->Get_ColLayer() == COL_ENEMY || _pOther->Get_ColLayer() == COL_OBJECT) && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
@@ -269,7 +270,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		else
 		{
 			_float	fForce = D3DXVec3Dot(&vLength, &vHitNormal);
-			
+
 			if (fForce < 0.f)
 			{
 				_vec3	vForce = fForce * vHitNormal;
@@ -427,11 +428,11 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		if (eHitLayer != LAYERID::LAYER_ENVIRONMENT)
 		{
-				m_vEye.x -= vLength.x;
-				m_vEye.z -= vLength.z;
+			m_vEye.x -= vLength.x;
+			m_vEye.z -= vLength.z;
 
-				m_vAt.x -= vLength.x;
-				m_vAt.z -= vLength.z;
+			m_vAt.x -= vLength.x;
+			m_vAt.z -= vLength.z;
 
 			m_bIsMoving = true;
 		}
@@ -537,7 +538,7 @@ void CDynamicCamera::Mouse_Input()
 	_bool bFireCheck = false;
 
 	if (CDInputManager::GetInstance()->Get_DIMouseState(DIM_LB) & 0x80)
-		 bFireCheck = CWeaponManager::GetInstance()->Fire_Weapon();
+		bFireCheck = CWeaponManager::GetInstance()->Fire_Weapon();
 
 	if (bFireCheck)
 	{
@@ -613,7 +614,7 @@ void CDynamicCamera::Check_Dash(const _float& fTimeDelta)
 
 		if (m_fDashTime >= 0.1f)
 			m_fSpeed = 20.f;
-		
+
 		if (m_fDashTime >= 0.5f)
 			m_bIsDashing = false;
 	}
@@ -623,6 +624,8 @@ void CDynamicCamera::Set_OnTerrain()
 {
 	_float fHighest(-999.f);
 	_vec3 onPosition{ 0.f, 0.f, 0.f };
+
+
 
 	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
 	{
@@ -792,6 +795,21 @@ void CDynamicCamera::Drop_Tanpii()
 	vPos -= vUp * 0.8f;
 
 	EffectManager::GetInstance()->Start_Effect(vPos, EFFECTID::TANPII_DROP);
+}
+
+_float CDynamicCamera::CalcOnTerrain(CGameObject* terrain, _float& result, _vec3& pos, mutex& m)
+{
+	auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
+	auto bufferCom = dterrain->Get_BufferCom();
+	auto transformCom = dterrain->Get_Transform();
+
+	m.lock();
+	if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &pos, &m_vEye))
+	{
+		if (result < pos.y)
+			result = pos.y;
+	}
+	m.unlock();
 }
 
 CDynamicCamera* CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)

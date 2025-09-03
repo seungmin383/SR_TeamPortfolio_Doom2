@@ -92,6 +92,8 @@ private:
 	void		Check_Wall(const _float& fTimeDelta);
 	void		Drop_Tanpii();
 
+	_float		CalcOnTerrain(CGameObject* terrain, _float& result, _vec3& pos, mutex& m);
+
 private:
 	Engine::CCalculator* m_pCalculatorCom;
 
