@@ -11,6 +11,7 @@
 #include "CTerrainSector.h"
 #include "EffectManager.h"
 #include "CSoundManager.h"
+#include "CBfgBullet.h"
 
 CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CCharacter(pGraphicDev), m_fSightAngle(0.f), m_fSightDistance(0.f),
@@ -181,6 +182,17 @@ void CMonsterBase::OnCollisionEnter(CCollider* _pOther)
 		m_vMoveLook = -m_vMoveLook;
 	}
 
+	if (_pOther->Get_ColLayer() == COLLAYERID::COL_BULLET)
+	{
+		CGameObject* pOther;
+		pOther = _pOther->Get_Owner();
+		if (dynamic_cast<CBfgBullet*>(pOther) != nullptr)
+		{
+			_vec3 vPos;
+			m_pTransformCom->Get_Pos(&vPos);
+			EffectManager::GetInstance()->Start_Effect(vPos, EFFECTID::BFG_EFFECT);
+		}
+	}
 }
 
 void CMonsterBase::OnCollisionExit(CCollider* _pOther)
