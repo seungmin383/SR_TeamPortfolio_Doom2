@@ -362,7 +362,7 @@ void CBarrelExplosive::ApplyExplosionDamage()
 			// 거리 기반 지연으로 ‘웨이브’ 연출
 			float dist = sqrtf(dist2);
 			float t = max(0.f, 1.f - dist / R);     // 0..1
-			float impulse = m_pushForce * (0.4f + 0.6f * t); // 너무 약해지지 않게 바닥값 0.4 배
+			float impulse = m_pushForce * (0.1f + 0.6f * t); // 너무 약해지지 않게 바닥값 0.4 배
 
 			// ★ 먼저 '밀어내기'
 			other->AddImpulseXZ(d, impulse);

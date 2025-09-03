@@ -131,7 +131,7 @@ void CWeapon_BFG::OnCollisionEnter(CCollider* _pOther)
 	// Update_GameObject()에서 m_bPicked이면 -1 반환 → 레이어가 안전 삭제
 
 	CStatsManager::I().OnItemPicked();
-	CSoundManager::GetInstance()->PlaySoundW(L"DSSWTCHX.wav", CHANNELID::SOUND_EFFECT, 0.8f);
+	CSoundManager::GetInstance()->PlaySoundW(L"DSWPNUP.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 
 }
 
