@@ -233,7 +233,7 @@ void CDoor::Set_OnTerrain()
 		}
 	}*/
 
-	_float highest(FLT_MIN);
+	_float highest(-999.f);
 	_vec3 pos;
 	_vec3 onPosition{ 0.f, 0.f, 0.f };
 	_float vScaleY = m_pTransformCom->Get_Scale()->y;
@@ -253,6 +253,9 @@ void CDoor::Set_OnTerrain()
 				highest = onPosition.y;
 		}
 	}
+
+	if (highest == -999.f)
+		highest = 0.f;
 
 	m_pTransformCom->Set_Pos(pos.x, highest + 2, pos.z);
 }

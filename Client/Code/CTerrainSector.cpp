@@ -34,7 +34,7 @@ _int CTerrainSector::Update_GameObject(const _float& fTimeDelta)
 	CGameObject::Update_GameObject(fTimeDelta);
 
 	if (m_bBlend == false)
-		CRenderer::GetInstance()->Add_RenderGroup(RENDER_REFLECT, this);
+		CRenderer::GetInstance()->Add_RenderGroup(RENDER_NONALPHA, this);
 	else
 		CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 
