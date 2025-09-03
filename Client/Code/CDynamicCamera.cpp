@@ -16,6 +16,8 @@
 #include "CVerticalMovingObject.h"
 #include "EffectManager.h"
 #include "CSoundManager.h"
+
+#include "CBullet.h"
 // Initialize static variable
 _long CDynamicCamera::s_lMouseMoveX = 0L;
 
@@ -181,6 +183,13 @@ void CDynamicCamera::OnCollisionEnter(CCollider* _pOther)
 		m_vMoveDist = _vec3(0.f, 0.f, 0.f);
 	}
 
+	if (_pOther->Get_ColLayer() == COLLAYERID::COL_BULLET)
+	{
+		CGameObject* pObject = _pOther->Get_Owner();
+		if (static_cast<CBullet*>(pObject)->Get_Owner()->GetCollider()->Get_ColLayer() == COLLAYERID::COL_ENEMY)
+			CSoundManager::GetInstance()->PlaySoundW(L"PLAYERPAIN.wav", CHANNELID::SOUND_EFFECT, 0.3f);
+	}
+	
 }
 
 void CDynamicCamera::OnCollisionExit(CCollider* _pOther)
