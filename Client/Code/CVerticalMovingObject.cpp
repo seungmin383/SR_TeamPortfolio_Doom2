@@ -6,7 +6,7 @@
 #include "CCollisionManager.h"
 #include "CTerrainSector.h"
 #include "Define.h"
-
+#include "CSoundManager.h"
 
 CVerticalMovingObject::CVerticalMovingObject(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev),
@@ -79,7 +79,6 @@ _int CVerticalMovingObject::Update_GameObject(const _float& fTimeDelta)
 	if (hasRider)
 	{
 		_vec3 pos; m_pTransformCom->Get_Pos(&pos);
-
 		if (m_waitTimer > 0.f) {
 			m_waitTimer -= fTimeDelta;
 			if (m_waitTimer < 0.f) m_waitTimer = 0.f;
@@ -152,15 +151,6 @@ void CVerticalMovingObject::Render_GameObject(const _float& fTimeDelta)
 {
 	if (!m_pBufferCom || !m_pTransformCom) return;
 
-	/*m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
-	if (m_pTextureCom)
-		m_pTextureCom->Set_Texture(0);
-	m_pBufferCom->Render_Buffer();
-
-	if (m_pColliderCom)
-	{
-		m_pColliderCom->Render(g_colRend);
-	}*/
 	// 상태 저장
 	DWORD oldAlphaTest, oldAlphaBlend, oldZWrite, oldZEnable, oldCull;
 	m_pGraphicDev->GetRenderState(D3DRS_ALPHATESTENABLE, &oldAlphaTest);

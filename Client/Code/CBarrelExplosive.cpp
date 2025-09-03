@@ -6,6 +6,7 @@
 #include "CTimerManager.h"
 #include "CMonsterBase.h"
 #include "CTerrainSector.h"
+#include "CSoundManager.h"
 
 CBarrelExplosive::CBarrelExplosive(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev), m_iHP(0), m_iFrame_Barrel(0)
@@ -235,7 +236,7 @@ void CBarrelExplosive::BeginExplosion()
 	m_state = State::Exploding;
 	m_animAcc = 0.f;
 	m_iFrame_Explosion = 0;
-
+	CSoundManager::GetInstance()->PlaySoundW(L"DSBAREXP.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 	// 더 이상 피격/겹침 없도록 콜라이더 비활성화
 	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
 

@@ -7,6 +7,7 @@
 #include "CWeaponManager.h"
 #include "CStatsManager.h"
 #include "CTerrainSector.h"
+#include "CSoundManager.h"
 
 CAmmo_Clip::CAmmo_Clip(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev), m_iClip(0), m_iFrame_Clip(0), m_pWeaponManager(nullptr)
@@ -121,6 +122,7 @@ void CAmmo_Clip::OnCollisionEnter(CCollider* _pOther)
 	Set_Dead(true);
 
 	CStatsManager::I().OnItemPicked();
+	CSoundManager::GetInstance()->PlaySoundW(L"DSITEMUP.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 }
 
 void CAmmo_Clip::OnCollisionExit(CCollider* _pOther)

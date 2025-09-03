@@ -6,6 +6,7 @@
 #include "CTimerManager.h"
 #include "CStatsManager.h"
 #include "CTerrainSector.h"
+#include "CSoundManager.h"
 
 CKey::CKey(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -110,6 +111,7 @@ void CKey::OnCollisionEnter(CCollider* _pOther)
 	OutputDebugStringA("[Key] picked, flag set\n");
 
 	CStatsManager::I().OnItemPicked();
+	CSoundManager::GetInstance()->PlaySoundW(L"DSITEMUP.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 }
 
 void CKey::OnCollisionExit(CCollider* _pOther)

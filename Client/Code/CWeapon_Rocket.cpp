@@ -10,6 +10,7 @@
 #include "CStatsManager.h"
 #include "CRocket.h"
 #include "CTerrainSector.h"
+#include "CSoundManager.h"
 
 CWeapon_Rocket::CWeapon_Rocket(LPDIRECT3DDEVICE9 pGraphicDev)
     : CGameObject(pGraphicDev)
@@ -132,6 +133,7 @@ void CWeapon_Rocket::OnCollisionEnter(CCollider* _pOther)
 	// Update_GameObject()에서 m_bPicked이면 -1 반환 → 레이어가 안전 삭제
 
 	CStatsManager::I().OnItemPicked();
+	CSoundManager::GetInstance()->PlaySoundW(L"DSWPNUP.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 }
 
 void CWeapon_Rocket::OnCollisionExit(CCollider* _pOther)
