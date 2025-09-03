@@ -17,6 +17,9 @@ extern bool g_colRend;
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <process.h>
+#include <thread>
+#include <future>
+#include <mutex>
 #include <iostream>
 #include "fmod.h"
 #include "fmod.hpp"

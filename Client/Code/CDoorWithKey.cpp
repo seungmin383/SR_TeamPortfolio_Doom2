@@ -104,6 +104,27 @@ void CDoorWithKey::Render_GameObject(const _float& fTimeDelta)
 
 void CDoorWithKey::OnCollision(CCollider* _pOther)
 {
+	if (_pOther->Get_ColLayer() == COL_PLAYER && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
+	{
+		auto player = dynamic_cast<CDynamicCamera*>(CManagement::GetInstance()->Get_Player());
+		auto playerTransform = player->Get_Transform();
+		auto playerMoveDist = player->Get_MoveDist();
+		CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
+
+		_vec3 curPos;
+		playerTransform->Get_Pos(&curPos);
+		playerTransform->Set_Pos(curPos.x + (-playerMoveDist.x), curPos.y, curPos.z + (-playerMoveDist.z));
+
+		_vec3 afterPos = player->Get_Pos();
+		afterPos.x += (-playerMoveDist.x);
+		afterPos.z += (-playerMoveDist.z);
+		player->Set_Pos(afterPos);
+
+		_vec3 afterAt = player->Get_At();
+		afterAt.x += (-playerMoveDist.x);
+		afterAt.z += (-playerMoveDist.z);
+		player->Set_At(afterAt);
+	}
 }
 
 void CDoorWithKey::OnCollisionEnter(CCollider* _pOther)
@@ -115,7 +136,29 @@ void CDoorWithKey::OnCollisionEnter(CCollider* _pOther)
 		const auto layer = _pOther->Get_ColLayer();
 		const bool allowed = layer & (COL_PLAYER);
 		// 플레이어랑만 처리
-		if (allowed == 0) return;    // 플레이어가 아니면 무시
+		if (allowed == 0)
+		{
+			auto player = dynamic_cast<CDynamicCamera*>(CManagement::GetInstance()->Get_Player());
+			auto playerTransform = player->Get_Transform();
+			auto playerMoveDist = player->Get_MoveDist();
+			CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
+
+			_vec3 curPos;
+			playerTransform->Get_Pos(&curPos);
+			playerTransform->Set_Pos(curPos.x + (-playerMoveDist.x), curPos.y, curPos.z + (-playerMoveDist.z));
+
+			_vec3 afterPos = player->Get_Pos();
+			afterPos.x += (-playerMoveDist.x);
+			afterPos.z += (-playerMoveDist.z);
+			player->Set_Pos(afterPos);
+
+			_vec3 afterAt = player->Get_At();
+			afterAt.x += (-playerMoveDist.x);
+			afterAt.z += (-playerMoveDist.z);
+			player->Set_At(afterAt);
+
+			return;    // 플레이어가 아니면 무시
+		}
 		if (!CManagement::GetInstance()->Is_KeyOwned()) return; // 키 없으면 무시
 		OpenDoor();
 	}
@@ -185,7 +228,7 @@ HRESULT CDoorWithKey::Add_Component()
 
 void CDoorWithKey::Set_OnTerrain()
 {
-	_float highest(FLT_MIN);
+	_float highest(-999.f);
 	_vec3 pos;
 	_vec3 onPosition{ 0.f, 0.f, 0.f };
 	_float vScaleY = m_pTransformCom->Get_Scale()->y;
@@ -201,11 +244,15 @@ void CDoorWithKey::Set_OnTerrain()
 		_vec3 onPosition{ 0.f, 0.f, 0.f };
 		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
 		{
-
-			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 2, pos.z);
-			break;
+			if (highest < onPosition.y)
+				highest = onPosition.y;
 		}
 	}
+
+	if (highest == -999.f)
+		highest = 0.f;
+
+	m_pTransformCom->Set_Pos(pos.x, highest + 2, pos.z);
 }
 
 void CDoorWithKey::Bill_Board()

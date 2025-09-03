@@ -48,6 +48,8 @@ HRESULT CWeapon_ChainGun::Ready_GameObject()
 	);
 	m_pColliderCom->Set_Active(true);
 
+	Set_OnTerrain();
+
 	return S_OK;
 }
 
@@ -57,7 +59,6 @@ _int CWeapon_ChainGun::Update_GameObject(const _float& fTimeDelta)
 		return 0;
 
 	CGameObject::Update_GameObject(fTimeDelta);
-	Set_OnTerrain();
 	Bill_Board();
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
@@ -190,7 +191,7 @@ HRESULT CWeapon_ChainGun::Add_Component()
 
 void CWeapon_ChainGun::Set_OnTerrain()
 {
-	_float highest(FLT_MIN);
+	_float highest(-999.f);
 	_vec3 pos;
 	_vec3 onPosition{ 0.f, 0.f, 0.f };
 	_float vScaleY = m_pTransformCom->Get_Scale()->y;
@@ -206,11 +207,15 @@ void CWeapon_ChainGun::Set_OnTerrain()
 		_vec3 onPosition{ 0.f, 0.f, 0.f };
 		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
 		{
-
-			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 2, pos.z);
-			break;
+			if (highest < onPosition.y)
+				highest = onPosition.y;
 		}
 	}
+
+	if (highest == -999.f)
+		highest = 0.f;
+
+	m_pTransformCom->Set_Pos(pos.x, highest + 2, pos.z);
 }
 
 void CWeapon_ChainGun::Bill_Board()

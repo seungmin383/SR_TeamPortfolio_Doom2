@@ -212,7 +212,7 @@ HRESULT CDoor::Add_Component()
 
 void CDoor::Set_OnTerrain()
 {
-	_float highest(FLT_MIN);
+	/*_float highest(FLT_MIN);
 	_vec3 pos;
 	_vec3 onPosition{ 0.f, 0.f, 0.f };
 	_float vScaleY = m_pTransformCom->Get_Scale()->y;
@@ -231,7 +231,33 @@ void CDoor::Set_OnTerrain()
 			m_pTransformCom->Set_Pos(pos.x, onPosition.y + m_vOriginPos.y, pos.z);
 			break;
 		}
+	}*/
+
+	_float highest(-999.f);
+	_vec3 pos;
+	_vec3 onPosition{ 0.f, 0.f, 0.f };
+	_float vScaleY = m_pTransformCom->Get_Scale()->y;
+
+	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
+	{
+		m_pTransformCom->Get_Pos(&pos);
+
+		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
+		auto bufferCom = dterrain->Get_BufferCom();
+		auto transformCom = dterrain->Get_Transform();
+
+		_vec3 onPosition{ 0.f, 0.f, 0.f };
+		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
+		{
+			if (highest < onPosition.y)
+				highest = onPosition.y;
+		}
 	}
+
+	if (highest == -999.f)
+		highest = 0.f;
+
+	m_pTransformCom->Set_Pos(pos.x, highest + 2, pos.z);
 }
 
 void CDoor::Bill_Board()

@@ -452,7 +452,7 @@ HRESULT CBarrelExplosive::Add_Component()
 
 void CBarrelExplosive::Set_OnTerrain()
 {
-	_float highest(FLT_MIN);
+	_float highest(-999.f);
 	_vec3 pos;
 	_vec3 onPosition{ 0.f, 0.f, 0.f };
 	_float vScaleY = m_pTransformCom->Get_Scale()->y;
@@ -465,15 +465,18 @@ void CBarrelExplosive::Set_OnTerrain()
 		auto bufferCom = dterrain->Get_BufferCom();
 		auto transformCom = dterrain->Get_Transform();
 
-		_float fScaleY = m_pTransformCom->Get_Scale()->y;
-
 		_vec3 onPosition{ 0.f, 0.f, 0.f };
 		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
 		{
-			m_pTransformCom->Set_Pos(pos.x, onPosition.y + fScaleY, pos.z);
-			break;
+			if (highest < onPosition.y)
+				highest = onPosition.y;
 		}
 	}
+
+	if (highest == -999.f)
+		highest = 0.f;
+
+	m_pTransformCom->Set_Pos(pos.x, highest + 2, pos.z);
 }
 
 void CBarrelExplosive::Bill_Board()

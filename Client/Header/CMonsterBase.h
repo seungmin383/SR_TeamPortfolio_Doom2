@@ -48,6 +48,7 @@ public:
 
     //기능 Function (기능 기능?)
    virtual  void        Set_OnTerrain();
+   void                 CalcInnerTerrain(CGameObject* terrain, _float& result, _vec3& onPos, _vec3& myPos, mutex& m);
    virtual void         Movement(const _float fTimeDelta);
    virtual void         Attack(const _float fTimeDelta);
    virtual _int Calc_Death_Time(const _float fTimeDelta);

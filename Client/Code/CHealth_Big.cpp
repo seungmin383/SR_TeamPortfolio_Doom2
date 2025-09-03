@@ -42,13 +42,14 @@ HRESULT CHealth_Big::Ready_GameObject()
 	);
 	m_pColliderCom->Set_Active(true);
 
+	Set_OnTerrain();
+
 	return S_OK;
 }
 
 _int CHealth_Big::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
-	Set_OnTerrain();
 	Bill_Board();
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
@@ -157,7 +158,7 @@ HRESULT CHealth_Big::Add_Component()
 
 void CHealth_Big::Set_OnTerrain()
 {
-	_float highest(FLT_MIN);
+	_float highest(-999.f);
 	_vec3 pos;
 	_vec3 onPosition{ 0.f, 0.f, 0.f };
 	_float vScaleY = m_pTransformCom->Get_Scale()->y;
@@ -173,11 +174,15 @@ void CHealth_Big::Set_OnTerrain()
 		_vec3 onPosition{ 0.f, 0.f, 0.f };
 		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
 		{
-
-			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 2, pos.z);
-			break;
+			if (highest < onPosition.y)
+				highest = onPosition.y;
 		}
 	}
+
+	if (highest == -999.f)
+		highest = 0.f;
+
+	m_pTransformCom->Set_Pos(pos.x, highest + 2, pos.z);
 }
 
 void CHealth_Big::Bill_Board()

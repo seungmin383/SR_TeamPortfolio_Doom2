@@ -731,27 +731,80 @@ void CMonsterBase::Monster_Fire()
 
 void CMonsterBase::Set_OnTerrain()
 {
-	_float highest(FLT_MIN);
+	_float fHighest(-999.f);
 	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
 	_vec3 onPosition{ 0.f, 0.f, 0.f };
 	_float vScaleY = m_pTransformCom->Get_Scale()->y;
-	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
+
+	auto terrain = CManagement::GetInstance()->Get_Scene()->Get_Terrain();
+	vector<CGameObject*> innerTerrain;
+
+	for (auto tt : terrain)
 	{
-		m_pTransformCom->Get_Pos(&pos);
+		auto ts = dynamic_cast<CTerrainSector*>(tt);
+		auto vtxpos = ts->Get_BufferCom()->Get_VtxPos();
+		auto vtxcntx = ts->Get_BufferCom()->Get_VtxCntX();
+		auto vtxcntz = ts->Get_BufferCom()->Get_VtxCntZ();
+		auto tf = ts->Get_Transform();
+		const _matrix* w = tf->Get_World();
+		_ulong dwIndex(0);
+		_bool innerRange(false);
 
-		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
-		auto bufferCom = dterrain->Get_BufferCom();
-		auto transformCom = dterrain->Get_Transform();
-
-
-		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
+		for (size_t i = 0; i < vtxcntz; i++)
 		{
-			if (highest < onPosition.y)
-				highest = onPosition.y;
+			for (size_t j = 0; j < vtxcntx; j++)
+			{
+				dwIndex = j + (i * vtxcntx);
+				_vec3 wvtx;
+				D3DXVec3TransformCoord(&wvtx, &vtxpos[dwIndex], w);
+				if (fabsf(wvtx.x - pos.x) <= 5.f
+					&& fabsf(wvtx.z - pos.z) <= 5.f)
+				{
+					innerRange = true;
+					innerTerrain.push_back(tt);
+					break;
+				}
+			}
+			if (innerRange)
+				break;
 		}
 	}
 
-	m_pTransformCom->Set_Pos(pos.x, highest + vScaleY, pos.z);
+	for (auto ter : innerTerrain)
+	{
+		auto dterrain = dynamic_cast<CTerrainSector*>(ter);
+		auto bufferCom = dterrain->Get_BufferCom();
+		auto transformCom = dterrain->Get_Transform();
+
+		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
+		{
+			if (fHighest < onPosition.y)
+				fHighest = onPosition.y;
+		}
+	}
+
+	if (fHighest == -999.f)
+		fHighest = 0.f;
+	else
+		int a = 1;
+
+	m_pTransformCom->Set_Pos(pos.x, fHighest + vScaleY, pos.z);
+}
+
+void CMonsterBase::CalcInnerTerrain(CGameObject* terrain, _float& result, _vec3& onPos, _vec3& myPos, mutex& m)
+{
+	auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
+	auto bufferCom = dterrain->Get_BufferCom();
+	auto transformCom = dterrain->Get_Transform();
+
+	m.lock();
+	if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPos, &myPos))
+	{
+		if (result < onPos.y)
+			result = onPos.y;
+	}
+	m.unlock();
 }
 
 void CMonsterBase::Movement(const _float fTimeDelta)
