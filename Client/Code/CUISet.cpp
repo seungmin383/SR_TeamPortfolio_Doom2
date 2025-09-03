@@ -15,8 +15,6 @@ void CUISet::InsertUIObject(CUIObject* uiObj, _bool isEnabledFocus)
 	UIElements.push_back(uiObj);
 	FocusEnabled.push_back(isEnabledFocus);
 	MaxCount++;
-
-	uiObj->Add_Ref();
 }
 
 _bool CUISet::AddUIElementIndex()
@@ -97,8 +95,5 @@ _bool CUISet::SetElementsToggle(_bool bval)
 
 void CUISet::Free()
 {
-	for (auto uiObj : UIElements)
-		uiObj->Release();
-
 	UIElements.clear();
 }

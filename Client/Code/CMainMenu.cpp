@@ -1,9 +1,7 @@
 #include "pch.h"
 #include "CMainMenu.h"
-#include "CBackGround.h"
 #include "CManagement.h"
 #include "CFontManager.h"
-#include "CTextureManager.h"
 #include "CLayer.h"
 #include "Define.h"
 
@@ -187,6 +185,5 @@ CMainMenu* CMainMenu::Create()
 
 void CMainMenu::Free()
 {
-	CSoundManager::GetInstance()->StopAll();
 	Engine::CScene::Free();
 }

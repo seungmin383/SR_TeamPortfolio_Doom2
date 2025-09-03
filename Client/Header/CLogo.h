@@ -6,7 +6,7 @@
 class CLogo :
     public CScene
 {
-public:
+private:
     explicit CLogo(LPDIRECT3DDEVICE9 pGraphicDev);
     virtual ~CLogo();
 

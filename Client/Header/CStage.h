@@ -6,7 +6,7 @@
 class CStage :
     public CScene
 {
-public:
+private:
     explicit CStage(LPDIRECT3DDEVICE9 pGraphicDev);
     virtual ~CStage();
 

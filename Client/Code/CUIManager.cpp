@@ -94,7 +94,7 @@ void CUIManager::GetKeyInput()
 void CUIManager::UISetListClear()
 {
 	for (auto uiSet : UISetList)
-		uiSet->Release();
+		Safe_Release(uiSet);
 
 	UISetList.clear();
 	UISetList.shrink_to_fit();

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CMainMenuExit.h"
 #include "CRenderer.h"
+#include "CSoundManager.h"
 
 CMainMenuExit::CMainMenuExit(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUIObject(pGraphicDev)
@@ -69,6 +70,8 @@ void CMainMenuExit::Render_GameObject(const _float& fTimeDelta)
 
 _bool CMainMenuExit::Action()
 {
+	CSoundManager::GetInstance()->StopAll();
+
 	PostQuitMessage(0);
 	return false;
 }

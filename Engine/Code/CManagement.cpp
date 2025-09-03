@@ -61,7 +61,6 @@ HRESULT CManagement::Add_Scene(SCENEID _eSceneId, CScene* _pScene)
 		return E_FAIL;
 
 	m_pArrScene[(_uint)_eSceneId] = _pScene;
-
 	return S_OK;
 }
 
@@ -159,8 +158,6 @@ void CManagement::Free()
 	{
 		if (nullptr != m_pArrScene[i])
 		{
-			if (m_pScene == m_pArrScene[i])
-				continue;
 			Safe_Release(m_pArrScene[i]);
 		}
 	}

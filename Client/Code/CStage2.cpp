@@ -764,6 +764,5 @@ void CStage2::ResolveAndLatchGoal()
 // --------------(08/31 김홍인)----------------
 void CStage2::Free()
 {
-	CUIManager::GetInstance()->UISetListClear();
 	Engine::CScene::Free();
 }

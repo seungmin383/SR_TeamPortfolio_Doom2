@@ -41,9 +41,6 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_RectCol", Engine::CRectCol::Create(m_pGraphicDev))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_TerrainTex", Engine::CTerrainTex::Create(m_pGraphicDev, VTXCNTX, VTXCNTZ, VTXITV, L"../Resource/Texture/Terrain/Height.bmp"))))
-		return E_FAIL;
-
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_CubeTex", Engine::CCubeTex::Create(m_pGraphicDev))))
 		return E_FAIL;
 
@@ -51,9 +48,6 @@ _uint CLoading::Loading_ForStage()
 		return E_FAIL;
 
 	lstrcpy(m_szLoading, L"Texture Component Loading.....................");
-
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_TerrainTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/Terrain/Grass_%d.tga", TEX_NORMAL, 2))))
-		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_SkyBoxTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/SkyBox/burger0.dds", TEX_CUBE))))
 		return E_FAIL;

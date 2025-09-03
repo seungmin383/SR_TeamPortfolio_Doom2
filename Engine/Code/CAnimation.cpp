@@ -62,8 +62,6 @@ HRESULT CAnimation::Ready_Animation(CTexture* _pTextureCom,
 	_bool _bIsReverse)
 {
 	m_pTextureCom = _pTextureCom;
-	m_pTextureCom->Add_Ref();
-
 	m_pBufferCom = _pBufferCom;
 	m_TextureColumn = _iTextureColumn;
 	m_TextureRow = _iTextureRow;
@@ -178,5 +176,4 @@ void CAnimation::SetFrameDefault()
 
 void CAnimation::Free()
 {
-	m_pTextureCom->Release();
 }
