@@ -4,6 +4,7 @@
 #include "CManagement.h"
 #include "CDynamicCamera.h"
 #include "CRenderer.h"
+#include "CSoundManager.h"
 
 CRocketBullet::CRocketBullet(LPDIRECT3DDEVICE9 pGraphicDev) :
 	CBullet(pGraphicDev)
@@ -127,6 +128,10 @@ void CRocketBullet::OnCollision(CCollider* _pOther)
 
 void CRocketBullet::OnCollisionEnter(CCollider* _pOther)
 {
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	CSoundManager::GetInstance()->PlaySound3D(L"EXPLOSION", vPos, 1.f);
+
 	switch (_pOther->Get_ColLayer())
 	{
 	case COLLAYERID::COL_PLAYER:

@@ -42,7 +42,7 @@ HRESULT CShotgunBullet::Ready_GameObject()
 		CDynamicCamera* pPlayer = dynamic_cast<CDynamicCamera*>(CManagement::GetInstance()->Get_Player());
 		m_vInitDir = pPlayer->Get_At() - pPlayer->Get_Pos();
 		D3DXVec3Normalize(&m_vInitDir, &m_vInitDir);
-		m_fSpeed = 100.f;
+		m_fSpeed = 300.f;
 		m_bDead = false;
 		m_iDmg = 10;
 
