@@ -102,13 +102,10 @@ void CChaingunBullet::OnCollisionEnter(CCollider* _pOther)
 	case COLLAYERID::COL_PLAYER:
 		return;
 
+	case COLLAYERID::COL_OBJECT:
 	case COLLAYERID::COL_ENEMY:
 		m_fSpeed = 0.f;
 		_pOther->Get_Owner()->Take_Dmg(m_iDmg);
-		break;
-
-	case COLLAYERID::COL_OBJECT:
-		m_fSpeed = 0.f;
 		break;
 
 	default:

@@ -56,7 +56,10 @@ _int CBullet::Update_GameObject(const _float& fTimeDelta)
 			if (pTargetObj->Get_Dead())
 				return 0;
 
-		EffectManager::GetInstance()->Start_Effect(m_vHitpos, EFFECTID::BLOOD_EXPLOSION);
+			if (pTargetObj->GetCollider()->Get_ColLayer() == COLLAYERID::COL_ENEMY)
+				EffectManager::GetInstance()->Start_Effect(m_vHitpos, EFFECTID::BLOOD_EXPLOSION);
+			else if (pTargetObj->GetCollider()->Get_ColLayer() == COLLAYERID::COL_OBJECT)
+				EffectManager::GetInstance()->Start_Effect(m_vHitpos, EFFECTID::BULLET_IMPACT);
 
 			pTargetObj->OnCollisionEnter(this->GetCollider());
 			this->OnCollisionEnter(pTargetObj->GetCollider());
@@ -162,7 +165,8 @@ void CBullet::OnCollisionEnter(CCollider* _pOther)
 		_pOther == nullptr)
 		return;
 
-	if (_pOther->Get_ColLayer() == m_pColliderCom->Get_ColLayer())
+	// 적끼리 때리면 데미지 반감
+	if (_pOther->Get_Owner()->GetCollider()->Get_ColLayer() == this->Get_Owner()->GetCollider()->Get_ColLayer())
 		_pOther->Get_Owner()->Take_Dmg(m_iDmg * 0.5f);
 	else
 		_pOther->Get_Owner()->Take_Dmg(m_iDmg);

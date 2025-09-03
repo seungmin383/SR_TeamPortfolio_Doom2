@@ -144,7 +144,7 @@ void CDynamicCamera::Render_GameObject(const _float& fTimeDelta)
 
 void CDynamicCamera::OnCollision(CCollider* _pOther)
 {
-	if (_pOther->Get_ColLayer() == COL_ENEMY && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
+	if ((_pOther->Get_ColLayer() == COL_ENEMY || _pOther->Get_ColLayer() == COL_OBJECT) && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
 	{
 		CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
 
@@ -164,7 +164,7 @@ void CDynamicCamera::OnCollision(CCollider* _pOther)
  
 void CDynamicCamera::OnCollisionEnter(CCollider* _pOther)
 {
-	if (_pOther->Get_ColLayer() == COL_ENEMY && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
+	if ((_pOther->Get_ColLayer() == COL_ENEMY || _pOther->Get_ColLayer() == COL_OBJECT) && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
 	{
 		CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
 
