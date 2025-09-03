@@ -98,6 +98,13 @@ HRESULT CStage2::Ready_Scene()
 	CStatsManager::I().ResetRuntime();
 	CStatsManager::I().ResetTotals();
 
+	// 첫 웨이브 종료 기준: 현재 스테이지에 존재하는 ENEMY 개수
+	m_wave1TriggerKills = static_cast<int>(Get_TotalGameObject(OBJID::OBJ_ENEMY).size());
+
+	// 결과 목표 정책: "보스 처치"만으로 클리어 되게 설정
+	m_tiePolicy = GoalTiePolicy::PreferBoss;
+	m_goalKillCount = INT_MAX; // 킬카운트로는 절대 클리어되지 않게 크게 설정
+
 	// 스폰 완료 후 총계 초기화
 	InitTotals();
 
@@ -109,6 +116,20 @@ _int CStage2::Update_Scene(const _float& fTimeDelta)
 	// --------------(08/31 김홍인)----------------
 	// 경과 시간
 	CStatsManager::I().Tick(fTimeDelta);
+
+	// 첫 웨이브 종료 → 두 번째 웨이브 스폰
+	if (!m_wave1Spawned && CStatsManager::I().Cur().kills >= m_wave1TriggerKills)
+	{
+		auto add = CFileManager::GetInstance()->LoadAdditionalMonster((_uint)SCENEID::STAGE2, 0);
+		for (auto& monster : add)
+			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
+
+		m_wave1Spawned = true;
+
+		// 총합 갱신(두 번째 웨이브 포함) — UI/결과 화면에 반영되도록
+		const auto& allEnemiesNow = Get_TotalGameObject(OBJID::OBJ_ENEMY);
+		CStatsManager::I().SetTotalKills(static_cast<int>(allEnemiesNow.size()));
+	}
 
 	static _bool isReadyWave1 = FALSE;
 
