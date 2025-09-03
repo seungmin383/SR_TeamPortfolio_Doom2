@@ -238,7 +238,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		m_vMoveDist = vLength;
 
-		// Raycast part
+		// Raycast partgs
 		_vec3 vHitPos, vHitNormal;
 		LAYERID eHitLayer = LAYERID::LAYER_END;
 		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, m_fSpeed * fTimeDelta, &eHitLayer, this);
