@@ -20,7 +20,7 @@ HRESULT CBfg::Ready_GameObject()
 	m_eCurState = WEAPON_STATE::IDLE;
 	m_eAmmoType = AMMO_TYPE::CELL;
 	m_iDamage = 800;
-	m_fFireDelay = 1.14f;
+	m_fFireDelay = 1.5f;
 	m_fElapsedTime = 0.f;
 
 	return S_OK;

@@ -87,7 +87,7 @@ void CRocketBullet::LateUpdate_GameObject(const _float& fTimeDelta)
 		// 충돌 후에는 텍스쳐와 콜라이더 스케일을 크게 만든다.
 		_vec3 vAfterScale = { 2.f, 2.f, 2.f };
 		m_pTransformCom->Set_Scale(vAfterScale);
-		_vec3 vAfterScale1 = { 8.f, 8.f, 8.f };
+		_vec3 vAfterScale1 = { 16.f, 8.f, 16.f };
 		m_pColliderCom->Set_Scale(vAfterScale1);
 
 		m_iAnimState = 8;
