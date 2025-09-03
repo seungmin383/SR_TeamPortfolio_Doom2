@@ -96,6 +96,28 @@ _int CStage3::Update_Scene(const _float& fTimeDelta)
 	// 경과 시간
 	CStatsManager::I().Tick(fTimeDelta);
 
+	static _bool isReady_Wave1 = FALSE;
+	static _bool isReady_Wave2 = FALSE;
+
+	if (CStatsManager::I().Cur().timeSec > 40.f && !isReady_Wave2)
+	{
+		vector<GameObjectSpawnInfo> loadMonsterData = CFileManager::GetInstance()->LoadAdditionalMonster((_uint)SCENEID::STAGE3, 1);
+
+		for (auto monster : loadMonsterData)
+			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
+
+		isReady_Wave2 = TRUE;
+	}
+	else if (CStatsManager::I().Cur().timeSec > 20.f && !isReady_Wave1)
+	{
+		vector<GameObjectSpawnInfo> loadMonsterData = CFileManager::GetInstance()->LoadAdditionalMonster((_uint)SCENEID::STAGE3, 0);
+
+		for (auto monster : loadMonsterData)
+			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
+
+		isReady_Wave1 = TRUE;
+	}
+
 	if (m_isResultMode)
 	{
 		// 0초로 업데이트: 위치/애니메이션은 그대로, 하지만 렌더 큐엔 올라감
