@@ -64,16 +64,17 @@ void CSoundManager::PlaySound3D(const wstring& pSoundKey, const _vec3& vPos, _fl
     for (_uint i = 0; i < CHANNELID::MAXCHANNEL; ++i)
     {
         FMOD_BOOL bPlay = FALSE;
-        if (FMOD_OK == FMOD_Channel_IsPlaying(m_pChannelArr[i], &bPlay))
-        {
-            FMOD_System_PlaySound(m_pSystem, iter->second, 0, false, &m_pChannelArr[i]);
+        FMOD_Channel_IsPlaying(m_pChannelArr[i], &bPlay);
 
-            FMOD_VECTOR soundPos = { vPos.x ,vPos.y, vPos.z };
-            FMOD_VECTOR soundVel = { 0.f, 0.f, 0.f };
-            FMOD_Channel_Set3DAttributes(m_pChannelArr[i], &soundPos, &soundVel);
-            FMOD_Channel_SetVolume(m_pChannelArr[i], fVolume);
-            return;
-        }
+
+        FMOD_System_PlaySound(m_pSystem, iter->second, 0, false, &m_pChannelArr[i]);
+
+        FMOD_VECTOR soundPos = { vPos.x ,vPos.y, vPos.z };
+        FMOD_VECTOR soundVel = { 0.f, 0.f, 0.f };
+        FMOD_Channel_Set3DAttributes(m_pChannelArr[i], &soundPos, &soundVel);
+        FMOD_Channel_SetVolume(m_pChannelArr[i], fVolume);
+        return;
+
     }
 }
 
