@@ -225,21 +225,6 @@ HRESULT CStage3::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	Engine::CGameObject* pGameObject = nullptr;
 
-	// --------------(08/31 김홍인)----------------
-	Engine::CGameObject* pSwitchObj3 = CPrototypeManager::GetInstance()
-		->Clone_ObjPrototype(OBJPROTOTYPE::BUTTON_DOOR);
-	if (nullptr == pSwitchObj3) return E_FAIL;
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_OBJECT, pSwitchObj3))) return E_FAIL;
-
-	auto* sw3 = dynamic_cast<CSwitch_Button*> (pSwitchObj3);
-	sw3->Set_LinkMode(Engine::LINKMODE::NONE);
-
-	Engine::CTransform* tr6 = GetTransformPtr(pSwitchObj3);
-	if (tr6) {
-		tr6->Set_Pos(290.f, 0.f, 120.f);   // 기준 위치
-	}
-	// --------------(08/31 김홍인)----------------
-
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
 	return S_OK;

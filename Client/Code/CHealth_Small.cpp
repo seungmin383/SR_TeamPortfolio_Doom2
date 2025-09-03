@@ -53,7 +53,7 @@ _int CHealth_Small::Update_GameObject(const _float& fTimeDelta)
 	Bill_Board();
 
 	m_iFrame++;
-	if (m_iFrame >= 4)
+	if (m_iFrame >= 3)
 		m_iFrame = 0;
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
@@ -163,9 +163,13 @@ HRESULT CHealth_Small::Add_Component()
 
 void CHealth_Small::Set_OnTerrain()
 {
+	_float highest(FLT_MIN);
+	_vec3 pos;
+	_vec3 onPosition{ 0.f, 0.f, 0.f };
+	_float vScaleY = m_pTransformCom->Get_Scale()->y;
+
 	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
 	{
-		_vec3 pos;
 		m_pTransformCom->Get_Pos(&pos);
 
 		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
@@ -176,7 +180,7 @@ void CHealth_Small::Set_OnTerrain()
 		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
 		{
 
-			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 1, pos.z);
+			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 2, pos.z);
 			break;
 		}
 	}

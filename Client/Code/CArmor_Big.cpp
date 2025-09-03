@@ -164,9 +164,13 @@ HRESULT CArmor_Big::Add_Component()
 
 void CArmor_Big::Set_OnTerrain()
 {
+	_float highest(FLT_MIN);
+	_vec3 pos;
+	_vec3 onPosition{ 0.f, 0.f, 0.f };
+	_float vScaleY = m_pTransformCom->Get_Scale()->y;
+
 	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
 	{
-		_vec3 pos;
 		m_pTransformCom->Get_Pos(&pos);
 
 		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
@@ -177,7 +181,7 @@ void CArmor_Big::Set_OnTerrain()
 		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
 		{
 
-			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 1, pos.z);
+			m_pTransformCom->Set_Pos(pos.x, onPosition.y + 2, pos.z);
 			break;
 		}
 	}
@@ -203,27 +207,6 @@ void CArmor_Big::Bill_Board()
 	matWorld = matBill * matWorld;
 	// 최종적으로 빌보드 행렬을 월드 행렬로 설정                                           
 	m_pTransformCom->Set_World(&matWorld);
-
-	//if (!m_pTransformCom)
-	//	return;
-
-	//_matrix matWorld, matView, matBill;
-	//m_pTransformCom->Get_World(&matWorld);
-	//m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
-
-	//// 빌보드 행렬의 스케일과 위치는 월드 행렬의 것을 그대로 사용                          
-	//matBill = matWorld;
-
-	//// 뷰행렬에서 역행렬을 이용해 카메라의 회전값을 구하고, 빌보드 행렬의 회전값으로 설정  
-	//D3DXMatrixInverse(&matBill, NULL, &matView);
-
-	//// 빌보드 행렬의 위치값을 월드 행렬의 위치값으로 설정                                  
-	//matBill._41 = matWorld._41;
-	//matBill._42 = matWorld._42;
-	//matBill._43 = matWorld._43;
-
-	//// 최종적으로 빌보드 행렬을 월드 행렬로 설정                                           
-	//m_pTransformCom->Set_World(&matBill);
 }
 
 CArmor_Big* CArmor_Big::Create(LPDIRECT3DDEVICE9 pGraphicDev)
