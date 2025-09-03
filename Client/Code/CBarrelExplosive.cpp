@@ -193,13 +193,6 @@ void CBarrelExplosive::OnCollisionEnter(CCollider* _pOther)
 	// 1) 탄환 피격
 	if (layer & COL_BULLET)
 	{
-		// 맞으면 탄환은 제거
-		if (auto* otherObj = _pOther->Get_Owner())
-			otherObj->Set_Dead(true);
-
-		// 탄환 기본 데미지(필요하면 탄종별로 가중치 부여)
-		int damage = 10;
-		Take_Dmg(damage);   // HP <= 0이면 BeginExplosion() 자동 호출
 		if (m_iGameHp <= 0)
 			BeginExplosion();
 		return;

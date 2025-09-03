@@ -283,7 +283,7 @@ CGameObject* CCollisionManager::Raycast(_vec3 vRayPos, _vec3 vRayDir, _vec3& vHi
 
 			for (size_t iD = 0; iD < (_uint)OBJID::OBJ_END; iD++)
 			{
-				if (iD == (_uint)OBJID::OBJ_ENEMY)
+				if (iD == (_uint)OBJID::OBJ_ENEMY || iD == (_uint)OBJID::OBJ_OBJECT)
 				{
 					for (auto object : objectArrayList[iD])
 					{
