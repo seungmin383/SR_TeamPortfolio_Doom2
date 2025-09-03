@@ -28,6 +28,7 @@ HRESULT CBarrelExplosive::Ready_GameObject()
 		return E_FAIL;
 
 	// HP/애니 초기화
+	m_iGameHp = 30;
 	m_iHP = 30;       // 원하는 체력으로 조정
 	m_iFrame_Barrel = 0;
 	m_iFrame_Explosion = 0;
@@ -198,22 +199,28 @@ void CBarrelExplosive::OnCollisionEnter(CCollider* _pOther)
 
 		// 탄환 기본 데미지(필요하면 탄종별로 가중치 부여)
 		int damage = 10;
-		TakeDamage(damage);   // HP <= 0이면 BeginExplosion() 자동 호출
+		Take_Dmg(damage);   // HP <= 0이면 BeginExplosion() 자동 호출
+		if (m_iGameHp <= 0)
+			BeginExplosion();
 		return;
 	}
 
-	// 2) 히트스캔(레이) 공격 처리
+	// 2) 히트스캔(레이) 공격 처리t
 	if (layer & COL_ATTACK)
 	{
 		// 히트스캔도 동일하게 기본 데미지 적용
-		TakeDamage(10);
+		Take_Dmg(10);
+		if (m_iGameHp <= 0)
+			BeginExplosion();
 		return;
 	}
 
 	// 3) 주변 폭발에 의한 체인 폭발
 	if (layer & COL_EXPLOSION)
 	{
-		TakeDamage(9999);     // 무조건 터지게
+		Take_Dmg(9999);     // 무조건 터지게
+		if (m_iGameHp <= 0)
+			BeginExplosion();
 		return;
 	}
 
