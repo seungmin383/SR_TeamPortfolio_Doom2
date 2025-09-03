@@ -18,12 +18,74 @@ CSoundManager::~CSoundManager()
 void CSoundManager::Init()
 {
     FMOD_System_Create(&m_pSystem, FMOD_VERSION);
-    FMOD_System_Init(m_pSystem, 32, FMOD_INIT_NORMAL, NULL);
+    FMOD_System_Init(m_pSystem, MAXCHANNEL, FMOD_INIT_NORMAL, NULL);
     LoadSoundFile();
+    LoadSound3D(L"EXPLOSION", TEXT("../../Client/Resource/Sound/3Dsound/DSBAREXP.wav"));
+}
+
+void CSoundManager::Update()
+{
+    FMOD_System_Update(m_pSystem);
 }
 
 void CSoundManager::Release()
 {
+}
+
+HRESULT CSoundManager::LoadSound3D(const wstring& pSoundKey, const _tchar* pFilePath)
+{
+    auto iter = m_mapSound.find(pSoundKey);
+    if (iter != m_mapSound.end())
+        return S_OK;
+
+    char szPath[MAX_PATH];
+    size_t iConvertChars = 0;
+
+    wcstombs_s(&iConvertChars, szPath, MAX_PATH, pFilePath, _TRUNCATE);
+
+    FMOD_SOUND* pSound = nullptr;
+
+    if (FMOD_OK != FMOD_System_CreateSound(m_pSystem, szPath, FMOD_3D_INVERSEROLLOFF, NULL, &pSound))
+        return E_FAIL;
+    
+    FMOD_Sound_Set3DMinMaxDistance(pSound, 2.5f, 100.f);
+
+    m_mapSound.emplace(pSoundKey, pSound);
+
+    return S_OK;
+}
+
+void CSoundManager::PlaySound3D(const wstring& pSoundKey, const _vec3& vPos, _float fVolume)
+{
+    auto iter = m_mapSound.find(pSoundKey);
+    if (iter == m_mapSound.end())
+        return;
+
+    for (_uint i = 0; i < CHANNELID::MAXCHANNEL; ++i)
+    {
+        FMOD_BOOL bPlay = FALSE;
+        FMOD_Channel_IsPlaying(m_pChannelArr[i], &bPlay);
+
+
+        FMOD_System_PlaySound(m_pSystem, iter->second, 0, false, &m_pChannelArr[i]);
+
+        FMOD_VECTOR soundPos = { vPos.x ,vPos.y, vPos.z };
+        FMOD_VECTOR soundVel = { 0.f, 0.f, 0.f };
+        FMOD_Channel_Set3DAttributes(m_pChannelArr[i], &soundPos, &soundVel);
+        FMOD_Channel_SetVolume(m_pChannelArr[i], fVolume);
+        return;
+
+    }
+}
+
+void CSoundManager::SetListener(const _vec3& vPos, const _vec3& vForward)
+{
+    FMOD_VECTOR listenerPos = { vPos.x, vPos.y, vPos.z };
+    FMOD_VECTOR listenerForward = { vForward.x, vForward.y, vForward.z };
+    FMOD_VECTOR listenerUp = { 0.f, 1.f ,0.f };
+    FMOD_VECTOR listenerVel = { 0.f, 0.f, 0.f };
+
+    FMOD_System_Set3DListenerAttributes(m_pSystem, 0, &listenerPos, &listenerVel, &listenerForward, &listenerUp);
 }
 
 void CSoundManager::PlaySoundW(const std::wstring& soundKey, CHANNELID eID, float fVolume)
@@ -59,8 +121,13 @@ void CSoundManager::PlaySoundW(const std::wstring& soundKey, CHANNELID eID, floa
         );
     }
 
+<<<<<<< HEAD
     //FMOD_Channel_SetVolume(m_pChannelArr[eID], fVolume);
     FMOD_System_Update(m_pSystem);
+=======
+    FMOD_Channel_SetVolume(m_pChannelArr[eID], fVolume);
+    //FMOD_System_Update(m_pSystem);
+>>>>>>> 11623847d498d05abb394d7fa68bbe3fcc116da7
 }
 
 void CSoundManager::PlayBGM(const std::wstring& soundKey, float fVolume)
@@ -78,7 +145,7 @@ void CSoundManager::PlayBGM(const std::wstring& soundKey, float fVolume)
     );
     FMOD_Channel_SetMode(m_pChannelArr[SOUND_BGM], FMOD_LOOP_NORMAL);
     FMOD_Channel_SetVolume(m_pChannelArr[SOUND_BGM], fVolume);
-    FMOD_System_Update(m_pSystem);
+    //FMOD_System_Update(m_pSystem);
 }
 
 void CSoundManager::StopSound(CHANNELID eID)
@@ -95,7 +162,7 @@ void CSoundManager::StopAll()
 void CSoundManager::SetChannelVolume(CHANNELID eID, float fVolume)
 {
     FMOD_Channel_SetVolume(m_pChannelArr[eID], fVolume);
-    FMOD_System_Update(m_pSystem);
+    //FMOD_System_Update(m_pSystem);
 }
 
 void CSoundManager::LoadSoundFile()
@@ -147,7 +214,7 @@ void CSoundManager::LoadSoundFile()
 
     } while (_findnext(handle, &fd) == 0);
 
-    FMOD_System_Update(m_pSystem);
+    //FMOD_System_Update(m_pSystem);
     _findclose(handle);
 }
 

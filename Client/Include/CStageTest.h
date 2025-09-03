@@ -3,7 +3,7 @@
 class CStageTest :
     public CScene
 {
-public:
+private:
     explicit CStageTest(LPDIRECT3DDEVICE9 pGraphicDev);
     virtual ~CStageTest();
 

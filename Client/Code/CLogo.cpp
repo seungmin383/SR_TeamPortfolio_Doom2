@@ -6,10 +6,13 @@
 #include "CTerrain.h"
 #include "CStage.h"
 #include "CManagement.h"
-#include "CFontManager.h"
+//#include "CFontManager.h"
+
+#include "CLoadingBackground.h"
+#include "CLoadingSpinner.h"
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CScene(pGraphicDev), m_pLoading(nullptr)
+	: Engine::CScene(pGraphicDev), m_pLoading(nullptr), m_fSleep(0.f)
 {
 }
 
@@ -37,12 +40,11 @@ _int CLogo::Update_Scene(const _float& fTimeDelta)
 {
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
 
-	if (true == m_pLoading->Get_Finish())
+	m_fSleep += fTimeDelta;
+
+	if (m_fSleep > 3.f && true == m_pLoading->Get_Finish())
 	{
-		if (GetAsyncKeyState(VK_RETURN))
-		{
-			CManagement::GetInstance()->Change_Scene(SCENEID::MAINMENU);
-		}
+		CManagement::GetInstance()->Change_Scene(SCENEID::MAINMENU);
 	}
 
 	return iExit;
@@ -57,9 +59,9 @@ void CLogo::Render_Scene(const _float& fTimeDelta)
 {
 	// Debug용 렌더
 
-	_vec2 vPos{ 100.f, 100.f };
+	//_vec2 vPos{ 100.f, 100.f };
 
-	CFontManager::GetInstance()->Render_Font(L"Font_Default", m_pLoading->Get_String(), &vPos, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	//CFontManager::GetInstance()->Render_Font(L"Font_Default", m_pLoading->Get_String(), &vPos, D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 }
 
 HRESULT CLogo::Ready_Environment_Layer(LAYERID _eLayerId)
@@ -67,14 +69,27 @@ HRESULT CLogo::Ready_Environment_Layer(LAYERID _eLayerId)
 	Engine::CLayer* pLayer = CLayer::Create();
 	if (nullptr == pLayer)
 		return E_FAIL;
-	
+
 	Engine::CGameObject* pGameObject = nullptr;
 
-	pGameObject = CBackGround::Create(m_pGraphicDev);
-	if (nullptr == pGameObject)
+	auto background = CLoadingBackground::Create(m_pGraphicDev);
+	if (nullptr == background)
 		return E_FAIL;
 
-	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_BACKGROUND, pGameObject)))
+	background->Set_SizeXY(WINCX, WINCY);
+	background->Set_Pos(WINCX * 0.5f, WINCY * 0.5f);
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, background)))
+		return E_FAIL;
+
+	auto spinner = CLoadingSpinner::Create(m_pGraphicDev);
+	if (nullptr == spinner)
+		return E_FAIL;
+
+	spinner->Set_SizeXY(100.f, 100.f);
+	spinner->Set_Pos(WINCX * 0.5f, WINCY * 0.5f);
+
+	if (FAILED(pLayer->Add_GameObject(OBJID::OBJ_UI, spinner)))
 		return E_FAIL;
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
@@ -89,8 +104,26 @@ HRESULT CLogo::Ready_Prototype()
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_LogoTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Title/M_DOOM.png", TEX_NORMAL))))
 		return E_FAIL;
-	
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_BackGroundTexture", Engine::CTexture::Create(m_pGraphicDev,	L"../Resource/Texture/DoomTex/TITLEPIC.png", TEX_NORMAL))))
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_LoadingBackground", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/Skybox/a8604.PNG", TEX_NORMAL))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_BackGroundTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/TITLEPIC.png", TEX_NORMAL))))
+		return E_FAIL;
+
+	//스프라이트 버퍼 //Loading에서 이동 소재혁
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_RectSpriteTex", Engine::CRectSpriteTex::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	//애니메이터 컴포넌트 //Loading에서 이동 소재혁
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Animator", Engine::CAnimator::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	//트랜스폼 컴포넌트 //Loading에서 이동 소재혁
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Transform", Engine::CTransform::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_LoadingSpinnerTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Title/LoadingSpinner.png", TEX_NORMAL))))
 		return E_FAIL;
 
 	return S_OK;

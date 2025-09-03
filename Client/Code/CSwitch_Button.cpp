@@ -9,6 +9,7 @@
 #include "CStage3.h"
 #include "CTerrainSector.h"
 #include "CGameObject.h"
+#include "CSoundManager.h"
 
 CSwitch_Button::CSwitch_Button(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev), m_pObjTarget(nullptr)
@@ -103,6 +104,8 @@ void CSwitch_Button::OnCollision(CCollider* _pOther)
 		m_bPressed = true;
 		SetSwitchOn();
 		m_state = State::Dead;
+		CSoundManager::GetInstance()->PlaySoundW(L"DSSWTCHX.wav", CHANNELID::SOUND_EFFECT, 0.8f);
+
 	}
 }
 

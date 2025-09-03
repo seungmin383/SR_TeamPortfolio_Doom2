@@ -6,6 +6,7 @@
 #include "CTimerManager.h"
 #include "CMonsterBase.h"
 #include "CTerrainSector.h"
+#include "CSoundManager.h"
 
 CBarrelExplosive::CBarrelExplosive(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev), m_iHP(0), m_iFrame_Barrel(0)
@@ -27,6 +28,7 @@ HRESULT CBarrelExplosive::Ready_GameObject()
 		return E_FAIL;
 
 	// HP/애니 초기화
+	m_iGameHp = 30;
 	m_iHP = 30;       // 원하는 체력으로 조정
 	m_iFrame_Barrel = 0;
 	m_iFrame_Explosion = 0;
@@ -191,28 +193,27 @@ void CBarrelExplosive::OnCollisionEnter(CCollider* _pOther)
 	// 1) 탄환 피격
 	if (layer & COL_BULLET)
 	{
-		// 맞으면 탄환은 제거
-		if (auto* otherObj = _pOther->Get_Owner())
-			otherObj->Set_Dead(true);
-
-		// 탄환 기본 데미지(필요하면 탄종별로 가중치 부여)
-		int damage = 10;
-		TakeDamage(damage);   // HP <= 0이면 BeginExplosion() 자동 호출
+		if (m_iGameHp <= 0)
+			BeginExplosion();
 		return;
 	}
 
-	// 2) 히트스캔(레이) 공격 처리
+	// 2) 히트스캔(레이) 공격 처리t
 	if (layer & COL_ATTACK)
 	{
 		// 히트스캔도 동일하게 기본 데미지 적용
-		TakeDamage(10);
+		Take_Dmg(10);
+		if (m_iGameHp <= 0)
+			BeginExplosion();
 		return;
 	}
 
 	// 3) 주변 폭발에 의한 체인 폭발
 	if (layer & COL_EXPLOSION)
 	{
-		TakeDamage(9999);     // 무조건 터지게
+		Take_Dmg(9999);     // 무조건 터지게
+		if (m_iGameHp <= 0)
+			BeginExplosion();
 		return;
 	}
 
@@ -235,6 +236,10 @@ void CBarrelExplosive::BeginExplosion()
 	m_state = State::Exploding;
 	m_animAcc = 0.f;
 	m_iFrame_Explosion = 0;
+
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	CSoundManager::GetInstance()->PlaySound3D(L"EXPLOSION", vPos, 1.f);
 
 	// 더 이상 피격/겹침 없도록 콜라이더 비활성화
 	if (m_pColliderCom) m_pColliderCom->Set_Active(false);
@@ -357,7 +362,7 @@ void CBarrelExplosive::ApplyExplosionDamage()
 			// 거리 기반 지연으로 ‘웨이브’ 연출
 			float dist = sqrtf(dist2);
 			float t = max(0.f, 1.f - dist / R);     // 0..1
-			float impulse = m_pushForce * (0.4f + 0.6f * t); // 너무 약해지지 않게 바닥값 0.4 배
+			float impulse = m_pushForce * (0.1f + 0.6f * t); // 너무 약해지지 않게 바닥값 0.4 배
 
 			// ★ 먼저 '밀어내기'
 			other->AddImpulseXZ(d, impulse);

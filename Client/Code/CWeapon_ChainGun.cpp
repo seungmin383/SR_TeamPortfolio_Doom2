@@ -10,6 +10,7 @@
 #include "CStatsManager.h"
 #include "CChaingun.h"
 #include "CTerrainSector.h"
+#include "CSoundManager.h"
 
 CWeapon_ChainGun::CWeapon_ChainGun(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -134,6 +135,7 @@ void CWeapon_ChainGun::OnCollisionEnter(CCollider* _pOther)
 	// Update_GameObject()에서 m_bPicked이면 -1 반환 → 레이어가 안전 삭제
 
 	CStatsManager::I().OnItemPicked();
+	CSoundManager::GetInstance()->PlaySoundW(L"DSWPNUP.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 }
 
 void CWeapon_ChainGun::OnCollisionExit(CCollider* _pOther)

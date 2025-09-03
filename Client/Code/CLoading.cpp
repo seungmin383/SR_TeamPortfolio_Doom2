@@ -41,19 +41,10 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_RectCol", Engine::CRectCol::Create(m_pGraphicDev))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_TerrainTex", Engine::CTerrainTex::Create(m_pGraphicDev, VTXCNTX, VTXCNTZ, VTXITV, L"../Resource/Texture/Terrain/Height.bmp"))))
-		return E_FAIL;
-
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_CubeTex", Engine::CCubeTex::Create(m_pGraphicDev))))
 		return E_FAIL;
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_RectSpriteTex", Engine::CRectSpriteTex::Create(m_pGraphicDev))))
-		return E_FAIL;
-
 	lstrcpy(m_szLoading, L"Texture Component Loading.....................");
-
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_TerrainTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/Terrain/Grass_%d.tga", TEX_NORMAL, 2))))
-		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_SkyBoxTexture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/SkyBox/burger0.dds", TEX_CUBE))))
 		return E_FAIL;
@@ -128,6 +119,13 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_MainMenuUI_Exit", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/M_QUITG.png", TEX_NORMAL))))
 		return E_FAIL;
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_MainMenuUI_Hover", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/M_SKULL1.png", TEX_NORMAL))))
+		return E_FAIL;
+
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_PauseUI_Pause", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/M_PAUSE.png", TEX_NORMAL))))
+		return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_PauseUI_New", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/M_NGAME.png", TEX_NORMAL))))
+		return E_FAIL;
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_PauseUI_Quit", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/M_QUITG.png", TEX_NORMAL))))
 		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_FaceUI", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/STFST0%d.png", TEX_NORMAL, 3))))
@@ -239,9 +237,6 @@ _uint CLoading::Loading_ForStage()
 
 	lstrcpy(m_szLoading, L"Etc Component Loading.....................");
 
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Transform", Engine::CTransform::Create(m_pGraphicDev))))
-		return E_FAIL;
-
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Calculator", Engine::CCalculator::Create(m_pGraphicDev))))
 		return E_FAIL;
 
@@ -249,9 +244,6 @@ _uint CLoading::Loading_ForStage()
 		return E_FAIL;
 
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Collider", Engine::CCollider::Create(m_pGraphicDev))))
-		return E_FAIL;
-
-	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_Animator", Engine::CAnimator::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	m_bFinish = true;

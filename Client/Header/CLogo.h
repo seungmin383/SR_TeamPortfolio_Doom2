@@ -6,7 +6,7 @@
 class CLogo :
     public CScene
 {
-public:
+private:
     explicit CLogo(LPDIRECT3DDEVICE9 pGraphicDev);
     virtual ~CLogo();
 
@@ -28,6 +28,7 @@ private:
 
 private:
     CLoading* m_pLoading;
+    _float    m_fSleep;
 
 public:
     static CLogo* Standby(LPDIRECT3DDEVICE9 pGraphicDev);

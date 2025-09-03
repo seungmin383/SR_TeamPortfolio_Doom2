@@ -15,6 +15,7 @@
 
 #include "CVerticalMovingObject.h"
 #include "EffectManager.h"
+#include "CSoundManager.h"
 // Initialize static variable
 _long CDynamicCamera::s_lMouseMoveX = 0L;
 
@@ -123,6 +124,10 @@ void CDynamicCamera::LateUpdate_GameObject(const _float& fTimeDelta)
 	m_pColliderCom->Late_Update();
 	m_pTransformCom->Set_Pos(m_vEye.x, m_vEye.y, m_vEye.z);
 
+	_vec3 vLook = m_vAt - m_vEye;
+	D3DXVec3Normalize(&vLook, &vLook);
+	CSoundManager::GetInstance()->SetListener(m_vEye, vLook);
+
 	if (false == m_bFix)
 	{
 		Mouse_Move();
@@ -139,7 +144,7 @@ void CDynamicCamera::Render_GameObject(const _float& fTimeDelta)
 
 void CDynamicCamera::OnCollision(CCollider* _pOther)
 {
-	if (_pOther->Get_ColLayer() == COL_ENEMY && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
+	if ((_pOther->Get_ColLayer() == COL_ENEMY || _pOther->Get_ColLayer() == COL_OBJECT) && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
 	{
 		CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
 
@@ -159,7 +164,7 @@ void CDynamicCamera::OnCollision(CCollider* _pOther)
  
 void CDynamicCamera::OnCollisionEnter(CCollider* _pOther)
 {
-	if (_pOther->Get_ColLayer() == COL_ENEMY && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
+	if ((_pOther->Get_ColLayer() == COL_ENEMY || _pOther->Get_ColLayer() == COL_OBJECT) && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
 	{
 		CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
 

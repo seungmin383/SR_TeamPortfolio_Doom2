@@ -297,17 +297,12 @@ _int CLayer::Update_Layer(const _float& fTimeDelta)
 				++iter;																			// 저기 푸쉬백 해줘서 iter가 무효화 되서 여기 ++ 할때 터지는 상황이였어요
 		}
 
-		//업데이트 다 돌고나면 m_vecObject여기에 m_vecPendingObject를 추가해주는 식으로 고쳤더니 
-
-		if (!m_vecPendingObject[i].empty())//그래서 m_vecPendingObject 이 벡터 하나 더 만들어서
+		if (!m_vecPendingObject[i].empty())
 		{
 			for (auto iter = m_vecPendingObject[i].begin(); iter != m_vecPendingObject[i].end(); iter++)
 			{
 				m_vecObject[i].push_back(*iter);
 			}
-			//이거 다요?
-			//아마 렉 엄청 걸릴거에요
-			//그건 모르겠는데 처음에 이거 안지우니까 매 프레임 계속 추가해줘서 렉걸리는듯요
 
 			for (auto iter = m_vecPendingObject[i].begin(); iter != m_vecPendingObject[i].end(); )
 			{

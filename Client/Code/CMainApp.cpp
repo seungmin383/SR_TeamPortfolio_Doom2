@@ -100,6 +100,7 @@ HRESULT CMainApp::Ready_MainApp()
 
 int CMainApp::Update_MainApp(const float& fTimeDelta)
 {
+	CSoundManager::GetInstance()->Update();
 	CDInputManager::GetInstance()->Update_InputDev();
 
 	//m_pManagementClass->Update_Scene(fTimeDelta);
@@ -109,9 +110,10 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 
 	// p 키 눌렀을 때 일시정지
 	// 1) 일시정지 토글
-	if (GetAsyncKeyState('P'))
+	if (CDInputManager::GetInstance()->Get_KeyDown(DIK_P))
 	{
 		CManagement::GetInstance()->Toggle_Pause();
+		CSoundManager::GetInstance()->PlaySoundW(L"DSSWTCHN.wav", CHANNELID::SOUND_EFFECT, 0.8f);
 	}
 
 	// 2) Δt 스케일 (Paused면 0)
@@ -364,12 +366,12 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 
 HRESULT CMainApp::Ready_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	m_pManagementClass->Add_Scene(SCENEID::LOGO, new CLogo(pGraphicDev));
-	m_pManagementClass->Add_Scene(SCENEID::MAINMENU, new CMainMenu(pGraphicDev));
-	m_pManagementClass->Add_Scene(SCENEID::STAGE1, new CStage(pGraphicDev));
-	m_pManagementClass->Add_Scene(SCENEID::STAGE2, new CStage2(pGraphicDev));
-	m_pManagementClass->Add_Scene(SCENEID::STAGE3, new CStage3(pGraphicDev));
-	m_pManagementClass->Add_Scene(SCENEID::TEST, new CStageTest(pGraphicDev));
+	m_pManagementClass->Add_Scene(SCENEID::LOGO, CLogo::Standby(pGraphicDev));
+	m_pManagementClass->Add_Scene(SCENEID::MAINMENU, CMainMenu::Standby(pGraphicDev));
+	m_pManagementClass->Add_Scene(SCENEID::STAGE1, CStage::Standby(pGraphicDev));
+	m_pManagementClass->Add_Scene(SCENEID::STAGE2, CStage2::Standby(pGraphicDev));
+	m_pManagementClass->Add_Scene(SCENEID::STAGE3, CStage3::Standby(pGraphicDev));
+	m_pManagementClass->Add_Scene(SCENEID::TEST, CStageTest::Standby(pGraphicDev));
 
 	if (FAILED(m_pManagementClass->Change_Scene(SCENEID::LOGO)))
 	{
@@ -413,8 +415,8 @@ void CMainApp::Free()
 	CWeaponManager::GetInstance()->DestroyInstance();
 	EffectManager::GetInstance()->DestroyInstance();	
 
-	m_pManagementClass->DestroyInstance();
 	CSoundManager::GetInstance()->DestroyInstance();
 
+	m_pManagementClass->DestroyInstance();
 	m_pDeviceClass->DestroyInstance();
 }

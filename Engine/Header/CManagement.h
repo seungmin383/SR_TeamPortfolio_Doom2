@@ -33,6 +33,7 @@ public:
     CGameObject*    Get_Player() { return m_pPlayer; }
 
     SCENEID         Get_CurSceneId() { return m_eCurSceneId; }
+    void            Set_CurSceneId(SCENEID eval) { m_eCurSceneId = eval; }
 
     /// <summary>
     /// Game Logic Layer에 추가한다

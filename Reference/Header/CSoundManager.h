@@ -14,9 +14,16 @@ private:
 
 public:
 	void Init();
+	void Update();
 	void Release();
 
 public:
+	// 3d 사운드 로드 함수
+	HRESULT LoadSound3D(const wstring& pSoundKey, const _tchar* pFilePath);
+	// 3d 사운드를 특정 위치에서 재생하는 함수
+	void PlaySound3D(const wstring& pSoundKey, const _vec3& vPos, _float fVolume);
+	// 리스너의 위치와 방향 설정해주는 함수
+	void SetListener(const _vec3& vPos, const _vec3& vForward);
 	void PlaySoundW(const std::wstring& soundKey, CHANNELID eID, float fVolume);
 	void PlayBGM(const std::wstring& soundKey, float fVolume);
 	void StopSound(CHANNELID eID);
@@ -38,6 +45,7 @@ private:
 
 	// 사운드 ,채널 객체 및 장치를 관리하는 객체 
 	FMOD_SYSTEM* m_pSystem;
+	FMOD::System* pSystem;
 
 private:
 	virtual void Free() override;

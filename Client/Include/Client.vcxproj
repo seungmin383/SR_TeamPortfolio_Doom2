@@ -206,6 +206,7 @@
     <ClInclude Include="..\Header\CImpBullet.h" />
     <ClInclude Include="..\Header\CKey.h" />
     <ClInclude Include="..\Header\CLoading.h" />
+    <ClInclude Include="..\Header\CLoadingBackground.h" />
     <ClInclude Include="..\Header\CMainMenu.h" />
     <ClInclude Include="..\Header\CMainMenuBackground.h" />
     <ClInclude Include="..\Header\CMainMenuExit.h" />
@@ -214,6 +215,9 @@
     <ClInclude Include="..\Header\CMonsterBase.h" />
     <ClInclude Include="..\Header\CMonsterSpawner.h" />
     <ClInclude Include="..\Header\CObjectFactory.h" />
+    <ClInclude Include="..\Header\CPauseNew.h" />
+    <ClInclude Include="..\Header\CPausePause.h" />
+    <ClInclude Include="..\Header\CPauseQuit.h" />
     <ClInclude Include="..\Header\CPinky.h" />
     <ClInclude Include="..\Header\CPinkyBullet.h" />
     <ClInclude Include="..\Header\CPistol.h" />
@@ -253,6 +257,7 @@
     <ClInclude Include="..\Header\CStage2.h" />
     <ClInclude Include="..\Header\CZombiemanBullet.h" />
     <ClInclude Include="..\Header\FaceUIRegistry.h" />
+    <ClInclude Include="..\Header\CLoadingSpinner.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="CStageTest.h" />
     <ClInclude Include="framework.h" />
@@ -296,6 +301,7 @@
     <ClCompile Include="..\Code\CKey.cpp" />
     <ClCompile Include="..\Code\CImpBullet.cpp" />
     <ClCompile Include="..\Code\CLoading.cpp" />
+    <ClCompile Include="..\Code\CLoadingBackground.cpp" />
     <ClCompile Include="..\Code\CMainMenu.cpp" />
     <ClCompile Include="..\Code\CMainMenuBackground.cpp" />
     <ClCompile Include="..\Code\CMainMenuExit.cpp" />
@@ -304,6 +310,9 @@
     <ClCompile Include="..\Code\CMonsterBase.cpp" />
     <ClCompile Include="..\Code\CMonsterSpawner.cpp" />
     <ClCompile Include="..\Code\CObjectFactory.cpp" />
+    <ClCompile Include="..\Code\CPauseNew.cpp" />
+    <ClCompile Include="..\Code\CPausePause.cpp" />
+    <ClCompile Include="..\Code\CPauseQuit.cpp" />
     <ClCompile Include="..\Code\CPinky.cpp" />
     <ClCompile Include="..\Code\CPinkyBullet.cpp" />
     <ClCompile Include="..\Code\CPistol.cpp" />
@@ -343,6 +352,7 @@
     <ClCompile Include="..\Code\CStage2.cpp" />
     <ClCompile Include="..\Code\CZombiemanBullet.cpp" />
     <ClCompile Include="..\Code\FaceUIRegistry.cpp" />
+    <ClCompile Include="..\Code\CLoadingSpinner.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="CStageTest.cpp" />
     <ClCompile Include="pch.cpp">
