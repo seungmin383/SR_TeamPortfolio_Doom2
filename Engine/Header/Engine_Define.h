@@ -9,6 +9,8 @@
 #include <map>
 #include <algorithm>
 #include <functional>
+#include <thread>
+#include <future>
 #include <string>
 #include <unordered_map>
 #include <ctime>

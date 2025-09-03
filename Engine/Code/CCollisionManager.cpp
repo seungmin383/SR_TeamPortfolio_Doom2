@@ -351,7 +351,12 @@ CGameObject* CCollisionManager::Raycast(_vec3 vRayPos, _vec3 vRayDir, _vec3& vHi
 					iD == (_uint)OBJID::OBJ_WALL ||
 					iD == (_uint)OBJID::OBJ_TERRAIN)
 				{
-					for (auto object : objectArrayList[iD])
+					vector<CGameObject*> innerTerrain;
+					for (auto ter : objectArrayList[iD])
+						if (InnerTerrainCheck(ter, vRayPos))
+							innerTerrain.push_back(ter);
+
+					for (auto object : innerTerrain)
 					{
 						auto bufferCom = dynamic_cast<CTerrainTexSector*>(object->Get_Component(COMPONENTID::ID_STATIC, L"Com_Buffer"));
 						auto bufferTransCom = dynamic_cast<CTransform*>(object->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Transform"));
@@ -445,6 +450,45 @@ CGameObject* CCollisionManager::Raycast(_vec3 vRayPos, _vec3 vRayDir, _vec3& vHi
 		}
 	}
 	return pClosestObj;
+}
+
+_bool CCollisionManager::InnerTerrainCheck(CGameObject* terrain, _vec3 pos)
+{
+	auto bufferCom = dynamic_cast<CTerrainTexSector*>(terrain->Get_Component(COMPONENTID::ID_STATIC, L"Com_Buffer"));
+	auto transformCom = dynamic_cast<CTransform*>(terrain->Get_Component(COMPONENTID::ID_DYNAMIC, L"Com_Transform"));
+
+	auto vtxpos = bufferCom->Get_VtxPos();
+	auto vtxcntx = bufferCom->Get_VtxCntX();
+	auto vtxcntz = bufferCom->Get_VtxCntZ();
+	const _matrix* w = transformCom->Get_World();
+
+	_vec3 wvtxlu;
+	_vec3 wvtxru;
+	_vec3 wvtxrb;
+	_vec3 wvtxlb;
+
+	_ulong lu = 0;
+	_ulong ru = vtxcntx - 1;
+	_ulong rb = 0 + ((vtxcntz - 1) * vtxcntx);
+	_ulong lb = (vtxcntx - 1) + ((vtxcntz - 1) * vtxcntx);
+
+
+	D3DXVec3TransformCoord(&wvtxlu, &vtxpos[lu], w);
+	D3DXVec3TransformCoord(&wvtxru, &vtxpos[ru], w);
+	D3DXVec3TransformCoord(&wvtxrb, &vtxpos[rb], w);
+	D3DXVec3TransformCoord(&wvtxlb, &vtxpos[lb], w);
+
+	LONG minx = min(min(wvtxlu.x, wvtxru.x), min(wvtxrb.x, wvtxlb.x));
+	LONG maxx = max(max(wvtxlu.x, wvtxru.x), max(wvtxrb.x, wvtxlb.x));
+	LONG minz = min(min(wvtxlu.z, wvtxru.z), min(wvtxrb.z, wvtxlb.z));
+	LONG maxz = max(max(wvtxlu.z, wvtxru.z), max(wvtxrb.z, wvtxlb.z));
+
+	RECT tile{ minx, minz, maxx, maxz };
+	RECT revTile{ maxx, maxz, minx, minz };
+	RECT posTile{ pos.x - 5.f, pos.z - 5.f, pos.x + 5.f, pos.z + 5.f };
+	RECT result;
+
+	return (IntersectRect(&result, &posTile, &tile) || IntersectRect(&result, &posTile, &revTile));
 }
 
 void CCollisionManager::Free()
