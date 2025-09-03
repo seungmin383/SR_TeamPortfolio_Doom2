@@ -6,6 +6,7 @@
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
 #include "CTerrainSector.h"
+#include "CSoundManager.h"
 
 CDoorWithKey::CDoorWithKey(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -40,7 +41,7 @@ HRESULT CDoorWithKey::Ready_GameObject()
 		m_pColliderCom->Ready_CCollider(
 			this,
 			_vec3(0, 0, 0),         // 초기 위치(Transform가 실제로 잡아줌)
-			_vec3(14.f, 14.f, 2.1f),   // 박스 크기
+			_vec3(14.f, 14.f, 5.f),   // 박스 크기
 			_vec3(0, 0.f, 0),      // 약간 위로
 			COL_OBJECT,             // 내 레이어
 			// 공격으로 인정할 대상 레이어(레이 사격 포함)
