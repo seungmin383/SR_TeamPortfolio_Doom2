@@ -145,7 +145,7 @@ void CDynamicCamera::Render_GameObject(const _float& fTimeDelta)
 
 void CDynamicCamera::OnCollision(CCollider* _pOther)
 {
-	if ((_pOther->Get_ColLayer() == COL_ENEMY || _pOther->Get_ColLayer() == COL_OBJECT) && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
+	if (_pOther->Get_ColLayer() == COL_ENEMY && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
 	{
 		CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
 
@@ -165,7 +165,7 @@ void CDynamicCamera::OnCollision(CCollider* _pOther)
 
 void CDynamicCamera::OnCollisionEnter(CCollider* _pOther)
 {
-	if ((_pOther->Get_ColLayer() == COL_ENEMY || _pOther->Get_ColLayer() == COL_OBJECT) && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
+	if (_pOther->Get_ColLayer() == COL_ENEMY && CCollisionManager::Check_AABB(m_pColliderCom, _pOther))
 	{
 		CCollisionManager::Collision_Rect_Resolve(_pOther, m_pColliderCom, CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
 
@@ -624,20 +624,54 @@ void CDynamicCamera::Set_OnTerrain()
 {
 	_float fHighest(-999.f);
 	_vec3 onPosition{ 0.f, 0.f, 0.f };
+	mutex m;
 
+	vector<thread> workers;
+	auto terrain = CManagement::GetInstance()->Get_Scene()->Get_Terrain();
+	vector<CGameObject*> innerTerrain;
 
-
-	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
+	for (auto tt : terrain)
 	{
-		auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
-		auto bufferCom = dterrain->Get_BufferCom();
-		auto transformCom = dterrain->Get_Transform();
+		auto ts = dynamic_cast<CTerrainSector*>(tt);
+		auto vtxpos = ts->Get_BufferCom()->Get_VtxPos();
+		auto vtxcntx = ts->Get_BufferCom()->Get_VtxCntX();
+		auto vtxcntz = ts->Get_BufferCom()->Get_VtxCntZ();
+		auto tf = ts->Get_Transform();
+		const _matrix* w = tf->Get_World();
+		_ulong dwIndex(0);
+		_bool innerRange(false);
 
-		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &m_vEye))
+		for (size_t i = 0; i < vtxcntz; i++)
 		{
-			if (fHighest < onPosition.y)
-				fHighest = onPosition.y;
+			for (size_t j = 0; j < vtxcntx; j++)
+			{
+				dwIndex = j + (i * vtxcntx);
+				_vec3 wvtx;
+				D3DXVec3TransformCoord(&wvtx, &vtxpos[dwIndex], w);
+				if (fabsf(wvtx.x - m_vEye.x) <= 10.f
+					&& fabsf(wvtx.z - m_vEye.z) <= 10.f)
+				{
+					innerRange = true;
+					innerTerrain.push_back(tt);
+					break;
+				}
+			}
+			if (innerRange)
+				break;
 		}
+	}
+	
+	workers.reserve(terrain.size());
+
+	for (auto ter : innerTerrain)
+	{
+		workers.emplace_back(&CDynamicCamera::CalcOnTerrain, this, ter, ref(fHighest), ref(onPosition), ref(m));
+	}
+
+	for (auto& t : workers)
+	{
+		if (t.joinable())
+			t.join();
 	}
 
 	if (fHighest == -999.f)
@@ -684,6 +718,21 @@ void CDynamicCamera::Set_OnTerrain()
 		m_vEye.y += deltaHeight;
 		m_vAt.y += deltaHeight;
 	}
+}
+
+void CDynamicCamera::CalcOnTerrain(CGameObject* terrain, _float& result, _vec3& pos, mutex& m)
+{
+	auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
+	auto bufferCom = dterrain->Get_BufferCom();
+	auto transformCom = dterrain->Get_Transform();
+
+	m.lock();
+	if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &pos, &m_vEye))
+	{
+		if (result < pos.y)
+			result = pos.y;
+	}
+	m.unlock();
 }
 
 void CDynamicCamera::Update_State()
@@ -795,21 +844,6 @@ void CDynamicCamera::Drop_Tanpii()
 	vPos -= vUp * 0.8f;
 
 	EffectManager::GetInstance()->Start_Effect(vPos, EFFECTID::TANPII_DROP);
-}
-
-_float CDynamicCamera::CalcOnTerrain(CGameObject* terrain, _float& result, _vec3& pos, mutex& m)
-{
-	auto dterrain = dynamic_cast<CTerrainSector*>(terrain);
-	auto bufferCom = dterrain->Get_BufferCom();
-	auto transformCom = dterrain->Get_Transform();
-
-	m.lock();
-	if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &pos, &m_vEye))
-	{
-		if (result < pos.y)
-			result = pos.y;
-	}
-	m.unlock();
 }
 
 CDynamicCamera* CDynamicCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)

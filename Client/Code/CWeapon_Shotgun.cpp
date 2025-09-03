@@ -48,13 +48,14 @@ HRESULT CWeapon_Shotgun::Ready_GameObject()
 	);
 	m_pColliderCom->Set_Active(true);
 
+	Set_OnTerrain();
+
 	return S_OK;
 }
 
 _int CWeapon_Shotgun::Update_GameObject(const _float& fTimeDelta)
 {
 	CGameObject::Update_GameObject(fTimeDelta);
-	Set_OnTerrain();
 	Bill_Board();
 
 	// 픽업 후에는 렌더 그룹 등록 금지
@@ -206,6 +207,7 @@ void CWeapon_Shotgun::Set_OnTerrain()
 	_vec3 pos;
 	_vec3 onPosition{ 0.f, 0.f, 0.f };
 	_float vScaleY = m_pTransformCom->Get_Scale()->y;
+
 	for (auto terrain : CManagement::GetInstance()->Get_Scene()->Get_Terrain())
 	{
 		m_pTransformCom->Get_Pos(&pos);
@@ -214,7 +216,7 @@ void CWeapon_Shotgun::Set_OnTerrain()
 		auto bufferCom = dterrain->Get_BufferCom();
 		auto transformCom = dterrain->Get_Transform();
 
-
+		_vec3 onPosition{ 0.f, 0.f, 0.f };
 		if (m_pCalculatorCom->RayScan_OnTerrain(bufferCom, transformCom, &onPosition, &pos))
 		{
 			if (highest < onPosition.y)
@@ -222,7 +224,7 @@ void CWeapon_Shotgun::Set_OnTerrain()
 		}
 	}
 
-	m_pTransformCom->Set_Pos(pos.x, highest + vScaleY, pos.z);
+	m_pTransformCom->Set_Pos(pos.x, highest + 2, pos.z);
 }
 
 void CWeapon_Shotgun::Bill_Board()
