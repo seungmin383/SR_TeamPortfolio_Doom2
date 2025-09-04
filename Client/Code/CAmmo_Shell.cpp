@@ -28,7 +28,7 @@ HRESULT CAmmo_Shell::Ready_GameObject()
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
-	m_iShell = 8;
+	m_iShell = 12;
 
 	m_iFrame_Shell = 0;
 

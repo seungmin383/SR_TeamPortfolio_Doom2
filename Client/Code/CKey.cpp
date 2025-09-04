@@ -81,7 +81,7 @@ void CKey::Render_GameObject(const _float& fTimeDelta)
 	if (CManagement::GetInstance()->Is_Paused())
 		m_pTextureCom->Set_Texture(0);
 	else
-		m_pTextureCom->Set_Texture(m_iFrame_Key);
+		m_pTextureCom->Set_Texture(0);
 	
 	m_pBufferCom->Render_Buffer();
 

@@ -88,7 +88,7 @@ void CAmmo_Clip::Render_GameObject(const _float& fTimeDelta)
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
-	m_pTextureCom->Set_Texture(m_iFrame_Clip);
+	m_pTextureCom->Set_Texture(0);
 	m_pBufferCom->Render_Buffer();
 
 	//�浹ü

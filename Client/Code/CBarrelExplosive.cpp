@@ -168,7 +168,7 @@ void CBarrelExplosive::Render_GameObject(const _float& fTimeDelta)
 			if (CManagement::GetInstance()->Is_Paused())
 				m_pTexIdle->Set_Texture(0);
 			else
-				m_pTexIdle->Set_Texture(m_iFrame_Barrel);
+				m_pTexIdle->Set_Texture(0);
 		}
 	}
 

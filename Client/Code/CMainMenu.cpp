@@ -26,6 +26,8 @@ CMainMenu::~CMainMenu()
 
 HRESULT CMainMenu::Ready_Scene()
 {
+	CUIManager::GetInstance()->UISetListClear();
+
 	if (FAILED(Ready_UI_Layer(LAYERID::LAYER_UI)))
 		return E_FAIL;
 
