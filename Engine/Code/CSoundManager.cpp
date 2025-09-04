@@ -22,6 +22,19 @@ void CSoundManager::Init()
     LoadSoundFile();
     LoadSound3D(L"EXPLOSION", TEXT("../../Client/Resource/Sound/3Dsound/DSBAREXP.wav"));
     LoadSound3D(L"MOVING", TEXT("../../Client/Resource/Sound/3Dsound/DSPSTART.wav"));
+
+    // Zombieman
+    LoadSound3D(L"ZM_DEATH", TEXT("../../Client/Resource/Sound/POS/ZOMBIEMANDEATH1.wav"));
+    LoadSound3D(L"ZM_HIT", TEXT("../../Client/Resource/Sound/POS/ZOMBIEMANHIT.wav"));
+    LoadSound3D(L"ZM_ATTACK", TEXT("../../Client/Resource/Sound/POS/DSPISTOL.wav"));
+    LoadSound3D(L"ZM_CHASE", TEXT("../../Client/Resource/Sound/POS/ZOMBIEMANFINDPLAYER2.wav"));
+    LoadSound3D(L"ZM_MOVE", TEXT("../../Client/Resource/Sound/POS/ZOMBIEMANIDLE.wav"));
+
+    // Shotgunguy
+    LoadSound3D(L"SG_DEATH", TEXT("../../Client/Resource/Sound/POS/ZOMBIEMANDEATH3.wav"));
+    LoadSound3D(L"SG_ATTACK", TEXT("../../Client/Resource/Sound/POS/DSPISTOL.wav"));
+    LoadSound3D(L"SG_CHASE", TEXT("../../Client/Resource/Sound/POS/ZOMBIEMANFINDPLAYER1.wav"));
+
 }
 
 void CSoundManager::Update()

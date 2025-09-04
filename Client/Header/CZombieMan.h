@@ -21,6 +21,7 @@ public:
     virtual     void			OnCollisionExit(CCollider* _pOther) override;*/
 
     virtual void         Attack(const _float fTimeDelta)override;
+    virtual void         Play_Sound() override;
     void Drop_Item()override;
     _float m_fSound = 1.f;
 
