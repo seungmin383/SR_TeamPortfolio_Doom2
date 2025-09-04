@@ -41,7 +41,7 @@ HRESULT CAmmo_Rocket::Ready_GameObject()
 		this,
 		_vec3(0, 0, 0),           // 초기 위치(Transform가 실제로 잡아줌)
 		_vec3(1.f, 1.f, 1.f),  // 아이템 박스 크기 예시
-		_vec3(0, 0.4f, 0),        // 약간 위로
+		_vec3(0.f, 0.f, 0.f),        // 약간 위로
 		COL_ITEM,               // 너희 COLLAYERID에서 아이템 레이어
 		COL_PLAYER       // (마스크를 쓴다면) 플레이어와만 맞게
 	);
