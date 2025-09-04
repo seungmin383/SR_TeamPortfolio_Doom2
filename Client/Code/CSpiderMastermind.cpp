@@ -10,6 +10,7 @@
 #include "CLayer.h"
 #include"CTerrainSector.h"
 #include "CDynamicCamera.h"
+#include "CSoundManager.h"
 
 #define SPEED 10.f
 CSpiderMastermind::CSpiderMastermind(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -329,6 +330,53 @@ void CSpiderMastermind::Attack(const _float fTimeDelta)
 	CMonsterBase::Attack(fTimeDelta);
 	Fire(fTimeDelta);
 
+}
+
+void CSpiderMastermind::Play_Sound()
+{
+		_vec3 vPos;
+		m_pTransformCom->Get_Pos(&vPos);
+
+		static _bool isFindPlayer = false;
+		_int a = 0;
+
+		switch (m_iCurThought)
+		{
+			//죽었을 때 
+		case AI_DEAD:
+			CSoundManager::GetInstance()->PlaySound3D(L"BOSSDEATH.wav", vPos, 1.f);
+			break;
+
+			//맞았을 때
+		case AI_HIT:
+			a = rand() % 10;
+
+			if (a > 5)
+				CSoundManager::GetInstance()->PlaySound3D(L"BOSSHIT.wav", vPos, 1.f);
+			break;
+
+			//공격할 때
+		case AI_ATTACK:
+			CSoundManager::GetInstance()->PlaySound3D(L"ARCHVILEATK.wav", vPos, 1.f);
+			break;
+
+			//플레이어를 발견했을 때
+		case AI_CHASE:
+			if (!isFindPlayer)
+			{
+				CSoundManager::GetInstance()->PlaySound3D(L"BOSSFINDPLAYER.wav", vPos, 1.f);
+				isFindPlayer = TRUE;
+			}
+			break;
+
+			//아이들 상태
+		case AI_MOVE:
+			CSoundManager::GetInstance()->PlaySound3D(L"BOSSIDLE.wav", vPos, 1.f);
+			break;
+		}
+
+		m_iPreThought = m_iCurThought;
+	
 }
 
 void CSpiderMastermind::Calc_Pattern()

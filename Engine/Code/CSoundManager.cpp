@@ -22,6 +22,10 @@ void CSoundManager::Init()
     LoadSoundFile();
     LoadSound3D(L"EXPLOSION", TEXT("../../Client/Resource/Sound/3Dsound/DSBAREXP.wav"));
     LoadSound3D(L"MOVING", TEXT("../../Client/Resource/Sound/3Dsound/DSPSTART.wav"));
+
+    LoadSound3D(L"ARCHVILEDEATH", TEXT("../../Client/Resource/Sound/3Dsound/ARCHVILEDEATH.wav"));
+    LoadSound3D(L"ARCHVILEHIT", TEXT("../../Client/Resource/Sound/3Dsound/ARCHVILEHIT.wav"));
+    LoadSound3D(L"ARCHVILEIDLE", TEXT("../../Client/Resource/Sound/3Dsound/ARCHVILEIDLE.wav"));
 }
 
 void CSoundManager::Update()

@@ -17,7 +17,9 @@ public:
 
     virtual _bool Check_Attack(const _float& fTimeDelta)override;
     virtual void         Attack(const _float fTimeDelta)override;
-    
+    virtual void Play_Sound()override;
+
+
     virtual void Check_Anim_Fin(const _float& fTimeDelta);
 
     //난수를 이용해서 패턴 규칙 만들기

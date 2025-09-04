@@ -218,27 +218,41 @@ void CArchVile::Play_Sound()
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
 
+	static _bool isFindPlayer = false;
+	_int a = 0;
+
 	switch (m_iCurThought)
 	{
 		//죽었을 때 
 	case AI_DEAD:
-		CSoundManager::GetInstance()->PlaySound3D(L"ARCHVILEDEATH.wav", vPos, 1.f);
+		CSoundManager::GetInstance()->PlaySoundW(L"ARCHVILEDEATH.wav", SOUND_EFFECT, 1.f);
 		break;
 
 		//맞았을 때
 	case AI_HIT:
+		a = rand() % 10;
+
+		if(a > 5)
+			CSoundManager::GetInstance()->PlaySoundW(L"ARCHVILEHIT.wav", SOUND_EFFECT, 0.5f);
 		break;
 
 		//공격할 때
 	case AI_ATTACK:
+		CSoundManager::GetInstance()->PlaySoundW(L"ARCHVILEATK.wav", SOUND_EFFECT, 1.f);
 		break;
 
 		//플레이어를 발견했을 때
 	case AI_CHASE:
+		if (!isFindPlayer)
+		{
+			CSoundManager::GetInstance()->PlaySoundW(L"ARCHVILEFINDPLAYER.wav", SOUND_EFFECT, 1.f);
+			isFindPlayer = TRUE;
+		}
 		break;
 
 		//아이들 상태
 	case AI_MOVE:
+		CSoundManager::GetInstance()->PlaySoundW(L"ARCHVILEIDLE.wav", SOUND_EFFECT, 0.6f);
 		break;
 	}
 
