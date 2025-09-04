@@ -44,6 +44,8 @@ public:
         virtual void Monster_Look_Player(_vec3* _vLook);
         virtual void Monster_Fire();
 
+        virtual void Play_Sound();
+
 
 
     //기능 Function (기능 기능?)

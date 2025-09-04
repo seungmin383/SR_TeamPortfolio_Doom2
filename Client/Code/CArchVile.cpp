@@ -7,6 +7,7 @@
 #include "CTimerManager.h"
 #include "CBullet.h"
 #include "CTerrainSector.h"
+#include "CSoundManager.h"
 #include <iostream>
 
 CArchVile::CArchVile(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -210,6 +211,38 @@ void CArchVile::Attack(const _float fTimeDelta)
 	tmp->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
 	dynamic_cast<CBullet*>(tmp)->Set_InitDir(m_vMoveLook);
 
+}
+
+void CArchVile::Play_Sound()
+{
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+
+	switch (m_iCurThought)
+	{
+		//죽었을 때 
+	case AI_DEAD:
+		CSoundManager::GetInstance()->PlaySound3D(L"ARCHVILEDEATH.wav", vPos, 1.f);
+		break;
+
+		//맞았을 때
+	case AI_HIT:
+		break;
+
+		//공격할 때
+	case AI_ATTACK:
+		break;
+
+		//플레이어를 발견했을 때
+	case AI_CHASE:
+		break;
+
+		//아이들 상태
+	case AI_MOVE:
+		break;
+	}
+
+	m_iPreThought = m_iCurThought;
 }
 
 HRESULT CArchVile::Add_Component()

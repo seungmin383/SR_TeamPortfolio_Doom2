@@ -275,7 +275,8 @@ void CMonsterBase::Thinker(const _float& fTimeDelta)
 
 	Action(fTimeDelta, m_iCurThought);												//행동
 
-	m_iPreThought = m_iCurThought;
+	if(m_iPreThought != m_iCurThought)
+		Play_Sound();
 }
 
 _int CMonsterBase::Perception(const _float& fTimeDelta)
@@ -742,6 +743,34 @@ void CMonsterBase::Monster_Look_Player(_vec3* _vLook)
 
 void CMonsterBase::Monster_Fire()
 {
+}
+
+void CMonsterBase::Play_Sound()
+{
+	switch (m_iCurThought)
+	{
+		//죽었을 때 
+	case AI_DEAD:
+		break;
+
+		//맞았을 때
+	case AI_HIT:
+		break;
+
+		//공격할 때
+	case AI_ATTACK:
+		break;
+
+		//플레이어를 발견했을 때
+	case AI_CHASE:
+		break;
+
+		//아이들 상태
+	case AI_MOVE:
+		break;
+	}
+
+	m_iPreThought = m_iCurThought;
 }
 
 void CMonsterBase::Set_OnTerrain()
