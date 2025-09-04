@@ -239,23 +239,23 @@ void CPinky::Play_Sound()
 	switch (m_iCurThought)
 	{
 	case AI_DEAD:
-		CSoundManager::GetInstance()->PlaySoundW(L"DEMONDEATH.wav", CHANNELID::SOUND_EFFECT, 1.f);
+		CSoundManager::GetInstance()->PlaySound3D(L"DEMONDEATH", vPos, 1.f);
 		break;
 
 	case AI_MOVE:
-		CSoundManager::GetInstance()->PlaySoundW(L"DEMONIDLE.wav", CHANNELID::SOUND_EFFECT, 1.f);
+		CSoundManager::GetInstance()->PlaySound3D(L"DEMONIDLE", vPos, 1.f);
 		break;
 
 	case AI_CHASE:
 		if (!isFindPlayer)
 		{
-			CSoundManager::GetInstance()->PlaySoundW(L"DEMONFINDPLAYER.wav", CHANNELID::SOUND_EFFECT, 1.f);
+			CSoundManager::GetInstance()->PlaySound3D(L"DEMONFINDPLAYER", vPos, 1.f);
 			isFindPlayer = TRUE;
 		}
 		break;
 
 	case AI_ATTACK:
-		CSoundManager::GetInstance()->PlaySoundW(L"DEMONATK.wav", CHANNELID::SOUND_EFFECT, 1.f);
+		CSoundManager::GetInstance()->PlaySound3D(L"DEMONATK", vPos, 1.f);
 		break;
 
 	case AI_HIT:
