@@ -55,6 +55,18 @@ HRESULT CWeapon_ChainGun::Ready_GameObject()
 
 _int CWeapon_ChainGun::Update_GameObject(const _float& fTimeDelta)
 {
+	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
+
+	LONG minx = min(pos.x + 5, pos.x - 5);
+	LONG maxx = max(pos.x + 5, pos.x - 5);
+	LONG minz = min(pos.z + 5, pos.z - 5);
+	LONG maxz = max(pos.z + 5, pos.z - 5);
+
+	RECT myRect{ minx, minz, maxx, maxz };
+	if (CCollisionManager::Check_AABB(myRect) == false)
+		return 0;
+
 	if (CManagement::GetInstance()->Is_Paused())
 		return 0;
 
@@ -71,6 +83,18 @@ _int CWeapon_ChainGun::Update_GameObject(const _float& fTimeDelta)
 
 void CWeapon_ChainGun::LateUpdate_GameObject(const _float& fTimeDelta)
 {
+	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
+
+	LONG minx = min(pos.x + 5, pos.x - 5);
+	LONG maxx = max(pos.x + 5, pos.x - 5);
+	LONG minz = min(pos.z + 5, pos.z - 5);
+	LONG maxz = max(pos.z + 5, pos.z - 5);
+
+	RECT myRect{ minx, minz, maxx, maxz };
+	if (CCollisionManager::Check_AABB(myRect) == false)
+		return;
+
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 	if (m_pColliderCom)
 		m_pColliderCom->Late_Update();
@@ -78,7 +102,18 @@ void CWeapon_ChainGun::LateUpdate_GameObject(const _float& fTimeDelta)
 
 void CWeapon_ChainGun::Render_GameObject(const _float& fTimeDelta)
 {
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
+
+	LONG minx = min(pos.x + 5, pos.x - 5);
+	LONG maxx = max(pos.x + 5, pos.x - 5);
+	LONG minz = min(pos.z + 5, pos.z - 5);
+	LONG maxz = max(pos.z + 5, pos.z - 5);
+
+	RECT myRect{ minx, minz, maxx, maxz };
+	if (CCollisionManager::Check_AABB(myRect) == false)
+		return;
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
 	m_pTextureCom->Set_Texture(0);
@@ -86,7 +121,6 @@ void CWeapon_ChainGun::Render_GameObject(const _float& fTimeDelta)
 
 	//충돌체
 	m_pColliderCom->Render(g_colRend);
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void CWeapon_ChainGun::OnCollision(CCollider* _pOther)
@@ -125,10 +159,10 @@ void CWeapon_ChainGun::OnCollisionEnter(CCollider* _pOther)
 		CWeapon* pChaingun = CChaingun::Create();
 		pWeaponManager->Add_Weapon(WEAPON_ID::CHAINGUN, pChaingun);
 		pWeaponManager->Change_Weapon(WEAPON_ID::CHAINGUN);
-		pWeaponManager->Add_Ammo(AMMO_TYPE::CLIP, 25);
+		pWeaponManager->Add_Ammo(AMMO_TYPE::CLIP, 50);
 	}
 	else
-		pWeaponManager->Add_Ammo(AMMO_TYPE::CLIP, 25);
+		pWeaponManager->Add_Ammo(AMMO_TYPE::CLIP, 50);
 
 	// 월드의 픽업 오브젝트는 제거
 	

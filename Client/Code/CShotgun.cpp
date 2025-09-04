@@ -42,7 +42,7 @@ _bool CShotgun::Fire()
 		vLook = vAt - vPlayerPos;
 		D3DXVec3Normalize(&vLook, &vLook);
 
-		CSoundManager::GetInstance()->PlaySoundW(L"DSSHOTGN.wav", CHANNELID::SOUND_EFFECT, 0.5f);
+		CSoundManager::GetInstance()->PlaySoundW(L"DSSHOTGN.wav", CHANNELID::SOUND_WEAPON, 0.5f);
 		CGameObject* tmp = nullptr;
 
 		for (int i = 0; i < 5; i++)

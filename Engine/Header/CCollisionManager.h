@@ -42,6 +42,10 @@ public:
     /// <returns></returns>
     static CGameObject* Raycast(_vec3 vRayPos, _vec3 vRayDir, _vec3& vHitPos, _vec3& vHitNormal, _float fMaxDist, LAYERID* pHitLayer, CGameObject* _this);
 
+    static _bool        InnerTerrainCheck(CGameObject* terrain, _vec3 pos);
+
+    static _bool        Check_AABB(RECT myRect);
+
 private:
     virtual void        Free();
 

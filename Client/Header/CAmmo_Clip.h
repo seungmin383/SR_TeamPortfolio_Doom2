@@ -24,13 +24,15 @@ public:
 
 private:
 	_int    m_iClip;
-	_int	m_iFrame_Clip;
 	bool m_bPicked = false;
 
 private:
 	HRESULT Add_Component();
 	void        Set_OnTerrain();
 	void		Bill_Board();
+
+	_float m_fDeathTimer = 0;
+	virtual _int Calc_Death_Time(const _float fTimeDelta);
 
 private:
 	CWeaponManager* m_pWeaponManager = nullptr;

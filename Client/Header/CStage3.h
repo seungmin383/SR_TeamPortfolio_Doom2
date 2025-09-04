@@ -57,6 +57,28 @@ private:
         return tr;
     }
 
+    // 추가: 클리어 목표 타입
+    enum class GoalType { KillBoss };
+    enum class GoalSource { None, Boss };
+    enum class GoalTiePolicy { PreferEarliest, PreferBoss };
+
+    GoalTiePolicy m_tiePolicy = GoalTiePolicy::PreferEarliest;
+    GoalType m_goal = GoalType::KillBoss; // 기본: 보스 처치형
+    GoalSource     m_goalSource = GoalSource::None;
+    bool           m_goalLatched = false; // 한번만 결과 발생하도록 잠금
+    float          m_goalBossTime = FLT_MAX;
+    _float         m_goalKillTime = FLT_MAX;
+
+    // 목표/상태 체크
+    void InitTotals();            // 총 몬스터 수 등 세팅
+    void CheckStageGoal();        // 매 프레임 조건 검사
+    bool IsBossAlive();          // 보스 생존 여부
+
+    // ★ 추가: 최종 원인 선택 & 라치
+    void ResolveAndLatchGoal();
+
+    int   m_wave1TriggerKills = 0; // 첫 웨이브가 끝났다고 보는 기준(= 첫 웨이브 적 수)
+    bool  m_wave1Spawned = false;  // 두 번째 웨이브가 이미 스폰되었는지
 protected:
     virtual void        Free();
 };

@@ -38,7 +38,7 @@ HRESULT CHealth_Small::Ready_GameObject()
 		this,
 		_vec3(0, 0, 0),           // 초기 위치(Transform가 실제로 잡아줌)
 		_vec3(1.f, 1.f, 1.f),  // 아이템 박스 크기 예시
-		_vec3(0, 0.4f, 0),        // 약간 위로
+		_vec3(0, 0.f, 0),        // 약간 위로
 		COL_ITEM,               // 너희 COLLAYERID에서 아이템 레이어
 		COL_PLAYER       // (마스크를 쓴다면) 플레이어와만 맞게
 	);
@@ -51,6 +51,18 @@ HRESULT CHealth_Small::Ready_GameObject()
 
 _int CHealth_Small::Update_GameObject(const _float& fTimeDelta)
 {
+	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
+
+	LONG minx = min(pos.x + 5, pos.x - 5);
+	LONG maxx = max(pos.x + 5, pos.x - 5);
+	LONG minz = min(pos.z + 5, pos.z - 5);
+	LONG maxz = max(pos.z + 5, pos.z - 5);
+
+	RECT myRect{ minx, minz, maxx, maxz };
+	if (CCollisionManager::Check_AABB(myRect) == false)
+		return 0;
+
 	CGameObject::Update_GameObject(fTimeDelta);
 	Bill_Board();
 
@@ -68,6 +80,18 @@ _int CHealth_Small::Update_GameObject(const _float& fTimeDelta)
 
 void CHealth_Small::LateUpdate_GameObject(const _float& fTimeDelta)
 {
+	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
+
+	LONG minx = min(pos.x + 5, pos.x - 5);
+	LONG maxx = max(pos.x + 5, pos.x - 5);
+	LONG minz = min(pos.z + 5, pos.z - 5);
+	LONG maxz = max(pos.z + 5, pos.z - 5);
+
+	RECT myRect{ minx, minz, maxx, maxz };
+	if (CCollisionManager::Check_AABB(myRect) == false)
+		return;
+
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 	if (m_pColliderCom)
 		m_pColliderCom->Late_Update(); // ★ 중요
@@ -75,20 +99,29 @@ void CHealth_Small::LateUpdate_GameObject(const _float& fTimeDelta)
 
 void CHealth_Small::Render_GameObject(const _float& fTimeDelta)
 {
+	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
 
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	LONG minx = min(pos.x + 5, pos.x - 5);
+	LONG maxx = max(pos.x + 5, pos.x - 5);
+	LONG minz = min(pos.z + 5, pos.z - 5);
+	LONG maxz = max(pos.z + 5, pos.z - 5);
+
+	RECT myRect{ minx, minz, maxx, maxz };
+	if (CCollisionManager::Check_AABB(myRect) == false)
+		return;
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
 	if (CManagement::GetInstance()->Is_Paused())
-		m_pTextureCom->Set_Texture(0);
+		m_pTextureCom->Set_Texture(1);
 	else
-		m_pTextureCom->Set_Texture(m_iFrame);
+		m_pTextureCom->Set_Texture(1);
 	
 	m_pBufferCom->Render_Buffer();
 
 	//충돌체
 	m_pColliderCom->Render(g_colRend);
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void CHealth_Small::OnCollision(CCollider* _pOther)

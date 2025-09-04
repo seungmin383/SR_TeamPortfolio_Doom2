@@ -18,9 +18,10 @@ CSoundManager::~CSoundManager()
 void CSoundManager::Init()
 {
     FMOD_System_Create(&m_pSystem, FMOD_VERSION);
-    FMOD_System_Init(m_pSystem, MAXCHANNEL, FMOD_INIT_NORMAL, NULL);
+    FMOD_System_Init(m_pSystem, 128, FMOD_INIT_NORMAL, NULL);
     LoadSoundFile();
     LoadSound3D(L"EXPLOSION", TEXT("../../Client/Resource/Sound/3Dsound/DSBAREXP.wav"));
+    LoadSound3D(L"MOVING", TEXT("../../Client/Resource/Sound/3Dsound/DSPSTART.wav"));
 }
 
 void CSoundManager::Update()
@@ -97,7 +98,7 @@ void CSoundManager::PlaySoundW(const std::wstring& soundKey, CHANNELID eID, floa
     FMOD_BOOL isPlaying = FALSE;
     FMOD_Channel_IsPlaying(m_pChannelArr[eID], &isPlaying);
 
-    //FMOD_Channel_Stop(m_pChannelArr[eID]);
+    FMOD_Channel_Stop(m_pChannelArr[eID]);
 
     if (!isPlaying)
     {
@@ -111,7 +112,7 @@ void CSoundManager::PlaySoundW(const std::wstring& soundKey, CHANNELID eID, floa
     }
     else
     {
-        //FMOD_Channel_Stop(m_pChannelArr[eID]);
+        FMOD_Channel_Stop(m_pChannelArr[eID]);
         FMOD_System_PlaySound(
             m_pSystem,
             iter->second,

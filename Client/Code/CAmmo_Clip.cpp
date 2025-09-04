@@ -10,7 +10,7 @@
 #include "CSoundManager.h"
 
 CAmmo_Clip::CAmmo_Clip(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev), m_iClip(0), m_iFrame_Clip(0), m_pWeaponManager(nullptr)
+	: CGameObject(pGraphicDev), m_iClip(0), m_pWeaponManager(nullptr)
 {
 }
 
@@ -28,9 +28,7 @@ HRESULT CAmmo_Clip::Ready_GameObject()
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
-	m_iClip = 10;
-
-	m_iFrame_Clip = 0;
+	m_iClip = 24;
 
 	m_pWeaponManager = CWeaponManager::GetInstance();
 
@@ -41,7 +39,7 @@ HRESULT CAmmo_Clip::Ready_GameObject()
 		this,
 		_vec3(0, 0, 0),           // 초기 위치(Transform가 실제로 잡아줌)
 		_vec3(1.f, 1.f, 1.f),  // 아이템 박스 크기 예시
-		_vec3(0, 0.4f, 0),        // 약간 위로
+		_vec3(0.f, 0.f, 0.f),        // 약간 위로
 		COL_ITEM,               // 너희 COLLAYERID에서 아이템 레이어
 		COL_PLAYER       // (마스크를 쓴다면) 플레이어와만 맞게
 	);
@@ -54,6 +52,18 @@ HRESULT CAmmo_Clip::Ready_GameObject()
 
 _int CAmmo_Clip::Update_GameObject(const _float& fTimeDelta)
 {
+	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
+
+	LONG minx = min(pos.x + 5, pos.x - 5);
+	LONG maxx = max(pos.x + 5, pos.x - 5);
+	LONG minz = min(pos.z + 5, pos.z - 5);
+	LONG maxz = max(pos.z + 5, pos.z - 5);
+
+	RECT myRect{ minx, minz, maxx, maxz };
+	if (CCollisionManager::Check_AABB(myRect) == false)
+		return 0;
+
 	CGameObject::Update_GameObject(fTimeDelta);
 	Bill_Board();
 
@@ -61,6 +71,8 @@ _int CAmmo_Clip::Update_GameObject(const _float& fTimeDelta)
 	if (!m_bPicked) {
 		CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 
+		if (!m_bPicked)
+			return Calc_Death_Time(fTimeDelta);
 	}
 	else {
 		// 엔진에서 -1 리턴으로 객체 제거를 처리한다면 그대로 두고,
@@ -73,6 +85,18 @@ _int CAmmo_Clip::Update_GameObject(const _float& fTimeDelta)
 
 void CAmmo_Clip::LateUpdate_GameObject(const _float& fTimeDelta)
 {
+	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
+
+	LONG minx = min(pos.x + 5, pos.x - 5);
+	LONG maxx = max(pos.x + 5, pos.x - 5);
+	LONG minz = min(pos.z + 5, pos.z - 5);
+	LONG maxz = max(pos.z + 5, pos.z - 5);
+
+	RECT myRect{ minx, minz, maxx, maxz };
+	if (CCollisionManager::Check_AABB(myRect) == false)
+		return;
+
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 	if (m_pColliderCom && !m_bPicked)
 		m_pColliderCom->Late_Update(); // 중요
@@ -80,21 +104,28 @@ void CAmmo_Clip::LateUpdate_GameObject(const _float& fTimeDelta)
 
 void CAmmo_Clip::Render_GameObject(const _float& fTimeDelta)
 {
+	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
+
+	LONG minx = min(pos.x + 5, pos.x - 5);
+	LONG maxx = max(pos.x + 5, pos.x - 5);
+	LONG minz = min(pos.z + 5, pos.z - 5);
+	LONG maxz = max(pos.z + 5, pos.z - 5);
+
+	RECT myRect{ minx, minz, maxx, maxz };
+	if (CCollisionManager::Check_AABB(myRect) == false)
+		return;
+
 	if (m_bPicked)
 		return;
 
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
-	m_pTextureCom->Set_Texture(m_iFrame_Clip);
+	m_pTextureCom->Set_Texture(0);
 	m_pBufferCom->Render_Buffer();
 
 	//충돌체
 	m_pColliderCom->Render(g_colRend);
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	//m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }
 
 void CAmmo_Clip::OnCollision(CCollider* _pOther)
@@ -225,6 +256,18 @@ void CAmmo_Clip::Bill_Board()
 	matWorld = matBill * matWorld;
 	// 최종적으로 빌보드 행렬을 월드 행렬로 설정                                           
 	m_pTransformCom->Set_World(&matWorld);
+}
+
+_int CAmmo_Clip::Calc_Death_Time(const _float fTimeDelta)
+{
+	m_fDeathTimer += fTimeDelta;
+
+	if (m_fDeathTimer > 10.f)
+	{
+		m_fDeathTimer = 0.f;
+		return -1;
+	}
+	return 0;
 }
 
 CAmmo_Clip* CAmmo_Clip::Create(LPDIRECT3DDEVICE9 pGraphicDev)

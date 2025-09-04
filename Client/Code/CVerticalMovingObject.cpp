@@ -11,7 +11,7 @@
 CVerticalMovingObject::CVerticalMovingObject(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev),
 	m_pBufferCom(nullptr), m_pTextureCom(nullptr), m_pCalculatorCom(nullptr),
-	m_pRider(nullptr)
+	m_pRider(nullptr), m_bIsSound(false)
 {
 }
 
@@ -81,7 +81,11 @@ _int CVerticalMovingObject::Update_GameObject(const _float& fTimeDelta)
 		_vec3 pos; m_pTransformCom->Get_Pos(&pos);
 		if (m_waitTimer > 0.f) {
 			m_waitTimer -= fTimeDelta;
-			if (m_waitTimer < 0.f) m_waitTimer = 0.f;
+			if (m_waitTimer < 0.f) 
+			{
+				m_waitTimer = 0.f;
+				m_bIsSound = false;
+			}
 		}
 		else {
 			if (m_dirUp) {
@@ -100,6 +104,12 @@ _int CVerticalMovingObject::Update_GameObject(const _float& fTimeDelta)
 					m_waitTimer = m_waitAtEnds;
 				}
 			}
+			if (!m_bIsSound)
+			{
+				CSoundManager::GetInstance()->PlaySound3D(L"MOVING", pos, 1.f);
+				m_bIsSound = true;
+			}
+
 			m_pTransformCom->Set_Pos(pos.x, pos.y, pos.z);
 		}
 
@@ -214,6 +224,9 @@ void CVerticalMovingObject::OnCollisionEnter(CCollider* _pOther)
 	if ((_pOther->Get_ColLayer() & COL_PLAYER) == 0) return;
 
 	AttachRider(_pOther->Get_Owner());
+
+	_vec3 pos; m_pTransformCom->Get_Pos(&pos);
+	CSoundManager::GetInstance()->PlaySound3D(L"MOVING", pos, 0.5f);
 
 #ifdef _DEBUG
 	if (!m_pRiderTr) {

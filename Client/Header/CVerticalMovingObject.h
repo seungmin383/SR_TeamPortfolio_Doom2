@@ -56,6 +56,7 @@ public:
 
 private:
 	wstring m_linkId;
+	_bool	m_bIsSound;
 
 private:
 	bool m_bPressed = false;

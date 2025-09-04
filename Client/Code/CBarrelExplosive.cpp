@@ -41,8 +41,8 @@ HRESULT CBarrelExplosive::Ready_GameObject()
 	m_fuseAcc = 0.f;
 	m_fuseTime = 0.f;
 
-	m_pTransformCom->Set_Pos(20.f, 0.f, 25.f);
-	m_pTransformCom->Set_Scale(_vec3(1.f, 1.5f, 1.f));
+	//m_pTransformCom->Set_Pos(20.f, 0.f, 25.f);
+	m_pTransformCom->Set_Scale(_vec3(0.75f, 1.f, 0.75f));
 
 	// Collider 세팅
 	if (m_pColliderCom)
@@ -50,7 +50,7 @@ HRESULT CBarrelExplosive::Ready_GameObject()
 		m_pColliderCom->Ready_CCollider(
 			this,
 			_vec3(0, 0, 0),         // 초기 위치(Transform가 실제로 잡아줌)
-			_vec3(2.f, 3.f, 2.f),   // 박스 크기
+			_vec3(1.5f, 2.f, 1.5f),   // 박스 크기
 			_vec3(0.f, 0.f, 0.f),      // 약간 위로
 			COL_OBJECT,             // 내 레이어
 			// 공격으로 인정할 대상 레이어(레이 사격 포함)
@@ -168,7 +168,7 @@ void CBarrelExplosive::Render_GameObject(const _float& fTimeDelta)
 			if (CManagement::GetInstance()->Is_Paused())
 				m_pTexIdle->Set_Texture(0);
 			else
-				m_pTexIdle->Set_Texture(m_iFrame_Barrel);
+				m_pTexIdle->Set_Texture(0);
 		}
 	}
 
@@ -476,7 +476,7 @@ void CBarrelExplosive::Set_OnTerrain()
 	if (highest == -999.f)
 		highest = 0.f;
 
-	m_pTransformCom->Set_Pos(pos.x, highest + 2, pos.z);
+	m_pTransformCom->Set_Pos(pos.x, highest + vScaleY + 0.01f, pos.z);
 }
 
 void CBarrelExplosive::Bill_Board()

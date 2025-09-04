@@ -32,11 +32,11 @@ HRESULT CArchVile::Ready_GameObject()
 		return E_FAIL;
 
 	_vec3 vPos;
-	_vec3 vScale = { 3.f, 3.f, 3.f };
+	_vec3 vScale = { 3.5f, 4.f, 3.5f };
 
 	m_pTransformCom->Set_Scale(vScale);
 	m_pTransformCom->Get_Pos(&vPos);
-	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(2.f, 3.f, 2.f), _vec3(0.f, 0.f, 0.f),
+	m_pColliderCom->Ready_CCollider(this, {0.f, 0.f, 0.f}, _vec3(3.5f, 4.f, 3.5f), _vec3(0.f, -2.f, 0.f),
 		COLLAYERID::COL_ENEMY,
 		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT | COLLAYERID::COL_ENEMY);
 
@@ -138,11 +138,26 @@ HRESULT CArchVile::Ready_GameObject()
 #pragma endregion
 
 	CMonsterBase::Ready_GameObject();
+
+	Set_OnTerrain();
+	CGameObject::LateUpdate_GameObject(CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
+
 	return S_OK;
 }
 
 _int CArchVile::Update_GameObject(const _float& fTimeDelta)
 {
+	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
+
+	LONG minx = min(pos.x + 5, pos.x - 5);
+	LONG maxx = max(pos.x + 5, pos.x - 5);
+	LONG minz = min(pos.z + 5, pos.z - 5);
+	LONG maxz = max(pos.z + 5, pos.z - 5);
+
+	RECT myRect{ minx, minz, maxx, maxz };
+	if (CCollisionManager::Check_AABB(myRect) == false)
+		return 0;
 
 	CMonsterBase::Update_GameObject(fTimeDelta);
 	Bill_Board();
@@ -155,6 +170,18 @@ _int CArchVile::Update_GameObject(const _float& fTimeDelta)
 
 void CArchVile::LateUpdate_GameObject(const _float& fTimeDelta)
 {
+	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
+
+	LONG minx = min(pos.x + 5, pos.x - 5);
+	LONG maxx = max(pos.x + 5, pos.x - 5);
+	LONG minz = min(pos.z + 5, pos.z - 5);
+	LONG maxz = max(pos.z + 5, pos.z - 5);
+
+	RECT myRect{ minx, minz, maxx, maxz };
+	if (CCollisionManager::Check_AABB(myRect) == false)
+		return;
+
 	CMonsterBase::LateUpdate_GameObject(fTimeDelta);
 }
 

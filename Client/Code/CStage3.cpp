@@ -39,6 +39,9 @@
 // (08/31 김홍인)
 #include "CSwitch_Button.h"
 #include "CUI_StageClear.h"
+#include "CSpiderMastermind.h"
+
+#include "CSoundManager.h"
 
 CStage3::CStage3(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -53,11 +56,15 @@ HRESULT CStage3::Ready_Scene()
 {
 	ShowCursor(FALSE);
 
+	CSoundManager::GetInstance()->PlayBGM(L"Stage3.mp3", 0.1f);
 	CUIManager::GetInstance()->UISetListClear();
 
 	CStatsManager::I().Reset();
 	CColliderManager::GetInstance()->Reset();
 
+
+	m_isResultMode = false;
+	m_pendingNext = SCENEID::SCENE_END;
 
 	if (FAILED(Ready_Environment_Layer(LAYERID::LAYER_ENVIRONMENT)))
 		return E_FAIL;
@@ -90,6 +97,8 @@ HRESULT CStage3::Ready_Scene()
 	CStatsManager::I().ResetRuntime();
 	CStatsManager::I().ResetTotals();
 
+	InitTotals();
+
 	return S_OK;
 }
 
@@ -101,7 +110,7 @@ _int CStage3::Update_Scene(const _float& fTimeDelta)
 	static _bool isReady_Wave1 = FALSE;
 	static _bool isReady_Wave2 = FALSE;
 
-	if (CStatsManager::I().Cur().timeSec > 40.f && !isReady_Wave2)
+	if (CStatsManager::I().Cur().timeSec > 80.f && !isReady_Wave2)
 	{
 		vector<GameObjectSpawnInfo> loadMonsterData = CFileManager::GetInstance()->LoadAdditionalMonster((_uint)SCENEID::STAGE3, 1);
 
@@ -109,8 +118,12 @@ _int CStage3::Update_Scene(const _float& fTimeDelta)
 			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
 
 		isReady_Wave2 = TRUE;
+		// 보스 웨이브가 뜬 뒤에만 보스 클리어 판정을 허용
+		m_wave1Spawned = true;
+		// 총합(표기/결과화면) 갱신
+		CStatsManager::I().SetTotalKills((int)Get_TotalGameObject(OBJID::OBJ_ENEMY).size());
 	}
-	else if (CStatsManager::I().Cur().timeSec > 20.f && !isReady_Wave1)
+	else if (CStatsManager::I().Cur().timeSec > 40.f && !isReady_Wave1)
 	{
 		vector<GameObjectSpawnInfo> loadMonsterData = CFileManager::GetInstance()->LoadAdditionalMonster((_uint)SCENEID::STAGE3, 0);
 
@@ -118,6 +131,8 @@ _int CStage3::Update_Scene(const _float& fTimeDelta)
 			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
 
 		isReady_Wave1 = TRUE;
+		// 총합 갱신 (UI/결과 표기 맞춤)
+		CStatsManager::I().SetTotalKills((int)Get_TotalGameObject(OBJID::OBJ_ENEMY).size());
 	}
 
 	if (m_isResultMode)
@@ -151,6 +166,9 @@ _int CStage3::Update_Scene(const _float& fTimeDelta)
 	}
 
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
+
+	// ★ 목표 충족 검사
+	CheckStageGoal();
 
 	auto uiMgr = CUIManager::GetInstance();
 	uiMgr->UpdateUI();
@@ -640,6 +658,78 @@ void CStage3::ConnectDoorSwitchByLinkId()
 			}
 		}
 	}
+}
+
+void CStage3::InitTotals()
+{
+	// 스테이지 시작 시 통계 리셋
+	CStatsManager::I().Reset();
+
+	// 전체 적 개수 계산 (모든 레이어에서 ENEMY 그룹만 모음)
+	const auto& allEnemies = Get_TotalGameObject(OBJID::OBJ_ENEMY);
+	CStatsManager::I().SetTotalKills(static_cast<int>(allEnemies.size()));
+
+	m_goalSource = GoalSource::None;
+	m_goalLatched = false;
+	m_goalBossTime = FLT_MAX;
+	m_goalKillTime = FLT_MAX;
+}
+
+void CStage3::CheckStageGoal()
+{
+	if (m_isResultMode || m_goalLatched) return;
+
+	const auto& cur = CStatsManager::I().Cur();
+	const float t = cur.timeSec; // 누적 시간(StatsManager Tick 기반)
+
+	const bool bossCleared = m_wave1Spawned && !IsBossAlive();
+
+	if (bossCleared && m_goalBossTime == FLT_MAX) m_goalBossTime = t;
+
+	if (bossCleared)
+	{
+		ResolveAndLatchGoal();
+	}
+}
+
+bool CStage3::IsBossAlive()
+{
+	for (auto* e : Get_ObjectGroup(LAYERID::LAYER_GAMELOGIC, OBJID::OBJ_ENEMY)) {
+		if (auto* boss = dynamic_cast<CSpiderMastermind*>(e)) {
+			if (!boss->Get_Dead()) return true;
+
+		}
+
+	}
+	return false;
+}
+
+void CStage3::ResolveAndLatchGoal()
+{
+	if (m_goalLatched) return;
+
+	GoalSource chosen = GoalSource::None;
+
+	switch (m_tiePolicy)
+	{
+	case GoalTiePolicy::PreferEarliest:
+		if (m_goalBossTime < m_goalKillTime)       chosen = GoalSource::Boss;
+		else {
+			if (m_goalBossTime != FLT_MAX) chosen = GoalSource::Boss;
+		}
+		break;
+
+	case GoalTiePolicy::PreferBoss:
+		if (m_goalBossTime != FLT_MAX) chosen = GoalSource::Boss;
+		break;
+	}
+
+	if (chosen == GoalSource::None) return;
+
+	m_goalSource = chosen;
+	m_goalLatched = true;
+
+	EnterResultMode();
 }
 
 void CStage3::Free()
