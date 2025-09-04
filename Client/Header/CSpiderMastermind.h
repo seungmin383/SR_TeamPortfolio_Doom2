@@ -40,6 +40,8 @@ public:
 
 public:
     virtual void Pattern3(const _float fTimeDelta);
+    _float m_fPattern3Timer = 0.f;
+
 public:
 	_vec3 Get_TargetPos() { return m_vTargetPos; }
 	_int Get_Tmp_Anim_Type() { return m_iTmp_Anim_Type; }

@@ -390,16 +390,16 @@ void CSpiderMastermind::Calc_Pattern()
 	//for (int i = 0; i < 8; i++)
 	//	m_PattenArr[i] = (m_iPattern >> (i * 2)) & 0x3;
 
-	m_PattenArr[0] = 2;
+	m_PattenArr[0] = 0;
 
-	m_PattenArr[1] = 4;
-	m_PattenArr[2] = 4;
-	m_PattenArr[3] = 4;
+	m_PattenArr[1] = 1;
+	m_PattenArr[2] = 2;
+	m_PattenArr[3] = 3;
 
-	m_PattenArr[4] = 1;
-	m_PattenArr[5] = 3;
+	m_PattenArr[4] = 4;
+	m_PattenArr[5] = 5;
 	m_PattenArr[6] = 0;
-	m_PattenArr[7] = 0;
+	m_PattenArr[7] = 1;
 
 }
 
@@ -607,6 +607,13 @@ void CSpiderMastermind::Pattern2(const _float fTimeDelta)
 
 void CSpiderMastermind::Pattern3(const _float fTimeDelta)
 {
+	m_fPattern3Timer += fTimeDelta;
+	if (m_fPattern3Timer > 0.3f)
+	{
+		CSoundManager::GetInstance()->PlaySoundW(L"BOSSWALK.wav", SOUND_EFFECT, 0.6f);
+		m_fPattern3Timer = 0.f;
+	}
+
 	//만약 애니타입이 NANRI가 아니고 애니메이션이 끝났다면
 	if(m_eAnim_Type != NANRI && m_pAnimCom->Get_isFinAct())
 		m_iTmp_Anim_Type = NANRI;
