@@ -2,6 +2,7 @@
 #include "CBossBullet.h"
 #include "CImp.h"
 #include "CRenderer.h"
+#include"CSoundManager.h"
 
 CBossBullet::CBossBullet(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CBullet(pGraphicDev)
@@ -76,6 +77,7 @@ HRESULT CBossBullet::Ready_GameObject()
 		false
 	);
 
+	CSoundManager::GetInstance()->PlaySoundW(L"DSFLAME.wav", SOUND_EFFECT, 0.6f);
 	return S_OK;
 }
 
@@ -94,17 +96,20 @@ _int CBossBullet::Update_GameObject(const _float& fTimeDelta)
 		isDead = FALSE;
 		return -1;
 	}
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
 
 	if (CBullet::Update_GameObject(fTimeDelta) == -1)
+	{
+		CSoundManager::GetInstance()->PlaySound3D(L"EXPLOSION", vPos, 1.f);
 		return -1;
+	}
 
 	CRenderer::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 	if (!m_bDead)
 		Linear_Movement(fTimeDelta);
 
 	Bill_Board();
-	_vec3 vPos;
-	m_pTransformCom->Get_Pos(&vPos);
 
 
 	return 0;

@@ -193,6 +193,7 @@
     <ClInclude Include="..\Header\CDoorWithKey.h" />
     <ClInclude Include="..\Header\CDropBulletEffect.h" />
     <ClInclude Include="..\Header\CDynamicCamera.h" />
+    <ClInclude Include="..\Header\CEwwBullet.h" />
     <ClInclude Include="..\Header\CExplosionBloodEffect.h" />
     <ClInclude Include="..\Header\CGameUI.h" />
     <ClInclude Include="..\Header\CGameUI_Face.h" />
@@ -289,6 +290,7 @@
     <ClCompile Include="..\Code\CDoorWithKey.cpp" />
     <ClCompile Include="..\Code\CDropBulletEffect.cpp" />
     <ClCompile Include="..\Code\CDynamicCamera.cpp" />
+    <ClCompile Include="..\Code\CEwwBullet.cpp" />
     <ClCompile Include="..\Code\CExplosionBloodEffect.cpp" />
     <ClCompile Include="..\Code\CGameUI.cpp" />
     <ClCompile Include="..\Code\CGameUI_Face.cpp" />

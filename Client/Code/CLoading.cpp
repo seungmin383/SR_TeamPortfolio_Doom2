@@ -92,6 +92,9 @@ _uint CLoading::Loading_ForStage()
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"Proto_BossBasic_Bullet_Texture", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Effect/BossBasicBullet/BulletState%d.png", TEX_NORMAL, 2))))
 		return E_FAIL;
 
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ComPrototype(L"eww", Engine::CTexture::Create(m_pGraphicDev, L"../Resource/Texture/DoomTex/Effect/eww/BulletState%d.png", TEX_NORMAL, 1))))
+		return E_FAIL;
+
 #pragma endregion
 
 #pragma region PLAYER_BULLET

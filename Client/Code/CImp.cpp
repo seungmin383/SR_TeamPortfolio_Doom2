@@ -117,7 +117,7 @@ HRESULT CImp::Ready_GameObject()
 	m_fSightAngle = D3DXToRadian(80.f);
 	m_fSightDistance = 50.f;
 
-	m_fAtkSpeed = rand() % 4 + 2;
+	m_fAtkSpeed = rand() % 2 + 2;
 	m_iGameHp = 60;
 	m_iAtkDmg = 3;
 

@@ -38,6 +38,7 @@
 #include"CBossBullet.h"
 #include "CPinkyBullet.h"
 #include"CBossBasicBullet.h"
+#include "CEwwBullet.h"
 
 #include "CPlayerWeapon.h"
 #include "CHealth_Small.h"
@@ -311,6 +312,10 @@ HRESULT CMainApp::Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
 
 	//º¸½º ÀÏ¹Ý ÃÑ¾Ë
 	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::ENEMY_BOSS_BASIC_BULLET, CBossBasicBullet::Create(m_pGraphicDev))))
+		return E_FAIL;
+
+	//¿¡ÈÞ ÃÑ¾Ë
+	if (FAILED(CPrototypeManager::GetInstance()->Ready_ObjPrototype(OBJPROTOTYPE::EWW, CEwwBullet::Create(m_pGraphicDev))))
 		return E_FAIL;
 
 	// ÀÏ¹Ý ÃÑ¾Ë

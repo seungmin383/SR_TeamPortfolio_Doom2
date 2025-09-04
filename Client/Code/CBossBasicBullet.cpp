@@ -3,6 +3,7 @@
 #include "CImp.h"
 #include "CRenderer.h"
 #include "CCollisionManager.h"
+#include "CSoundManager.h"
 
 CBossBasicBullet::CBossBasicBullet(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CBullet(pGraphicDev)
@@ -77,6 +78,10 @@ HRESULT CBossBasicBullet::Ready_GameObject()
 		false
 	);
 
+	_vec3 vPos1;
+	m_pTransformCom->Get_Pos(&vPos1);
+	CSoundManager::GetInstance()->PlaySoundW(L"DSPLASMA.wav", SOUND_EFFECT, 0.6f);
+
 	return S_OK;
 }
 
@@ -144,7 +149,6 @@ void CBossBasicBullet::Render_GameObject(const _float& fTimeDelta)
 		m_pTextureCom->Set_Texture(0);
 
 	CBullet::Render_GameObject(fTimeDelta);
-
 
 	m_pBufferCom->Render_Buffer();
 
@@ -217,7 +221,6 @@ CBossBasicBullet* CBossBasicBullet::Clone()
 CBossBasicBullet* CBossBasicBullet::Clone(CGameObject* _Owner)
 {
 	CGameObject::Clone(_Owner);
-
 	CBossBasicBullet* pBullet = new CBossBasicBullet(*this);
 
 	if (pBullet == nullptr)
@@ -230,6 +233,8 @@ CBossBasicBullet* CBossBasicBullet::Clone(CGameObject* _Owner)
 		Safe_Release(pBullet);
 		return	nullptr;
 	}
+
+
 
 	return pBullet;
 }
