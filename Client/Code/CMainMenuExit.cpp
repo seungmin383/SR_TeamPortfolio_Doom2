@@ -70,7 +70,7 @@ void CMainMenuExit::Render_GameObject(const _float& fTimeDelta)
 
 _bool CMainMenuExit::Action()
 {
-	CSoundManager::GetInstance()->StopAll();
+	//CSoundManager::GetInstance()->StopAll();
 
 	PostQuitMessage(0);
 	return false;

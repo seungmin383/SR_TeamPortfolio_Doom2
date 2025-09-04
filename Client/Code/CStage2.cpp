@@ -665,7 +665,6 @@ void CStage2::EnterResultMode()
 
 void CStage2::RequestNextScene(SCENEID id)
 {
-	CSoundManager::GetInstance()->StopAll();
 	m_pendingNext = id;
 }
 

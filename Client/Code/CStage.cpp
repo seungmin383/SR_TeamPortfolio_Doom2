@@ -72,7 +72,6 @@ HRESULT CStage::Ready_Scene()
 {
 	ShowCursor(FALSE);
 
-	CSoundManager::GetInstance()->PlayBGM(L"Stage1.mp3", 0.3f);
 	CUIManager::GetInstance()->UISetListClear();
 
 	CColliderManager::GetInstance()->Reset();
@@ -102,6 +101,8 @@ HRESULT CStage::Ready_Scene()
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_ENEMY, OBJID::OBJ_BULLET);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_ENEMY, OBJID::OBJ_ENEMY);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_ENEMY, OBJID::OBJ_WALL);
+
+	CSoundManager::GetInstance()->PlayBGM(L"Stage1.mp3", 0.3f);
 
 	return S_OK;
 }
@@ -654,7 +655,6 @@ void CStage::EnterResultMode()
 
 void CStage::RequestNextScene(SCENEID id)
 {
-	CSoundManager::GetInstance()->StopAll();
 	CManagement::GetInstance()->Set_KeyOwned(false);
 	m_pendingNext = id; // 호출만 하고, 실제 전환은 Update_Scene의 끝에서!
 }
