@@ -118,9 +118,6 @@
     <Filter Include="03. Manager\02. TextureManager">
       <UniqueIdentifier>{ade4b06f-1814-4489-89bf-8aece45473aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\06. Object\FieldObject">
-      <UniqueIdentifier>{b2c9802f-a0bb-4737-92b0-a9308fcd361e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Manager\00. WeaponManager\00. Weapon\02. Chaingun">
       <UniqueIdentifier>{57ad497c-b216-4080-87a1-051d6560c90e}</UniqueIdentifier>
     </Filter>
@@ -231,6 +228,9 @@
     </Filter>
     <Filter Include="02. GameObject\10. Effect\03. BFGEffect">
       <UniqueIdentifier>{9149d792-ba24-4b5d-899b-a89838ec8d99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\06. Object\Explosion\FieldObject">
+      <UniqueIdentifier>{b2c9802f-a0bb-4737-92b0-a9308fcd361e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -400,7 +400,7 @@
       <Filter>02. GameObject\06. Object\DropItem\Ammo</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CKey.h">
-      <Filter>02. GameObject\06. Object\FieldObject</Filter>
+      <Filter>02. GameObject\06. Object\Explosion\FieldObject</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CDoorWithKey.h">
       <Filter>02. GameObject\06. Object</Filter>
@@ -448,13 +448,13 @@
       <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CPinkyBullet</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CSuits.h">
-      <Filter>02. GameObject\06. Object\FieldObject</Filter>
+      <Filter>02. GameObject\06. Object\Explosion\FieldObject</Filter>
     </ClInclude>
     <ClInclude Include="CStageTest.h">
       <Filter>01. Scene\05. StageTest</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CVerticalMovingObject.h">
-      <Filter>02. GameObject\06. Object\FieldObject</Filter>
+      <Filter>02. GameObject\06. Object\Explosion\FieldObject</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CTmpWall.h">
       <Filter>02. GameObject\03. Terrain\tmpWall</Filter>
@@ -678,7 +678,7 @@
       <Filter>02. GameObject\06. Object\DropItem\Ammo</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CKey.cpp">
-      <Filter>02. GameObject\06. Object\FieldObject</Filter>
+      <Filter>02. GameObject\06. Object\Explosion\FieldObject</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CImpBullet.cpp">
       <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CImpBullet</Filter>
@@ -729,13 +729,13 @@
       <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CPinkyBullet</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CSuits.cpp">
-      <Filter>02. GameObject\06. Object\FieldObject</Filter>
+      <Filter>02. GameObject\06. Object\Explosion\FieldObject</Filter>
     </ClCompile>
     <ClCompile Include="CStageTest.cpp">
       <Filter>01. Scene\05. StageTest</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CVerticalMovingObject.cpp">
-      <Filter>02. GameObject\06. Object\FieldObject</Filter>
+      <Filter>02. GameObject\06. Object\Explosion\FieldObject</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CExplosionBloodEffect.cpp">
       <Filter>02. GameObject\10. Effect\00.ExplosionBlood</Filter>

@@ -123,7 +123,8 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 	// 3) ¾À ¾÷µ¥ÀÌÆ®
 	if (m_pManagementClass->Update_Scene(dt) < 0)
 		return -1;
-		
+	
+	CManagement::GetInstance()->CalcRanderSector(m_pGraphicDev);
 
 	return 0;
 }
