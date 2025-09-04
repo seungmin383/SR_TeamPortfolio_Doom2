@@ -22,6 +22,7 @@ void CSoundManager::Init()
     LoadSoundFile();
     LoadSound3D(L"EXPLOSION", TEXT("../../Client/Resource/Sound/3Dsound/DSBAREXP.wav"));
     LoadSound3D(L"MOVING", TEXT("../../Client/Resource/Sound/3Dsound/DSPSTART.wav"));
+    LoadSound3D(L"DEMONHIT", TEXT("../../Client/Resource/Sound/3Dsound/DemonHitSound.wav"));
 }
 
 void CSoundManager::Update()

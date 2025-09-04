@@ -6,6 +6,7 @@
 #include "CCollisionManager.h"
 #include "CTimerManager.h"
 #include "CBullet.h"
+#include "CSoundManager.h"
 
 
 CImp::CImp(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -116,7 +117,7 @@ HRESULT CImp::Ready_GameObject()
 	m_fSightAngle = D3DXToRadian(80.f);
 	m_fSightDistance = 50.f;
 
-	m_fAtkSpeed = rand()%4 + 2;
+	m_fAtkSpeed = rand() % 4 + 2;
 	m_iGameHp = 60;
 	m_iAtkDmg = 3;
 
@@ -160,6 +161,7 @@ _int CImp::Update_GameObject(const _float& fTimeDelta)
 
 	if (m_bDead)
 		return Calc_Death_Time(fTimeDelta);
+
 	return 0;
 }
 
@@ -217,6 +219,41 @@ _bool CImp::Check_Attack(const _float& fTimeDelta)
 		return FALSE;
 }
 
+void CImp::Play_Sound()
+{
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+
+	switch (m_iCurThought)
+	{
+	case AI_DEAD:
+		if(MONSTER_STATE::NOR_DEATH)
+			CSoundManager::GetInstance()->PlaySoundW(L"IMPDEATH1.wav", CHANNELID::SOUND_EFFECT, 1.f);
+
+		if(MONSTER_STATE::GIB_DEATH)
+			CSoundManager::GetInstance()->PlaySoundW(L"IMPDEATH2.wav", CHANNELID::SOUND_EFFECT, 1.f);
+		break;
+
+	case AI_MOVE:
+		CSoundManager::GetInstance()->PlaySoundW(L"IMPIDLE.wav", CHANNELID::SOUND_EFFECT, 1.f);
+		break;
+
+	case AI_CHASE:
+		CSoundManager::GetInstance()->PlaySoundW(L"IMPFINDPLAYER1.wav", CHANNELID::SOUND_EFFECT, 1.f);
+		break;
+
+	case AI_ATTACK:
+		CSoundManager::GetInstance()->PlaySoundW(L"IMPFINDPLAYER2.wav", CHANNELID::SOUND_EFFECT, 1.f);
+		break;
+
+	case AI_HIT:
+		CSoundManager::GetInstance()->PlaySound3D(L"DEMONHIT", vPos, 1.f);
+		break;
+	}
+
+	m_iPreThought = m_iCurThought;
+}
+
 void CImp::Attack(const _float fTimeDelta)
 {
 	m_isShoot = TRUE;
@@ -235,8 +272,6 @@ void CImp::Attack(const _float fTimeDelta)
 	tmp->Set_Dead(FALSE);
 	tmp->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
 	dynamic_cast<CBullet*>(tmp)->Set_InitDir(m_vMoveLook);
-
-
 }
 
 void CImp::Drop_Item()

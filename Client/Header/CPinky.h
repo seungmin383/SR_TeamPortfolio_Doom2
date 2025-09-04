@@ -19,6 +19,8 @@ public:
     virtual void         Attack(const _float fTimeDelta)override;
     virtual void            Drop_Item()override;    
 
+    virtual void Play_Sound() override;
+
 #pragma endregion
 private:
     HRESULT     Add_Component()override;
