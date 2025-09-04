@@ -20,6 +20,10 @@ private:
     HRESULT         Ready_DefaultSetting(LPDIRECT3DDEVICE9* ppGraphicDev);
     HRESULT         Ready_Scene(LPDIRECT3DDEVICE9 pGraphicDev);
 
+    _float		m_accum = 0.f;
+    _float		m_frameCount = 0.f;
+
+
 private:
     Engine::CGraphicDev* m_pDeviceClass;
     Engine::CManagement* m_pManagementClass;
