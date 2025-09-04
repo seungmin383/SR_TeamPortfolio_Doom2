@@ -242,7 +242,8 @@ void CShotgunGuy::Play_Sound()
 {
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
-
+	static _bool isFindPlayer = false;
+	_int a = 0;
 	switch (m_iCurThought)
 	{
 		//죽었을 때 
@@ -252,7 +253,11 @@ void CShotgunGuy::Play_Sound()
 
 		//맞았을 때
 	case AI_HIT:
-		CSoundManager::GetInstance()->PlaySound3D(L"ZM_HIT", vPos, 1.f);
+		a = rand() % 10;
+
+		if (a > 5)
+			CSoundManager::GetInstance()->PlaySound3D(L"ZM_HIT", vPos, 1.f);
+
 		break;
 
 		//공격할 때
@@ -262,7 +267,13 @@ void CShotgunGuy::Play_Sound()
 
 		//플레이어를 발견했을 때
 	case AI_CHASE:
-		CSoundManager::GetInstance()->PlaySound3D(L"SG_CHASE", vPos, 1.f);
+		if 
+		(!isFindPlayer)
+	{
+		CSoundManager::GetInstance()->PlaySound3D(L"SG_CHASE", vPos, 1.f);	
+		isFindPlayer = TRUE;
+	}
+
 		break;
 
 		//아이들 상태
