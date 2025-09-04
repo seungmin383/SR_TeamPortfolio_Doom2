@@ -44,6 +44,8 @@
 #include "CUI_StageClear.h"
 #include "CArchVile.h"
 
+#include "CSoundManager.h"
+
 //#define INITMONSTERNUM 10
 
 CStage2::CStage2(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -59,6 +61,7 @@ HRESULT CStage2::Ready_Scene()
 {
 	ShowCursor(FALSE);
 
+	CSoundManager::GetInstance()->PlayBGM(L"Stage2.mp3", 0.3f);
 	CStatsManager::I().Reset();
 
 	CUIManager::GetInstance()->UISetListClear();
@@ -662,6 +665,7 @@ void CStage2::EnterResultMode()
 
 void CStage2::RequestNextScene(SCENEID id)
 {
+	CSoundManager::GetInstance()->StopAll();
 	m_pendingNext = id;
 }
 

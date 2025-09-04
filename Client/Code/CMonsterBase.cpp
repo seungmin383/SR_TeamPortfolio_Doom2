@@ -123,11 +123,11 @@ CMonsterBase::~CMonsterBase()
 
 
 HRESULT         CMonsterBase::Ready_GameObject()
-{	
+{
 	m_iPreHp = m_iGameHp;
 
 	return S_OK;
- }
+}
 
 _int CMonsterBase::Update_GameObject(const _float& fTimeDelta)
 {
@@ -141,7 +141,7 @@ _int CMonsterBase::Update_GameObject(const _float& fTimeDelta)
 	}
 
 	return 0;
- }
+}
 
 void                 CMonsterBase::LateUpdate_GameObject(const _float& fTimeDelta)
 {
@@ -149,7 +149,7 @@ void                 CMonsterBase::LateUpdate_GameObject(const _float& fTimeDelt
 	m_pAnimCom->Play_Animation(m_eAnim_Type, 0, fTimeDelta, m_eCurAnimState);
 	m_pColliderCom->Late_Update();
 
- }
+}
 
 void                 CMonsterBase::Render_GameObject(const _float& fTimeDelta)
 {
@@ -167,7 +167,7 @@ void                 CMonsterBase::Render_GameObject(const _float& fTimeDelta)
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
- }
+}
 
 void CMonsterBase::OnCollision(CCollider* _pOther)
 {
@@ -233,20 +233,20 @@ _vec3 CMonsterBase::Set_Move_Direction(_vec3* _Look, _float _DelayTime, _float _
 		int RandMove = rand() % 14;
 		switch (RandMove)
 		{
-		case 0:   m_fTargetAngle =		0.f;			break;
-		case 1:   m_fTargetAngle =		30.f;			break;
-		case 2:   m_fTargetAngle =		60.f;			break;
-		case 3:   m_fTargetAngle =		90.f;			break;
-		case 4:   m_fTargetAngle =		120.f;		break;
-		case 5:   m_fTargetAngle =		150.f;		break;
-		case 6:   m_fTargetAngle =		180.f;		break;
-		case 7:   m_fTargetAngle =		-30.f;		break;
-		case 8:   m_fTargetAngle =		-60.f;		break;
-		case 9:   m_fTargetAngle =		-90.f;		break;
-		case 10: m_fTargetAngle =		-120.f;		break;
-		case 11: m_fTargetAngle =		-150.f;		break;
-		case 12: m_fTargetAngle =		-180.f;		break;
-		case 13: m_fTargetAngle =		120.f;		break;
+		case 0:   m_fTargetAngle = 0.f;			break;
+		case 1:   m_fTargetAngle = 30.f;			break;
+		case 2:   m_fTargetAngle = 60.f;			break;
+		case 3:   m_fTargetAngle = 90.f;			break;
+		case 4:   m_fTargetAngle = 120.f;		break;
+		case 5:   m_fTargetAngle = 150.f;		break;
+		case 6:   m_fTargetAngle = 180.f;		break;
+		case 7:   m_fTargetAngle = -30.f;		break;
+		case 8:   m_fTargetAngle = -60.f;		break;
+		case 9:   m_fTargetAngle = -90.f;		break;
+		case 10: m_fTargetAngle = -120.f;		break;
+		case 11: m_fTargetAngle = -150.f;		break;
+		case 12: m_fTargetAngle = -180.f;		break;
+		case 13: m_fTargetAngle = 120.f;		break;
 		}
 		// 목표각도도 래핑
 		m_fTargetAngle = fmodf(m_fTargetAngle, 360.f);
@@ -277,12 +277,12 @@ void CMonsterBase::Thinker(const _float& fTimeDelta)
 
 _int CMonsterBase::Perception(const _float& fTimeDelta)
 {
-	m_isDead							= Check_Dead();
+	m_isDead = Check_Dead();
 	Calc_Hp();
 	Check_Hit(fTimeDelta);
 	Check_Shooting_Sound();
-	m_isDetect_Player			= Check_Target();
-	m_isAtk							= Check_Attack(fTimeDelta);
+	m_isDetect_Player = Check_Target();
+	m_isAtk = Check_Attack(fTimeDelta);
 
 	if (!m_isRecognize_Player && m_isDetect_Player)
 		m_isRecognize_Player = TRUE;
@@ -309,7 +309,7 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 	//공격할 수 있는지
 	else if (m_isAtk && m_isDetect_Player)
 		return AI_ATTACK;
-	
+
 	//플레이어를 발견하고 따라가는지
 	else if (m_isDetect_Player)
 	{
@@ -327,92 +327,92 @@ _int CMonsterBase::Perception(const _float& fTimeDelta)
 //1. 시야에 플레이어가 들어왔는지 확인하는 함수
 _bool CMonsterBase::Check_Target()
 {
-		_vec3 vPos;																									//내 위치
-		m_pTransformCom->Get_Pos(&vPos);
+	_vec3 vPos;																									//내 위치
+	m_pTransformCom->Get_Pos(&vPos);
 
-		_vec3 vUp{ 0.f, 1.f, 0.f };																				//업 벡터(룩이랑 외적용)
+	_vec3 vUp{ 0.f, 1.f, 0.f };																				//업 벡터(룩이랑 외적용)
 
-		_vec3 vLB;																									//왼쪽 아래 경계점
-		_vec3 vRB;																									//오른쪽 아래 경계점
+	_vec3 vLB;																									//왼쪽 아래 경계점
+	_vec3 vRB;																									//오른쪽 아래 경계점
 
-		m_vMoveLook.y = 0;																					//y고정
+	m_vMoveLook.y = 0;																					//y고정
 
-		_vec3 vLF = m_vMoveLook;																			//왼쪽 위 경계점
-		_vec3 vRF = m_vMoveLook;																		//오른쪽 위 경계점
+	_vec3 vLF = m_vMoveLook;																			//왼쪽 위 경계점
+	_vec3 vRF = m_vMoveLook;																		//오른쪽 위 경계점
 
-		_matrix RotMat;																							//벡터 회전용 매트릭스
-		D3DXMatrixIdentity(&RotMat);																	//초기화
+	_matrix RotMat;																							//벡터 회전용 매트릭스
+	D3DXMatrixIdentity(&RotMat);																	//초기화
 
-		//LF, RF
-		D3DXMatrixRotationY(&RotMat, D3DXToRadian(-45.f));							//왼쪽으로 45도 각도 -> LF
-		D3DXVec3Normalize(&vLF, &vLF);																//정규화
-		D3DXVec3TransformCoord(&vLF, &vLF, &RotMat);									//방향성 정해주기
+	//LF, RF
+	D3DXMatrixRotationY(&RotMat, D3DXToRadian(-45.f));							//왼쪽으로 45도 각도 -> LF
+	D3DXVec3Normalize(&vLF, &vLF);																//정규화
+	D3DXVec3TransformCoord(&vLF, &vLF, &RotMat);									//방향성 정해주기
 
-		D3DXMatrixIdentity(&RotMat);																	//사용한 매트릭스 초기화
+	D3DXMatrixIdentity(&RotMat);																	//사용한 매트릭스 초기화
 
-		D3DXMatrixRotationY(&RotMat, D3DXToRadian(45.f));								//왼쪽으로 45도 각도 -> RF
-		D3DXVec3Normalize(&vRF, &vRF);																//정규화
-		D3DXVec3TransformCoord(&vRF, &vRF, &RotMat);									//방향성 정해주기
+	D3DXMatrixRotationY(&RotMat, D3DXToRadian(45.f));								//왼쪽으로 45도 각도 -> RF
+	D3DXVec3Normalize(&vRF, &vRF);																//정규화
+	D3DXVec3TransformCoord(&vRF, &vRF, &RotMat);									//방향성 정해주기
 
-		vLF *= m_fSightDistance;																				//범위 지정해주기
-		vRF *= m_fSightDistance;																			//
+	vLF *= m_fSightDistance;																				//범위 지정해주기
+	vRF *= m_fSightDistance;																			//
 
-		//LB, RB
-		D3DXVec3Normalize(&m_vMoveLook, &m_vMoveLook);							//정규화
-		D3DXVec3Normalize(&vUp, &vUp);															//정규화
+	//LB, RB
+	D3DXVec3Normalize(&m_vMoveLook, &m_vMoveLook);							//정규화
+	D3DXVec3Normalize(&vUp, &vUp);															//정규화
 
-		D3DXVec3Cross(&vRB, &vUp, &m_vMoveLook);										//Up LooK 외적 -> 오른쪽 벡터
-		D3DXVec3Cross(&vLB, &m_vMoveLook, &vUp);										//Look Up 외적 -> 왼쪽 벡터
+	D3DXVec3Cross(&vRB, &vUp, &m_vMoveLook);										//Up LooK 외적 -> 오른쪽 벡터
+	D3DXVec3Cross(&vLB, &m_vMoveLook, &vUp);										//Look Up 외적 -> 왼쪽 벡터
 
-		D3DXVec3Normalize(&vRB, &vRB);															//정규화
-		D3DXVec3Normalize(&vLB, &vLB);																//정규화
+	D3DXVec3Normalize(&vRB, &vRB);															//정규화
+	D3DXVec3Normalize(&vLB, &vLB);																//정규화
 
-		vRB *= 20.f;																									//범위 지정해주기
-		vLB *= 20.f;																									//
+	vRB *= 20.f;																									//범위 지정해주기
+	vLB *= 20.f;																									//
 
-		//Debug_Rectangle(																						//시야 범위 시각화
-		//	vPos + vLF,
-		//	vPos + vRF,
-		//	vPos + vRB,
-		//	vPos + vLB
-		//);
+	//Debug_Rectangle(																						//시야 범위 시각화
+	//	vPos + vLF,
+	//	vPos + vRF,
+	//	vPos + vRB,
+	//	vPos + vLB
+	//);
 
-		// 플레이어가 범위에 있는가
-		_vec3 vPlayerPos;																							//플레이어 위치
-		_matrix ViewMat;																							//카메라 월드 행렬 구하기 위한
+	// 플레이어가 범위에 있는가
+	_vec3 vPlayerPos;																							//플레이어 위치
+	_matrix ViewMat;																							//카메라 월드 행렬 구하기 위한
 
-		m_pGraphicDev->GetTransform(D3DTS_VIEW, &ViewMat);						//뷰 스페이스 행렬 가져오기
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &ViewMat);						//뷰 스페이스 행렬 가져오기
 
-		D3DXMatrixInverse(&ViewMat, NULL, &ViewMat);									//카메라의 월드 행렬
+	D3DXMatrixInverse(&ViewMat, NULL, &ViewMat);									//카메라의 월드 행렬
 
-		vPlayerPos.x = ViewMat._41;																		//카메라 = 플레이어
-		vPlayerPos.y = ViewMat._42;
-		vPlayerPos.z = ViewMat._43;
+	vPlayerPos.x = ViewMat._41;																		//카메라 = 플레이어
+	vPlayerPos.y = ViewMat._42;
+	vPlayerPos.z = ViewMat._43;
 
-		_vec3 vToPlayer = vPlayerPos - vPos;
-		vToPlayer.y = 0.f;
-		_vec3 vDistanceToPlayer = vToPlayer;
+	_vec3 vToPlayer = vPlayerPos - vPos;
+	vToPlayer.y = 0.f;
+	_vec3 vDistanceToPlayer = vToPlayer;
 
-		D3DXVec3Normalize(&vToPlayer, &vToPlayer);
+	D3DXVec3Normalize(&vToPlayer, &vToPlayer);
 
-		_vec3 vLook = m_vMoveLook;
-		vLook.y = 0.f;
-		D3DXVec3Normalize(&vLook, &vLook);
+	_vec3 vLook = m_vMoveLook;
+	vLook.y = 0.f;
+	D3DXVec3Normalize(&vLook, &vLook);
 
-		// cos(시야각 / 2) = cos(90도) = 0
-		float fDot = D3DXVec3Dot(&vToPlayer, &vLook);
+	// cos(시야각 / 2) = cos(90도) = 0
+	float fDot = D3DXVec3Dot(&vToPlayer, &vLook);
 
-		float distSq = D3DXVec3LengthSq(&vDistanceToPlayer);
-		float sightSq = m_fSightDistance * m_fSightDistance;
+	float distSq = D3DXVec3LengthSq(&vDistanceToPlayer);
+	float sightSq = m_fSightDistance * m_fSightDistance;
 
-		if ((fDot >= 0.f) && (distSq <= sightSq)) //플레이어가 범위 안에 들어왔다
-		{
-			return TRUE;
-		}
-		else //플레이어가 범위 밖에 있다
-			return FALSE;
+	if ((fDot >= 0.f) && (distSq <= sightSq)) //플레이어가 범위 안에 들어왔다
+	{
+		return TRUE;
+	}
+	else //플레이어가 범위 밖에 있다
+		return FALSE;
 
-		return false;
+	return false;
 }
 
 _bool CMonsterBase::Check_Shooting_Sound()
@@ -510,7 +510,7 @@ _bool CMonsterBase::Check_Shooting_Sound()
 			m_pTransformCom->Get_Pos(&vPos);
 			_vec3 look = vPlayerPos - vPos;
 			D3DXVec3Normalize(&look, &look);
-			if(!m_isBoss)
+			if (!m_isBoss)
 				m_vMoveLook = look;
 
 			m_isDetected_Player = true;
@@ -532,7 +532,7 @@ _bool CMonsterBase::Check_Dead()
 			m_isNormalDead = FALSE;
 
 			// 킬 집계(08/24 김홍인)
-			if (!m_bCountedDeath) 
+			if (!m_bCountedDeath)
 			{
 				m_bCountedDeath = true;
 				CStatsManager::I().OnEnemyKilled();
@@ -680,7 +680,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 
 		//공격할 때
 	case AI_ATTACK:
-			m_eCurAnimState += 8;
+		m_eCurAnimState += 8;
 		m_eAnim_Type = ATK;
 
 		if (!m_isShoot)
@@ -706,7 +706,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 		//아이들 상태
 	case AI_MOVE:
 		m_isFirstEnt = FALSE;
-		if(m_eCurAnimState != m_ePreAnimState)
+		if (m_eCurAnimState != m_ePreAnimState)
 			m_eAnim_Type = MOVE;
 
 		if (m_isRecognize_Player)
@@ -719,7 +719,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 	}
 
 
-	if(tmpAnimType == NANRI)
+	if (tmpAnimType == NANRI)
 		m_eAnim_Type = NANRI;
 
 	m_ePreAnimState = m_eCurAnimState;
@@ -728,7 +728,7 @@ void CMonsterBase::Action(const _float& fTimeDelta, _int _Thought)
 void CMonsterBase::Monster_Look_Player(_vec3* _vLook)
 {
 	_vec3 vPos;														//내위치
-	m_pTransformCom->Get_Pos(&vPos);			
+	m_pTransformCom->Get_Pos(&vPos);
 	_vec3 vPlayerPos;												//플레이어 위치
 	vPlayerPos = Get_PlayerPos();
 
@@ -754,33 +754,8 @@ void CMonsterBase::Set_OnTerrain()
 
 	for (auto tt : terrain)
 	{
-		auto ts = dynamic_cast<CTerrainSector*>(tt);
-		auto vtxpos = ts->Get_BufferCom()->Get_VtxPos();
-		auto vtxcntx = ts->Get_BufferCom()->Get_VtxCntX();
-		auto vtxcntz = ts->Get_BufferCom()->Get_VtxCntZ();
-		auto tf = ts->Get_Transform();
-		const _matrix* w = tf->Get_World();
-		_ulong dwIndex(0);
-		_bool innerRange(false);
-
-		for (size_t i = 0; i < vtxcntz; i++)
-		{
-			for (size_t j = 0; j < vtxcntx; j++)
-			{
-				dwIndex = j + (i * vtxcntx);
-				_vec3 wvtx;
-				D3DXVec3TransformCoord(&wvtx, &vtxpos[dwIndex], w);
-				if (fabsf(wvtx.x - pos.x) <= 5.f
-					&& fabsf(wvtx.z - pos.z) <= 5.f)
-				{
-					innerRange = true;
-					innerTerrain.push_back(tt);
-					break;
-				}
-			}
-			if (innerRange)
-				break;
-		}
+		if (CCollisionManager::InnerTerrainCheck(tt, pos))
+			innerTerrain.push_back(tt);
 	}
 
 	for (auto ter : innerTerrain)
@@ -865,7 +840,7 @@ _int CMonsterBase::Calc_Death_Time(const _float fTimeDelta)
 	if (m_fDeathTimer > 3.5f)
 	{
 		m_fDeathTimer = 0.f;
-			return -1;
+		return -1;
 	}
 	return 0;
 }
@@ -1001,10 +976,10 @@ _int CMonsterBase::Calc_AnimState_byAttacker(_vec3 vLook, _vec3 vPos, _vec3 vAtt
 
 void CMonsterBase::Debug_Rectangle(_vec3 _LeftTop, _vec3 _RightTop, _vec3 _RightBottom, _vec3 _LeftBottom)
 {
-	_LeftTop.y			-= 2.1f;		
-	_RightTop.y			-= 2.1f;		
-	_RightBottom.y	-= 2.1f;				
-	_LeftBottom.y		-= 2.1f;
+	_LeftTop.y -= 2.1f;
+	_RightTop.y -= 2.1f;
+	_RightBottom.y -= 2.1f;
+	_LeftBottom.y -= 2.1f;
 
 	VTXCOL pVertex[6] = {
 		{ _LeftTop,				D3DCOLOR_ARGB(0,   255,  64,  64) },

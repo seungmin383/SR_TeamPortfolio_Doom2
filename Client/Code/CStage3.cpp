@@ -41,6 +41,8 @@
 #include "CUI_StageClear.h"
 #include "CSpiderMastermind.h"
 
+#include "CSoundManager.h"
+
 CStage3::CStage3(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -54,6 +56,7 @@ HRESULT CStage3::Ready_Scene()
 {
 	ShowCursor(FALSE);
 
+	CSoundManager::GetInstance()->PlayBGM(L"Stage3.mp3", 0.3f);
 	CUIManager::GetInstance()->UISetListClear();
 
 	CStatsManager::I().Reset();
@@ -577,6 +580,7 @@ void CStage3::EnterResultMode()
 
 void CStage3::RequestNextScene(SCENEID id)
 {
+	CSoundManager::GetInstance()->StopAll();
 	m_pendingNext = id;
 }
 
