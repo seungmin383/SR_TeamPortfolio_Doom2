@@ -76,6 +76,9 @@ private:
 
     // ★ 추가: 최종 원인 선택 & 라치
     void ResolveAndLatchGoal();
+
+    int   m_wave1TriggerKills = 0; // 첫 웨이브가 끝났다고 보는 기준(= 첫 웨이브 적 수)
+    bool  m_wave1Spawned = false;  // 두 번째 웨이브가 이미 스폰되었는지
 protected:
     virtual void        Free();
 };

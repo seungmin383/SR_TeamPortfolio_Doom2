@@ -107,7 +107,7 @@ _int CStage3::Update_Scene(const _float& fTimeDelta)
 	static _bool isReady_Wave1 = FALSE;
 	static _bool isReady_Wave2 = FALSE;
 
-	if (CStatsManager::I().Cur().timeSec > 40.f && !isReady_Wave2)
+	if (CStatsManager::I().Cur().timeSec > 80.f && !isReady_Wave2)
 	{
 		vector<GameObjectSpawnInfo> loadMonsterData = CFileManager::GetInstance()->LoadAdditionalMonster((_uint)SCENEID::STAGE3, 1);
 
@@ -115,8 +115,12 @@ _int CStage3::Update_Scene(const _float& fTimeDelta)
 			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
 
 		isReady_Wave2 = TRUE;
+		// 보스 웨이브가 뜬 뒤에만 보스 클리어 판정을 허용
+		m_wave1Spawned = true;
+		// 총합(표기/결과화면) 갱신
+		CStatsManager::I().SetTotalKills((int)Get_TotalGameObject(OBJID::OBJ_ENEMY).size());
 	}
-	else if (CStatsManager::I().Cur().timeSec > 20.f && !isReady_Wave1)
+	else if (CStatsManager::I().Cur().timeSec > 40.f && !isReady_Wave1)
 	{
 		vector<GameObjectSpawnInfo> loadMonsterData = CFileManager::GetInstance()->LoadAdditionalMonster((_uint)SCENEID::STAGE3, 0);
 
@@ -124,6 +128,8 @@ _int CStage3::Update_Scene(const _float& fTimeDelta)
 			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
 
 		isReady_Wave1 = TRUE;
+		// 총합 갱신 (UI/결과 표기 맞춤)
+		CStatsManager::I().SetTotalKills((int)Get_TotalGameObject(OBJID::OBJ_ENEMY).size());
 	}
 
 	if (m_isResultMode)
@@ -673,7 +679,7 @@ void CStage3::CheckStageGoal()
 	const auto& cur = CStatsManager::I().Cur();
 	const float t = cur.timeSec; // 누적 시간(StatsManager Tick 기반)
 
-	const bool bossCleared = !IsBossAlive();
+	const bool bossCleared = m_wave1Spawned && !IsBossAlive();
 
 	if (bossCleared && m_goalBossTime == FLT_MAX) m_goalBossTime = t;
 
@@ -685,20 +691,12 @@ void CStage3::CheckStageGoal()
 
 bool CStage3::IsBossAlive()
 {
-	// 씬 내부 컨테이너만 사용 (전역 Management X)
-	const auto& enemies = Get_ObjectGroup(LAYERID::LAYER_GAMELOGIC, OBJID::OBJ_ENEMY);
+	for (auto* e : Get_ObjectGroup(LAYERID::LAYER_GAMELOGIC, OBJID::OBJ_ENEMY)) {
+		if (auto* boss = dynamic_cast<CSpiderMastermind*>(e)) {
+			if (!boss->Get_Dead()) return true;
 
-	// 방어: 비어있으면 바로 false
-	if (enemies.empty()) return false;
-
-	for (auto* e : enemies) {
-		if (!e) continue; // nullptr 가드
-
-		// 아크바일만 체크
-		if (auto* av = dynamic_cast<CSpiderMastermind*>(e)) {
-			// 객체가 살아있고(!dead)라면 아직 한 마리라도 생존
-			if (!av->Get_Dead()) return true;
 		}
+
 	}
 	return false;
 }
