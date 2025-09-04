@@ -346,34 +346,6 @@ HRESULT CStage2::Ready_GameLogic_Layer(LAYERID _eLayerId)
 
 	m_mapLayer.insert({ _eLayerId, pLayer });
 
-	if (auto* wm = CWeaponManager::GetInstance()) {
-		wm->InitDefaultAmmo(); // { S H E L L :0, R O C K E T:0, ... } 등 키들을 미리 추가
-		// 기본 무기 장착
-		if (!wm->Get_CurWeapon()) {
-			// 1) 무기 오브젝트를 클론
-			Engine::CGameObject* obj =
-				CPrototypeManager::GetInstance()->Clone_ObjPrototype(OBJPROTOTYPE::WEAPON_SHOTGUN); // 존재하는 값 사용
-
-			if (obj) {
-				// 2) 무기 타입으로 다운캐스트(안전하게)
-				CWeapon* weapon = dynamic_cast<CWeapon*>(obj);
-				if (weapon) {
-					// 3) 레이어에 등록(업데이트/렌더가 돌도록) — 프로젝트 OBJID에 맞게
-					if (auto it = m_mapLayer.find(LAYERID::LAYER_GAMELOGIC); it != m_mapLayer.end()) {
-						it->second->Add_GameObject(OBJID::OBJ_WEAPON, (CGameObject*)weapon);
-					}
-					// 4) 무기 매니저에 인벤토리/장착
-					wm->Add_Weapon(WEAPON_ID::SHOTGUN, weapon);
-					wm->Change_Weapon(WEAPON_ID::SHOTGUN);
-				}
-				else {
-					// 캐스팅 실패시 메모리 정리(프로젝트 규약에 맞게 Free/Release)
-					obj->Release();
-				}
-			}
-		}
-	}
-
 	return S_OK;
 }
 
