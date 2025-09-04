@@ -69,6 +69,8 @@ private:
     float          m_goalBossTime = FLT_MAX;
     _float         m_goalKillTime = FLT_MAX;
 
+    _float         m_Curtain_call = 50;
+
     // 목표/상태 체크
     void InitTotals();            // 총 몬스터 수 등 세팅
     void CheckStageGoal();        // 매 프레임 조건 검사

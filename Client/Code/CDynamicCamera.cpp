@@ -619,12 +619,12 @@ void CDynamicCamera::Check_Dash(const _float& fTimeDelta)
 	if (m_bIsDashing)
 	{
 		m_fDashTime += fTimeDelta;
-		m_fSpeed *= 1.5f;
+		m_fSpeed *= 1.75f;
 
 		if (m_fDashTime >= 0.1f)
 			m_fSpeed = 30.f;
 		
-		if (m_fDashTime >= 0.5f)
+		if (m_fDashTime >= 2.5f)
 			m_bIsDashing = false;
 	}
 }

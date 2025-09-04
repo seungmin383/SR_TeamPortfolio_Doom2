@@ -169,9 +169,6 @@ _int CSpiderMastermind::Update_GameObject(const _float& fTimeDelta)
 	Check_Anim_Fin(fTimeDelta);
 	Pattern_Timer(fTimeDelta);		//패턴 시간 누적
 
-	if (m_bDead)
-		return Calc_Death_Time(fTimeDelta);
-
 	if (!m_bDead)
 	{
 		if (m_isAwake)
@@ -212,6 +209,9 @@ _int CSpiderMastermind::Update_GameObject(const _float& fTimeDelta)
 
 
 	//Update_Pattern(fTimeDelta, 2);
+
+	if (m_bDead)
+		return Calc_Death_Time(fTimeDelta);
 
 	return 0;
 }

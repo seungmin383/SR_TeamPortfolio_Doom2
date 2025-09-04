@@ -110,7 +110,7 @@ _int CStage3::Update_Scene(const _float& fTimeDelta)
 	static _bool isReady_Wave1 = FALSE;
 	static _bool isReady_Wave2 = FALSE;
 
-	if (CStatsManager::I().Cur().timeSec > 160.f && !isReady_Wave2)
+	if (CStatsManager::I().Cur().timeSec > 0.f && !isReady_Wave2)
 	{
 		vector<GameObjectSpawnInfo> loadMonsterData = CFileManager::GetInstance()->LoadAdditionalMonster((_uint)SCENEID::STAGE3, 1);
 
@@ -123,7 +123,7 @@ _int CStage3::Update_Scene(const _float& fTimeDelta)
 		// 총합(표기/결과화면) 갱신
 		CStatsManager::I().SetTotalKills((int)Get_TotalGameObject(OBJID::OBJ_ENEMY).size());
 	}
-	else if (CStatsManager::I().Cur().timeSec > 80.f && !isReady_Wave1)
+	else if (CStatsManager::I().Cur().timeSec > 160.f && !isReady_Wave1)
 	{
 		vector<GameObjectSpawnInfo> loadMonsterData = CFileManager::GetInstance()->LoadAdditionalMonster((_uint)SCENEID::STAGE3, 0);
 
@@ -686,7 +686,7 @@ void CStage3::CheckStageGoal()
 
 	if (bossCleared && m_goalBossTime == FLT_MAX) m_goalBossTime = t;
 
-	if (bossCleared)
+	if (bossCleared && m_Curtain_call < 0)
 	{
 		ResolveAndLatchGoal();
 	}
@@ -701,6 +701,7 @@ bool CStage3::IsBossAlive()
 		}
 
 	}
+	m_Curtain_call--;
 	return false;
 }
 
