@@ -123,23 +123,8 @@ int CMainApp::Update_MainApp(const float& fTimeDelta)
 	// 3) 씬 업데이트
 	if (m_pManagementClass->Update_Scene(dt) < 0)
 		return -1;
-		
-	_float m_accum = 0.f;
-	_float m_frameCount = 0.f;
-
-	m_accum += fTimeDelta;
-	++m_frameCount;
-	if (m_accum >= 1.0f) {
-		const unsigned fps = m_frameCount;
-		const double ms = (fps > 0) ? (1000.0 / double(fps)) : 0.0;
-
-		wchar_t buf[256];
-		swprintf_s(buf, L" FPS: %u (%.2f ms)", fps, ms);
-		::SetWindowTextW(g_hWnd, buf);
-
-		m_frameCount = 0;
-		m_accum -= 1.0f; // 누적에서 1초만 빼고 남긴다(정확도↑)
-	}
+	
+	CManagement::GetInstance()->CalcRanderSector(m_pGraphicDev);
 
 	return 0;
 }

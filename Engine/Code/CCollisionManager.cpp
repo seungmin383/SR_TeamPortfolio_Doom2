@@ -490,6 +490,14 @@ _bool CCollisionManager::InnerTerrainCheck(CGameObject* terrain, _vec3 pos)
 	return (IntersectRect(&result, &posTile, &tile));
 }
 
+_bool CCollisionManager::Check_AABB(RECT myRect)
+{
+	RECT posTile = CManagement::GetInstance()->Get_RenderSector();
+	RECT result;
+
+	return (IntersectRect(&result, &posTile, &myRect));
+}
+
 void CCollisionManager::Free()
 {
 }

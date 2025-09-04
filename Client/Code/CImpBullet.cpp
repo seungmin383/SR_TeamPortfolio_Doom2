@@ -2,6 +2,7 @@
 #include "CImpBullet.h"
 #include "CImp.h"
 #include "CRenderer.h"
+#include "CCollisionManager.h"
 
 CImpBullet::CImpBullet(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CBullet(pGraphicDev)
@@ -122,8 +123,17 @@ void CImpBullet::LateUpdate_GameObject(const _float& fTimeDelta)
 
 void CImpBullet::Render_GameObject(const _float& fTimeDelta)
 {
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
+
+	LONG minx = min(pos.x + 5, pos.x - 5);
+	LONG maxx = max(pos.x + 5, pos.x - 5);
+	LONG minz = min(pos.z + 5, pos.z - 5);
+	LONG maxz = max(pos.z + 5, pos.z - 5);
+
+	RECT myRect{ minx, minz, maxx, maxz };
+	if (CCollisionManager::Check_AABB(myRect) == false)
+		return;
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());	
 
@@ -139,9 +149,6 @@ void CImpBullet::Render_GameObject(const _float& fTimeDelta)
 
 	//�浹ü
 	m_pColliderCom->Render(g_colRend);
-
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }
 
 void CImpBullet::Check_Anim_Is_Finish()

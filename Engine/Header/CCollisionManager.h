@@ -44,6 +44,8 @@ public:
 
     static _bool        InnerTerrainCheck(CGameObject* terrain, _vec3 pos);
 
+    static _bool        Check_AABB(RECT myRect);
+
 private:
     virtual void        Free();
 

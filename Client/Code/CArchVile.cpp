@@ -138,11 +138,26 @@ HRESULT CArchVile::Ready_GameObject()
 #pragma endregion
 
 	CMonsterBase::Ready_GameObject();
+
+	Set_OnTerrain();
+	CGameObject::LateUpdate_GameObject(CTimerManager::GetInstance()->Get_TimeDelta(L"Timer_60"));
+
 	return S_OK;
 }
 
 _int CArchVile::Update_GameObject(const _float& fTimeDelta)
 {
+	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
+
+	LONG minx = min(pos.x + 5, pos.x - 5);
+	LONG maxx = max(pos.x + 5, pos.x - 5);
+	LONG minz = min(pos.z + 5, pos.z - 5);
+	LONG maxz = max(pos.z + 5, pos.z - 5);
+
+	RECT myRect{ minx, minz, maxx, maxz };
+	if (CCollisionManager::Check_AABB(myRect) == false)
+		return 0;
 
 	CMonsterBase::Update_GameObject(fTimeDelta);
 	Bill_Board();
@@ -155,6 +170,18 @@ _int CArchVile::Update_GameObject(const _float& fTimeDelta)
 
 void CArchVile::LateUpdate_GameObject(const _float& fTimeDelta)
 {
+	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
+
+	LONG minx = min(pos.x + 5, pos.x - 5);
+	LONG maxx = max(pos.x + 5, pos.x - 5);
+	LONG minz = min(pos.z + 5, pos.z - 5);
+	LONG maxz = max(pos.z + 5, pos.z - 5);
+
+	RECT myRect{ minx, minz, maxx, maxz };
+	if (CCollisionManager::Check_AABB(myRect) == false)
+		return;
+
 	CMonsterBase::LateUpdate_GameObject(fTimeDelta);
 }
 

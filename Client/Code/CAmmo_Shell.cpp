@@ -54,6 +54,18 @@ HRESULT CAmmo_Shell::Ready_GameObject()
 
 _int CAmmo_Shell::Update_GameObject(const _float& fTimeDelta)
 {
+	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
+
+	LONG minx = min(pos.x + 5, pos.x - 5);
+	LONG maxx = max(pos.x + 5, pos.x - 5);
+	LONG minz = min(pos.z + 5, pos.z - 5);
+	LONG maxz = max(pos.z + 5, pos.z - 5);
+
+	RECT myRect{ minx, minz, maxx, maxz };
+	if (CCollisionManager::Check_AABB(myRect) == false)
+		return 0;
+
 	CGameObject::Update_GameObject(fTimeDelta);
 	Bill_Board();
 
@@ -62,11 +74,26 @@ _int CAmmo_Shell::Update_GameObject(const _float& fTimeDelta)
 	if (m_bPicked)
 		return -1; // 엔진 상수에 맞춰 사용
 
+	if (!m_bPicked)
+		return Calc_Death_Time(fTimeDelta);
+
 	return 0;
 }
 
 void CAmmo_Shell::LateUpdate_GameObject(const _float& fTimeDelta)
 {
+	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
+
+	LONG minx = min(pos.x + 5, pos.x - 5);
+	LONG maxx = max(pos.x + 5, pos.x - 5);
+	LONG minz = min(pos.z + 5, pos.z - 5);
+	LONG maxz = max(pos.z + 5, pos.z - 5);
+
+	RECT myRect{ minx, minz, maxx, maxz };
+	if (CCollisionManager::Check_AABB(myRect) == false)
+		return;
+
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 	if (m_pColliderCom)
 		m_pColliderCom->Late_Update(); // ★ 중요
@@ -74,8 +101,17 @@ void CAmmo_Shell::LateUpdate_GameObject(const _float& fTimeDelta)
 
 void CAmmo_Shell::Render_GameObject(const _float& fTimeDelta)
 {
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
 
+	LONG minx = min(pos.x + 5, pos.x - 5);
+	LONG maxx = max(pos.x + 5, pos.x - 5);
+	LONG minz = min(pos.z + 5, pos.z - 5);
+	LONG maxz = max(pos.z + 5, pos.z - 5);
+
+	RECT myRect{ minx, minz, maxx, maxz };
+	if (CCollisionManager::Check_AABB(myRect) == false)
+		return;
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
@@ -84,8 +120,6 @@ void CAmmo_Shell::Render_GameObject(const _float& fTimeDelta)
 
 	//충돌체
 	m_pColliderCom->Render(g_colRend);
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-
 }
 
 void CAmmo_Shell::OnCollision(CCollider* _pOther)
@@ -228,6 +262,18 @@ void CAmmo_Shell::Bill_Board()
 	matWorld = matBill * matWorld;
 	// 최종적으로 빌보드 행렬을 월드 행렬로 설정                                           
 	m_pTransformCom->Set_World(&matWorld);
+}
+
+_int CAmmo_Shell::Calc_Death_Time(const _float fTimeDelta)
+{
+	m_fDeathTimer += fTimeDelta;
+
+	if (m_fDeathTimer > 10.f)
+	{
+		m_fDeathTimer = 0.f;
+		return -1;
+	}
+	return 0;
 }
 
 CAmmo_Shell* CAmmo_Shell::Create(LPDIRECT3DDEVICE9 pGraphicDev)
