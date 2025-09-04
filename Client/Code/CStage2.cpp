@@ -44,7 +44,7 @@
 #include "CUI_StageClear.h"
 #include "CArchVile.h"
 
-#define INITMONSTERNUM 10
+//#define INITMONSTERNUM 10
 
 CStage2::CStage2(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -98,15 +98,21 @@ HRESULT CStage2::Ready_Scene()
 	CStatsManager::I().ResetRuntime();
 	CStatsManager::I().ResetTotals();
 
+	// 스폰 완료 후 총계 초기화
+	InitTotals();
+
 	// 첫 웨이브 종료 기준: 현재 스테이지에 존재하는 ENEMY 개수
-	m_wave1TriggerKills = static_cast<int>(Get_TotalGameObject(OBJID::OBJ_ENEMY).size());
+	m_wave1TriggerKills = CStatsManager::I().Cur().totalKills;
+	if (m_wave1TriggerKills <= 0) {
+		// 초기 몬스터가 아직 로드되지 않은 프레임이면 즉시 스폰 방지
+		m_wave1TriggerKills = INT_MAX;
+	}
 
 	// 결과 목표 정책: "보스 처치"만으로 클리어 되게 설정
 	m_tiePolicy = GoalTiePolicy::PreferBoss;
 	m_goalKillCount = INT_MAX; // 킬카운트로는 절대 클리어되지 않게 크게 설정
 
-	// 스폰 완료 후 총계 초기화
-	InitTotals();
+
 
 	return S_OK;
 }
@@ -117,21 +123,48 @@ _int CStage2::Update_Scene(const _float& fTimeDelta)
 	// 경과 시간
 	CStatsManager::I().Tick(fTimeDelta);
 
-	// 첫 웨이브 종료 → 두 번째 웨이브 스폰
-	if (!m_wave1Spawned && CStatsManager::I().Cur().kills >= m_wave1TriggerKills)
-	{
-		auto add = CFileManager::GetInstance()->LoadAdditionalMonster((_uint)SCENEID::STAGE2, 0);
-		for (auto& monster : add)
-			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
+	// 초기 프레임에 트리거를 못 잡았을 경우(로드 순서 이슈) 런타임 보정
+	// 통계값 대신 실제 컨테이너의 ENEMY 수로 보정
+	if (m_wave1TriggerKills == INT_MAX || m_wave1TriggerKills <= 0) {
+		const int liveAtStart = (int)Get_TotalGameObject(OBJID::OBJ_ENEMY).size();
+		if (liveAtStart > 0) {
+			m_wave1TriggerKills = liveAtStart;
+			CStatsManager::I().SetTotalKills(liveAtStart); // UI/결과용 총합도 맞춤
 
-		m_wave1Spawned = true;
+		}
 
-		// 총합 갱신(두 번째 웨이브 포함) — UI/결과 화면에 반영되도록
-		const auto& allEnemiesNow = Get_TotalGameObject(OBJID::OBJ_ENEMY);
-		CStatsManager::I().SetTotalKills(static_cast<int>(allEnemiesNow.size()));
 	}
 
-	static _bool isReadyWave1 = FALSE;
+
+	// 첫 웨이브 종료(두 가지 기준 중 하나라도 충족) → 웨이브2 스폰
+	const int liveEnemies = (int)Get_TotalGameObject(OBJID::OBJ_ENEMY).size();
+	const bool clearedByKills = (m_wave1TriggerKills > 0) && (CStatsManager::I().Cur().kills >= m_wave1TriggerKills);
+	const bool clearedByEmpty = (m_wave1TriggerKills > 0) && (liveEnemies == 0);
+
+	if (!m_wave1Spawned && (clearedByKills || clearedByEmpty)) {
+		auto add = CFileManager::GetInstance()->LoadAdditionalMonster((_uint)SCENEID::STAGE2, 0);
+		if (add.empty()) {
+			OutputDebugStringA("[Stage2] Additional monster data is EMPTY. Check Config.json StageSettings.AdditionalMonster.\n");
+
+		}
+		else {
+			for (auto& monster : add)
+				CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
+			m_wave1Spawned = true;
+
+			// 웨이브2까지 포함한 총합 다시 반영
+			const auto& allEnemiesNow = Get_TotalGameObject(OBJID::OBJ_ENEMY);
+			CStatsManager::I().SetTotalKills((int)allEnemiesNow.size());
+
+			// 디버그 출력(선택)
+			char buf[128];
+			sprintf_s(buf, "[Stage2] Wave2 spawned. live=%d\n", (int)allEnemiesNow.size());
+			OutputDebugStringA(buf);
+
+		}
+	}
+
+	/*static _bool isReadyWave1 = FALSE;
 
 	if (!isReadyWave1 && CStatsManager::I().Cur().kills == INITMONSTERNUM)
 	{
@@ -141,7 +174,7 @@ _int CStage2::Update_Scene(const _float& fTimeDelta)
 			CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
 
 		isReadyWave1 = TRUE;
-	}
+	}*/
 
 	if (m_isResultMode)
 	{
@@ -267,6 +300,14 @@ HRESULT CStage2::Load_PreSet()
 
 	for (auto monster : loadMonsterData)
 		CObjectFactory::GetInstance()->Create_Object((OBJPROTOTYPE)monster.type1, (OBJID)monster.type2, monster.position);
+
+	// 초기 적 총합/웨이브1 트리거를 실제 컨테이너 기준으로 설정
+	{
+		const auto& allEnemies = Get_TotalGameObject(OBJID::OBJ_ENEMY);
+		const int total = static_cast<int>(allEnemies.size());
+		CStatsManager::I().SetTotalKills(total);
+		m_wave1TriggerKills = total;
+	}
 
 	return S_OK;
 }
@@ -723,7 +764,7 @@ void CStage2::CheckStageGoal()
 	const float t = cur.timeSec; // 누적 시간(StatsManager Tick 기반)
 
 	// 현재 만족 여부 계산
-	const bool bossCleared = !IsArchVileAlive();
+	const bool bossCleared = m_wave1Spawned && !IsArchVileAlive();
 	int target = (m_goalKillCount < 0) ? cur.totalKills : m_goalKillCount;
 	const bool killCleared = (target > 0 && cur.kills >= target);
 
