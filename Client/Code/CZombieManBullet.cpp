@@ -45,7 +45,7 @@ HRESULT CZombiemanBullet::Ready_GameObject()
 		m_fSpeed = 100.f;
 		m_bDead = FALSE;
 		m_iDmg = dynamic_cast<CMonsterBase*>(m_pOwner)->GetAtkDmg();
-		m_pTransformCom->Set_Scale(_vec3{ 0.05f, 0.05f, 0.05f });
+		m_pTransformCom->Set_Scale(_vec3{ 0.25f, 0.25f, 0.25f });
 	}
 
 	return S_OK;
