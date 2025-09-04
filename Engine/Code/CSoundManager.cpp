@@ -80,7 +80,7 @@ void CSoundManager::PlaySound3D(const wstring& pSoundKey, const _vec3& vPos, _fl
     if (iter == m_mapSound.end())
         return;
 
-    for (_uint i = 0; i < CHANNELID::MAXCHANNEL; ++i)
+    for (_uint i = 0; i < 128; ++i)
     {
         FMOD_BOOL bPlay = FALSE;
         FMOD_Channel_IsPlaying(m_pChannelArr[i], &bPlay);
