@@ -80,6 +80,18 @@ _int CHealth_Small::Update_GameObject(const _float& fTimeDelta)
 
 void CHealth_Small::LateUpdate_GameObject(const _float& fTimeDelta)
 {
+	_vec3 pos;
+	m_pTransformCom->Get_Pos(&pos);
+
+	LONG minx = min(pos.x + 5, pos.x - 5);
+	LONG maxx = max(pos.x + 5, pos.x - 5);
+	LONG minz = min(pos.z + 5, pos.z - 5);
+	LONG maxz = max(pos.z + 5, pos.z - 5);
+
+	RECT myRect{ minx, minz, maxx, maxz };
+	if (CCollisionManager::Check_AABB(myRect) == false)
+		return;
+
 	CGameObject::LateUpdate_GameObject(fTimeDelta);
 	if (m_pColliderCom)
 		m_pColliderCom->Late_Update(); // ★ 중요
