@@ -10,7 +10,7 @@
 #include "CSoundManager.h"
 
 CAmmo_Clip::CAmmo_Clip(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev), m_iClip(0), m_iFrame_Clip(0), m_pWeaponManager(nullptr)
+	: CGameObject(pGraphicDev), m_iClip(0), m_pWeaponManager(nullptr)
 {
 }
 
@@ -28,9 +28,7 @@ HRESULT CAmmo_Clip::Ready_GameObject()
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
-	m_iClip = 10;
-
-	m_iFrame_Clip = 0;
+	m_iClip = 24;
 
 	m_pWeaponManager = CWeaponManager::GetInstance();
 

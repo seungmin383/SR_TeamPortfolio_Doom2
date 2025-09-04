@@ -159,10 +159,10 @@ void CWeapon_BFG::OnCollisionEnter(CCollider* _pOther)
 		CWeapon* pBfg = CBfg::Create();
 		pWeaponManager->Add_Weapon(WEAPON_ID::BFG, pBfg);
 		pWeaponManager->Change_Weapon(WEAPON_ID::BFG);
-		pWeaponManager->Add_Ammo(AMMO_TYPE::CELL, 5);
+		pWeaponManager->Add_Ammo(AMMO_TYPE::CELL, 10);
 	}
 	else
-		pWeaponManager->Add_Ammo(AMMO_TYPE::CELL, 5);
+		pWeaponManager->Add_Ammo(AMMO_TYPE::CELL, 10);
 
 
 	if (m_pColliderCom) m_pColliderCom->Set_Active(false);

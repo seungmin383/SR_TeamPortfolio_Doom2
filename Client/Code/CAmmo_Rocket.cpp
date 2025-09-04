@@ -28,7 +28,7 @@ HRESULT CAmmo_Rocket::Ready_GameObject()
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
-	m_iRocket = 8;
+	m_iRocket = 16;
 
 	m_iFrame_Rocket = 0;
 

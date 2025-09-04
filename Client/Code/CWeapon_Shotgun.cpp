@@ -168,10 +168,10 @@ void CWeapon_Shotgun::OnCollisionEnter(CCollider* _pOther)
 		CWeapon* pShotgun = CShotgun::Create();
 		pWeaponManager->Add_Weapon(WEAPON_ID::SHOTGUN, pShotgun);
 		pWeaponManager->Change_Weapon(WEAPON_ID::SHOTGUN);
-		pWeaponManager->Add_Ammo(AMMO_TYPE::SHELL, 12);
+		pWeaponManager->Add_Ammo(AMMO_TYPE::SHELL, 24);
 	}
 	else
-		pWeaponManager->Add_Ammo(AMMO_TYPE::SHELL, 12);
+		pWeaponManager->Add_Ammo(AMMO_TYPE::SHELL, 24);
 
 
 	if (m_pColliderCom)

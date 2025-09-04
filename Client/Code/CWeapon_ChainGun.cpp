@@ -162,10 +162,10 @@ void CWeapon_ChainGun::OnCollisionEnter(CCollider* _pOther)
 		CWeapon* pChaingun = CChaingun::Create();
 		pWeaponManager->Add_Weapon(WEAPON_ID::CHAINGUN, pChaingun);
 		pWeaponManager->Change_Weapon(WEAPON_ID::CHAINGUN);
-		pWeaponManager->Add_Ammo(AMMO_TYPE::CLIP, 25);
+		pWeaponManager->Add_Ammo(AMMO_TYPE::CLIP, 50);
 	}
 	else
-		pWeaponManager->Add_Ammo(AMMO_TYPE::CLIP, 25);
+		pWeaponManager->Add_Ammo(AMMO_TYPE::CLIP, 50);
 
 	// 월드의 픽업 오브젝트는 제거
 	

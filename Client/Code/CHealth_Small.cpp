@@ -114,9 +114,9 @@ void CHealth_Small::Render_GameObject(const _float& fTimeDelta)
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_World());
 
 	if (CManagement::GetInstance()->Is_Paused())
-		m_pTextureCom->Set_Texture(0);
+		m_pTextureCom->Set_Texture(1);
 	else
-		m_pTextureCom->Set_Texture(0);
+		m_pTextureCom->Set_Texture(1);
 	
 	m_pBufferCom->Render_Buffer();
 

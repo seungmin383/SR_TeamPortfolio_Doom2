@@ -162,7 +162,7 @@ void CWeapon_Rocket::OnCollisionEnter(CCollider* _pOther)
 		pWeaponManager->Add_Ammo(AMMO_TYPE::ROCKET, 30);		
 	}
 	else
-		pWeaponManager->Add_Ammo(AMMO_TYPE::ROCKET, 5);
+		pWeaponManager->Add_Ammo(AMMO_TYPE::ROCKET, 20);
 
 
 	// 월드의 픽업 오브젝트는 제거

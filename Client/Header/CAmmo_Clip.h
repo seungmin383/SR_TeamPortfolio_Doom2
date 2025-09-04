@@ -24,7 +24,6 @@ public:
 
 private:
 	_int    m_iClip;
-	_int	m_iFrame_Clip;
 	bool m_bPicked = false;
 
 private:

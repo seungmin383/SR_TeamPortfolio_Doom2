@@ -28,7 +28,7 @@ HRESULT CAmmo_Cell::Ready_GameObject()
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
-	m_iCell = 3;
+	m_iCell = 10;
 
 	m_iFrame_Cell = 0;
 

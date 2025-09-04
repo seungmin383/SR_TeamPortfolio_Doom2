@@ -28,7 +28,7 @@ HRESULT CAmmo_Shell::Ready_GameObject()
 	if (FAILED(Add_Component()))
 		return E_FAIL;
 
-	m_iShell = 12;
+	m_iShell = 24;
 
 	m_iFrame_Shell = 0;
 
@@ -239,7 +239,7 @@ void CAmmo_Shell::Set_OnTerrain()
 	if (highest == -999.f)
 		highest = 0.f;
 
-	m_pTransformCom->Set_Pos(pos.x, highest + 2, pos.z);
+	m_pTransformCom->Set_Pos(pos.x, highest + 0.8f, pos.z);
 }
 
 void CAmmo_Shell::Bill_Board()
