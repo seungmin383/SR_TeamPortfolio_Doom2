@@ -32,7 +32,7 @@ void CSoundManager::Init()
 
     // Shotgunguy
     LoadSound3D(L"SG_DEATH", TEXT("../../Client/Resource/Sound/POS/ZOMBIEMANDEATH3.wav"));
-    LoadSound3D(L"SG_ATTACK", TEXT("../../Client/Resource/Sound/POS/DSPISTOL.wav"));
+    LoadSound3D(L"SG_ATTACK", TEXT("../../Client/Resource/Sound/POS/DSSHTGN.wav"));
     LoadSound3D(L"SG_CHASE", TEXT("../../Client/Resource/Sound/POS/ZOMBIEMANFINDPLAYER1.wav"));
 
     LoadSound3D(L"DEMONHIT", TEXT("../../Client/Resource/Sound/3Dsound/DemonHitSound.wav"));
@@ -80,20 +80,16 @@ void CSoundManager::PlaySound3D(const wstring& pSoundKey, const _vec3& vPos, _fl
     if (iter == m_mapSound.end())
         return;
 
-    for (_uint i = 0; i < 128; ++i)
+    FMOD_CHANNEL* pChannel = nullptr;
+    FMOD_System_PlaySound(m_pSystem, iter->second, 0, true, &pChannel);
+
+    if (pChannel)
     {
-        FMOD_BOOL bPlay = FALSE;
-        FMOD_Channel_IsPlaying(m_pChannelArr[i], &bPlay);
-
-
-        FMOD_System_PlaySound(m_pSystem, iter->second, 0, false, &m_pChannelArr[i]);
-
         FMOD_VECTOR soundPos = { vPos.x ,vPos.y, vPos.z };
         FMOD_VECTOR soundVel = { 0.f, 0.f, 0.f };
-        FMOD_Channel_Set3DAttributes(m_pChannelArr[i], &soundPos, &soundVel);
-        FMOD_Channel_SetVolume(m_pChannelArr[i], fVolume);
-        return;
-
+        FMOD_Channel_Set3DAttributes(pChannel, &soundPos, &soundVel);
+        FMOD_Channel_SetVolume(pChannel, fVolume);
+        FMOD_Channel_SetPaused(pChannel, false);
     }
 }
 
