@@ -236,6 +236,53 @@ void CZombieMan::Attack(const _float fTimeDelta)
 
 }
 
+void CZombieMan::Play_Sound()
+{
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+
+	static _bool isFindPlayer = false;
+	_int a = 0;
+	switch (m_iCurThought)
+	{
+		//죽었을 때 
+	case AI_DEAD:
+		CSoundManager::GetInstance()->PlaySound3D(L"ZM_DEATH", vPos, 1.f);
+		break;
+
+		//맞았을 때
+	case AI_HIT:
+		a = rand() % 10;
+
+		if (a > 5)
+			CSoundManager::GetInstance()->PlaySound3D(L"ZM_HIT", vPos, 1.f);
+
+
+		break;
+
+		//공격할 때
+	case AI_ATTACK:
+		CSoundManager::GetInstance()->PlaySound3D(L"ZM_ATTACK", vPos, 1.f);
+		break;
+
+		//플레이어를 발견했을 때
+	case AI_CHASE:
+		if (!isFindPlayer)
+		{
+			CSoundManager::GetInstance()->PlaySound3D(L"ZM_CHASE", vPos, 1.f);
+			isFindPlayer = TRUE;
+		}
+		break;
+
+		//아이들 상태
+	case AI_MOVE:
+		CSoundManager::GetInstance()->PlaySound3D(L"ZM_MOVE", vPos, 1.f);
+		break;
+	}
+
+	m_iPreThought = m_iCurThought;
+}
+
 void CZombieMan::Drop_Item()
 {
 	_vec3 vPos;

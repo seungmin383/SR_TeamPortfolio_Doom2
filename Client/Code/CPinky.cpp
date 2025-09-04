@@ -7,6 +7,7 @@
 #include "CTimerManager.h"
 #include "CTerrainSector.h"
 #include "CArchVileBullet.h"
+#include "CSoundManager.h"
 
 CPinky::CPinky(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CMonsterBase(pGraphicDev)
@@ -227,6 +228,45 @@ void CPinky::Drop_Item()
 
 	CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::ITEM_SHELL, OBJID::OBJ_ITEM, vPos, 1);
 
+}
+
+void CPinky::Play_Sound()
+{
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	static _bool isFindPlayer = false;
+	_int a = 0;
+	switch (m_iCurThought)
+	{
+	case AI_DEAD:
+		CSoundManager::GetInstance()->PlaySoundW(L"DEMONDEATH.wav", CHANNELID::SOUND_EFFECT, 1.f);
+		break;
+
+	case AI_MOVE:
+		CSoundManager::GetInstance()->PlaySoundW(L"DEMONIDLE.wav", CHANNELID::SOUND_EFFECT, 1.f);
+		break;
+
+	case AI_CHASE:
+		if (!isFindPlayer)
+		{
+			CSoundManager::GetInstance()->PlaySoundW(L"DEMONFINDPLAYER.wav", CHANNELID::SOUND_EFFECT, 1.f);
+			isFindPlayer = TRUE;
+		}
+		break;
+
+	case AI_ATTACK:
+		CSoundManager::GetInstance()->PlaySoundW(L"DEMONATK.wav", CHANNELID::SOUND_EFFECT, 1.f);
+		break;
+
+	case AI_HIT:
+		a = rand() % 10;
+
+		if (a > 5)
+		CSoundManager::GetInstance()->PlaySound3D(L"DEMONHIT", vPos, 1.f);
+		break;
+	}
+
+	m_iPreThought = m_iCurThought;
 }
 
 HRESULT CPinky::Add_Component()

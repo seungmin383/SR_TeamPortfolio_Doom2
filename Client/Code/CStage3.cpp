@@ -56,7 +56,7 @@ HRESULT CStage3::Ready_Scene()
 {
 	ShowCursor(FALSE);
 
-	CSoundManager::GetInstance()->PlayBGM(L"Stage3.mp3", 0.3f);
+	CSoundManager::GetInstance()->PlayBGM(L"Stage3.mp3", 0.1f);
 	CUIManager::GetInstance()->UISetListClear();
 
 	CStatsManager::I().Reset();
@@ -110,7 +110,7 @@ _int CStage3::Update_Scene(const _float& fTimeDelta)
 	static _bool isReady_Wave1 = FALSE;
 	static _bool isReady_Wave2 = FALSE;
 
-	if (CStatsManager::I().Cur().timeSec > 80.f && !isReady_Wave2)
+	if (CStatsManager::I().Cur().timeSec > 0.f && !isReady_Wave2)
 	{
 		vector<GameObjectSpawnInfo> loadMonsterData = CFileManager::GetInstance()->LoadAdditionalMonster((_uint)SCENEID::STAGE3, 1);
 

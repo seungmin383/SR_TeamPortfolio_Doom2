@@ -21,7 +21,25 @@ void CSoundManager::Init()
     FMOD_System_Init(m_pSystem, 128, FMOD_INIT_NORMAL, NULL);
     LoadSoundFile();
     LoadSound3D(L"EXPLOSION", TEXT("../../Client/Resource/Sound/3Dsound/DSBAREXP.wav"));
-    LoadSound3D(L"MOVING", TEXT("../../Client/Resource/Sound/3Dsound/DSSTNMOV.wav"));
+    LoadSound3D(L"MOVING", TEXT("../../Client/Resource/Sound/3Dsound/DSPSTART.wav"));
+
+    // Zombieman
+    LoadSound3D(L"ZM_DEATH", TEXT("../../Client/Resource/Sound/POS/ZOMBIEMANDEATH1.wav"));
+    LoadSound3D(L"ZM_HIT", TEXT("../../Client/Resource/Sound/POS/ZOMBIEMANHIT.wav"));
+    LoadSound3D(L"ZM_ATTACK", TEXT("../../Client/Resource/Sound/POS/DSPISTOL.wav"));
+    LoadSound3D(L"ZM_CHASE", TEXT("../../Client/Resource/Sound/POS/ZOMBIEMANFINDPLAYER2.wav"));
+    LoadSound3D(L"ZM_MOVE", TEXT("../../Client/Resource/Sound/POS/ZOMBIEMANIDLE.wav"));
+
+    // Shotgunguy
+    LoadSound3D(L"SG_DEATH", TEXT("../../Client/Resource/Sound/POS/ZOMBIEMANDEATH3.wav"));
+    LoadSound3D(L"SG_ATTACK", TEXT("../../Client/Resource/Sound/POS/DSPISTOL.wav"));
+    LoadSound3D(L"SG_CHASE", TEXT("../../Client/Resource/Sound/POS/ZOMBIEMANFINDPLAYER1.wav"));
+
+    LoadSound3D(L"DEMONHIT", TEXT("../../Client/Resource/Sound/3Dsound/DemonHitSound.wav"));
+
+    LoadSound3D(L"ARCHVILEDEATH", TEXT("../../Client/Resource/Sound/3Dsound/ARCHVILEDEATH.wav"));
+    LoadSound3D(L"ARCHVILEHIT", TEXT("../../Client/Resource/Sound/3Dsound/ARCHVILEHIT.wav"));
+    LoadSound3D(L"ARCHVILEIDLE", TEXT("../../Client/Resource/Sound/3Dsound/ARCHVILEIDLE.wav"));
 }
 
 void CSoundManager::Update()
@@ -62,7 +80,7 @@ void CSoundManager::PlaySound3D(const wstring& pSoundKey, const _vec3& vPos, _fl
     if (iter == m_mapSound.end())
         return;
 
-    for (_uint i = 0; i < CHANNELID::MAXCHANNEL; ++i)
+    for (_uint i = 0; i < 128; ++i)
     {
         FMOD_BOOL bPlay = FALSE;
         FMOD_Channel_IsPlaying(m_pChannelArr[i], &bPlay);

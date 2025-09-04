@@ -61,7 +61,7 @@ HRESULT CStage2::Ready_Scene()
 {
 	ShowCursor(FALSE);
 
-	CSoundManager::GetInstance()->PlayBGM(L"Stage2.mp3", 0.3f);
+	CSoundManager::GetInstance()->PlayBGM(L"Stage2.mp3", 0.1f);
 	CStatsManager::I().Reset();
 
 	CUIManager::GetInstance()->UISetListClear();
@@ -805,12 +805,6 @@ void CStage2::ResolveAndLatchGoal()
 
 	m_goalSource = chosen;
 	m_goalLatched = true;
-
-	//// (선택) 디버그 표시
-	//if (chosen == GoalSource::Boss)
-	//	OutputDebugStringA("[Stage2] Clear by: Boss\n");
-	//else
-	//	OutputDebugStringA("[Stage2] Clear by: KillCount\n");
 
 	// 기존 결과 모드 진입
 	EnterResultMode();
