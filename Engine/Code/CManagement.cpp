@@ -11,6 +11,8 @@ CManagement::CManagement()
 {
 	for (size_t i = 0; i < (_uint)SCENEID::SCENE_END; i++)
 		m_pArrScene[i] = nullptr;
+
+	ZeroMemory(&m_tRenderSector, sizeof(RECT));
 }
 
 CManagement::~CManagement()
@@ -144,6 +146,37 @@ void CManagement::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev, const _float& fTim
 	CRenderer::GetInstance()->Render_GameObejct(pGraphicDev, fTimeDelta);
 
 	m_pScene->Render_Scene(fTimeDelta);
+}
+
+void CManagement::CalcRanderSector(LPDIRECT3DDEVICE9 pGraphicDev)
+{
+	if (m_pPlayer == nullptr)
+		return;
+
+	auto playerTf = m_pPlayer->Get_Transform();
+
+	_vec3 vPos;
+	playerTf->Get_Pos(&vPos);
+	_vec3 vLook;
+	_matrix Player;
+	D3DXMatrixIdentity(&Player);
+	pGraphicDev->GetTransform(D3DTS_VIEW, &Player);
+	D3DXMatrixInverse(&Player, nullptr, &Player);
+
+	vLook.x = Player._31;
+	vLook.y = Player._32;
+	vLook.z = Player._33;
+	D3DXVec3Normalize(&vLook, &vLook);
+
+	_vec3 vRenderPos = vPos;// +vLook;
+	vRenderPos = vRenderPos + (10.f * vLook);
+
+	LONG minx = min(vRenderPos.x + 100, vRenderPos.x - 100);
+	LONG maxx = max(vRenderPos.x + 100, vRenderPos.x - 100);
+	LONG minz = min(vRenderPos.z + 100, vRenderPos.z - 100);
+	LONG maxz = max(vRenderPos.z + 100, vRenderPos.z - 100);
+
+	m_tRenderSector = { minx, minz, maxx, maxz };
 }
 
 void CManagement::Free()

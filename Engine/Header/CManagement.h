@@ -73,6 +73,9 @@ public:
     // Δt 스케일 (정지: 0, 평상: 1)
     _float  ScaleDelta(const _float& fTimeDelta) const { return fTimeDelta * m_timeScale; }
 
+    void    CalcRanderSector(LPDIRECT3DDEVICE9 pGraphicDev);
+    RECT    Get_RenderSector() { return m_tRenderSector; }
+
 private:
     CScene*                 m_pScene;
     CScene*                 m_pArrScene[(_uint)SCENEID::SCENE_END];
@@ -87,6 +90,9 @@ private:
     // 일시정지 기능을 위한 변수(08/27 김홍인)
     _bool                   m_bPaused = false;
     _float                  m_timeScale = 1.f;
+
+    RECT                    m_tRenderSector;
+
 public:
     virtual     void        Free();
 };
