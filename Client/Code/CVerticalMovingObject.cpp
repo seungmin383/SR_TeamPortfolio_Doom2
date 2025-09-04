@@ -101,7 +101,6 @@ _int CVerticalMovingObject::Update_GameObject(const _float& fTimeDelta)
 				}
 			}
 			m_pTransformCom->Set_Pos(pos.x, pos.y, pos.z);
-			CSoundManager::GetInstance()->PlaySound3D(L"MOVING", pos, 0.5f);
 		}
 
 		// 라이더 동승 계산
@@ -215,6 +214,9 @@ void CVerticalMovingObject::OnCollisionEnter(CCollider* _pOther)
 	if ((_pOther->Get_ColLayer() & COL_PLAYER) == 0) return;
 
 	AttachRider(_pOther->Get_Owner());
+
+	_vec3 pos; m_pTransformCom->Get_Pos(&pos);
+	CSoundManager::GetInstance()->PlaySound3D(L"MOVING", pos, 0.5f);
 
 #ifdef _DEBUG
 	if (!m_pRiderTr) {
