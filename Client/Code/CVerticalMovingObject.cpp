@@ -225,6 +225,9 @@ void CVerticalMovingObject::OnCollisionEnter(CCollider* _pOther)
 
 	AttachRider(_pOther->Get_Owner());
 
+	_vec3 pos; m_pTransformCom->Get_Pos(&pos);
+	CSoundManager::GetInstance()->PlaySound3D(L"MOVING", pos, 0.5f);
+
 #ifdef _DEBUG
 	if (!m_pRiderTr) {
 		char buf[128];

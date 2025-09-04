@@ -98,7 +98,7 @@ void CSoundManager::PlaySoundW(const std::wstring& soundKey, CHANNELID eID, floa
     FMOD_BOOL isPlaying = FALSE;
     FMOD_Channel_IsPlaying(m_pChannelArr[eID], &isPlaying);
 
-    //FMOD_Channel_Stop(m_pChannelArr[eID]);
+    FMOD_Channel_Stop(m_pChannelArr[eID]);
 
     if (!isPlaying)
     {
@@ -112,7 +112,7 @@ void CSoundManager::PlaySoundW(const std::wstring& soundKey, CHANNELID eID, floa
     }
     else
     {
-        //FMOD_Channel_Stop(m_pChannelArr[eID]);
+        FMOD_Channel_Stop(m_pChannelArr[eID]);
         FMOD_System_PlaySound(
             m_pSystem,
             iter->second,
