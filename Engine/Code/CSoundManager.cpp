@@ -36,6 +36,10 @@ void CSoundManager::Init()
     LoadSound3D(L"SG_CHASE", TEXT("../../Client/Resource/Sound/POS/ZOMBIEMANFINDPLAYER1.wav"));
 
     LoadSound3D(L"DEMONHIT", TEXT("../../Client/Resource/Sound/3Dsound/DemonHitSound.wav"));
+
+    LoadSound3D(L"ARCHVILEDEATH", TEXT("../../Client/Resource/Sound/3Dsound/ARCHVILEDEATH.wav"));
+    LoadSound3D(L"ARCHVILEHIT", TEXT("../../Client/Resource/Sound/3Dsound/ARCHVILEHIT.wav"));
+    LoadSound3D(L"ARCHVILEIDLE", TEXT("../../Client/Resource/Sound/3Dsound/ARCHVILEIDLE.wav"));
 }
 
 void CSoundManager::Update()
