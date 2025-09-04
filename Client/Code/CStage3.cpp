@@ -39,6 +39,7 @@
 // (08/31 김홍인)
 #include "CSwitch_Button.h"
 #include "CUI_StageClear.h"
+#include "CSpiderMastermind.h"
 
 CStage3::CStage3(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -58,6 +59,9 @@ HRESULT CStage3::Ready_Scene()
 	CStatsManager::I().Reset();
 	CColliderManager::GetInstance()->Reset();
 
+
+	m_isResultMode = false;
+	m_pendingNext = SCENEID::SCENE_END;
 
 	if (FAILED(Ready_Environment_Layer(LAYERID::LAYER_ENVIRONMENT)))
 		return E_FAIL;
@@ -89,6 +93,8 @@ HRESULT CStage3::Ready_Scene()
 	// 진행 시간 + 진행 상황 초기화(08/31 김홍인)
 	CStatsManager::I().ResetRuntime();
 	CStatsManager::I().ResetTotals();
+
+	InitTotals();
 
 	return S_OK;
 }
@@ -151,6 +157,9 @@ _int CStage3::Update_Scene(const _float& fTimeDelta)
 	}
 
 	_int iExit = Engine::CScene::Update_Scene(fTimeDelta);
+
+	// ★ 목표 충족 검사
+	CheckStageGoal();
 
 	auto uiMgr = CUIManager::GetInstance();
 	uiMgr->UpdateUI();
@@ -640,6 +649,86 @@ void CStage3::ConnectDoorSwitchByLinkId()
 			}
 		}
 	}
+}
+
+void CStage3::InitTotals()
+{
+	// 스테이지 시작 시 통계 리셋
+	CStatsManager::I().Reset();
+
+	// 전체 적 개수 계산 (모든 레이어에서 ENEMY 그룹만 모음)
+	const auto& allEnemies = Get_TotalGameObject(OBJID::OBJ_ENEMY);
+	CStatsManager::I().SetTotalKills(static_cast<int>(allEnemies.size()));
+
+	m_goalSource = GoalSource::None;
+	m_goalLatched = false;
+	m_goalBossTime = FLT_MAX;
+	m_goalKillTime = FLT_MAX;
+}
+
+void CStage3::CheckStageGoal()
+{
+	if (m_isResultMode || m_goalLatched) return;
+
+	const auto& cur = CStatsManager::I().Cur();
+	const float t = cur.timeSec; // 누적 시간(StatsManager Tick 기반)
+
+	const bool bossCleared = !IsBossAlive();
+
+	if (bossCleared && m_goalBossTime == FLT_MAX) m_goalBossTime = t;
+
+	if (bossCleared)
+	{
+		ResolveAndLatchGoal();
+	}
+}
+
+bool CStage3::IsBossAlive()
+{
+	// 씬 내부 컨테이너만 사용 (전역 Management X)
+	const auto& enemies = Get_ObjectGroup(LAYERID::LAYER_GAMELOGIC, OBJID::OBJ_ENEMY);
+
+	// 방어: 비어있으면 바로 false
+	if (enemies.empty()) return false;
+
+	for (auto* e : enemies) {
+		if (!e) continue; // nullptr 가드
+
+		// 아크바일만 체크
+		if (auto* av = dynamic_cast<CSpiderMastermind*>(e)) {
+			// 객체가 살아있고(!dead)라면 아직 한 마리라도 생존
+			if (!av->Get_Dead()) return true;
+		}
+	}
+	return false;
+}
+
+void CStage3::ResolveAndLatchGoal()
+{
+	if (m_goalLatched) return;
+
+	GoalSource chosen = GoalSource::None;
+
+	switch (m_tiePolicy)
+	{
+	case GoalTiePolicy::PreferEarliest:
+		if (m_goalBossTime < m_goalKillTime)       chosen = GoalSource::Boss;
+		else {
+			if (m_goalBossTime != FLT_MAX) chosen = GoalSource::Boss;
+		}
+		break;
+
+	case GoalTiePolicy::PreferBoss:
+		if (m_goalBossTime != FLT_MAX) chosen = GoalSource::Boss;
+		break;
+	}
+
+	if (chosen == GoalSource::None) return;
+
+	m_goalSource = chosen;
+	m_goalLatched = true;
+
+	EnterResultMode();
 }
 
 void CStage3::Free()
