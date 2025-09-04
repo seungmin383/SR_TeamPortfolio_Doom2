@@ -229,26 +229,26 @@ void CImp::Play_Sound()
 	{
 	case AI_DEAD:
 		if(MONSTER_STATE::NOR_DEATH)
-			CSoundManager::GetInstance()->PlaySoundW(L"IMPDEATH1.wav", CHANNELID::SOUND_EFFECT, 1.f);
+			CSoundManager::GetInstance()->PlaySound3D(L"IMPDEATH1", vPos, 1.f);
 
 		if(MONSTER_STATE::GIB_DEATH)
-			CSoundManager::GetInstance()->PlaySoundW(L"IMPDEATH2.wav", CHANNELID::SOUND_EFFECT, 1.f);
+			CSoundManager::GetInstance()->PlaySound3D(L"IMPDEATH2", vPos, 1.f);
 		break;
 
 	case AI_MOVE:
-		CSoundManager::GetInstance()->PlaySoundW(L"IMPIDLE.wav", CHANNELID::SOUND_EFFECT, 1.f);
+		CSoundManager::GetInstance()->PlaySound3D(L"IMPIDLE", vPos, 1.f);
 		break;
 
 	case AI_CHASE:
 		if (!isFindPlayer)
 		{
-			CSoundManager::GetInstance()->PlaySoundW(L"IMPFINDPLAYER1.wav", CHANNELID::SOUND_EFFECT, 1.f);
+			CSoundManager::GetInstance()->PlaySound3D(L"IMPFINDPLAYER1", vPos, 1.f);
 			isFindPlayer = TRUE;
 		}
 		break;
 
 	case AI_ATTACK:
-		CSoundManager::GetInstance()->PlaySoundW(L"IMPFINDPLAYER2.wav", CHANNELID::SOUND_EFFECT, 1.f);
+		CSoundManager::GetInstance()->PlaySound3D(L"IMPFINDPLAYER2", vPos, 1.f);
 		break;
 
 	case AI_HIT:	

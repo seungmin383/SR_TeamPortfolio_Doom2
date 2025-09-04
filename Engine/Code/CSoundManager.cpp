@@ -36,6 +36,19 @@ void CSoundManager::Init()
     LoadSound3D(L"SG_CHASE", TEXT("../../Client/Resource/Sound/POS/ZOMBIEMANFINDPLAYER1.wav"));
 
     LoadSound3D(L"DEMONHIT", TEXT("../../Client/Resource/Sound/3Dsound/DemonHitSound.wav"));
+    
+    // Pinky
+    LoadSound3D(L"DEMONATK", TEXT("../../Client/Resource/Sound/DEMON/DEMONATK.wav"));
+    LoadSound3D(L"DEMONIDLE", TEXT("../../Client/Resource/Sound/DEMON/DEMONIDLE.wav"));
+    LoadSound3D(L"DEMONDEATH", TEXT("../../Client/Resource/Sound/DEMON/DEMONDEATH.wav"));
+    LoadSound3D(L"DEMONFINDPLAYER", TEXT("../../Client/Resource/Sound/DEMON/DEMONFINDPLAYER.wav"));
+
+    // Imp
+    LoadSound3D(L"IMPDEATH1", TEXT("../../Client/Resource/Sound/IMP/IMPDEATH1.wav"));
+    LoadSound3D(L"IMPDEATH2", TEXT("../../Client/Resource/Sound/IMP/IMPDEATH2.wav"));
+    LoadSound3D(L"IMPFINDPLAYER1", TEXT("../../Client/Resource/Sound/IMP/IMPFINDPLAYER1.wav"));
+    LoadSound3D(L"IMPFINDPLAYER2", TEXT("../../Client/Resource/Sound/IMP/IMPFINDPLAYER2.wav"));
+    LoadSound3D(L"IMPIDLE", TEXT("../../Client/Resource/Sound/IMP/IMPIDLE.wav"));
 
     LoadSound3D(L"ARCHVILEDEATH", TEXT("../../Client/Resource/Sound/3Dsound/ARCHVILEDEATH.wav"));
     LoadSound3D(L"ARCHVILEHIT", TEXT("../../Client/Resource/Sound/3Dsound/ARCHVILEHIT.wav"));
