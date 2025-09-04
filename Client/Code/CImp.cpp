@@ -223,7 +223,8 @@ void CImp::Play_Sound()
 {
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
-
+	static _bool isFindPlayer = false;
+	_int a = 0;
 	switch (m_iCurThought)
 	{
 	case AI_DEAD:
@@ -239,14 +240,21 @@ void CImp::Play_Sound()
 		break;
 
 	case AI_CHASE:
-		CSoundManager::GetInstance()->PlaySoundW(L"IMPFINDPLAYER1.wav", CHANNELID::SOUND_EFFECT, 1.f);
+		if (!isFindPlayer)
+		{
+			CSoundManager::GetInstance()->PlaySoundW(L"IMPFINDPLAYER1.wav", CHANNELID::SOUND_EFFECT, 1.f);
+			isFindPlayer = TRUE;
+		}
 		break;
 
 	case AI_ATTACK:
 		CSoundManager::GetInstance()->PlaySoundW(L"IMPFINDPLAYER2.wav", CHANNELID::SOUND_EFFECT, 1.f);
 		break;
 
-	case AI_HIT:
+	case AI_HIT:	
+		a = rand() % 10;
+
+		if (a > 5)
 		CSoundManager::GetInstance()->PlaySound3D(L"DEMONHIT", vPos, 1.f);
 		break;
 	}

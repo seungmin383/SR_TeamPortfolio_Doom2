@@ -234,7 +234,8 @@ void CPinky::Play_Sound()
 {
 	_vec3 vPos;
 	m_pTransformCom->Get_Pos(&vPos);
-
+	static _bool isFindPlayer = false;
+	_int a = 0;
 	switch (m_iCurThought)
 	{
 	case AI_DEAD:
@@ -246,7 +247,11 @@ void CPinky::Play_Sound()
 		break;
 
 	case AI_CHASE:
-		CSoundManager::GetInstance()->PlaySoundW(L"DEMONFINDPLAYER.wav", CHANNELID::SOUND_EFFECT, 1.f);
+		if (!isFindPlayer)
+		{
+			CSoundManager::GetInstance()->PlaySoundW(L"DEMONFINDPLAYER.wav", CHANNELID::SOUND_EFFECT, 1.f);
+			isFindPlayer = TRUE;
+		}
 		break;
 
 	case AI_ATTACK:
@@ -254,6 +259,9 @@ void CPinky::Play_Sound()
 		break;
 
 	case AI_HIT:
+		a = rand() % 10;
+
+		if (a > 5)
 		CSoundManager::GetInstance()->PlaySound3D(L"DEMONHIT", vPos, 1.f);
 		break;
 	}
