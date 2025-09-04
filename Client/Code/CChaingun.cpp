@@ -17,7 +17,6 @@ HRESULT CChaingun::Ready_GameObject()
 	m_eWeaponID = WEAPON_ID::CHAINGUN;
 	m_eCurState = WEAPON_STATE::IDLE;
 	m_eAmmoType = AMMO_TYPE::CLIP;
-	//m_iDamage = 10;
 	m_fFireDelay = 0.114f;
 	m_fElapsedTime = 0.f;
 
@@ -41,7 +40,7 @@ _bool CChaingun::Fire()
 		CGameObject* tmp = nullptr;
 		// 로켓 투사체 발사
 		CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::PLAYER_NORMAL_BULLET, OBJID::OBJ_BULLET, vPlayerPos, pPlayer, tmp);
-		CSoundManager::GetInstance()->PlaySoundW(L"DSPISTOL.wav", CHANNELID::SOUND_EFFECT, 0.5f);
+		CSoundManager::GetInstance()->PlaySoundW(L"DSPISTOL.wav", CHANNELID::SOUND_WEAPON, 0.5f);
 
 		return true;
 	}

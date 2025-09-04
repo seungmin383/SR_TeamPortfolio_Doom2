@@ -73,7 +73,7 @@ void CMainMenuLogo::Render_GameObject(const _float& fTimeDelta)
 
 _bool CMainMenuLogo::Action()
 {
-	CSoundManager::GetInstance()->StopAll();
+	//CSoundManager::GetInstance()->StopAll();
 
 	CManagement::GetInstance()->Change_Scene(SCENEID::STAGE1);
 

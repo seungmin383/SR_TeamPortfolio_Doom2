@@ -32,11 +32,11 @@ HRESULT CArchVile::Ready_GameObject()
 		return E_FAIL;
 
 	_vec3 vPos;
-	_vec3 vScale = { 3.f, 3.f, 3.f };
+	_vec3 vScale = { 3.5f, 4.f, 3.5f };
 
 	m_pTransformCom->Set_Scale(vScale);
 	m_pTransformCom->Get_Pos(&vPos);
-	m_pColliderCom->Ready_CCollider(this, vPos, _vec3(2.f, 3.f, 2.f), _vec3(0.f, 0.f, 0.f),
+	m_pColliderCom->Ready_CCollider(this, {0.f, 0.f, 0.f}, _vec3(3.5f, 4.f, 3.5f), _vec3(0.f, -2.f, 0.f),
 		COLLAYERID::COL_ENEMY,
 		COLLAYERID::COL_PLAYER | COLLAYERID::COL_WALL | COLLAYERID::COL_OBJECT | COLLAYERID::COL_ENEMY);
 
