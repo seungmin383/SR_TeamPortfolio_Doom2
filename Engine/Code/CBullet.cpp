@@ -1,7 +1,6 @@
 #include "CBullet.h"
 #include "CManagement.h"
 #include "CCollisionManager.h"
-
 #include"EffectManager.h"
 
 CBullet::CBullet(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -170,9 +169,6 @@ void CBullet::OnCollisionEnter(CCollider* _pOther)
 		_pOther->Get_Owner()->Take_Dmg(m_iDmg * 0.5f);
 	else
 		_pOther->Get_Owner()->Take_Dmg(m_iDmg);
-	
-
-	//m_bDead = TRUE;
 }
 
 void CBullet::OnCollisionExit(CCollider* _pOther)

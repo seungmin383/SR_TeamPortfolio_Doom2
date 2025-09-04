@@ -74,10 +74,19 @@ public:
 
 	void Take_Damage(_int iDamage)
 	{
+		if (m_iArmor > 0)
+		{
+			m_iArmor -= iDamage;
+
+			if (m_iArmor <= 0.f)
+			{
+				m_iGameHp -= (iDamage - m_iArmor);
+				m_iArmor = 0.f;
+			}
+		}
+
 		if (m_iGameHp <= 0)
 			m_iGameHp = 0;
-		else
-			m_iGameHp -= iDamage;
 	}
 
 private:
@@ -107,7 +116,7 @@ public:
 private:
 	PLAYER_STATE m_eState;
 
-	_int        m_iArmor;
+	//_int        m_iArmor;
 	_int        m_iMax = 200;       // 체력과 아머에 사용할 최대 수치
 	_int		m_iJumpCnt;			// 점프 횟수
 

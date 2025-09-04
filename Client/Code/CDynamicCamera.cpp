@@ -24,7 +24,7 @@ _long CDynamicCamera::s_lMouseMoveX = 0L;
 CDynamicCamera::CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCamera(pGraphicDev),
 	m_bFix(false), m_bCheck(false), m_bTrigger(false), m_bIsMoving(false), m_bIsGrounded(true), m_bIsJumping(false), m_bIsDashing(false),
-	m_iArmor(0), m_iJumpCnt(0),
+	m_iJumpCnt(0),
 	m_fSpeed(0.f), m_fAngle(0.f), m_fAngleSpeed(0.f), m_fFallSpeed(0.f), m_fDist(0.f), m_fJumpForce(0.f), m_fDashTime(0.f),
 	m_eState(IDLE),
 	m_vMoveDist(_vec3(0.f, 0.f, 0.f))
@@ -264,7 +264,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		vLook.y = 0.f;
 
 		LAYERID eHitLayer = LAYERID::LAYER_END;
-		CCollisionManager::Raycast(m_vEye, vLook, vHitPos, vHitNormal, 2.f * m_pColliderCom->Get_Scale().x, &eHitLayer, this);
+		CCollisionManager::Raycast(m_vEye, vLook, vHitPos, vHitNormal, m_pColliderCom->Get_Scale().x, &eHitLayer, this);
 
 		if (eHitLayer != LAYERID::LAYER_ENVIRONMENT)
 		{
@@ -320,7 +320,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		// Raycast part
 		_vec3 vHitPos, vHitNormal;
 		LAYERID eHitLayer = LAYERID::LAYER_END;
-		CCollisionManager::Raycast(m_vEye, -vRight, vHitPos, vHitNormal, 2.f * m_pColliderCom->Get_Scale().x, &eHitLayer, this);
+		CCollisionManager::Raycast(m_vEye, -vRight, vHitPos, vHitNormal, m_pColliderCom->Get_Scale().x, &eHitLayer, this);
 
 		if (eHitLayer != LAYERID::LAYER_ENVIRONMENT)
 		{
@@ -376,7 +376,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		// Raycast part
 		_vec3 vHitPos, vHitNormal;
 		LAYERID eHitLayer = LAYERID::LAYER_END;
-		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, 2.f * m_pColliderCom->Get_Scale().x, &eHitLayer, this);
+		CCollisionManager::Raycast(m_vEye, vRight, vHitPos, vHitNormal, m_pColliderCom->Get_Scale().x, &eHitLayer, this);
 
 		if (eHitLayer != LAYERID::LAYER_ENVIRONMENT)
 		{
@@ -433,7 +433,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		// Raycast part
 		_vec3 vHitPos, vHitNormal;
 		LAYERID eHitLayer = LAYERID::LAYER_END;
-		CCollisionManager::Raycast(m_vEye, -vRight, vHitPos, vHitNormal, 2.f * m_pColliderCom->Get_Scale().x * 2.f, &eHitLayer, this);
+		CCollisionManager::Raycast(m_vEye, -vRight, vHitPos, vHitNormal, m_pColliderCom->Get_Scale().x * 2.f, &eHitLayer, this);
 
 		if (eHitLayer != LAYERID::LAYER_ENVIRONMENT)
 		{
