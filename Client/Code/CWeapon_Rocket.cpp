@@ -75,9 +75,6 @@ _int CWeapon_Rocket::Update_GameObject(const _float& fTimeDelta)
 	if (m_bPicked)
 		return -1; // 엔진 상수에 맞춰 사용
 
-	if (!m_bPicked)
-		return Calc_Death_Time(fTimeDelta);
-
 	return 0;
 }
 
@@ -273,18 +270,6 @@ void CWeapon_Rocket::Bill_Board()
 	matWorld = matBill * matWorld;
 	// 최종적으로 빌보드 행렬을 월드 행렬로 설정                                           
 	m_pTransformCom->Set_World(&matWorld);
-}
-
-_int CWeapon_Rocket::Calc_Death_Time(const _float fTimeDelta)
-{
-	m_fDeathTimer += fTimeDelta;
-
-	if (m_fDeathTimer > 10.f)
-	{
-		m_fDeathTimer = 0.f;
-		return -1;
-	}
-	return 0;
 }
 
 CWeapon_Rocket* CWeapon_Rocket::Create(LPDIRECT3DDEVICE9 pGraphicDev)
