@@ -122,7 +122,7 @@ void CWeapon_Rocket::OnCollisionEnter(CCollider* _pOther)
 		CWeapon* pRocket = CRocket::Create();
 		pWeaponManager->Add_Weapon(WEAPON_ID::ROCKET, pRocket);
 		pWeaponManager->Change_Weapon(WEAPON_ID::ROCKET);
-		pWeaponManager->Add_Ammo(AMMO_TYPE::ROCKET, 99999);
+		pWeaponManager->Add_Ammo(AMMO_TYPE::ROCKET, 30);		
 	}
 	else
 		pWeaponManager->Add_Ammo(AMMO_TYPE::ROCKET, 5);
