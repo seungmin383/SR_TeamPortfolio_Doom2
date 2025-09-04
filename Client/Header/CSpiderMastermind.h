@@ -27,10 +27,11 @@ public:
 
     virtual void Fire(const _float fTimeDelta);
 
-    virtual void Reset_Pattern1(const _float fTimeDelta);
-    virtual void Reset_Pattern2(const _float fTimeDelta);
-    virtual void Reset_Pattern3(const _float fTimeDelta);
-    virtual void Reset_Pattern4(const _float fTimeDelta);
+    virtual void Reset_Pattern1(const _float fTimeDelta); //큰불렛
+    virtual void Reset_Pattern2(const _float fTimeDelta); // 소환
+    virtual void Reset_Pattern3(const _float fTimeDelta); // 돌진
+    virtual void Reset_Pattern4(const _float fTimeDelta); //땡기기
+    virtual void Reset_Pattern5(const _float fTimeDelta); //탄막
 
 public:
     virtual void Pattern1(const _float fTimeDelta);
@@ -55,6 +56,9 @@ private:
 
 public:
     virtual void Pattern4(const _float fTimeDelta);
+    virtual void Pattern5(const _float fTimeDelta);
+    _float m_fPattern5Timer = 0.f;
+    virtual void Pattern5Fire(const _float fTimeDelta);
 
 public://FUNCTION   
 	virtual void Pattern_Timer(const _float fTimeDelta);
@@ -72,7 +76,7 @@ public://GETTER SETTER
 
 private://VARIABLE
 	_float m_fPattern_Timer = 0.f; //패턴 타이머
-	_float m_fPattern_Delay = 5.f;	//패턴이 바뀌는 시간
+	_float m_fPattern_Delay = 3.f;	//패턴이 바뀌는 시간
 	_int m_iEnt_Pattern_Number = 0; //패턴함수 실행 횟수
 	_bool m_isAwake = FALSE;
 

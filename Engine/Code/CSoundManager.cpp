@@ -40,6 +40,9 @@ void CSoundManager::Init()
     LoadSound3D(L"ARCHVILEDEATH", TEXT("../../Client/Resource/Sound/3Dsound/ARCHVILEDEATH.wav"));
     LoadSound3D(L"ARCHVILEHIT", TEXT("../../Client/Resource/Sound/3Dsound/ARCHVILEHIT.wav"));
     LoadSound3D(L"ARCHVILEIDLE", TEXT("../../Client/Resource/Sound/3Dsound/ARCHVILEIDLE.wav"));
+
+
+    LoadSound3D(L"BOSSBASICBULLET", TEXT("../../Client/Resource/Sound/3Dsound/DSPLASMA.wav"));
 }
 
 void CSoundManager::Update()

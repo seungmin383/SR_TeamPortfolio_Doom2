@@ -131,7 +131,7 @@ HRESULT CSpiderMastermind::Ready_GameObject()
 	m_fSightAngle = D3DXToRadian(80.f);
 	m_fSightDistance = 500.f;
 
-	m_fAtkSpeed = 4.f;
+	m_fAtkSpeed = 1.f;
 	m_iGameHp = 3000;
 	m_iMaxHp = m_iGameHp;
 	m_iAtkDmg = 3;
@@ -243,6 +243,9 @@ void CSpiderMastermind::Awake_Pattern(_int _Pattern)
 	case 3:
 		Reset_Pattern4(0.f);
 		break;
+	case 4:
+		Reset_Pattern5(0.f);
+		break;
 	}
 	m_isAwake = FALSE;
 }
@@ -272,6 +275,9 @@ void CSpiderMastermind::Update_Pattern(const _float& fTimeDelta, _int _Pattern)
 		break;
 	case 3:
 		Pattern4(fTimeDelta);
+		break;
+	case 4:
+		Pattern5(fTimeDelta);
 		break;
 	}
 }
@@ -381,8 +387,20 @@ void CSpiderMastermind::Play_Sound()
 
 void CSpiderMastermind::Calc_Pattern()
 {
-	for (int i = 0; i < 8; i++)
-		m_PattenArr[i] = (m_iPattern >> (i * 2)) & 0x3;
+	//for (int i = 0; i < 8; i++)
+	//	m_PattenArr[i] = (m_iPattern >> (i * 2)) & 0x3;
+
+	m_PattenArr[0] = 2;
+
+	m_PattenArr[1] = 4;
+	m_PattenArr[2] = 4;
+	m_PattenArr[3] = 4;
+
+	m_PattenArr[4] = 1;
+	m_PattenArr[5] = 3;
+	m_PattenArr[6] = 0;
+	m_PattenArr[7] = 0;
+
 }
 
 void CSpiderMastermind::Fire(const _float fTimeDelta)
@@ -554,6 +572,7 @@ void CSpiderMastermind::Reset_Pattern2(const _float fTimeDelta)
 
 void CSpiderMastermind::Reset_Pattern3(const _float fTimeDelta)
 {
+
 	m_fSpeed = SPEED * 3;
 	m_isPattern3On = TRUE;
 	CManagement::GetInstance()->Get_Player()->Get_Transform()->Get_Pos(&m_vTargetPos);
@@ -570,6 +589,11 @@ void CSpiderMastermind::Reset_Pattern3(const _float fTimeDelta)
 }
 
 void CSpiderMastermind::Reset_Pattern4(const _float fTimeDelta)
+{
+	CSoundManager::GetInstance()->PlaySoundW(L"EARTHQUAKE.wav", SOUND_EFFECT, 0.6f);
+}
+
+void CSpiderMastermind::Reset_Pattern5(const _float fTimeDelta)
 {
 }
 
@@ -603,10 +627,72 @@ void CSpiderMastermind::Pattern4(const _float fTimeDelta)
 	m_pTransformCom->Get_Pos(&vPos);
 	_vec3 dir = vPos - vPlayerPos;
 	D3DXVec3Normalize(&dir, &dir);
+
+	_vec3 vRight;
+	_matrix matPlayer;
+	D3DXMatrixIdentity(&matPlayer);
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matPlayer);
+	D3DXMatrixInverse(&matPlayer, NULL, &matPlayer);
+	vRight.x = matPlayer._11;
+	vRight.y = matPlayer._12;
+	vRight.z = matPlayer._13;
+	D3DXVec3Normalize(&vRight, &vRight);
+
 	//CManagement::GetInstance()->Get_Player()->Get_Transform()->Move_Pos(&dir,5.f, fTimeDelta );
-	vPlayerPos += dir * 5.f * fTimeDelta;
+	dir.y = 0;
+	vPlayerPos += dir * 50.f * fTimeDelta;
+	// 여기서 화면 흔들림 오프셋 추가
+	float shakeIntensity = 1.f;   // 흔들림 강도
+	float offsetX = ((rand() % 2001) / 1000.f - 1.f) * shakeIntensity;
+
+	vPlayerPos += vRight * offsetX;
 
 	static_cast<CDynamicCamera*>(CManagement::GetInstance()->Get_Player())->Set_Pos(vPlayerPos);
+}
+
+void CSpiderMastermind::Pattern5(const _float fTimeDelta)
+{
+	m_fPattern5Timer += fTimeDelta;
+
+	if (m_fPattern5Timer > 0.2f)
+	{
+		Pattern5Fire(fTimeDelta);
+		m_fPattern5Timer = 0.f;
+	}
+}
+
+void CSpiderMastermind::Pattern5Fire(const _float fTimeDelta)
+{
+	_vec3 vPos;
+	m_pTransformCom->Get_Pos(&vPos);
+	_vec3 vPlayerPos;
+	_matrix PlayerPos;
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &PlayerPos);
+	D3DXMatrixIdentity(&PlayerPos);
+	vPlayerPos.x = PlayerPos._41;
+	vPlayerPos.y = PlayerPos._42;
+	vPlayerPos.z = PlayerPos._43;
+
+	_vec3 vLook = vPlayerPos - vPos;
+	D3DXVec3Normalize(&m_vMoveLook, &(vLook));
+
+	CGameObject* tmp = nullptr;
+	vPos.y -= 40.f;
+
+	(CManagement::GetInstance()->Set_GameLogicObject(OBJPROTOTYPE::EWW, OBJID::OBJ_BULLET, vPos, this, tmp));
+
+
+		if (tmp == nullptr)
+			return;
+
+		tmp->Set_Dead(FALSE);
+		tmp->Get_Transform()->Set_Pos(vPos.x, vPos.y, vPos.z);
+		CManagement::GetInstance()->Get_Player()->Get_Transform()->Get_Pos(&vPlayerPos);
+		_vec3 dir = vPlayerPos - vPos;
+		D3DXVec3Normalize(&dir, &dir);
+
+		dynamic_cast<CBullet*>(tmp)->Set_InitDir(dir);
+
 }
 
 void CSpiderMastermind::Pattern_Timer(const _float fTimeDelta)

@@ -232,6 +232,9 @@
     <Filter Include="02. GameObject\06. Object\Explosion\FieldObject">
       <UniqueIdentifier>{b2c9802f-a0bb-4737-92b0-a9308fcd361e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\07. Bullet\01. MonsterBullet\CEwwBullet">
+      <UniqueIdentifier>{ddb9bc82-654f-4853-9119-ee015e77616b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -519,6 +522,9 @@
     <ClInclude Include="..\Header\CBfgEffect.h">
       <Filter>02. GameObject\10. Effect\03. BFGEffect</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CEwwBullet.h">
+      <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CEwwBullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -799,6 +805,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CBfgEffect.cpp">
       <Filter>02. GameObject\10. Effect\03. BFGEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CEwwBullet.cpp">
+      <Filter>02. GameObject\07. Bullet\01. MonsterBullet\CEwwBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
