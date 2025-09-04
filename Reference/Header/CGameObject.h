@@ -37,11 +37,25 @@ public:
     const _uint             Get_Dmg() const     { return m_iDmg; };
     void                    Set_Dmg(_uint _D)   { m_iDmg = _D; };
 
-    _int                    Take_Dmg(_int _Dmg) 
+    void                    Take_Dmg(_int _Dmg) 
     {
-        _int  tmp = (m_iGameHp - _Dmg); 
-        m_iGameHp = tmp;     
-        return  tmp; 
+        if (m_iArmor <= 0)
+            m_iGameHp -= _Dmg;
+        else
+        {
+            if (_Dmg >= m_iArmor)
+            {
+                _Dmg -= m_iArmor;
+                m_iArmor = 0;
+            }
+            else
+            {
+                m_iArmor -= _Dmg;
+                return;
+            }
+
+            m_iGameHp -= _Dmg;
+        }
     };
 
     virtual void		    OnCollision(CCollider* _pOther) {};
@@ -70,6 +84,7 @@ protected:
     _bool                                   m_bDead = FALSE;
 
     _uint                                   m_iDmg = 0;			//ÃÑ¾Ë µ¥¹ÌÁö
+    _int                                    m_iArmor = 0;
     _int                                    m_iGameHp = 1;
 	_int                                    m_iMaxHp = m_iGameHp;
 
