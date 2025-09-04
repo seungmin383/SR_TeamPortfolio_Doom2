@@ -56,7 +56,7 @@ HRESULT CStage3::Ready_Scene()
 {
 	ShowCursor(FALSE);
 
-	CSoundManager::GetInstance()->PlayBGM(L"Stage3.mp3", 0.3f);
+	CSoundManager::GetInstance()->PlayBGM(L"Stage3.mp3", 0.1f);
 	CUIManager::GetInstance()->UISetListClear();
 
 	CStatsManager::I().Reset();

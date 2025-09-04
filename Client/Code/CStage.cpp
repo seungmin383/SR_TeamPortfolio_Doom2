@@ -102,7 +102,7 @@ HRESULT CStage::Ready_Scene()
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_ENEMY, OBJID::OBJ_ENEMY);
 	CColliderManager::GetInstance()->CheckGroup(OBJID::OBJ_ENEMY, OBJID::OBJ_WALL);
 
-	CSoundManager::GetInstance()->PlayBGM(L"Stage1.mp3", 0.3f);
+	CSoundManager::GetInstance()->PlayBGM(L"Stage1.mp3", 0.1f);
 
 	return S_OK;
 }
