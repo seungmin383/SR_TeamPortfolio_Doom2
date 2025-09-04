@@ -483,12 +483,11 @@ _bool CCollisionManager::InnerTerrainCheck(CGameObject* terrain, _vec3 pos)
 	LONG minz = min(min(wvtxlu.z, wvtxru.z), min(wvtxrb.z, wvtxlb.z));
 	LONG maxz = max(max(wvtxlu.z, wvtxru.z), max(wvtxrb.z, wvtxlb.z));
 
-	RECT tile{ minx, minz, maxx, maxz };
-	RECT revTile{ maxx, maxz, minx, minz };
+	RECT tile{ minx - 5.f, minz - 5.f, maxx + 5.f, maxz + 5.f };
 	RECT posTile{ pos.x - 5.f, pos.z - 5.f, pos.x + 5.f, pos.z + 5.f };
 	RECT result;
 
-	return (IntersectRect(&result, &posTile, &tile) || IntersectRect(&result, &posTile, &revTile));
+	return (IntersectRect(&result, &posTile, &tile));
 }
 
 void CCollisionManager::Free()

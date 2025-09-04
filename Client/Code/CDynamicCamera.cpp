@@ -635,48 +635,18 @@ void CDynamicCamera::Set_OnTerrain()
 	_vec3 onPosition{ 0.f, 0.f, 0.f };
 	mutex m;
 
-	vector<thread> workers;
 	auto terrain = CManagement::GetInstance()->Get_Scene()->Get_Terrain();
 	vector<CGameObject*> innerTerrain;
-
 	for (auto tt : terrain)
 	{
-		auto ts = dynamic_cast<CTerrainSector*>(tt);
-		auto vtxpos = ts->Get_BufferCom()->Get_VtxPos();
-		auto vtxcntx = ts->Get_BufferCom()->Get_VtxCntX();
-		auto vtxcntz = ts->Get_BufferCom()->Get_VtxCntZ();
-		auto tf = ts->Get_Transform();
-		const _matrix* w = tf->Get_World();
-		_ulong dwIndex(0);
-		_bool innerRange(false);
-
-		for (size_t i = 0; i < vtxcntz; i++)
-		{
-			for (size_t j = 0; j < vtxcntx; j++)
-			{
-				dwIndex = j + (i * vtxcntx);
-				_vec3 wvtx;
-				D3DXVec3TransformCoord(&wvtx, &vtxpos[dwIndex], w);
-				if (fabsf(wvtx.x - m_vEye.x) <= 10.f
-					&& fabsf(wvtx.z - m_vEye.z) <= 10.f)
-				{
-					innerRange = true;
-					innerTerrain.push_back(tt);
-					break;
-				}
-			}
-			if (innerRange)
-				break;
-		}
+		if (CCollisionManager::InnerTerrainCheck(tt, m_vEye))
+			innerTerrain.push_back(tt);
 	}
 	
+	vector<thread> workers;
 	workers.reserve(terrain.size());
-
 	for (auto ter : innerTerrain)
-	{
 		workers.emplace_back(&CDynamicCamera::CalcOnTerrain, this, ter, ref(fHighest), ref(onPosition), ref(m));
-	}
-
 	for (auto& t : workers)
 	{
 		if (t.joinable())
