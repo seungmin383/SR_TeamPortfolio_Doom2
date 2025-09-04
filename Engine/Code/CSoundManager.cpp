@@ -80,7 +80,7 @@ HRESULT CSoundManager::LoadSound3D(const wstring& pSoundKey, const _tchar* pFile
     if (FMOD_OK != FMOD_System_CreateSound(m_pSystem, szPath, FMOD_3D_INVERSEROLLOFF, NULL, &pSound))
         return E_FAIL;
     
-    FMOD_Sound_Set3DMinMaxDistance(pSound, 2.5f, 100.f);
+    FMOD_Sound_Set3DMinMaxDistance(pSound, 5.f, 100.f);
 
     m_mapSound.emplace(pSoundKey, pSound);
 
