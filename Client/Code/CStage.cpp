@@ -57,7 +57,7 @@
 #include "EffectManager.h"
 #include "CImpactBulletEffect.h"
 
-#include "CMonsterSpawner.h"
+#include "CSoundManager.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -72,6 +72,7 @@ HRESULT CStage::Ready_Scene()
 {
 	ShowCursor(FALSE);
 
+	CSoundManager::GetInstance()->PlayBGM(L"Stage1.mp3", 0.3f);
 	CUIManager::GetInstance()->UISetListClear();
 
 	CColliderManager::GetInstance()->Reset();
@@ -653,6 +654,7 @@ void CStage::EnterResultMode()
 
 void CStage::RequestNextScene(SCENEID id)
 {
+	CSoundManager::GetInstance()->StopAll();
 	CManagement::GetInstance()->Set_KeyOwned(false);
 	m_pendingNext = id; // 호출만 하고, 실제 전환은 Update_Scene의 끝에서!
 }

@@ -1,6 +1,7 @@
 #include "CManagement.h"
 #include "CRenderer.h"
 #include "CGameObject.h"
+#include "CSoundManager.h"
 
 IMPLEMENT_SINGLETON(CManagement)
 
@@ -70,6 +71,7 @@ HRESULT CManagement::Change_Scene(SCENEID _eSceneId)
 {
 	//m_pArrScene[(_uint)_eSceneId] = m_pArrScene[(_uint)_eSceneId]->Create();
 
+	CSoundManager::GetInstance()->StopAll();
 	if (nullptr == m_pArrScene[(_uint)_eSceneId])
 		return E_FAIL;
 
